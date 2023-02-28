@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using TravelAgency.View;
 
 namespace TravelAgency
 {
@@ -12,5 +13,10 @@ namespace TravelAgency
             InitializeComponent();
         }
 
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            CreateTour createTour = new CreateTour();
+            createTour.Show();
+        }
     }
 }

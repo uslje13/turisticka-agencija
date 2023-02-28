@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TravelAgency.Model;
 using TravelAgency.Serializer;
@@ -36,7 +37,7 @@ namespace TravelAgency.Repository
         public void Delete(Location location)
         {
             _locations = _serializer.FromCSV(FilePath);
-            Location? founded = _locations.Find(c => c.Id == location.Id);      //da li da dodam upitnik da ukloni warning
+            Location founded = _locations.Find(c => c.Id == location.Id);      //da li da dodam upitnik da ukloni warning
             _locations.Remove(founded);
             _serializer.ToCSV(FilePath, _locations);
         }
@@ -44,7 +45,7 @@ namespace TravelAgency.Repository
         public Location Update(Location location)
         {
             _locations = _serializer.FromCSV(FilePath);
-            Location? current = _locations.Find(l => l.Id == location.Id);
+            Location current = _locations.Find(l => l.Id == location.Id) ?? throw new ArgumentException();      //kada da uhvatim ovaj exeption
             int index = _locations.IndexOf(current);
             _locations.Remove(current);
             _locations.Insert(index, location);
