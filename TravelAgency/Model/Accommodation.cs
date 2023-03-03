@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TravelAgency.Serializer;
 
 namespace TravelAgency.Model
 {
-    internal class Accommodation
+    internal class Accommodation : ISerializable
     {
         public enum AccommodationType
         {
