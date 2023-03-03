@@ -14,7 +14,7 @@
                           IsReadOnly="True" Margin="10,61,10,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="170"/>
-                <DataGridTextColumn Header="Lokacija" Binding="{Binding LocationId}" Width="170"/>
+                <DataGridTextColumn Header="Lokacija" Binding="{Binding CountryAndCityName}" Width="170"/>
                 <DataGridTextColumn Header="Jezik" Binding="{Binding Language}" Width="200"/>
                 <DataGridTextColumn Header="Maks. br. gostiju" Binding="{Binding MaxNumOfGuests}" Width="200"/>
                 <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration}" Width="92"/>
@@ -23,7 +23,8 @@
         <ToolBar x:Name="toolBar" HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="875">
             <Button x:Name="addButton" Content="Dodaj" Height="37" Width="48"
                     Click="addButton_Click"/>
-            <Button x:Name="deleteButton" Content="Obriši" Height="37" Width="48"/>
+            <Button x:Name="deleteButton" Content="Obriši" Height="37" Width="48"
+                    Click="DeleteButtonClick"/>
             <Button x:Name="edtiButton" Content="Izmeni" Height="37" Width="48"/>
         </ToolBar>
     </Grid>

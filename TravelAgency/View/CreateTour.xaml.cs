@@ -30,9 +30,12 @@ namespace TravelAgency.View
         public CreateTour()
         {
             InitializeComponent();
+            DataContext = this;
+            _tourRepository = new TourRepository();
+            _locationRepository = new LocationRepository();
         }
 
-        public string Name
+        public string Name1
         {
             get => _name;
             set
@@ -56,7 +59,7 @@ namespace TravelAgency.View
                 }
             }
         }
-        public string Language
+        public string Language1
         {
             get => _language;
             set
@@ -161,8 +164,12 @@ namespace TravelAgency.View
 
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
-            Location location = new Location(City, Country);
-            Tour tour = new Tour(Name, _locationRepository.SaveAndGetId(location), "opis", Language, MaxNumOfGuests, CheckpointId, DateTimeStartId, Duration);
+            Location location = new Location(Country, City);
+            Tour newTour = new Tour(Name1, _locationRepository.SaveAndGetId(location), "opis", Language1, MaxNumOfGuests, -1, -1, Duration);
+            Tour savedTour = _tourRepository.Save(newTour);
+            ToursOverview.Tours.Add(savedTour);
+            ToursOverview.ShowCountryAndCityName(); //Cirkus kolorado !!!!
+            Close();
         }
     }
 }
