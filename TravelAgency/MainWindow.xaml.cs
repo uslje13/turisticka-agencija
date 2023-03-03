@@ -15,8 +15,8 @@ namespace TravelAgency
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            CreateTour createTour = new CreateTour();
-            createTour.Show();
+            ToursOverview tourOverview = new ToursOverview();
+            tourOverview.Show();
         }
     }
 }

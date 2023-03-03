@@ -15,9 +15,8 @@ namespace TravelAgency.Model
             _city = string.Empty;
         }
 
-        public Location(int id, string country, string city)
+        public Location(string country, string city)
         {
-            _id = id;
             _country = country;
             _city = city;
         }
