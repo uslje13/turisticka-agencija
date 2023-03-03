@@ -38,20 +38,26 @@
             <Label x:Name="checkPointLabel" Content="Ključne tačke:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "7" Height="26" Width="108"/>
             <Label x:Name="startDateTimeLabel" Content="Dat. i vrem. poč. :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "8" Height="26" Width="108"/>
             <Label x:Name="durationLabel" Content="Trajanje :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "9" Height="26" Width="108"/>
-            <TextBox x:Name="nameTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"/>
+            
+            <TextBox x:Name="nameTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
+                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox x:Name="countryTextBox" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"/>
             <TextBox x:Name="cityTextBox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"/>
-            <Button x:Name="viewDescriptionButton" Grid.Column="1" Grid.Row="4" Content="Pogledaj" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox x:Name="languageTextBox" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"/>
-            <TextBox x:Name="maxNumOfGuestTextBox" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"/>
+            <Button x:Name="viewDescriptionButton" Grid.Column="1" Grid.Row="4" Content="Dodaj" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Click="ViewDescriptionButtonClick"/>
+            <TextBox x:Name="languageTextBox" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
+                     Text="{Binding Language, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="maxNumOfGuestTextBox" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
+                     Text="{Binding MaxNumOfGuests, UpdateSourceTrigger=PropertyChanged}"/>
             <Button x:Name="addCheckpointButton" Grid.Column="1" Grid.Row="7" Content="Dodaj" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
             <DatePicker x:Name="datePicker" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="8" VerticalAlignment="Center" Width="144"/>
-            <TextBox x:Name="durationTextBox" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"/>
+            <TextBox x:Name="durationTextBox" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
+                     Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}"/>
 
         </Grid>
         <Button x:Name="addButton" Content="Dodaj" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="130,0,0,10"/>
         <Button x:Name="cancelButton" Content="Odustani" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="277,0,0,10"
-                Click="cancelButton_Click"/>
+                Click="CancelButtonClick"/>
 
     </Grid>
 </Window>

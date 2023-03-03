@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using TravelAgency.Model;
 using TravelAgency.Serializer;
 
@@ -37,7 +38,7 @@ namespace TravelAgency.Repository
         public void Delete(Location location)
         {
             _locations = _serializer.FromCSV(FilePath);
-            Location founded = _locations.Find(c => c.Id == location.Id);      //da li da dodam upitnik da ukloni warning
+            Location founded = _locations.Find(c => c.Id == location.Id)?? throw new ArgumentException(); ;      //da li da dodam upitnik da ukloni warning
             _locations.Remove(founded);
             _serializer.ToCSV(FilePath, _locations);
         }
@@ -62,6 +63,15 @@ namespace TravelAgency.Repository
                 return 1;
             }
             return _locations.Max(l => l.Id) + 1;
+        }
+
+        public int SaveAndGetId(Location location)
+        {
+            location.Id = NextId();
+            _locations = _serializer.FromCSV(FilePath);
+            _locations.Add(location);
+            _serializer.ToCSV(FilePath, _locations);
+            return location.Id;
         }
 
     }

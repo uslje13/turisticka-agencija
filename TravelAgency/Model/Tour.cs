@@ -26,9 +26,8 @@ namespace TravelAgency.Model
             _dateTimeStartId = -1;
             _duration = 0;
         }
-        public Tour(int id, string name, int locationId, string description, string language, int maxNumOfGuests, int checkpointId, int dateTimeStartId, int duration)
+        public Tour(string name, int locationId, string description, string language, int maxNumOfGuests, int checkpointId, int dateTimeStartId, int duration)
         {
-            _id = id;
             _name = name;
             _locationId = locationId;
             _description = description;
