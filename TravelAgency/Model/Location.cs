@@ -27,12 +27,21 @@ namespace TravelAgency.Model
 
         public void FromCSV(string[] values)
         {
-            throw new System.NotImplementedException();
+            _id = int.Parse(values[0]);
+            _country = values[1];
+            _city = values[2];
         }
 
         public string[] ToCSV()
         {
-            throw new System.NotImplementedException();
+            string[] csvValues =
+            {
+                _id.ToString(),
+                _country,
+                _city
+            };
+
+            return csvValues;
         }
     }
 }
