@@ -17,7 +17,7 @@ namespace TravelAgency.View
         private string _description;
         private string _language;
         private int _maxNumOfGuests;
-        private int _checkpointId;   //checkpointId ---> moraci biti lista cekpointa
+        private int _checkpointId;   //checkpointId
         private int _dateTimeStartId;    //date and time when tour start 
         private int _duration;
 
@@ -35,7 +35,7 @@ namespace TravelAgency.View
             _locationRepository = new LocationRepository();
         }
 
-        public string Name1
+        public string TourName      //wpf framework already have Name
         {
             get => _name;
             set
@@ -59,7 +59,7 @@ namespace TravelAgency.View
                 }
             }
         }
-        public string Language1
+        public string TourLanguage  //wpf framework already have Language
         {
             get => _language;
             set
@@ -155,21 +155,20 @@ namespace TravelAgency.View
             Close();
         }
 
-        private void ViewDescriptionButtonClick(object sender, RoutedEventArgs e)
-        {
-            DescriptionTour descriptionTour = new DescriptionTour();
-            descriptionTour.Show();
-        }
-
 
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             Location location = new Location(Country, City);
-            Tour newTour = new Tour(Name1, _locationRepository.SaveAndGetId(location), "opis", Language1, MaxNumOfGuests, -1, -1, Duration);
+            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage, MaxNumOfGuests, -1, -1, Duration);
             Tour savedTour = _tourRepository.Save(newTour);
             ToursOverview.Tours.Add(savedTour);
-            ToursOverview.ShowCountryAndCityName(); //Cirkus kolorado !!!!
             Close();
+        }
+
+        private void AddCheckpointButtonClick(object sender, RoutedEventArgs e)
+        {
+            CreateCheckpoint createCheckpoint = new CreateCheckpoint();
+            createCheckpoint.Show();
         }
     }
 }

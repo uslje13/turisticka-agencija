@@ -48,9 +48,6 @@ namespace TravelAgency.Model
         public int DateTimeStartId { get => _dateTimeStartId; set => _dateTimeStartId = value; }
         public int Duration { get => _duration; set => _duration = value; }
 
-        public string CountryAndCityName { get; set; }
-
-        //id|_name|_location|_description|_language|_maxVisitors|?|?|_duration
         public void FromCSV(string[] values)
         {
             _id = int.Parse(values[0]);

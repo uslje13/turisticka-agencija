@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
-        Title="Kreiranje ture" Height="500" Width="471" ResizeMode="NoResize">
+        Title="Kreiranje ture" Height="556" Width="471" ResizeMode="NoResize">
     <Grid>
         <Grid Margin="22,10,22,45">
             <Grid.RowDefinitions>
@@ -17,7 +17,7 @@
                 <RowDefinition/>
                 <!-- LOCATION END -->
 
-                <RowDefinition/>
+                <RowDefinition Height="3*"/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -32,7 +32,7 @@
             <Label x:Name="locationLabel" Content="Lokacija:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "1" Grid.Column="0" Height="26" Width="55"/>
             <Label x:Name="countryLabel" Content="Država:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row = "2" Height="26" Width="48"/>
             <Label x:Name="cityLabel" Content="Grad:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row = "3" Height="26" Width="38"/>
-            <Label x:Name="descriptionLabel" Content="Opis:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "4" Grid.Column="0" Height="26" Width="37"/>
+            <Label x:Name="descriptionLabel" Content="Opis:" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row = "4" Height="26" Width="37" Margin="0,10,0,0"/>
             <Label x:Name="lenguageLabel" Content="Jezik:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "5" Grid.Column="0" Height="26" Width="37"/>
             <Label x:Name="maxNumOfGuestLabel" Content="Maks. br. gostiju:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "6" Height="26" Width="108"/>
             <Label x:Name="checkPointLabel" Content="Ključne tačke:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "7" Height="26" Width="108"/>
@@ -40,18 +40,19 @@
             <Label x:Name="durationLabel" Content="Trajanje :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "9" Height="26" Width="108"/>
 
             <TextBox x:Name="nameTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
-                     Text="{Binding Name1, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding TourName, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox x:Name="countryTextBox" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox x:Name="cityTextBox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding Country,UpdateSourceTrigger=PropertyChanged}"/>
-            <Button x:Name="viewDescriptionButton" Grid.Column="1" Grid.Row="4" Content="Dodaj" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Click="ViewDescriptionButtonClick"/>
+            <TextBox x:Name="textBox" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="235" Height="88"
+                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
             <TextBox x:Name="languageTextBox" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
-                     Text="{Binding Language1, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding TourLanguage, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox x:Name="maxNumOfGuestTextBox" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding MaxNumOfGuests, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button x:Name="addCheckpointButton" Grid.Column="1" Grid.Row="7" Content="Dodaj" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+            <Button x:Name="addCheckpointButton" Grid.Column="1" Grid.Row="7" Content="Dodaj" HorizontalAlignment="Center"  VerticalAlignment="Center"
+                    Click="AddCheckpointButtonClick"/>
             <Button x:Name="dateTimeButton" Grid.Column="1" Grid.Row="8" Content="Pogledaj" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="61"/>
             <TextBox x:Name="durationTextBox" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}"/>
