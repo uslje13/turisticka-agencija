@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using TravelAgency.Model;
@@ -26,6 +27,8 @@ namespace TravelAgency.View
 
         private readonly TourRepository _tourRepository;
         private readonly LocationRepository _locationRepository;
+        private readonly CheckpointRepository _checkpointRepository;
+        public ObservableCollection<Checkpoint> Checkpoints { get; set; }
 
         public CreateTour()
         {
@@ -33,6 +36,8 @@ namespace TravelAgency.View
             DataContext = this;
             _tourRepository = new TourRepository();
             _locationRepository = new LocationRepository();
+            _checkpointRepository = new CheckpointRepository();
+            Checkpoints = new ObservableCollection<Checkpoint>();
         }
 
         public string TourName      //wpf framework already have Name
@@ -159,15 +164,25 @@ namespace TravelAgency.View
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             Location location = new Location(Country, City);
-            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage, MaxNumOfGuests, -1, -1, Duration);
+            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage, MaxNumOfGuests, -1, Duration);
             Tour savedTour = _tourRepository.Save(newTour);
+            SetCheckpointsTourIds(savedTour);
+            _checkpointRepository.SaveAll(Checkpoints);
             ToursOverview.Tours.Add(savedTour);
             Close();
         }
 
+        private void SetCheckpointsTourIds(Tour tour)
+        {
+            foreach(Checkpoint checkpoint in Checkpoints)
+            {
+                checkpoint.TourId = tour.Id;
+            }
+        }
+
         private void AddCheckpointButtonClick(object sender, RoutedEventArgs e)
         {
-            CreateCheckpoint createCheckpoint = new CreateCheckpoint();
+            CreateCheckpoint createCheckpoint = new CreateCheckpoint(Checkpoints);
             createCheckpoint.Show();
         }
     }

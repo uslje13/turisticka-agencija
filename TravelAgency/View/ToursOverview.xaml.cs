@@ -39,7 +39,6 @@ namespace TravelAgency.View
                     Tours.Remove(SelectedTour);
                 }
             }
-            
         }
 
         private void AddButtonClick(object sender, RoutedEventArgs e)

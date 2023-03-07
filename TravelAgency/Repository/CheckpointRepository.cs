@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,13 +28,21 @@ namespace TravelAgency.Repository
             return _serializer.FromCSV(FilePath);
         }
 
-        public Checkpoint Save(Checkpoint checkpoint)
+        public void Save(Checkpoint checkpoint)
         {
             checkpoint.Id = NextId();
             _checkpoints = _serializer.FromCSV(FilePath);
             _checkpoints.Add(checkpoint);
             _serializer.ToCSV(FilePath, _checkpoints);
-            return checkpoint;
+            //return checkpoint;
+        }
+
+        public void SaveAll(ObservableCollection<Checkpoint> checkpoints)
+        {
+            foreach (Checkpoint checkpoint in checkpoints)
+            {
+                Save(checkpoint);
+            }
         }
 
         public void Delete(Checkpoint checkpoint)
