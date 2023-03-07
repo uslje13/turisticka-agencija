@@ -14,8 +14,8 @@
                           IsReadOnly="True" Margin="10,61,10,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="1*"/>
-                <DataGridTextColumn Header="Naziv" Binding="{Binding Town}" Width="1*"/>
-                <DataGridTextColumn Header="Naziv" Binding="{Binding Country}" Width="1*"/>
+                <DataGridTextColumn Header="Grad" Binding="{Binding Town}" Width="1*"/>
+                <DataGridTextColumn Header="Drzava" Binding="{Binding Country}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
         <ToolBar x:Name="ToolBar" HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="875">

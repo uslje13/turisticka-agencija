@@ -14,7 +14,6 @@ namespace TravelAgency.Model
             APARTMENT, HOUSE, HUT, NOTYPE
         }
         public int Id { get; set; }
-        public int OwnerId { get; set; }
         public string Name { get; set; }
         public string Town { get; set; }
         public string Country { get; set; }
@@ -22,7 +21,8 @@ namespace TravelAgency.Model
         public int MaxGuests { get; set; }
         public int MinDaysStay { get; set; }
         public int MinDaysForCancelation { get; set; }
-        //TODO: Url slika
+        public string PhotoUrl { get; set; }
+        public int OwnerId { get; set; }
 
         public Accommodation()
         {
@@ -34,8 +34,9 @@ namespace TravelAgency.Model
             MaxGuests = 0;
             MinDaysStay = 0;
             MinDaysForCancelation = 0;
+            PhotoUrl = string.Empty;
         }
-        public Accommodation(int id, string name, AccommodationType type, string town, string country, int maxGuests, int minDaysStay, int minDaysForCancelation = 1)
+        public Accommodation(int id, string name, AccommodationType type, string town, string country, int maxGuests, int minDaysStay, string photoUrl, int minDaysForCancelation = 1)
         {
             Id = id;
             Name = name;
@@ -45,6 +46,7 @@ namespace TravelAgency.Model
             MaxGuests = maxGuests;
             MinDaysStay = minDaysStay;
             MinDaysForCancelation = minDaysForCancelation;
+            PhotoUrl = photoUrl;
         }
 
         public string[] ToCSV()
@@ -64,6 +66,7 @@ namespace TravelAgency.Model
             MaxGuests = Convert.ToInt32(values[i++]);
             MinDaysStay = Convert.ToInt32(values[i++]);
             MinDaysForCancelation = Convert.ToInt32(values[i++]);
+            PhotoUrl = values[i++];
         }
     }
 }
