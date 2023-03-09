@@ -10,6 +10,7 @@ namespace TravelAgency.Model
         private string _description;
         private string _language;
         private int _maxNumOfGuests;
+        private int _numOfGuests;
         private int _dateTimeStartId;    //date and time when tour start 
         private int _duration;      //in hours
 
@@ -24,12 +25,13 @@ namespace TravelAgency.Model
             _dateTimeStartId = -1;
             _duration = 0;
         }
-        public Tour(string name, int locationId, string description, string language, int maxNumOfGuests, int dateTimeStartId, int duration)
+        public Tour(string name, int locationId, string description, string language,int numOfGuests, int maxNumOfGuests, int dateTimeStartId, int duration)
         {
             _name = name;
             _locationId = locationId;
             _description = description;
             _language = language;
+            _numOfGuests = numOfGuests;
             _maxNumOfGuests = maxNumOfGuests;
             _dateTimeStartId = dateTimeStartId;
             _duration = duration;
@@ -40,6 +42,7 @@ namespace TravelAgency.Model
         public int LocationId { get => _locationId; set => _locationId = value; }
         public string Description { get => _description; set => _description = value; }
         public string Language { get => _language; set => _language = value; }
+        public int NumOfGuests { get => _numOfGuests; set => _numOfGuests = value; }
         public int MaxNumOfGuests { get => _maxNumOfGuests; set => _maxNumOfGuests = value; }
         public int DateTimeStartId { get => _dateTimeStartId; set => _dateTimeStartId = value; }
         public int Duration { get => _duration; set => _duration = value; }
@@ -51,9 +54,10 @@ namespace TravelAgency.Model
             _locationId = int.Parse(values[2]);
             _description = values[3];
             _language = values[4];
-            _maxNumOfGuests = int.Parse(values[5]);
-            _dateTimeStartId = int.Parse(values[6]);
-            _duration = int.Parse(values[7]);
+            _numOfGuests = int.Parse(values[5]);
+            _maxNumOfGuests = int.Parse(values[6]);
+            _dateTimeStartId = int.Parse(values[7]);
+            _duration = int.Parse(values[8]);
         }
 
         public string[] ToCSV()
@@ -65,6 +69,7 @@ namespace TravelAgency.Model
                 _locationId.ToString(),
                 _description,
                 _language,
+                _numOfGuests.ToString(),
                 _maxNumOfGuests.ToString(),
                 _dateTimeStartId.ToString(),
                 _duration.ToString()

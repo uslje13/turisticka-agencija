@@ -10,7 +10,7 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for CreateTour.xaml
     /// </summary>
-    public partial class CreateTour : Window
+    public partial class CreateTour : Window, INotifyPropertyChanged
     {
         private int _id;        //tour _id
         private string _name;
@@ -164,7 +164,7 @@ namespace TravelAgency.View
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             Location location = new Location(Country, City);
-            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage, MaxNumOfGuests, -1, Duration);
+            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage,0, MaxNumOfGuests, -1, Duration);
             Tour savedTour = _tourRepository.Save(newTour);
             SetCheckpointsTourIds(savedTour);
             _checkpointRepository.SaveAll(Checkpoints);
