@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using TravelAgency.Model;
@@ -17,8 +19,7 @@ namespace TravelAgency.View
         private string _description;
         private string _language;
         private int _maxNumOfGuests;
-        private int _checkpointId;   //checkpointId ---> moraci biti lista cekpointa
-        private int _dateTimeStartId;    //date and time when tour start 
+        private int _checkpointId;   //checkpointId
         private int _duration;
 
         private string _city;
@@ -26,6 +27,10 @@ namespace TravelAgency.View
 
         private readonly TourRepository _tourRepository;
         private readonly LocationRepository _locationRepository;
+        private readonly CheckpointRepository _checkpointRepository;
+        private readonly DateAndOccupancyRepository _dateAndOccupancyRepository;
+        public ObservableCollection<Checkpoint> Checkpoints { get; set; }
+        public ObservableCollection<DateAndOccupancy> DatesAndOccupancies { get; set; }
 
         public CreateTour()
         {
@@ -33,9 +38,13 @@ namespace TravelAgency.View
             DataContext = this;
             _tourRepository = new TourRepository();
             _locationRepository = new LocationRepository();
+            _checkpointRepository = new CheckpointRepository();
+            _dateAndOccupancyRepository = new DateAndOccupancyRepository();
+            Checkpoints = new ObservableCollection<Checkpoint>();
+            DatesAndOccupancies = new ObservableCollection<DateAndOccupancy>();
         }
 
-        public string Name1
+        public string TourName      //wpf framework already have Name
         {
             get => _name;
             set
@@ -59,7 +68,7 @@ namespace TravelAgency.View
                 }
             }
         }
-        public string Language1
+        public string TourLanguage  //wpf framework already have Language
         {
             get => _language;
             set
@@ -92,17 +101,6 @@ namespace TravelAgency.View
                 {
                     _checkpointId = value;
                     OnPropertyChanged();
-                }
-            }
-        }
-        public int DateTimeStartId
-        {
-            get => _dateTimeStartId;
-            set
-            {
-                if (value != _dateTimeStartId)
-                {
-                    _dateTimeStartId = value;
                 }
             }
         }
@@ -155,21 +153,47 @@ namespace TravelAgency.View
             Close();
         }
 
-        private void ViewDescriptionButtonClick(object sender, RoutedEventArgs e)
-        {
-            DescriptionTour descriptionTour = new DescriptionTour();
-            descriptionTour.Show();
-        }
-
 
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             Location location = new Location(Country, City);
-            Tour newTour = new Tour(Name1, _locationRepository.SaveAndGetId(location), "opis", Language1, MaxNumOfGuests, -1, -1, Duration);
+            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage, MaxNumOfGuests, DateTime.MinValue, Duration);
             Tour savedTour = _tourRepository.Save(newTour);
+            SetCheckpointsTourId(savedTour);
+            _checkpointRepository.SaveAll(Checkpoints);
+            SetDateAndOccupancyTourId(savedTour);
+            _dateAndOccupancyRepository.SaveAll(DatesAndOccupancies);
             ToursOverview.Tours.Add(savedTour);
-            ToursOverview.ShowCountryAndCityName(); //Cirkus kolorado !!!!
             Close();
+        }
+
+        private void SetCheckpointsTourId(Tour tour)
+        {
+            foreach (Checkpoint checkpoint in Checkpoints)
+            {
+                checkpoint.TourId = tour.Id;
+            }
+        }
+
+        private void SetDateAndOccupancyTourId(Tour tour)
+        {
+            foreach (DateAndOccupancy dateAndOccupancy in DatesAndOccupancies)
+            {
+                dateAndOccupancy.TourId = tour.Id;
+            }
+        }
+
+        private void AddCheckpointButtonClick(object sender, RoutedEventArgs e)
+        {
+            CreateCheckpoint createCheckpoint = new CreateCheckpoint(Checkpoints);
+            createCheckpoint.Owner = Window.GetWindow(this);
+            createCheckpoint.Show();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            CreateTourDates createTourDates = new CreateTourDates(DatesAndOccupancies);
+            createTourDates.Show();
         }
     }
 }

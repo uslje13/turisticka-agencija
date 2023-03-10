@@ -37,7 +37,15 @@ namespace TravelAgency.Repository
         public void Delete(Location location)
         {
             _locations = _serializer.FromCSV(FilePath);
-            Location founded = _locations.Find(c => c.Id == location.Id) ?? throw new ArgumentException(); ;      //da li da dodam upitnik da ukloni warning
+            Location founded = _locations.Find(l => l.Id == location.Id) ?? throw new ArgumentException();     //da li da dodam upitnik da ukloni warning
+            _locations.Remove(founded);
+            _serializer.ToCSV(FilePath, _locations);
+        }
+
+        public void DeleteById(int id)
+        {
+            _locations = _serializer.FromCSV(FilePath);
+            Location founded = _locations.Find(l => l.Id == id) ?? throw new ArgumentException();     //da li da dodam upitnik da ukloni warning
             _locations.Remove(founded);
             _serializer.ToCSV(FilePath, _locations);
         }
@@ -52,7 +60,6 @@ namespace TravelAgency.Repository
             _serializer.ToCSV(FilePath, _locations);
             return location;
         }
-
 
         public int NextId()
         {
@@ -73,9 +80,9 @@ namespace TravelAgency.Repository
             return location.Id;
         }
 
-        public Location GetLocationById(int id) 
+        public Location GetById(int id)
         {
-            Location location = _locations.Find(l =>l.Id == id) ?? throw new ArgumentException();
+            Location location = _locations.Find(l => l.Id == id) ?? throw new ArgumentException();
             return location;
         }
 

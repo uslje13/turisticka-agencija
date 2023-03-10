@@ -91,5 +91,11 @@ namespace TravelAgency.View
             }
 
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            ToursOverview toursOverview = new ToursOverview();
+            toursOverview.Show();
+        }
     }
 }

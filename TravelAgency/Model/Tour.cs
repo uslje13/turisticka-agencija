@@ -1,4 +1,5 @@
-﻿using TravelAgency.Serializer;
+﻿using System;
+using TravelAgency.Serializer;
 
 namespace TravelAgency.Model
 {
@@ -10,8 +11,7 @@ namespace TravelAgency.Model
         private string _description;
         private string _language;
         private int _maxNumOfGuests;
-        private int _checkpointId;   //checkpointId
-        private int _dateTimeStartId;    //date and time when tour start 
+        private DateTime _start;
         private int _duration;      //in hours
 
         public Tour()
@@ -22,19 +22,17 @@ namespace TravelAgency.Model
             _description = string.Empty;
             _language = string.Empty;
             _maxNumOfGuests = 0;
-            _checkpointId = -1;
-            _dateTimeStartId = -1;
+            _start = DateTime.MinValue;
             _duration = 0;
         }
-        public Tour(string name, int locationId, string description, string language, int maxNumOfGuests, int checkpointId, int dateTimeStartId, int duration)
+        public Tour(string name, int locationId, string description, string language, int maxNumOfGuests, DateTime start, int duration)
         {
             _name = name;
             _locationId = locationId;
             _description = description;
             _language = language;
             _maxNumOfGuests = maxNumOfGuests;
-            _checkpointId = checkpointId;
-            _dateTimeStartId = dateTimeStartId;
+            _start = start;
             _duration = duration;
         }
 
@@ -44,13 +42,10 @@ namespace TravelAgency.Model
         public string Description { get => _description; set => _description = value; }
         public string Language { get => _language; set => _language = value; }
         public int MaxNumOfGuests { get => _maxNumOfGuests; set => _maxNumOfGuests = value; }
-        public int CheckpointId { get => _checkpointId; set => _checkpointId = value; }
-        public int DateTimeStartId { get => _dateTimeStartId; set => _dateTimeStartId = value; }
+        public DateTime Start { get => _start; set => _start = value; }
         public int Duration { get => _duration; set => _duration = value; }
 
-        public string CountryAndCityName { get; set; }
 
-        //id|_name|_location|_description|_language|_maxVisitors|?|?|_duration
         public void FromCSV(string[] values)
         {
             _id = int.Parse(values[0]);
@@ -59,9 +54,8 @@ namespace TravelAgency.Model
             _description = values[3];
             _language = values[4];
             _maxNumOfGuests = int.Parse(values[5]);
-            _checkpointId = int.Parse(values[6]);
-            _dateTimeStartId = int.Parse(values[7]);
-            _duration = int.Parse(values[8]);
+            _start = DateTime.Parse(values[6]);
+            _duration = int.Parse(values[7]);
         }
 
         public string[] ToCSV()
@@ -74,8 +68,7 @@ namespace TravelAgency.Model
                 _description,
                 _language,
                 _maxNumOfGuests.ToString(),
-                _checkpointId.ToString(),
-                _dateTimeStartId.ToString(),
+                _start.ToString(),
                 _duration.ToString()
             };
 

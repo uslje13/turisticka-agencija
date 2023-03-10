@@ -51,6 +51,11 @@ namespace TravelAgency.Repository
             return tour;
         }
 
+        public int GetId(Tour tour)
+        {
+            return tour.Id;
+        }
+
         public int NextId()
         {
             _tours = _serializer.FromCSV(FilePath);
