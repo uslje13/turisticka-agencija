@@ -56,7 +56,7 @@ namespace TravelAgency.View
 
         private void TodayToursButtonClick(object sender, RoutedEventArgs e)
         {
-            TodayTourView todayTourView = new TodayTourView();
+            TodayTourView todayTourView = new TodayTourView(null);
             todayTourView.Show(); 
         }
     }
