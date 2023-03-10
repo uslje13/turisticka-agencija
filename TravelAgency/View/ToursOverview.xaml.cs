@@ -17,14 +17,14 @@ namespace TravelAgency.View
         public static ObservableCollection<Tour> Tours { get; set; }
         public Tour SelectedTour { get; set; }
         
-        private readonly TourRepository _repository;
+        private readonly TourRepository _tourReository;
 
         public ToursOverview()
         {
             InitializeComponent();
             DataContext = this;
-            _repository = new TourRepository();
-            Tours = new ObservableCollection<Tour>(_repository.GetAll());
+            _tourReository = new TourRepository();
+            Tours = new ObservableCollection<Tour>(_tourReository.GetAll());
         }
 
         private void DeleteButtonClick(object sender, RoutedEventArgs e)
@@ -35,7 +35,13 @@ namespace TravelAgency.View
                     MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _repository.Delete(SelectedTour);
+                    CheckpointRepository checkpointRepository = new CheckpointRepository();
+                    LocationRepository locationRepository = new LocationRepository();
+                    DateAndOccupancyRepository dateAndOccupancyRepository = new DateAndOccupancyRepository();
+                    locationRepository.DeleteById(SelectedTour.LocationId);
+                    _tourReository.Delete(SelectedTour);
+                    checkpointRepository.DeleteByTourId(SelectedTour.Id);
+                    dateAndOccupancyRepository.DeleteByTourId(SelectedTour.Id);
                     Tours.Remove(SelectedTour);
                 }
             }
@@ -44,7 +50,14 @@ namespace TravelAgency.View
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             CreateTour createTour = new CreateTour();
+            createTour.Owner = Window.GetWindow(this);
             createTour.Show();
+        }
+
+        private void TodayToursButtonClick(object sender, RoutedEventArgs e)
+        {
+            TodayTourView todayTourView = new TodayTourView();
+            todayTourView.Show(); 
         }
     }
 }

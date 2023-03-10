@@ -40,7 +40,7 @@
                     Click="CancelButtonClick"/>
         </Grid>
         <Grid Margin="400,0,0,0">
-            <DataGrid x:Name="checkpointsDG" Background="#FFE5E5E5"
+            <DataGrid Name="checkpointsDG" Background="#FFE5E5E5"
                           ItemsSource="{Binding Checkpoints, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Path=SelectedChecpoint, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"

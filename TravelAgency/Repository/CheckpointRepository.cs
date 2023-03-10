@@ -53,6 +53,17 @@ namespace TravelAgency.Repository
             _serializer.ToCSV(FilePath, _checkpoints);
         }
 
+        public void DeleteByTourId(int id)
+        {
+            foreach (Checkpoint checkpoint in _checkpoints)
+            {
+                if (checkpoint.TourId == id)
+                {
+                    Delete(checkpoint);
+                }
+            }
+        }
+
         public Checkpoint Update(Checkpoint checkpoint)
         {
             _checkpoints = _serializer.FromCSV(FilePath);

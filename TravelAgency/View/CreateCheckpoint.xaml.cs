@@ -24,7 +24,7 @@ namespace TravelAgency.View
     /// </summary>
     public partial class CreateCheckpoint : Window
     {
-        Checkpoint SelectedChecpoint { get; set; }
+        public Checkpoint SelectedChecpoint { get; set; }
 
         private ObservableCollection<Checkpoint> _chechponits;
         
