@@ -15,8 +15,8 @@ namespace TravelAgency.Model
         }
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Town { get; set; }
-        public string Country { get; set; }
+        public int LocationId { get; set; }
+        public Location Location { get; set; }
         public AccommodationType Type { get; set; }
         public int MaxGuests { get; set; }
         public int MinDaysStay { get; set; }
@@ -28,20 +28,18 @@ namespace TravelAgency.Model
         {
             Id = -1;
             Name = string.Empty;
-            Town = string.Empty;
-            Country = string.Empty;
+            LocationId = -1;
             Type = AccommodationType.NOTYPE;
             MaxGuests = 0;
             MinDaysStay = 0;
             MinDaysForCancelation = 0;
             PhotoUrl = string.Empty;
         }
-        public Accommodation(int id, string name, AccommodationType type, string town, string country, int maxGuests, int minDaysStay, string photoUrl, int minDaysForCancelation = 1)
+        public Accommodation(int id, string name, AccommodationType type, int locationId, int maxGuests, int minDaysStay, string photoUrl, int minDaysForCancelation = 1)
         {
             Id = id;
             Name = name;
-            Town = town;
-            Country = country;
+            LocationId = locationId;
             Type = type;
             MaxGuests = maxGuests;
             MinDaysStay = minDaysStay;
@@ -51,7 +49,7 @@ namespace TravelAgency.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Name, Town, Country, Type.ToString(), MaxGuests.ToString(), MinDaysStay.ToString(), MinDaysForCancelation.ToString() };
+            string[] csvValues = { Id.ToString(), Name, LocationId.ToString(), Type.ToString(), MaxGuests.ToString(), MinDaysStay.ToString(), MinDaysForCancelation.ToString() };
             return csvValues;
         }
 
@@ -60,8 +58,7 @@ namespace TravelAgency.Model
             int i = 0;
             Id = Convert.ToInt32(values[i++]);
             Name = values[i++];
-            Town = values[i++];
-            Country = values[i++];
+            LocationId = Convert.ToInt32(values[i++]);
             Type = (AccommodationType)Convert.ToInt32(values[i++]);
             MaxGuests = Convert.ToInt32(values[i++]);
             MinDaysStay = Convert.ToInt32(values[i++]);

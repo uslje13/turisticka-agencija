@@ -25,7 +25,9 @@ namespace TravelAgency.View
     public partial class ShowAccommodations : Window
     {
         public User LoggedInUser { get; set; }
-        private AccommodationRepository _repository;
+        private AccommodationRepository _accommodationRepository;
+
+        private LocationRepository _locationRepository;
         public static ObservableCollection<Accommodation> Accommodations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
         
@@ -40,10 +42,15 @@ namespace TravelAgency.View
             DataContext = this;
 
             LoggedInUser = user;
-            _repository = new AccommodationRepository();
+            _accommodationRepository = new AccommodationRepository();
+            _locationRepository = new LocationRepository();
             Accommodations = new ObservableCollection<Accommodation>();
-            foreach(Accommodation item in _repository.GetAll()) 
+            foreach(Accommodation item in _accommodationRepository.GetAll()) 
             {
+                if(item.LocationId != -1)
+                {
+                    item.Location = _locationRepository.GetLocationById(item.LocationId);
+                }
                 Accommodations.Add(item);
             }
 
@@ -53,6 +60,16 @@ namespace TravelAgency.View
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
