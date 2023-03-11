@@ -20,24 +20,28 @@
                 <ColumnDefinition Width="122*"/>
             </Grid.ColumnDefinitions>
             <Label x:Name="dateLabel" Content="Datum: " HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="52"/>
-            <Label x:Name="timeLabel" Content="Vreme: " Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="50"/>
+            <Label x:Name="timeLabel" Content="Vreme: " Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="26" Width="50" Margin="0,24,0,0"/>
 
             <DatePicker x:Name="startDatePicker" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="132"
                          DisplayDateStart="{x:Static sys:DateTime.Now}" SelectedDate="{Binding Start}" Text="{Binding Start, StringFormat='dd.MM.yyyy. hh:mm'}" SelectedDateFormat="Short" Height="24"/>
-            <TextBox x:Name="timeTextBox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="132"
-                     Text="{Binding StartTime}" Height="18"/>
-            <Button x:Name="addDateButton" Grid.Column="2" Content="Dodaj" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Click="AddDateButtonClick" Height="20" Width="36"/>
-            <Button x:Name="addTimeButton" Grid.Column="2" Grid.Row="1" Content="Dodaj" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="36"/>
+            <Button x:Name="addDateButton" Grid.Column="2" Content="Dodaj" HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Click="AddDateAndTimeButtonClick" Height="20" Width="36" Margin="0,28,0,0" Grid.Row="1"/>
+            <ComboBox x:Name="comboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="16,26,0,0" Grid.Row="1" VerticalAlignment="Top" Width="43"
+                      ItemsSource="{Binding Path=HoursList}"
+                      SelectedItem="{Binding Path=Hour}"/>
+            <ComboBox x:Name="comboBox1" Grid.Column="1" HorizontalAlignment="Left" Margin="72,26,0,0" Grid.Row="1" VerticalAlignment="Top" Width="43"
+                      ItemsSource="{Binding Path=MinutesList}"
+                      SelectedItem="{Binding Path=Minute}"/>
+            <Label x:Name="label" Grid.Column="1" Content=":" HorizontalAlignment="Left" Margin="59,24,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         </Grid>
         <Grid Margin="400,0,0,0">
-            <DataGrid Name="checkpointsDG" Background="#FFE5E5E5"
-                          ItemsSource="{Binding DatesAndOccupancies, UpdateSourceTrigger=PropertyChanged}"
+            <DataGrid Background="#FFE5E5E5"
+                          ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="10,10,10,41">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Dat. i vrem." Binding="{Binding Start, StringFormat='dd.MM.yyyy. hh:mm'}" Width="140"/>
-                    <DataGridTextColumn Header="Popunjenost" Binding="{Binding Occupancy}" Width="170"/>
+                    <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat='dd.MM.yyyy.'}" Width="140"/>
+                    <DataGridTextColumn Header="Vreme" Binding="{Binding Time, StringFormat='HH:mm'}" Width="170"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

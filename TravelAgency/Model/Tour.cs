@@ -11,7 +11,6 @@ namespace TravelAgency.Model
         private string _description;
         private string _language;
         private int _maxNumOfGuests;
-        private DateTime _start;
         private int _duration;      //in hours
 
         public Tour()
@@ -22,17 +21,15 @@ namespace TravelAgency.Model
             _description = string.Empty;
             _language = string.Empty;
             _maxNumOfGuests = 0;
-            _start = DateTime.MinValue;
             _duration = 0;
         }
-        public Tour(string name, int locationId, string description, string language, int maxNumOfGuests, DateTime start, int duration)
+        public Tour(string name, int locationId, string description, string language, int maxNumOfGuests, int duration)
         {
             _name = name;
             _locationId = locationId;
             _description = description;
             _language = language;
             _maxNumOfGuests = maxNumOfGuests;
-            _start = start;
             _duration = duration;
         }
 
@@ -42,7 +39,6 @@ namespace TravelAgency.Model
         public string Description { get => _description; set => _description = value; }
         public string Language { get => _language; set => _language = value; }
         public int MaxNumOfGuests { get => _maxNumOfGuests; set => _maxNumOfGuests = value; }
-        public DateTime Start { get => _start; set => _start = value; }
         public int Duration { get => _duration; set => _duration = value; }
 
 
@@ -54,8 +50,7 @@ namespace TravelAgency.Model
             _description = values[3];
             _language = values[4];
             _maxNumOfGuests = int.Parse(values[5]);
-            _start = DateTime.Parse(values[6]);
-            _duration = int.Parse(values[7]);
+            _duration = int.Parse(values[6]);
         }
 
         public string[] ToCSV()
@@ -68,7 +63,6 @@ namespace TravelAgency.Model
                 _description,
                 _language,
                 _maxNumOfGuests.ToString(),
-                _start.ToString(),
                 _duration.ToString()
             };
 

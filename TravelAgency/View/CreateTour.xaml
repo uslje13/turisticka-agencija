@@ -38,7 +38,7 @@
             <Label x:Name="maxNumOfGuestLabel" Content="Maks. br. gostiju:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "6" Height="26" Width="108"/>
             <Label x:Name="checkPointLabel" Content="Ključne tačke:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "7" Height="26" Width="108"/>
             <Label x:Name="startDateTimeLabel" Content="Dat. i vrem. poč. :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "8" Height="26" Width="108"/>
-            <Label x:Name="durationLabel" Content="Trajanje :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "9" Height="26" Width="108"/>
+            <Label x:Name="durationLabel" Content="Trajanje (*u satima) :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "9" Height="26" Width="122"/>
 
             <TextBox x:Name="nameTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding TourName, UpdateSourceTrigger=PropertyChanged}"/>
@@ -55,7 +55,7 @@
             <Button x:Name="addCheckpointButton" Grid.Column="1" Grid.Row="7" Content="Dodaj" HorizontalAlignment="Center"  VerticalAlignment="Center"
                     Click="AddCheckpointButtonClick" Width="61"/>
             <Button x:Name="addDatesButton" Grid.Column="1" Grid.Row="8" Content="Dodaj" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Click="button_Click" Width="61"/>
+                    Click="AddDatesButtonClick" Width="61"/>
             <TextBox x:Name="durationTextBox" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
