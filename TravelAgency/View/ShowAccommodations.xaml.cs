@@ -71,7 +71,9 @@ namespace TravelAgency.View
         {
             if (SelectedAccommodation != null && ConfirmAccommodationDeletion() == MessageBoxResult.Yes)
                 _accommodationRepository.Delete(SelectedAccommodation);
-            
+            UpdateAccommodations();
+
+
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)

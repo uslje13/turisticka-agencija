@@ -49,7 +49,7 @@ namespace TravelAgency.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Name, LocationId.ToString(), Type.ToString(), MaxGuests.ToString(), MinDaysStay.ToString(), MinDaysForCancelation.ToString() };
+            string[] csvValues = { Id.ToString(), Name, LocationId.ToString(), ((int)Type).ToString(), MaxGuests.ToString(), MinDaysStay.ToString(), MinDaysForCancelation.ToString(), PhotoUrl };
             return csvValues;
         }
 
