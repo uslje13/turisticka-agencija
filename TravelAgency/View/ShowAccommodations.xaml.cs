@@ -54,6 +54,7 @@ namespace TravelAgency.View
         {
             foreach (Accommodation item in _accommodationRepository.GetAll())
             {
+                if (item.OwnerId != LoggedInUser.Id) continue;
                 if (item.LocationId != -1)
                 {
                     item.Location = _locationRepository.GetLocationById(item.LocationId);
@@ -64,7 +65,9 @@ namespace TravelAgency.View
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            CreateAccommodation createAccommodation = new CreateAccommodation(_accommodationRepository, LoggedInUser);
+            createAccommodation.ShowDialog();
+            UpdateAccommodations();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

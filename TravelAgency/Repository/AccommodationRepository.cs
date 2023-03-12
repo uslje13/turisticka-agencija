@@ -6,7 +6,7 @@ using TravelAgency.Serializer;
 
 namespace TravelAgency.Repository
 {
-    internal class AccommodationRepository
+    public class AccommodationRepository
     {
         private const string FilePath = "../../../Resources/Data/accommodation.csv";
         private readonly Serializer<Accommodation> _serializer;
@@ -27,6 +27,7 @@ namespace TravelAgency.Repository
         {
             accommodation.Id = NextId();
             _accommodations = _serializer.FromCSV(FilePath);
+            _accommodations.Add(accommodation);
             _serializer.ToCSV(FilePath,_accommodations);
             return accommodation;
         }

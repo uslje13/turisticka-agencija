@@ -34,10 +34,11 @@ namespace TravelAgency.Model
             MinDaysStay = 0;
             MinDaysForCancelation = 0;
             PhotoUrl = string.Empty;
+            OwnerId = -1;
         }
-        public Accommodation(int id, string name, AccommodationType type, int locationId, int maxGuests, int minDaysStay, string photoUrl, int minDaysForCancelation = 1)
+        public Accommodation(string name, AccommodationType type, int locationId, int maxGuests, int minDaysStay, string photoUrl, int ownerId, int minDaysForCancelation = 1)
         {
-            Id = id;
+            Id = -1;
             Name = name;
             LocationId = locationId;
             Type = type;
@@ -45,11 +46,12 @@ namespace TravelAgency.Model
             MinDaysStay = minDaysStay;
             MinDaysForCancelation = minDaysForCancelation;
             PhotoUrl = photoUrl;
+            OwnerId = ownerId; 
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Name, LocationId.ToString(), ((int)Type).ToString(), MaxGuests.ToString(), MinDaysStay.ToString(), MinDaysForCancelation.ToString(), PhotoUrl };
+            string[] csvValues = { Id.ToString(), Name, LocationId.ToString(), ((int)Type).ToString(), MaxGuests.ToString(), MinDaysStay.ToString(), MinDaysForCancelation.ToString(), PhotoUrl, OwnerId.ToString() };
             return csvValues;
         }
 
@@ -64,6 +66,7 @@ namespace TravelAgency.Model
             MinDaysStay = Convert.ToInt32(values[i++]);
             MinDaysForCancelation = Convert.ToInt32(values[i++]);
             PhotoUrl = values[i++];
+            OwnerId = Convert.ToInt32(values[i++]);
         }
     }
 }

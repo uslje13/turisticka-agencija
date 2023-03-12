@@ -16,6 +16,10 @@
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="1*"/>
                 <DataGridTextColumn Header="Grad" Binding="{Binding Location.City}" Width="1*"/>
                 <DataGridTextColumn Header="Drzava" Binding="{Binding Location.Country}" Width="1*"/>
+                <DataGridTextColumn Header="Tip" Binding="{Binding Type}" Width="1*"/>
+                <DataGridTextColumn Header="Maksimalno gostiju" Binding="{Binding MaxGuests}" Width="1*"/>
+                <DataGridTextColumn Header="Minimum dana" Binding="{Binding MinDaysStay}" Width="1*"/>
+                <DataGridTextColumn Header="Rok za otkazivanje" Binding="{Binding MinDaysForCancelation}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
         <ToolBar x:Name="ToolBar" HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="875">
