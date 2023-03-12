@@ -57,7 +57,7 @@ namespace TravelAgency.View
                 if (item.OwnerId != LoggedInUser.Id) continue;
                 if (item.LocationId != -1)
                 {
-                    item.Location = _locationRepository.GetLocationById(item.LocationId);
+                    item.Location = _locationRepository.GetById(item.LocationId);
                 }
                 accommodations.Add(item);
             }
