@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
-        Title="Accommodation" Height="500" Width="875" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Prikaz smeštaja" Height="500" Width="875" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <DataGrid Background="#FFE5E5E5"
                           ItemsSource="{Binding Accommodations}"
@@ -14,15 +14,19 @@
                           IsReadOnly="True" Margin="10,61,10,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="1*"/>
-                <DataGridTextColumn Header="Grad" Binding="{Binding Town}" Width="1*"/>
-                <DataGridTextColumn Header="Drzava" Binding="{Binding Country}" Width="1*"/>
+                <DataGridTextColumn Header="Grad" Binding="{Binding Location.City}" Width="1*"/>
+                <DataGridTextColumn Header="Drzava" Binding="{Binding Location.Country}" Width="1*"/>
+                <DataGridTextColumn Header="Tip" Binding="{Binding Type}" Width="1*"/>
+                <DataGridTextColumn Header="Maksimalno gostiju" Binding="{Binding MaxGuests}" Width="1*"/>
+                <DataGridTextColumn Header="Minimum dana" Binding="{Binding MinDaysStay}" Width="1*"/>
+                <DataGridTextColumn Header="Rok za otkazivanje" Binding="{Binding MinDaysForCancelation}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
         <ToolBar x:Name="ToolBar" HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="875">
             <Button x:Name="AddButton" Content="Dodaj" Height="37" Width="48"
                     Click="AddButton_Click"/>
-            <Button x:Name="DeleteButton" Content="Obriši" Height="37" Width="48"/>
-            <Button x:Name="EditButton" Content="Izmeni" Height="37" Width="48"/>
+            <Button x:Name="DeleteButton" Content="Obriši" Height="37" Width="48" Click="DeleteButton_Click"/>
+            <Button x:Name="EditButton" Content="Izmeni" Height="37" Width="48" Click="EditButton_Click"/>
         </ToolBar>
     </Grid>
 </Window>
