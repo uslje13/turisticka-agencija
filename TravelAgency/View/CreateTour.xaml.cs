@@ -30,7 +30,7 @@ namespace TravelAgency.View
         private readonly CheckpointRepository _checkpointRepository;
         private readonly DateAndOccupancyRepository _dateAndOccupancyRepository;
         public ObservableCollection<Checkpoint> Checkpoints { get; set; }
-        public ObservableCollection<DateAndOccupancy> DatesAndOccupancies { get; set; }
+        public ObservableCollection<Appointment> DatesAndOccupancies { get; set; }
 
         public CreateTour()
         {
@@ -41,7 +41,7 @@ namespace TravelAgency.View
             _checkpointRepository = new CheckpointRepository();
             _dateAndOccupancyRepository = new DateAndOccupancyRepository();
             Checkpoints = new ObservableCollection<Checkpoint>();
-            DatesAndOccupancies = new ObservableCollection<DateAndOccupancy>();
+            DatesAndOccupancies = new ObservableCollection<Appointment>();
         }
 
         public string TourName      //wpf framework already have Name
@@ -157,7 +157,7 @@ namespace TravelAgency.View
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             Location location = new Location(Country, City);
-            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage, MaxNumOfGuests, DateTime.MinValue, Duration);
+            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage, MaxNumOfGuests, Duration);
             Tour savedTour = _tourRepository.Save(newTour);
             SetCheckpointsTourId(savedTour);
             _checkpointRepository.SaveAll(Checkpoints);
@@ -177,7 +177,7 @@ namespace TravelAgency.View
 
         private void SetDateAndOccupancyTourId(Tour tour)
         {
-            foreach (DateAndOccupancy dateAndOccupancy in DatesAndOccupancies)
+            foreach (Appointment dateAndOccupancy in DatesAndOccupancies)
             {
                 dateAndOccupancy.TourId = tour.Id;
             }
@@ -190,9 +190,10 @@ namespace TravelAgency.View
             createCheckpoint.Show();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void AddDatesButtonClick(object sender, RoutedEventArgs e)
         {
             CreateTourDates createTourDates = new CreateTourDates(DatesAndOccupancies);
+            createTourDates.Owner = Window.GetWindow(this);
             createTourDates.Show();
         }
     }
