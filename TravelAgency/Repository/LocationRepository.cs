@@ -42,6 +42,14 @@ namespace TravelAgency.Repository
             _serializer.ToCSV(FilePath, _locations);
         }
 
+        public void DeleteById(int id)
+        {
+            _locations = _serializer.FromCSV(FilePath);
+            Location founded = _locations.Find(l => l.Id == id) ?? throw new ArgumentException();     //da li da dodam upitnik da ukloni warning
+            _locations.Remove(founded);
+            _serializer.ToCSV(FilePath, _locations);
+        }
+
         public Location Update(Location location)
         {
             _locations = _serializer.FromCSV(FilePath);
@@ -52,7 +60,6 @@ namespace TravelAgency.Repository
             _serializer.ToCSV(FilePath, _locations);
             return location;
         }
-
 
         public int NextId()
         {

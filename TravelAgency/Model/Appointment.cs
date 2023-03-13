@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TravelAgency.Serializer;
+
+namespace TravelAgency.Model
+{
+    public class Appointment : ISerializable
+    {
+        //id|date|int|id ---> .csv
+        public int Id { get; set; }
+        public DateOnly Date { get; set; }
+        public TimeOnly Time { get; set; }
+        public int Occupancy { get; set; }
+        public bool Started { get; set; }
+        public int TourId { get; set; }
+
+        public Appointment()
+        {
+            Id = -1;
+            Date = DateOnly.MinValue;
+            Time = TimeOnly.MinValue;
+            Occupancy = 0;
+            Started = false;
+            TourId = -1;
+        }
+
+        public Appointment(int id, DateOnly date, TimeOnly time, int occupancy, bool started, int tourId)
+        {
+            Id = id;
+            Date = date;
+            Time = time;
+            Occupancy = occupancy;
+            Started = started;
+            TourId = tourId;
+        }
+
+        public void FromCSV(string[] values)
+        {
+            Id = int.Parse(values[0]);
+            Date = DateOnly.Parse(values[1]);
+            Time = TimeOnly.Parse(values[2]);
+            Occupancy = int.Parse(values[3]);
+            Started = bool.Parse(values[4]);
+            TourId = int.Parse(values[5]);
+        }
+
+        public string[] ToCSV()
+        {
+            string[] csvValues =
+            {
+                Id.ToString(),
+                Date.ToString(),
+                Time.ToString(),
+                Occupancy.ToString(),
+                Started.ToString(),
+                TourId.ToString()
+            };
+            return csvValues;
+        }
+    }
+}

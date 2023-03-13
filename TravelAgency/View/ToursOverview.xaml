@@ -26,7 +26,8 @@
             <Button x:Name="deleteButton" Content="Obriši" Height="37" Width="48"
                     Click="DeleteButtonClick"/>
             <Button x:Name="edtiButton" Content="Izmeni" Height="37" Width="48"/>
-            <Button x:Name="infoButton" Content="Info" Height="37" Width="36"/>
+            <Button x:Name="todayToursButton" Content="Pregled današnjih tura" Height="37" Width="128"
+                    Click="TodayToursButtonClick"/>
         </ToolBar>
     </Grid>
 </Window>

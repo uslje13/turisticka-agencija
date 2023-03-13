@@ -1,0 +1,27 @@
+﻿<Window x:Class="TravelAgency.View.TodayTourView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TravelAgency.View"
+        mc:Ignorable="d"
+        Title="Pregled današnjih tura" Height="450" Width="800">
+    <Grid>
+        <Grid>
+            <DataGrid Background="#FFE5E5E5"
+                          ItemsSource="{Binding Tours}"
+                          SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True" Margin="10,61,10,26">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="170"/>
+                    <DataGridTextColumn Header="Maks. br. gostiju" Binding="{Binding MaxNumOfGuests}" Width="200"/>
+                    <DataGridTextColumn Header="Datum i vreme početka" Binding="{Binding MaxNumOfGuests}" Width="200"/>
+                    <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration}" Width="92"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="button" Content="Započni turu" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Width="77"/>
+        </Grid>
+        
+    </Grid>
+</Window>

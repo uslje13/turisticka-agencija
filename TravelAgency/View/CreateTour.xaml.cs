@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -19,7 +20,6 @@ namespace TravelAgency.View
         private string _language;
         private int _maxNumOfGuests;
         private int _checkpointId;   //checkpointId
-        private int _dateTimeStartId;    //date and time when tour start 
         private int _duration;
 
         private string _city;
@@ -28,7 +28,9 @@ namespace TravelAgency.View
         private readonly TourRepository _tourRepository;
         private readonly LocationRepository _locationRepository;
         private readonly CheckpointRepository _checkpointRepository;
+        private readonly DateAndOccupancyRepository _dateAndOccupancyRepository;
         public ObservableCollection<Checkpoint> Checkpoints { get; set; }
+        public ObservableCollection<Appointment> DatesAndOccupancies { get; set; }
 
         public CreateTour()
         {
@@ -37,7 +39,9 @@ namespace TravelAgency.View
             _tourRepository = new TourRepository();
             _locationRepository = new LocationRepository();
             _checkpointRepository = new CheckpointRepository();
+            _dateAndOccupancyRepository = new DateAndOccupancyRepository();
             Checkpoints = new ObservableCollection<Checkpoint>();
+            DatesAndOccupancies = new ObservableCollection<Appointment>();
         }
 
         public string TourName      //wpf framework already have Name
@@ -100,17 +104,6 @@ namespace TravelAgency.View
                 }
             }
         }
-        public int DateTimeStartId
-        {
-            get => _dateTimeStartId;
-            set
-            {
-                if (value != _dateTimeStartId)
-                {
-                    _dateTimeStartId = value;
-                }
-            }
-        }
         public int Duration
         {
             get => _duration;
@@ -164,26 +157,45 @@ namespace TravelAgency.View
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             Location location = new Location(Country, City);
-            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage,0, MaxNumOfGuests, -1, Duration);
+
+            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage, MaxNumOfGuests, Duration);
             Tour savedTour = _tourRepository.Save(newTour);
-            SetCheckpointsTourIds(savedTour);
+            SetCheckpointsTourId(savedTour);
             _checkpointRepository.SaveAll(Checkpoints);
+            SetDateAndOccupancyTourId(savedTour);
+            _dateAndOccupancyRepository.SaveAll(DatesAndOccupancies);
             ToursOverview.Tours.Add(savedTour);
             Close();
         }
 
-        private void SetCheckpointsTourIds(Tour tour)
+        private void SetCheckpointsTourId(Tour tour)
         {
-            foreach(Checkpoint checkpoint in Checkpoints)
+            foreach (Checkpoint checkpoint in Checkpoints)
             {
                 checkpoint.TourId = tour.Id;
+            }
+        }
+
+        private void SetDateAndOccupancyTourId(Tour tour)
+        {
+            foreach (Appointment dateAndOccupancy in DatesAndOccupancies)
+            {
+                dateAndOccupancy.TourId = tour.Id;
             }
         }
 
         private void AddCheckpointButtonClick(object sender, RoutedEventArgs e)
         {
             CreateCheckpoint createCheckpoint = new CreateCheckpoint(Checkpoints);
+            createCheckpoint.Owner = Window.GetWindow(this);
             createCheckpoint.Show();
+        }
+
+        private void AddDatesButtonClick(object sender, RoutedEventArgs e)
+        {
+            CreateTourDates createTourDates = new CreateTourDates(DatesAndOccupancies);
+            createTourDates.Owner = Window.GetWindow(this);
+            createTourDates.Show();
         }
     }
 }
