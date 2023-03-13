@@ -33,6 +33,10 @@
                       ItemsSource="{Binding Path=MinutesList}"
                       SelectedItem="{Binding Path=Minute}"/>
             <Label x:Name="label" Grid.Column="1" Content=":" HorizontalAlignment="Left" Margin="59,24,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <Button x:Name="confirmButton" Grid.Row="2" Grid.Column="0" Content="Potvrdi" VerticalAlignment="Center" Margin="79,0,2,0"
+                    Click="ConfirmButtonClick"/>
+            <Button x:Name="cancelButton" Grid.Row="2" Grid.Column="2" Content="Odustani" HorizontalAlignment="Left" VerticalAlignment="Center" Width="56"
+                    Click="CancelButtonClick"/>
         </Grid>
         <Grid Margin="400,0,0,0">
             <DataGrid Background="#FFE5E5E5"

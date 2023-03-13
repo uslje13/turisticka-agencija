@@ -1,22 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TravelAgency.Model;
 
 namespace TravelAgency.View
@@ -33,30 +19,30 @@ namespace TravelAgency.View
         public ReadOnlyObservableCollection<string> HoursList { get; set; }
         public ReadOnlyObservableCollection<string> MinutesList { get; set; }
 
-        public DateTime Start 
-        { 
-            get => _start; 
+        public DateTime Start
+        {
+            get => _start;
             set
             {
-                if(value != _start)
+                if (value != _start)
                 {
                     _start = value;
                     OnPropertyChanged();
                 }
-            } 
+            }
         }
 
-        public string Hour 
-        { 
+        public string Hour
+        {
             get => _hour;
-            set 
+            set
             {
                 if (!value.Equals(_hour))
                 {
                     _hour = value;
                     OnPropertyChanged();
                 }
-            } 
+            }
         }
 
         public string Minute
@@ -74,16 +60,16 @@ namespace TravelAgency.View
 
 
         public ObservableCollection<Appointment> Appointments
-        { 
-            get => _appointments; 
+        {
+            get => _appointments;
             set
             {
-                if(value != _appointments)
+                if (value != _appointments)
                 {
                     _appointments = value;
                     OnPropertyChanged();
                 }
-            } 
+            }
         }
 
         public CreateTourDates(ObservableCollection<Appointment> appointments)
@@ -94,7 +80,7 @@ namespace TravelAgency.View
             HoursList = new ReadOnlyObservableCollection<string>(CreateHoursList());
             MinutesList = new ReadOnlyObservableCollection<string>(CreateMinutesList());
             CreateHoursList();
-            CreateMinutesList();  
+            CreateMinutesList();
             _appointments = appointments;
         }
 
@@ -145,6 +131,25 @@ namespace TravelAgency.View
             appointment.Time = new TimeOnly(int.Parse(Hour), int.Parse(Minute));
             appointment.Occupancy = 0;
             Appointments.Add(appointment);
+        }
+
+
+        private void ConfirmButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (Appointments.Count < 2)
+            {
+                MessageBox.Show("Ne možete kreirati turu!\nMorate uneti makar jedan datum.");
+            }
+            else
+            {
+                Close();
+            }
+        }
+
+        private void CancelButtonClick(object sender, RoutedEventArgs e)
+        {
+            Appointments.Clear();
+            Close();
         }
     }
 }
