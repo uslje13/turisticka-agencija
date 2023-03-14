@@ -24,9 +24,9 @@
         </DataGrid>
         <ToolBar x:Name="ToolBar" HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="875">
             <Button x:Name="AddButton" Content="Dodaj" Height="37" Width="48"
-                    Click="AddButton_Click"/>
-            <Button x:Name="DeleteButton" Content="Obriši" Height="37" Width="48" Click="DeleteButton_Click"/>
-            <Button x:Name="EditButton" Content="Izmeni" Height="37" Width="48" Click="EditButton_Click"/>
+                    Click="AddButtonClick"/>
+            <Button x:Name="DeleteButton" Content="Obriši" Height="37" Width="48" Click="DeleteButtonClick"/>
+            <Button x:Name="ReviewButton" Content="Oceni gosta" Height="37" Width="80" Click="ReviewButtonClick"/>
         </ToolBar>
     </Grid>
 </Window>

@@ -26,6 +26,7 @@ namespace TravelAgency.View
     {
         public User LoggedInUser { get; set; }
         private AccommodationRepository _accommodationRepository;
+        private GuestReviewRepository _guestReviewRepository;
 
         private LocationRepository _locationRepository;
         public static ObservableCollection<Accommodation> Accommodations { get; set; }
@@ -43,6 +44,7 @@ namespace TravelAgency.View
 
             LoggedInUser = user;
             _accommodationRepository = new AccommodationRepository();
+            _guestReviewRepository = new GuestReviewRepository();
             _locationRepository = new LocationRepository();
             Accommodations = new ObservableCollection<Accommodation>();
             FillObservableCollection(Accommodations);
@@ -63,14 +65,14 @@ namespace TravelAgency.View
             }
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             CreateAccommodation createAccommodation = new CreateAccommodation(_accommodationRepository, LoggedInUser);
             createAccommodation.ShowDialog();
             UpdateAccommodations();
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteButtonClick(object sender, RoutedEventArgs e)
         {
             if (SelectedAccommodation != null && ConfirmAccommodationDeletion() == MessageBoxResult.Yes)
                 _accommodationRepository.Delete(SelectedAccommodation);
@@ -79,9 +81,10 @@ namespace TravelAgency.View
 
         }
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
+        private void ReviewButtonClick(object sender, RoutedEventArgs e)
         {
-
+            CreateGuestReview createGuestReview = new CreateGuestReview(LoggedInUser,2,_guestReviewRepository);
+            createGuestReview.ShowDialog();
         }
 
         private MessageBoxResult ConfirmAccommodationDeletion()
