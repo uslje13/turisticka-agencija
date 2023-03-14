@@ -97,5 +97,11 @@ namespace TravelAgency.View
             ToursOverview toursOverview = new ToursOverview();
             toursOverview.Show();
         }
+
+        private void gost1_click(object sender, RoutedEventArgs e)
+        {
+            SearchAccommodation searchAccommodation = new SearchAccommodation();
+            searchAccommodation.Show();
+        }
     }
 }
