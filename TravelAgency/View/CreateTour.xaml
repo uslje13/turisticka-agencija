@@ -6,7 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
-        Title="Kreiranje ture" Height="556" Width="471" ResizeMode="NoResize">
+        Title="Kreiranje ture" Height="742" Width="471" ResizeMode="NoResize">
     <Grid>
         <Grid Margin="22,10,22,45">
             <Grid.RowDefinitions>
@@ -19,6 +19,7 @@
                 <!-- LOCATION END -->
 
                 <RowDefinition Height="3*"/>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -39,6 +40,7 @@
             <Label x:Name="checkPointLabel" Content="Ključne tačke:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "7" Height="26" Width="108"/>
             <Label x:Name="startDateTimeLabel" Content="Dat. i vrem. poč. :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "8" Height="26" Width="108"/>
             <Label x:Name="durationLabel" Content="Trajanje (*u satima) :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row = "9" Height="26" Width="122"/>
+            <Label x:Name="imagesLabel" Content="Slike: " Grid.Column="0" Grid.Row="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
             <TextBox x:Name="nameTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding TourName, UpdateSourceTrigger=PropertyChanged}"/>
@@ -58,6 +60,8 @@
                     Click="AddDatesButtonClick" Width="61"/>
             <TextBox x:Name="durationTextBox" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="addImagesButton" Content="Dodaj" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="61"
+                    Click="AddImagesButtonClick"/>
         </Grid>
         <Button x:Name="addButton" Content="Dodaj" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="130,0,0,10"
                 Click="AddButtonClick"/>

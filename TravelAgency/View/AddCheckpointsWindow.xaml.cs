@@ -22,9 +22,9 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for CreateCheckpoint.xaml
     /// </summary>
-    public partial class CreateCheckpoint : Window
+    public partial class AddCheckpointsWindow : Window
     {
-        public Checkpoint SelectedChecpoint { get; set; }
+        public Checkpoint SelectedCheckpoint { get; set; }
 
         private ObservableCollection<Checkpoint> _chechponits;
         
@@ -65,7 +65,7 @@ namespace TravelAgency.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public CreateCheckpoint(ObservableCollection<Checkpoint> checkpoints)
+        public AddCheckpointsWindow(ObservableCollection<Checkpoint> checkpoints)
         {
             InitializeComponent();
             DataContext = this;
