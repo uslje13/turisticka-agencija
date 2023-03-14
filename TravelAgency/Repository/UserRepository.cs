@@ -24,8 +24,14 @@ namespace TravelAgency.Repository
 
         public User GetByUsername(string username)
         {
-            _users = _serializer.FromCSV(FilePath);
-            return _users.FirstOrDefault(u => u.Username == username);
+            User user = _users.Find(l => l.Username == username) ?? throw new ArgumentException();
+            return user;
+        }
+
+        public User GetById(int id)
+        {
+            User user = _users.Find(l => l.Id == id) ?? throw new ArgumentException();
+            return user;
         }
     }
 }

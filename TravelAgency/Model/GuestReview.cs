@@ -26,9 +26,9 @@ namespace TravelAgency.Model
             Comment = string.Empty;
         }
 
-        public GuestReview(int id, int ownerId, int guestId, int cleanlinessGrade, int respectGrade, string comment)
+        public GuestReview(int ownerId, int guestId, int cleanlinessGrade, int respectGrade, string comment)
         {
-            Id = id;
+            Id = -1;
             OwnerId = ownerId;
             GuestId = guestId;
             CleanlinessGrade = cleanlinessGrade;
