@@ -6,24 +6,26 @@
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
 
-        Title="Ponudjene ture" Height="500" Width="875" WindowStartupLocation="CenterScreen">
+        Title="Ponudjene ture" Height="500" Width="1059" WindowStartupLocation="CenterScreen">
     <Grid>
         <DataGrid Background="#FFE5E5E5" Name="ToursGrid"
-                          ItemsSource="{Binding Tours, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding TourDTOs, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Path=SelectedTourDTO, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
-                          IsReadOnly="True" Margin="10,61,10,10">
+                          IsReadOnly="True" Margin="10,61,35,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Ime" Binding="{Binding Name}" Width="150"/>
-                <DataGridTextColumn Header="Lokacija" Binding="{Binding LocationId}" Width="150"/>
+                <DataGridTextColumn Header="Lokacija" Binding="{Binding CityAndCountry}" Width="170"/>
                 <DataGridTextColumn Header="Jezik" Binding="{Binding Language}" Width="150"/>
-                <DataGridTextColumn Header="Broj turista" Binding="{Binding NumOfGuests, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="150"/>
-                <DataGridTextColumn Header="Maks. br. turista" Binding="{Binding MaxNumOfGuests}" Width="150"/>
+                <DataGridTextColumn Header="Broj turista" Binding="{Binding Ocupancy, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="100"/>
+                <DataGridTextColumn Header="Maks. br. turista" Binding="{Binding MaxNumOfGuests}" Width="120"/>
                 <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration}" Width="92"/>
+                <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="150"/>
+                <DataGridTextColumn Header="Vreme" Binding="{Binding Time}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <ToolBar x:Name="toolBar" HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="875">
+        <ToolBar x:Name="toolBar" HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="1039">
             <Button x:Name="bookButton" Content="Rezervisi" Height="37" Width="63"
                     Click="BookButtonClick"/>
             <TextBox x:Name="TextBox_search" Text="{Binding Path=SearchText}"

@@ -27,45 +27,66 @@ namespace TravelAgency.View
     {
         public User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
-        public Tour SelectedTour { get; set; }
+        public static ObservableCollection<Location> Locations { get; set; }
+
+        public static ObservableCollection<Appointment> Appointments { get; set; }
+        public static ObservableCollection<TourDTO> TourDTOs { get; set; }
+        public TourDTO SelectedTourDTO { get; set; }
 
         private readonly TourRepository _repository;
         private readonly LocationRepository _locationRepository;
+        private readonly AppointmentRepository _appointmentRepository;
         public ShowAndSearchTours(User user)
         {
             InitializeComponent();
             DataContext = this;
             LoggedInUser = user;
-            _repository= new TourRepository();
+            _repository = new TourRepository();
+            _locationRepository = new LocationRepository();
+            _appointmentRepository = new AppointmentRepository();
             Tours = new ObservableCollection<Tour>(_repository.GetAll());
+            TourDTOs = new ObservableCollection<TourDTO>();
+            Locations = new ObservableCollection<Location>(_locationRepository.GetAll());
+            Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());
+            GetDTOs();
+        }
 
+        private static void GetDTOs()
+        {
+            foreach (Tour t in Tours)
+            {
+                foreach (Location l in Locations)
+                {
+                    foreach(Appointment a in Appointments)
+                    {
+                        if (l.Id == t.LocationId && t.Id == a.TourId)
+                        {
+                            TourDTO tourDTO = new TourDTO(t.Name, t.Language, t.MaxNumOfGuests, t.Duration, a.Occupancy, l.City, l.Country, t.Id, a.Time, a.Date);
+                            TourDTOs.Add(tourDTO);
+                        }
+                    }
+                }
+            }
         }
 
         private void BookButtonClick(object sender, RoutedEventArgs e)
         {
-            if(SelectedTour == null)
+            if(SelectedTourDTO == null)
             {
                 MessageBox.Show("Izaberi turu za rezervaciju");
             }
             else
             {
-               if(SelectedTour.NumOfGuests < SelectedTour.MaxNumOfGuests)
+               if(SelectedTourDTO.Ocupancy < SelectedTourDTO.MaxNumOfGuests)
                {
-                    BookTour bookTourWindow = new BookTour(SelectedTour);
+                    BookTour bookTourWindow = new BookTour(SelectedTourDTO, LoggedInUser);
                     bookTourWindow.Show();
+                    this.Close();
                }
                else
                {
                     MessageBox.Show("Nema slobodnih mesta za odabranu turu");
-                    
-                    /*foreach (Tour t in Tours.ToList())
-                    {
-                        if (t.LocationId == SelectedTour.LocationId)
-                        {
-                            Tours.Add(t);
-                        }
-                    }*/
-                    AlternativeTours alternativeTours = new AlternativeTours(SelectedTour);
+                    AlternativeTours alternativeTours = new AlternativeTours(SelectedTourDTO, LoggedInUser, TourDTOs);
                     alternativeTours.Show();
                }
             }

@@ -28,7 +28,7 @@ namespace TravelAgency.View
         private readonly TourRepository _tourRepository;
         private readonly LocationRepository _locationRepository;
         private readonly CheckpointRepository _checkpointRepository;
-        private readonly DateAndOccupancyRepository _dateAndOccupancyRepository;
+        private readonly AppointmentRepository _dateAndOccupancyRepository;
         public ObservableCollection<Checkpoint> Checkpoints { get; set; }
         public ObservableCollection<Appointment> DatesAndOccupancies { get; set; }
 
@@ -39,7 +39,7 @@ namespace TravelAgency.View
             _tourRepository = new TourRepository();
             _locationRepository = new LocationRepository();
             _checkpointRepository = new CheckpointRepository();
-            _dateAndOccupancyRepository = new DateAndOccupancyRepository();
+            _dateAndOccupancyRepository = new AppointmentRepository();
             Checkpoints = new ObservableCollection<Checkpoint>();
             DatesAndOccupancies = new ObservableCollection<Appointment>();
         }

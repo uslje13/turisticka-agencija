@@ -37,7 +37,7 @@ namespace TravelAgency.View
                 {
                     CheckpointRepository checkpointRepository = new CheckpointRepository();
                     LocationRepository locationRepository = new LocationRepository();
-                    DateAndOccupancyRepository dateAndOccupancyRepository = new DateAndOccupancyRepository();
+                    AppointmentRepository dateAndOccupancyRepository = new AppointmentRepository();
                     locationRepository.DeleteById(SelectedTour.LocationId);
                     _tourReository.Delete(SelectedTour);
                     checkpointRepository.DeleteByTourId(SelectedTour.Id);

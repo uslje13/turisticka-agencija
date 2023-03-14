@@ -8,17 +8,19 @@
         Title="Alternativne ture" Height="392" Width="875">
     <Grid>
         <DataGrid Background="#FFE5E5E5" Name="ToursGrid"
-                          ItemsSource="{Binding Tours, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding TourDTOs, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Path=SelectedTourDTO, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
-                          IsReadOnly="True" Margin="10,76,10,10">
+                          IsReadOnly="True" Margin="10,80,10,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Ime" Binding="{Binding Name}" Width="150"/>
-                <DataGridTextColumn Header="Lokacija" Binding="{Binding LocationId}" Width="150"/>
+                <DataGridTextColumn Header="Lokacija" Binding="{Binding CityAndCountry}" Width="170"/>
                 <DataGridTextColumn Header="Jezik" Binding="{Binding Language}" Width="150"/>
-                <DataGridTextColumn Header="Broj turista" Binding="{Binding NumOfGuests, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="150"/>
-                <DataGridTextColumn Header="Maks. br. turista" Binding="{Binding MaxNumOfGuests}" Width="150"/>
+                <DataGridTextColumn Header="Broj turista" Binding="{Binding Ocupancy, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="100"/>
+                <DataGridTextColumn Header="Maks. br. turista" Binding="{Binding MaxNumOfGuests}" Width="120"/>
                 <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration}" Width="92"/>
+                <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="150"/>
+                <DataGridTextColumn Header="Vreme" Binding="{Binding Time}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Rezervisi" HorizontalAlignment="Left" Height="50" Margin="10,16,0,0" VerticalAlignment="Top" Width="106" Click="ReserveClick"/>

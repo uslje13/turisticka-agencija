@@ -22,35 +22,36 @@ namespace TravelAgency.View
     /// </summary>
     public partial class AlternativeTours : Window
     {
-        public static ObservableCollection<Tour> Tours { get; set; }
+        public static ObservableCollection<TourDTO> TourDTOs { get; set; }
         private readonly TourRepository _repository;
-        public Tour SelectedTour { get; set; }
-        public AlternativeTours(Tour tour)
+
+        public User LoggedInUser { get; set; }
+        public TourDTO SelectedTourDTO { get; set; }
+        public AlternativeTours(TourDTO tourDTO, User user, ObservableCollection<TourDTO> tourDTOs)
         {
             InitializeComponent();
             DataContext= this;
             _repository = new TourRepository();
-            Tours = new ObservableCollection<Tour>();
-            
-                foreach (Tour t in _repository.GetAll())
+            TourDTOs = new ObservableCollection<TourDTO>();
+
+            foreach(TourDTO t in tourDTOs)
+            {
+                if(t.City == tourDTO.City && t.Country == tourDTO.Country && t.Ocupancy != t.MaxNumOfGuests)
                 {
-                    if (t.LocationId == tour.LocationId && t.NumOfGuests != t.MaxNumOfGuests)
-                    {
-                        Tours.Add(t);
-                    }
+                    TourDTOs.Add(t);
                 }
-           
+            }
         }
         private void ReserveClick(object sender, RoutedEventArgs e)
         {
-            if(SelectedTour == null)
+            if(SelectedTourDTO == null)
             {
                 MessageBox.Show("Izaberi turu za rezervaciju");
             }
             else
             {
                 this.Close();
-                BookTour bookTourWindow = new BookTour(SelectedTour);
+                BookTour bookTourWindow = new BookTour(SelectedTourDTO, LoggedInUser);
                 bookTourWindow.Show();
             }
         }

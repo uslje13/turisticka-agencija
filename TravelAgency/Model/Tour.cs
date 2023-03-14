@@ -29,7 +29,6 @@ namespace TravelAgency.Model
             _locationId = locationId;
             _description = description;
             _language = language;
-            _numOfGuests = numOfGuests;
             _maxNumOfGuests = maxNumOfGuests;
             _duration = duration;
         }

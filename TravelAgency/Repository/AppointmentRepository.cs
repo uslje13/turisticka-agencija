@@ -9,13 +9,13 @@ using TravelAgency.Serializer;
 
 namespace TravelAgency.Repository
 {
-    public class DateAndOccupancyRepository
+    public class AppointmentRepository
     {
         private const string FilePath = "../../../Resources/Data/appointments.csv";
         private readonly Serializer<Appointment> _serializer;
         private List<Appointment> _appointments;
 
-        public DateAndOccupancyRepository()
+        public AppointmentRepository()
         {
             _serializer = new Serializer<Appointment>();
             _appointments = _serializer.FromCSV(FilePath);
@@ -66,6 +66,7 @@ namespace TravelAgency.Repository
             _appointments = _serializer.FromCSV(FilePath);
             Appointment current = _appointments.Find(d => d.Id == appointment.Id) ?? throw new ArgumentException();
             int index = _appointments.IndexOf(current);
+            _appointments.Remove(current);
             _appointments.Insert(index, appointment);
             _serializer.ToCSV(FilePath, _appointments);
         }

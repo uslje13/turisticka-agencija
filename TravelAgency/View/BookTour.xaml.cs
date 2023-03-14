@@ -25,22 +25,67 @@ namespace TravelAgency.View
     /// </summary>
     public partial class BookTour : Window
     {
+        public User LoggedInUser { get; set; }
         private string _vacantSeats; // potencijalno promeni naziv prom
         private string _touristNum; // potencijalno promeni naziv prom
-        private Tour _selectedTour;
+        private TourDTO _selectedTourDTO;
+        private ObservableCollection<string> _times;
+        private ObservableCollection<string> _dates;
 
+        public static ObservableCollection<Appointment> Appointments;
         private readonly TourRepository _tourRepository;
         private readonly LocationRepository _locationRepository;
-        public BookTour(Tour selectedTour)
+        private readonly AppointmentRepository _appointmentRepository; 
+        public BookTour(TourDTO selectedTourDTO, User user)
         {
             InitializeComponent();
             int vacantSeats;
-            DataContext= this;
-            _selectedTour= selectedTour;
-            vacantSeats = selectedTour.MaxNumOfGuests - selectedTour.NumOfGuests;
+            DataContext = this;
+            LoggedInUser = user;
+            _selectedTourDTO= selectedTourDTO;
+            vacantSeats = selectedTourDTO.MaxNumOfGuests - selectedTourDTO.Ocupancy;
             _vacantSeats = vacantSeats.ToString();
             _tourRepository = new TourRepository();
             _locationRepository = new LocationRepository();
+            _appointmentRepository = new AppointmentRepository();
+            Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());
+            _times = new ObservableCollection<string>();
+            _dates = new ObservableCollection<string>();
+
+            foreach(Appointment a in Appointments)
+            {
+                if(selectedTourDTO.TourId == a.TourId)
+                {
+                    _times.Add(a.Time.ToString());
+                    _dates.Add(a.Date.ToString());
+                }
+            }
+        }
+
+        public ObservableCollection<string> Times
+        {
+            get { return _times; }
+            set
+            {
+                if (value != _times)
+                {
+                    _times = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ObservableCollection<string> Dates
+        {
+            get { return _dates; }
+            set
+            {
+                if (value != _dates)
+                {
+                    _dates = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public string VacantSeats
@@ -94,19 +139,24 @@ namespace TravelAgency.View
             {
                 MessageBoxResult result = ConfirmReservation();
 
-                   if(result == MessageBoxResult.Yes)
-                   {
-
-                        ShowAndSearchTours.Tours.Clear();
-                        _selectedTour.NumOfGuests += int.Parse(_touristNum);
-                       _selectedTour = _tourRepository.Update(_selectedTour);
-                        ObservableCollection<Tour> Tours = new ObservableCollection<Tour>(_tourRepository.GetAll());
-                        foreach(Tour tour in Tours)
+                if (result == MessageBoxResult.Yes)
+                {
+                    foreach (Appointment a in Appointments)
+                    {
+                        if (_selectedTourDTO.TourId == a.TourId)
                         {
-                            ShowAndSearchTours.Tours.Add(tour);
+                            a.Occupancy += int.Parse(_touristNum);
+                            _selectedTourDTO.Ocupancy += int.Parse(_touristNum);
+                            _appointmentRepository.Update(a);
+                            Reservation newReservation = new Reservation(a.TourId, int.Parse(_touristNum), LoggedInUser.Id);
+                            ReservationRepository reservationRepository = new ReservationRepository();
+                            reservationRepository.Save(newReservation);
                         }
-                        this.Close();
-                   }
+                    }
+                    ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(LoggedInUser);
+                    showAndSearchTours.Show();
+                    this.Close();
+                }
             }
         }
 
@@ -124,6 +174,8 @@ namespace TravelAgency.View
 
         private void CancelClick(object sender, RoutedEventArgs e)
         {
+            ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(LoggedInUser);
+            showAndSearchTours.Show();
             this.Close();
         }
     }
