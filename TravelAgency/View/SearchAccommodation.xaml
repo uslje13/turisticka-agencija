@@ -18,7 +18,7 @@
                 <DataGridTextColumn Header="Drzava" Binding="{Binding Country}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="Search" Margin="5, 270, 5, 5" Content="Pretraži smeštaj" Click="SearchAccommodationClick" 
+        <Button x:Name="SearchButton" Margin="5, 270, 5, 5" Content="Pretraži smeštaj" Click="SearchAccommodationClick" 
                 Width="100" Height="30"></Button>
     </Grid>
 </Window>
