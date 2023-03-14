@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using TravelAgency.Model;
 using TravelAgency.Serializer;
 
@@ -64,6 +65,12 @@ namespace TravelAgency.Repository
                 return 1;
             }
             return _tours.Max(l => l.Id) + 1;
+        }
+
+        public List<Tour> GetByUser(User user)
+        {
+            _tours = _serializer.FromCSV(FilePath);
+            return _tours.FindAll(t => t.UserId == user.Id);
         }
 
     }

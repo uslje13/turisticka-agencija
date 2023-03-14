@@ -9,13 +9,13 @@ using TravelAgency.Serializer;
 
 namespace TravelAgency.Repository
 {
-    public class DateAndOccupancyRepository
+    public class AppointmentRepository
     {
         private const string FilePath = "../../../Resources/Data/appointments.csv";
         private readonly Serializer<Appointment> _serializer;
         private List<Appointment> _appointments;
 
-        public DateAndOccupancyRepository()
+        public AppointmentRepository()
         {
             _serializer = new Serializer<Appointment>();
             _appointments = _serializer.FromCSV(FilePath);

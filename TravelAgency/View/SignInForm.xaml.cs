@@ -66,7 +66,8 @@ namespace TravelAgency.View
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.VODIC)
                 {
-
+                    ShowToursWindow showToursWindow = new ShowToursWindow(user);
+                    showToursWindow.Show();
                     Close();
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GOST1)
@@ -89,13 +90,6 @@ namespace TravelAgency.View
             {
                 MessageBox.Show("Wrong username!");
             }
-
-        }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            ToursOverview toursOverview = new ToursOverview();
-            toursOverview.Show();
         }
     }
 }

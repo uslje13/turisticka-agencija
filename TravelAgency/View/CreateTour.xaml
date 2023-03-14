@@ -6,7 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
-        Title="Kreiranje ture" Height="742" Width="471" ResizeMode="NoResize">
+        Title="Kreiranje ture" Height="742" Width="471" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid Margin="22,10,22,45">
             <Grid.RowDefinitions>

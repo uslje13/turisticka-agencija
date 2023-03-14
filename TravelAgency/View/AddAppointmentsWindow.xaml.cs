@@ -136,7 +136,7 @@ namespace TravelAgency.View
 
         private void ConfirmButtonClick(object sender, RoutedEventArgs e)
         {
-            if (Appointments.Count < 2)
+            if (Appointments.Count < 1)
             {
                 MessageBox.Show("Ne možete kreirati turu!\nMorate uneti makar jedan datum.");
             }

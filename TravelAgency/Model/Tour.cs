@@ -12,6 +12,7 @@ namespace TravelAgency.Model
         private string _language;
         private int _maxNumOfGuests;
         private int _duration;      //in hours
+        private int _userId;
 
         public Tour()
         {
@@ -22,8 +23,9 @@ namespace TravelAgency.Model
             _language = string.Empty;
             _maxNumOfGuests = 0;
             _duration = 0;
+            _userId = -1;
         }
-        public Tour(string name, int locationId, string description, string language, int maxNumOfGuests, int duration)
+        public Tour(string name, int locationId, string description, string language, int maxNumOfGuests, int duration, int userId)
         {
             _name = name;
             _locationId = locationId;
@@ -31,6 +33,7 @@ namespace TravelAgency.Model
             _language = language;
             _maxNumOfGuests = maxNumOfGuests;
             _duration = duration;
+            _userId = userId;
         }
 
         public int Id { get => _id; set => _id = value; }
@@ -40,7 +43,7 @@ namespace TravelAgency.Model
         public string Language { get => _language; set => _language = value; }
         public int MaxNumOfGuests { get => _maxNumOfGuests; set => _maxNumOfGuests = value; }
         public int Duration { get => _duration; set => _duration = value; }
-
+        public int UserId { get => _userId; set => _userId = value; }
 
         public void FromCSV(string[] values)
         {
@@ -51,6 +54,7 @@ namespace TravelAgency.Model
             _language = values[4];
             _maxNumOfGuests = int.Parse(values[5]);
             _duration = int.Parse(values[6]);
+            _userId = int.Parse(values[7]);
         }
 
         public string[] ToCSV()
@@ -63,7 +67,8 @@ namespace TravelAgency.Model
                 _description,
                 _language,
                 _maxNumOfGuests.ToString(),
-                _duration.ToString()
+                _duration.ToString(),
+                _userId.ToString()
             };
 
             return csvValues;
