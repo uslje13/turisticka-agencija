@@ -14,14 +14,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TravelAgency.Model;
 
 namespace TravelAgency.View
 {
     /// <summary>
     /// Interaction logic for AddImegesWindow.xaml
     /// </summary>
-    public partial class AddImegesWindow : Window
+    public partial class AddImagesWindow : Window
     {
+        public Model.Image SelectedImage { get; set; }
         private ObservableCollection<Model.Image> _images;
         private string _url;
 
@@ -51,12 +53,37 @@ namespace TravelAgency.View
             }
         }
 
-        public AddImegesWindow()
+        
+
+        public AddImagesWindow(ObservableCollection<Model.Image> images)
         {
             InitializeComponent();
             DataContext = this;
-            Images = new ObservableCollection<Model.Image>();
+            Images = images;
+            if (IsImagesListEmpty()) 
+            {
+                checkCoverButton.IsEnabled = false;
+            }
+        }
+        private bool IsImagesListEmpty()
+        {
+            if (_images.Count < 1)
+            {
+                return true;
+            }
+            return false;
+        }
 
+        private bool AlreadyOwnsCover()
+        {
+            foreach(var image in Images)
+            {
+                if(image.Cover == true)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -71,6 +98,42 @@ namespace TravelAgency.View
             Model.Image image = new Model.Image();
             image.Url = Url;
             Images.Add(image);
+            urlTextBox.Text = string.Empty;
+
+            if (!IsImagesListEmpty() && !AlreadyOwnsCover())
+            {
+                checkCoverButton.IsEnabled = true;
+            }
+        }
+
+        private void ConfirmButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (Images.Count < 1)
+            {
+                MessageBox.Show("Morate dodati makar jednu sliku!.");
+            }
+            else
+            {
+                Close();
+            }
+        }
+        private void CancelButtonClick(object sender, RoutedEventArgs e)
+        {
+            Images.Clear();
+            Close();
+        }
+
+        private void CheckCoverClickButton(object sender, RoutedEventArgs e)
+        {
+            if (SelectedImage == null)
+            {
+                MessageBox.Show("Morate odabrati sliku!");
+            }
+            else
+            {
+                SelectedImage.Cover = true;
+                checkCoverButton.IsEnabled = false;
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,12 +34,31 @@ namespace TravelAgency.Repository
             _serializer.ToCSV(FilePath, _images);
         }
 
+        public void SaveAll(ObservableCollection<Image> images)
+        {
+            foreach (Image image in images)
+            {
+                Save(image);
+            }
+        }
+
         public void Delete(Image image)
         {
             _images = _serializer.FromCSV(FilePath);
             Image founded = _images.Find(i => i.Id == image.Id) ?? throw new ArgumentException();
-            _images.Remove(image);
+            _images.Remove(founded);
             _serializer.ToCSV(FilePath, _images);
+        }
+
+        public void DeleteByTourId(int id)
+        {
+            foreach (Image image in _images)
+            {
+                if (image.TourId == id)
+                {
+                    Delete(image);
+                }
+            }
         }
 
         public int NextId()

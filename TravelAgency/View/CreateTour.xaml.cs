@@ -28,20 +28,26 @@ namespace TravelAgency.View
         private readonly TourRepository _tourRepository;
         private readonly LocationRepository _locationRepository;
         private readonly CheckpointRepository _checkpointRepository;
-        private readonly DateAndOccupancyRepository _dateAndOccupancyRepository;
+        private readonly AppointmentRepository _appointmentRepository;
+        private readonly ImageRepository _imageRepository;
         public ObservableCollection<Checkpoint> Checkpoints { get; set; }
-        public ObservableCollection<Appointment> DatesAndOccupancies { get; set; }
+        public ObservableCollection<Appointment> Appointments { get; set; }
+        public ObservableCollection<Image> Images { get; set; }
+        public User LoggedInUser { get; set; }
 
-        public CreateTour()
+        public CreateTour(User user)
         {
             InitializeComponent();
             DataContext = this;
+            LoggedInUser = user;
             _tourRepository = new TourRepository();
             _locationRepository = new LocationRepository();
             _checkpointRepository = new CheckpointRepository();
-            _dateAndOccupancyRepository = new DateAndOccupancyRepository();
+            _appointmentRepository = new AppointmentRepository();
+            _imageRepository = new ImageRepository();
             Checkpoints = new ObservableCollection<Checkpoint>();
-            DatesAndOccupancies = new ObservableCollection<Appointment>();
+            Appointments = new ObservableCollection<Appointment>();
+            Images = new ObservableCollection<Image>();
         }
 
         public string TourName      //wpf framework already have Name
@@ -157,13 +163,16 @@ namespace TravelAgency.View
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             Location location = new Location(Country, City);
-            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage, MaxNumOfGuests, Duration);
+            Tour newTour = new Tour(TourName, _locationRepository.SaveAndGetId(location), Description, TourLanguage, MaxNumOfGuests, Duration, LoggedInUser.Id);
             Tour savedTour = _tourRepository.Save(newTour);
             SetCheckpointsTourId(savedTour);
             _checkpointRepository.SaveAll(Checkpoints);
-            SetDateAndOccupancyTourId(savedTour);
-            _dateAndOccupancyRepository.SaveAll(DatesAndOccupancies);
-            ToursOverview.Tours.Add(savedTour);
+            SetAppointmentsTourId(savedTour);
+            _appointmentRepository.SaveAll(Appointments);
+            SetImagesTourId(savedTour);
+            _imageRepository.SaveAll(Images);
+            ShowToursWindow.Tours.Add(savedTour);
+
             Close();
         }
 
@@ -175,11 +184,19 @@ namespace TravelAgency.View
             }
         }
 
-        private void SetDateAndOccupancyTourId(Tour tour)
+        private void SetAppointmentsTourId(Tour tour)
         {
-            foreach (Appointment dateAndOccupancy in DatesAndOccupancies)
+            foreach (Appointment appointment in Appointments)
             {
-                dateAndOccupancy.TourId = tour.Id;
+                appointment.TourId = tour.Id;
+            }
+        }
+
+        private void SetImagesTourId(Tour tour)
+        {
+            foreach(Image image in Images)
+            {
+                image.TourId = tour.Id;
             }
         }
 
@@ -192,16 +209,16 @@ namespace TravelAgency.View
 
         private void AddDatesButtonClick(object sender, RoutedEventArgs e)
         {
-            AddAppointmentsWindow addApointemntsWindow = new AddAppointmentsWindow(DatesAndOccupancies);
+            AddAppointmentsWindow addApointemntsWindow = new AddAppointmentsWindow(Appointments);
             addApointemntsWindow.Owner = Window.GetWindow(this);
             addApointemntsWindow.Show();
         }
 
         private void AddImagesButtonClick(object sender, RoutedEventArgs e)
         {
-            AddImegesWindow addImeges = new AddImegesWindow();
-            addImeges.Owner = Window.GetWindow(this);
-            addImeges.Show();
+            AddImagesWindow addImagesWindow = new AddImagesWindow(Images);
+            addImagesWindow.Owner = Window.GetWindow(this);
+            addImagesWindow.Show();
         }
     }
 }
