@@ -8,9 +8,9 @@ using TravelAgency.Model;
 namespace TravelAgency.View
 {
     /// <summary>
-    /// Interaction logic for CreateTourDates.xaml
+    /// Interaction logic for AddAppointments.xaml
     /// </summary>
-    public partial class CreateTourDates : Window
+    public partial class AddAppointmentsWindow : Window
     {
         private DateTime _start;
         private string _hour;
@@ -72,7 +72,7 @@ namespace TravelAgency.View
             }
         }
 
-        public CreateTourDates(ObservableCollection<Appointment> appointments)
+        public AddAppointmentsWindow(ObservableCollection<Appointment> appointments)
         {
             InitializeComponent();
             DataContext = this;

@@ -185,16 +185,23 @@ namespace TravelAgency.View
 
         private void AddCheckpointButtonClick(object sender, RoutedEventArgs e)
         {
-            CreateCheckpoint createCheckpoint = new CreateCheckpoint(Checkpoints);
-            createCheckpoint.Owner = Window.GetWindow(this);
-            createCheckpoint.Show();
+            AddCheckpointsWindow addCheckpointsWindow = new AddCheckpointsWindow(Checkpoints);
+            addCheckpointsWindow.Owner = Window.GetWindow(this);
+            addCheckpointsWindow.Show();
         }
 
         private void AddDatesButtonClick(object sender, RoutedEventArgs e)
         {
-            CreateTourDates createTourDates = new CreateTourDates(DatesAndOccupancies);
-            createTourDates.Owner = Window.GetWindow(this);
-            createTourDates.Show();
+            AddAppointmentsWindow addApointemntsWindow = new AddAppointmentsWindow(DatesAndOccupancies);
+            addApointemntsWindow.Owner = Window.GetWindow(this);
+            addApointemntsWindow.Show();
+        }
+
+        private void AddImagesButtonClick(object sender, RoutedEventArgs e)
+        {
+            AddImegesWindow addImeges = new AddImegesWindow();
+            addImeges.Owner = Window.GetWindow(this);
+            addImeges.Show();
         }
     }
 }
