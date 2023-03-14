@@ -7,21 +7,21 @@ using TravelAgency.Model;
 using TravelAgency.Repository;
 
 
-namespace TravelAgency.Model.DTO
+namespace TravelAgency.Converter
 {
-    
-    public class LocationDTO
+
+    public class LocationConverter
     {
-        
+
         private LocationRepository _locationRepository;
-        public LocationDTO()
+        public LocationConverter()
         {
             _locationRepository = new();
         }
 
-        public List<string> GetFullNames() 
+        public List<string> GetFullNames()
         {
-             List<Location> locations = _locationRepository.GetAll();
+            List<Location> locations = _locationRepository.GetAll();
             List<string> fullNames = new List<string>();
             foreach (Location location in locations)
             {
@@ -32,7 +32,7 @@ namespace TravelAgency.Model.DTO
             return fullNames;
         }
 
-        public string GetFullNameById(int locationId) 
+        public string GetFullNameById(int locationId)
         {
             Location location = _locationRepository.GetById(locationId);
             string fullName = location.City + " (" + location.Country + ")";
