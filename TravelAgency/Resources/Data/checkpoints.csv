@@ -6,3 +6,11 @@
 6|Bec|False|END|2
 7|Beograd|False|START|3
 8|Maldivi|False|END|3
+9|Nis|False|START|4
+10|Jedrene|False|EXTRA|4
+11|Istanbul|False|END|4
+12|Beograd|False|START|5
+13|Gent|False|END|5
+14|Vrsac|True|START|6
+15|Temisvar|False|EXTRA|6
+16|Bukurest|False|END|6

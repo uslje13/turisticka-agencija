@@ -5,22 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
-        Title="Pregled današnjih tura" Height="450" Width="800">
+        Title="Pregled današnjih tura" Height="450" Width="800" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <Grid>
             <DataGrid Background="#FFE5E5E5"
-                          ItemsSource="{Binding Tours}"
+                          ItemsSource="{Binding TodayTours}"
                           SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
-                          IsReadOnly="True" Margin="10,61,10,26">
+                          IsReadOnly="True" Margin="63,64,62,23">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="170"/>
                     <DataGridTextColumn Header="Maks. br. gostiju" Binding="{Binding MaxNumOfGuests}" Width="200"/>
-                    <DataGridTextColumn Header="Datum i vreme početka" Binding="{Binding MaxNumOfGuests}" Width="200"/>
+                    <DataGridTextColumn Header="Lokacija" Binding="{Binding LocationId}" Width="200"/>
                     <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration}" Width="92"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button x:Name="button" Content="Započni turu" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Width="77"/>
+            <Button x:Name="pickTimeButton" Content="Odaberite vreme" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Width="106"
+                    Click="PickTimeButtonClick"/>
         </Grid>
         
     </Grid>

@@ -15,6 +15,7 @@ namespace TravelAgency.Model
         public TimeOnly Time { get; set; }
         public int Occupancy { get; set; }
         public bool Started { get; set; }
+        public bool Finished { get; set; }
         public int TourId { get; set; }
 
         public Appointment()
@@ -24,16 +25,18 @@ namespace TravelAgency.Model
             Time = TimeOnly.MinValue;
             Occupancy = 0;
             Started = false;
+            Finished = false;
             TourId = -1;
         }
 
-        public Appointment(int id, DateOnly date, TimeOnly time, int occupancy, bool started, int tourId)
+        public Appointment(int id, DateOnly date, TimeOnly time, int occupancy, bool started, bool finished, int tourId)
         {
             Id = id;
             Date = date;
             Time = time;
             Occupancy = occupancy;
             Started = started;
+            Finished = finished;
             TourId = tourId;
         }
 
@@ -44,7 +47,8 @@ namespace TravelAgency.Model
             Time = TimeOnly.Parse(values[2]);
             Occupancy = int.Parse(values[3]);
             Started = bool.Parse(values[4]);
-            TourId = int.Parse(values[5]);
+            Finished = bool.Parse(values[5]);
+            TourId = int.Parse(values[6]);
         }
 
         public string[] ToCSV()
@@ -56,6 +60,7 @@ namespace TravelAgency.Model
                 Time.ToString(),
                 Occupancy.ToString(),
                 Started.ToString(),
+                Finished.ToString(),
                 TourId.ToString()
             };
             return csvValues;

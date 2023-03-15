@@ -69,6 +69,7 @@ namespace TravelAgency.Repository
             _checkpoints = _serializer.FromCSV(FilePath);
             Checkpoint current = _checkpoints.Find(c => c.Id == checkpoint.Id) ?? throw new ArgumentException();
             int index = _checkpoints.IndexOf(current);
+            _checkpoints.Remove(current);
             _checkpoints.Insert(index, checkpoint);
             _serializer.ToCSV(FilePath, _checkpoints);
             return checkpoint;

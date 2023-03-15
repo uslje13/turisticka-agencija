@@ -6,7 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
-        Title="Kreiranje ture" Height="742" Width="471" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Kreiranje ture" Height="742" Width="471" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <Grid Margin="22,10,22,45">
             <Grid.RowDefinitions>
@@ -45,11 +45,11 @@
             <TextBox x:Name="nameTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding TourName, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox x:Name="countryTextBox" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
-                     Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox x:Name="cityTextBox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
-                     Text="{Binding Country,UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding City,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox x:Name="textBox" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="235" Height="88"
-                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" />
             <TextBox x:Name="languageTextBox" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding TourLanguage, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox x:Name="maxNumOfGuestTextBox" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"

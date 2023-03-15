@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,9 +18,12 @@ namespace TravelAgency.View
     {
         public User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
+        public List<Appointment> Appointments { get; set; }
         public Tour SelectedTour { get; set; }
         
         private readonly TourRepository _tourReository;
+        private readonly AppointmentRepository _appointmentReository;
+        private readonly CheckpointRepository _checkpointRepository;
 
         public ShowToursWindow(User user)
         {
@@ -26,7 +31,63 @@ namespace TravelAgency.View
             DataContext = this;
             LoggedInUser = user;
             _tourReository = new TourRepository();
+            _appointmentReository = new AppointmentRepository();
+            _checkpointRepository = new CheckpointRepository();
             Tours = new ObservableCollection<Tour>(_tourReository.GetByUser(user));
+            Appointments = new List<Appointment>(_appointmentReository.GetAll());
+            AppointmentRegularEnd();
+        }
+
+        private void AppointmentRegularEnd()
+        {
+            foreach(Tour tour in Tours)
+            {
+                foreach(Appointment appointment in Appointments)
+                {
+                    if(appointment.TourId == tour.Id && appointment.Started == true)
+                    {
+                        CheckAppointmentEnd(tour, appointment);
+                    }
+                }
+            }
+        }
+
+        private void CheckAppointmentEnd(Tour tour, Appointment appointment)
+        {
+            DateTime dateStart = appointment.Date.ToDateTime(appointment.Time);
+
+            (int durationInDays, int durationInHours) = ConvertDuration(tour.Duration);
+
+            DateTime endDate = dateStart.AddDays(durationInDays).AddHours(durationInHours);
+
+            if(endDate.CompareTo(DateTime.Now) < 0)
+            {
+                appointment.Finished = true;
+                _appointmentReository.Update(appointment);
+                DeactivateCheckpoints(tour);
+            }
+
+        }
+
+        private (int, int) ConvertDuration(int duration)
+        {
+            int days = duration / 24;
+            int hours = duration % 24;
+
+            return (days, hours);
+        }
+
+        private void DeactivateCheckpoints(Tour tour)
+        {
+            List<Checkpoint> checkpoints = new List<Checkpoint>(_checkpointRepository.GetAll());
+            foreach (Checkpoint checkpoint in checkpoints)
+            {
+                if(checkpoint.TourId == tour.Id)
+                {
+                    checkpoint.Active = false;
+                    _checkpointRepository.Update(checkpoint);
+                }
+            }
         }
 
         private void DeleteButtonClick(object sender, RoutedEventArgs e)
@@ -60,7 +121,9 @@ namespace TravelAgency.View
 
         private void TodayToursButtonClick(object sender, RoutedEventArgs e)
         {
-            TodayTourView todayTourView = new TodayTourView(null);  //prosledicu listu
+            ObservableCollection<Tour> userTours = new ObservableCollection<Tour>(_tourReository.GetByUser(LoggedInUser));
+            TodayTourView todayTourView = new TodayTourView(userTours);
+            todayTourView.Owner = Window.GetWindow(this);
             todayTourView.Show(); 
         }
     }

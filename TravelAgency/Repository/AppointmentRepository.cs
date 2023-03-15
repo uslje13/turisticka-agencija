@@ -66,6 +66,7 @@ namespace TravelAgency.Repository
             _appointments = _serializer.FromCSV(FilePath);
             Appointment current = _appointments.Find(d => d.Id == appointment.Id) ?? throw new ArgumentException();
             int index = _appointments.IndexOf(current);
+            _appointments.Remove(current);
             _appointments.Insert(index, appointment);
             _serializer.ToCSV(FilePath, _appointments);
         }
