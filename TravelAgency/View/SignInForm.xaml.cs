@@ -71,7 +71,8 @@ namespace TravelAgency.View
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GOST1)
                 {
-
+                    //SearchAccommodation searchAccommodation = new SearchAccommodation();
+                    //searchAccommodation.Show();
                     Close();
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GOST2)

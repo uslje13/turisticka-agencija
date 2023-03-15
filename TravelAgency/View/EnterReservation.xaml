@@ -1,0 +1,23 @@
+﻿<Window x:Class="TravelAgency.View.EnterReservation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TravelAgency.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="EnterReservation" Height="500" Width="500">
+    <Grid Margin="0,0,0,-142">
+        <Label x:Name="Naslov" Content="REZERVACIJA" FontSize="30" FontWeight="Bold" Margin="0,37,0,498"
+               HorizontalAlignment="Center"/>
+        <Label x:Name="Dani" Content="Broj dana za boravak :" Margin="105,128,212,409"
+               FontWeight="Bold" FontSize="15"/>
+        <Label x:Name="Prijava" Content="Datum prijave :" Margin="105,183,236,270" 
+               FontWeight="Bold" FontSize="15"/>
+        <Label x:Name="Odjava" Content="Datum odjave :" Margin="105,244,236,209" 
+               FontWeight="Bold" FontSize="15"/>
+        <TextBox x:Name="UneseniDani" Margin="278,136,103,450"/>
+        <DatePicker x:Name="DatumPrijave" Margin="250,183,103,397" SelectedDate="{Binding StartReservation}"/>
+        <DatePicker x:Name="DatumOdjave" Margin="250,244,103,334" SelectedDate="{Binding EndReservation}"/>
+    </Grid>
+</Window>

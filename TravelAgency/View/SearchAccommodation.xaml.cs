@@ -33,6 +33,8 @@ namespace TravelAgency.View
         public ObservableCollection<AccommodationDTO> AccommDTOsCollection { get; set; }
         public AccommodationRepository accommodationRepository { get; set; }
         public LocationRepository locationRepository { get; set; }
+        public AccommodationDTO SelectedAccommodationDTO { get; set; }
+
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -98,6 +100,18 @@ namespace TravelAgency.View
                 return AccommType.HUT;
             else
                 return AccommType.NOTYPE;
+        }
+
+        private void ReserveAccommodationClick(object sender, RoutedEventArgs e)
+        {
+            if(SelectedAccommodationDTO != null)
+            {
+                EnterReservation newWindow = new EnterReservation(SelectedAccommodationDTO);
+                newWindow.ShowDialog();
+            } else
+            {
+                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
+            }
         }
     }
 }
