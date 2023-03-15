@@ -143,7 +143,7 @@ namespace TravelAgency.View
                 {
                     foreach (Appointment a in Appointments)
                     {
-                        if (_selectedTourDTO.TourId == a.TourId)
+                        if (_selectedTourDTO.TourId == a.TourId && _selectedTourDTO.Date == a.Date && _selectedTourDTO.Time == a.Time)
                         {
                             a.Occupancy += int.Parse(_touristNum);
                             _selectedTourDTO.Ocupancy += int.Parse(_touristNum);
