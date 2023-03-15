@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TravelAgency.Model;
 using TravelAgency.Repository;
+using static TravelAgency.Model.AccommodationDTO;
 
 namespace TravelAgency.View
 {
@@ -25,11 +26,13 @@ namespace TravelAgency.View
     public partial class SearchAccommodation : Window
     {
         //public User LoggedInUser { get; set; }
-        private AccommodationRepository _repository;
-        public static ObservableCollection<Accommodation> Accommodations { get; set; }
-        public Accommodation SelectedAccommodation { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public List<Accommodation> accommodations { get; set; }
+        public List<Location> locations { get; set; }
+        public ObservableCollection<AccommodationDTO> AccommDTOsCollection { get; set; }
+        public AccommodationRepository accommodationRepository { get; set; }
+        public LocationRepository locationRepository { get; set; }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -38,23 +41,63 @@ namespace TravelAgency.View
 
         public SearchAccommodation(/*User user*/)
         {
-            DataContext = this;
-
-            //LoggedInUser = user;
-            _repository = new AccommodationRepository();
-            Accommodations = new ObservableCollection<Accommodation>();
-            foreach (Accommodation item in _repository.GetAll())
-            {
-                Accommodations.Add(item);
-            }
-
             InitializeComponent();
+            DataContext = this;
+            AccommDTOsCollection = new ObservableCollection<AccommodationDTO>();
+
+            accommodationRepository = new AccommodationRepository();
+            locationRepository = new LocationRepository();
+
+            accommodations = accommodationRepository.GetAll();
+            locations = locationRepository.GetAll();
+
+            CreateAllDTOForms();
+            //LoggedInUser = user;
         }
 
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
         {
             SearchWindow searchWindow = new SearchWindow();
             searchWindow.ShowDialog();
+        }
+
+        private void CreateAllDTOForms()
+        {
+            AccommDTOsCollection.Clear();
+            foreach (var accommodation in accommodations)
+            {
+                foreach (var location in locations)
+                {
+                    if (accommodation.LocationId == location.Id)
+                    {
+                        AccommodationDTO dto = CreateDTOForm(accommodation, location);
+                        AccommDTOsCollection.Add(dto);
+                    }
+                }
+            }
+        }
+
+        private AccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
+        {
+            AccommodationDTO dto = new AccommodationDTO(acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
+                                                        acc.MaxGuests, acc.MinDaysStay);
+            //dto.AccommodationDTOId = NextId();
+            //dto.AccommodationId = acc.Id;
+            //dto.LocationId = loc.Id;
+
+            return dto;
+        }
+
+        private AccommType FindAccommodationType(Accommodation acc)
+        {
+            if (acc.Type == Accommodation.AccommodationType.APARTMENT)
+                return AccommType.APARTMENT;
+            else if (acc.Type == Accommodation.AccommodationType.HOUSE)
+                return AccommType.HOUSE;
+            else if (acc.Type == Accommodation.AccommodationType.HUT)
+                return AccommType.HUT;
+            else
+                return AccommType.NOTYPE;
         }
     }
 }

@@ -14,6 +14,9 @@
                 <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
                 <DataGridTextColumn Header="Grad" Binding="{Binding LocationCity}" Width="1*"/>
                 <DataGridTextColumn Header="Drzava" Binding="{Binding LocationCountry}" Width="1*"/>
+                <DataGridTextColumn Header="Tip" Binding="{Binding AccommodationType}" Width="1*"/>
+                <DataGridTextColumn Header="Max. gostiju" Binding="{Binding AccommodationMaxGuests}" Width="1*"/>
+                <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
