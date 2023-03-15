@@ -29,11 +29,6 @@ namespace TravelAgency.Model
         public AccommType AccommodationType { get; set; }
         public int AccommodationMaxGuests { get; set; }
         public int AccommodationMinDaysStay { get; set; }
-        public List<Accommodation> accommodations { get; set; }
-        public List<Location> locations { get; set; }
-        public ObservableCollection<AccommodationDTO> AccommDTOsCollection { get; set; }
-        public AccommodationRepository accommodationRepository { get; set; }
-        public LocationRepository locationRepository { get; set; }
 
         public AccommodationDTO(string name, string city, string country, AccommType type, int guests, int days)
         {
@@ -45,68 +40,6 @@ namespace TravelAgency.Model
             AccommodationMinDaysStay = days;
         }
 
-        public AccommodationDTO() 
-        {
-            AccommDTOsCollection = new ObservableCollection<AccommodationDTO>();
-            accommodationRepository = new AccommodationRepository();
-            locationRepository = new LocationRepository();
-            
-            accommodations = accommodationRepository.GetAll();
-            locations = locationRepository.GetAll();
-
-            CreateAllDTOForms();
-        }
-
-        private void CreateAllDTOForms()
-        {
-            foreach(var accommodation in accommodations)
-            {
-                foreach(var location in locations)
-                {
-                    if(accommodation.LocationId == location.Id)
-                    {
-                        AccommodationDTO dto = CreateDTOForm(accommodation, location);
-                        AccommDTOsCollection.Add(dto);
-                    }
-                }
-            }
-        }
-
-        private AccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
-        {
-            AccommodationDTO dto = new AccommodationDTO(acc.Name, loc.City, loc.Country, FindAccommodationType(acc), acc.MaxGuests, acc.MinDaysStay);
-            //dto.AccommodationDTOId = NextId();
-            //dto.AccommodationId = acc.Id;
-            //dto.LocationId = loc.Id;
-            
-            return dto;
-        }
-
-        private AccommType FindAccommodationType(Accommodation acc)
-        {
-            if (acc.Type == Accommodation.AccommodationType.APARTMENT)
-                return AccommType.APARTMENT;
-            else if (acc.Type == Accommodation.AccommodationType.HOUSE)
-                return AccommType.HOUSE;
-            else if (acc.Type == Accommodation.AccommodationType.HUT)
-                return AccommType.HUT;
-            else
-                return AccommType.NOTYPE;
-        }
-
-        /*
-        private int NextId()
-        {
-            if (AccommDTOsCollection.Count < 1)
-            {
-                return 1;
-            }
-            return AccommDTOsCollection.Max(l => l.AccommodationDTOId) + 1;
-        }
-        */
-        public List<AccommodationDTO> GetAll()
-        {
-            return AccommDTOsCollection.ToList(); 
-        }
+        public AccommodationDTO() { }
     }
 }

@@ -29,7 +29,12 @@
         <TextBox x:Name="country" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Text="{Binding searchedAccCountry}" Margin="300,206,0,0" Height="30" Width="199"/>
         <ComboBox x:Name="CBTypes" HorizontalAlignment="Left" Margin="157,269,0,0" VerticalAlignment="Top" 
-                  Width="103" Height="30" ItemsSource="{Binding AvailableAccommodationTypes}"/>
+                  Width="103" Height="30">
+            <ComboBoxItem x:Name="CBItemApart" Content="Apartman" FontSize="9"></ComboBoxItem>
+            <ComboBoxItem x:Name="CBItemHouse" Content="Kuća" FontSize="9"></ComboBoxItem>
+            <ComboBoxItem x:Name="CBItemHut" Content="Koliba" FontSize="9"></ComboBoxItem>
+            <ComboBoxItem x:Name="CBItemNoType" Content="Bez tipa" IsSelected="True" FontSize="9"></ComboBoxItem>
+        </ComboBox>
         <TextBox x:Name="guestsNumber" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Text="{Binding searchedAccGuestsNumber}" Margin="298,320,0,0" Height="30" Width="102"/>
         <TextBox x:Name="daysNumber" HorizontalAlignment="Left" VerticalAlignment="Top"

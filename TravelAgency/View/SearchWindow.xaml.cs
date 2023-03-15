@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TravelAgency.Model;
 using TravelAgency.Repository;
+using static TravelAgency.Model.AccommodationDTO;
 
 namespace TravelAgency.View
 {
@@ -21,28 +24,76 @@ namespace TravelAgency.View
     /// </summary>
     public partial class SearchWindow : Window
     {
-        private string[] AvailableAccommodationTypes = { "APARTMAN", "KUĆA", "KOLIBA" };
         public string searchedAccName { get; set; }
         public string searchedAccCity { get; set; }
         public string searchedAccCountry { get; set; }
+        public AccommType searchedAccType { get; set; }
         public int searchedAccGuestsNumber { get; set; }
         public int searchedAccDaysNumber { get; set; }
-        public List<AccommodationDTO> DTOs { get; set; }
+        public List<Accommodation> accommodations { get; set; }
+        public List<Location> locations { get; set; }
+        public ObservableCollection<AccommodationDTO> AccommDTOsCollection { get; set; }
+        public AccommodationRepository accommodationRepository { get; set; }
+        public LocationRepository locationRepository { get; set; }
 
         public SearchWindow()
         {
-            DataContext = this;
-            //CBTypes.ItemsSource = AvailableAccommodationTypes;
-            AccommodationDTO accDTO = new AccommodationDTO();
-            DTOs = accDTO.GetAll();
             InitializeComponent();
+            DataContext = this;
+            AccommDTOsCollection = new ObservableCollection<AccommodationDTO>();
+            
+            accommodationRepository = new AccommodationRepository();
+            locationRepository = new LocationRepository();
+
+            accommodations = accommodationRepository.GetAll();
+            locations = locationRepository.GetAll();
         }
 
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
         {
+            CreateAllDTOForms();
             LoadEnteredRequests();
             AccommodationDTO dtoRequest = CreateDTORequest();
-            Search(dtoRequest);
+            SearchAndShow(dtoRequest);
+        }
+
+        private void CreateAllDTOForms()
+        {
+            AccommDTOsCollection.Clear();
+            foreach (var accommodation in accommodations)
+            {
+                foreach (var location in locations)
+                {
+                    if (accommodation.LocationId == location.Id)
+                    {
+                        AccommodationDTO dto = CreateDTOForm(accommodation, location);
+                        AccommDTOsCollection.Add(dto);
+                    }
+                }
+            }
+        }
+
+        private AccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
+        {
+            AccommodationDTO dto = new AccommodationDTO(acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
+                                                        acc.MaxGuests, acc.MinDaysStay);
+            //dto.AccommodationDTOId = NextId();
+            //dto.AccommodationId = acc.Id;
+            //dto.LocationId = loc.Id;
+
+            return dto;
+        }
+
+        private AccommType FindAccommodationType(Accommodation acc)
+        {
+            if (acc.Type == Accommodation.AccommodationType.APARTMENT)
+                return AccommType.APARTMENT;
+            else if (acc.Type == Accommodation.AccommodationType.HOUSE)
+                return AccommType.HOUSE;
+            else if (acc.Type == Accommodation.AccommodationType.HUT)
+                return AccommType.HUT;
+            else
+                return AccommType.NOTYPE;
         }
 
         private void LoadEnteredRequests()
@@ -50,48 +101,92 @@ namespace TravelAgency.View
             searchedAccName = name.Text;
             searchedAccCity = city.Text;
             searchedAccCountry = country.Text;
-            //string accommodationTypes;
+            searchedAccType = GetSelectedItem(CBTypes);
             string loadedGuestsNumber = guestsNumber.Text;
             searchedAccGuestsNumber = int.Parse(loadedGuestsNumber);
             string loadedDaysNumber = daysNumber.Text;
             searchedAccDaysNumber = int.Parse(loadedDaysNumber);
         }
 
+        private AccommType GetSelectedItem(ComboBox cb)
+        {
+            if(cb.SelectedItem == CBItemApart) return AccommType.APARTMENT;
+            else if(cb.SelectedItem == CBItemHouse) return AccommType.HOUSE;
+            else if(cb.SelectedItem==CBItemHut) return AccommType.HUT;
+            else return AccommType.NOTYPE;
+        }
+
         private AccommodationDTO CreateDTORequest()
         {
-            AccommodationDTO acDTO = new AccommodationDTO();
-            acDTO.AccommodationName = searchedAccName;
-            acDTO.LocationCity = searchedAccCity;
-            acDTO.LocationCountry = searchedAccCountry;
-            //acDTO.AccommodationType = searchedType;
-            acDTO.AccommodationMaxGuests = searchedAccGuestsNumber;
-            acDTO.AccommodationMinDaysStay = searchedAccDaysNumber;
+            AccommodationDTO acDTO = new AccommodationDTO(searchedAccName, searchedAccCity, searchedAccCountry, searchedAccType,
+                                                            searchedAccGuestsNumber, searchedAccDaysNumber);
             return acDTO;
         }
 
-        private void Search(AccommodationDTO request)
+        private void SearchAndShow(AccommodationDTO request)
+        {
+            List<AccommodationDTO> searchResult = Search(request);
+            ShowResults(searchResult);
+        }
+
+        private List<AccommodationDTO> Search(AccommodationDTO request)
         {
             List<AccommodationDTO> SearchResult = new List<AccommodationDTO>();
-            foreach (var item in DTOs)
+            foreach (var item in AccommDTOsCollection)
             {
-                bool checkName = item.AccommodationName.Contains(searchedAccName) || searchedAccName.Equals(string.Empty);
-                bool checkCity = item.LocationCity.Contains(searchedAccCity) || searchedAccCity.Equals(string.Empty);
-                bool checkCountry = item.LocationCountry.Contains(searchedAccCountry) || searchedAccCountry.Equals(string.Empty);
-                bool checkMaxGuests = searchedAccGuestsNumber <= item.AccommodationMaxGuests;
-                bool checkDaysStay = searchedAccDaysNumber >= item.AccommodationMinDaysStay;
-                if (checkName && checkCity && checkCountry && checkMaxGuests && checkDaysStay)
+                bool isCorrect = IsAppropriate(item, request);
+                if (isCorrect)
                 {
                     SearchResult.Add(item);
                 }
             }
+            return SearchResult;
+        }
 
-            SearchResults newWindow = new SearchResults(SearchResult);
-            newWindow.Show();
+        private bool IsAppropriate(AccommodationDTO item, AccommodationDTO request)
+        {
+            bool checkName = item.AccommodationName.Contains(request.AccommodationName) || request.AccommodationName.Equals(string.Empty);
+            bool checkCity = item.LocationCity.Contains(request.LocationCity) || request.LocationCity.Equals(string.Empty);
+            bool checkCountry = item.LocationCountry.Contains(request.LocationCountry) || request.LocationCountry.Equals(string.Empty);
+            bool checkType = item.AccommodationType == request.AccommodationType || request.AccommodationType == AccommType.NOTYPE;
+            bool checkMaxGuests = request.AccommodationMaxGuests <= item.AccommodationMaxGuests;
+            bool checkDaysStay = request.AccommodationMinDaysStay >= item.AccommodationMinDaysStay;
+
+            return checkName && checkCity && checkCountry && checkType && checkMaxGuests && checkDaysStay;
+        }
+
+        private void ShowResults(List<AccommodationDTO> results)
+        {
+            if (results.Count > 0)
+            {
+                SearchResults newWindow = new SearchResults(results);
+                newWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Nepostojeća kombinacija podataka. Pokušajte ponovo.");
+            }
         }
 
         private void CancelAccommodationClick(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
+        /*
+        private int NextId()
+        {
+            if (AccommDTOsCollection.Count < 1)
+            {
+                return 1;
+            }
+            return AccommDTOsCollection.Max(l => l.AccommodationDTOId) + 1;
+        }
+        
+        public List<AccommodationDTO> GetAll()
+        {
+            return AccommDTOsCollection.ToList();
+        }
+        */
     }
 }
