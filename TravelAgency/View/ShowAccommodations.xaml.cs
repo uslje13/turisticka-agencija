@@ -25,7 +25,9 @@ namespace TravelAgency.View
     public partial class ShowAccommodations : Window
     {
         public User LoggedInUser { get; set; }
-        private AccommodationRepository _repository;
+        private AccommodationRepository _accommodationRepository;
+
+        private LocationRepository _locationRepository;
         public static ObservableCollection<Accommodation> Accommodations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
         
@@ -40,19 +42,65 @@ namespace TravelAgency.View
             DataContext = this;
 
             LoggedInUser = user;
-            _repository = new AccommodationRepository();
+            _accommodationRepository = new AccommodationRepository();
+            _locationRepository = new LocationRepository();
             Accommodations = new ObservableCollection<Accommodation>();
-            foreach(Accommodation item in _repository.GetAll()) 
-            {
-                Accommodations.Add(item);
-            }
+            FillObservableCollection(Accommodations);
 
             InitializeComponent();
         }
 
+        private void FillObservableCollection(ObservableCollection<Accommodation> accommodations)
+        {
+            foreach (Accommodation item in _accommodationRepository.GetAll())
+            {
+                if (item.OwnerId != LoggedInUser.Id) continue;
+                if (item.LocationId != -1)
+                {
+                    item.Location = _locationRepository.GetById(item.LocationId);
+                }
+                accommodations.Add(item);
+            }
+        }
+
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            CreateAccommodation createAccommodation = new CreateAccommodation(_accommodationRepository, LoggedInUser);
+            createAccommodation.ShowDialog();
+            UpdateAccommodations();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedAccommodation != null && ConfirmAccommodationDeletion() == MessageBoxResult.Yes)
+                _accommodationRepository.Delete(SelectedAccommodation);
+            UpdateAccommodations();
+
+
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private MessageBoxResult ConfirmAccommodationDeletion()
+        {
+
+            string sMessageBoxText = $"Da li ste sigurni da želite da obrišete smeštaj?";
+            string sCaption = "Brisanje smeštaja";
+
+            MessageBoxButton messageBoxButton = MessageBoxButton.YesNo;
+            MessageBoxImage messageBoxIcon = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, messageBoxButton, messageBoxIcon);
+            return result;
+        }
+
+        public void UpdateAccommodations() 
+        {
+            Accommodations.Clear();
+            FillObservableCollection(Accommodations);
         }
     }
 }
