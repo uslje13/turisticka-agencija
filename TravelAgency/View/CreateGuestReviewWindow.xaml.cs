@@ -19,7 +19,7 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for CreateGuestReview.xaml
     /// </summary>
-    public partial class CreateGuestReview : Window
+    public partial class CreateGuestReviewWindow : Window
     {
         private UserRepository _userRepository;
         private GuestReviewRepository _guestReviewRepository;
@@ -29,7 +29,7 @@ namespace TravelAgency.View
         public int CleanlinessGrade { get; set; }
         public int RespectGrade { get; set; }
         public string Comment { get; set; }
-        public CreateGuestReview(User user,int guestId,GuestReviewRepository guestReviewRepository)
+        public CreateGuestReviewWindow(User user,int guestId,GuestReviewRepository guestReviewRepository)
         {
             DataContext = this;
             _userRepository = new UserRepository();

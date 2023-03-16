@@ -19,7 +19,7 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for CreateAccommodation.xaml
     /// </summary>
-    public partial class CreateAccommodation : Window
+    public partial class CreateAccommodationWindow : Window
     {
         public User LoggedInUser { get; set; }
         public string AName { get; set; }
@@ -29,7 +29,7 @@ namespace TravelAgency.View
         public string MinDaysStay { get; set; }
 
         private AccommodationRepository _accommodationRepository;
-        public CreateAccommodation(AccommodationRepository accommodationRepository, User user)
+        public CreateAccommodationWindow(AccommodationRepository accommodationRepository, User user)
         {
             DataContext = this;
             _accommodationRepository = accommodationRepository;

@@ -22,7 +22,7 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for ShowAccommodation.xaml
     /// </summary>
-    public partial class ShowAccommodations : Window
+    public partial class ShowAccommodationsWindow : Window
     {
         public User LoggedInUser { get; set; }
         private AccommodationRepository _accommodationRepository;
@@ -38,7 +38,7 @@ namespace TravelAgency.View
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public ShowAccommodations(User user)
+        public ShowAccommodationsWindow(User user)
         {
             DataContext = this;
 
@@ -67,7 +67,7 @@ namespace TravelAgency.View
 
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
-            CreateAccommodation createAccommodation = new CreateAccommodation(_accommodationRepository, LoggedInUser);
+            CreateAccommodationWindow createAccommodation = new CreateAccommodationWindow(_accommodationRepository, LoggedInUser);
             createAccommodation.ShowDialog();
             UpdateAccommodations();
         }

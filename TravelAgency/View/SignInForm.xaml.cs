@@ -60,7 +60,7 @@ namespace TravelAgency.View
             {
                 if (user.Password == txtPassword.Password && user.Role == Roles.VLASNIK)
                 {
-                    ShowAccommodations showAccommodations = new ShowAccommodations(user);
+                    ShowAccommodationsWindow showAccommodations = new ShowAccommodationsWindow(user);
                     showAccommodations.Show();
                     Close();
                 }
