@@ -26,7 +26,7 @@
             <Button x:Name="AddButton" Content="Dodaj" Height="37" Width="48"
                     Click="AddButtonClick"/>
             <Button x:Name="DeleteButton" Content="Obriši" Height="37" Width="48" Click="DeleteButtonClick"/>
-            <Button x:Name="ReviewButton" Content="Oceni gosta" Height="37" Width="80" Click="ReviewButtonClick"/>
+            <Button x:Name="NotificationButton" Content="Obavestenja" Height="37" Width="80" Click="ReviewButtonClick"/>
         </ToolBar>
     </Grid>
 </Window>
