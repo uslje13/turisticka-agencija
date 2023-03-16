@@ -148,7 +148,7 @@ namespace TravelAgency.View
                             a.Occupancy += int.Parse(_touristNum);
                             _selectedTourDTO.Ocupancy += int.Parse(_touristNum);
                             _appointmentRepository.Update(a);
-                            Reservation newReservation = new Reservation(a.TourId, int.Parse(_touristNum), LoggedInUser.Id);
+                            Reservation newReservation = new Reservation(a.TourId, int.Parse(_touristNum), LoggedInUser.Id, a.Id);
                             ReservationRepository reservationRepository = new ReservationRepository();
                             reservationRepository.Save(newReservation);
                         }

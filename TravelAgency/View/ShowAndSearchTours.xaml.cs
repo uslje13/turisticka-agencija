@@ -88,33 +88,8 @@ namespace TravelAgency.View
                     MessageBox.Show("Nema slobodnih mesta za odabranu turu");
                     AlternativeTours alternativeTours = new AlternativeTours(SelectedTourDTO, LoggedInUser, TourDTOs);
                     alternativeTours.Show();
+                    Close();
                }
-            }
-        }
-
-        private string _cityAndCountry;
-
-        public string CityAndCountry
-        {
-            get { return _cityAndCountry; }
-            set
-            {
-                _cityAndCountry = value;
-
-                OnPropertyChanged();
-            }
-        }
-
-        private string _searchText;
-
-        public string SearchText
-        {
-            get { return _searchText; }
-            set
-            {
-                _searchText = value;
-
-                OnPropertyChanged("SearchText");
             }
         }
 
@@ -122,38 +97,6 @@ namespace TravelAgency.View
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void ClickSearch(object sender, RoutedEventArgs e)
-        {
-            if(SearchText != null && SearchText != "")
-            {
-                string text = SearchText.ToLower();
-                
-                ObservableCollection<Tour> tours= new ObservableCollection<Tour>();
-
-                foreach (Tour tour in Tours)
-                {
-                    if (tour.Duration.ToString().ToLower().Contains(text))
-                    {
-                        tours.Add(tour);
-                    }
-                    else if(tour.Language.ToLower().Contains(text))
-                    {
-                        tours.Add(tour);
-                    }
-                    else if(tour.MaxNumOfGuests > int.Parse(text)) 
-                    {
-                        tours.Add(tour);
-                    }
-
-                    ToursGrid.ItemsSource= tours;
-                }
-            }
-            else
-            {
-                ToursGrid.ItemsSource = Tours;
-            }
         }
 
         private void SearchToursButtonClick(object sender, RoutedEventArgs e)
