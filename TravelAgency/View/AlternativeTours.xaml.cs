@@ -33,6 +33,7 @@ namespace TravelAgency.View
             DataContext= this;
             _repository = new TourRepository();
             TourDTOs = new ObservableCollection<TourDTO>();
+            LoggedInUser = user;
 
             foreach(TourDTO t in tourDTOs)
             {

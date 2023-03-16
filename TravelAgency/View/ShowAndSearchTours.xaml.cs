@@ -155,6 +155,17 @@ namespace TravelAgency.View
                 ToursGrid.ItemsSource = Tours;
             }
         }
+
+        private void SearchToursButtonClick(object sender, RoutedEventArgs e)
+        {
+            SearchToursWindow searchToursWindow = new SearchToursWindow(TourDTOs,LoggedInUser);
+            searchToursWindow.Show();
+            this.Close();
+        }
+
+        private void RefreshToursButtonClick(object sender, RoutedEventArgs e)
+        {
+            ToursGrid.ItemsSource = TourDTOs;
+        }
     }
 }
-//tour.MaxNumOfGuests.ToString().ToLower().Contains(text)

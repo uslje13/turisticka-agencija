@@ -28,17 +28,10 @@
         <ToolBar x:Name="toolBar" HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="1039">
             <Button x:Name="bookButton" Content="Rezervisi" Height="37" Width="63"
                     Click="BookButtonClick"/>
-            <TextBox x:Name="TextBox_search" Text="{Binding Path=SearchText}"
-                 Height="22" Width="120"
-                 VerticalContentAlignment="Center"
-                 HorizontalAlignment="Right">
-            </TextBox>
-            <Button Click="ClickSearch" x:Name="ToolBar_search" Width="45">
-                <Image Source="/Resources/Images/search.png" Height="44"
-                     VerticalAlignment="Center"
-                     HorizontalAlignment="Left" Width="22"/>
-
-            </Button>
+            <Button Content="Pretrazi" Height="39" Width="76"
+                    Click="SearchToursButtonClick"/>
+            <Button Content="Osvezi listu" Height="39" Width="76"
+                    Click="RefreshToursButtonClick"/>
         </ToolBar>
     </Grid>
 </Window>

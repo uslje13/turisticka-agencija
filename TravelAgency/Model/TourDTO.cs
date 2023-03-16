@@ -9,9 +9,6 @@ namespace TravelAgency.Model
 {
     public class TourDTO
     {
-        // public int UserId { get; set; }
-        private readonly TourRepository _repository;
-        private readonly LocationRepository _locationRepository;
         public int TourId { get; set; }
         public int AppointmentId { get; set; }
         public string Name { get; set; }
