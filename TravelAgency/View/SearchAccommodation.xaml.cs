@@ -81,7 +81,7 @@ namespace TravelAgency.View
 
         private AccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
         {
-            AccommodationDTO dto = new AccommodationDTO(acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
+            AccommodationDTO dto = new AccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
                                                         acc.MaxGuests, acc.MinDaysStay);
             //dto.AccommodationDTOId = NextId();
             //dto.AccommodationId = acc.Id;

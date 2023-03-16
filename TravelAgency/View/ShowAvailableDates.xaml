@@ -1,0 +1,16 @@
+﻿<Window x:Class="TravelAgency.View.ShowAvailableDates"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TravelAgency.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="ShowAvailableDates" Height="450" Width="800">
+    <Grid>
+        <Label x:Name="Labela1" Content="Mogući dani prijave :" FontSize="15" FontWeight="Bold" Margin="135,119,450,242"></Label>
+        <Label x:Name="Labela2" Content="Mogući dani odjave :" FontSize="15" FontWeight="Bold" Margin="135,197,450,153"></Label>
+        <DatePicker x:Name="CalendarFirst" Margin="325,119,160,265"/>
+        <DatePicker x:Name="CalendarSecond" Margin="325,192,160,192"/>
+    </Grid>
+</Window>

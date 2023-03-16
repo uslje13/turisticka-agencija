@@ -9,7 +9,7 @@
     <Grid>
         <DataGrid Background="#FFE5E5E5"
                           ItemsSource="{Binding Accommodations}"
-                          SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Path=SelectedAccommodationDTO, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="10,61,10,10">
             <DataGrid.Columns>

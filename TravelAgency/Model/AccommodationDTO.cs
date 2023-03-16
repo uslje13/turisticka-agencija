@@ -21,7 +21,7 @@ namespace TravelAgency.Model
         }
 
         //public int AccommodationDTOId { get; set; }
-        //public int AccommodationId { get; set; }
+        public int AccommodationId { get; set; }
         public string AccommodationName { get; set; }
         //public int LocationId { get; set; }
         public string LocationCity { get; set; }
@@ -29,6 +29,17 @@ namespace TravelAgency.Model
         public AccommType AccommodationType { get; set; }
         public int AccommodationMaxGuests { get; set; }
         public int AccommodationMinDaysStay { get; set; }
+
+        public AccommodationDTO(int id, string name, string city, string country, AccommType type, int guests, int days)
+        {
+            AccommodationId = id;
+            AccommodationName = name;
+            LocationCity = city;
+            LocationCountry = country;
+            AccommodationType = type;
+            AccommodationMaxGuests = guests;
+            AccommodationMinDaysStay = days;
+        }
 
         public AccommodationDTO(string name, string city, string country, AccommType type, int guests, int days)
         {
@@ -39,7 +50,5 @@ namespace TravelAgency.Model
             AccommodationMaxGuests = guests;
             AccommodationMinDaysStay = days;
         }
-
-        public AccommodationDTO() { }
     }
 }
