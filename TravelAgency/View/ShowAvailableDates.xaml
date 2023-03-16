@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="ShowAvailableDates" Height="450" Width="800">
+        Title="ShowAvailableDates" Height="400" Width="400">
     <Grid>
-        <Label x:Name="Labela1" Content="Mogući dani prijave :" FontSize="15" FontWeight="Bold" Margin="135,119,450,242"></Label>
-        <Label x:Name="Labela2" Content="Mogući dani odjave :" FontSize="15" FontWeight="Bold" Margin="135,197,450,153"></Label>
-        <DatePicker x:Name="CalendarFirst" Margin="325,119,160,265"/>
-        <DatePicker x:Name="CalendarSecond" Margin="325,192,160,192"/>
+        <!--Label x:Name="Labela1" Content="Prikaz slobodnih datuma" FontSize="20" FontWeight="Bold" Margin="135,119,450,242"
+               HorizontalAlignment="Center"></Label-->
+        <Calendar x:Name="Calendar" SelectionMode="MultipleRange" Margin="89,94,89,95" 
+                  DisplayDateStart="{Binding EnteredFirstDay}" DisplayDateEnd="{Binding EnteredLastDay}"></Calendar>
     </Grid>
 </Window>

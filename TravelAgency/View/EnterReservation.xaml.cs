@@ -55,7 +55,6 @@ namespace TravelAgency.View
             bool validDays = CheckDays();
             if (validDates && validDays)
             {
-                //AddReservation(StartReservation, EndReservation, DaysDuration, DTO.AccommodationId);
                 ShowAvailableDates availableDates = new ShowAvailableDates(DTO, FirstDate, LastDate.Date, DaysDuration);
                 availableDates.Show();
             } 
@@ -92,14 +91,5 @@ namespace TravelAgency.View
             }
             else return false;
         }
-        /*
-        private void AddReservation(DateTime start, DateTime end, int days, int accId)
-        {
-            AccommodationReservation reservation = new AccommodationReservation(start, end, days, accId);
-            AccommodationReservationRepository reservationRepository = new AccommodationReservationRepository();
-            reservationRepository.Save(reservation);
-            MessageBox.Show("Uspešno rezervisano.");
-        }
-        */
     }
 }
