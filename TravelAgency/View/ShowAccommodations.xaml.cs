@@ -83,8 +83,8 @@ namespace TravelAgency.View
 
         private void ReviewButtonClick(object sender, RoutedEventArgs e)
         {
-            CreateGuestReview createGuestReview = new CreateGuestReview(LoggedInUser,2,_guestReviewRepository);
-            createGuestReview.ShowDialog();
+            ShowNotificationsWindow showNotificationsWindow = new ShowNotificationsWindow(LoggedInUser);
+            showNotificationsWindow.ShowDialog();
         }
 
         private MessageBoxResult ConfirmAccommodationDeletion()
