@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TravelAgency.Model;
 using TravelAgency.Serializer;
 
@@ -34,7 +32,6 @@ namespace TravelAgency.Repository
             _checkpoints = _serializer.FromCSV(FilePath);
             _checkpoints.Add(checkpoint);
             _serializer.ToCSV(FilePath, _checkpoints);
-            //return checkpoint;
         }
 
         public void SaveAll(ObservableCollection<Checkpoint> checkpoints)
@@ -82,7 +79,7 @@ namespace TravelAgency.Repository
             {
                 return 1;
             }
-            return _checkpoints.Max(l => l.Id) + 1;
+            return _checkpoints.Max(c => c.Id) + 1;
         }
 
     }

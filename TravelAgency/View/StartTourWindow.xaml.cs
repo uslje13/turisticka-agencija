@@ -20,15 +20,19 @@ namespace TravelAgency.View
 
         private readonly CheckpointRepository _checkpointRepository;
 
+        public ObservableCollection<Tour> TodayUserTours { get; set; }
         public Tour SelectedTour { get; set; }
 
-        public StartTourWindow(Tour selectedTour, AppointmentRepository appointmentRepository, CheckpointRepository checkpointRepository)
+        public StartTourWindow(Tour selectedTour, ObservableCollection<Tour> todayUserTours, AppointmentRepository appointmentRepository, CheckpointRepository checkpointRepository)
         {
             InitializeComponent();
             DataContext = this;
-            SelectedTour = selectedTour;
+
             _appointmentRepository = appointmentRepository;
             _checkpointRepository = checkpointRepository;
+
+            TodayUserTours = todayUserTours;
+            SelectedTour = selectedTour;
             TodayAppointmentsByTour = new ObservableCollection<Appointment>(FindAppointmentsByTour());
             ExistsActiveAppointment();
         }
@@ -51,9 +55,19 @@ namespace TravelAgency.View
         private List<Appointment> FindTodayAppointments()
         {
             List<Appointment> appointments = new List<Appointment>(_appointmentRepository.GetAll());
+            List<Appointment> todayAppointments = new List<Appointment>();
             DateOnly today = DateOnly.FromDateTime(DateTime.Today);
-
-            return appointments.FindAll(a => a.Date.Equals(today));
+            foreach (Tour tour in TodayUserTours)
+            {
+                foreach (Appointment appointment in appointments)
+                {
+                    if (appointment.Date.Equals(today) && appointment.TourId == tour.Id)
+                    {
+                        todayAppointments.Add(appointment);
+                    }
+                }
+            }
+            return todayAppointments;
         }
 
         private List<Appointment> FindAppointmentsByTour()

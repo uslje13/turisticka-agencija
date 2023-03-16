@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TravelAgency.Model;
 using TravelAgency.Serializer;
 
@@ -12,7 +10,9 @@ namespace TravelAgency.Repository
     public class AppointmentRepository
     {
         private const string FilePath = "../../../Resources/Data/appointments.csv";
+
         private readonly Serializer<Appointment> _serializer;
+
         private List<Appointment> _appointments;
 
         public AppointmentRepository()
@@ -26,17 +26,17 @@ namespace TravelAgency.Repository
             return _appointments;
         }
 
-        public void Save(Appointment dateAndOccupancy)
+        public void Save(Appointment Appointment)
         {
-            dateAndOccupancy.Id = NextId();
+            Appointment.Id = NextId();
             _appointments = _serializer.FromCSV(FilePath);
-            _appointments.Add(dateAndOccupancy);
+            _appointments.Add(Appointment);
             _serializer.ToCSV(FilePath, _appointments);
         }
 
-        public void SaveAll(ObservableCollection<Appointment> appointments) 
+        public void SaveAll(ObservableCollection<Appointment> appointments)
         {
-            foreach(Appointment appointment in appointments)
+            foreach (Appointment appointment in appointments)
             {
                 Save(appointment);
             }
@@ -74,7 +74,7 @@ namespace TravelAgency.Repository
         public int NextId()
         {
             _appointments = _serializer.FromCSV(FilePath);
-            if(_appointments.Count < 1)
+            if (_appointments.Count < 1)
             {
                 return 1;
             }

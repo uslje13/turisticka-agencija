@@ -1,16 +1,14 @@
-1|Novi Sad|False|START|1
-2|Ruma|False|EXTRA|1
-3|Novi Sad|False|END|1
-4|Beograd|False|START|2
-5|Budimpesta|False|EXTRA|2
-6|Bec|False|END|2
+1|Beograd|True|START|1
+2|Zagreb|False|EXTRA|1
+3|Ljubljana|False|END|1
+4|Novi Sad|False|START|2
+5|Zagreb|False|EXTRA|2
+6|Split|False|END|2
 7|Beograd|False|START|3
-8|Maldivi|False|END|3
-9|Nis|False|START|4
-10|Jedrene|False|EXTRA|4
-11|Istanbul|False|END|4
-12|Beograd|False|START|5
-13|Gent|False|END|5
-14|Vrsac|True|START|6
-15|Temisvar|False|EXTRA|6
-16|Bukurest|False|END|6
+8|Madrid|False|EXTRA|3
+9|Buenos Ajres|False|END|3
+10|Beograd|True|START|4
+11|Lisabon|False|EXTRA|4
+12|Rio|False|END|4
+13|Beograd|False|START|5
+14|Zagreb|False|END|5
