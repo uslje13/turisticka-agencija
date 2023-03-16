@@ -70,7 +70,11 @@ namespace TravelAgency.View
             if(SelectedNotification.Type == Notification.NotificationType.GUESTREVIEW) 
             {
                 CreateGuestReviewWindow createGuestReview = new CreateGuestReviewWindow(LoggedInUser, SelectedNotification.GuestId, null);
+                SelectedNotification.Read = true;
+                _notificationRepository.Update(SelectedNotification);
                 createGuestReview.ShowDialog();
+                Update();
+                
             }
             
         }

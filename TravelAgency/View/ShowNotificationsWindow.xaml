@@ -16,11 +16,26 @@
             <Button Content="Mark as Read" Click="MarkAsReadClick"/>
         </StackPanel>
         <ListView Grid.Row="1" ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" MouseDoubleClick="OpenNotificationClick">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Read}" Value="False">
+                            <Setter Property="Background" Value="LightGoldenrodYellow"/>
+                            <Setter Property="BorderThickness" Value="4"/>
+                            <Setter Property="BorderBrush" Value="Red"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Read}" Value="True">
+                            <Setter Property="Background" Value="LightGray"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                            <Setter Property="BorderBrush" Value="DarkGray"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="10" Text="{Binding Text}"/>
-                        <TextBlock Margin="10" HorizontalAlignment="Right" Text="{Binding Read}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
