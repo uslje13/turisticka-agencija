@@ -8,7 +8,7 @@
         Title="Ture" Height="500" Width="875" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <DataGrid Background="#FFE5E5E5"
-                          ItemsSource="{Binding Tours, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding Tours}"
                           SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="10,61,10,10">
@@ -23,7 +23,8 @@
         <ToolBar x:Name="toolBar" HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="875">
             <Button x:Name="addButton" Content="Dodaj" Height="37" Width="48"
                     Click="AddButtonClick"/>
-            <Button x:Name="deleteButton" Content="Obriši" Height="37" Width="48"/>
+            <Button x:Name="deleteButton" Content="Obriši" Height="37" Width="48"
+                    Click="DeleteButtonClick"/>
             <Button x:Name="edtiButton" Content="Izmeni" Height="37" Width="48"/>
             <Button x:Name="todayToursButton" Content="Pregled današnjih tura" Height="37" Width="128"
                     Click="TodayToursButtonClick"/>

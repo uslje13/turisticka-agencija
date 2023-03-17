@@ -1,47 +1,62 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using TravelAgency.Model;
+using TravelAgency.Repository;
 
 namespace TravelAgency.View
 {
     /// <summary>
-    /// Interaction logic for CreateCheckpointsWindow.xaml
+    /// Interaction logic for CreateCheckpoint.xaml
     /// </summary>
     public partial class AddCheckpointsWindow : Window
     {
-        private ObservableCollection<Checkpoint> _checkponits;
+        public Checkpoint SelectedCheckpoint { get; set; }
+
+        private ObservableCollection<Checkpoint> _chechponits;
+        
+        private string _checkpointName;  //wpf framework already have name
+
+        private int _extraCheckpointIndex;
+
         public ObservableCollection<Checkpoint> Checkpoints
         {
-            get => _checkponits;
+            get => _chechponits;
             set
             {
-                if (!value.Equals(_checkponits))
+                if (value != Checkpoints)
                 {
-                    _checkponits = value;
+                    _chechponits = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        private string _checkpointName;  //wpf framework already have name
-        public string CheckpointName
-        {
+        public string CheckpointName 
+        { 
             get => _checkpointName;
             set
             {
-                if (!value.Equals(_checkpointName))
+                if (value != _checkpointName)
                 {
                     _checkpointName = value;
                     OnPropertyChanged();
                 }
-            }
+            } 
         }
-
-        public Checkpoint SelectedCheckpoint { get; set; }
-
-        private int _extraCheckpointIndex;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -55,9 +70,8 @@ namespace TravelAgency.View
             InitializeComponent();
             DataContext = this;
             Checkpoints = checkpoints;
-
+            addExtraCPButton.IsEnabled = false;
             _extraCheckpointIndex = 1;
-            DisableExtraCheckpoint();
         }
 
         private void AddStartCPButtonClick(object sender, RoutedEventArgs e)
@@ -65,9 +79,9 @@ namespace TravelAgency.View
             Checkpoint checkpoint = new Checkpoint();
             checkpoint.Name = CheckpointName;
             checkpoint.Type = CheckpointType.START;
-            Checkpoints.Insert(0, checkpoint);
-
-            DisableStartCheckpoint();
+            addStartCPButton.IsEnabled = false;
+            addStartCPTextBox.IsReadOnly = true;
+            Checkpoints.Add(checkpoint);
         }
 
 
@@ -76,9 +90,10 @@ namespace TravelAgency.View
             Checkpoint checkpoint = new Checkpoint();
             checkpoint.Name = CheckpointName;
             checkpoint.Type = CheckpointType.END;
+            addEndCPButton.IsEnabled = false;
+            addEndCPTextBox.IsReadOnly = true;
             Checkpoints.Add(checkpoint);
-
-            DisableEndCheckpoint();
+            EnableExtraCheckpoints();
         }
 
         private void AddExtraCPButtonClick(object sender, RoutedEventArgs e)
@@ -86,36 +101,17 @@ namespace TravelAgency.View
             Checkpoint checkpoint = new Checkpoint();
             checkpoint.Name = CheckpointName;
             checkpoint.Type = CheckpointType.EXTRA;
-            Checkpoints.Insert(_extraCheckpointIndex, checkpoint);
-
             addExtraCPTextBox.Text = string.Empty;
-        }
-        private void DisableStartCheckpoint()
-        {
-            addStartCPButton.IsEnabled = false;
-            addStartCPTextBox.IsReadOnly = true;
+            Checkpoints.Insert(_extraCheckpointIndex, checkpoint);
+            _extraCheckpointIndex++;
             EnableExtraCheckpoints();
-        }
-
-        private void DisableEndCheckpoint()
-        {
-            addEndCPButton.IsEnabled = false;
-            addEndCPTextBox.IsReadOnly = true;
-            EnableExtraCheckpoints();
-        }
-
-        private void DisableExtraCheckpoint()
-        {
-            addExtraCPTextBox.IsReadOnly = true;
-            addExtraCPButton.IsEnabled = false;
         }
 
         private void EnableExtraCheckpoints()
         {
-            if (Checkpoints.Count == 2)
+            if(Checkpoints.Count == 2) 
             {
                 addExtraCPButton.IsEnabled = true;
-                addExtraCPTextBox.IsReadOnly = false;
             }
         }
 
@@ -129,7 +125,7 @@ namespace TravelAgency.View
             {
                 Close();
             }
-
+                
         }
 
         private void CancelButtonClick(object sender, RoutedEventArgs e)

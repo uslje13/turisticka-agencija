@@ -27,10 +27,10 @@
             <Button x:Name="addDateButton" Grid.Column="2" Content="Dodaj" HorizontalAlignment="Center" VerticalAlignment="Top"
                     Click="AddDateAndTimeButtonClick" Height="20" Width="36" Margin="0,28,0,0" Grid.Row="1"/>
             <ComboBox x:Name="comboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="16,26,0,0" Grid.Row="1" VerticalAlignment="Top" Width="43"
-                      ItemsSource="{Binding Path=Hours}"
+                      ItemsSource="{Binding Path=HoursList}"
                       SelectedItem="{Binding Path=Hour}"/>
             <ComboBox x:Name="comboBox1" Grid.Column="1" HorizontalAlignment="Left" Margin="72,26,0,0" Grid.Row="1" VerticalAlignment="Top" Width="43"
-                      ItemsSource="{Binding Path=Minutes}"
+                      ItemsSource="{Binding Path=MinutesList}"
                       SelectedItem="{Binding Path=Minute}"/>
             <Label x:Name="label" Grid.Column="1" Content=":" HorizontalAlignment="Left" Margin="59,24,0,0" Grid.Row="1" VerticalAlignment="Top"/>
             <Button x:Name="confirmButton" Grid.Row="2" Grid.Column="0" Content="Potvrdi" VerticalAlignment="Center" Margin="79,0,2,0"

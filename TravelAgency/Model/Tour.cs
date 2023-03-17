@@ -1,65 +1,76 @@
-﻿using TravelAgency.Serializer;
+﻿using System;
+using TravelAgency.Serializer;
 
 namespace TravelAgency.Model
 {
     public class Tour : ISerializable
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int LocationId { get; set; }
-        public string Description { get; set; }
-        public string Language { get; set; }
-        public int MaxNumOfGuests { get; set; }
-        public int Duration { get; set; }
-        public int UserId { get; set; }
+        private int _id;        //tour _id
+        private string _name;
+        private int _locationId;     //locationId
+        private string _description;
+        private string _language;
+        private int _maxNumOfGuests;
+        private int _duration;      //in hours
+        private int _userId;
 
         public Tour()
         {
-            Id = -1;
-            Name = string.Empty;
-            LocationId = -1;
-            Description = string.Empty;
-            Language = string.Empty;
-            MaxNumOfGuests = 0;
-            Duration = 0;
-            UserId = -1;
+            _id = -1;
+            _name = string.Empty;
+            _locationId = -1;
+            _description = string.Empty;
+            _language = string.Empty;
+            _maxNumOfGuests = 0;
+            _duration = 0;
+            _userId = -1;
         }
         public Tour(string name, int locationId, string description, string language, int maxNumOfGuests, int duration, int userId)
         {
-            Name = name;
-            LocationId = locationId;
-            Description = description;
-            Language = language;
-            MaxNumOfGuests = maxNumOfGuests;
-            Duration = duration;
-            UserId = userId;
+            _name = name;
+            _locationId = locationId;
+            _description = description;
+            _language = language;
+            _maxNumOfGuests = maxNumOfGuests;
+            _duration = duration;
+            _userId = userId;
         }
+
+        public int Id { get => _id; set => _id = value; }
+        public string Name { get => _name; set => _name = value; }
+        public int LocationId { get => _locationId; set => _locationId = value; }
+        public string Description { get => _description; set => _description = value; }
+        public string Language { get => _language; set => _language = value; }
+        public int MaxNumOfGuests { get => _maxNumOfGuests; set => _maxNumOfGuests = value; }
+        public int Duration { get => _duration; set => _duration = value; }
+        public int UserId { get => _userId; set => _userId = value; }
 
         public void FromCSV(string[] values)
         {
-            Id = int.Parse(values[0]);
-            Name = values[1];
-            LocationId = int.Parse(values[2]);
-            Description = values[3];
-            Language = values[4];
-            MaxNumOfGuests = int.Parse(values[5]);
-            Duration = int.Parse(values[6]);
-            UserId = int.Parse(values[7]);
+            _id = int.Parse(values[0]);
+            _name = values[1];
+            _locationId = int.Parse(values[2]);
+            _description = values[3];
+            _language = values[4];
+            _maxNumOfGuests = int.Parse(values[5]);
+            _duration = int.Parse(values[6]);
+            _userId = int.Parse(values[7]);
         }
 
         public string[] ToCSV()
         {
             string[] csvValues =
             {
-                Id.ToString(),
-                Name,
-                LocationId.ToString(),
-                Description,
-                Language,
-                MaxNumOfGuests.ToString(),
-                Duration.ToString(),
-                UserId.ToString()
+                _id.ToString(),
+                _name,
+                _locationId.ToString(),
+                _description,
+                _language,
+                _maxNumOfGuests.ToString(),
+                _duration.ToString(),
+                _userId.ToString()
             };
+
             return csvValues;
         }
     }

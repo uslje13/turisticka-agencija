@@ -12,24 +12,13 @@ namespace TravelAgency.View
     /// </summary>
     public partial class AddAppointmentsWindow : Window
     {
-        public ReadOnlyObservableCollection<string> Hours { get; set; }
-        public ReadOnlyObservableCollection<string> Minutes { get; set; }
-
-        private ObservableCollection<Appointment> _appointments;
-        public ObservableCollection<Appointment> Appointments
-        {
-            get => _appointments;
-            set
-            {
-                if (value != _appointments)
-                {
-                    _appointments = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         private DateTime _start;
+        private string _hour;
+        private string _minute;
+        private ObservableCollection<Appointment> _appointments;
+        public ReadOnlyObservableCollection<string> HoursList { get; set; }
+        public ReadOnlyObservableCollection<string> MinutesList { get; set; }
+
         public DateTime Start
         {
             get => _start;
@@ -43,7 +32,6 @@ namespace TravelAgency.View
             }
         }
 
-        private string _hour;
         public string Hour
         {
             get => _hour;
@@ -57,7 +45,6 @@ namespace TravelAgency.View
             }
         }
 
-        private string _minute;
         public string Minute
         {
             get => _minute;
@@ -71,11 +58,18 @@ namespace TravelAgency.View
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public ObservableCollection<Appointment> Appointments
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => _appointments;
+            set
+            {
+                if (value != _appointments)
+                {
+                    _appointments = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public AddAppointmentsWindow(ObservableCollection<Appointment> appointments)
@@ -83,44 +77,51 @@ namespace TravelAgency.View
             InitializeComponent();
             DataContext = this;
             Start = DateTime.UtcNow;
-
-            Hours = new ReadOnlyObservableCollection<string>(CreateHoursList());
-            Minutes = new ReadOnlyObservableCollection<string>(CreateMinutesList());
-
+            HoursList = new ReadOnlyObservableCollection<string>(CreateHoursList());
+            MinutesList = new ReadOnlyObservableCollection<string>(CreateMinutesList());
+            CreateHoursList();
+            CreateMinutesList();
             _appointments = appointments;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private ObservableCollection<string> CreateHoursList()
         {
-            ObservableCollection<string> hours = new ObservableCollection<string>();
+            ObservableCollection<string> tempList = new ObservableCollection<string>();
             for (int i = 0; i < 24; i++)
             {
                 if (i < 10)
                 {
-                    hours.Add($"0{i}");
+                    tempList.Add($"0{i}");
                 }
                 else
                 {
-                    hours.Add($"{i}");
+                    tempList.Add($"{i}");
                 }
             }
-            return hours;
+            return tempList;
         }
         private ObservableCollection<string> CreateMinutesList()
         {
-            ObservableCollection<string> minutes = new ObservableCollection<string>();
+            ObservableCollection<string> tempList = new ObservableCollection<string>();
             for (int i = 0; i < 60; i += 15)
             {
                 if (i == 0)
                 {
-                    minutes.Add($"0{i}");
+                    tempList.Add($"0{i}");
                 }
                 else
                 {
-                    minutes.Add($"{i}");
+                    tempList.Add($"{i}");
                 }
             }
-            return minutes;
+            return tempList;
         }
 
         private void AddDateAndTimeButtonClick(object sender, RoutedEventArgs e)
@@ -129,7 +130,6 @@ namespace TravelAgency.View
             appointment.Date = DateOnly.FromDateTime(Start);
             appointment.Time = new TimeOnly(int.Parse(Hour), int.Parse(Minute));
             appointment.Occupancy = 0;
-
             Appointments.Add(appointment);
         }
 

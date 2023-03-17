@@ -1,4 +1,4 @@
-﻿<Window x:Class="TravelAgency.View.CreateTourWindow"
+﻿<Window x:Class="TravelAgency.View.CreateTour"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -44,13 +44,10 @@
 
             <TextBox x:Name="nameTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
                      Text="{Binding TourName, UpdateSourceTrigger=PropertyChanged}"/>
-            <ComboBox x:Name="countryComboBox" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
-                     ItemsSource="{Binding Path=Countries}"
-                     SelectedItem="{Binding Path=Country}"
-                     SelectionChanged="CountryComboBoxSelectionChanged"/>
-            <ComboBox x:Name="cityComboBox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
-                     ItemsSource="{Binding Path=Cities}"
-                     SelectedItem="{Binding Path=City}"/>
+            <TextBox x:Name="countryTextBox" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
+                     Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="cityTextBox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"
+                     Text="{Binding City,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox x:Name="textBox" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="235" Height="88"
                      Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" />
             <TextBox x:Name="languageTextBox" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="144"

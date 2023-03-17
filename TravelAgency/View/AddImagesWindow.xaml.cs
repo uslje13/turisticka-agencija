@@ -1,7 +1,20 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using TravelAgency.Model;
 
 namespace TravelAgency.View
 {
@@ -10,23 +23,25 @@ namespace TravelAgency.View
     /// </summary>
     public partial class AddImagesWindow : Window
     {
+        public Model.Image SelectedImage { get; set; }
         private ObservableCollection<Model.Image> _images;
+        private string _url;
+
         public ObservableCollection<Model.Image> Images
-        {
+        { 
             get => _images;
             set
             {
-                if (!value.Equals(_images))
-                {
+                if (!value.Equals(_images)) 
+                { 
                     _images = value;
                     OnPropertyChanged();
                 }
-            }
+            } 
         }
 
-        private string _url;
-        public string Url
-        {
+        public string Url 
+        { 
             get => _url;
             set
             {
@@ -38,50 +53,44 @@ namespace TravelAgency.View
             }
         }
 
-        public Model.Image SelectedImage { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
 
         public AddImagesWindow(ObservableCollection<Model.Image> images)
         {
             InitializeComponent();
             DataContext = this;
             Images = images;
-
-            DisableCoverButton();
-        }
-
-        private void DisableCoverButton()
-        {
-            if (Images.Count < 1 || AlreadyOwnsCover())
+            if (IsImagesListEmpty()) 
             {
-                imageCoverButton.IsEnabled = false;
+                checkCoverButton.IsEnabled = false;
             }
         }
-
-        private void EnableCoverButton()
+        private bool IsImagesListEmpty()
         {
-            if (Images.Count > 0 && !AlreadyOwnsCover())
+            if (_images.Count < 1)
             {
-                imageCoverButton.IsEnabled = true;
+                return true;
             }
+            return false;
         }
 
         private bool AlreadyOwnsCover()
         {
-            foreach (var image in Images)
+            foreach(var image in Images)
             {
-                if (image.Cover == true)
+                if(image.Cover == true)
                 {
                     return true;
                 }
             }
             return false;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void AddUrlButtonClick(object sender, RoutedEventArgs e)
@@ -91,19 +100,9 @@ namespace TravelAgency.View
             Images.Add(image);
             urlTextBox.Text = string.Empty;
 
-            EnableCoverButton();
-        }
-
-        private void ImageCoverClickButton(object sender, RoutedEventArgs e)
-        {
-            if (SelectedImage == null)
+            if (!IsImagesListEmpty() && !AlreadyOwnsCover())
             {
-                MessageBox.Show("Morate odabrati sliku!");
-            }
-            else
-            {
-                SelectedImage.Cover = true;
-                DisableCoverButton();
+                checkCoverButton.IsEnabled = true;
             }
         }
 
@@ -122,6 +121,19 @@ namespace TravelAgency.View
         {
             Images.Clear();
             Close();
+        }
+
+        private void CheckCoverClickButton(object sender, RoutedEventArgs e)
+        {
+            if (SelectedImage == null)
+            {
+                MessageBox.Show("Morate odabrati sliku!");
+            }
+            else
+            {
+                SelectedImage.Cover = true;
+                checkCoverButton.IsEnabled = false;
+            }
         }
     }
 }
