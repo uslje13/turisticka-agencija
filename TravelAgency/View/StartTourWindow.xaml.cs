@@ -52,7 +52,7 @@ namespace TravelAgency.View
             label.Content = "Ne možete startovati turu (već postoji aktivna tura)!";
             label.Foreground = new SolidColorBrush(Colors.Red);
         }
-        private List<Appointment> FindTodayAppointments()
+        private List<Appointment> FindTodayAppointments()   //by tour dodaj
         {
             List<Appointment> appointments = new List<Appointment>(_appointmentRepository.GetAll());
             List<Appointment> todayAppointments = new List<Appointment>();
