@@ -84,7 +84,7 @@ namespace TravelAgency.View
 
         private void ReserveClick(object sender, RoutedEventArgs e)
         {
-            if (_touristNum == null || _touristNum == "")
+            if (_touristNum == null || _touristNum == "" || int.Parse(_touristNum) == 0)
             {
                 MessageBox.Show("Niste uneli broj osoba prilikom rezervacije");
             }

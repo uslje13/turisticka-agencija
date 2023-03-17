@@ -14,15 +14,15 @@ namespace TravelAgency.Model
         public int Id { get; set; }
         public int TourId { get; set; }
         public int AppointmentId { get; set; }
-        public int Ocupancy { get; set; }
+        public int TouristNum { get; set; }
         public int UserId { get; set; }
 
         public Reservation() { }
 
-        public Reservation(int tourId, int ocupancy, int userId, int appointmentId)
+        public Reservation(int tourId, int touristNum, int userId, int appointmentId)
         {
             TourId = tourId;
-            Ocupancy = ocupancy;
+            TouristNum = touristNum;
             UserId = userId;
             AppointmentId = appointmentId;
         }
@@ -33,7 +33,7 @@ namespace TravelAgency.Model
             UserId = int.Parse(values[1]);
             TourId = int.Parse(values[2]);
             AppointmentId = int.Parse(values[3]);
-            Ocupancy = int.Parse(values[4]);
+            TouristNum = int.Parse(values[4]);
         }
 
         public string[] ToCSV()
@@ -44,7 +44,7 @@ namespace TravelAgency.Model
                 UserId.ToString(),
                 TourId.ToString(),
                 AppointmentId.ToString(),
-                Ocupancy.ToString()
+                TouristNum.ToString()
             };
 
             return csvValues;
