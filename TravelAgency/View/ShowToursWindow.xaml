@@ -27,6 +27,8 @@
             <Button x:Name="edtiButton" Content="Izmeni" Height="37" Width="48"/>
             <Button x:Name="todayToursButton" Content="Pregled današnjih tura" Height="37" Width="128"
                     Click="TodayToursButtonClick"/>
+            <Button x:Name="activeTourButton" Content="Aktivna tura" Height="37" Width="77"
+                    Click="ActiveTourButtonClick"/>
         </ToolBar>
     </Grid>
 </Window>

@@ -5,24 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
-        Title="Ključne tačke aktivne ture" Height="382" Width="423">
+        Title="Ključne tačke aktivne ture" Height="412" Width="452">
     <Grid>
         <Grid Margin="0,0,91,0">
             <DataGrid Background="#FFE5E5E5"
-                          ItemsSource="{Binding TodayAppointmentsByTour, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=SelectedAppointment, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding CheckpointActivities, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Path=SelectedCheckpointActivity, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
-                          IsReadOnly="True" Margin="10,53,10,51">
+                          IsReadOnly="True" Margin="10,53,10,81">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Naziv" Binding="{Binding Date, StringFormat='dd.MM.yyyy.'}" Width="140"/>
-                    <DataGridTextColumn Header="Tip" Binding="{Binding Time, StringFormat='HH:mm'}" Width="100"/>
-                    <DataGridTextColumn Header="Aktivnost"/>
+                    <DataGridTextColumn Header="Naziv" Binding="{Binding CheckpointId}" Width="140"/>
+                    <DataGridTextColumn Header="Tip" Width="100"/>
+                    <DataGridTextColumn Header="Aktivnost" Binding="{Binding Activated}"/>
                 </DataGrid.Columns>
             </DataGrid>
+            <Button x:Name="guestsAttendanceButton" Content="Prisutni gosti" HorizontalAlignment="Left" Margin="10,348,0,0" VerticalAlignment="Top"/>
         </Grid>
-        <Grid Margin="332,0,0,0">
-            <Button x:Name="button" Content="Aktiviraj" HorizontalAlignment="Center" Margin="0,123,0,0" VerticalAlignment="Top" Width="58" Height="24"/>
-            <Button x:Name="button1" Content="Završi turu" HorizontalAlignment="Center" Margin="0,238,0,0" VerticalAlignment="Top" Width="68" Height="27"/>
+        <Grid Margin="361,0,0,0">
+            <Button x:Name="activateCheckpointButton" Content="Aktiviraj" HorizontalAlignment="Center" Margin="0,123,0,0" VerticalAlignment="Top" Width="68" Height="24"
+                    Click="ActivateCheckpointButtonClick"/>
+            <Button x:Name="finishTourButton" Content="Završi turu" HorizontalAlignment="Center" Margin="0,238,0,0" VerticalAlignment="Top" Width="68" Height="27"
+                    Click="FinishTourButtonClick"/>
 
         </Grid>
     </Grid>

@@ -1,14 +1,17 @@
-1|Beograd|True|START|1
-2|Zagreb|False|EXTRA|1
-3|Ljubljana|False|END|1
-4|Novi Sad|True|START|2
-5|Zagreb|False|EXTRA|2
-6|Split|False|END|2
-7|Beograd|False|START|3
-8|Madrid|False|EXTRA|3
-9|Buenos Ajres|False|END|3
-10|Beograd|True|START|4
-11|Lisabon|False|EXTRA|4
-12|Rio|False|END|4
-13|Beograd|False|START|5
-14|Zagreb|False|END|5
+1|Beograd|START|1
+2|Zagreb|EXTRA|1
+3|Ljubljana|END|1
+4|Novi Sad|START|2
+5|Zagreb|EXTRA|2
+6|Split|END|2
+7|Beograd|START|3
+8|Madrid|EXTRA|3
+9|Buenos Ajres|END|3
+10|Beograd|START|4
+11|Lisabon|EXTRA|4
+12|Rio|END|4
+13|Beograd|START|5
+14|Zagreb|END|5
+15|test|START|6
+16|test|EXTRA|6
+17|test|END|6

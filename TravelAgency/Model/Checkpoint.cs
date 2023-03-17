@@ -8,23 +8,20 @@ namespace TravelAgency.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool Active { get; set; }
         public CheckpointType Type { get; set; }
         public int TourId { get; set; }
         public Checkpoint()
         {
             Id = -1;
             Name = string.Empty;
-            Active = false;
             Type = CheckpointType.UNKNOWN;
             TourId = -1;
         }
 
-        public Checkpoint(int id, string name, bool active, CheckpointType type, int tourId)
+        public Checkpoint(int id, string name, CheckpointType type, int tourId)
         {
             Id = id;
             Name = name;
-            Active = active;
             Type = type;
             TourId = tourId;
         }
@@ -33,17 +30,16 @@ namespace TravelAgency.Model
         {
             Id = int.Parse(values[0]);
             Name = values[1];
-            Active = bool.Parse(values[2]);
 
-            if (values[3].Equals("START"))
+            if (values[2].Equals("START"))
             {
                 Type = CheckpointType.START;
             }
-            else if (values[3].Equals("END"))
+            else if (values[2].Equals("END"))
             {
                 Type = CheckpointType.END;
             }
-            else if (values[3].Equals("EXTRA"))
+            else if (values[2].Equals("EXTRA"))
             {
                 Type = CheckpointType.EXTRA;
             }
@@ -52,7 +48,7 @@ namespace TravelAgency.Model
                 Type = CheckpointType.UNKNOWN;
             }
 
-            TourId = int.Parse(values[4]);
+            TourId = int.Parse(values[3]);
         }
 
         public string[] ToCSV()
@@ -61,7 +57,6 @@ namespace TravelAgency.Model
             {
                 Id.ToString(),
                 Name,
-                Active.ToString(),
                 Type.ToString(),
                 TourId.ToString()
             };

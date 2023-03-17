@@ -69,7 +69,7 @@ namespace TravelAgency.View
             }
             else
             {
-                StartTourWindow startTourWindow = new StartTourWindow(SelectedTour, TodayTours, AppointmentRepository, CheckpointRepository);
+                StartTourWindow startTourWindow = new StartTourWindow(SelectedTour, Tours, AppointmentRepository, CheckpointRepository);
                 startTourWindow.Owner = Window.GetWindow(this);
                 startTourWindow.ShowDialog();
             }

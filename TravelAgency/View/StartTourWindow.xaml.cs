@@ -20,7 +20,9 @@ namespace TravelAgency.View
 
         private readonly CheckpointRepository _checkpointRepository;
 
-        public ObservableCollection<Tour> TodayUserTours { get; set; }
+        private readonly CheckpointActivityRepository _checkpointActivityRepository;
+
+        public ObservableCollection<Tour> UserTours { get; set; }
         public Tour SelectedTour { get; set; }
 
         public StartTourWindow(Tour selectedTour, ObservableCollection<Tour> todayUserTours, AppointmentRepository appointmentRepository, CheckpointRepository checkpointRepository)
@@ -30,16 +32,17 @@ namespace TravelAgency.View
 
             _appointmentRepository = appointmentRepository;
             _checkpointRepository = checkpointRepository;
+            _checkpointActivityRepository = new CheckpointActivityRepository();
 
-            TodayUserTours = todayUserTours;
+            UserTours = todayUserTours;
             SelectedTour = selectedTour;
             TodayAppointmentsByTour = new ObservableCollection<Appointment>(FindAppointmentsByTour());
             ExistsActiveAppointment();
         }
         private void ExistsActiveAppointment()
         {
-            List<Appointment> todayAppointments = FindTodayAppointments();
-            Appointment activeAppointment = todayAppointments.Find(a => a.Started == true && a.Finished == false);
+            List<Appointment> appointments = FindAllAppointmentsByTours();
+            Appointment activeAppointment = appointments.Find(a => a.Started == true && a.Finished == false);
             if (activeAppointment != null)
             {
                 DisableStartTour();
@@ -52,16 +55,16 @@ namespace TravelAgency.View
             label.Content = "Ne možete startovati turu (već postoji aktivna tura)!";
             label.Foreground = new SolidColorBrush(Colors.Red);
         }
-        private List<Appointment> FindTodayAppointments()   //by tour dodaj
+
+        private List<Appointment> FindAllAppointmentsByTours()   //by tour dodaj
         {
             List<Appointment> appointments = new List<Appointment>(_appointmentRepository.GetAll());
             List<Appointment> todayAppointments = new List<Appointment>();
-            DateOnly today = DateOnly.FromDateTime(DateTime.Today);
-            foreach (Tour tour in TodayUserTours)
+            foreach (Tour tour in UserTours)
             {
                 foreach (Appointment appointment in appointments)
                 {
-                    if (appointment.Date.Equals(today) && appointment.TourId == tour.Id)
+                    if (appointment.TourId == tour.Id)
                     {
                         todayAppointments.Add(appointment);
                     }
@@ -72,7 +75,7 @@ namespace TravelAgency.View
 
         private List<Appointment> FindAppointmentsByTour()
         {
-            List<Appointment> todayAppointments = FindTodayAppointments();
+            List<Appointment> todayAppointments = new List<Appointment>(_appointmentRepository.GetTodayAppointments());
 
             return todayAppointments.FindAll(a => a.TourId == SelectedTour.Id);
         }
@@ -86,29 +89,41 @@ namespace TravelAgency.View
             else
             {
                 ActivateAppointment();
-                ActivateStartCheckpoint();
+                SaveCheckointsActivity();
                 MessageBox.Show("Tura je uspešno startovana!");
                 DisableStartTour();
                 Close();
+                ShowTourCheckpoints showTourCheckpoints = new ShowTourCheckpoints(new List<Tour>(UserTours));
+                showTourCheckpoints.ShowDialog();
             }
         }
-
         private void ActivateAppointment()
         {
             SelectedAppointment.Started = true;
             _appointmentRepository.Update(SelectedAppointment);
         }
-        private void ActivateStartCheckpoint()
+
+        private void SaveCheckointsActivity()
         {
-            Checkpoint startCheckpoint = FindStartCheckpoint();
-            startCheckpoint.Active = true;
-            _checkpointRepository.Update(startCheckpoint);
+            List<Checkpoint> checkpoints = _checkpointRepository.GetAllByTourId(SelectedTour);
+            List<CheckpointActivity> checkpointActivities = new List<CheckpointActivity>();
+            foreach (Checkpoint checkpoint in checkpoints) 
+            {
+                checkpointActivities.Add(CreateCheckpointActivity(checkpoint));
+            }
+            _checkpointActivityRepository.SaveAll(checkpointActivities);
         }
 
-        private Checkpoint FindStartCheckpoint()
+        private CheckpointActivity CreateCheckpointActivity(Checkpoint checkpoint)
         {
-            List<Checkpoint> checkpoints = new List<Checkpoint>(_checkpointRepository.GetAll());
-            return checkpoints.Find(c => c.TourId == SelectedTour.Id && c.Type == CheckpointType.START) ?? throw new ArgumentException();
+            CheckpointActivity checkpointActivity = new CheckpointActivity();
+            checkpointActivity.AppointmentId = SelectedAppointment.Id;
+            checkpointActivity.CheckpointId = checkpoint.Id;
+            if (checkpoint.Type.Equals(CheckpointType.START))
+            {
+                checkpointActivity.Activated = true;
+            }
+            return checkpointActivity;
         }
 
         private void CancelButtonClick(object sender, RoutedEventArgs e)
