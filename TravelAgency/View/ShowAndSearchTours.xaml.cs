@@ -31,7 +31,7 @@ namespace TravelAgency.View
 
         public static ObservableCollection<Appointment> Appointments { get; set; }
         public static ObservableCollection<TourDTO> TourDTOs { get; set; }
-        public TourDTO SelectedTourDTO { get; set; }
+        public TourDTO Selected { get; set; }
 
         private readonly TourRepository _repository;
         private readonly LocationRepository _locationRepository;
@@ -48,10 +48,10 @@ namespace TravelAgency.View
             TourDTOs = new ObservableCollection<TourDTO>();
             Locations = new ObservableCollection<Location>(_locationRepository.GetAll());
             Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());
-            GetDTOs();
+            FillDTOList();
         }
 
-        private static void GetDTOs()
+        private static void FillDTOList()
         {
             foreach (Tour t in Tours)
             {
@@ -71,26 +71,36 @@ namespace TravelAgency.View
 
         private void BookButtonClick(object sender, RoutedEventArgs e)
         {
-            if(SelectedTourDTO == null)
+            if(Selected == null)
             {
                 MessageBox.Show("Izaberi turu za rezervaciju");
             }
             else
             {
-               if(SelectedTourDTO.Ocupancy < SelectedTourDTO.MaxNumOfGuests)
-               {
-                    BookTour bookTourWindow = new BookTour(SelectedTourDTO, LoggedInUser);
-                    bookTourWindow.Show();
-                    this.Close();
-               }
-               else
-               {
-                    MessageBox.Show("Nema slobodnih mesta za odabranu turu");
-                    AlternativeTours alternativeTours = new AlternativeTours(SelectedTourDTO, LoggedInUser, TourDTOs);
-                    alternativeTours.Show();
-                    Close();
-               }
+               if(Selected.Ocupancy < Selected.MaxNumOfGuests)
+                {
+                    OpenBookTourWindow();
+                }
+                else
+                {
+                    OpenAlternativeToursWindow();
+                }
             }
+        }
+
+        private void OpenBookTourWindow()
+        {
+            BookTour bookTourWindow = new BookTour(Selected, LoggedInUser);
+            bookTourWindow.Show();
+            this.Close();
+        }
+
+        private void OpenAlternativeToursWindow()
+        {
+            MessageBox.Show("Nema slobodnih mesta za odabranu turu");
+            AlternativeTours alternativeTours = new AlternativeTours(Selected, LoggedInUser, TourDTOs);
+            alternativeTours.Show();
+            Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

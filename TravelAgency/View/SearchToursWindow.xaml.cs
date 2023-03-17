@@ -155,7 +155,7 @@ namespace TravelAgency.View
 
         private bool IsApropriate(TourDTO tourDTO)
         {
-            bool checkCity = tourDTO.City.Contains(SearchedCity) || SearchedCity.Equals(string.Empty);
+            bool checkCity = tourDTO.City.ToLower().Contains(SearchedCity.ToLower()) || SearchedCity.Equals(string.Empty);
             bool checkCountry = tourDTO.Country.Contains(SearchedCountry) || SearchedCountry.Equals(string.Empty);
             bool checkLanguage = tourDTO.Language.Contains(SearchedLanguage) || SearchedLanguage.Equals(string.Empty);
             bool checkOcupancy = SearchedOcupancy <= tourDTO.MaxNumOfGuests;

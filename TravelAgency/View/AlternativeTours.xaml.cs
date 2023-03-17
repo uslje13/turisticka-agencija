@@ -23,42 +23,46 @@ namespace TravelAgency.View
     public partial class AlternativeTours : Window
     {
         public static ObservableCollection<TourDTO> TourDTOs { get; set; }
-        private readonly TourRepository _repository;
-
         public User LoggedInUser { get; set; }
-        public TourDTO SelectedTourDTO { get; set; }
+        public TourDTO Selected { get; set; }
         public AlternativeTours(TourDTO tourDTO, User user, ObservableCollection<TourDTO> tourDTOs)
         {
             InitializeComponent();
-            DataContext= this;
-            _repository = new TourRepository();
+            DataContext = this;
             TourDTOs = new ObservableCollection<TourDTO>();
             LoggedInUser = user;
+            FillDTOList(tourDTO, tourDTOs);
+        }
 
-            foreach(TourDTO t in tourDTOs)
+        private static void FillDTOList(TourDTO tourDTO, ObservableCollection<TourDTO> tourDTOs)
+        {
+            foreach (TourDTO t in tourDTOs)
             {
-                if(t.City == tourDTO.City && t.Country == tourDTO.Country && t.Ocupancy != t.MaxNumOfGuests)
+                if (t.City == tourDTO.City && t.Country == tourDTO.Country && t.Ocupancy != t.MaxNumOfGuests)
                 {
                     TourDTOs.Add(t);
                 }
             }
         }
+
         private void ReserveClick(object sender, RoutedEventArgs e)
         {
-            if(SelectedTourDTO == null)
+            if(Selected == null)
             {
                 MessageBox.Show("Izaberi turu za rezervaciju");
             }
             else
             {
-                this.Close();
-                BookTour bookTourWindow = new BookTour(SelectedTourDTO, LoggedInUser);
+                BookTour bookTourWindow = new BookTour(Selected, LoggedInUser);
                 bookTourWindow.Show();
+                this.Close();
             }
         }
 
         private void CancelClick(object sender, RoutedEventArgs e)
         {
+            ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(LoggedInUser);
+            showAndSearchTours.Show();
             this.Close();
         }
     }

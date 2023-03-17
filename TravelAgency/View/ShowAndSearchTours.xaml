@@ -10,7 +10,7 @@
     <Grid>
         <DataGrid Background="#FFE5E5E5" Name="ToursGrid"
                           ItemsSource="{Binding TourDTOs, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=SelectedTourDTO, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Path=Selected, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="10,61,35,10">
             <DataGrid.Columns>
