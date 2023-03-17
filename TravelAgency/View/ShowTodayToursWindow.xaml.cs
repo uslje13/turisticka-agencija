@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Documents;
 using TravelAgency.Model;
 using TravelAgency.Repository;
 
 namespace TravelAgency.View
 {
     /// <summary>
-    /// Interaction logic for TodayTourView.xaml
+    /// Interaction logic for ShowTodayToursWindow.xaml
     /// </summary>
-    public partial class TodayTourView : Window
+    public partial class ShowTodayToursWindow : Window
     {
         public ObservableCollection<Tour> Tours { get; set; }
         public ObservableCollection<Tour> TodayTours { get; set; }
         public ObservableCollection<Appointment> Appointments { get; set; }
         public ObservableCollection<Appointment> TodayAppointments { get; set; }
         public List<Checkpoint> Checkpoints { get; set; }
-        
+
         private readonly AppointmentRepository _appointmentRepository;
 
         private readonly CheckpointRepository _checkpointRepository;
@@ -30,16 +29,17 @@ namespace TravelAgency.View
 
         public Tour SelectedTour { get; set; }
 
-        
-
-        public TodayTourView(ObservableCollection<Tour> tours)
+        public ShowTodayToursWindow(ObservableCollection<Tour> tours)
         {
             InitializeComponent();
             DataContext = this;
+
             _appointmentRepository = new AppointmentRepository();
             _checkpointRepository = new CheckpointRepository();
+
             Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());
             Tours = tours;
+
             TodayTours = FindTodayTours();
         }
 
@@ -69,9 +69,9 @@ namespace TravelAgency.View
             }
             else
             {
-                StartTourWindow startTourWindow = new StartTourWindow(SelectedTour, AppointmentRepository, CheckpointRepository);
+                StartTourWindow startTourWindow = new StartTourWindow(SelectedTour, TodayTours, AppointmentRepository, CheckpointRepository);
                 startTourWindow.Owner = Window.GetWindow(this);
-                startTourWindow.Show();
+                startTourWindow.ShowDialog();
             }
         }
     }

@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using TravelAgency.Model;
 
 namespace TravelAgency.View
 {
@@ -23,25 +10,23 @@ namespace TravelAgency.View
     /// </summary>
     public partial class AddImagesWindow : Window
     {
-        public Model.Image SelectedImage { get; set; }
         private ObservableCollection<Model.Image> _images;
-        private string _url;
-
         public ObservableCollection<Model.Image> Images
-        { 
+        {
             get => _images;
             set
             {
-                if (!value.Equals(_images)) 
-                { 
+                if (!value.Equals(_images))
+                {
                     _images = value;
                     OnPropertyChanged();
                 }
-            } 
+            }
         }
 
-        public string Url 
-        { 
+        private string _url;
+        public string Url
+        {
             get => _url;
             set
             {
@@ -53,44 +38,50 @@ namespace TravelAgency.View
             }
         }
 
-        
-
-        public AddImagesWindow(ObservableCollection<Model.Image> images)
-        {
-            InitializeComponent();
-            DataContext = this;
-            Images = images;
-            if (IsImagesListEmpty()) 
-            {
-                checkCoverButton.IsEnabled = false;
-            }
-        }
-        private bool IsImagesListEmpty()
-        {
-            if (_images.Count < 1)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private bool AlreadyOwnsCover()
-        {
-            foreach(var image in Images)
-            {
-                if(image.Cover == true)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        public Model.Image SelectedImage { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public AddImagesWindow(ObservableCollection<Model.Image> images)
+        {
+            InitializeComponent();
+            DataContext = this;
+            Images = images;
+
+            DisableCoverButton();
+        }
+
+        private void DisableCoverButton()
+        {
+            if (Images.Count < 1 || AlreadyOwnsCover())
+            {
+                imageCoverButton.IsEnabled = false;
+            }
+        }
+
+        private void EnableCoverButton()
+        {
+            if (Images.Count > 0 && !AlreadyOwnsCover())
+            {
+                imageCoverButton.IsEnabled = true;
+            }
+        }
+
+        private bool AlreadyOwnsCover()
+        {
+            foreach (var image in Images)
+            {
+                if (image.Cover == true)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void AddUrlButtonClick(object sender, RoutedEventArgs e)
@@ -100,9 +91,19 @@ namespace TravelAgency.View
             Images.Add(image);
             urlTextBox.Text = string.Empty;
 
-            if (!IsImagesListEmpty() && !AlreadyOwnsCover())
+            EnableCoverButton();
+        }
+
+        private void ImageCoverClickButton(object sender, RoutedEventArgs e)
+        {
+            if (SelectedImage == null)
             {
-                checkCoverButton.IsEnabled = true;
+                MessageBox.Show("Morate odabrati sliku!");
+            }
+            else
+            {
+                SelectedImage.Cover = true;
+                DisableCoverButton();
             }
         }
 
@@ -121,19 +122,6 @@ namespace TravelAgency.View
         {
             Images.Clear();
             Close();
-        }
-
-        private void CheckCoverClickButton(object sender, RoutedEventArgs e)
-        {
-            if (SelectedImage == null)
-            {
-                MessageBox.Show("Morate odabrati sliku!");
-            }
-            else
-            {
-                SelectedImage.Cover = true;
-                checkCoverButton.IsEnabled = false;
-            }
         }
     }
 }

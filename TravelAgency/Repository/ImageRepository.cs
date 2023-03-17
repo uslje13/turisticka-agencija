@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TravelAgency.Model;
 using TravelAgency.Serializer;
 
@@ -12,7 +10,9 @@ namespace TravelAgency.Repository
     public class ImageRepository
     {
         private const string FilePath = "../../../Resources/Data/images.csv";
+
         private readonly Serializer<Image> _serializer;
+
         private List<Image> _images;
 
         public ImageRepository()
