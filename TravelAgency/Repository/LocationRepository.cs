@@ -71,15 +71,6 @@ namespace TravelAgency.Repository
             return _locations.Max(l => l.Id) + 1;
         }
 
-        public int SaveAndGetId(Location location)
-        {
-            location.Id = NextId();
-            _locations = _serializer.FromCSV(FilePath);
-            _locations.Add(location);
-            _serializer.ToCSV(FilePath, _locations);
-            return location.Id;
-        }
-
         public Location GetById(int id)
         {
             Location location = _locations.Find(l => l.Id == id) ?? throw new ArgumentException();

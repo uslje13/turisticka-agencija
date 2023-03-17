@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using TravelAgency.Model;
 using TravelAgency.Serializer;
 
@@ -10,7 +9,9 @@ namespace TravelAgency.Repository
     public class TourRepository
     {
         private const string FilePath = "../../../Resources/Data/tours.csv";
+
         private readonly Serializer<Tour> _serializer;
+
         private List<Tour> _tours;
 
         public TourRepository()
@@ -41,7 +42,7 @@ namespace TravelAgency.Repository
             _serializer.ToCSV(FilePath, _tours);
         }
 
-        public Tour Update(Tour tour) 
+        public Tour Update(Tour tour)
         {
             _tours = _serializer.FromCSV(FilePath);
             Tour current = _tours.Find(t => t.Id == tour.Id) ?? throw new ArgumentException();
