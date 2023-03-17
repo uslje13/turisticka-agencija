@@ -38,7 +38,13 @@ namespace TravelAgency.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), OwnerId.ToString(), GuestId.ToString(), CleanlinessGrade.ToString(), RespectGrade.ToString(), Comment };
+            string[] csvValues = { 
+                Id.ToString(),
+                OwnerId.ToString(),
+                GuestId.ToString(),
+                CleanlinessGrade.ToString(),
+                RespectGrade.ToString(),
+                Comment };
             return csvValues;
         }
 

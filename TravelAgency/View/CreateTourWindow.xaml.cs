@@ -243,7 +243,7 @@ namespace TravelAgency.View
         {
             foreach (Image image in Images)
             {
-                image.TourId = tour.Id;
+                image.EntityId = tour.Id;
             }
         }
 
@@ -270,7 +270,7 @@ namespace TravelAgency.View
 
         private void AddImagesButtonClick(object sender, RoutedEventArgs e)
         {
-            AddImagesWindow addImagesWindow = new AddImagesWindow(Images);
+            AddImagesWindow addImagesWindow = new AddImagesWindow(Images,Image.ImageType.TOUR);
             addImagesWindow.Owner = Window.GetWindow(this);
             addImagesWindow.ShowDialog();
         }

@@ -42,7 +42,12 @@ namespace TravelAgency.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), UserId.ToString(), Text, ((int)Type).ToString(), Read == true ? "1" : "0",GuestId.ToString() };
+            string[] csvValues = { 
+                Id.ToString(),
+                UserId.ToString(),
+                Text, ((int)Type).ToString(),
+                Read == true ? "1" : "0",
+                GuestId.ToString() };
             return csvValues;
 
         }

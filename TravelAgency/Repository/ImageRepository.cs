@@ -54,7 +54,7 @@ namespace TravelAgency.Repository
         {
             foreach (Image image in _images)
             {
-                if (image.TourId == id)
+                if (image.EntityId == id)
                 {
                     Delete(image);
                 }

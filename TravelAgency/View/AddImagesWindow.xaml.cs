@@ -11,6 +11,7 @@ namespace TravelAgency.View
     public partial class AddImagesWindow : Window
     {
         private ObservableCollection<Model.Image> _images;
+        private Model.Image.ImageType ImageType;
         public ObservableCollection<Model.Image> Images
         {
             get => _images;
@@ -47,11 +48,12 @@ namespace TravelAgency.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AddImagesWindow(ObservableCollection<Model.Image> images)
+        public AddImagesWindow(ObservableCollection<Model.Image> images, Model.Image.ImageType imageType )
         {
             InitializeComponent();
             DataContext = this;
             Images = images;
+            ImageType = imageType;
 
             DisableCoverButton();
         }
@@ -88,6 +90,7 @@ namespace TravelAgency.View
         {
             Model.Image image = new Model.Image();
             image.Url = Url;
+            image.Type = ImageType;
             Images.Add(image);
             urlTextBox.Text = string.Empty;
 

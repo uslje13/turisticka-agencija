@@ -38,12 +38,14 @@ namespace TravelAgency.View
 
         private AccommodationRepository _accommodationRepository;
         private LocationRepository _locationRepository;
+        private ImageRepository _imageRepository;
         public CreateAccommodationWindow(AccommodationRepository accommodationRepository, User user)
         {
             DataContext = this;
 
             _accommodationRepository = accommodationRepository;
             _locationRepository = new();
+            _imageRepository = new();
 
             Images = new ObservableCollection<Model.Image>();
             Locations = new List<Location>(_locationRepository.GetAll());
@@ -74,17 +76,24 @@ namespace TravelAgency.View
 
         private void ButtonClickAdd(object sender, RoutedEventArgs e)
         {
-            if (!IsValid()) return;
+            if (!IsValid()) 
+            {
+                MessageBox.Show("Popunite sva polja!");
+                return;
+            }
+            
 
             int locationId = FindLocationId();
-            Accommodation accommodation = new Accommodation(AName,Type , locationId, MaxGuests, MinDaysStay, "URL", LoggedInUser.Id);
-            _accommodationRepository.Save(accommodation);
+            Accommodation accommodation = new Accommodation(AName,Type , locationId, MaxGuests, MinDaysStay, LoggedInUser.Id);
+            accommodation = _accommodationRepository.Save(accommodation);
+            SetImagesTourId(accommodation);
+            _imageRepository.SaveAll(Images);
             Close();
         }
 
         private void AddImagesButtonClick(object sender, RoutedEventArgs e)
         {
-            AddImagesWindow addImagesWindow = new AddImagesWindow(Images);
+            AddImagesWindow addImagesWindow = new AddImagesWindow(Images,Model.Image.ImageType.ACCOMMODATION);
             addImagesWindow.Owner = Window.GetWindow(this);
             addImagesWindow.Show();
         }
@@ -105,6 +114,14 @@ namespace TravelAgency.View
             }
             coutries = new ObservableCollection<string>(coutries.Distinct());
             return coutries;
+        }
+
+        private void SetImagesTourId(Accommodation accommodation)
+        {
+            foreach (Model.Image image in Images)
+            {
+                image.EntityId = accommodation.Id;
+            }
         }
 
         public void GetCities()

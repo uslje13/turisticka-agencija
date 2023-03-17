@@ -33,7 +33,7 @@ namespace TravelAgency.Model
             MinDaysForCancelation = 0;
             OwnerId = -1;
         }
-        public Accommodation(string name, AccommodationType type, int locationId, int maxGuests, int minDaysStay, string photoUrl, int ownerId, int minDaysForCancelation = 1)
+        public Accommodation(string name, AccommodationType type, int locationId, int maxGuests, int minDaysStay, int ownerId, int minDaysForCancelation = 1)
         {
             Id = -1;
             Name = name;
@@ -47,7 +47,15 @@ namespace TravelAgency.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Name, LocationId.ToString(), ((int)Type).ToString(), MaxGuests.ToString(), MinDaysStay.ToString(), MinDaysForCancelation.ToString(), OwnerId.ToString() };
+            string[] csvValues = { 
+                Id.ToString(),
+                Name,
+                LocationId.ToString(),
+                ((int)Type).ToString(),
+                MaxGuests.ToString(),
+                MinDaysStay.ToString(),
+                MinDaysForCancelation.ToString(),
+                OwnerId.ToString() };
             return csvValues;
         }
 
