@@ -156,42 +156,40 @@ namespace TravelAgency.View
             int j = 0;
             for(int i = 0;  i < array.Length; i++)
             {
-                if(i == appIndexes[j])
+                if(checkCounter < okCount)
                 {
-                    if (array[i] > DaysDuration) 
+                    if (i == appIndexes[j])
                     {
-                        int diff = array[i] - DaysDuration;
-                        int daysSumCopy = daysSum;
-                        for(int k = 0; k < diff; k++)
+                        if (array[i] > DaysDuration)
                         {
-                            CreateCatalogItem(daysSumCopy);
-                            daysSumCopy++;
+                            int diff = array[i] - DaysDuration;
+                            int daysSumCopy = daysSum;
+                            for (int k = 0; k < diff; k++)
+                            {
+                                CreateCatalogItem(daysSumCopy);
+                                daysSumCopy++;
+                            }
                         }
+                        else
+                        {
+                            CreateCatalogItem(daysSum);
+                        }
+                        j++;
+                        checkCounter++;
                     }
-                    CreateCatalogItem(daysSum);
-                    j++;
-                    checkCounter++;
+                    daysSum += array[i];
                 }
-                daysSum += array[i];
             }
         }
 
         private void CreateCatalogItem(int daysSum)
         {
             DateTime firstComponent = EnteredFirstDay.AddDays(daysSum);
-            DateTime secondComponent = EnteredLastDay.AddDays(DaysDuration);
+            DateTime secondComponent = firstComponent.AddDays(DaysDuration);
             AccReservationDTO dto = new AccReservationDTO(accommodationDTO.AccommodationId, accommodationDTO.AccommodationName,
                                                           accommodationDTO.AccommodationMinDaysStay, firstComponent, secondComponent,
                                                           DaysDuration, accommodationDTO.AccommodationMaxGuests);
             dtoReservation.Add(dto);
-        }
-
-        private void AddReservation(DateTime start, DateTime end, int days, int accId)
-        {
-            AccommodationReservation reservation = new AccommodationReservation(start, end, days, accId);
-            AccommodationReservationRepository reservationRepository = new AccommodationReservationRepository();
-            reservationRepository.Save(reservation);
-            MessageBox.Show("Uspešno rezervisano.");
         }
 
         private int[] FindFreeDaysInRow()
@@ -248,6 +246,12 @@ namespace TravelAgency.View
             }
 
             return result;
+        }
+
+        private void PickCatalogItemClick(object sender, RoutedEventArgs e)
+        {
+            SelectReservationDates selectReservationDates = new SelectReservationDates(dtoReservation);
+            selectReservationDates.ShowDialog();
         }
     }
 }

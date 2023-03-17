@@ -8,9 +8,11 @@
         WindowStartupLocation="CenterScreen"
         Title="ShowAvailableDates" Height="400" Width="400">
     <Grid>
-        <!--Label x:Name="Labela1" Content="Prikaz slobodnih datuma" FontSize="20" FontWeight="Bold" Margin="135,119,450,242"
-               HorizontalAlignment="Center"></Label-->
-        <Calendar x:Name="Calendar" SelectionMode="MultipleRange" Margin="89,94,89,95" 
+        <Label x:Name="Labela1" Content="Prikaz odabranih datuma" FontSize="20" FontWeight="Bold" Margin="0,47,0,262"
+               HorizontalAlignment="Center" Width="252"></Label>
+        <Calendar x:Name="Calendar" SelectionMode="MultipleRange" Margin="89,109,89,80" 
                   DisplayDateStart="{Binding EnteredFirstDay}" DisplayDateEnd="{Binding EnteredLastDay}"></Calendar>
+        <Button x:Name="SelectReservationButton" Content="Odaberi termin" Margin="137,304,137,35"
+                FontSize="12" Click="PickCatalogItemClick"/>
     </Grid>
 </Window>
