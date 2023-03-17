@@ -40,6 +40,14 @@ namespace TravelAgency.Repository
             _serializer.ToCSV(FilePath, _accommodations);
         }
 
+        public void DeleteById(int id)
+        {
+            _accommodations = _serializer.FromCSV(FilePath);
+            Accommodation found = _accommodations.Find(t => t.Id == id) ?? throw new ArgumentException();
+            _accommodations.Remove(found);
+            _serializer.ToCSV(FilePath, _accommodations);
+        }
+
         public Accommodation Update(Accommodation accommodation)
         {
             _accommodations = _serializer.FromCSV(FilePath);

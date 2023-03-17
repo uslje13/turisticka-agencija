@@ -14,6 +14,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TravelAgency.Converter;
+using TravelAgency.DTO;
 using TravelAgency.Model;
 using TravelAgency.Repository;
 
@@ -28,9 +30,9 @@ namespace TravelAgency.View
         private AccommodationRepository _accommodationRepository;
         private GuestReviewRepository _guestReviewRepository;
 
-        private LocationRepository _locationRepository;
-        public static ObservableCollection<Accommodation> Accommodations { get; set; }
-        public Accommodation SelectedAccommodation { get; set; }
+        private LocationConverter _locationConverter;
+        public static ObservableCollection<AccommodationDTO> Accommodations { get; set; }
+        public AccommodationDTO SelectedAccommodation { get; set; }
         
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -45,23 +47,24 @@ namespace TravelAgency.View
             LoggedInUser = user;
             _accommodationRepository = new AccommodationRepository();
             _guestReviewRepository = new GuestReviewRepository();
-            _locationRepository = new LocationRepository();
-            Accommodations = new ObservableCollection<Accommodation>();
+            _locationConverter = new();
+            Accommodations = new ObservableCollection<AccommodationDTO>();
             FillObservableCollection(Accommodations);
 
             InitializeComponent();
         }
 
-        private void FillObservableCollection(ObservableCollection<Accommodation> accommodations)
+        private void FillObservableCollection(ObservableCollection<AccommodationDTO> accommodations)
         {
             foreach (Accommodation item in _accommodationRepository.GetAll())
             {
                 if (item.OwnerId != LoggedInUser.Id) continue;
+                string location = string.Empty;
                 if (item.LocationId != -1)
                 {
-                    item.Location = _locationRepository.GetById(item.LocationId);
+                    location = _locationConverter.GetFullNameById(item.LocationId);
                 }
-                accommodations.Add(item);
+                accommodations.Add(new AccommodationDTO(item.Id,item.Name,location,item.Type,item.MaxGuests,item.MinDaysStay,item.MinDaysForCancelation));
             }
         }
 
@@ -75,7 +78,7 @@ namespace TravelAgency.View
         private void DeleteButtonClick(object sender, RoutedEventArgs e)
         {
             if (SelectedAccommodation != null && ConfirmAccommodationDeletion() == MessageBoxResult.Yes)
-                _accommodationRepository.Delete(SelectedAccommodation);
+                _accommodationRepository.DeleteById(SelectedAccommodation.Id);
             UpdateAccommodations();
 
 

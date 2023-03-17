@@ -16,12 +16,10 @@ namespace TravelAgency.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public int LocationId { get; set; }
-        public Location Location { get; set; }
         public AccommodationType Type { get; set; }
         public int MaxGuests { get; set; }
         public int MinDaysStay { get; set; }
         public int MinDaysForCancelation { get; set; }
-        public string PhotoUrl { get; set; }
         public int OwnerId { get; set; }
 
         public Accommodation()
@@ -33,7 +31,6 @@ namespace TravelAgency.Model
             MaxGuests = 0;
             MinDaysStay = 0;
             MinDaysForCancelation = 0;
-            PhotoUrl = string.Empty;
             OwnerId = -1;
         }
         public Accommodation(string name, AccommodationType type, int locationId, int maxGuests, int minDaysStay, string photoUrl, int ownerId, int minDaysForCancelation = 1)
@@ -45,13 +42,12 @@ namespace TravelAgency.Model
             MaxGuests = maxGuests;
             MinDaysStay = minDaysStay;
             MinDaysForCancelation = minDaysForCancelation;
-            PhotoUrl = photoUrl;
             OwnerId = ownerId; 
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Name, LocationId.ToString(), ((int)Type).ToString(), MaxGuests.ToString(), MinDaysStay.ToString(), MinDaysForCancelation.ToString(), PhotoUrl, OwnerId.ToString() };
+            string[] csvValues = { Id.ToString(), Name, LocationId.ToString(), ((int)Type).ToString(), MaxGuests.ToString(), MinDaysStay.ToString(), MinDaysForCancelation.ToString(), OwnerId.ToString() };
             return csvValues;
         }
 
@@ -65,7 +61,6 @@ namespace TravelAgency.Model
             MaxGuests = Convert.ToInt32(values[i++]);
             MinDaysStay = Convert.ToInt32(values[i++]);
             MinDaysForCancelation = Convert.ToInt32(values[i++]);
-            PhotoUrl = values[i++];
             OwnerId = Convert.ToInt32(values[i++]);
         }
     }
