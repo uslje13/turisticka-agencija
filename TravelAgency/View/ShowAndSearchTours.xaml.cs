@@ -36,11 +36,11 @@ namespace TravelAgency.View
         private readonly TourRepository _repository;
         private readonly LocationRepository _locationRepository;
         private readonly AppointmentRepository _appointmentRepository;
-        public ShowAndSearchTours(User user)
+        public ShowAndSearchTours(User loggedInUser)
         {
             InitializeComponent();
             DataContext = this;
-            LoggedInUser = user;
+            LoggedInUser = loggedInUser;
             _repository = new TourRepository();
             _locationRepository = new LocationRepository();
             _appointmentRepository = new AppointmentRepository();

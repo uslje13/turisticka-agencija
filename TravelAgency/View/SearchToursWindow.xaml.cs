@@ -34,13 +34,13 @@ namespace TravelAgency.View
         private int _searchedDuration;
         public User LoggedInUser { get; set; }
         public static ObservableCollection<TourDTO> TourDTOs { get; set; }
-        public SearchToursWindow(ObservableCollection<TourDTO> tourDTOs, User user)
+        public SearchToursWindow(ObservableCollection<TourDTO> tourDTOs, User loggedInUser)
         {
             InitializeComponent();
             DataContext = this;
             TourDTOs = new ObservableCollection<TourDTO>();
             TourDTOs = tourDTOs;
-            LoggedInUser= user;
+            LoggedInUser= loggedInUser;
         }
 
         public string SearchedLanguage
@@ -156,8 +156,8 @@ namespace TravelAgency.View
         private bool IsApropriate(TourDTO tourDTO)
         {
             bool checkCity = tourDTO.City.ToLower().Contains(SearchedCity.ToLower()) || SearchedCity.Equals(string.Empty);
-            bool checkCountry = tourDTO.Country.Contains(SearchedCountry) || SearchedCountry.Equals(string.Empty);
-            bool checkLanguage = tourDTO.Language.Contains(SearchedLanguage) || SearchedLanguage.Equals(string.Empty);
+            bool checkCountry = tourDTO.Country.ToLower().Contains(SearchedCountry.ToLower()) || SearchedCountry.Equals(string.Empty);
+            bool checkLanguage = tourDTO.Language.ToLower().Contains(SearchedLanguage.ToLower()) || SearchedLanguage.Equals(string.Empty);
             bool checkOcupancy = SearchedOcupancy <= tourDTO.MaxNumOfGuests;
             bool checkDuration = SearchedDuration == tourDTO.Duration || SearchedDuration == 0;
 

@@ -25,12 +25,12 @@ namespace TravelAgency.View
         public static ObservableCollection<TourDTO> TourDTOs { get; set; }
         public User LoggedInUser { get; set; }
         public TourDTO Selected { get; set; }
-        public AlternativeTours(TourDTO tourDTO, User user, ObservableCollection<TourDTO> tourDTOs)
+        public AlternativeTours(TourDTO tourDTO, User loggedInUser, ObservableCollection<TourDTO> tourDTOs)
         {
             InitializeComponent();
             DataContext = this;
             TourDTOs = new ObservableCollection<TourDTO>();
-            LoggedInUser = user;
+            LoggedInUser = loggedInUser;
             FillDTOList(tourDTO, tourDTOs);
         }
 
