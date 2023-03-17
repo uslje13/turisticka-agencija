@@ -31,9 +31,9 @@ namespace TravelAgency.View
         public DateTime EnteredFirstDay { get; set; }
         public DateTime EnteredLastDay { get; set; }
         public DateTime[] datesArray { get; set; }
-
-
         public int DaysDuration { get; set; }
+        public List<AccReservationDTO> dtoReservation { get; set; }
+
 
         public ShowAvailableDates()
         {
@@ -47,6 +47,8 @@ namespace TravelAgency.View
             reservationDTOList = new ObservableCollection<AccReservationDTO>();
             accommodationRepository = new AccommodationRepository();
             reservationRepository = new AccommodationReservationRepository();
+            dtoReservation = new List<AccReservationDTO>();
+
             datesArray = new DateTime[100];
 
             accommodationDTO = dto;
@@ -96,7 +98,7 @@ namespace TravelAgency.View
                 }
             }
             
-            CheckRequestedDates(EnteredFirstDay, EnteredLastDay, DaysDuration, accReservationDTO);
+            CheckRequestedDates();
         }
 
         private void MarkCalendar(AccReservationDTO reservationDTO)
@@ -121,25 +123,67 @@ namespace TravelAgency.View
             return data;
         }
 
-        private void CheckRequestedDates(DateTime firstDay, DateTime lastDay, int daysStay, AccReservationDTO reservationDTO)
+        private void CheckRequestedDates()
         {
-            int[] counterArray = FindFreeDaysInRow(firstDay, lastDay);
-            int[] results = FindMaxCounter(counterArray);
+            int[] daysCounter = FindFreeDaysInRow();
+            int[] appropiatedIndexes = FindAppropiatedIndexes(daysCounter);
+            int notOkeyCounter = 0;
+            int okeyCounter = 0;
 
-            if(results[0] < daysStay)
+            foreach (int index in appropiatedIndexes)
             {
-                //novi prozor sa ponudom termina jer rezervacija u datom opsegu za trazeni broj dana nije moguca
+                if (index == -1)
+                {
+                    notOkeyCounter++;
+                } else okeyCounter++;
             }
-            else if(results[0] == daysStay)
+
+            if(notOkeyCounter == appropiatedIndexes.Length)
             {
-                //pristupa se tom nizu i on se rezervise
-                int index = results[1];
-                //datesArray[index]
-            } 
-            else if(results[0] > daysStay)
-            {
-                //pristupa se tom nizu i on se rezervise za AddDays(daysStay)
+                //novi prozor sa ponudom termina van zadatog opsega
+                //jer rezervacija u datom opsegu za trazeni broj dana nije moguca
             }
+            else
+            {
+                CreateFreeAppointmentsCatalog(daysCounter, appropiatedIndexes, okeyCounter);
+            }
+        }
+
+        private void CreateFreeAppointmentsCatalog(int[] array, int[] appIndexes, int okCount)
+        {
+            int checkCounter = 0;
+            int daysSum = 0;
+            int j = 0;
+            for(int i = 0;  i < array.Length; i++)
+            {
+                if(i == appIndexes[j])
+                {
+                    if (array[i] > DaysDuration) 
+                    {
+                        int diff = array[i] - DaysDuration;
+                        int daysSumCopy = daysSum;
+                        for(int k = 0; k < diff; k++)
+                        {
+                            CreateCatalogItem(daysSumCopy);
+                            daysSumCopy++;
+                        }
+                    }
+                    CreateCatalogItem(daysSum);
+                    j++;
+                    checkCounter++;
+                }
+                daysSum += array[i];
+            }
+        }
+
+        private void CreateCatalogItem(int daysSum)
+        {
+            DateTime firstComponent = EnteredFirstDay.AddDays(daysSum);
+            DateTime secondComponent = EnteredLastDay.AddDays(DaysDuration);
+            AccReservationDTO dto = new AccReservationDTO(accommodationDTO.AccommodationId, accommodationDTO.AccommodationName,
+                                                          accommodationDTO.AccommodationMinDaysStay, firstComponent, secondComponent,
+                                                          DaysDuration, accommodationDTO.AccommodationMaxGuests);
+            dtoReservation.Add(dto);
         }
 
         private void AddReservation(DateTime start, DateTime end, int days, int accId)
@@ -150,48 +194,59 @@ namespace TravelAgency.View
             MessageBox.Show("Uspešno rezervisano.");
         }
 
-        private int[] FindFreeDaysInRow(DateTime firstDay, DateTime lastDay)
+        private int[] FindFreeDaysInRow()
         {
             CalendarBlackoutDatesCollection blackoutDates = Calendar.BlackoutDates;
             int[] counterArray = new int[100];
             int i = 0;
-            int j = firstDay.DayOfYear;
-            int k = lastDay.DayOfYear;
-            DateTime firstJan = new DateTime(firstDay.Year, 1, 1);
+            int z = 0;
+            bool flag = false;
+            int j = EnteredFirstDay.DayOfYear;
+            int k = EnteredLastDay.DayOfYear;
+            DateTime firstJan = new DateTime(EnteredFirstDay.Year, 1, 1);
             for (; j <= k; j++)
             {
                 if (!blackoutDates.Contains(firstJan.AddDays(j-1)))
                 {
+                    if(flag)
+                    {
+                        i++;
+                    }
                     counterArray[i]++;
-                    //datesArray[i] = item;
+                    datesArray[z++] = firstJan.AddDays(j - 1);
+                    flag = false;
                 }
                 else
                 {
+                    flag = true;
                     counterArray[++i]++;
-                    //datesArray[++i] = item;
+                    datesArray[z++] = firstJan.AddDays(j-1);
                 }
             }
 
             return counterArray;
         }
 
-        private int[] FindMaxCounter(int[] array)
+        private int[] FindAppropiatedIndexes(int[] array)
         {
-            int max = array[0];
-            int maxIndex = 0;
+            int[] result = new int[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+                result[i] = -1;
+            }
+
+            int j = 0;
             for(int i = 0; i < array.Length; i++)
             {
-                if (array[i] > max)
+                if (array[i] != 1)
                 {
-                    max = array[i];
-                    maxIndex = i;
+                    if (array[i] >= DaysDuration)
+                    {
+                        result[j++] = i;
+                    }
                 }
             }
 
-            int[] result = new int[2];
-            result[0] = max;
-            result[1] = maxIndex;
-            
             return result;
         }
     }
