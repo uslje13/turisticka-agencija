@@ -37,8 +37,6 @@ namespace TravelAgency.View
 
         private readonly AppointmentRepository _appointmentReository;
 
-        private readonly CheckpointRepository _checkpointRepository;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -56,7 +54,6 @@ namespace TravelAgency.View
 
             _tourReository = new TourRepository();
             _appointmentReository = new AppointmentRepository();
-            _checkpointRepository = new CheckpointRepository();
 
             Tours = new ObservableCollection<Tour>(_tourReository.GetByUser(user));
             Appointments = new List<Appointment>(_appointmentReository.GetAll());
@@ -90,9 +87,7 @@ namespace TravelAgency.View
             {
                 appointment.Finished = true;
                 _appointmentReository.Update(appointment);
-                DeactivateCheckpoints(tour);
             }
-
         }
 
         private (int, int) ConvertDuration(int duration)
@@ -101,19 +96,6 @@ namespace TravelAgency.View
             int hours = duration % 24;
 
             return (days, hours);
-        }
-
-        private void DeactivateCheckpoints(Tour tour)
-        {
-            List<Checkpoint> checkpoints = new List<Checkpoint>(_checkpointRepository.GetAll());
-            foreach (Checkpoint checkpoint in checkpoints)
-            {
-                if (checkpoint.TourId == tour.Id)
-                {
-                    checkpoint.Active = false;
-                    _checkpointRepository.Update(checkpoint);
-                }
-            }
         }
 
         private void AddButtonClick(object sender, RoutedEventArgs e)
@@ -128,6 +110,12 @@ namespace TravelAgency.View
             ShowTodayToursWindow showTodayToursWindow = new ShowTodayToursWindow(Tours);
             showTodayToursWindow.Owner = Window.GetWindow(this);
             showTodayToursWindow.ShowDialog();
+        }
+
+        private void ActiveTourButtonClick(object sender, RoutedEventArgs e)
+        {
+            ShowTourCheckpoints showTourCheckpoints = new ShowTourCheckpoints(new List<Tour>(Tours));
+            showTourCheckpoints.ShowDialog();
         }
 
         /*

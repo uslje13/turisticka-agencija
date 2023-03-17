@@ -26,11 +26,17 @@ namespace TravelAgency.Repository
             return _appointments;
         }
 
-        public void Save(Appointment Appointment)
+        public Appointment GetById(int id) 
         {
-            Appointment.Id = NextId();
             _appointments = _serializer.FromCSV(FilePath);
-            _appointments.Add(Appointment);
+            return _appointments.Find(a => a.Id == id) ?? throw new ArgumentException();
+        }
+
+        public void Save(Appointment appointment)
+        {
+            appointment.Id = NextId();
+            _appointments = _serializer.FromCSV(FilePath);
+            _appointments.Add(appointment);
             _serializer.ToCSV(FilePath, _appointments);
         }
 
@@ -71,6 +77,13 @@ namespace TravelAgency.Repository
             _serializer.ToCSV(FilePath, _appointments);
         }
 
+        public List<Appointment> GetTodayAppointments()
+        {
+            _appointments = _serializer.FromCSV(FilePath);
+            DateOnly today = DateOnly.FromDateTime(DateTime.Today);
+            return _appointments.FindAll(a => a.Date.Equals(today));
+        }
+
         public int NextId()
         {
             _appointments = _serializer.FromCSV(FilePath);
@@ -80,6 +93,5 @@ namespace TravelAgency.Repository
             }
             return _appointments.Max(d => d.Id) + 1;
         }
-
     }
 }
