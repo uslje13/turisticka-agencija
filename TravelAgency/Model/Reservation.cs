@@ -12,16 +12,14 @@ namespace TravelAgency.Model
     public class Reservation : ISerializable
     {
         public int Id { get; set; }
-        public int TourId { get; set; }
         public int AppointmentId { get; set; }
         public int TouristNum { get; set; }
         public int UserId { get; set; }
 
         public Reservation() { }
 
-        public Reservation(int tourId, int touristNum, int userId, int appointmentId)
+        public Reservation(int touristNum, int userId, int appointmentId)
         {
-            TourId = tourId;
             TouristNum = touristNum;
             UserId = userId;
             AppointmentId = appointmentId;
@@ -31,9 +29,8 @@ namespace TravelAgency.Model
         {
             Id = int.Parse(values[0]);
             UserId = int.Parse(values[1]);
-            TourId = int.Parse(values[2]);
-            AppointmentId = int.Parse(values[3]);
-            TouristNum = int.Parse(values[4]);
+            AppointmentId = int.Parse(values[2]);
+            TouristNum = int.Parse(values[3]);
         }
 
         public string[] ToCSV()
@@ -42,7 +39,6 @@ namespace TravelAgency.Model
             {
                 Id.ToString(),
                 UserId.ToString(),
-                TourId.ToString(),
                 AppointmentId.ToString(),
                 TouristNum.ToString()
             };
