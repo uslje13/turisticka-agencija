@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
         Title="SignInForm" Height="250" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -30,5 +31,9 @@
         </Grid>
 
         <Button Grid.Row="2" Click="SignIn" Content="Sign in" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="60"/>
+        <Button x:Name="button" Content="Ture" HorizontalAlignment="Left" Margin="59,0,0,0" Grid.Row="2" VerticalAlignment="Center"
+                Click="button_Click"/>
+        <Button x:Name="gost1" Content="Gost-1" HorizontalAlignment="Left" Margin="334,0,0,0" Grid.Row="2" VerticalAlignment="Center"
+                Click="gost1_click"/>
     </Grid>
 </Window>

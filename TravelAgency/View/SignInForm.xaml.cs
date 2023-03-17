@@ -91,5 +91,11 @@ namespace TravelAgency.View
                 MessageBox.Show("Wrong username!");
             }
         }
+
+        private void gost1_click(object sender, RoutedEventArgs e)
+        {
+            SearchAccommodation searchAccommodation = new SearchAccommodation();
+            searchAccommodation.Show();
+        }
     }
 }
