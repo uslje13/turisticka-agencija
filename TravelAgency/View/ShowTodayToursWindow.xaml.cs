@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using TravelAgency.Converter;
 using TravelAgency.Model;
 using TravelAgency.Repository;
 
@@ -13,11 +14,14 @@ namespace TravelAgency.View
     /// </summary>
     public partial class ShowTodayToursWindow : Window
     {
-        public ObservableCollection<Tour> Tours { get; set; }
-        public ObservableCollection<Tour> TodayTours { get; set; }
+        public List<Tour> Tours { get; set; }
+        public List<Tour> TodayTours { get; set; }
         public ObservableCollection<Appointment> Appointments { get; set; }
         public ObservableCollection<Appointment> TodayAppointments { get; set; }
         public List<Checkpoint> Checkpoints { get; set; }
+
+        public ObservableCollection<TourDTO> TodayToursDTO { get; set; }
+        private LocationConverter _locationConverter;
 
         private readonly AppointmentRepository _appointmentRepository;
 
@@ -27,7 +31,22 @@ namespace TravelAgency.View
 
         public CheckpointRepository CheckpointRepository => _checkpointRepository;
 
-        public Tour SelectedTour { get; set; }
+        public TourDTO SelectedTourDTO { get; set; }
+
+        private void FillObservableCollection()
+        {
+            foreach (Tour tour in TodayTours)
+            {
+                string location = _locationConverter.GetFullNameById(tour.LocationId);
+                TodayToursDTO.Add(new TourDTO(tour.Id, tour.Name, tour.Language, location, tour.MaxNumOfGuests, tour.Duration));
+            }
+        }
+
+        public void UpdateObservableCollection()
+        {
+            TodayToursDTO.Clear();
+            FillObservableCollection();
+        }
 
         public ShowTodayToursWindow(ObservableCollection<Tour> tours)
         {
@@ -38,14 +57,17 @@ namespace TravelAgency.View
             _checkpointRepository = new CheckpointRepository();
 
             Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());
-            Tours = tours;
+            TodayToursDTO = new ObservableCollection<TourDTO>();
+            Tours = new List<Tour>(tours);
 
+            _locationConverter = new();
             TodayTours = FindTodayTours();
+            FillObservableCollection();
         }
 
-        private ObservableCollection<Tour> FindTodayTours()
+        private List<Tour> FindTodayTours()
         {
-            ObservableCollection<Tour> todayTours = new ObservableCollection<Tour>();
+            List<Tour> todayTours = new List<Tour>();
             DateOnly today = DateOnly.FromDateTime(DateTime.Today);
             foreach (Appointment appointment in Appointments)
             {
@@ -57,19 +79,20 @@ namespace TravelAgency.View
                     }
                 }
             }
-            todayTours = new ObservableCollection<Tour>(todayTours.Distinct());
+            todayTours = new List<Tour>(todayTours.Distinct());
             return todayTours;
         }
 
         private void PickTimeButtonClick(object sender, RoutedEventArgs e)
         {
-            if (SelectedTour == null)
+            if (SelectedTourDTO == null)
             {
                 MessageBox.Show("Morate odabrati turu!");
             }
             else
             {
-                StartTourWindow startTourWindow = new StartTourWindow(SelectedTour, Tours, AppointmentRepository, CheckpointRepository);
+                Tour selectedTour = TodayTours.Find(t => t.Id == SelectedTourDTO.TourId) ?? throw new ArgumentException();
+                StartTourWindow startTourWindow = new StartTourWindow(selectedTour, Tours, AppointmentRepository, CheckpointRepository);
                 startTourWindow.Owner = Window.GetWindow(this);
                 startTourWindow.ShowDialog();
             }

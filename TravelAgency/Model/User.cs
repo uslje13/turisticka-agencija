@@ -7,7 +7,7 @@ using TravelAgency.Serializer;
 
 namespace TravelAgency.Model
 {
-    public enum Roles { VLASNIK, VODIC, GOST1, GOST2 }
+    public enum Roles { OWNER, TOURISTGUIDE, GUEST1, GUEST2 }
     public class User : ISerializable
     {
         public int Id { get; set; }
@@ -38,16 +38,16 @@ namespace TravelAgency.Model
             switch (values[3])
             {
                 case "VLASNIK":
-                    Role = Roles.VLASNIK;
+                    Role = Roles.OWNER;
                     break;
                 case "VODIC":
-                    Role = Roles.VODIC;
+                    Role = Roles.TOURISTGUIDE;
                     break;
                 case "GOST1":
-                    Role = Roles.GOST1;
+                    Role = Roles.GUEST1;
                     break;
                 case "GOST2":
-                    Role = Roles.GOST2;
+                    Role = Roles.GUEST2;
                     break;
             }
         }

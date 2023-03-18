@@ -22,10 +22,10 @@ namespace TravelAgency.View
 
         private readonly CheckpointActivityRepository _checkpointActivityRepository;
 
-        public ObservableCollection<Tour> UserTours { get; set; }
+        public List<Tour> UserTours { get; set; }
         public Tour SelectedTour { get; set; }
 
-        public StartTourWindow(Tour selectedTour, ObservableCollection<Tour> todayUserTours, AppointmentRepository appointmentRepository, CheckpointRepository checkpointRepository)
+        public StartTourWindow(Tour selectedTour, List<Tour> userTours, AppointmentRepository appointmentRepository, CheckpointRepository checkpointRepository)
         {
             InitializeComponent();
             DataContext = this;
@@ -34,7 +34,7 @@ namespace TravelAgency.View
             _checkpointRepository = checkpointRepository;
             _checkpointActivityRepository = new CheckpointActivityRepository();
 
-            UserTours = todayUserTours;
+            UserTours = userTours;
             SelectedTour = selectedTour;
             TodayAppointmentsByTour = new ObservableCollection<Appointment>(FindAppointmentsByTour());
             ExistsActiveAppointment();
@@ -86,6 +86,10 @@ namespace TravelAgency.View
             {
                 MessageBox.Show("Morate odabrati satnicu!");
             }
+            else if (SelectedAppointment.Finished == true)
+            {
+                MessageBox.Show("TURA JE ZAVŠENA!\nNe možete započeti turu.");
+            }
             else
             {
                 ActivateAppointment();
@@ -93,7 +97,7 @@ namespace TravelAgency.View
                 MessageBox.Show("Tura je uspešno startovana!");
                 DisableStartTour();
                 Close();
-                ShowTourCheckpointsWindow showTourCheckpoints = new ShowTourCheckpointsWindow(new List<Tour>(UserTours));
+                ShowTourCheckpointsWindow showTourCheckpoints = new ShowTourCheckpointsWindow(UserTours);
                 showTourCheckpoints.ShowDialog();
             }
         }

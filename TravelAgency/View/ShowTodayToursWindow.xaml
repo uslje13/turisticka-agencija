@@ -9,14 +9,14 @@
     <Grid>
         <Grid>
             <DataGrid Background="#FFE5E5E5"
-                          ItemsSource="{Binding TodayTours}"
-                          SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding TodayToursDTO}"
+                          SelectedItem="{Binding Path=SelectedTourDTO, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="63,64,62,23">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="170"/>
                     <DataGridTextColumn Header="Maks. br. gostiju" Binding="{Binding MaxNumOfGuests}" Width="200"/>
-                    <DataGridTextColumn Header="Lokacija" Binding="{Binding LocationId}" Width="200"/>
+                    <DataGridTextColumn Header="Lokacija" Binding="{Binding CityAndCountry}" Width="200"/>
                     <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration}" Width="92"/>
                 </DataGrid.Columns>
             </DataGrid>

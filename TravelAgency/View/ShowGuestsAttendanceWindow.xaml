@@ -9,11 +9,11 @@
     <Grid>
         <Grid>
             <DataGrid Background="#FFE5E5E5"
-                          ItemsSource="{Binding GuestsAttendances, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding GuestsAttendancesDTO, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="14,50,24,57">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Ime" Binding="{Binding UserId}" Width="140"/>
+                    <DataGridTextColumn Header="Korisničko ime" Binding="{Binding Username}" Width="140"/>
                     <DataGridTextColumn Header="Prisutnost" Binding="{Binding Presence}" Width="100"/>
                 </DataGrid.Columns>
             </DataGrid>

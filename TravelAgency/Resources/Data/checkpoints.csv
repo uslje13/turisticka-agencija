@@ -5,3 +5,9 @@
 5|Milan|END|2
 6|Novi Sad|START|3
 7|Budimpesta|END|3
+8|Beograd|START|4
+9|Lisabon|EXTRA|4
+10|Rio|END|4
+11|Beograd|START|5
+12|Madrid|EXTRA|5
+13|Buenos Ajres|END|5

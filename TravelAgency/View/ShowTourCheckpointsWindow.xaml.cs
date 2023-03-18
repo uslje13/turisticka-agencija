@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using TravelAgency.Converter;
+using TravelAgency.DTO;
 using TravelAgency.Model;
 using TravelAgency.Repository;
 
@@ -12,11 +14,30 @@ namespace TravelAgency.View
     public partial class ShowTourCheckpointsWindow : Window
     {
         public ObservableCollection<CheckpointActivity> CheckpointActivities { get; set; }
+        public ObservableCollection<CheckpointActivityDTO> CheckpointActivitiesDTO { get; set; }
         public List<Tour> UserTours { get; set; }
+        public CheckpointActivityDTO SelectedCheckpointActivityDTO { get; set; }
         public CheckpointActivity SelectedCheckpointActivity { get; set; }
         private readonly CheckpointActivityRepository _checkpointActivityRepository;
         private readonly AppointmentRepository _appointmentRepository;
         private readonly CheckpointRepository _checkpointRepository;
+
+        private void FillObservableCollection()
+        {
+            FindCheckpointActivitesByActiveAppointment();
+            foreach (CheckpointActivity activity in CheckpointActivities)
+            {
+                Checkpoint checkpoint = _checkpointRepository.GetById(activity.CheckpointId);
+                CheckpointActivitiesDTO.Add(new CheckpointActivityDTO(activity.Id, checkpoint.Name, checkpoint.Type, activity.Activated, checkpoint.Id));
+            }
+        }
+
+        public void UpdateObservableCollection()
+        {
+            CheckpointActivitiesDTO.Clear();
+            FillObservableCollection();
+        }
+
 
         public ShowTourCheckpointsWindow(List<Tour> tours)
         {
@@ -29,8 +50,9 @@ namespace TravelAgency.View
 
             UserTours = tours;
             CheckpointActivities = new ObservableCollection<CheckpointActivity>();
+            CheckpointActivitiesDTO = new ObservableCollection<CheckpointActivityDTO>();
             FindCheckpointActivitesByActiveAppointment();
-
+            FillObservableCollection();
         }
 
         private void FindCheckpointActivitesByActiveAppointment()       
@@ -69,12 +91,19 @@ namespace TravelAgency.View
             return activeAppontementsByTours;
         }
 
+        private void SetSelectedCheckpointActivity()
+        {
+            SelectedCheckpointActivity = _checkpointActivityRepository.GetById(SelectedCheckpointActivityDTO.Id);
+        }
+
         private void ActivateCheckpointButtonClick(object sender, RoutedEventArgs e)
         {
-            if(SelectedCheckpointActivity.Activated == false)
+            SetSelectedCheckpointActivity();
+            if (SelectedCheckpointActivity.Activated == false)
             {
                 SelectedCheckpointActivity.Activated = true;
                 _checkpointActivityRepository.Update(SelectedCheckpointActivity);
+                UpdateObservableCollection();
                 MessageBox.Show("Uspešno ste aktivirali čekpoint!");
 
                 Checkpoint checkpoint = _checkpointRepository.GetById(SelectedCheckpointActivity.CheckpointId);
@@ -101,12 +130,13 @@ namespace TravelAgency.View
 
         private void GuestsAttendanceButtonClick(object sender, RoutedEventArgs e)
         {
-            if(SelectedCheckpointActivity == null || SelectedCheckpointActivity.Activated == false)
+            if (SelectedCheckpointActivityDTO == null || SelectedCheckpointActivityDTO.Activated == false)
             {
                 MessageBox.Show("Morate izabrati AKTIVNU ključnu tačku!");
             }
             else
             {
+                SetSelectedCheckpointActivity();
                 ShowGuestsAttendanceWindow showGuestsAttendanceWindow = new ShowGuestsAttendanceWindow(SelectedCheckpointActivity);
                 showGuestsAttendanceWindow.ShowDialog();
             }

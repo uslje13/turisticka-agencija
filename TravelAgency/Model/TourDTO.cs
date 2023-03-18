@@ -40,5 +40,15 @@ namespace TravelAgency.Model
             Date = date;
         }
 
+        public TourDTO(int tourId, string name, string language, string locationFullName, int maxNumOfGuests, int duration)
+        {
+            TourId = tourId;
+            Name = name;
+            Language = language;
+            CityAndCountry = locationFullName;
+            MaxNumOfGuests = maxNumOfGuests;
+            Duration = duration;
+        }
+
     }
 }

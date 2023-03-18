@@ -9,17 +9,17 @@
     <Grid>
         <Grid Margin="0,0,91,0">
             <DataGrid Background="#FFE5E5E5"
-                          ItemsSource="{Binding CheckpointActivities, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=SelectedCheckpointActivity, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding CheckpointActivitiesDTO, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Path=SelectedCheckpointActivityDTO, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="10,53,10,81">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Naziv" Binding="{Binding CheckpointId}" Width="140"/>
-                    <DataGridTextColumn Header="Tip" Width="100"/>
+                    <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="140"/>
+                    <DataGridTextColumn Header="Tip" Binding="{Binding Type}" Width="100"/>
                     <DataGridTextColumn Header="Aktivnost" Binding="{Binding Activated}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button x:Name="guestsAttendanceButton" Content="Prisustvo putnika" HorizontalAlignment="Left" Margin="10,348,0,0" VerticalAlignment="Top" Width="108"
+            <Button x:Name="guestsAttendanceButton" Content="Prozovi putnike" HorizontalAlignment="Left" Margin="10,348,0,0" VerticalAlignment="Top" Width="108"
                     Click="GuestsAttendanceButtonClick"/>
         </Grid>
         <Grid Margin="361,0,0,0">

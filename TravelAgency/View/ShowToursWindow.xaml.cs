@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using TravelAgency.Converter;
 using TravelAgency.Model;
 using TravelAgency.Repository;
 
@@ -28,6 +29,7 @@ namespace TravelAgency.View
                 }
             }
         }
+        public ObservableCollection<TourDTO> ToursDTO { get; set; }
         public List<Appointment> Appointments { get; set; }
         public User LoggedInUser { get; set; }
 
@@ -37,11 +39,28 @@ namespace TravelAgency.View
 
         private readonly AppointmentRepository _appointmentReository;
 
+        private LocationConverter _locationConverter;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void FillObservableCollection()
+        {
+            foreach(Tour tour in _tourReository.GetByUser(LoggedInUser))
+            {
+                string location = _locationConverter.GetFullNameById(tour.LocationId);
+                ToursDTO.Add(new TourDTO(tour.Id, tour.Name, tour.Language, location, tour.MaxNumOfGuests, tour.Duration));
+            }
+        }
+
+        public void UpdateObservableCollection()
+        {
+            ToursDTO.Clear();
+            FillObservableCollection();
         }
 
 
@@ -51,9 +70,13 @@ namespace TravelAgency.View
             DataContext = this;
             LoggedInUser = user;
             deleteButton.IsEnabled = false;
+            _locationConverter = new();
 
             _tourReository = new TourRepository();
             _appointmentReository = new AppointmentRepository();
+
+            ToursDTO = new ObservableCollection<TourDTO>();
+            FillObservableCollection();
 
             Tours = new ObservableCollection<Tour>(_tourReository.GetByUser(user));
             Appointments = new List<Appointment>(_appointmentReository.GetAll());
@@ -103,6 +126,7 @@ namespace TravelAgency.View
             CreateTourWindow createTourWindow = new CreateTourWindow(LoggedInUser, Tours);
             createTourWindow.Owner = Window.GetWindow(this);
             createTourWindow.ShowDialog();
+            UpdateObservableCollection();
         }
 
         private void TodayToursButtonClick(object sender, RoutedEventArgs e)
@@ -118,28 +142,5 @@ namespace TravelAgency.View
             showTourCheckpoints.ShowDialog();
         }
 
-        /*
-            private void DeleteButtonClick(object sender, RoutedEventArgs e)
-            {
-                if (SelectedTour != null)
-                {
-                    MessageBoxResult result = MessageBox.Show("Da li ste sigurni", "Obrisite turu",
-                        MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        CheckpointRepository checkpointRepository = new CheckpointRepository();
-                        LocationRepository locationRepository = new LocationRepository();
-                        AppointmentRepository appointmentRepository = new AppointmentRepository();
-                        ImageRepository imageRepository = new ImageRepository();
-                        locationRepository.DeleteById(SelectedTour.LocationId);
-                        _tourReository.Delete(SelectedTour);
-                        checkpointRepository.DeleteByTourId(SelectedTour.Id);
-                        appointmentRepository.DeleteByTourId(SelectedTour.Id);
-                        imageRepository.DeleteByTourId(SelectedTour.Id);
-                        Tours.Remove(SelectedTour);
-                    }
-                }
-            }
-        */
     }
 }
