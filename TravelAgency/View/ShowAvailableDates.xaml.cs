@@ -140,7 +140,7 @@ namespace TravelAgency.View
 
         private void CheckRequestedDates()
         {
-            int[] daysCounter = FindFreeDaysInRow();
+            int[] daysCounter = FindFreeDaysInRow(EnteredFirstDay, EnteredLastDay);
             int[] appropiatedIndexes = FindAppropiatedIndexes(daysCounter);
             int notOkeyCounter = 0;
             int okeyCounter = 0;
@@ -155,16 +155,43 @@ namespace TravelAgency.View
 
             if(notOkeyCounter == appropiatedIndexes.Length)
             {
-                //novi prozor sa ponudom termina van zadatog opsega
-                //jer rezervacija u datom opsegu za trazeni broj dana nije moguca
+                MessageBox.Show("U zadatom periodu nema slobodnih termina. Prikazaćemo Vam opcije u sledeća dva meseca.");
+                AnalyzeNextFiftyDays();
             }
             else
             {
-                CreateFreeAppointmentsCatalog(daysCounter, appropiatedIndexes, okeyCounter);
+                CreateFreeAppointmentsCatalog(daysCounter, appropiatedIndexes, okeyCounter, EnteredFirstDay);
             }
         }
 
-        private void CreateFreeAppointmentsCatalog(int[] array, int[] appIndexes, int okCount)
+        private void AnalyzeNextFiftyDays()
+        {
+            DateTime dayInFiftydDays = EnteredLastDay.AddDays(50);
+            int[] alternativeDaysCounter = FindFreeDaysInRow(EnteredLastDay, dayInFiftydDays);
+            int[] appropiatedIndexes = FindAppropiatedIndexes(alternativeDaysCounter);
+            int notOkeyCounter = 0;
+            int okeyCounter = 0;
+
+            foreach (int index in appropiatedIndexes)
+            {
+                if (index == -1)
+                {
+                    notOkeyCounter++;
+                }
+                else okeyCounter++;
+            }
+
+            if (notOkeyCounter == appropiatedIndexes.Length)
+            {
+                MessageBox.Show("Nažalost, svi dani u traženom opsegu i dva meseca nakon njega su popunjeni.");
+            }
+            else
+            {
+                CreateFreeAppointmentsCatalog(alternativeDaysCounter, appropiatedIndexes, okeyCounter, EnteredLastDay);
+            }
+        }
+
+        private void CreateFreeAppointmentsCatalog(int[] array, int[] appIndexes, int okCount, DateTime fDay)
         {
             int checkCounter = 0;
             int daysSum = 0;
@@ -181,13 +208,13 @@ namespace TravelAgency.View
                             int daysSumCopy = daysSum;
                             for (int k = 0; k < diff; k++)
                             {
-                                CreateCatalogItem(daysSumCopy);
+                                CreateCatalogItem(daysSumCopy, fDay);
                                 daysSumCopy++;
                             }
                         }
                         else
                         {
-                            CreateCatalogItem(daysSum);
+                            CreateCatalogItem(daysSum, fDay);
                         }
                         j++;
                         checkCounter++;
@@ -197,9 +224,9 @@ namespace TravelAgency.View
             }
         }
 
-        private void CreateCatalogItem(int daysSum)
+        private void CreateCatalogItem(int daysSum, DateTime fDay)
         {
-            DateTime firstComponent = EnteredFirstDay.AddDays(daysSum);
+            DateTime firstComponent = fDay.AddDays(daysSum);
             DateTime secondComponent = firstComponent.AddDays(DaysDuration);
             AccReservationDTO dto = new AccReservationDTO(accommodationDTO.AccommodationId, accommodationDTO.AccommodationName,
                                                           accommodationDTO.AccommodationMinDaysStay, firstComponent, secondComponent,
@@ -207,16 +234,16 @@ namespace TravelAgency.View
             dtoReservation.Add(dto);
         }
 
-        private int[] FindFreeDaysInRow()
+        private int[] FindFreeDaysInRow(DateTime fDay, DateTime lDay)
         {
             CalendarBlackoutDatesCollection blackoutDates = Calendar.BlackoutDates;
             int[] counterArray = new int[100];
             int i = 0;
             int z = 0;
             bool flag = false;
-            int j = EnteredFirstDay.DayOfYear;
-            int k = EnteredLastDay.DayOfYear;
-            DateTime firstJan = new DateTime(EnteredFirstDay.Year, 1, 1);
+            int j = fDay.DayOfYear;
+            int k = lDay.DayOfYear;
+            DateTime firstJan = new DateTime(fDay.Year, 1, 1);
             for (; j <= k; j++)
             {
                 if (!blackoutDates.Contains(firstJan.AddDays(j-1)))

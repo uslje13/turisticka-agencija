@@ -23,6 +23,8 @@ namespace TravelAgency.View
     {
         public AccReservationDTO forwardedItem { get; set; }
         public User LoggedInUser { get; set; }
+        public AccommodationReservationRepository accommodationReservationRepository { get; set; }
+        public List<AccommodationReservation> accommodationReservations { get; set; }
 
         public EnterGuestNumber()
         {
@@ -35,6 +37,9 @@ namespace TravelAgency.View
             DataContext = this;
             forwardedItem = item;
             LoggedInUser = user;
+
+            accommodationReservationRepository = new AccommodationReservationRepository();
+            accommodationReservations = accommodationReservationRepository.GetAll();
         }
 
         private void AddReservation(DateTime start, DateTime end, int guests, int days, int accId)
@@ -47,10 +52,12 @@ namespace TravelAgency.View
 
         private void Reserve(object sender, RoutedEventArgs e)
         {
+            int appropriateGuestNumber = FindAppropriateGuestsNumber();
+
             int guestNumber = int.Parse(GuestNumber.Text);
             if(guestNumber > 0)
             {
-                int helpVar = forwardedItem.CurrentGuestNumber + guestNumber;
+                int helpVar = appropriateGuestNumber + guestNumber;
                 if (helpVar > forwardedItem.AccommodationMaxGuests)
                 {
                     MessageBox.Show("Prekoračen je maksimalni broj gostiju za ovaj smeštaj. Pokušajte ponovo.");
@@ -65,6 +72,26 @@ namespace TravelAgency.View
             {
                 MessageBox.Show("Ne možete izvršiti rezervaciju za 0 osoba.");
             }
+        }
+
+        private int FindAppropriateGuestsNumber()
+        {
+            int appropriateGuestNumber = 0;
+            foreach (var item in accommodationReservations)
+            {
+                if (item.AccommodationId == forwardedItem.AccommodationId)
+                {
+                    DateTime today = DateTime.Today;
+                    int helpVar1 = today.DayOfYear - forwardedItem.ReservationFirstDay.DayOfYear;
+                    int helpVar2 = today.DayOfYear - forwardedItem.ReservationLastDay.DayOfYear;
+                    if (helpVar1 >= 0 && helpVar2 <= 0)
+                    {
+                        appropriateGuestNumber += item.GuestNumber;
+                    }
+                }
+            }
+
+            return appropriateGuestNumber;
         }
     }
 }
