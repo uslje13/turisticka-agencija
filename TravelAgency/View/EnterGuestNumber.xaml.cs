@@ -22,22 +22,24 @@ namespace TravelAgency.View
     public partial class EnterGuestNumber : Window
     {
         public AccReservationDTO forwardedItem { get; set; }
+        public User LoggedInUser { get; set; }
 
         public EnterGuestNumber()
         {
             InitializeComponent();
         }
 
-        public EnterGuestNumber(AccReservationDTO item)
+        public EnterGuestNumber(AccReservationDTO item, User user)
         {
             InitializeComponent();
             DataContext = this;
             forwardedItem = item;
+            LoggedInUser = user;
         }
 
         private void AddReservation(DateTime start, DateTime end, int days, int accId)
         {
-            AccommodationReservation reservation = new AccommodationReservation(start, end, days, accId);
+            AccommodationReservation reservation = new AccommodationReservation(start, end, days, accId, LoggedInUser.Id);
             AccommodationReservationRepository reservationRepository = new AccommodationReservationRepository();
             reservationRepository.Save(reservation);
             MessageBox.Show("Uspešno rezervisano.");
@@ -53,7 +55,7 @@ namespace TravelAgency.View
             else
             {
                 AddReservation(forwardedItem.ReservationFirstDay, forwardedItem.ReservationLastDay,
-                                forwardedItem.AccommodationMinDaysStay, forwardedItem.AccommodationId);
+                                forwardedItem.ReservationDuration, forwardedItem.AccommodationId);
             }
         }
     }

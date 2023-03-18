@@ -26,6 +26,7 @@ namespace TravelAgency.View
         public DateTime LastDate { get; set; } 
         public int DaysDuration { get; set; }
         public AccommodationDTO DTO { get; set; }
+        public User LoggedInUser { get; set; }
 
 
         public EnterReservation()
@@ -33,7 +34,7 @@ namespace TravelAgency.View
             InitializeComponent();
         }
 
-        public EnterReservation(AccommodationDTO dto)
+        public EnterReservation(AccommodationDTO dto, User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -42,6 +43,7 @@ namespace TravelAgency.View
             LastDate = DateTime.Now;
             FirstDay.BlackoutDates.AddDatesInPast();
             LastDay.BlackoutDates.AddDatesInPast();
+            LoggedInUser = user;
         }
 
         private void GoBackClick(object sender, RoutedEventArgs e)
@@ -55,7 +57,7 @@ namespace TravelAgency.View
             bool validDays = CheckDays();
             if (validDates && validDays)
             {
-                ShowAvailableDates availableDates = new ShowAvailableDates(DTO, FirstDate, LastDate.Date, DaysDuration);
+                ShowAvailableDates availableDates = new ShowAvailableDates(DTO, FirstDate, LastDate, DaysDuration, LoggedInUser);
                 availableDates.Show();
             } 
             else if (!validDates)

@@ -17,6 +17,8 @@ namespace TravelAgency.Model
         public DateTime LastDay { get; set; }
         public int ReservationDuration { get; set; }
         public int AccommodationId { get; set; }
+        public int UserId { get; set; }
+
 
         public AccommodationReservation() 
         {
@@ -25,28 +27,31 @@ namespace TravelAgency.Model
             LastDay = new DateTime();
             ReservationDuration = -1;
             AccommodationId = -1;
+            UserId = -1;
         }
 
-        public AccommodationReservation(int id, DateTime firstDay, DateTime lastDay, int reservationDuration, int accommodationId)
+        public AccommodationReservation(int id, DateTime firstDay, DateTime lastDay, int reservationDuration, int accommodationId, int uId)
         {
             Id = id;
             FirstDay = firstDay;
             LastDay = lastDay;
             ReservationDuration = reservationDuration;
             AccommodationId = accommodationId;
+            UserId = uId;
         }
 
-        public AccommodationReservation(DateTime firstDay, DateTime lastDay, int reservationDuration, int accommodationId)
+        public AccommodationReservation(DateTime firstDay, DateTime lastDay, int reservationDuration, int accommodationId, int uid)
         {
             FirstDay = firstDay;
             LastDay = lastDay;
             ReservationDuration = reservationDuration;
             AccommodationId = accommodationId;
+            UserId= uid;
         }
         
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), FirstDay.ToString(), LastDay.ToString(), ReservationDuration.ToString(), AccommodationId.ToString() };
+            string[] csvValues = { Id.ToString(), FirstDay.ToString(), LastDay.ToString(), ReservationDuration.ToString(), AccommodationId.ToString(), UserId.ToString() };
             return csvValues;
         }
 
@@ -58,6 +63,7 @@ namespace TravelAgency.Model
             LastDay = Convert.ToDateTime(values[i++]);
             ReservationDuration = Convert.ToInt32(values[i++]);
             AccommodationId = Convert.ToInt32(values[i++]);
+            UserId = Convert.ToInt32(values[i++]);
         }
     }
 }

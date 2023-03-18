@@ -25,7 +25,7 @@ namespace TravelAgency.View
     /// </summary>
     public partial class SearchAccommodation : Window
     {
-        //public User LoggedInUser { get; set; }
+        public User LoggedInUser { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public List<Accommodation> accommodations { get; set; }
@@ -41,7 +41,7 @@ namespace TravelAgency.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public SearchAccommodation(/*User user*/)
+        public SearchAccommodation(User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -54,7 +54,7 @@ namespace TravelAgency.View
             locations = locationRepository.GetAll();
 
             CreateAllDTOForms();
-            //LoggedInUser = user;
+            LoggedInUser = user;
         }
 
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
@@ -84,9 +84,7 @@ namespace TravelAgency.View
             AccommodationDTO dto = new AccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
                                                         acc.MaxGuests, acc.MinDaysStay);
             //dto.AccommodationDTOId = NextId();
-            //dto.AccommodationId = acc.Id;
             //dto.LocationId = loc.Id;
-
             return dto;
         }
 
@@ -106,7 +104,7 @@ namespace TravelAgency.View
         {
             if(SelectedAccommodationDTO != null)
             {
-                EnterReservation newWindow = new EnterReservation(SelectedAccommodationDTO);
+                EnterReservation newWindow = new EnterReservation(SelectedAccommodationDTO, LoggedInUser);
                 newWindow.ShowDialog();
             } else
             {

@@ -23,17 +23,19 @@ namespace TravelAgency.View
     {
         public List<AccReservationDTO> suggestCatalog { get; set; }
         public AccReservationDTO selectedCatalogItem { get; set; }
+        public User LoggedInUser { get; set; }
 
         public SelectReservationDates()
         {
             InitializeComponent();
         }
 
-        public SelectReservationDates(List<AccReservationDTO> list)
+        public SelectReservationDates(List<AccReservationDTO> list, User user)
         {
             InitializeComponent();
             DataContext = this;
             suggestCatalog = list;
+            LoggedInUser = user;
         }
 
         private void ContinueReservation(object sender, RoutedEventArgs e)
@@ -44,7 +46,7 @@ namespace TravelAgency.View
             } 
             else
             {
-                EnterGuestNumber newWindow = new EnterGuestNumber(selectedCatalogItem);
+                EnterGuestNumber newWindow = new EnterGuestNumber(selectedCatalogItem, LoggedInUser);
                 newWindow.Show();
             }
         }

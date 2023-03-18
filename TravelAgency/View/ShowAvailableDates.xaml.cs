@@ -33,14 +33,14 @@ namespace TravelAgency.View
         public DateTime[] datesArray { get; set; }
         public int DaysDuration { get; set; }
         public List<AccReservationDTO> dtoReservation { get; set; }
-
+        public User LoggedInUser { get; set; }
 
         public ShowAvailableDates()
         {
             InitializeComponent();
         }
 
-        public ShowAvailableDates(AccommodationDTO dto, DateTime firstDay, DateTime lastDay, int days)
+        public ShowAvailableDates(AccommodationDTO dto, DateTime firstDay, DateTime lastDay, int days, User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -55,6 +55,7 @@ namespace TravelAgency.View
             EnteredFirstDay = firstDay;
             EnteredLastDay = lastDay;
             DaysDuration = days;
+            LoggedInUser = user;
 
             accommodations = accommodationRepository.GetAll();
             reservations = reservationRepository.GetAll();
@@ -146,6 +147,10 @@ namespace TravelAgency.View
             else
             {
                 CreateFreeAppointmentsCatalog(daysCounter, appropiatedIndexes, okeyCounter);
+                //vidi da li moras pribaviti trenutni broj gostiju u nekom smjestaju
+                //za provjeru u poslednjem prozoru pred rezervaciju
+                //pa da tada uneseni broj gostiju dodas na aktuelni broj
+                //i to uporedis sa max brojem gostiju za taj smestaj
             }
         }
 
@@ -250,7 +255,7 @@ namespace TravelAgency.View
 
         private void PickCatalogItemClick(object sender, RoutedEventArgs e)
         {
-            SelectReservationDates selectReservationDates = new SelectReservationDates(dtoReservation);
+            SelectReservationDates selectReservationDates = new SelectReservationDates(dtoReservation, LoggedInUser);
             selectReservationDates.ShowDialog();
         }
     }
