@@ -10,7 +10,7 @@
     <Grid>
         <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding suggestCatalog}" 
                   SelectedItem="{Binding Path=selectedCatalogItem, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False"
+                  AutoGenerateColumns="False" SelectionMode="Single"
                   IsReadOnly="True" Margin="10,10,10,110">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>

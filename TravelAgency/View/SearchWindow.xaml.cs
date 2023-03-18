@@ -35,8 +35,11 @@ namespace TravelAgency.View
         public ObservableCollection<AccommodationDTO> AccommDTOsCollection { get; set; }
         public AccommodationRepository accommodationRepository { get; set; }
         public LocationRepository locationRepository { get; set; }
+        public AccommodationReservationRepository accommodationReservationRepository { get; set; }
+        public List<AccommodationReservation> accommodationReservations { get; set; }
+        public User LoggedInUser { get; set; }
 
-        public SearchWindow()
+        public SearchWindow(User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -44,9 +47,12 @@ namespace TravelAgency.View
             
             accommodationRepository = new AccommodationRepository();
             locationRepository = new LocationRepository();
+            accommodationReservationRepository = new AccommodationReservationRepository();
 
             accommodations = accommodationRepository.GetAll();
             locations = locationRepository.GetAll();
+            accommodationReservations = accommodationReservationRepository.GetAll();
+            LoggedInUser = user; 
         }
 
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
@@ -75,8 +81,22 @@ namespace TravelAgency.View
 
         private AccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
         {
+            int currentGuestNumber = 0;
+            foreach (var item in accommodationReservations)
+            {
+                if (item.AccommodationId == acc.Id)
+                {
+                    DateTime today = DateTime.Today;
+                    int helpVar1 = today.DayOfYear - item.FirstDay.DayOfYear;
+                    int helpVar2 = today.DayOfYear - item.LastDay.DayOfYear;
+                    if (helpVar1 >= 0 && helpVar2 <= 0)
+                    {
+                        currentGuestNumber += item.GuestNumber;
+                    }
+                }
+            }
             AccommodationDTO dto = new AccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
-                                                        acc.MaxGuests, acc.MinDaysStay);
+                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber);
             //dto.AccommodationDTOId = NextId();
             //dto.AccommodationId = acc.Id;
             //dto.LocationId = loc.Id;
@@ -145,11 +165,12 @@ namespace TravelAgency.View
 
         private bool IsAppropriate(AccommodationDTO item, AccommodationDTO request)
         {
-            bool checkName = item.AccommodationName.Contains(request.AccommodationName) || request.AccommodationName.Equals(string.Empty);
-            bool checkCity = item.LocationCity.Contains(request.LocationCity) || request.LocationCity.Equals(string.Empty);
-            bool checkCountry = item.LocationCountry.Contains(request.LocationCountry) || request.LocationCountry.Equals(string.Empty);
+            bool checkName = item.AccommodationName.ToLower().Contains(request.AccommodationName.ToLower()) || request.AccommodationName.Equals(string.Empty);
+            bool checkCity = item.LocationCity.ToLower().Contains(request.LocationCity.ToLower()) || request.LocationCity.Equals(string.Empty);
+            bool checkCountry = item.LocationCountry.ToLower().Contains(request.LocationCountry.ToLower()) || request.LocationCountry.Equals(string.Empty);
             bool checkType = item.AccommodationType == request.AccommodationType || request.AccommodationType == AccommType.NOTYPE;
-            bool checkMaxGuests = request.AccommodationMaxGuests <= item.AccommodationMaxGuests;
+            //bool checkMaxGuests = request.AccommodationMaxGuests <= item.AccommodationMaxGuests;
+            bool checkMaxGuests = item.GuestNumber + request.GuestNumber <= item.AccommodationMaxGuests;
             bool checkDaysStay = request.AccommodationMinDaysStay >= item.AccommodationMinDaysStay;
 
             return checkName && checkCity && checkCountry && checkType && checkMaxGuests && checkDaysStay;
@@ -159,7 +180,7 @@ namespace TravelAgency.View
         {
             if (results.Count > 0)
             {
-                SearchResults newWindow = new SearchResults(results);
+                SearchResults newWindow = new SearchResults(results, LoggedInUser);
                 newWindow.Show();
             }
             else

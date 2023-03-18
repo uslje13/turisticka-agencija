@@ -81,20 +81,34 @@ namespace TravelAgency.View
 
         private AccReservationDTO CreateOneDTOreservation(Accommodation acc, AccommodationReservation res)
         {
-            AccReservationDTO dto = new AccReservationDTO(acc.Id, acc.Name, acc.MinDaysStay, res.FirstDay, res.LastDay, res.ReservationDuration, acc.MaxGuests);
+            int currentGuestNumber = 0;
+            foreach (var item in reservations)
+            {
+                if (item.AccommodationId == acc.Id)
+                {
+                    DateTime today = DateTime.Today;
+                    int helpVar1 = today.DayOfYear - item.FirstDay.DayOfYear;
+                    int helpVar2 = today.DayOfYear - item.LastDay.DayOfYear;
+                    if (helpVar1 >= 0 && helpVar2 <= 0)
+                    {
+                        currentGuestNumber += item.GuestNumber;
+                    }
+                }   
+            }
+            AccReservationDTO dto = new AccReservationDTO(acc.Id, acc.Name, acc.MinDaysStay, res.FirstDay, res.LastDay, res.ReservationDuration, acc.MaxGuests, currentGuestNumber);
             return dto;
         }
 
         private void MarkCalendars()
         {
-            AccReservationDTO accReservationDTO = new AccReservationDTO();
+            //AccReservationDTO accReservationDTO = new AccReservationDTO();
             List<AccReservationDTO> reservationsDTO = CreateAllDTOreservations();
             Calendar.BlackoutDates.AddDatesInPast();
             foreach (var item in reservationsDTO)
             {
                 if(item.AccommodationId == accommodationDTO.AccommodationId)
                 {
-                    accReservationDTO = item;
+                    //accReservationDTO = item;
                     MarkCalendar(item);
                 }
             }
@@ -147,10 +161,6 @@ namespace TravelAgency.View
             else
             {
                 CreateFreeAppointmentsCatalog(daysCounter, appropiatedIndexes, okeyCounter);
-                //vidi da li moras pribaviti trenutni broj gostiju u nekom smjestaju
-                //za provjeru u poslednjem prozoru pred rezervaciju
-                //pa da tada uneseni broj gostiju dodas na aktuelni broj
-                //i to uporedis sa max brojem gostiju za taj smestaj
             }
         }
 
@@ -193,7 +203,7 @@ namespace TravelAgency.View
             DateTime secondComponent = firstComponent.AddDays(DaysDuration);
             AccReservationDTO dto = new AccReservationDTO(accommodationDTO.AccommodationId, accommodationDTO.AccommodationName,
                                                           accommodationDTO.AccommodationMinDaysStay, firstComponent, secondComponent,
-                                                          DaysDuration, accommodationDTO.AccommodationMaxGuests);
+                                                          DaysDuration, accommodationDTO.AccommodationMaxGuests, accommodationDTO.GuestNumber);
             dtoReservation.Add(dto);
         }
 

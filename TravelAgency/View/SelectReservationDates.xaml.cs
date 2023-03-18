@@ -48,6 +48,7 @@ namespace TravelAgency.View
             {
                 EnterGuestNumber newWindow = new EnterGuestNumber(selectedCatalogItem, LoggedInUser);
                 newWindow.Show();
+                Close();
             }
         }
     }

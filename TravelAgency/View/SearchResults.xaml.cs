@@ -22,16 +22,33 @@ namespace TravelAgency.View
     public partial class SearchResults : Window
     {
         public ObservableCollection<AccommodationDTO> accommodationDTOs { get; set; }
+        public AccommodationDTO SelectedAccommodationDTO { get; set; }
+        public User LoggedInUser { get; set; }
+
         public SearchResults()
         {
             InitializeComponent();
         }
 
-        public SearchResults(List<AccommodationDTO> Results)
+        public SearchResults(List<AccommodationDTO> Results, User user)
         {
             InitializeComponent();
             DataContext = this;
             accommodationDTOs = new ObservableCollection<AccommodationDTO>(Results);
+            LoggedInUser = user;
+        }
+
+        private void ReserveAccommodationClick(object sender, RoutedEventArgs e)
+        {
+            if (SelectedAccommodationDTO != null)
+            {
+                EnterReservation newWindow = new EnterReservation(SelectedAccommodationDTO, LoggedInUser);
+                newWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
+            }
         }
     }
 }

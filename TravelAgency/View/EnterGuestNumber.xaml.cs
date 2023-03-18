@@ -37,9 +37,9 @@ namespace TravelAgency.View
             LoggedInUser = user;
         }
 
-        private void AddReservation(DateTime start, DateTime end, int days, int accId)
+        private void AddReservation(DateTime start, DateTime end, int guests, int days, int accId)
         {
-            AccommodationReservation reservation = new AccommodationReservation(start, end, days, accId, LoggedInUser.Id);
+            AccommodationReservation reservation = new AccommodationReservation(start, end, days, guests, accId, LoggedInUser.Id);
             AccommodationReservationRepository reservationRepository = new AccommodationReservationRepository();
             reservationRepository.Save(reservation);
             MessageBox.Show("Uspešno rezervisano.");
@@ -48,14 +48,22 @@ namespace TravelAgency.View
         private void Reserve(object sender, RoutedEventArgs e)
         {
             int guestNumber = int.Parse(GuestNumber.Text);
-            if(guestNumber > forwardedItem.AccommodationMaxGuests) 
+            if(guestNumber > 0)
             {
-                MessageBox.Show("Prekoračen je maksimalni broj gostiju za ovaj smeštaj. Pokušajte ponovo.");
-            } 
+                int helpVar = forwardedItem.CurrentGuestNumber + guestNumber;
+                if (helpVar > forwardedItem.AccommodationMaxGuests)
+                {
+                    MessageBox.Show("Prekoračen je maksimalni broj gostiju za ovaj smeštaj. Pokušajte ponovo.");
+                }
+                else
+                {
+                    AddReservation(forwardedItem.ReservationFirstDay, forwardedItem.ReservationLastDay, guestNumber,
+                                    forwardedItem.ReservationDuration, forwardedItem.AccommodationId);
+                }
+            }
             else
             {
-                AddReservation(forwardedItem.ReservationFirstDay, forwardedItem.ReservationLastDay,
-                                forwardedItem.ReservationDuration, forwardedItem.AccommodationId);
+                MessageBox.Show("Ne možete izvršiti rezervaciju za 0 osoba.");
             }
         }
     }

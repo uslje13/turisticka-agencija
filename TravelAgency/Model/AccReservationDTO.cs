@@ -16,8 +16,9 @@ namespace TravelAgency.Model
         public DateTime ReservationLastDay { get; set; }
         public int ReservationDuration { get; set; }
         public int AccommodationMaxGuests { get; set; }
+        public int CurrentGuestNumber { get; set; }
 
-        public AccReservationDTO(int id, string name, int days, DateTime firstDay, DateTime lastDay, int duration, int guests) 
+        public AccReservationDTO(int id, string name, int days, DateTime firstDay, DateTime lastDay, int duration, int guests, int current) 
         { 
             AccommodationId = id;
             AccommodationName = name;
@@ -26,6 +27,7 @@ namespace TravelAgency.Model
             ReservationLastDay = lastDay;
             ReservationDuration = duration;
             AccommodationMaxGuests = guests;
+            CurrentGuestNumber = current;
         }
 
         public AccReservationDTO() 

@@ -34,6 +34,8 @@ namespace TravelAgency.View
         public AccommodationRepository accommodationRepository { get; set; }
         public LocationRepository locationRepository { get; set; }
         public AccommodationDTO SelectedAccommodationDTO { get; set; }
+        public AccommodationReservationRepository accommodationReservationRepository { get; set; }
+        public List<AccommodationReservation> accommodationReservations { get; set; }
 
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -49,17 +51,19 @@ namespace TravelAgency.View
 
             accommodationRepository = new AccommodationRepository();
             locationRepository = new LocationRepository();
+            accommodationReservationRepository = new AccommodationReservationRepository();
 
             accommodations = accommodationRepository.GetAll();
             locations = locationRepository.GetAll();
+            accommodationReservations = accommodationReservationRepository.GetAll();
+            LoggedInUser = user;
 
             CreateAllDTOForms();
-            LoggedInUser = user;
         }
 
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
         {
-            SearchWindow searchWindow = new SearchWindow();
+            SearchWindow searchWindow = new SearchWindow(LoggedInUser);
             searchWindow.ShowDialog();
         }
 
@@ -81,8 +85,22 @@ namespace TravelAgency.View
 
         private AccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
         {
+            int currentGuestNumber = 0;
+            foreach(var item in accommodationReservations)
+            {
+                if (item.AccommodationId == acc.Id)
+                {
+                    DateTime today = DateTime.Today;
+                    int helpVar1 = today.DayOfYear - item.FirstDay.DayOfYear;
+                    int helpVar2 = today.DayOfYear - item.LastDay.DayOfYear;
+                    if (helpVar1 >= 0 && helpVar2 <= 0)
+                    {
+                        currentGuestNumber += item.GuestNumber;
+                    }
+                }
+            }
             AccommodationDTO dto = new AccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
-                                                        acc.MaxGuests, acc.MinDaysStay);
+                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber);
             //dto.AccommodationDTOId = NextId();
             //dto.LocationId = loc.Id;
             return dto;

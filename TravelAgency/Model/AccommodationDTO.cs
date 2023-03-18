@@ -29,8 +29,10 @@ namespace TravelAgency.Model
         public AccommType AccommodationType { get; set; }
         public int AccommodationMaxGuests { get; set; }
         public int AccommodationMinDaysStay { get; set; }
+        public int GuestNumber { get; set; }
 
-        public AccommodationDTO(int id, string name, string city, string country, AccommType type, int guests, int days)
+
+        public AccommodationDTO(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber)
         {
             AccommodationId = id;
             AccommodationName = name;
@@ -39,16 +41,17 @@ namespace TravelAgency.Model
             AccommodationType = type;
             AccommodationMaxGuests = guests;
             AccommodationMinDaysStay = days;
+            GuestNumber = guestNumber;
         }
 
-        public AccommodationDTO(string name, string city, string country, AccommType type, int guests, int days)
+        public AccommodationDTO(string name, string city, string country, AccommType type, int guestNumber, int days)
         {
             AccommodationName = name;
             LocationCity = city;
             LocationCountry = country;
             AccommodationType = type;
-            AccommodationMaxGuests = guests;
             AccommodationMinDaysStay = days;
+            GuestNumber = guestNumber;
         }
     }
 }

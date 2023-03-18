@@ -16,6 +16,7 @@ namespace TravelAgency.Model
         public DateTime FirstDay { get; set; }
         public DateTime LastDay { get; set; }
         public int ReservationDuration { get; set; }
+        public int GuestNumber { get; set; }
         public int AccommodationId { get; set; }
         public int UserId { get; set; }
 
@@ -40,18 +41,19 @@ namespace TravelAgency.Model
             UserId = uId;
         }
 
-        public AccommodationReservation(DateTime firstDay, DateTime lastDay, int reservationDuration, int accommodationId, int uid)
+        public AccommodationReservation(DateTime firstDay, DateTime lastDay, int reservationDuration, int guestNumber, int accommodationId, int uid)
         {
             FirstDay = firstDay;
             LastDay = lastDay;
             ReservationDuration = reservationDuration;
+            GuestNumber = guestNumber;
             AccommodationId = accommodationId;
             UserId= uid;
         }
         
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), FirstDay.ToString(), LastDay.ToString(), ReservationDuration.ToString(), AccommodationId.ToString(), UserId.ToString() };
+            string[] csvValues = { Id.ToString(), FirstDay.ToString(), LastDay.ToString(), ReservationDuration.ToString(), GuestNumber.ToString(), AccommodationId.ToString(), UserId.ToString() };
             return csvValues;
         }
 
@@ -62,6 +64,7 @@ namespace TravelAgency.Model
             FirstDay = Convert.ToDateTime(values[i++]);
             LastDay = Convert.ToDateTime(values[i++]);
             ReservationDuration = Convert.ToInt32(values[i++]);
+            GuestNumber = Convert.ToInt32(values[i++]);
             AccommodationId = Convert.ToInt32(values[i++]);
             UserId = Convert.ToInt32(values[i++]);
         }
