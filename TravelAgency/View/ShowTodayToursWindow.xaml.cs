@@ -48,7 +48,7 @@ namespace TravelAgency.View
             FillObservableCollection();
         }
 
-        public ShowTodayToursWindow(ObservableCollection<Tour> tours)
+        public ShowTodayToursWindow(List<Tour> tours)
         {
             InitializeComponent();
             DataContext = this;
@@ -56,31 +56,35 @@ namespace TravelAgency.View
             _appointmentRepository = new AppointmentRepository();
             _checkpointRepository = new CheckpointRepository();
 
-            Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());
+            Tours = tours;
+            Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAppointmentsByTours(tours));
             TodayToursDTO = new ObservableCollection<TourDTO>();
-            Tours = new List<Tour>(tours);
+            
 
             _locationConverter = new();
-            TodayTours = FindTodayTours();
+            TodayTours = GetTodayTours();
             FillObservableCollection();
         }
 
-        private List<Tour> FindTodayTours()
+        private List<Tour> GetTodayTours()
         {
-            List<Tour> todayTours = new List<Tour>();
             DateOnly today = DateOnly.FromDateTime(DateTime.Today);
-            foreach (Appointment appointment in Appointments)
+            
+            List<Tour> tours = new List<Tour>();
+            List<Appointment> todayAppointments = _appointmentRepository.GetTodayAppointments();
+
+            foreach (Appointment appointment in todayAppointments)
             {
                 foreach (Tour tour in Tours)
                 {
-                    if (tour.Id == appointment.TourId && appointment.Date.Equals(today))
+                    if (tour.Id == appointment.TourId)
                     {
-                        todayTours.Add(tour);
+                        tours.Add(tour);
                     }
                 }
             }
-            todayTours = new List<Tour>(todayTours.Distinct());
-            return todayTours;
+            tours = new List<Tour>(tours.Distinct());
+            return tours;
         }
 
         private void PickTimeButtonClick(object sender, RoutedEventArgs e)
@@ -92,7 +96,7 @@ namespace TravelAgency.View
             else
             {
                 Tour selectedTour = TodayTours.Find(t => t.Id == SelectedTourDTO.TourId) ?? throw new ArgumentException();
-                StartTourWindow startTourWindow = new StartTourWindow(selectedTour, Tours, AppointmentRepository, CheckpointRepository);
+                StartTourWindow startTourWindow = new StartTourWindow(selectedTour, Tours);
                 startTourWindow.Owner = Window.GetWindow(this);
                 startTourWindow.ShowDialog();
             }

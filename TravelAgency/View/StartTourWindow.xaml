@@ -8,7 +8,7 @@
         Title="Započni turu" Height="342" Width="487" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <DataGrid Background="#FFE5E5E5"
-                          ItemsSource="{Binding TodayAppointmentsByTour, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding TodayAppointments, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Path=SelectedAppointment, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="99,64,99,87">

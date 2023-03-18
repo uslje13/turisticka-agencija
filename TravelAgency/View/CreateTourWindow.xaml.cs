@@ -14,7 +14,7 @@ namespace TravelAgency.View
     /// </summary>
     public partial class CreateTourWindow : Window
     {
-        public ObservableCollection<Tour> Tours { get; set; }
+        public List<Tour> Tours { get; set; }
         public ObservableCollection<Checkpoint> Checkpoints { get; set; }
         public ObservableCollection<Appointment> Appointments { get; set; }
         public ObservableCollection<Image> Images { get; set; }
@@ -140,7 +140,7 @@ namespace TravelAgency.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public CreateTourWindow(User user, ObservableCollection<Tour> tours)
+        public CreateTourWindow(User user, List<Tour> tours)
         {
             InitializeComponent();
             DataContext = this;

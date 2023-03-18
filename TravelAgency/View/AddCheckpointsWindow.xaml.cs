@@ -66,6 +66,7 @@ namespace TravelAgency.View
             checkpoint.Name = CheckpointName;
             checkpoint.Type = CheckpointType.START;
             Checkpoints.Insert(0, checkpoint);
+            CheckpointName = string.Empty;
 
             DisableStartCheckpoint();
         }
@@ -77,6 +78,7 @@ namespace TravelAgency.View
             checkpoint.Name = CheckpointName;
             checkpoint.Type = CheckpointType.END;
             Checkpoints.Add(checkpoint);
+            CheckpointName = string.Empty;
 
             DisableEndCheckpoint();
         }
@@ -87,6 +89,7 @@ namespace TravelAgency.View
             checkpoint.Name = CheckpointName;
             checkpoint.Type = CheckpointType.EXTRA;
             Checkpoints.Insert(_extraCheckpointIndex, checkpoint);
+            CheckpointName = string.Empty;
 
             addExtraCPTextBox.Text = string.Empty;
         }

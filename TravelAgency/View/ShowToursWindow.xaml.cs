@@ -15,20 +15,8 @@ namespace TravelAgency.View
     /// </summary>
     public partial class ShowToursWindow : Window
     {
-        private ObservableCollection<Tour> _tours;
+        public List<Tour> Tours { get; set; }
 
-        public ObservableCollection<Tour> Tours
-        {
-            get => _tours;
-            set
-            {
-                if (!value.Equals(_tours))
-                {
-                    _tours = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
         public ObservableCollection<TourDTO> ToursDTO { get; set; }
         public List<Appointment> Appointments { get; set; }
         public User LoggedInUser { get; set; }
@@ -41,16 +29,9 @@ namespace TravelAgency.View
 
         private LocationConverter _locationConverter;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void FillObservableCollection()
         {
-            foreach(Tour tour in _tourReository.GetByUser(LoggedInUser))
+            foreach(Tour tour in Tours)
             {
                 string location = _locationConverter.GetFullNameById(tour.LocationId);
                 ToursDTO.Add(new TourDTO(tour.Id, tour.Name, tour.Language, location, tour.MaxNumOfGuests, tour.Duration));
@@ -70,41 +51,38 @@ namespace TravelAgency.View
             DataContext = this;
             LoggedInUser = user;
             deleteButton.IsEnabled = false;
-            _locationConverter = new();
+            
 
             _tourReository = new TourRepository();
             _appointmentReository = new AppointmentRepository();
 
+            Tours = new List<Tour>(_tourReository.GetByUser(user));
+            Appointments = new List<Appointment>(_appointmentReository.GetAll());
+
+            _locationConverter = new();
             ToursDTO = new ObservableCollection<TourDTO>();
             FillObservableCollection();
 
-            Tours = new ObservableCollection<Tour>(_tourReository.GetByUser(user));
-            Appointments = new List<Appointment>(_appointmentReository.GetAll());
-
-            AppointmentRegularEnd();
+            TourDurationExpiredEnd();
         }
 
-        private void AppointmentRegularEnd()
+        private void TourDurationExpiredEnd()
         {
-            foreach (Tour tour in Tours)
+            List<Appointment> appointments = _appointmentReository.GetAppointmentsByTours(Tours);
+            foreach (Appointment appointment in appointments)
             {
-                foreach (Appointment appointment in Appointments)
-                {
-                    if (appointment.TourId == tour.Id && appointment.Started == true)
-                    {
-                        CheckAppointmentEnd(tour, appointment);
-                    }
-                }
+                Tour tour = _tourReository.Get(appointment.TourId);
+                CheckAppointmentEnd(tour, appointment);
             }
         }
 
         private void CheckAppointmentEnd(Tour tour, Appointment appointment)
         {
-            DateTime dateStart = appointment.Date.ToDateTime(appointment.Time);
+            DateTime startDate = appointment.Date.ToDateTime(appointment.Time);
 
-            (int durationInDays, int durationInHours) = ConvertDuration(tour.Duration);
+            (int durationDays, int durationHours) = ConvertDuration(tour.Duration);
 
-            DateTime endDate = dateStart.AddDays(durationInDays).AddHours(durationInHours);
+            DateTime endDate = startDate.AddDays(durationDays).AddHours(durationHours);
 
             if (endDate.CompareTo(DateTime.Now) < 0)
             {
@@ -138,7 +116,7 @@ namespace TravelAgency.View
 
         private void ActiveTourButtonClick(object sender, RoutedEventArgs e)
         {
-            ShowTourCheckpointsWindow showTourCheckpoints = new ShowTourCheckpointsWindow(new List<Tour>(Tours));
+            ShowTourCheckpointsWindow showTourCheckpoints = new ShowTourCheckpointsWindow(Tours);
             showTourCheckpoints.ShowDialog();
         }
 
