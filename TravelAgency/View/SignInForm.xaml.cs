@@ -79,6 +79,7 @@ namespace TravelAgency.View
                 {
                     ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(user);
                     showAndSearchTours.Show();
+                    showAndSearchTours.GetAttendanceMessage();
                     Close();
                 }
                 else
@@ -97,5 +98,6 @@ namespace TravelAgency.View
             SearchAccommodation searchAccommodation = new SearchAccommodation();
             searchAccommodation.Show();
         }
+
     }
 }

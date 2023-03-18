@@ -21,17 +21,17 @@ namespace TravelAgency.View
     /// </summary>
     public partial class SearchResults : Window
     {
-        public ObservableCollection<AccommodationDTO> accommodationDTOs { get; set; }
+        public ObservableCollection<AccommodationDTOStefan> accommodationDTOs { get; set; }
         public SearchResults()
         {
             InitializeComponent();
         }
 
-        public SearchResults(List<AccommodationDTO> Results)
+        public SearchResults(List<AccommodationDTOStefan> Results)
         {
             InitializeComponent();
             DataContext = this;
-            accommodationDTOs = new ObservableCollection<AccommodationDTO>(Results);
+            accommodationDTOs = new ObservableCollection<AccommodationDTOStefan>(Results);
         }
     }
 }

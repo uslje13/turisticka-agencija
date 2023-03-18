@@ -114,7 +114,7 @@ namespace TravelAgency.View
 
         private void ActiveTourButtonClick(object sender, RoutedEventArgs e)
         {
-            ShowTourCheckpoints showTourCheckpoints = new ShowTourCheckpoints(new List<Tour>(Tours));
+            ShowTourCheckpointsWindow showTourCheckpoints = new ShowTourCheckpointsWindow(new List<Tour>(Tours));
             showTourCheckpoints.ShowDialog();
         }
 

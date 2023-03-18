@@ -13,7 +13,7 @@ using TravelAgency.Serializer;
 
 namespace TravelAgency.Model
 {
-    public class AccommodationDTO
+    public class AccommodationDTOStefan
     {
         public enum AccommType
         {
@@ -30,7 +30,7 @@ namespace TravelAgency.Model
         public int AccommodationMaxGuests { get; set; }
         public int AccommodationMinDaysStay { get; set; }
 
-        public AccommodationDTO(string name, string city, string country, AccommType type, int guests, int days)
+        public AccommodationDTOStefan(string name, string city, string country, AccommType type, int guests, int days)
         {
             AccommodationName = name;
             LocationCity = city;
@@ -40,6 +40,6 @@ namespace TravelAgency.Model
             AccommodationMinDaysStay = days;
         }
 
-        public AccommodationDTO() { }
+        public AccommodationDTOStefan() { }
     }
 }

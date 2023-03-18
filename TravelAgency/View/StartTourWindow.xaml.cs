@@ -56,7 +56,7 @@ namespace TravelAgency.View
             label.Foreground = new SolidColorBrush(Colors.Red);
         }
 
-        private List<Appointment> FindAllAppointmentsByTours()   //by tour dodaj
+        private List<Appointment> FindAllAppointmentsByTours()
         {
             List<Appointment> appointments = new List<Appointment>(_appointmentRepository.GetAll());
             List<Appointment> todayAppointments = new List<Appointment>();
@@ -93,7 +93,7 @@ namespace TravelAgency.View
                 MessageBox.Show("Tura je uspešno startovana!");
                 DisableStartTour();
                 Close();
-                ShowTourCheckpoints showTourCheckpoints = new ShowTourCheckpoints(new List<Tour>(UserTours));
+                ShowTourCheckpointsWindow showTourCheckpoints = new ShowTourCheckpointsWindow(new List<Tour>(UserTours));
                 showTourCheckpoints.ShowDialog();
             }
         }

@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TravelAgency.Model;
 using TravelAgency.Repository;
-using static TravelAgency.Model.AccommodationDTO;
+using static TravelAgency.Model.AccommodationDTOStefan;
 
 namespace TravelAgency.View
 {
@@ -32,7 +32,7 @@ namespace TravelAgency.View
         public int searchedAccDaysNumber { get; set; }
         public List<Accommodation> accommodations { get; set; }
         public List<Location> locations { get; set; }
-        public ObservableCollection<AccommodationDTO> AccommDTOsCollection { get; set; }
+        public ObservableCollection<AccommodationDTOStefan> AccommDTOsCollection { get; set; }
         public AccommodationRepository accommodationRepository { get; set; }
         public LocationRepository locationRepository { get; set; }
 
@@ -40,7 +40,7 @@ namespace TravelAgency.View
         {
             InitializeComponent();
             DataContext = this;
-            AccommDTOsCollection = new ObservableCollection<AccommodationDTO>();
+            AccommDTOsCollection = new ObservableCollection<AccommodationDTOStefan>();
             
             accommodationRepository = new AccommodationRepository();
             locationRepository = new LocationRepository();
@@ -53,7 +53,7 @@ namespace TravelAgency.View
         {
             CreateAllDTOForms();
             LoadEnteredRequests();
-            AccommodationDTO dtoRequest = CreateDTORequest();
+            AccommodationDTOStefan dtoRequest = CreateDTORequest();
             SearchAndShow(dtoRequest);
         }
 
@@ -66,16 +66,16 @@ namespace TravelAgency.View
                 {
                     if (accommodation.LocationId == location.Id)
                     {
-                        AccommodationDTO dto = CreateDTOForm(accommodation, location);
+                        AccommodationDTOStefan dto = CreateDTOForm(accommodation, location);
                         AccommDTOsCollection.Add(dto);
                     }
                 }
             }
         }
 
-        private AccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
+        private AccommodationDTOStefan CreateDTOForm(Accommodation acc, Location loc)
         {
-            AccommodationDTO dto = new AccommodationDTO(acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
+            AccommodationDTOStefan dto = new AccommodationDTOStefan(acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
                                                         acc.MaxGuests, acc.MinDaysStay);
             //dto.AccommodationDTOId = NextId();
             //dto.AccommodationId = acc.Id;
@@ -116,22 +116,22 @@ namespace TravelAgency.View
             else return AccommType.NOTYPE;
         }
 
-        private AccommodationDTO CreateDTORequest()
+        private AccommodationDTOStefan CreateDTORequest()
         {
-            AccommodationDTO acDTO = new AccommodationDTO(searchedAccName, searchedAccCity, searchedAccCountry, searchedAccType,
+            AccommodationDTOStefan acDTO = new AccommodationDTOStefan(searchedAccName, searchedAccCity, searchedAccCountry, searchedAccType,
                                                             searchedAccGuestsNumber, searchedAccDaysNumber);
             return acDTO;
         }
 
-        private void SearchAndShow(AccommodationDTO request)
+        private void SearchAndShow(AccommodationDTOStefan request)
         {
-            List<AccommodationDTO> searchResult = Search(request);
+            List<AccommodationDTOStefan> searchResult = Search(request);
             ShowResults(searchResult);
         }
 
-        private List<AccommodationDTO> Search(AccommodationDTO request)
+        private List<AccommodationDTOStefan> Search(AccommodationDTOStefan request)
         {
-            List<AccommodationDTO> SearchResult = new List<AccommodationDTO>();
+            List<AccommodationDTOStefan> SearchResult = new List<AccommodationDTOStefan>();
             foreach (var item in AccommDTOsCollection)
             {
                 bool isCorrect = IsAppropriate(item, request);
@@ -143,7 +143,7 @@ namespace TravelAgency.View
             return SearchResult;
         }
 
-        private bool IsAppropriate(AccommodationDTO item, AccommodationDTO request)
+        private bool IsAppropriate(AccommodationDTOStefan item, AccommodationDTOStefan request)
         {
             bool checkName = item.AccommodationName.Contains(request.AccommodationName) || request.AccommodationName.Equals(string.Empty);
             bool checkCity = item.LocationCity.Contains(request.LocationCity) || request.LocationCity.Equals(string.Empty);
@@ -155,7 +155,7 @@ namespace TravelAgency.View
             return checkName && checkCity && checkCountry && checkType && checkMaxGuests && checkDaysStay;
         }
 
-        private void ShowResults(List<AccommodationDTO> results)
+        private void ShowResults(List<AccommodationDTOStefan> results)
         {
             if (results.Count > 0)
             {

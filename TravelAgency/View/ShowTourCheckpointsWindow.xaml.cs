@@ -9,7 +9,7 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for ShowTourCheckpoints.xaml
     /// </summary>
-    public partial class ShowTourCheckpoints : Window
+    public partial class ShowTourCheckpointsWindow : Window
     {
         public ObservableCollection<CheckpointActivity> CheckpointActivities { get; set; }
         public List<Tour> UserTours { get; set; }
@@ -18,7 +18,7 @@ namespace TravelAgency.View
         private readonly AppointmentRepository _appointmentRepository;
         private readonly CheckpointRepository _checkpointRepository;
 
-        public ShowTourCheckpoints(List<Tour> tours)
+        public ShowTourCheckpointsWindow(List<Tour> tours)
         {
             InitializeComponent();
             DataContext = this;
@@ -33,7 +33,7 @@ namespace TravelAgency.View
 
         }
 
-        private void FindCheckpointActivitesByActiveAppointment()       //Moze biti samo jedan ne treba mi lista
+        private void FindCheckpointActivitesByActiveAppointment()       
         {
             List<CheckpointActivity> checkpointActivities = _checkpointActivityRepository.GetAll();
             List<Appointment> activeAppointments = FindAllActiveAppointmentsByTours();
@@ -51,7 +51,7 @@ namespace TravelAgency.View
             }
         }
 
-        private List<Appointment> FindAllActiveAppointmentsByTours()
+        private List<Appointment> FindAllActiveAppointmentsByTours()  //Moze biti samo jedan ne treba mi lista
         {
             List<Appointment> appointments = new List<Appointment>(_appointmentRepository.GetAll());
             List<Appointment> activeAppontementsByTours = new List<Appointment>();
@@ -97,6 +97,19 @@ namespace TravelAgency.View
 
             MessageBox.Show("Završili ste turu!");
             Close();
+        }
+
+        private void GuestsAttendanceButtonClick(object sender, RoutedEventArgs e)
+        {
+            if(SelectedCheckpointActivity == null || SelectedCheckpointActivity.Activated == false)
+            {
+                MessageBox.Show("Morate izabrati AKTIVNU ključnu tačku!");
+            }
+            else
+            {
+                ShowGuestsAttendanceWindow showGuestsAttendanceWindow = new ShowGuestsAttendanceWindow(SelectedCheckpointActivity);
+                showGuestsAttendanceWindow.ShowDialog();
+            }
         }
     }
 }
