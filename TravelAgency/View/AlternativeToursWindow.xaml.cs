@@ -20,12 +20,12 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for AlternativeTours.xaml
     /// </summary>
-    public partial class AlternativeTours : Window
+    public partial class AlternativeToursWindow : Window
     {
         public static ObservableCollection<TourDTO> TourDTOs { get; set; }
         public User LoggedInUser { get; set; }
         public TourDTO Selected { get; set; }
-        public AlternativeTours(TourDTO tourDTO, User loggedInUser, ObservableCollection<TourDTO> tourDTOs)
+        public AlternativeToursWindow(TourDTO tourDTO, User loggedInUser, ObservableCollection<TourDTO> tourDTOs)
         {
             InitializeComponent();
             DataContext = this;
@@ -53,7 +53,7 @@ namespace TravelAgency.View
             }
             else
             {
-                BookTour bookTourWindow = new BookTour(Selected, LoggedInUser);
+                BookTourWindow bookTourWindow = new BookTourWindow(Selected, LoggedInUser);
                 bookTourWindow.Show();
                 this.Close();
             }
@@ -61,8 +61,8 @@ namespace TravelAgency.View
 
         private void CancelClick(object sender, RoutedEventArgs e)
         {
-            ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(LoggedInUser);
-            showAndSearchTours.Show();
+            ToursOverview overview = new ToursOverview(LoggedInUser);
+            overview.Show();
             this.Close();
         }
     }

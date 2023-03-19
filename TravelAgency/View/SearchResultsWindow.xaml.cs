@@ -20,18 +20,18 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for SearchResults.xaml
     /// </summary>
-    public partial class SearchResults : Window
+    public partial class SearchResultsWindow : Window
     {
         public ObservableCollection<LocAccommodationDTO> accommodationDTOs { get; set; }
         public LocAccommodationDTO SelectedAccommodationDTO { get; set; }
         public User LoggedInUser { get; set; }
 
-        public SearchResults()
+        public SearchResultsWindow()
         {
             InitializeComponent();
         }
 
-        public SearchResults(List<LocAccommodationDTO> Results, User user)
+        public SearchResultsWindow(List<LocAccommodationDTO> Results, User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -43,7 +43,7 @@ namespace TravelAgency.View
         {
             if (SelectedAccommodationDTO != null)
             {
-                EnterReservation newWindow = new EnterReservation(SelectedAccommodationDTO, LoggedInUser);
+                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
                 newWindow.ShowDialog();
             }
             else

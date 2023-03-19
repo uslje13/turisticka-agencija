@@ -176,7 +176,7 @@ namespace TravelAgency.View
         {
             if (results.Count > 0)
             {
-                SearchResults newWindow = new SearchResults(results, LoggedInUser);
+                SearchResultsWindow newWindow = new SearchResultsWindow(results, LoggedInUser);
                 newWindow.Show();
             }
             else

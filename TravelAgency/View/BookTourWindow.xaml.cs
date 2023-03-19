@@ -21,38 +21,38 @@ using TravelAgency.Repository;
 namespace TravelAgency.View
 {
     /// <summary>
-    /// Interaction logic for BookTour.xaml
+    /// Interaction logic for BookTourWindow.xaml
     /// </summary>
-    public partial class BookTour : Window
+    public partial class BookTourWindow : Window
     {
         public User LoggedInUser { get; set; }
-        private string _vacantSeats; // potencijalno promeni naziv prom
-        private string _touristNum; // potencijalno promeni naziv prom
+        private string _availableSlots; 
+        private string _touristNum; 
         private TourDTO _selected;
 
         public static ObservableCollection<Appointment> Appointments;
         private readonly AppointmentRepository _appointmentRepository;
         private readonly ReservationRepository _reservationRepository;
-        public BookTour(TourDTO selected, User loggedInUser)
+        public BookTourWindow(TourDTO selected, User loggedInUser)
         {
             InitializeComponent();
             DataContext = this;
             LoggedInUser = loggedInUser;
             _selected= selected;
-            _vacantSeats = (selected.MaxNumOfGuests - selected.Ocupancy).ToString();
+            _availableSlots = (selected.MaxNumOfGuests - selected.Ocupancy).ToString();
             _appointmentRepository = new AppointmentRepository();
             _reservationRepository = new ReservationRepository();
             Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());
         }
 
-        public string VacantSeats
+        public string AvailableSlots
         {
-            get { return _vacantSeats;}
+            get { return _availableSlots;}
             set
             {
-                if(value != _vacantSeats )
+                if(value != _availableSlots )
                 {
-                    _vacantSeats = value;
+                    _availableSlots = value;
                     OnPropertyChanged();
                 }
             }
@@ -88,7 +88,7 @@ namespace TravelAgency.View
             {
                 MessageBox.Show("Niste uneli broj osoba prilikom rezervacije");
             }
-            else if (int.Parse(_touristNum) > int.Parse(_vacantSeats))
+            else if (int.Parse(_touristNum) > int.Parse(_availableSlots))
             {
                 MessageBox.Show("Ne moze se rezervisati tura, nema dovoljno slobodnih mesta");
             }
@@ -99,7 +99,7 @@ namespace TravelAgency.View
                 if (result == MessageBoxResult.Yes)
                 {
                     CreateReservation();
-                    OpenSearchAndShowToursWindow();
+                    OpenToursOverviewWindow();
                     this.Close();
                 }
             }
@@ -120,10 +120,10 @@ namespace TravelAgency.View
             }
         }
 
-        private void OpenSearchAndShowToursWindow()
+        private void OpenToursOverviewWindow()
         {
-            ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(LoggedInUser);
-            showAndSearchTours.Show();
+            ToursOverview overview = new ToursOverview(LoggedInUser);
+            overview.Show();
         }
 
         private MessageBoxResult ConfirmReservation()
@@ -140,7 +140,7 @@ namespace TravelAgency.View
 
         private void CancelClick(object sender, RoutedEventArgs e)
         {
-            OpenSearchAndShowToursWindow();
+            OpenToursOverviewWindow();
             this.Close();
         }
     }

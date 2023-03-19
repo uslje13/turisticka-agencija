@@ -21,7 +21,7 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for EnterReservation.xaml
     /// </summary>
-    public partial class EnterReservation : Window
+    public partial class EnterReservationWindow : Window
     {
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; } 
@@ -30,12 +30,12 @@ namespace TravelAgency.View
         public User LoggedInUser { get; set; }
 
 
-        public EnterReservation()
+        public EnterReservationWindow()
         {
             InitializeComponent();
         }
 
-        public EnterReservation(LocAccommodationDTO dto, User user)
+        public EnterReservationWindow(LocAccommodationDTO dto, User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -58,7 +58,7 @@ namespace TravelAgency.View
             bool validDays = CheckDays();
             if (validDates && validDays)
             {
-                ShowAvailableDates availableDates = new ShowAvailableDates(DTO, FirstDate, LastDate, DaysDuration, LoggedInUser);
+                ShowAvailableDatesWindow availableDates = new ShowAvailableDatesWindow(DTO, FirstDate, LastDate, DaysDuration, LoggedInUser);
                 availableDates.Show();
             } 
             else if (!validDates)

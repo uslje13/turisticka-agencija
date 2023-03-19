@@ -18,21 +18,21 @@ using TravelAgency.Repository;
 namespace TravelAgency.View
 {
     /// <summary>
-    /// Interaction logic for EnterGuestNumber.xaml
+    /// Interaction logic for EnterGuestNumberWindow.xaml
     /// </summary>
-    public partial class EnterGuestNumber : Window
+    public partial class EnterGuestNumberWindow : Window
     {
         public AccReservationDTO forwardedItem { get; set; }
         public User LoggedInUser { get; set; }
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
 
-        public EnterGuestNumber()
+        public EnterGuestNumberWindow()
         {
             InitializeComponent();
         }
 
-        public EnterGuestNumber(AccReservationDTO item, User user)
+        public EnterGuestNumberWindow(AccReservationDTO item, User user)
         {
             InitializeComponent();
             DataContext = this;

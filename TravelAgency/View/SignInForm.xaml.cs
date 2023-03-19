@@ -72,15 +72,15 @@ namespace TravelAgency.View
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST1)
                 {
-                    SearchAccommodation searchAccommodation = new SearchAccommodation(user);
+                    SearchAccommodationWindow searchAccommodation = new SearchAccommodationWindow(user);
                     searchAccommodation.Show();
                     Close();
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST2)
                 {
-                    ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(user);
-                    showAndSearchTours.Show();
-                    showAndSearchTours.GetAttendanceMessage();
+                    ToursOverview overview = new ToursOverview(user);
+                    overview.Show();  
+                    overview.GetAttendanceMessage();
                     Close();
                 }
                 else

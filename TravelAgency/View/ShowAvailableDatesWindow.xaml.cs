@@ -21,7 +21,7 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for ShowAvailableDates.xaml
     /// </summary>
-    public partial class ShowAvailableDates : Window
+    public partial class ShowAvailableDatesWindow : Window
     {
         public ObservableCollection<AccReservationDTO> reservationDTOList {  get; set; }
         public AccommodationRepository accommodationRepository { get; set; }
@@ -36,12 +36,12 @@ namespace TravelAgency.View
         public List<AccReservationDTO> dtoReservation { get; set; }
         public User LoggedInUser { get; set; }
 
-        public ShowAvailableDates()
+        public ShowAvailableDatesWindow()
         {
             InitializeComponent();
         }
 
-        public ShowAvailableDates(LocAccommodationDTO dto, DateTime firstDay, DateTime lastDay, int days, User user)
+        public ShowAvailableDatesWindow(LocAccommodationDTO dto, DateTime firstDay, DateTime lastDay, int days, User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -291,7 +291,7 @@ namespace TravelAgency.View
 
         private void PickCatalogItemClick(object sender, RoutedEventArgs e)
         {
-            SelectReservationDates selectReservationDates = new SelectReservationDates(dtoReservation, LoggedInUser);
+            SelectReservationDatesWindow selectReservationDates = new SelectReservationDatesWindow(dtoReservation, LoggedInUser);
             selectReservationDates.ShowDialog();
         }
     }

@@ -26,7 +26,7 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for SearchAccommodation.xaml
     /// </summary>
-    public partial class SearchAccommodation : Window
+    public partial class SearchAccommodationWindow : Window
     {
         public User LoggedInUser { get; set; }
 
@@ -47,7 +47,7 @@ namespace TravelAgency.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public SearchAccommodation(User user)
+        public SearchAccommodationWindow(User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -126,7 +126,7 @@ namespace TravelAgency.View
         {
             if(SelectedAccommodationDTO != null)
             {
-                EnterReservation newWindow = new EnterReservation(SelectedAccommodationDTO, LoggedInUser);
+                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
                 newWindow.ShowDialog();
             } else
             {

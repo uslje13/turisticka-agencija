@@ -1,4 +1,4 @@
-﻿<Window x:Class="TravelAgency.View.SearchResults"
+﻿<Window x:Class="TravelAgency.View.SearchAccommodationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="SearchResults" Height="450" Width="800">
+        Title="SearchAccommodation" Height="500" Width="800">
     <Grid>
-        <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding accommodationDTOs}" SelectionMode="Single"
+        <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding AccommDTOsCollection}" 
                   SelectedItem="{Binding Path=SelectedAccommodationDTO, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Margin="10,10,10,88">
+                  AutoGenerateColumns="False" SelectionMode="Single"
+                  IsReadOnly="True" Margin="10,10,10,110">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
                 <DataGridTextColumn Header="Grad" Binding="{Binding LocationCity}" Width="1*"/>
@@ -21,6 +22,9 @@
                 <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="ReservationButton" Margin="336,351,336,40" Content="Rezerviši smeštaj" Click="ReserveAccommodationClick"/>
+        <Button x:Name="SearchButton" Margin="270,369,400,35" Content="Pretraži smeštaj" Click="SearchAccommodationClick" 
+                Width="100" Height="30"></Button>
+        <Button x:Name="ReservationButton" Margin="400,369,270,35" Content="Rezerviši smeštaj" Click="ReserveAccommodationClick" 
+                Width="100" Height="30"></Button>
     </Grid>
 </Window>

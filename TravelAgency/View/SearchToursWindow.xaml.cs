@@ -126,9 +126,9 @@ namespace TravelAgency.View
         {
             if (searchResult.Count > 0)
             {
-                ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(LoggedInUser);
-                showAndSearchTours.ToursGrid.ItemsSource = searchResult;
-                showAndSearchTours.Show();
+                ToursOverview overview = new ToursOverview(LoggedInUser);
+                overview.ToursGrid.ItemsSource = searchResult;
+                overview.Show();
                 Close();
             }
             else
@@ -150,8 +150,8 @@ namespace TravelAgency.View
 
         private void CancelClick(object sender, RoutedEventArgs e)
         {
-            ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(LoggedInUser);
-            showAndSearchTours.Show();
+            ToursOverview overview = new ToursOverview(LoggedInUser);
+            overview.Show();
             Close();
         }
     }

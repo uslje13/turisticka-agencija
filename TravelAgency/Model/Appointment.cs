@@ -39,7 +39,7 @@ namespace TravelAgency.Model
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            Date = DateOnly.Parse(values[1]);
+            Date = DateOnly.ParseExact(values[1],"dd/MM/yyyy");
             Time = TimeOnly.Parse(values[2]);
             Occupancy = int.Parse(values[3]);
             Started = bool.Parse(values[4]);
@@ -52,7 +52,7 @@ namespace TravelAgency.Model
             string[] csvValues =
             {
                 Id.ToString(),
-                Date.ToString(),
+                Date.ToString("dd/MM/yyyy"),
                 Time.ToString(),
                 Occupancy.ToString(),
                 Started.ToString(),

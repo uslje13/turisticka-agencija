@@ -21,9 +21,9 @@ using static System.Net.Mime.MediaTypeNames;
 namespace TravelAgency.View
 {
     /// <summary>
-    /// Interaction logic for ShowAndSearchTours.xaml
+    /// Interaction logic for ToursOverview.xaml
     /// </summary>
-    public partial class ShowAndSearchTours : Window
+    public partial class ToursOverview : Window
     {
         public User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
@@ -38,7 +38,7 @@ namespace TravelAgency.View
         private readonly LocationRepository _locationRepository;
         private readonly AppointmentRepository _appointmentRepository;
         private readonly GuestAttendanceRepository _guestAttendanceRepository;
-        public ShowAndSearchTours(User loggedInUser)
+        public ToursOverview(User loggedInUser)
         {
             InitializeComponent();
             DataContext = this;
@@ -123,7 +123,7 @@ namespace TravelAgency.View
 
         private void OpenBookTourWindow()
         {
-            BookTour bookTourWindow = new BookTour(Selected, LoggedInUser);
+            BookTourWindow bookTourWindow = new BookTourWindow(Selected, LoggedInUser);
             bookTourWindow.Show();
             this.Close();
         }
@@ -131,7 +131,7 @@ namespace TravelAgency.View
         private void OpenAlternativeToursWindow()
         {
             MessageBox.Show("Nema slobodnih mesta za odabranu turu");
-            AlternativeTours alternativeTours = new AlternativeTours(Selected, LoggedInUser, TourDTOs);
+            AlternativeToursWindow alternativeTours = new AlternativeToursWindow(Selected, LoggedInUser, TourDTOs);
             alternativeTours.Show();
             Close();
         }

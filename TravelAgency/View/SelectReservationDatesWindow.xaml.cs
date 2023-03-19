@@ -20,18 +20,18 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for SelectReservationDates.xaml
     /// </summary>
-    public partial class SelectReservationDates : Window
+    public partial class SelectReservationDatesWindow : Window
     {
         public List<AccReservationDTO> suggestCatalog { get; set; }
         public AccReservationDTO selectedCatalogItem { get; set; }
         public User LoggedInUser { get; set; }
 
-        public SelectReservationDates()
+        public SelectReservationDatesWindow()
         {
             InitializeComponent();
         }
 
-        public SelectReservationDates(List<AccReservationDTO> list, User user)
+        public SelectReservationDatesWindow(List<AccReservationDTO> list, User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -47,7 +47,7 @@ namespace TravelAgency.View
             } 
             else
             {
-                EnterGuestNumber newWindow = new EnterGuestNumber(selectedCatalogItem, LoggedInUser);
+                EnterGuestNumberWindow newWindow = new EnterGuestNumberWindow(selectedCatalogItem, LoggedInUser);
                 newWindow.Show();
                 Close();
             }
