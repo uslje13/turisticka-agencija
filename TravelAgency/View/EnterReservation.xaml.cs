@@ -25,7 +25,7 @@ namespace TravelAgency.View
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; } 
         public int DaysDuration { get; set; }
-        public AccommodationDTO DTO { get; set; }
+        public LocAccommodationDTO DTO { get; set; }
         public User LoggedInUser { get; set; }
 
 
@@ -34,7 +34,7 @@ namespace TravelAgency.View
             InitializeComponent();
         }
 
-        public EnterReservation(AccommodationDTO dto, User user)
+        public EnterReservation(LocAccommodationDTO dto, User user)
         {
             InitializeComponent();
             DataContext = this;

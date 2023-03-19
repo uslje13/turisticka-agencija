@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TravelAgency.Model;
 using TravelAgency.Repository;
-using static TravelAgency.Model.AccommodationDTO;
+using static TravelAgency.Model.LocAccommodationDTO;
 
 namespace TravelAgency.View
 {
@@ -30,10 +30,10 @@ namespace TravelAgency.View
         public event PropertyChangedEventHandler PropertyChanged;
         public List<Accommodation> accommodations { get; set; }
         public List<Location> locations { get; set; }
-        public ObservableCollection<AccommodationDTO> AccommDTOsCollection { get; set; }
+        public ObservableCollection<LocAccommodationDTO> AccommDTOsCollection { get; set; }
         public AccommodationRepository accommodationRepository { get; set; }
         public LocationRepository locationRepository { get; set; }
-        public AccommodationDTO SelectedAccommodationDTO { get; set; }
+        public LocAccommodationDTO SelectedAccommodationDTO { get; set; }
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
 
@@ -47,7 +47,7 @@ namespace TravelAgency.View
         {
             InitializeComponent();
             DataContext = this;
-            AccommDTOsCollection = new ObservableCollection<AccommodationDTO>();
+            AccommDTOsCollection = new ObservableCollection<LocAccommodationDTO>();
 
             accommodationRepository = new AccommodationRepository();
             locationRepository = new LocationRepository();
@@ -76,14 +76,14 @@ namespace TravelAgency.View
                 {
                     if (accommodation.LocationId == location.Id)
                     {
-                        AccommodationDTO dto = CreateDTOForm(accommodation, location);
+                        LocAccommodationDTO dto = CreateDTOForm(accommodation, location);
                         AccommDTOsCollection.Add(dto);
                     }
                 }
             }
         }
 
-        private AccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
+        private LocAccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
         {
             int currentGuestNumber = 0;
             foreach(var item in accommodationReservations)
@@ -99,10 +99,8 @@ namespace TravelAgency.View
                     }
                 }
             }
-            AccommodationDTO dto = new AccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
+            LocAccommodationDTO dto = new LocAccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
                                                         acc.MaxGuests, acc.MinDaysStay, currentGuestNumber);
-            //dto.AccommodationDTOId = NextId();
-            //dto.LocationId = loc.Id;
             return dto;
         }
 

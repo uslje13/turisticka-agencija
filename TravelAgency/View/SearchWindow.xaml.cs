@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TravelAgency.Model;
 using TravelAgency.Repository;
-using static TravelAgency.Model.AccommodationDTO;
+using static TravelAgency.Model.LocAccommodationDTO;
 
 namespace TravelAgency.View
 {
@@ -32,7 +32,7 @@ namespace TravelAgency.View
         public int searchedAccDaysNumber { get; set; }
         public List<Accommodation> accommodations { get; set; }
         public List<Location> locations { get; set; }
-        public ObservableCollection<AccommodationDTO> AccommDTOsCollection { get; set; }
+        public ObservableCollection<LocAccommodationDTO> AccommDTOsCollection { get; set; }
         public AccommodationRepository accommodationRepository { get; set; }
         public LocationRepository locationRepository { get; set; }
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
@@ -43,7 +43,7 @@ namespace TravelAgency.View
         {
             InitializeComponent();
             DataContext = this;
-            AccommDTOsCollection = new ObservableCollection<AccommodationDTO>();
+            AccommDTOsCollection = new ObservableCollection<LocAccommodationDTO>();
             
             accommodationRepository = new AccommodationRepository();
             locationRepository = new LocationRepository();
@@ -59,7 +59,7 @@ namespace TravelAgency.View
         {
             CreateAllDTOForms();
             LoadEnteredRequests();
-            AccommodationDTO dtoRequest = CreateDTORequest();
+            LocAccommodationDTO dtoRequest = CreateDTORequest();
             SearchAndShow(dtoRequest);
         }
 
@@ -72,14 +72,14 @@ namespace TravelAgency.View
                 {
                     if (accommodation.LocationId == location.Id)
                     {
-                        AccommodationDTO dto = CreateDTOForm(accommodation, location);
+                        LocAccommodationDTO dto = CreateDTOForm(accommodation, location);
                         AccommDTOsCollection.Add(dto);
                     }
                 }
             }
         }
 
-        private AccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
+        private LocAccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
         {
             int currentGuestNumber = 0;
             foreach (var item in accommodationReservations)
@@ -95,12 +95,8 @@ namespace TravelAgency.View
                     }
                 }
             }
-            AccommodationDTO dto = new AccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
+            LocAccommodationDTO dto = new LocAccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
                                                         acc.MaxGuests, acc.MinDaysStay, currentGuestNumber);
-            //dto.AccommodationDTOId = NextId();
-            //dto.AccommodationId = acc.Id;
-            //dto.LocationId = loc.Id;
-
             return dto;
         }
 
@@ -136,22 +132,22 @@ namespace TravelAgency.View
             else return AccommType.NOTYPE;
         }
 
-        private AccommodationDTO CreateDTORequest()
+        private LocAccommodationDTO CreateDTORequest()
         {
-            AccommodationDTO acDTO = new AccommodationDTO(searchedAccName, searchedAccCity, searchedAccCountry, searchedAccType,
+            LocAccommodationDTO acDTO = new LocAccommodationDTO(searchedAccName, searchedAccCity, searchedAccCountry, searchedAccType,
                                                             searchedAccGuestsNumber, searchedAccDaysNumber);
             return acDTO;
         }
 
-        private void SearchAndShow(AccommodationDTO request)
+        private void SearchAndShow(LocAccommodationDTO request)
         {
-            List<AccommodationDTO> searchResult = Search(request);
+            List<LocAccommodationDTO> searchResult = Search(request);
             ShowResults(searchResult);
         }
 
-        private List<AccommodationDTO> Search(AccommodationDTO request)
+        private List<LocAccommodationDTO> Search(LocAccommodationDTO request)
         {
-            List<AccommodationDTO> SearchResult = new List<AccommodationDTO>();
+            List<LocAccommodationDTO> SearchResult = new List<LocAccommodationDTO>();
             foreach (var item in AccommDTOsCollection)
             {
                 bool isCorrect = IsAppropriate(item, request);
@@ -163,20 +159,19 @@ namespace TravelAgency.View
             return SearchResult;
         }
 
-        private bool IsAppropriate(AccommodationDTO item, AccommodationDTO request)
+        private bool IsAppropriate(LocAccommodationDTO item, LocAccommodationDTO request)
         {
             bool checkName = item.AccommodationName.ToLower().Contains(request.AccommodationName.ToLower()) || request.AccommodationName.Equals(string.Empty);
             bool checkCity = item.LocationCity.ToLower().Contains(request.LocationCity.ToLower()) || request.LocationCity.Equals(string.Empty);
             bool checkCountry = item.LocationCountry.ToLower().Contains(request.LocationCountry.ToLower()) || request.LocationCountry.Equals(string.Empty);
             bool checkType = item.AccommodationType == request.AccommodationType || request.AccommodationType == AccommType.NOTYPE;
-            //bool checkMaxGuests = request.AccommodationMaxGuests <= item.AccommodationMaxGuests;
             bool checkMaxGuests = item.GuestNumber + request.GuestNumber <= item.AccommodationMaxGuests;
             bool checkDaysStay = request.AccommodationMinDaysStay >= item.AccommodationMinDaysStay;
 
             return checkName && checkCity && checkCountry && checkType && checkMaxGuests && checkDaysStay;
         }
 
-        private void ShowResults(List<AccommodationDTO> results)
+        private void ShowResults(List<LocAccommodationDTO> results)
         {
             if (results.Count > 0)
             {
@@ -193,21 +188,5 @@ namespace TravelAgency.View
         {
             Close();
         }
-
-        /*
-        private int NextId()
-        {
-            if (AccommDTOsCollection.Count < 1)
-            {
-                return 1;
-            }
-            return AccommDTOsCollection.Max(l => l.AccommodationDTOId) + 1;
-        }
-        
-        public List<AccommodationDTO> GetAll()
-        {
-            return AccommDTOsCollection.ToList();
-        }
-        */
     }
 }

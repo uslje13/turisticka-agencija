@@ -21,8 +21,8 @@ namespace TravelAgency.View
     /// </summary>
     public partial class SearchResults : Window
     {
-        public ObservableCollection<AccommodationDTO> accommodationDTOs { get; set; }
-        public AccommodationDTO SelectedAccommodationDTO { get; set; }
+        public ObservableCollection<LocAccommodationDTO> accommodationDTOs { get; set; }
+        public LocAccommodationDTO SelectedAccommodationDTO { get; set; }
         public User LoggedInUser { get; set; }
 
         public SearchResults()
@@ -30,11 +30,11 @@ namespace TravelAgency.View
             InitializeComponent();
         }
 
-        public SearchResults(List<AccommodationDTO> Results, User user)
+        public SearchResults(List<LocAccommodationDTO> Results, User user)
         {
             InitializeComponent();
             DataContext = this;
-            accommodationDTOs = new ObservableCollection<AccommodationDTO>(Results);
+            accommodationDTOs = new ObservableCollection<LocAccommodationDTO>(Results);
             LoggedInUser = user;
         }
 

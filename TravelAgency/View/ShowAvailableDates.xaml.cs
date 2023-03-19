@@ -27,7 +27,7 @@ namespace TravelAgency.View
         public AccommodationReservationRepository reservationRepository { get; set; }
         public List<Accommodation> accommodations { get; set; }
         public List<AccommodationReservation> reservations { get; set; }
-        public AccommodationDTO accommodationDTO { get; set; }
+        public LocAccommodationDTO accommodationDTO { get; set; }
         public DateTime EnteredFirstDay { get; set; }
         public DateTime EnteredLastDay { get; set; }
         public DateTime[] datesArray { get; set; }
@@ -40,7 +40,7 @@ namespace TravelAgency.View
             InitializeComponent();
         }
 
-        public ShowAvailableDates(AccommodationDTO dto, DateTime firstDay, DateTime lastDay, int days, User user)
+        public ShowAvailableDates(LocAccommodationDTO dto, DateTime firstDay, DateTime lastDay, int days, User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -101,14 +101,12 @@ namespace TravelAgency.View
 
         private void MarkCalendars()
         {
-            //AccReservationDTO accReservationDTO = new AccReservationDTO();
             List<AccReservationDTO> reservationsDTO = CreateAllDTOreservations();
             Calendar.BlackoutDates.AddDatesInPast();
             foreach (var item in reservationsDTO)
             {
                 if(item.AccommodationId == accommodationDTO.AccommodationId)
                 {
-                    //accReservationDTO = item;
                     MarkCalendar(item);
                 }
             }

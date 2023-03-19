@@ -8,7 +8,6 @@ namespace TravelAgency.Model
 {
     public class AccReservationDTO
     {
-        //public int AccReservationDTOId { get; set; }
         public int AccommodationId { get; set; }
         public string AccommodationName { get; set; }
         public int AccommodationMinDaysStay { get; set; }
