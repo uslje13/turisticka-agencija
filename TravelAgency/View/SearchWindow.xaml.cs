@@ -178,6 +178,7 @@ namespace TravelAgency.View
             {
                 SearchResultsWindow newWindow = new SearchResultsWindow(results, LoggedInUser);
                 newWindow.Show();
+                Close();
             }
             else
             {

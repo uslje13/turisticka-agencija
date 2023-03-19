@@ -70,6 +70,7 @@ namespace TravelAgency.View
         {
             SearchWindow searchWindow = new SearchWindow(LoggedInUser);
             searchWindow.ShowDialog();
+            Close();
         }
 
         private void CreateAllDTOForms()
@@ -128,6 +129,7 @@ namespace TravelAgency.View
             {
                 EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
                 newWindow.ShowDialog();
+                Close();
             } else
             {
                 MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");

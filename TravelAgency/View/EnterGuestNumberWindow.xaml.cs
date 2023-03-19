@@ -49,6 +49,7 @@ namespace TravelAgency.View
             AccommodationReservationRepository reservationRepository = new AccommodationReservationRepository();
             reservationRepository.Save(reservation);
             MessageBox.Show("Uspešno rezervisano.");
+            Close();
         }
 
         private void Reserve(object sender, RoutedEventArgs e)

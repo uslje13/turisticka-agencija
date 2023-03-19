@@ -45,6 +45,7 @@ namespace TravelAgency.View
             {
                 EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
                 newWindow.ShowDialog();
+                Close();
             }
             else
             {

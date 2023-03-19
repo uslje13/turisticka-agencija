@@ -293,6 +293,7 @@ namespace TravelAgency.View
         {
             SelectReservationDatesWindow selectReservationDates = new SelectReservationDatesWindow(dtoReservation, LoggedInUser);
             selectReservationDates.ShowDialog();
+            Close();
         }
     }
 }
