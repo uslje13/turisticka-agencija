@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TravelAgency.Repository;
 
-namespace TravelAgency.Model
+namespace TravelAgency.DTO
 {
     public class TourDTO
     {
@@ -25,7 +25,7 @@ namespace TravelAgency.Model
         {
         }
 
-        public TourDTO(string name, string language, int maxNumOfGuests, int duration,int ocupancy, string country, string city, int tourId,TimeOnly time, DateOnly date)
+        public TourDTO(string name, string language, int maxNumOfGuests, int duration, int ocupancy, string country, string city, int tourId, TimeOnly time, DateOnly date)
         {
             Name = name;
             Language = language;
@@ -36,7 +36,7 @@ namespace TravelAgency.Model
             CityAndCountry = city + " (" + country + ")";
             Ocupancy = ocupancy;
             TourId = tourId;
-            Time = time;    
+            Time = time;
             Date = date;
         }
 

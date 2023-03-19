@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using TravelAgency.DTO;
 using TravelAgency.Model;
 
 namespace TravelAgency.View

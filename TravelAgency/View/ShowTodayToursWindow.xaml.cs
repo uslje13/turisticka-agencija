@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using TravelAgency.Converter;
+using TravelAgency.DTO;
 using TravelAgency.Model;
 using TravelAgency.Repository;
 
