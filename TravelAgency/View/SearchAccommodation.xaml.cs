@@ -14,9 +14,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TravelAgency.DTO;
 using TravelAgency.Model;
 using TravelAgency.Repository;
-using static TravelAgency.Model.LocAccommodationDTO;
+using static TravelAgency.DTO.LocAccommodationDTO;
 
 namespace TravelAgency.View
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TravelAgency.Model
+namespace TravelAgency.DTO
 {
     public class AccReservationDTO
     {
@@ -17,8 +17,8 @@ namespace TravelAgency.Model
         public int AccommodationMaxGuests { get; set; }
         public int CurrentGuestNumber { get; set; }
 
-        public AccReservationDTO(int id, string name, int days, DateTime firstDay, DateTime lastDay, int duration, int guests, int current) 
-        { 
+        public AccReservationDTO(int id, string name, int days, DateTime firstDay, DateTime lastDay, int duration, int guests, int current)
+        {
             AccommodationId = id;
             AccommodationName = name;
             AccommodationMinDaysStay = days;
@@ -29,9 +29,9 @@ namespace TravelAgency.Model
             CurrentGuestNumber = current;
         }
 
-        public AccReservationDTO() 
-        { 
-        
+        public AccReservationDTO()
+        {
+
         }
     }
 }

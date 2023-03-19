@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TravelAgency.Model;
-using static TravelAgency.Model.AccommodationDTO;
+using TravelAgency.DTO;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Data;
 using System.Xml.Linq;

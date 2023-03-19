@@ -7,11 +7,10 @@ using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TravelAgency.Model;
 using TravelAgency.Repository;
 using TravelAgency.Serializer;
 
-namespace TravelAgency.Model
+namespace TravelAgency.DTO
 {
     public class LocAccommodationDTO
     {
