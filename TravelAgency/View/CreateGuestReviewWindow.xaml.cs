@@ -42,6 +42,23 @@ namespace TravelAgency.View
             Comment = String.Empty;
 
             InitializeComponent();
+            if (IsGuestReviewed(guestReviewRepository)) 
+            {
+                MessageBox.Show("Vec ste ocenili ovog korisnika.");
+                AddButton.IsEnabled = false;
+            }
+        }
+
+        private bool IsGuestReviewed(GuestReviewRepository guestReviewRepository)
+        {
+            foreach (GuestReview guestReview in guestReviewRepository.GetAll()) 
+            {
+                if(guestReview.GuestId == GuestId && guestReview.OwnerId == OwnerId) 
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void CheckedCleanliness(object sender, RoutedEventArgs e)

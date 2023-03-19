@@ -29,6 +29,8 @@ namespace TravelAgency.View
         public User LoggedInUser { get; set; }
         private AccommodationRepository _accommodationRepository;
         private GuestReviewRepository _guestReviewRepository;
+        private NotificationRepository _notificationRepository;
+        private AccommodationReservationRepository _accommodationReservationRepository;
 
         private LocationConverter _locationConverter;
         public static ObservableCollection<AccommodationDTO> Accommodations { get; set; }
@@ -45,13 +47,18 @@ namespace TravelAgency.View
             DataContext = this;
 
             LoggedInUser = user;
-            _accommodationRepository = new AccommodationRepository();
-            _guestReviewRepository = new GuestReviewRepository();
+            _accommodationRepository = new();
+            _guestReviewRepository = new();
             _locationConverter = new();
+            _notificationRepository = new();
+            _accommodationReservationRepository = new();
             Accommodations = new ObservableCollection<AccommodationDTO>();
             FillObservableCollection(Accommodations);
-
+            
             InitializeComponent();
+            
+            AddNotifications();
+            CheckForNotifications();
         }
 
         private void FillObservableCollection(ObservableCollection<AccommodationDTO> accommodations)
@@ -65,6 +72,50 @@ namespace TravelAgency.View
                     location = _locationConverter.GetFullNameById(item.LocationId);
                 }
                 accommodations.Add(new AccommodationDTO(item.Id,item.Name,location,item.Type,item.MaxGuests,item.MinDaysStay,item.MinDaysForCancelation));
+            }
+        }
+
+        public void AddNotifications() 
+        {
+            foreach (var reservation in _accommodationReservationRepository.GetAll())
+            {
+                foreach (AccommodationDTO accommodation in Accommodations)
+                {
+                    if(reservation.AccommodationId == accommodation.Id && IsInLastFiveDays(reservation.LastDay) && !IsReviewedGuest(LoggedInUser.Id,reservation.UserId)) 
+                    {
+                        _notificationRepository.Save(new Notification(
+                            LoggedInUser.Id,
+                            "Ocenite korisnika",
+                            Notification.NotificationType.GUESTREVIEW,
+                            false,
+                            reservation.UserId
+                            ));
+                    }
+                }
+            } 
+        }
+
+        private bool IsReviewedGuest(int ownerId,int userId)
+        {
+            return _guestReviewRepository.ReviewExists(ownerId,userId);
+        }
+
+        private bool IsInLastFiveDays(DateTime time) 
+        {
+            int dayDifference = DateTime.Now.DayOfYear - time.DayOfYear;
+            return  dayDifference <= 5 && dayDifference > -1;
+        }
+
+
+        public void CheckForNotifications()
+        {
+            foreach(var notification in _notificationRepository.GetAll()) 
+            {
+                if(notification.UserId == LoggedInUser.Id && !notification.Read) 
+                {
+                    NotificationButtonClick(null, null);
+                    return;
+                }
             }
         }
 
@@ -84,9 +135,9 @@ namespace TravelAgency.View
 
         }
 
-        private void ReviewButtonClick(object sender, RoutedEventArgs e)
+        private void NotificationButtonClick(object sender, RoutedEventArgs e)
         {
-            ShowNotificationsWindow showNotificationsWindow = new ShowNotificationsWindow(LoggedInUser);
+            ShowNotificationsWindow showNotificationsWindow = new ShowNotificationsWindow(LoggedInUser,_notificationRepository,_guestReviewRepository);
             showNotificationsWindow.ShowDialog();
         }
 
