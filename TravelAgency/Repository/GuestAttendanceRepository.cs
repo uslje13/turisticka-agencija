@@ -28,7 +28,7 @@ namespace TravelAgency.Repository
             return _guestsAttendances;
         }
 
-        public List<GuestAttendance> GetAllActivityId(int id)
+        public List<GuestAttendance> GetAllByActivityId(int id)
         {
             _guestsAttendances = _serializer.FromCSV(FilePath);
             return _guestsAttendances.FindAll(a => a.CheckpointActivityId == id);

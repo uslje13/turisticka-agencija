@@ -52,7 +52,7 @@ namespace TravelAgency.View
             Resevations = GetAppointemntReservatons();
 
             CreateGuestsAttendances();
-            GuestsAttendances = _guestAttendanceRepository.GetAllActivityId(SelectedCheckpointActivity.Id);
+            GuestsAttendances = _guestAttendanceRepository.GetAllByActivityId(SelectedCheckpointActivity.Id);
             GuestsAttendancesDTO = new ObservableCollection<GuestAttendanceDTO>();
             FillObservableCollection();
         }
