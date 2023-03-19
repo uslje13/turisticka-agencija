@@ -52,6 +52,12 @@ namespace TravelAgency.Repository
             _serializer.ToCSV(FilePath, _guestReviews);
             return guestReview;
         }
+
+        public bool ReviewExists(int ownerId,int guestId)
+        {
+            _guestReviews = _serializer.FromCSV(FilePath);
+            return _guestReviews.Exists(l => l.GuestId == guestId && l.OwnerId == ownerId);
+        }
         public int NextId()
         {
             _guestReviews = _serializer.FromCSV(FilePath);

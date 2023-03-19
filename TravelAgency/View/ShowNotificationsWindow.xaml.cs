@@ -23,20 +23,23 @@ namespace TravelAgency.View
     public partial class ShowNotificationsWindow : Window
     {
         private NotificationRepository _notificationRepository;
+        private GuestReviewRepository _guestReviewRepository;
         public static ObservableCollection<Notification> Notifications { get; set; }
         public Notification SelectedNotification { get; set; }
         public User LoggedInUser { get; set; }
 
-        public ShowNotificationsWindow(User user)
+        public ShowNotificationsWindow(User user,NotificationRepository notificationRepository, GuestReviewRepository guestReviewRepository)
         {
 
             DataContext = this;
             Notifications = new ObservableCollection<Notification>();
-            _notificationRepository = new();
+            _notificationRepository = notificationRepository;
+            _guestReviewRepository = guestReviewRepository;
             LoggedInUser = user;
             FillObservableCollection();
 
             InitializeComponent();
+            _guestReviewRepository = guestReviewRepository;
         }
 
         private void FillObservableCollection()
@@ -69,7 +72,7 @@ namespace TravelAgency.View
 
             if(SelectedNotification.Type == Notification.NotificationType.GUESTREVIEW) 
             {
-                CreateGuestReviewWindow createGuestReview = new CreateGuestReviewWindow(LoggedInUser, SelectedNotification.GuestId, null);
+                CreateGuestReviewWindow createGuestReview = new CreateGuestReviewWindow(LoggedInUser, SelectedNotification.GuestId,_guestReviewRepository);
                 SelectedNotification.Read = true;
                 _notificationRepository.Update(SelectedNotification);
                 createGuestReview.ShowDialog();

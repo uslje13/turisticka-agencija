@@ -51,6 +51,7 @@ namespace TravelAgency.Repository
             _serializer.ToCSV(FilePath, _notifications);
             return notification;
         }
+
         public int NextId()
         {
             _notifications = _serializer.FromCSV(FilePath);

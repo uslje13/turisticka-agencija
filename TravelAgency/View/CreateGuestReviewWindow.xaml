@@ -50,7 +50,7 @@
         <WrapPanel Grid.Row="1" FlowDirection="RightToLeft">
             <Button Content="Otkaži" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 5, 20, 5"
                 Click="ButtonClickCancel"/>
-            <Button Content="Dodaj" IsDefault="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 5, 20, 5"
+            <Button x:Name="AddButton" Content="Dodaj" IsDefault="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 5, 20, 5"
                 Click="ButtonClickAdd"/>
         </WrapPanel>
     </Grid>
