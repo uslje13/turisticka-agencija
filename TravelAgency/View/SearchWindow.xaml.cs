@@ -166,7 +166,7 @@ namespace TravelAgency.View
             bool checkCity = item.LocationCity.ToLower().Contains(request.LocationCity.ToLower()) || request.LocationCity.Equals(string.Empty);
             bool checkCountry = item.LocationCountry.ToLower().Contains(request.LocationCountry.ToLower()) || request.LocationCountry.Equals(string.Empty);
             bool checkType = item.AccommodationType == request.AccommodationType || request.AccommodationType == AccommType.NOTYPE;
-            bool checkMaxGuests = item.GuestNumber + request.GuestNumber <= item.AccommodationMaxGuests;
+            bool checkMaxGuests = request.GuestNumber <= item.AccommodationMaxGuests;
             bool checkDaysStay = request.AccommodationMinDaysStay >= item.AccommodationMinDaysStay;
 
             return checkName && checkCity && checkCountry && checkType && checkMaxGuests && checkDaysStay;
