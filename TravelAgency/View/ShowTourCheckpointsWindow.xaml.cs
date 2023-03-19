@@ -58,10 +58,10 @@ namespace TravelAgency.View
         private void SetLabelContent()
         {
             Appointment activeAppointment = FindActiveAppointment();
-            Tour tour = Tours.Find(t => t.Id == activeAppointment.TourId);
-            string tourContent = string.Empty;
             if (activeAppointment != null)
             {
+                Tour tour = Tours.Find(t => t.Id == activeAppointment.TourId);
+                string tourContent = string.Empty;
                 tourContent = "Aktivna tura: " + tour.Name + " " + activeAppointment.Date.ToString() + " " + activeAppointment.Time.ToString();
                 activeTourLabel.Content = tourContent;
             }
@@ -81,7 +81,6 @@ namespace TravelAgency.View
                     {
                         CheckpointActivities.Add(activity);
                     }
-
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using TravelAgency.DTO;
 using TravelAgency.Model;
@@ -65,17 +66,17 @@ namespace TravelAgency.View
         private void CreateGuestsAttendances()
         {
             List<GuestAttendance> guestsAttendances = new List<GuestAttendance>(_guestAttendanceRepository.GetAll());
-            List<GuestAttendance> newGuestsAttendances = new List<GuestAttendance>();
+            List<GuestAttendance> attendances = new List<GuestAttendance>();
             GuestAttendance founded = guestsAttendances.Find(a => a.CheckpointActivityId == SelectedCheckpointActivity.Id);
             if (founded == null)
             {
                 foreach (Reservation reservation in Resevations)
                 {
-                    newGuestsAttendances.Add(CreateGuestAttendance(reservation));
+                    attendances.Add(CreateGuestAttendance(reservation));
                 }
-                _guestAttendanceRepository.SaveAll(newGuestsAttendances);
+                attendances = new List <GuestAttendance>(attendances.DistinctBy(i => i.UserId));
+                _guestAttendanceRepository.SaveAll(attendances);
             }
-
         }
 
         private GuestAttendance CreateGuestAttendance(Reservation reservation)
