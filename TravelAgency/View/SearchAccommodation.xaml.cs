@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TravelAgency.Model;
 using TravelAgency.Repository;
-using static TravelAgency.Model.AccommodationDTO;
+using static TravelAgency.Model.LocAccommodationDTO;
 
 namespace TravelAgency.View
 {
@@ -25,39 +25,45 @@ namespace TravelAgency.View
     /// </summary>
     public partial class SearchAccommodation : Window
     {
-        //public User LoggedInUser { get; set; }
+        public User LoggedInUser { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public List<Accommodation> accommodations { get; set; }
         public List<Location> locations { get; set; }
-        public ObservableCollection<AccommodationDTO> AccommDTOsCollection { get; set; }
+        public ObservableCollection<LocAccommodationDTO> AccommDTOsCollection { get; set; }
         public AccommodationRepository accommodationRepository { get; set; }
         public LocationRepository locationRepository { get; set; }
+        public LocAccommodationDTO SelectedAccommodationDTO { get; set; }
+        public AccommodationReservationRepository accommodationReservationRepository { get; set; }
+        public List<AccommodationReservation> accommodationReservations { get; set; }
+
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public SearchAccommodation(/*User user*/)
+        public SearchAccommodation(User user)
         {
             InitializeComponent();
             DataContext = this;
-            AccommDTOsCollection = new ObservableCollection<AccommodationDTO>();
+            AccommDTOsCollection = new ObservableCollection<LocAccommodationDTO>();
 
             accommodationRepository = new AccommodationRepository();
             locationRepository = new LocationRepository();
+            accommodationReservationRepository = new AccommodationReservationRepository();
 
             accommodations = accommodationRepository.GetAll();
             locations = locationRepository.GetAll();
+            accommodationReservations = accommodationReservationRepository.GetAll();
+            LoggedInUser = user;
 
             CreateAllDTOForms();
-            //LoggedInUser = user;
         }
 
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
         {
-            SearchWindow searchWindow = new SearchWindow();
+            SearchWindow searchWindow = new SearchWindow(LoggedInUser);
             searchWindow.ShowDialog();
         }
 
@@ -70,21 +76,31 @@ namespace TravelAgency.View
                 {
                     if (accommodation.LocationId == location.Id)
                     {
-                        AccommodationDTO dto = CreateDTOForm(accommodation, location);
+                        LocAccommodationDTO dto = CreateDTOForm(accommodation, location);
                         AccommDTOsCollection.Add(dto);
                     }
                 }
             }
         }
 
-        private AccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
+        private LocAccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
         {
-            AccommodationDTO dto = new AccommodationDTO(acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
-                                                        acc.MaxGuests, acc.MinDaysStay);
-            //dto.AccommodationDTOId = NextId();
-            //dto.AccommodationId = acc.Id;
-            //dto.LocationId = loc.Id;
-
+            int currentGuestNumber = 0;
+            foreach(var item in accommodationReservations)
+            {
+                if (item.AccommodationId == acc.Id)
+                {
+                    DateTime today = DateTime.Today;
+                    int helpVar1 = today.DayOfYear - item.FirstDay.DayOfYear;
+                    int helpVar2 = today.DayOfYear - item.LastDay.DayOfYear;
+                    if (helpVar1 >= 0 && helpVar2 <= 0)
+                    {
+                        currentGuestNumber += item.GuestNumber;
+                    }
+                }
+            }
+            LocAccommodationDTO dto = new LocAccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
+                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber);
             return dto;
         }
 
@@ -98,6 +114,18 @@ namespace TravelAgency.View
                 return AccommType.HUT;
             else
                 return AccommType.NOTYPE;
+        }
+
+        private void ReserveAccommodationClick(object sender, RoutedEventArgs e)
+        {
+            if(SelectedAccommodationDTO != null)
+            {
+                EnterReservation newWindow = new EnterReservation(SelectedAccommodationDTO, LoggedInUser);
+                newWindow.ShowDialog();
+            } else
+            {
+                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
+            }
         }
     }
 }

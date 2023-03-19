@@ -8,16 +8,19 @@
         WindowStartupLocation="CenterScreen"
         Title="SearchResults" Height="450" Width="800">
     <Grid>
-        <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding accommodationDTOs}" 
-                  AutoGenerateColumns="False" IsReadOnly="True" Margin="10,10,10,60">
+        <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding accommodationDTOs}" SelectionMode="Single"
+                  SelectedItem="{Binding Path=SelectedAccommodationDTO, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="10,10,10,88">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
                 <DataGridTextColumn Header="Grad" Binding="{Binding LocationCity}" Width="1*"/>
                 <DataGridTextColumn Header="Drzava" Binding="{Binding LocationCountry}" Width="1*"/>
                 <DataGridTextColumn Header="Tip" Binding="{Binding AccommodationType}" Width="1*"/>
+                <DataGridTextColumn Header="Trenutno gostiju" Binding="{Binding GuestNumber}" Width="1*"/>
                 <DataGridTextColumn Header="Max. gostiju" Binding="{Binding AccommodationMaxGuests}" Width="1*"/>
                 <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Button x:Name="ReservationButton" Margin="336,351,336,40" Content="Rezerviši smeštaj" Click="ReserveAccommodationClick"/>
     </Grid>
 </Window>

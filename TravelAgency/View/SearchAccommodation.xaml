@@ -6,22 +6,25 @@
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="SearchAccommodation" Height="350" Width="800">
+        Title="SearchAccommodation" Height="500" Width="800">
     <Grid>
         <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding AccommDTOsCollection}" 
-                  SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False"
-                  IsReadOnly="True" Margin="10,10,10,60">
+                  SelectedItem="{Binding Path=SelectedAccommodationDTO, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" SelectionMode="Single"
+                  IsReadOnly="True" Margin="10,10,10,110">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
                 <DataGridTextColumn Header="Grad" Binding="{Binding LocationCity}" Width="1*"/>
                 <DataGridTextColumn Header="Drzava" Binding="{Binding LocationCountry}" Width="1*"/>
                 <DataGridTextColumn Header="Tip" Binding="{Binding AccommodationType}" Width="1*"/>
+                <DataGridTextColumn Header="Trenutno gostiju" Binding="{Binding GuestNumber}" Width="1*"/>
                 <DataGridTextColumn Header="Max. gostiju" Binding="{Binding AccommodationMaxGuests}" Width="1*"/>
                 <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="SearchButton" Margin="5, 270, 5, 5" Content="Pretraži smeštaj" Click="SearchAccommodationClick" 
+        <Button x:Name="SearchButton" Margin="270,369,400,35" Content="Pretraži smeštaj" Click="SearchAccommodationClick" 
+                Width="100" Height="30"></Button>
+        <Button x:Name="ReservationButton" Margin="400,369,270,35" Content="Rezerviši smeštaj" Click="ReserveAccommodationClick" 
                 Width="100" Height="30"></Button>
     </Grid>
 </Window>

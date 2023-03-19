@@ -72,7 +72,8 @@ namespace TravelAgency.View
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GOST1)
                 {
-
+                    SearchAccommodation searchAccommodation = new SearchAccommodation(user);
+                    searchAccommodation.Show();
                     Close();
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GOST2)
@@ -90,12 +91,6 @@ namespace TravelAgency.View
             {
                 MessageBox.Show("Wrong username!");
             }
-        }
-
-        private void gost1_click(object sender, RoutedEventArgs e)
-        {
-            SearchAccommodation searchAccommodation = new SearchAccommodation();
-            searchAccommodation.Show();
         }
     }
 }
