@@ -31,11 +31,13 @@ namespace TravelAgency.View
 
         public static ObservableCollection<Appointment> Appointments { get; set; }
         public static ObservableCollection<TourDTO> TourDTOs { get; set; }
+        public List<GuestAttendance> UserAttendances { get; set; }
         public TourDTO Selected { get; set; }
 
         private readonly TourRepository _repository;
         private readonly LocationRepository _locationRepository;
         private readonly AppointmentRepository _appointmentRepository;
+        private readonly GuestAttendanceRepository _guestAttendanceRepository;
         public ShowAndSearchTours(User loggedInUser)
         {
             InitializeComponent();
@@ -44,11 +46,42 @@ namespace TravelAgency.View
             _repository = new TourRepository();
             _locationRepository = new LocationRepository();
             _appointmentRepository = new AppointmentRepository();
+            _guestAttendanceRepository = new GuestAttendanceRepository();
             Tours = new ObservableCollection<Tour>(_repository.GetAll());
             TourDTOs = new ObservableCollection<TourDTO>();
             Locations = new ObservableCollection<Location>(_locationRepository.GetAll());
             Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());
+            UserAttendances = new List<GuestAttendance>(_guestAttendanceRepository.GetByUserId(loggedInUser.Id));
+
             FillDTOList();
+        }
+
+
+        public void GetAttendanceMessage()
+        {
+            foreach(var attendance in UserAttendances)
+            {
+                if (attendance.Presence.Equals(GuestPresence.UNKNOWN)) 
+                {
+                    ShowAttendanceMessage(attendance);
+                }
+            }
+        }
+
+        private void ShowAttendanceMessage(GuestAttendance attendance)
+        {
+            MessageBoxResult result = MessageBox.Show(attendance.Message, "Prisutnost",
+                        MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                attendance.Presence = GuestPresence.YES;
+                _guestAttendanceRepository.Update(attendance);
+            }
+            else
+            {
+                attendance.Presence = GuestPresence.NO;
+                _guestAttendanceRepository.Update(attendance);
+            }
         }
 
         private static void FillDTOList()

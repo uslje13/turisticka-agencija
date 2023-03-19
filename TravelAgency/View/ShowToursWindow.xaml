@@ -8,13 +8,12 @@
         Title="Ture" Height="500" Width="875" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <DataGrid Background="#FFE5E5E5"
-                          ItemsSource="{Binding Tours, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding ToursDTO, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="10,61,10,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="170"/>
-                <DataGridTextColumn Header="Lokacija" Binding="{Binding LocationId}" Width="170"/>
+                <DataGridTextColumn Header="Lokacija" Binding="{Binding CityAndCountry}" Width="170"/>
                 <DataGridTextColumn Header="Jezik" Binding="{Binding Language}" Width="200"/>
                 <DataGridTextColumn Header="Maks. br. gostiju" Binding="{Binding MaxNumOfGuests}" Width="200"/>
                 <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration}" Width="92"/>

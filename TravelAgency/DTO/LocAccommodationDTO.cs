@@ -30,6 +30,7 @@ namespace TravelAgency.DTO
 
 
         public LocAccommodationDTO(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber)
+
         {
             AccommodationId = id;
             AccommodationName = name;

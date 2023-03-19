@@ -25,6 +25,12 @@ namespace TravelAgency.Repository
             return _serializer.FromCSV(FilePath);
         }
 
+        public Tour Get(int id)
+        {
+            _tours = _serializer.FromCSV(FilePath);
+            return _tours.Find(t => t.Id == id) ?? throw new ArgumentException();
+        }
+
         public Tour Save(Tour tour)
         {
             tour.Id = NextId();

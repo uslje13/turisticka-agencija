@@ -27,6 +27,12 @@ namespace TravelAgency.Repository
             return _checkpointActivities;
         }
 
+        public CheckpointActivity GetById(int id)
+        {
+            _checkpointActivities = _serializer.FromCSV(FilePath);
+            return _checkpointActivities.Find(a => a.Id == id) ?? throw new ArgumentException();
+        }
+
         public void Save(CheckpointActivity checkpointActivity)
         {
             checkpointActivity.Id = NextId();

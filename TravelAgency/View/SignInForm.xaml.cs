@@ -58,28 +58,29 @@ namespace TravelAgency.View
             User user = _repository.GetByUsername(Username);
             if (user != null)
             {
-                if (user.Password == txtPassword.Password && user.Role == Roles.VLASNIK)
+                if (user.Password == txtPassword.Password && user.Role == Roles.OWNER)
                 {
                     ShowAccommodationsWindow showAccommodations = new ShowAccommodationsWindow(user);
                     showAccommodations.Show();
                     Close();
                 }
-                else if (user.Password == txtPassword.Password && user.Role == Roles.VODIC)
+                else if (user.Password == txtPassword.Password && user.Role == Roles.TOURISTGUIDE)
                 {
                     ShowToursWindow showToursWindow = new ShowToursWindow(user);
                     showToursWindow.Show();
                     Close();
                 }
-                else if (user.Password == txtPassword.Password && user.Role == Roles.GOST1)
+                else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST1)
                 {
                     SearchAccommodation searchAccommodation = new SearchAccommodation(user);
                     searchAccommodation.Show();
                     Close();
                 }
-                else if (user.Password == txtPassword.Password && user.Role == Roles.GOST2)
+                else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST2)
                 {
                     ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(user);
                     showAndSearchTours.Show();
+                    showAndSearchTours.GetAttendanceMessage();
                     Close();
                 }
                 else

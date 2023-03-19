@@ -18,8 +18,8 @@
                Margin="204,206,0,0" Height="30" Width="71"/>
         <Label Content="Tip :" FontSize="15" FontWeight="Bold" Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Center" 
                Margin="104,0,0,0" Height="30" Width="61"/>
-        <Label Content="Broj gostiju :" FontSize="15" FontWeight="Bold" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-               Margin="104,320,0,0" Height="30" Width="99"/>
+        <Label Content="Broj potencijslnih gostiju :" FontSize="15" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+               Margin="104,320,0,0" Height="30" Width="194"/>
         <Label Content="Broj dana za rezervaciju :" FontSize="15" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                Margin="104,367,0,0" Height="30" Width="189"/>
         <TextBox x:Name="name" HorizontalAlignment="Left" VerticalAlignment="Top"

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
@@ -13,7 +12,7 @@ namespace TravelAgency.View
     /// </summary>
     public partial class StartTourWindow : Window
     {
-        public ObservableCollection<Appointment> TodayAppointmentsByTour { get; set; }
+        public ObservableCollection<Appointment> TodayAppointments { get; set; }
         public Appointment SelectedAppointment { get; set; }
 
         private readonly AppointmentRepository _appointmentRepository;
@@ -22,26 +21,28 @@ namespace TravelAgency.View
 
         private readonly CheckpointActivityRepository _checkpointActivityRepository;
 
-        public ObservableCollection<Tour> UserTours { get; set; }
+        public List<Tour> Tours { get; set; }
         public Tour SelectedTour { get; set; }
 
-        public StartTourWindow(Tour selectedTour, ObservableCollection<Tour> todayUserTours, AppointmentRepository appointmentRepository, CheckpointRepository checkpointRepository)
+        public StartTourWindow(Tour selectedTour, List<Tour> tours)
         {
             InitializeComponent();
             DataContext = this;
 
-            _appointmentRepository = appointmentRepository;
-            _checkpointRepository = checkpointRepository;
+            _appointmentRepository = new AppointmentRepository();
+            _checkpointRepository = new CheckpointRepository();
             _checkpointActivityRepository = new CheckpointActivityRepository();
 
-            UserTours = todayUserTours;
+            Tours = tours;
             SelectedTour = selectedTour;
-            TodayAppointmentsByTour = new ObservableCollection<Appointment>(FindAppointmentsByTour());
+            selectedTourLabel.Content = "Tura: " + SelectedTour.Name;
+            TodayAppointments = new ObservableCollection<Appointment>(FindTodayAppointmentsByTour());
             ExistsActiveAppointment();
         }
+
         private void ExistsActiveAppointment()
         {
-            List<Appointment> appointments = FindAllAppointmentsByTours();
+            List<Appointment> appointments = _appointmentRepository.GetAllByTours(Tours);
             Appointment activeAppointment = appointments.Find(a => a.Started == true && a.Finished == false);
             if (activeAppointment != null)
             {
@@ -56,24 +57,7 @@ namespace TravelAgency.View
             label.Foreground = new SolidColorBrush(Colors.Red);
         }
 
-        private List<Appointment> FindAllAppointmentsByTours()   //by tour dodaj
-        {
-            List<Appointment> appointments = new List<Appointment>(_appointmentRepository.GetAll());
-            List<Appointment> todayAppointments = new List<Appointment>();
-            foreach (Tour tour in UserTours)
-            {
-                foreach (Appointment appointment in appointments)
-                {
-                    if (appointment.TourId == tour.Id)
-                    {
-                        todayAppointments.Add(appointment);
-                    }
-                }
-            }
-            return todayAppointments;
-        }
-
-        private List<Appointment> FindAppointmentsByTour()
+        private List<Appointment> FindTodayAppointmentsByTour()
         {
             List<Appointment> todayAppointments = new List<Appointment>(_appointmentRepository.GetTodayAppointments());
 
@@ -86,14 +70,18 @@ namespace TravelAgency.View
             {
                 MessageBox.Show("Morate odabrati satnicu!");
             }
+            else if (SelectedAppointment.Finished == true)
+            {
+                MessageBox.Show("TURA JE ZAVŠENA!\nNe možete započeti turu.");
+            }
             else
             {
                 ActivateAppointment();
-                SaveCheckointsActivity();
+                SaveCheckpointsActivity();
                 MessageBox.Show("Tura je uspešno startovana!");
                 DisableStartTour();
                 Close();
-                ShowTourCheckpoints showTourCheckpoints = new ShowTourCheckpoints(new List<Tour>(UserTours));
+                ShowTourCheckpointsWindow showTourCheckpoints = new ShowTourCheckpointsWindow(Tours);
                 showTourCheckpoints.ShowDialog();
             }
         }
@@ -103,27 +91,29 @@ namespace TravelAgency.View
             _appointmentRepository.Update(SelectedAppointment);
         }
 
-        private void SaveCheckointsActivity()
+        private void SaveCheckpointsActivity()
         {
             List<Checkpoint> checkpoints = _checkpointRepository.GetAllByTourId(SelectedTour);
-            List<CheckpointActivity> checkpointActivities = new List<CheckpointActivity>();
-            foreach (Checkpoint checkpoint in checkpoints) 
+            List<CheckpointActivity> activities = new List<CheckpointActivity>();
+            foreach (Checkpoint checkpoint in checkpoints)
             {
-                checkpointActivities.Add(CreateCheckpointActivity(checkpoint));
+                activities.Add(CreateCheckpointActivity(checkpoint));
             }
-            _checkpointActivityRepository.SaveAll(checkpointActivities);
+            _checkpointActivityRepository.SaveAll(activities);
         }
 
         private CheckpointActivity CreateCheckpointActivity(Checkpoint checkpoint)
         {
-            CheckpointActivity checkpointActivity = new CheckpointActivity();
-            checkpointActivity.AppointmentId = SelectedAppointment.Id;
-            checkpointActivity.CheckpointId = checkpoint.Id;
+            CheckpointActivity activity = new CheckpointActivity();
+            activity.AppointmentId = SelectedAppointment.Id;
+            activity.CheckpointId = checkpoint.Id;
+
             if (checkpoint.Type.Equals(CheckpointType.START))
             {
-                checkpointActivity.Activated = true;
+                activity.Activated = true;
             }
-            return checkpointActivity;
+
+            return activity;
         }
 
         private void CancelButtonClick(object sender, RoutedEventArgs e)

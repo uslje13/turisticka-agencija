@@ -1,24 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TravelAgency.Model;
-using TravelAgency.DTO;
-using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
-using System.Data;
-using System.Xml.Linq;
 
 namespace TravelAgency.View
 {
@@ -40,7 +24,7 @@ namespace TravelAgency.View
             DataContext = this;
             TourDTOs = new ObservableCollection<TourDTO>();
             TourDTOs = tourDTOs;
-            LoggedInUser= loggedInUser;
+            LoggedInUser = loggedInUser;
         }
 
         public string SearchedLanguage
@@ -91,7 +75,7 @@ namespace TravelAgency.View
                     OnPropertyChanged();
                 }
             }
-        }       
+        }
         public int SearchedDuration
         {
             get => _searchedDuration;
@@ -119,7 +103,7 @@ namespace TravelAgency.View
             foreach (var item in TourDTOs)
             {
                 bool isCorrect = IsApropriate(item);
-                if(isCorrect)
+                if (isCorrect)
                 {
                     searchResult.Add(item);
                 }
@@ -143,7 +127,7 @@ namespace TravelAgency.View
             if (searchResult.Count > 0)
             {
                 ShowAndSearchTours showAndSearchTours = new ShowAndSearchTours(LoggedInUser);
-                showAndSearchTours.ToursGrid.ItemsSource= searchResult;
+                showAndSearchTours.ToursGrid.ItemsSource = searchResult;
                 showAndSearchTours.Show();
                 Close();
             }

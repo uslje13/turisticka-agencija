@@ -26,11 +26,30 @@ namespace TravelAgency.Repository
             return _appointments;
         }
 
+        public List<Appointment> GetAllByTours(List<Tour> tours)
+        {
+            _appointments = _serializer.FromCSV(FilePath);
+            List<Appointment> appointments = new List<Appointment>();
+
+            foreach (Tour tour in tours)
+            {
+                foreach(Appointment appointment in _appointments)
+                {
+                    if(appointment.TourId == tour.Id)
+                    {
+                        appointments.Add(appointment);
+                    }
+                }
+            }
+            return appointments;
+        }
+
         public Appointment GetById(int id) 
         {
             _appointments = _serializer.FromCSV(FilePath);
             return _appointments.Find(a => a.Id == id) ?? throw new ArgumentException();
         }
+
 
         public void Save(Appointment appointment)
         {

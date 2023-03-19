@@ -19,6 +19,8 @@ using TravelAgency.Model;
 using TravelAgency.Repository;
 using static TravelAgency.DTO.LocAccommodationDTO;
 
+
+
 namespace TravelAgency.View
 {
     /// <summary>
@@ -32,6 +34,7 @@ namespace TravelAgency.View
         public List<Accommodation> accommodations { get; set; }
         public List<Location> locations { get; set; }
         public ObservableCollection<LocAccommodationDTO> AccommDTOsCollection { get; set; }
+
         public AccommodationRepository accommodationRepository { get; set; }
         public LocationRepository locationRepository { get; set; }
         public LocAccommodationDTO SelectedAccommodationDTO { get; set; }
@@ -49,6 +52,7 @@ namespace TravelAgency.View
             InitializeComponent();
             DataContext = this;
             AccommDTOsCollection = new ObservableCollection<LocAccommodationDTO>();
+
 
             accommodationRepository = new AccommodationRepository();
             locationRepository = new LocationRepository();
@@ -78,6 +82,7 @@ namespace TravelAgency.View
                     if (accommodation.LocationId == location.Id)
                     {
                         LocAccommodationDTO dto = CreateDTOForm(accommodation, location);
+
                         AccommDTOsCollection.Add(dto);
                     }
                 }
