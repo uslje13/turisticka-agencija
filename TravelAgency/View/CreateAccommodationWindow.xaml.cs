@@ -26,8 +26,9 @@ namespace TravelAgency.View
         public string AName { get; set; }
         public Accommodation.AccommodationType Type { get; set; }
         public string LocationId { get; set; }
-        public int MaxGuests { get; set; }
+        public int MaxGuests { get; set; } 
         public int MinDaysStay { get; set; }
+        public int MinDaysForCancelation { get; set; }
         public ObservableCollection<Model.Image> Images { get; set; }
         public List<Location> Locations { get; set; }
         public ReadOnlyObservableCollection<string> Countries { get; set; }
@@ -56,6 +57,7 @@ namespace TravelAgency.View
             AName = string.Empty;
             Country = string.Empty;
             City = string.Empty;
+            MinDaysForCancelation = 1;
 
             InitializeComponent();
         }
@@ -84,7 +86,7 @@ namespace TravelAgency.View
             
 
             int locationId = FindLocationId();
-            Accommodation accommodation = new Accommodation(AName,Type , locationId, MaxGuests, MinDaysStay, LoggedInUser.Id);
+            Accommodation accommodation = new Accommodation(AName,Type , locationId, MaxGuests, MinDaysStay, LoggedInUser.Id, MinDaysForCancelation);
             accommodation = _accommodationRepository.Save(accommodation);
             SetImagesTourId(accommodation);
             _imageRepository.SaveAll(Images);
