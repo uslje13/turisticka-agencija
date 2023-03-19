@@ -42,7 +42,6 @@
         <Grid Margin="400,0,0,0">
             <DataGrid Name="checkpointsDG" Background="#FFE5E5E5"
                           ItemsSource="{Binding Checkpoints, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=SelectedChecpoint, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="28,10,28,41">
                 <DataGrid.Columns>

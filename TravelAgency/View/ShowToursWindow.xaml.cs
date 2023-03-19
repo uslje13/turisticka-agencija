@@ -68,7 +68,7 @@ namespace TravelAgency.View
 
         private void TourDurationExpiredEnd()
         {
-            List<Appointment> appointments = _appointmentReository.GetAppointmentsByTours(Tours);
+            List<Appointment> appointments = _appointmentReository.GetAllByTours(Tours);
             foreach (Appointment appointment in appointments)
             {
                 Tour tour = _tourReository.Get(appointment.TourId);

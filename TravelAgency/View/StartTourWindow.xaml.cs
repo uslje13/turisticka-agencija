@@ -35,12 +35,14 @@ namespace TravelAgency.View
 
             Tours = tours;
             SelectedTour = selectedTour;
+            selectedTourLabel.Content = "Tura: " + SelectedTour.Name;
             TodayAppointments = new ObservableCollection<Appointment>(FindTodayAppointmentsByTour());
             ExistsActiveAppointment();
         }
+
         private void ExistsActiveAppointment()
         {
-            List<Appointment> appointments = _appointmentRepository.GetAppointmentsByTours(Tours);
+            List<Appointment> appointments = _appointmentRepository.GetAllByTours(Tours);
             Appointment activeAppointment = appointments.Find(a => a.Started == true && a.Finished == false);
             if (activeAppointment != null)
             {

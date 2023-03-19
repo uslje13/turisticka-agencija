@@ -26,7 +26,7 @@ namespace TravelAgency.Repository
             return _appointments;
         }
 
-        public List<Appointment> GetAppointmentsByTours(List<Tour> tours)
+        public List<Appointment> GetAllByTours(List<Tour> tours)
         {
             _appointments = _serializer.FromCSV(FilePath);
             List<Appointment> appointments = new List<Appointment>();

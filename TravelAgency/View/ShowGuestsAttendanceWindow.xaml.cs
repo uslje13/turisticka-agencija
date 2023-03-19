@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using TravelAgency.Converter;
 using TravelAgency.DTO;
 using TravelAgency.Model;
 using TravelAgency.Repository;
@@ -24,9 +12,9 @@ namespace TravelAgency.View
     /// </summary>
     public partial class ShowGuestsAttendanceWindow : Window
     {
-        public List<Reservation> AppointmentReservations { get; set; }
+        public List<Reservation> Resevations { get; set; }
 
-        public ObservableCollection<GuestAttendance> GuestsAttendances { get; set; }
+        public List<GuestAttendance> GuestsAttendances { get; set; }
         public ObservableCollection<GuestAttendanceDTO> GuestsAttendancesDTO { get; set; }
 
         public CheckpointActivity SelectedCheckpointActivity { get; set; }
@@ -48,13 +36,6 @@ namespace TravelAgency.View
             }
         }
 
-        /*
-        public void UpdateObservableCollection()
-        {
-            GuestsAttendancesDTO.Clear();
-            FillObservableCollection();
-        }*/
-
 
         public ShowGuestsAttendanceWindow(CheckpointActivity selectedCheckpointActivity)
         {
@@ -67,10 +48,10 @@ namespace TravelAgency.View
             _checkpointRepository = new CheckpointRepository();
             _userRepository = new UserRepository();
 
-            AppointmentReservations = GetAppointemntReservatons();
+            Resevations = GetAppointemntReservatons();
 
-            CreateGuestsAttendances();      //odmah kada otvorim prozor kreiram listu prisutnih gostiju za taj aktivni cekpoint
-            GuestsAttendances = new ObservableCollection<GuestAttendance>(_guestAttendanceRepository.GetAllByChechpointActivityId(SelectedCheckpointActivity.Id));
+            CreateGuestsAttendances();
+            GuestsAttendances = _guestAttendanceRepository.GetAllActivityId(SelectedCheckpointActivity.Id);
             GuestsAttendancesDTO = new ObservableCollection<GuestAttendanceDTO>();
             FillObservableCollection();
         }
@@ -83,23 +64,21 @@ namespace TravelAgency.View
 
         private void CreateGuestsAttendances()
         {
-            //proverim da li je u posecenosti vec kreirana poruka o aktivnom cekpointu
-            //Ako nije znaci da je selektovan drugi aktivni cekpoint i njega dodam u listu!
             List<GuestAttendance> guestsAttendances = new List<GuestAttendance>(_guestAttendanceRepository.GetAll());
             List<GuestAttendance> newGuestsAttendances = new List<GuestAttendance>();
             GuestAttendance founded = guestsAttendances.Find(a => a.CheckpointActivityId == SelectedCheckpointActivity.Id);
-            if(founded == null)
+            if (founded == null)
             {
-                foreach (Reservation reservation in AppointmentReservations)
+                foreach (Reservation reservation in Resevations)
                 {
                     newGuestsAttendances.Add(CreateGuestAttendance(reservation));
                 }
                 _guestAttendanceRepository.SaveAll(newGuestsAttendances);
             }
-            
+
         }
 
-        private GuestAttendance CreateGuestAttendance(Reservation reservation) 
+        private GuestAttendance CreateGuestAttendance(Reservation reservation)
         {
 
             GuestAttendance guestAttendance = new GuestAttendance();

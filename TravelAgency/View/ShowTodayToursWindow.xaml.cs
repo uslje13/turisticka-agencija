@@ -57,7 +57,7 @@ namespace TravelAgency.View
             _checkpointRepository = new CheckpointRepository();
 
             Tours = tours;
-            Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAppointmentsByTours(tours));
+            Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAllByTours(tours));
             TodayToursDTO = new ObservableCollection<TourDTO>();
             
 

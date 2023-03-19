@@ -11,7 +11,7 @@
                           ItemsSource="{Binding TodayAppointments, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Path=SelectedAppointment, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
-                          IsReadOnly="True" Margin="99,64,99,87">
+                          IsReadOnly="True" Margin="99,91,99,60">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat='dd.MM.yyyy.'}" Width="140"/>
                 <DataGridTextColumn Header="Vreme" Binding="{Binding Time, StringFormat='HH:mm'}" Width="170"/>
@@ -23,7 +23,8 @@
             <Button x:Name="cancelButton" Content="Odustani" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="383,0,0,0" Width="56"
                     Click="CancelButtonClick"/>
         </Grid>
-        <Grid Margin="0,10,0,267">
+        <Grid Margin="0,0,0,240">
+            <Label x:Name="selectedTourLabel" Content="" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top"/>
             <Label x:Name="label" Content="Odaberite satnicu:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
         </Grid>
     </Grid>

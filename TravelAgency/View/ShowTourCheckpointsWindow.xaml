@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgency.View"
         mc:Ignorable="d"
-        Title="Ključne tačke aktivne ture" Height="412" Width="452">
+        Title="Ključne tačke aktivne ture" Height="412" Width="452" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid Margin="0,0,91,0">
             <DataGrid Background="#FFE5E5E5"
@@ -21,6 +21,7 @@
             </DataGrid>
             <Button x:Name="guestsAttendanceButton" Content="Prozovi putnike" HorizontalAlignment="Left" Margin="10,348,0,0" VerticalAlignment="Top" Width="108"
                     Click="GuestsAttendanceButtonClick"/>
+            <Label x:Name="activeTourLabel" Content="" HorizontalAlignment="Left" Margin="10,16,0,0" VerticalAlignment="Top"/>
         </Grid>
         <Grid Margin="361,0,0,0">
             <Button x:Name="activateCheckpointButton" Content="Aktiviraj" HorizontalAlignment="Center" Margin="0,123,0,0" VerticalAlignment="Top" Width="68" Height="24"

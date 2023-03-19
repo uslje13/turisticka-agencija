@@ -52,6 +52,19 @@ namespace TravelAgency.View
             CheckpointActivitiesDTO = new ObservableCollection<CheckpointActivityDTO>();
             FindCheckpointActivites();
             FillObservableCollection();
+            SetLabelContent();
+        }
+
+        private void SetLabelContent()
+        {
+            Appointment activeAppointment = FindActiveAppointment();
+            Tour tour = Tours.Find(t => t.Id == activeAppointment.TourId);
+            string tourContent = string.Empty;
+            if (activeAppointment != null)
+            {
+                tourContent = "Aktivna tura: " + tour.Name + " " + activeAppointment.Date.ToString() + " " + activeAppointment.Time.ToString();
+                activeTourLabel.Content = tourContent;
+            }
         }
 
         private void FindCheckpointActivites()
@@ -75,25 +88,8 @@ namespace TravelAgency.View
 
         private Appointment FindActiveAppointment()
         {
-            List<Appointment> appointments = _appointmentRepository.GetAppointmentsByTours(Tours);
+            List<Appointment> appointments = _appointmentRepository.GetAllByTours(Tours);
             return appointments.Find(a => a.Started == true && a.Finished == false);
-
-            /*
-            List<Appointment> appointments = new List<Appointment>(_appointmentRepository.GetAll());
-            List<Appointment> activeAppontementsByTours = new List<Appointment>();
-            foreach (Tour tour in Tours)
-            {
-                foreach (Appointment appointment in appointments)
-                {
-                    bool active = appointment.Started == true && appointment.Finished == false;
-                    if (appointment.TourId == tour.Id && active)
-                    {
-                        activeAppontementsByTours.Add(appointment);
-                    }
-                }
-            }
-            return activeAppontementsByTours;
-            */
         }
 
         private void SetSelectedCheckpointActivity()
@@ -111,12 +107,12 @@ namespace TravelAgency.View
                 UpdateObservableCollection();
                 MessageBox.Show("Uspešno ste aktivirali čekpoint!");
 
+
                 Checkpoint checkpoint = _checkpointRepository.GetById(SelectedCheckpointActivity.CheckpointId);
                 if (checkpoint.Type == CheckpointType.END)
                 {
-                    Appointment appointment = _appointmentRepository.GetById(SelectedCheckpointActivity.AppointmentId);
-                    appointment.Finished = true;
-                    _appointmentRepository.Update(appointment);
+                    Appointment activeAppointment = FindActiveAppointment();
+                    FinishAppointment(activeAppointment);
                 }
             }
         }
@@ -124,22 +120,18 @@ namespace TravelAgency.View
         private void FinishTourButtonClick(object sender, RoutedEventArgs e)
         {
             Appointment activeAppointment = FindActiveAppointment();
+            FinishAppointment(activeAppointment);
+            Close();
+        }
+
+        private void FinishAppointment(Appointment activeAppointment)
+        {
             if (activeAppointment != null)
             {
                 activeAppointment.Finished = true;
                 _appointmentRepository.Update(activeAppointment);
                 MessageBox.Show("Završili ste turu!");
-                Close();
             }
-            
-
-            /*
-            List<CheckpointActivity> checkpointActivities = new List<CheckpointActivity>(CheckpointActivities);
-            CheckpointActivity checkpointActivity = checkpointActivities[0];
-            Appointment appointment = _appointmentRepository.GetById(checkpointActivity.AppointmentId);
-            appointment.Finished = true;
-            _appointmentRepository.Update(appointment);
-            */
         }
 
         private void GuestsAttendanceButtonClick(object sender, RoutedEventArgs e)
