@@ -24,7 +24,7 @@ namespace TravelAgency.View
     /// <summary>
     /// Interaction logic for ToursOverview.xaml
     /// </summary>
-    public partial class ToursOverview : Window
+    public partial class ToursOverviewWindow : Window
     {
         public User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
@@ -39,7 +39,7 @@ namespace TravelAgency.View
         private readonly LocationRepository _locationRepository;
         private readonly AppointmentRepository _appointmentRepository;
         private readonly GuestAttendanceRepository _guestAttendanceRepository;
-        public ToursOverview(User loggedInUser)
+        public ToursOverviewWindow(User loggedInUser)
         {
             InitializeComponent();
             DataContext = this;

@@ -78,7 +78,7 @@ namespace TravelAgency.View
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST2)
                 {
-                    ToursOverview overview = new ToursOverview(user);
+                    ToursOverviewWindow overview = new ToursOverviewWindow(user);
                     overview.Show();  
                     overview.GetAttendanceMessage();
                     Close();

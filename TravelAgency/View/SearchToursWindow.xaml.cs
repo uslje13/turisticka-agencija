@@ -127,7 +127,7 @@ namespace TravelAgency.View
         {
             if (searchResult.Count > 0)
             {
-                ToursOverview overview = new ToursOverview(LoggedInUser);
+                ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
                 overview.ToursGrid.ItemsSource = searchResult;
                 overview.Show();
                 Close();
@@ -151,7 +151,7 @@ namespace TravelAgency.View
 
         private void CancelClick(object sender, RoutedEventArgs e)
         {
-            ToursOverview overview = new ToursOverview(LoggedInUser);
+            ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
             overview.Show();
             Close();
         }

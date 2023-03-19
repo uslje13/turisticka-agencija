@@ -123,7 +123,7 @@ namespace TravelAgency.View
 
         private void OpenToursOverviewWindow()
         {
-            ToursOverview overview = new ToursOverview(LoggedInUser);
+            ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
             overview.Show();
         }
 

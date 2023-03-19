@@ -62,7 +62,7 @@ namespace TravelAgency.View
 
         private void CancelClick(object sender, RoutedEventArgs e)
         {
-            ToursOverview overview = new ToursOverview(LoggedInUser);
+            ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
             overview.Show();
             this.Close();
         }
