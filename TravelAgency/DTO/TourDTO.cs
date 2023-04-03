@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TravelAgency.Repository;
+using SOSTeam.TravelAgency.Repositories;
 
 namespace TravelAgency.DTO
 {

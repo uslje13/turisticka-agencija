@@ -7,8 +7,8 @@ using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TravelAgency.Repository;
-using TravelAgency.Serializer;
+using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace TravelAgency.DTO
 {

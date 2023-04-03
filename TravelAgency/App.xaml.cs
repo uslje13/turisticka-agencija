@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace TravelAgency
+namespace SOSTeam.TravelAgency
 {
     /// <summary>
     /// Interaction logic for App.xaml

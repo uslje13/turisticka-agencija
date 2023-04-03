@@ -1,0 +1,98 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using TravelAgency.DTO;
+using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Repositories;
+
+namespace SOSTeam.TravelAgency.WPF.Views
+{
+    /// <summary>
+    /// Interaction logic for EnterReservation.xaml
+    /// </summary>
+    public partial class EnterReservationWindow : Window
+    {
+        public DateTime FirstDate { get; set; }
+        public DateTime LastDate { get; set; } 
+        public int DaysDuration { get; set; }
+        public LocAccommodationDTO DTO { get; set; }
+        public User LoggedInUser { get; set; }
+
+
+        public EnterReservationWindow()
+        {
+            InitializeComponent();
+        }
+
+        public EnterReservationWindow(LocAccommodationDTO dto, User user)
+        {
+            InitializeComponent();
+            DataContext = this;
+            DTO = dto;
+            FirstDate = DateTime.Now;
+            LastDate = DateTime.Now;
+            FirstDay.BlackoutDates.AddDatesInPast();
+            LastDay.BlackoutDates.AddDatesInPast();
+            LoggedInUser = user;
+        }
+
+        private void GoBackClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void ReserveClick(object sender, RoutedEventArgs e)
+        {
+            bool validDates = CheckDates(FirstDate, LastDate);
+            bool validDays = CheckDays();
+            if (validDates && validDays)
+            {
+                ShowAvailableDatesWindow availableDates = new ShowAvailableDatesWindow(DTO, FirstDate, LastDate, DaysDuration, LoggedInUser);
+                availableDates.Show();
+            } 
+            else if (!validDates)
+            {
+                MessageBox.Show("Nevalidan odabir datuma. Pokušajte ponovo.");
+            } 
+            else if (!validDays)
+            {
+                MessageBox.Show("Unešeni broj dana boravka je manji od minimalnog za izabrani smeštaj.");
+            }
+        }
+
+        private bool CheckDays()
+        {
+            DaysDuration = int.Parse(Days.Text);
+            int check = DTO.AccommodationMinDaysStay;
+            if (DaysDuration >= check) return true;
+            else return false;
+        }
+
+        private bool CheckDates(DateTime start, DateTime end)
+        {
+            if (start.Year < end.Year) return true;
+            else if (start.Year == end.Year)
+            {
+                if (start.Month < end.Month) return true;
+                else if (start.Month == end.Month)
+                {
+                    if (start.Day <= end.Day) return true;
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+    }
+}

@@ -1,0 +1,34 @@
+﻿<Window x:Class="SOSTeam.TravelAgency.WPF.Views.ShowTourCheckpointsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views"
+        mc:Ignorable="d"
+        Title="Ključne tačke aktivne ture" Height="412" Width="452" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid Margin="0,0,91,0">
+            <DataGrid Background="#FFE5E5E5"
+                          ItemsSource="{Binding CheckpointActivitiesDTO, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Path=SelectedCheckpointActivityDTO, UpdateSourceTrigger=PropertyChanged}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True" Margin="10,53,10,81">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="140"/>
+                    <DataGridTextColumn Header="Tip" Binding="{Binding Type}" Width="100"/>
+                    <DataGridTextColumn Header="Aktivnost" Binding="{Binding Activated}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="guestsAttendanceButton" Content="Prozovi putnike" HorizontalAlignment="Left" Margin="10,348,0,0" VerticalAlignment="Top" Width="108"
+                    Click="GuestsAttendanceButtonClick"/>
+            <Label x:Name="activeTourLabel" Content="" HorizontalAlignment="Left" Margin="10,16,0,0" VerticalAlignment="Top"/>
+        </Grid>
+        <Grid Margin="361,0,0,0">
+            <Button x:Name="activateCheckpointButton" Content="Aktiviraj" HorizontalAlignment="Center" Margin="0,123,0,0" VerticalAlignment="Top" Width="68" Height="24"
+                    Click="ActivateCheckpointButtonClick"/>
+            <Button x:Name="finishTourButton" Content="Završi turu" HorizontalAlignment="Center" Margin="0,238,0,0" VerticalAlignment="Top" Width="68" Height="27"
+                    Click="FinishTourButtonClick"/>
+
+        </Grid>
+    </Grid>
+</Window>

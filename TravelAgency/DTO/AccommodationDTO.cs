@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TravelAgency.Model;
+using SOSTeam.TravelAgency.Domain.Models;
 
 namespace TravelAgency.DTO
 {
