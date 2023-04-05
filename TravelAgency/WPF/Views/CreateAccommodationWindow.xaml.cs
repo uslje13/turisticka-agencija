@@ -88,7 +88,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             Accommodation accommodation = new Accommodation(AName,Type , locationId, MaxGuests, MinDaysStay, LoggedInUser.Id, MinDaysForCancelation);
             accommodation = _accommodationRepository.Save(accommodation);
             SetImagesTourId(accommodation);
-            _imageRepository.SaveAll(Images);
+            _imageRepository.SaveAll(new List<Image>(Images));
             Close();
         }
 

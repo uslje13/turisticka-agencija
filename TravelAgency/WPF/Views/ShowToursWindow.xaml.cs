@@ -57,7 +57,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             _tourReository = new TourRepository();
             _appointmentReository = new AppointmentRepository();
 
-            Tours = new List<Tour>(_tourReository.GetByUser(user));
+            Tours = new List<Tour>(_tourReository.GetAllByUserId(user.Id));
             Appointments = new List<Appointment>(_appointmentReository.GetAll());
 
             _locationConverter = new();
@@ -72,7 +72,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             List<Appointment> appointments = _appointmentReository.GetAllByTours(Tours);
             foreach (Appointment appointment in appointments)
             {
-                Tour tour = _tourReository.Get(appointment.TourId);
+                Tour tour = _tourReository.GetById(appointment.TourId);
                 CheckAppointmentEnd(tour, appointment);
             }
         }

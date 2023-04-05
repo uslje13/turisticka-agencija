@@ -5,7 +5,6 @@ namespace SOSTeam.TravelAgency.Domain.Models
 {
     public class Appointment : ISerializable
     {
-        //id|date|int|id ---> .csv
         public int Id { get; set; }
         public DateOnly Date { get; set; }
         public TimeOnly Time { get; set; }

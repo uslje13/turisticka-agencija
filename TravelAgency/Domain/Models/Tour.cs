@@ -24,7 +24,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Duration = 0;
             UserId = -1;
         }
-        public Tour(string name, int locationId, string description, string language, int maxNumOfGuests, int duration, int userId)
+        public Tour(int id, string name, int locationId, string description, string language, int maxNumOfGuests, int duration, int userId)
         {
             Name = name;
             LocationId = locationId;

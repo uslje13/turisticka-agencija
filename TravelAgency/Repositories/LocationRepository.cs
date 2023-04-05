@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Repositories
 {
-    public class LocationRepository
+    public class LocationRepository : ILocationRepository
     {
         private const string FilePath = "../../../Resources/Data/locations.csv";
 
@@ -20,29 +21,7 @@ namespace SOSTeam.TravelAgency.Repositories
             _locations = _serializer.FromCSV(FilePath);
         }
 
-        public List<Location> GetAll()
-        {
-            return _serializer.FromCSV(FilePath);
-        }
-
-        public Location Save(Location location)
-        {
-            location.Id = NextId();
-            _locations = _serializer.FromCSV(FilePath);
-            _locations.Add(location);
-            _serializer.ToCSV(FilePath, _locations);
-            return location;
-        }
-
-        public void Delete(Location location)
-        {
-            _locations = _serializer.FromCSV(FilePath);
-            Location founded = _locations.Find(l => l.Id == location.Id) ?? throw new ArgumentException();     //da li da dodam upitnik da ukloni warning
-            _locations.Remove(founded);
-            _serializer.ToCSV(FilePath, _locations);
-        }
-
-        public void DeleteById(int id)
+        public void Delete(int id)
         {
             _locations = _serializer.FromCSV(FilePath);
             Location founded = _locations.Find(l => l.Id == id) ?? throw new ArgumentException();     //da li da dodam upitnik da ukloni warning
@@ -50,15 +29,15 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(FilePath, _locations);
         }
 
-        public Location Update(Location location)
+        public List<Location> GetAll()
+        {
+            return _serializer.FromCSV(FilePath);
+        }
+
+        public Location GetById(int id)
         {
             _locations = _serializer.FromCSV(FilePath);
-            Location current = _locations.Find(l => l.Id == location.Id) ?? throw new ArgumentException();      //kada da uhvatim ovaj exeption
-            int index = _locations.IndexOf(current);
-            _locations.Remove(current);
-            _locations.Insert(index, location);
-            _serializer.ToCSV(FilePath, _locations);
-            return location;
+            return _locations.Find(l => l.Id == id) ?? throw new ArgumentException();
         }
 
         public int NextId()
@@ -71,11 +50,22 @@ namespace SOSTeam.TravelAgency.Repositories
             return _locations.Max(l => l.Id) + 1;
         }
 
-        public Location GetById(int id)
+        public void Save(Location location)
         {
-            Location location = _locations.Find(l => l.Id == id) ?? throw new ArgumentException();
-            return location;
+            location.Id = NextId();
+            _locations = _serializer.FromCSV(FilePath);
+            _locations.Add(location);
+            _serializer.ToCSV(FilePath, _locations);
         }
 
+        public void Update(Location location)
+        {
+            _locations = _serializer.FromCSV(FilePath);
+            Location current = _locations.Find(l => l.Id == location.Id) ?? throw new ArgumentException();
+            int index = _locations.IndexOf(current);
+            _locations.Remove(current);
+            _locations.Insert(index, location);
+            _serializer.ToCSV(FilePath, _locations);
+        }
     }
 }

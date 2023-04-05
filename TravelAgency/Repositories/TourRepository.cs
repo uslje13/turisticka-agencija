@@ -1,12 +1,14 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Repositories
 {
-    public class TourRepository
+    public class TourRepository : ITourRepository
     {
         private const string FilePath = "../../../Resources/Data/tours.csv";
 
@@ -20,48 +22,29 @@ namespace SOSTeam.TravelAgency.Repositories
             _tours = new List<Tour>();
         }
 
+        public void Delete(int id)
+        {
+            _tours = _serializer.FromCSV(FilePath);
+            Tour founded = _tours.Find(t => t.Id == id) ?? throw new ArgumentException();
+            _tours.Remove(founded);
+            _serializer.ToCSV(FilePath, _tours);
+        }
+
         public List<Tour> GetAll()
         {
             return _serializer.FromCSV(FilePath);
         }
 
-        public Tour Get(int id)
+        public Tour GetById(int id)
         {
             _tours = _serializer.FromCSV(FilePath);
             return _tours.Find(t => t.Id == id) ?? throw new ArgumentException();
         }
 
-        public Tour Save(Tour tour)
-        {
-            tour.Id = NextId();
-            _tours = _serializer.FromCSV(FilePath);
-            _tours.Add(tour);
-            _serializer.ToCSV(FilePath, _tours);
-            return tour;
-        }
-
-        public void Delete(Tour tour)
+        public List<Tour> GetAllByUserId(int id)
         {
             _tours = _serializer.FromCSV(FilePath);
-            Tour founded = _tours.Find(t => t.Id == tour.Id) ?? throw new ArgumentException();
-            _tours.Remove(founded);
-            _serializer.ToCSV(FilePath, _tours);
-        }
-
-        public Tour Update(Tour tour)
-        {
-            _tours = _serializer.FromCSV(FilePath);
-            Tour current = _tours.Find(t => t.Id == tour.Id) ?? throw new ArgumentException();
-            int index = _tours.IndexOf(current);
-            _tours.Remove(current);
-            _tours.Insert(index, tour);
-            _serializer.ToCSV(FilePath, _tours);
-            return tour;
-        }
-
-        public int GetId(Tour tour)
-        {
-            return tour.Id;
+            return _tours.FindAll(t => t.UserId == id);
         }
 
         public int NextId()
@@ -71,15 +54,27 @@ namespace SOSTeam.TravelAgency.Repositories
             {
                 return 1;
             }
-            return _tours.Max(l => l.Id) + 1;
+            return _tours.Max(t => t.Id) + 1;
         }
 
-        public List<Tour> GetByUser(User user)
+        public void Save(Tour tour)
+        {
+            tour.Id = NextId();
+            _tours = _serializer.FromCSV(FilePath);
+            _tours.Add(tour);
+            _serializer.ToCSV(FilePath, _tours);
+        }
+
+
+        public void Update(Tour image)
         {
             _tours = _serializer.FromCSV(FilePath);
-            return _tours.FindAll(t => t.UserId == user.Id);
+            Tour current = _tours.Find(t => t.Id == image.Id) ?? throw new ArgumentException();
+            int index = _tours.IndexOf(current);
+            _tours.Remove(current);
+            _tours.Insert(index, image);
+            _serializer.ToCSV(FilePath, _tours);
         }
-
     }
 
 }

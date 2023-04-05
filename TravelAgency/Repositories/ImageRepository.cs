@@ -1,13 +1,16 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Repositories
 {
-    public class ImageRepository
+    public class ImageRepository : IImageRepository
     {
         private const string FilePath = "../../../Resources/Data/images.csv";
 
@@ -21,9 +24,34 @@ namespace SOSTeam.TravelAgency.Repositories
             _images = _serializer.FromCSV(FilePath);
         }
 
+
+        public void Delete(int id)
+        {
+            _images = _serializer.FromCSV(FilePath);
+            Image founded = _images.Find(i => i.Id == id) ?? throw new ArgumentException();
+            _images.Remove(founded);
+            _serializer.ToCSV(FilePath, _images);
+        }
+
         public List<Image> GetAll()
         {
             return _serializer.FromCSV(FilePath);
+        }
+
+        public Image GetById(int id)
+        {
+            _images = _serializer.FromCSV(FilePath);
+            return _images.Find(i => i.Id == id) ?? throw new ArgumentException();
+        }
+
+        public int NextId()
+        {
+            _images = _serializer.FromCSV(FilePath);
+            if (_images.Count < 1)
+            {
+                return 1;
+            }
+            return _images.Max(t => t.Id) + 1;
         }
 
         public void Save(Image image)
@@ -34,7 +62,7 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(FilePath, _images);
         }
 
-        public void SaveAll(ObservableCollection<Image> images)
+        public void SaveAll(List<Image> images)
         {
             foreach (Image image in images)
             {
@@ -42,34 +70,14 @@ namespace SOSTeam.TravelAgency.Repositories
             }
         }
 
-        public void Delete(Image image)
+        public void Update(Image image)
         {
             _images = _serializer.FromCSV(FilePath);
-            Image founded = _images.Find(i => i.Id == image.Id) ?? throw new ArgumentException();
-            _images.Remove(founded);
+            Image current = _images.Find(t => t.Id == image.Id) ?? throw new ArgumentException();
+            int index = _images.IndexOf(current);
+            _images.Remove(current);
+            _images.Insert(index, image);
             _serializer.ToCSV(FilePath, _images);
         }
-
-        public void DeleteByTourId(int id)
-        {
-            foreach (Image image in _images)
-            {
-                if (image.EntityId == id)
-                {
-                    Delete(image);
-                }
-            }
-        }
-
-        public int NextId()
-        {
-            _images = _serializer.FromCSV(FilePath);
-            if (_images.Count < 1)
-            {
-                return 1;
-            }
-            return _images.Max(l => l.Id) + 1;
-        }
-
     }
 }

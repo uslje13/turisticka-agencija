@@ -178,11 +178,12 @@ namespace SOSTeam.TravelAgency.WPF.Views
             if (IsValid())
             {
                 int locationId = FindLocationId();
-                Tour newTour = new Tour(TourName, locationId, Description, TourLanguage, MaxNumOfGuests, Duration, LoggedInUser.Id);
-                Tour savedTour = _tourRepository.Save(newTour);
-                SetEntitesTourId(savedTour);
+                int tourId = _tourRepository.NextId();
+                Tour newTour = new Tour(tourId, TourName, locationId, Description, TourLanguage, MaxNumOfGuests, Duration, LoggedInUser.Id);
+                _tourRepository.Save(newTour);
+                SetEntitesTourId(newTour);
                 SaveEntites();
-                Tours.Add(savedTour);
+                Tours.Add(newTour);
 
                 Close();
             }
@@ -206,14 +207,6 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 return false;
             }
             return true;
-        }
-
-        public Location CreateLocation()
-        {
-            Location location = new Location(Country, City);
-            Location savedLocation = _locationRepository.Save(location);
-
-            return savedLocation;
         }
 
         private void SetEntitesTourId(Tour savedTour)
@@ -249,9 +242,9 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
         private void SaveEntites()
         {
-            _checkpointRepository.SaveAll(Checkpoints);
-            _appointmentRepository.SaveAll(Appointments);
-            _imageRepository.SaveAll(Images);
+            _checkpointRepository.SaveAll(new List<Checkpoint>());
+            _appointmentRepository.SaveAll(new List<Appointment>());
+            _imageRepository.SaveAll(new List<Image>(Images));
         }
 
         private void AddCheckpointButtonClick(object sender, RoutedEventArgs e)

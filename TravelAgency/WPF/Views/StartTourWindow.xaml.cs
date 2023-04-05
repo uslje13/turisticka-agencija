@@ -93,7 +93,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
         private void SaveCheckpointsActivity()
         {
-            List<Checkpoint> checkpoints = _checkpointRepository.GetAllByTourId(SelectedTour);
+            List<Checkpoint> checkpoints = _checkpointRepository.GetAllByTourId(SelectedTour.Id);
             List<CheckpointActivity> activities = new List<CheckpointActivity>();
             foreach (Checkpoint checkpoint in checkpoints)
             {
