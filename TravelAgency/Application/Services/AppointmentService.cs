@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
+using SOSTeam.TravelAgency.Domain;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 
@@ -13,10 +14,7 @@ namespace SOSTeam.TravelAgency.Application.Services
     {
         private readonly IAppointmentRepository _appointmentRepository = Injector.CreateInstance<IAppointmentRepository>();
 
-        public AppointmentService()
-        {
-            
-        }
+        public AppointmentService() { }
 
         public void Delete(int id)
         {

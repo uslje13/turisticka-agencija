@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.Repositories;
 
-namespace SOSTeam.TravelAgency.Application.Services
+namespace SOSTeam.TravelAgency.Domain
 {
     public class Injector
     {
