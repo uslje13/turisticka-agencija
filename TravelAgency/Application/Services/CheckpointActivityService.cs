@@ -8,5 +8,10 @@ namespace SOSTeam.TravelAgency.Application.Services
 {
     public class CheckpointActivityService
     {
+        public CheckpointActivityService()
+        {
+
+        }
+
     }
 }
