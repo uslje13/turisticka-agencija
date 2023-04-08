@@ -11,7 +11,6 @@
   <ItemGroup>
     <Folder Include="Application\UseCases\" />
     <Folder Include="Resources\Images\" />
-    <Folder Include="WPF\ViewModels\" />
 
   </ItemGroup>
 
