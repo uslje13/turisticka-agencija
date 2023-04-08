@@ -1,0 +1,51 @@
+﻿<Page x:Class="SOSTeam.TravelAgency.WPF.Views.TourGuide.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
+      mc:Ignorable="d" 
+      d:DesignHeight="750" d:DesignWidth="430"
+      Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+      Title="HomePage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Background="#001E28">
+            <Button Width="50" Background="Transparent" BorderBrush="Transparent">
+                <Image Source="/Resources/Icons/burger_menu.png"></Image>
+            </Button>
+            <Label Foreground="White" Content="Home" FontSize="20" Width="350" VerticalAlignment="Center" HorizontalContentAlignment="Center"/>
+        </StackPanel>
+
+        <Label Content="Your tours" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" 
+               Margin="10, 0,0, 0"></Label>
+        <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Width="75" Height="25"
+                Content="Today tours" BorderBrush="Transparent" Margin="0,0,10,0"></Button>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Button Width="86" Background="Transparent" BorderBrush="Transparent">
+                <Image Source="/Resources/Icons/back_button.png"></Image>
+            </Button>
+            <Button Width="86" Background="Transparent" BorderBrush="Transparent">
+                <Image Source="/Resources/Icons/plus.png"></Image>
+            </Button>
+            <Button Width="86" Background="Transparent" BorderBrush="Transparent">
+                <Image Source="/Resources/Icons/home.png"></Image>
+            </Button>
+            <Button Width="86" Background="Transparent" BorderBrush="Transparent">
+                <Image Source="/Resources/Icons/livetour.png"></Image>
+            </Button>
+            <Button Width="86" Background="Transparent" BorderBrush="Transparent">
+                <Image Source="/Resources/Icons/demo.png"></Image>
+            </Button>
+        </StackPanel>
+
+    </Grid>
+</Page>
