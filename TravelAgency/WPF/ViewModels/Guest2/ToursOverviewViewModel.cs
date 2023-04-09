@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SOSTeam.TravelAgency.WPF.ViewModels
+namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
-    internal class ToursOverviewViewModel
+    public class ToursOverviewViewModel
     {
+
     }
 }

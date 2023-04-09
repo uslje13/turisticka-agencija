@@ -9,9 +9,48 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Icons\active_tour.png" />
+    <None Remove="Resources\Icons\back_button.png" />
+    <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
+    <None Remove="Resources\Icons\help--v1.png" />
+    <None Remove="Resources\Icons\home.png" />
+    <None Remove="Resources\Icons\info-icon.png" />
+    <None Remove="Resources\Icons\list-square-icon.png" />
+    <None Remove="Resources\Icons\request.png" />
+    <None Remove="Resources\Icons\reserved.png" />
+    <None Remove="Resources\Icons\search.png" />
+    <None Remove="Resources\Icons\settings.png" />
+    <None Remove="Resources\Icons\tour_icon.png" />
+    <None Remove="Resources\Icons\user_ikonica.png" />
+    <None Remove="Resources\Icons\video.png" />
+    <None Remove="Resources\Icons\voucher_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Application\UseCases\" />
     <Folder Include="Resources\Images\" />
 
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\active_tour.png" />
+    <Resource Include="Resources\Icons\back_button.png" />
+    <Resource Include="Resources\Icons\help--v1.png" />
+    <Resource Include="Resources\Icons\home.png" />
+    <Resource Include="Resources\Icons\info-icon.png" />
+    <Resource Include="Resources\Icons\list-square-icon.png" />
+    <Resource Include="Resources\Icons\request.png" />
+    <Resource Include="Resources\Icons\reserved.png" />
+    <Resource Include="Resources\Icons\search.png" />
+    <Resource Include="Resources\Icons\settings.png" />
+    <Resource Include="Resources\Icons\tour_icon.png" />
+    <Resource Include="Resources\Icons\user_ikonica.png" />
+    <Resource Include="Resources\Icons\video.png" />
+    <Resource Include="Resources\Icons\voucher_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
