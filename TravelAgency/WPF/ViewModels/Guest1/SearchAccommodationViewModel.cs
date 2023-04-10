@@ -1,34 +1,19 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using TravelAgency.DTO;
-using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.Repositories;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 
-
-
-namespace SOSTeam.TravelAgency.WPF.Views
+namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
-    /// <summary>
-    /// Interaction logic for SearchAccommodation.xaml
-    /// </summary>
-    public partial class SearchAccommodationWindow : Window
+    public class SearchAccommodationViewModel
     {
-        /*
         public User LoggedInUser { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -41,24 +26,10 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
-        */
 
-        /*
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public SearchAccommodationViewModel(User user)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        */
-
-        public SearchAccommodationWindow(User user)
-        {
-            InitializeComponent();
-            //DataContext = this;
-            SearchAccommodationViewModel viewModel = new SearchAccommodationViewModel(user);
-            DataContext = viewModel;
-            /*
             AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
-
 
             accommodationRepository = new AccommodationRepository();
             locationRepository = new LocationRepository();
@@ -70,15 +41,12 @@ namespace SOSTeam.TravelAgency.WPF.Views
             LoggedInUser = user;
 
             CreateAllDTOForms();
-            */
         }
 
-        /*
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
         {
             SearchWindow searchWindow = new SearchWindow(LoggedInUser);
             searchWindow.ShowDialog();
-            Close();
         }
 
         private void CreateAllDTOForms()
@@ -101,7 +69,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
         private LocAccommodationViewModel CreateDTOForm(Accommodation acc, Location loc)
         {
             int currentGuestNumber = 0;
-            foreach(var item in accommodationReservations)
+            foreach (var item in accommodationReservations)
             {
                 if (item.AccommodationId == acc.Id)
                 {
@@ -133,16 +101,15 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
         private void ReserveAccommodationClick(object sender, RoutedEventArgs e)
         {
-            if(SelectedAccommodationDTO != null)
+            if (SelectedAccommodationDTO != null)
             {
                 EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
                 newWindow.ShowDialog();
-                Close();
-            } else
+            }
+            else
             {
                 MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
             }
         }
-        */
     }
 }
