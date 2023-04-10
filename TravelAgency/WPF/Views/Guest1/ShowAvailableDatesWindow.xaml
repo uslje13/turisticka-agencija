@@ -13,6 +13,6 @@
         <Calendar x:Name="Calendar" Margin="89,109,89,80" 
                   DisplayDateStart="{Binding EnteredFirstDay}" DisplayDateEnd="{Binding EnteredLastDay}"></Calendar>
         <Button x:Name="SelectReservationButton" Content="Odaberi termin" Margin="137,304,137,35"
-                FontSize="12" Click="PickCatalogItemClick"/>
+                FontSize="12" Command="{Binding pickCommand}"/>
     </Grid>
 </Window>

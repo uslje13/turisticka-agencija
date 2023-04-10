@@ -39,9 +39,9 @@
                    Text="{Binding searchedAccGuestsNumber}" Margin="298,320,0,0" Height="30" Width="102"/>
         <TextBox x:Name="daysNumber" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Text="{Binding searchedAccDaysNumber}" Margin="298,367,0,0" Height="30" Width="102"/>
-        <Button x:Name="SearchButton" Margin="240,375,110,29" Content="Pretraži" Click="SearchAccommodationClick" 
+        <Button x:Name="SearchButton" Margin="240,375,110,29" Content="Pretraži" Command="{Binding searchCommand}" 
                 Width="100" Height="30"></Button>
-        <Button x:Name="CancelButton" Margin="104,375,246,29" Content="Odustani" Click="CancelAccommodationClick" 
+        <Button x:Name="CancelButton" Margin="104,375,246,29" Content="Odustani" Command="{Binding cancelCommand}" 
                 Width="100" Height="30"></Button>
     </Grid>
 </Window>

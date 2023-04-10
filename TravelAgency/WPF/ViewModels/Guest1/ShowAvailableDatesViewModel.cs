@@ -1,31 +1,21 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using TravelAgency.DTO;
-using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.Repositories;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
+using System.Windows;
+using SOSTeam.TravelAgency.Commands;
 
-namespace SOSTeam.TravelAgency.WPF.Views
+namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
-    /// <summary>
-    /// Interaction logic for ShowAvailableDates.xaml
-    /// </summary>
-    public partial class ShowAvailableDatesWindow : Window
+    public class ShowAvailableDatesViewModel
     {
-        /*
-        public ObservableCollection<AccReservationViewModel> reservationDTOList {  get; set; }
+        public ObservableCollection<AccReservationViewModel> reservationDTOList { get; set; }
         public AccommodationRepository accommodationRepository { get; set; }
         public AccommodationReservationRepository reservationRepository { get; set; }
         public List<Accommodation> accommodations { get; set; }
@@ -37,17 +27,13 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public int DaysDuration { get; set; }
         public List<AccReservationViewModel> dtoReservation { get; set; }
         public User LoggedInUser { get; set; }
-        */
+        public Calendar Calendar { get; set; }
+        public RelayCommand pickCommand { get; set; }
 
-        public ShowAvailableDatesWindow(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user)
+
+
+        public ShowAvailableDatesViewModel(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, Calendar calendar)
         {
-            InitializeComponent();
-
-            ShowAvailableDatesViewModel viewModel = new ShowAvailableDatesViewModel(dto, firstDay, lastDay, days, user, Calendar);
-            DataContext = viewModel;
-
-            //DataContext = this;
-            /*
             reservationDTOList = new ObservableCollection<AccReservationViewModel>();
             accommodationRepository = new AccommodationRepository();
             reservationRepository = new AccommodationReservationRepository();
@@ -60,15 +46,15 @@ namespace SOSTeam.TravelAgency.WPF.Views
             EnteredLastDay = lastDay;
             DaysDuration = days;
             LoggedInUser = user;
+            Calendar = calendar;
 
             accommodations = accommodationRepository.GetAll();
             reservations = reservationRepository.GetAll();
 
             MarkCalendars();
-            */
+            pickCommand = new RelayCommand(ExecutePickItem);
         }
 
-        /*
         private List<AccReservationViewModel> CreateAllDTOreservations()
         {
             foreach (var accommodation in accommodations)
@@ -99,7 +85,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                     {
                         currentGuestNumber += item.GuestNumber;
                     }
-                }   
+                }
             }
             AccReservationViewModel dto = new AccReservationViewModel(acc.Id, acc.Name, acc.MinDaysStay, res.FirstDay, res.LastDay, res.ReservationDuration, acc.MaxGuests, currentGuestNumber);
             return dto;
@@ -111,12 +97,12 @@ namespace SOSTeam.TravelAgency.WPF.Views
             Calendar.BlackoutDates.AddDatesInPast();
             foreach (var item in reservationsDTO)
             {
-                if(item.AccommodationId == accommodationDTO.AccommodationId)
+                if (item.AccommodationId == accommodationDTO.AccommodationId)
                 {
                     MarkCalendar(item);
                 }
             }
-            
+
             CheckRequestedDates();
         }
 
@@ -154,10 +140,11 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 if (index == -1)
                 {
                     notOkeyCounter++;
-                } else okeyCounter++;
+                }
+                else okeyCounter++;
             }
 
-            if(notOkeyCounter == appropiatedIndexes.Length)
+            if (notOkeyCounter == appropiatedIndexes.Length)
             {
                 MessageBox.Show("U zadatom periodu nema slobodnih termina. Prikazaćemo Vam opcije u sledeća dva meseca.");
                 AnalyzeNextFiftyDays();
@@ -200,9 +187,9 @@ namespace SOSTeam.TravelAgency.WPF.Views
             int checkCounter = 0;
             int daysSum = 0;
             int j = 0;
-            for(int i = 0;  i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
-                if(checkCounter < okCount)
+                if (checkCounter < okCount)
                 {
                     if (i == appIndexes[j])
                     {
@@ -250,9 +237,9 @@ namespace SOSTeam.TravelAgency.WPF.Views
             DateTime firstJan = new DateTime(fDay.Year, 1, 1);
             for (; j <= k; j++)
             {
-                if (!blackoutDates.Contains(firstJan.AddDays(j-1)))
+                if (!blackoutDates.Contains(firstJan.AddDays(j - 1)))
                 {
-                    if(flag)
+                    if (flag)
                     {
                         i++;
                     }
@@ -264,7 +251,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 {
                     flag = true;
                     counterArray[++i]++;
-                    datesArray[z++] = firstJan.AddDays(j-1);
+                    datesArray[z++] = firstJan.AddDays(j - 1);
                 }
             }
 
@@ -280,7 +267,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             }
 
             int j = 0;
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 if (array[i] != 1)
                 {
@@ -294,12 +281,10 @@ namespace SOSTeam.TravelAgency.WPF.Views
             return result;
         }
 
-        private void PickCatalogItemClick(object sender, RoutedEventArgs e)
+        public void ExecutePickItem(object sender)
         {
             SelectReservationDatesWindow selectReservationDates = new SelectReservationDatesWindow(dtoReservation, LoggedInUser);
             selectReservationDates.ShowDialog();
-            Close();
         }
-        */
     }
 }

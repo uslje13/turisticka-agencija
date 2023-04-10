@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
+using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
+using System.Runtime.InteropServices.ObjectiveC;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -25,20 +28,23 @@ namespace SOSTeam.TravelAgency.WPF.Views
     {
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; } 
+        /*
         public int DaysDuration { get; set; }
+        */
         public LocAccommodationViewModel DTO { get; set; }
         public User LoggedInUser { get; set; }
-
-
-        public EnterReservationWindow()
-        {
-            InitializeComponent();
-        }
+        
+        public RelayCommand searchDatesCommand { get; set; }
+        public RelayCommand cancelCommand { get; set; }
 
         public EnterReservationWindow(LocAccommodationViewModel dto, User user)
         {
             InitializeComponent();
             DataContext = this;
+
+            searchDatesCommand = new RelayCommand(ExecuteSearchingDates);
+            cancelCommand = new RelayCommand(ExecuteCancelingOfSearchingDates);
+            
             DTO = dto;
             FirstDate = DateTime.Now;
             LastDate = DateTime.Now;
@@ -47,6 +53,18 @@ namespace SOSTeam.TravelAgency.WPF.Views
             LoggedInUser = user;
         }
 
+        private void ExecuteSearchingDates(object sender)
+        {
+            AccommodationReservationService accResService = new AccommodationReservationService(DTO, LoggedInUser, FirstDate, LastDate, int.Parse(Days.Text));
+            accResService.ExecuteSearchingDates();
+        }
+
+        private void ExecuteCancelingOfSearchingDates(object sender)
+        {
+            Close();
+        }
+
+        /*
         private void GoBackClick(object sender, RoutedEventArgs e)
         {
             Close();
@@ -94,5 +112,6 @@ namespace SOSTeam.TravelAgency.WPF.Views
             }
             else return false;
         }
+        */
     }
 }
