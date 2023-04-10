@@ -60,7 +60,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             {
                 if (user.Password == txtPassword.Password && user.Role == Roles.OWNER)
                 {
-                    Views.Owner.MainPage mainPage = new Views.Owner.MainPage(user);
+                    Views.Owner.MainWindow mainPage = new Views.Owner.MainWindow(user);
                     mainPage.Show();
                     Close();
                 }
