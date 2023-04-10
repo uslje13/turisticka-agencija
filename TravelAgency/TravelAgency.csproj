@@ -30,7 +30,22 @@
   <ItemGroup>
     <Folder Include="Application\UseCases\" />
     <Folder Include="Resources\Images\" />
+    <None Remove="Resources\Icons\NotificationAlertNoColor.png" />
+    <None Remove="Resources\Images\SOSlogo.png" />
+  </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\UseCases\" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\NotificationAlertNoColor.png" />
+    <Resource Include="Resources\Images\SOSlogo.png" />
   </ItemGroup>
 
   <ItemGroup>

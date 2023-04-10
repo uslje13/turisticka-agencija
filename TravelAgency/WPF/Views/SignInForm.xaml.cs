@@ -60,8 +60,8 @@ namespace SOSTeam.TravelAgency.WPF.Views
             {
                 if (user.Password == txtPassword.Password && user.Role == Roles.OWNER)
                 {
-                    ShowAccommodationsWindow showAccommodations = new ShowAccommodationsWindow(user);
-                    showAccommodations.Show();
+                    Views.Owner.MainPage mainPage = new Views.Owner.MainPage(user);
+                    mainPage.Show();
                     Close();
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.TOURISTGUIDE)
