@@ -22,9 +22,9 @@
                 <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="SearchButton" Margin="270,369,400,35" Content="Pretraži smeštaj" Click="SearchAccommodationClick" 
+        <Button x:Name="SearchButton" Margin="270,369,400,35" Content="Pretraži smeštaj"  
                 Width="100" Height="30"></Button>
-        <Button x:Name="ReservationButton" Margin="400,369,270,35" Content="Rezerviši smeštaj" Click="ReserveAccommodationClick" 
+        <Button x:Name="ReservationButton" Margin="400,369,270,35" Content="Rezerviši smeštaj" 
                 Width="100" Height="30"></Button>
     </Grid>
 </Window>
