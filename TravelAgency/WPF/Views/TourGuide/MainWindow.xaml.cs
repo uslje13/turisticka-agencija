@@ -22,6 +22,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
         public MainWindow()
         {
             InitializeComponent();
+            ToursOverview.Content = new HomePage();
         }
     }
 }
