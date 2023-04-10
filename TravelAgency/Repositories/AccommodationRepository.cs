@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Repositories
 {
-    public class AccommodationRepository
+    public class AccommodationRepository : IAccommodationRepository
     {
         private const string FilePath = "../../../Resources/Data/accommodation.csv";
         private readonly Serializer<Accommodation> _serializer;
@@ -23,24 +24,15 @@ namespace SOSTeam.TravelAgency.Repositories
             return _serializer.FromCSV(FilePath);
         }
 
-        public Accommodation Save(Accommodation accommodation) 
+        public void Save(Accommodation accommodation) 
         {
             accommodation.Id = NextId();
             _accommodations = _serializer.FromCSV(FilePath);
             _accommodations.Add(accommodation);
             _serializer.ToCSV(FilePath,_accommodations);
-            return accommodation;
         }
 
-        public void Delete(Accommodation accommodation)
-        {
-            _accommodations = _serializer.FromCSV(FilePath);
-            Accommodation found = _accommodations.Find(t => t.Id == accommodation.Id) ?? throw new ArgumentException();
-            _accommodations.Remove(found);
-            _serializer.ToCSV(FilePath, _accommodations);
-        }
-
-        public void DeleteById(int id)
+        public void Delete(int id)
         {
             _accommodations = _serializer.FromCSV(FilePath);
             Accommodation found = _accommodations.Find(t => t.Id == id) ?? throw new ArgumentException();
@@ -48,7 +40,7 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(FilePath, _accommodations);
         }
 
-        public Accommodation Update(Accommodation accommodation)
+        public void Update(Accommodation accommodation)
         {
             _accommodations = _serializer.FromCSV(FilePath);
             Accommodation current = _accommodations.Find(t => t.Id == accommodation.Id) ?? throw new ArgumentException();
@@ -56,7 +48,6 @@ namespace SOSTeam.TravelAgency.Repositories
             _accommodations.Remove(current);
             _accommodations.Insert(index, accommodation);
             _serializer.ToCSV(FilePath, _accommodations);
-            return accommodation;
         }
         public int NextId()
         {
@@ -66,6 +57,12 @@ namespace SOSTeam.TravelAgency.Repositories
                 return 1;
             }
             return _accommodations.Max(l => l.Id) + 1;
+        }
+
+        public Accommodation GetById(int id)
+        {
+            _accommodations = _serializer.FromCSV(FilePath);
+            return _accommodations.Find(t => t.Id == id) ?? throw new ArgumentException();
         }
 
     }

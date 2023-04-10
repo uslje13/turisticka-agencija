@@ -130,7 +130,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
         private void DeleteButtonClick(object sender, RoutedEventArgs e)
         {
             if (SelectedAccommodation != null && ConfirmAccommodationDeletion() == MessageBoxResult.Yes)
-                _accommodationRepository.DeleteById(SelectedAccommodation.Id);
+                _accommodationRepository.Delete(SelectedAccommodation.Id);
             UpdateAccommodations();
 
 
