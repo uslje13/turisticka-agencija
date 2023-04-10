@@ -1,58 +1,58 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.Repositories;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
+using SOSTeam.TravelAgency.WPF.Views;
 
-namespace SOSTeam.TravelAgency.WPF.Views
+namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
-    /// <summary>
-    /// Interaction logic for BookTourWindow.xaml
-    /// </summary>
-    public partial class BookTourWindow : Window
+    public class BookTourViewModel : ViewModel
     {
+        private Window _window;
         public User LoggedInUser { get; set; }
-        private string _availableSlots; 
-        private string _touristNum; 
+        private string _availableSlots;
+        private string _touristNum;
         private TourViewModel _selected;
 
         public static ObservableCollection<Appointment> Appointments;
-        private readonly AppointmentRepository _appointmentRepository;
-        private readonly ReservationRepository _reservationRepository;
-        public BookTourWindow(TourViewModel selected, User loggedInUser)
+        private readonly AppointmentService _appointmentService;
+        private readonly ReservationService _reservationService;
+
+        private RelayCommand cancelCommand;
+        public RelayCommand CancelCommand
         {
-            InitializeComponent();
-            BookTourViewModel viewModel = new BookTourViewModel(selected, loggedInUser,this);
-            DataContext = viewModel;
-           /* LoggedInUser = loggedInUser;
-            _selected= selected;
-            _availableSlots = (selected.MaxNumOfGuests - selected.Ocupancy).ToString();
-            _appointmentRepository = new AppointmentRepository();
-            _reservationRepository = new ReservationRepository();
-            Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());*/
+            get { return cancelCommand; }
+            set
+            {
+                cancelCommand = value;
+            }
+        }
+
+        private RelayCommand reserveCommand;
+
+        public RelayCommand ReserveCommand
+        {
+            get { return reserveCommand; }
+            set
+            {
+                reserveCommand = value;
+            }
         }
 
         public string AvailableSlots
         {
-            get { return _availableSlots;}
+            get { return _availableSlots; }
             set
             {
-                if(value != _availableSlots )
+                if (value != _availableSlots)
                 {
                     _availableSlots = value;
                     OnPropertyChanged();
@@ -73,18 +73,24 @@ namespace SOSTeam.TravelAgency.WPF.Views
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public BookTourViewModel(TourViewModel selected, User loggedInUser, Window window)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            LoggedInUser = loggedInUser;
+            _selected = selected;
+            _availableSlots = (selected.MaxNumOfGuests - selected.Ocupancy).ToString();
+            _appointmentService = new AppointmentService();
+            _reservationService = new ReservationService();
+            Appointments = new ObservableCollection<Appointment>(_appointmentService.GetAll());
+            CancelCommand = new RelayCommand(Execute_CancelClick, CanExecuteMethod);
+            ReserveCommand = new RelayCommand(Execute_ReserveClick, CanExecuteMethod);
+            _window = window;
         }
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private bool CanExecuteMethod(object parameter)
         {
-
+            return true;
         }
 
-        private void ReserveClick(object sender, RoutedEventArgs e)
+        private void Execute_ReserveClick(object sender)
         {
             if (_touristNum == null || _touristNum == "" || int.Parse(_touristNum) == 0)
             {
@@ -100,14 +106,14 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    CreateReservation();
+                    _reservationService.CreateReservation(_selected,LoggedInUser,_touristNum);
                     OpenToursOverviewWindow();
-                    this.Close();
+                    _window.Close();
                 }
             }
         }
 
-        private void CreateReservation()
+       /* private void CreateReservation()
         {
             foreach (Appointment a in Appointments)
             {
@@ -115,12 +121,12 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 {
                     a.Occupancy += int.Parse(_touristNum);
                     _selected.Ocupancy += int.Parse(_touristNum);
-                    _appointmentRepository.Update(a);
-                    Reservation newReservation = new Reservation( int.Parse(_touristNum), LoggedInUser.Id, a.Id);
-                    _reservationRepository.Save(newReservation);
+                    _appointmentService.Update(a);
+                    Reservation newReservation = new Reservation(int.Parse(_touristNum), LoggedInUser.Id, a.Id);
+                    _reservationService.Save(newReservation);
                 }
             }
-        }
+        }*/
 
         private void OpenToursOverviewWindow()
         {
@@ -140,10 +146,10 @@ namespace SOSTeam.TravelAgency.WPF.Views
             return result;
         }
 
-        private void CancelClick(object sender, RoutedEventArgs e)
+        private void Execute_CancelClick(object sender)
         {
             OpenToursOverviewWindow();
-            this.Close();
+            _window.Close();
         }
     }
 }

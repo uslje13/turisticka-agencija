@@ -42,8 +42,9 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public ToursOverviewWindow(User loggedInUser)
         {
             InitializeComponent();
-            ToursOverviewViewModel viewModel = new ToursOverviewViewModel(loggedInUser);
+            ToursOverviewViewModel viewModel = new ToursOverviewViewModel(loggedInUser,this);
             this.DataContext = viewModel;
+            viewModel.GetAttendanceMessage();
 
             /* DataContext = this;
              LoggedInUser = loggedInUser;

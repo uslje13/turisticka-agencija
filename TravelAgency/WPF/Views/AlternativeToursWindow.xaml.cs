@@ -29,10 +29,11 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public AlternativeToursWindow(TourViewModel tourDTO, User loggedInUser, ObservableCollection<TourViewModel> tourDTOs)
         {
             InitializeComponent();
-            DataContext = this;
-            TourDTOs = new ObservableCollection<TourViewModel>();
-            LoggedInUser = loggedInUser;
-            FillDTOList(tourDTO, tourDTOs);
+            AlternativeToursViewModel viewModel = new AlternativeToursViewModel(tourDTO, loggedInUser, tourDTOs,this);
+            DataContext = viewModel;
+            /* TourDTOs = new ObservableCollection<TourViewModel>();
+             LoggedInUser = loggedInUser;
+             FillDTOList(tourDTO, tourDTOs);*/
         }
 
         private static void FillDTOList(TourViewModel tourDTO, ObservableCollection<TourViewModel> tourDTOs)

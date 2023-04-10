@@ -1,16 +1,18 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
+using SOSTeam.TravelAgency.WPF.Views;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics.Metrics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 
-namespace SOSTeam.TravelAgency.WPF.Views
+namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
-    /// <summary>
-    /// Interaction logic for SearchToursWindow.xaml
-    /// </summary>
-    public partial class SearchToursWindow : Window, INotifyPropertyChanged
+    public class SearchToursViewModel : ViewModel
     {
         private string _searchedLanguage;
         private string _searchedCity;
@@ -19,14 +21,26 @@ namespace SOSTeam.TravelAgency.WPF.Views
         private int _searchedDuration;
         public User LoggedInUser { get; set; }
         public static ObservableCollection<TourViewModel> TourDTOs { get; set; }
-        public SearchToursWindow(ObservableCollection<TourViewModel> tourDTOs, User loggedInUser)
+
+        private RelayCommand cancelCommand;
+        public RelayCommand CancelCommand
         {
-            InitializeComponent();
-            SearchToursViewModel viewModel = new SearchToursViewModel(tourDTOs, loggedInUser);
-            DataContext = viewModel;
-            /* TourDTOs = new ObservableCollection<TourViewModel>();
-             TourDTOs = tourDTOs;
-             LoggedInUser = loggedInUser;*/
+            get { return cancelCommand; }
+            set
+            {
+                cancelCommand = value;
+            }
+        }
+
+        private RelayCommand searchCommand;
+
+        public RelayCommand SearchCommand
+        {
+            get { return searchCommand; }
+            set
+            {
+                searchCommand = value;
+            }
         }
 
         public string SearchedLanguage
@@ -91,15 +105,22 @@ namespace SOSTeam.TravelAgency.WPF.Views
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public SearchToursViewModel(ObservableCollection<TourViewModel> tourDTOs, User loggedInUser)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            TourDTOs = new ObservableCollection<TourViewModel>();
+            TourDTOs = tourDTOs;
+            LoggedInUser = loggedInUser;
+            SearchCommand = new RelayCommand(Execute_SearchToursClick, CanExecuteMethod);
+            CancelCommand = new RelayCommand(Execute_CancelClick, CanExecuteMethod);
         }
-        private void SearchToursClick(object sender, RoutedEventArgs e)
+
+        private bool CanExecuteMethod(object parameter)
         {
-            LoadEnteredRequests();
+            return true;
+        }
+        private void Execute_SearchToursClick(object sender)
+        {
+            //LoadEnteredRequests();
             ObservableCollection<TourViewModel> searchResult = new ObservableCollection<TourViewModel>();
 
             foreach (var item in TourDTOs)
@@ -113,7 +134,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             ShowResults(searchResult);
         }
 
-        private void LoadEnteredRequests()
+       /* private void LoadEnteredRequests()
         {
             SearchedLanguage = language.Text;
             SearchedCity = city.Text;
@@ -122,7 +143,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             SearchedDuration = int.Parse(loadedDuration);
             string loadedOcupancy = ocupancy.Text;
             SearchedOcupancy = int.Parse(loadedOcupancy);
-        }
+        }*/
 
         private void ShowResults(ObservableCollection<TourViewModel> searchResult)
         {
@@ -131,7 +152,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
                 overview.ToursGrid.ItemsSource = searchResult;
                 overview.Show();
-                Close();
+                //Close();
             }
             else
             {
@@ -150,11 +171,11 @@ namespace SOSTeam.TravelAgency.WPF.Views
             return checkCity && checkCountry && checkLanguage && checkOcupancy && checkDuration;
         }
 
-        private void CancelClick(object sender, RoutedEventArgs e)
+        private void Execute_CancelClick(object sender)
         {
             ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
             overview.Show();
-            Close();
+           // Close();
         }
     }
 }
