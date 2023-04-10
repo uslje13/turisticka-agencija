@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using TravelAgency.Converter;
-using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -21,7 +21,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public ObservableCollection<Appointment> TodayAppointments { get; set; }
         public List<Checkpoint> Checkpoints { get; set; }
 
-        public ObservableCollection<TourDTO> TodayToursDTO { get; set; }
+        public ObservableCollection<TourViewModel> TodayToursDTO { get; set; }
         private LocationConverter _locationConverter;
 
         private readonly AppointmentRepository _appointmentRepository;
@@ -32,14 +32,14 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
         public CheckpointRepository CheckpointRepository => _checkpointRepository;
 
-        public TourDTO SelectedTourDTO { get; set; }
+        public TourViewModel SelectedTourDTO { get; set; }
 
         private void FillObservableCollection()
         {
             foreach (Tour tour in TodayTours)
             {
                 string location = _locationConverter.GetFullNameById(tour.LocationId);
-                TodayToursDTO.Add(new TourDTO(tour.Id, tour.Name, tour.Language, location, tour.MaxNumOfGuests, tour.Duration));
+                TodayToursDTO.Add(new TourViewModel(tour.Id, tour.Name, tour.Language, location, tour.MaxNumOfGuests, tour.Duration));
             }
         }
 
@@ -59,7 +59,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
             Tours = tours;
             Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAllByTours(tours));
-            TodayToursDTO = new ObservableCollection<TourDTO>();
+            TodayToursDTO = new ObservableCollection<TourViewModel>();
             
 
             _locationConverter = new();

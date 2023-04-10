@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using SOSTeam.TravelAgency.Repositories;
 
-namespace TravelAgency.DTO
+namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
-    public class TourDTO
+    public class TourViewModel : ViewModel
     {
         public int TourId { get; set; }
         public int AppointmentId { get; set; }
@@ -21,11 +21,12 @@ namespace TravelAgency.DTO
         public int Ocupancy { get; set; }
         public TimeOnly Time { get; set; }
         public DateOnly Date { get; set; }
-        public TourDTO()
+
+        public TourViewModel()
         {
         }
-
-        public TourDTO(string name, string language, int maxNumOfGuests, int duration, int ocupancy, string country, string city, int tourId, TimeOnly time, DateOnly date)
+    
+        public TourViewModel(string name, string language, int maxNumOfGuests, int duration, int ocupancy, string country, string city, int tourId, TimeOnly time, DateOnly date)
         {
             Name = name;
             Language = language;
@@ -40,7 +41,7 @@ namespace TravelAgency.DTO
             Date = date;
         }
 
-        public TourDTO(int tourId, string name, string language, string locationFullName, int maxNumOfGuests, int duration)
+        public TourViewModel(int tourId, string name, string language, string locationFullName, int maxNumOfGuests, int duration)
         {
             TourId = tourId;
             Name = name;
@@ -49,6 +50,6 @@ namespace TravelAgency.DTO
             MaxNumOfGuests = maxNumOfGuests;
             Duration = duration;
         }
-
+    
     }
 }

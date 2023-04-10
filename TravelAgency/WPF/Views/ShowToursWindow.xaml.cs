@@ -5,9 +5,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using TravelAgency.Converter;
-using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -18,7 +18,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
     {
         public List<Tour> Tours { get; set; }
 
-        public ObservableCollection<TourDTO> ToursDTO { get; set; }
+        public ObservableCollection<TourViewModel> ToursDTO { get; set; }
         public List<Appointment> Appointments { get; set; }
         public User LoggedInUser { get; set; }
 
@@ -35,7 +35,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             foreach(Tour tour in Tours)
             {
                 string location = _locationConverter.GetFullNameById(tour.LocationId);
-                ToursDTO.Add(new TourDTO(tour.Id, tour.Name, tour.Language, location, tour.MaxNumOfGuests, tour.Duration));
+                ToursDTO.Add(new TourViewModel(tour.Id, tour.Name, tour.Language, location, tour.MaxNumOfGuests, tour.Duration));
             }
         }
 
@@ -61,7 +61,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             Appointments = new List<Appointment>(_appointmentReository.GetAll());
 
             _locationConverter = new();
-            ToursDTO = new ObservableCollection<TourDTO>();
+            ToursDTO = new ObservableCollection<TourViewModel>();
             FillObservableCollection();
 
             TourDurationExpiredEnd();

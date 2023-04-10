@@ -80,7 +80,8 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 {
                     ToursOverviewWindow overview = new ToursOverviewWindow(user);
                     overview.Show();  
-                    overview.GetAttendanceMessage();
+                   // overview.GetAttendanceMessage();
+                   
                     Close();
                 }
                 else
