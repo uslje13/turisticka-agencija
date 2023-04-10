@@ -41,21 +41,6 @@ namespace SOSTeam.TravelAgency.Application.Services
             _reservationRepository.Save(reservation);
         }
 
-       /* private void CreateReservation()
-        {
-            foreach (Appointment a in Appointments)
-            {
-                if (_selected.TourId == a.TourId && _selected.Date == a.Date && _selected.Time == a.Time)
-                {
-                    a.Occupancy += int.Parse(_touristNum);
-                    _selected.Ocupancy += int.Parse(_touristNum);
-                    _appointmentService.Update(a);
-                    Reservation newReservation = new Reservation(int.Parse(_touristNum), LoggedInUser.Id, a.Id);
-                    _reservationService.Save(newReservation);
-                }
-            }
-        }*/
-
        public void CreateReservation(TourViewModel selected, User loggedInUser, string touristNum)
        {
            foreach (Appointment a in _appointmentRepository.GetAll())
