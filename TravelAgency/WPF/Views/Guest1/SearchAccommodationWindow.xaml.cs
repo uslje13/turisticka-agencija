@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
-using static TravelAgency.DTO.LocAccommodationDTO;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 
 
 
@@ -33,11 +33,11 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public event PropertyChangedEventHandler PropertyChanged;
         public List<Accommodation> accommodations { get; set; }
         public List<Location> locations { get; set; }
-        public ObservableCollection<LocAccommodationDTO> AccommDTOsCollection { get; set; }
+        public ObservableCollection<LocAccommodationViewModel> AccommDTOsCollection { get; set; }
 
         public AccommodationRepository accommodationRepository { get; set; }
         public LocationRepository locationRepository { get; set; }
-        public LocAccommodationDTO SelectedAccommodationDTO { get; set; }
+        public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
 
@@ -51,7 +51,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
         {
             InitializeComponent();
             DataContext = this;
-            AccommDTOsCollection = new ObservableCollection<LocAccommodationDTO>();
+            AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
 
 
             accommodationRepository = new AccommodationRepository();
@@ -82,7 +82,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 {
                     if (accommodation.LocationId == location.Id)
                     {
-                        LocAccommodationDTO dto = CreateDTOForm(accommodation, location);
+                        LocAccommodationViewModel dto = CreateDTOForm(accommodation, location);
 
                         AccommDTOsCollection.Add(dto);
                     }
@@ -90,7 +90,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             }
         }
 
-        private LocAccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
+        private LocAccommodationViewModel CreateDTOForm(Accommodation acc, Location loc)
         {
             int currentGuestNumber = 0;
             foreach(var item in accommodationReservations)
@@ -106,21 +106,21 @@ namespace SOSTeam.TravelAgency.WPF.Views
                     }
                 }
             }
-            LocAccommodationDTO dto = new LocAccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
+            LocAccommodationViewModel dto = new LocAccommodationViewModel(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
                                                         acc.MaxGuests, acc.MinDaysStay, currentGuestNumber);
             return dto;
         }
 
-        private AccommType FindAccommodationType(Accommodation acc)
+        private LocAccommodationViewModel.AccommType FindAccommodationType(Accommodation acc)
         {
             if (acc.Type == Accommodation.AccommodationType.APARTMENT)
-                return AccommType.APARTMENT;
+                return LocAccommodationViewModel.AccommType.APARTMENT;
             else if (acc.Type == Accommodation.AccommodationType.HOUSE)
-                return AccommType.HOUSE;
+                return LocAccommodationViewModel.AccommType.HOUSE;
             else if (acc.Type == Accommodation.AccommodationType.HUT)
-                return AccommType.HUT;
+                return LocAccommodationViewModel.AccommType.HUT;
             else
-                return AccommType.NOTYPE;
+                return LocAccommodationViewModel.AccommType.NOTYPE;
         }
 
         private void ReserveAccommodationClick(object sender, RoutedEventArgs e)

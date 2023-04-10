@@ -11,9 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -22,7 +22,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class EnterGuestNumberWindow : Window
     {
-        public AccReservationDTO forwardedItem { get; set; }
+        public AccReservationViewModel forwardedItem { get; set; }
         public User LoggedInUser { get; set; }
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
@@ -32,7 +32,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             InitializeComponent();
         }
 
-        public EnterGuestNumberWindow(AccReservationDTO item, User user)
+        public EnterGuestNumberWindow(AccReservationViewModel item, User user)
         {
             InitializeComponent();
             DataContext = this;

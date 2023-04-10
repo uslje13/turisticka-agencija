@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -22,8 +23,8 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SearchResultsWindow : Window
     {
-        public ObservableCollection<LocAccommodationDTO> accommodationDTOs { get; set; }
-        public LocAccommodationDTO SelectedAccommodationDTO { get; set; }
+        public ObservableCollection<LocAccommodationViewModel> accommodationDTOs { get; set; }
+        public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public User LoggedInUser { get; set; }
 
         public SearchResultsWindow()
@@ -31,11 +32,11 @@ namespace SOSTeam.TravelAgency.WPF.Views
             InitializeComponent();
         }
 
-        public SearchResultsWindow(List<LocAccommodationDTO> Results, User user)
+        public SearchResultsWindow(List<LocAccommodationViewModel> Results, User user)
         {
             InitializeComponent();
             DataContext = this;
-            accommodationDTOs = new ObservableCollection<LocAccommodationDTO>(Results);
+            accommodationDTOs = new ObservableCollection<LocAccommodationViewModel>(Results);
             LoggedInUser = user;
         }
 

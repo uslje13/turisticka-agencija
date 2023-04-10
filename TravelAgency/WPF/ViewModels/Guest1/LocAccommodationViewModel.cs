@@ -10,9 +10,9 @@ using System.Windows.Input;
 using SOSTeam.TravelAgency.Repositories;
 using SOSTeam.TravelAgency.Repositories.Serializer;
 
-namespace TravelAgency.DTO
+namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
-    public class LocAccommodationDTO
+    public class LocAccommodationViewModel
     {
         public enum AccommType
         {
@@ -29,7 +29,7 @@ namespace TravelAgency.DTO
         public int GuestNumber { get; set; }
 
 
-        public LocAccommodationDTO(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber)
+        public LocAccommodationViewModel(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber)
 
         {
             AccommodationId = id;
@@ -42,7 +42,7 @@ namespace TravelAgency.DTO
             GuestNumber = guestNumber;
         }
 
-        public LocAccommodationDTO(string name, string city, string country, AccommType type, int guestNumber, int days)
+        public LocAccommodationViewModel(string name, string city, string country, AccommType type, int guestNumber, int days)
         {
             AccommodationName = name;
             LocationCity = city;

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TravelAgency.DTO
+namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
-    public class AccReservationDTO
+    public class AccReservationViewModel
     {
         public int AccommodationId { get; set; }
         public string AccommodationName { get; set; }
@@ -17,7 +17,7 @@ namespace TravelAgency.DTO
         public int AccommodationMaxGuests { get; set; }
         public int CurrentGuestNumber { get; set; }
 
-        public AccReservationDTO(int id, string name, int days, DateTime firstDay, DateTime lastDay, int duration, int guests, int current)
+        public AccReservationViewModel(int id, string name, int days, DateTime firstDay, DateTime lastDay, int duration, int guests, int current)
         {
             AccommodationId = id;
             AccommodationName = name;
@@ -29,7 +29,7 @@ namespace TravelAgency.DTO
             CurrentGuestNumber = current;
         }
 
-        public AccReservationDTO()
+        public AccReservationViewModel()
         {
 
         }

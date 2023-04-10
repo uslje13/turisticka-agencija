@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -23,17 +24,17 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class ShowAvailableDatesWindow : Window
     {
-        public ObservableCollection<AccReservationDTO> reservationDTOList {  get; set; }
+        public ObservableCollection<AccReservationViewModel> reservationDTOList {  get; set; }
         public AccommodationRepository accommodationRepository { get; set; }
         public AccommodationReservationRepository reservationRepository { get; set; }
         public List<Accommodation> accommodations { get; set; }
         public List<AccommodationReservation> reservations { get; set; }
-        public LocAccommodationDTO accommodationDTO { get; set; }
+        public LocAccommodationViewModel accommodationDTO { get; set; }
         public DateTime EnteredFirstDay { get; set; }
         public DateTime EnteredLastDay { get; set; }
         public DateTime[] datesArray { get; set; }
         public int DaysDuration { get; set; }
-        public List<AccReservationDTO> dtoReservation { get; set; }
+        public List<AccReservationViewModel> dtoReservation { get; set; }
         public User LoggedInUser { get; set; }
 
         public ShowAvailableDatesWindow()
@@ -41,14 +42,14 @@ namespace SOSTeam.TravelAgency.WPF.Views
             InitializeComponent();
         }
 
-        public ShowAvailableDatesWindow(LocAccommodationDTO dto, DateTime firstDay, DateTime lastDay, int days, User user)
+        public ShowAvailableDatesWindow(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user)
         {
             InitializeComponent();
             DataContext = this;
-            reservationDTOList = new ObservableCollection<AccReservationDTO>();
+            reservationDTOList = new ObservableCollection<AccReservationViewModel>();
             accommodationRepository = new AccommodationRepository();
             reservationRepository = new AccommodationReservationRepository();
-            dtoReservation = new List<AccReservationDTO>();
+            dtoReservation = new List<AccReservationViewModel>();
 
             datesArray = new DateTime[100];
 
@@ -64,7 +65,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             MarkCalendars();
         }
 
-        private List<AccReservationDTO> CreateAllDTOreservations()
+        private List<AccReservationViewModel> CreateAllDTOreservations()
         {
             foreach (var accommodation in accommodations)
             {
@@ -72,7 +73,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 {
                     if (accommodation.Id == reservation.AccommodationId)
                     {
-                        AccReservationDTO Dto = CreateOneDTOreservation(accommodation, reservation);
+                        AccReservationViewModel Dto = CreateOneDTOreservation(accommodation, reservation);
                         reservationDTOList.Add(Dto);
                     }
                 }
@@ -80,7 +81,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             return reservationDTOList.ToList();
         }
 
-        private AccReservationDTO CreateOneDTOreservation(Accommodation acc, AccommodationReservation res)
+        private AccReservationViewModel CreateOneDTOreservation(Accommodation acc, AccommodationReservation res)
         {
             int currentGuestNumber = 0;
             foreach (var item in reservations)
@@ -96,13 +97,13 @@ namespace SOSTeam.TravelAgency.WPF.Views
                     }
                 }   
             }
-            AccReservationDTO dto = new AccReservationDTO(acc.Id, acc.Name, acc.MinDaysStay, res.FirstDay, res.LastDay, res.ReservationDuration, acc.MaxGuests, currentGuestNumber);
+            AccReservationViewModel dto = new AccReservationViewModel(acc.Id, acc.Name, acc.MinDaysStay, res.FirstDay, res.LastDay, res.ReservationDuration, acc.MaxGuests, currentGuestNumber);
             return dto;
         }
 
         private void MarkCalendars()
         {
-            List<AccReservationDTO> reservationsDTO = CreateAllDTOreservations();
+            List<AccReservationViewModel> reservationsDTO = CreateAllDTOreservations();
             Calendar.BlackoutDates.AddDatesInPast();
             foreach (var item in reservationsDTO)
             {
@@ -115,7 +116,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             CheckRequestedDates();
         }
 
-        private void MarkCalendar(AccReservationDTO reservationDTO)
+        private void MarkCalendar(AccReservationViewModel reservationDTO)
         {
             int[] ints = GetDateData(reservationDTO);
             DateTime item1 = new DateTime(ints[0], ints[1], ints[2]);
@@ -123,7 +124,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             Calendar.BlackoutDates.Add(new CalendarDateRange(item1, item2));
         }
 
-        private int[] GetDateData(AccReservationDTO res)
+        private int[] GetDateData(AccReservationViewModel res)
         {
             int[] data = new int[6];
             data[0] = res.ReservationFirstDay.Year;
@@ -227,7 +228,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
         {
             DateTime firstComponent = fDay.AddDays(daysSum);
             DateTime secondComponent = firstComponent.AddDays(DaysDuration);
-            AccReservationDTO dto = new AccReservationDTO(accommodationDTO.AccommodationId, accommodationDTO.AccommodationName,
+            AccReservationViewModel dto = new AccReservationViewModel(accommodationDTO.AccommodationId, accommodationDTO.AccommodationName,
                                                           accommodationDTO.AccommodationMinDaysStay, firstComponent, secondComponent,
                                                           DaysDuration, accommodationDTO.AccommodationMaxGuests, accommodationDTO.GuestNumber);
             dtoReservation.Add(dto);
