@@ -15,9 +15,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -29,12 +29,12 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public User LoggedInUser { get; set; }
         private string _availableSlots; 
         private string _touristNum; 
-        private TourDTO _selected;
+        private TourViewModel _selected;
 
         public static ObservableCollection<Appointment> Appointments;
         private readonly AppointmentRepository _appointmentRepository;
         private readonly ReservationRepository _reservationRepository;
-        public BookTourWindow(TourDTO selected, User loggedInUser)
+        public BookTourWindow(TourViewModel selected, User loggedInUser)
         {
             InitializeComponent();
             DataContext = this;

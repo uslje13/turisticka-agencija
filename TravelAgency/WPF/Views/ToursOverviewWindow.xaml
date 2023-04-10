@@ -6,9 +6,13 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views"
         mc:Ignorable="d"
         Title="Ponudjene ture" Height="500" Width="1059" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding SearchCommand }"></KeyBinding>
+        <KeyBinding Command="{Binding ReserveCommand }"></KeyBinding>
+    </Window.InputBindings>
     <Grid>
         <DataGrid Background="#FFE5E5E5" Name="ToursGrid"
-                          ItemsSource="{Binding TourDTOs, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding TourViewModels, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Path=Selected, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True" Margin="10,61,35,10">
@@ -26,9 +30,9 @@
 
         <ToolBar x:Name="toolBar" HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="1039">
             <Button x:Name="bookButton" Content="Rezervisi" Height="37" Width="63"
-                    Click="BookButtonClick"/>
+                    Command="{Binding ReserveCommand}"/>
             <Button Content="Pretrazi" Height="39" Width="76"
-                    Click="SearchToursButtonClick"/>
+                    Command="{Binding SearchCommand}"/>
             <Button Content="Osvezi listu" Height="39" Width="76"
                     Click="RefreshToursButtonClick"/>
         </ToolBar>

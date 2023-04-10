@@ -12,9 +12,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -23,21 +23,21 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class AlternativeToursWindow : Window
     {
-        public static ObservableCollection<TourDTO> TourDTOs { get; set; }
+        public static ObservableCollection<TourViewModel> TourDTOs { get; set; }
         public User LoggedInUser { get; set; }
-        public TourDTO Selected { get; set; }
-        public AlternativeToursWindow(TourDTO tourDTO, User loggedInUser, ObservableCollection<TourDTO> tourDTOs)
+        public TourViewModel Selected { get; set; }
+        public AlternativeToursWindow(TourViewModel tourDTO, User loggedInUser, ObservableCollection<TourViewModel> tourDTOs)
         {
             InitializeComponent();
             DataContext = this;
-            TourDTOs = new ObservableCollection<TourDTO>();
+            TourDTOs = new ObservableCollection<TourViewModel>();
             LoggedInUser = loggedInUser;
             FillDTOList(tourDTO, tourDTOs);
         }
 
-        private static void FillDTOList(TourDTO tourDTO, ObservableCollection<TourDTO> tourDTOs)
+        private static void FillDTOList(TourViewModel tourDTO, ObservableCollection<TourViewModel> tourDTOs)
         {
-            foreach (TourDTO t in tourDTOs)
+            foreach (TourViewModel t in tourDTOs)
             {
                 if (t.City == tourDTO.City && t.Country == tourDTO.Country && t.Ocupancy != t.MaxNumOfGuests)
                 {

@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -18,12 +18,12 @@ namespace SOSTeam.TravelAgency.WPF.Views
         private int _searchedOcupancy;
         private int _searchedDuration;
         public User LoggedInUser { get; set; }
-        public static ObservableCollection<TourDTO> TourDTOs { get; set; }
-        public SearchToursWindow(ObservableCollection<TourDTO> tourDTOs, User loggedInUser)
+        public static ObservableCollection<TourViewModel> TourDTOs { get; set; }
+        public SearchToursWindow(ObservableCollection<TourViewModel> tourDTOs, User loggedInUser)
         {
             InitializeComponent();
             DataContext = this;
-            TourDTOs = new ObservableCollection<TourDTO>();
+            TourDTOs = new ObservableCollection<TourViewModel>();
             TourDTOs = tourDTOs;
             LoggedInUser = loggedInUser;
         }
@@ -99,7 +99,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
         private void SearchToursClick(object sender, RoutedEventArgs e)
         {
             LoadEnteredRequests();
-            ObservableCollection<TourDTO> searchResult = new ObservableCollection<TourDTO>();
+            ObservableCollection<TourViewModel> searchResult = new ObservableCollection<TourViewModel>();
 
             foreach (var item in TourDTOs)
             {
@@ -123,7 +123,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             SearchedOcupancy = int.Parse(loadedOcupancy);
         }
 
-        private void ShowResults(ObservableCollection<TourDTO> searchResult)
+        private void ShowResults(ObservableCollection<TourViewModel> searchResult)
         {
             if (searchResult.Count > 0)
             {
@@ -138,7 +138,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             }
         }
 
-        private bool IsApropriate(TourDTO tourDTO)
+        private bool IsApropriate(TourViewModel tourDTO)
         {
             bool checkCity = tourDTO.City.ToLower().Contains(SearchedCity.ToLower()) || SearchedCity.Equals(string.Empty);
             bool checkCountry = tourDTO.Country.ToLower().Contains(SearchedCountry.ToLower()) || SearchedCountry.Equals(string.Empty);

@@ -14,10 +14,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
 using static System.Net.Mime.MediaTypeNames;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -31,9 +31,9 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public static ObservableCollection<Location> Locations { get; set; }
 
         public static ObservableCollection<Appointment> Appointments { get; set; }
-        public static ObservableCollection<TourDTO> TourDTOs { get; set; }
+        public static ObservableCollection<TourViewModel> TourDTOs { get; set; }
         public List<GuestAttendance> UserAttendances { get; set; }
-        public TourDTO Selected { get; set; }
+        public TourViewModel Selected { get; set; }
 
         private readonly TourRepository _repository;
         private readonly LocationRepository _locationRepository;
@@ -42,23 +42,26 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public ToursOverviewWindow(User loggedInUser)
         {
             InitializeComponent();
-            DataContext = this;
-            LoggedInUser = loggedInUser;
-            _repository = new TourRepository();
-            _locationRepository = new LocationRepository();
-            _appointmentRepository = new AppointmentRepository();
-            _guestAttendanceRepository = new GuestAttendanceRepository();
-            Tours = new ObservableCollection<Tour>(_repository.GetAll());
-            TourDTOs = new ObservableCollection<TourDTO>();
-            Locations = new ObservableCollection<Location>(_locationRepository.GetAll());
-            Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());
-            UserAttendances = new List<GuestAttendance>(_guestAttendanceRepository.GetByUserId(loggedInUser.Id));
+            ToursOverviewViewModel viewModel = new ToursOverviewViewModel(loggedInUser);
+            this.DataContext = viewModel;
 
-            FillDTOList();
+            /* DataContext = this;
+             LoggedInUser = loggedInUser;
+             _repository = new TourRepository();
+             _locationRepository = new LocationRepository();
+             _appointmentRepository = new AppointmentRepository();
+             _guestAttendanceRepository = new GuestAttendanceRepository();
+             Tours = new ObservableCollection<Tour>(_repository.GetAll());
+             TourDTOs = new ObservableCollection<TourViewModel>();
+             Locations = new ObservableCollection<Location>(_locationRepository.GetAll());
+             Appointments = new ObservableCollection<Appointment>(_appointmentRepository.GetAll());
+             UserAttendances = new List<GuestAttendance>(_guestAttendanceRepository.GetByUserId(loggedInUser.Id));
+ 
+             FillDTOList();*/
         }
 
 
-        public void GetAttendanceMessage()
+        /*public void GetAttendanceMessage()
         {
             foreach(var attendance in UserAttendances)
             {
@@ -67,7 +70,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                     ShowAttendanceMessage(attendance);
                 }
             }
-        }
+        }*/
 
         private void ShowAttendanceMessage(GuestAttendance attendance)
         {
@@ -95,7 +98,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                     {
                         if (l.Id == t.LocationId && t.Id == a.TourId)
                         {
-                            TourDTO tourDTO = new TourDTO(t.Name, t.Language, t.MaxNumOfGuests, t.Duration, a.Occupancy, l.City, l.Country, t.Id, a.Time, a.Date);
+                            TourViewModel tourDTO = new TourViewModel(t.Name, t.Language, t.MaxNumOfGuests, t.Duration, a.Occupancy, l.City, l.Country, t.Id, a.Time, a.Date);
                             TourDTOs.Add(tourDTO);
                         }
                     }
