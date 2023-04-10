@@ -27,11 +27,6 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
 
-        public EnterGuestNumberWindow()
-        {
-            InitializeComponent();
-        }
-
         public EnterGuestNumberWindow(AccReservationViewModel item, User user)
         {
             InitializeComponent();

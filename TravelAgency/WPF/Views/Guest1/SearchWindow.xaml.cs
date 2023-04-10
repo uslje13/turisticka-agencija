@@ -25,6 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SearchWindow : Window
     {
+        
         public string searchedAccName { get; set; }
         public string searchedAccCity { get; set; }
         public string searchedAccCountry { get; set; }
@@ -39,11 +40,15 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
         public User LoggedInUser { get; set; }
+        
 
         public SearchWindow(User user)
         {
             InitializeComponent();
+            //SearchViewModel viewModel = new SearchViewModel(user);
+            //DataContext = viewModel;
             DataContext = this;
+            
             AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
             
             accommodationRepository = new AccommodationRepository();
@@ -54,8 +59,10 @@ namespace SOSTeam.TravelAgency.WPF.Views
             locations = locationRepository.GetAll();
             accommodationReservations = accommodationReservationRepository.GetAll();
             LoggedInUser = user; 
+            
         }
 
+        
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
         {
             CreateAllDTOForms();
@@ -190,5 +197,6 @@ namespace SOSTeam.TravelAgency.WPF.Views
         {
             Close();
         }
+        
     }
 }

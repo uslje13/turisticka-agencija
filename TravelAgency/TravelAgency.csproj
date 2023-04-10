@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Resources\Data\tours.csv">
       <Generator>MSBuild:Compile</Generator>
     </None>
