@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views"
         mc:Ignorable="d"
         Title="SearchToursWindow" Height="572" Width="600">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CancelCommand }"></KeyBinding>
+        <KeyBinding Command="{Binding SearchCommand }"></KeyBinding>
+    </Window.InputBindings>
     <Grid Margin="0,0,-34,0">
         <Label Content="Jezik :" FontSize="15" FontWeight="Bold" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                Margin="104,66,0,0" Height="30" Width="150"/>
@@ -29,9 +33,9 @@
                    Text="{Binding SearchedDuration}" Margin="298,273,0,0" Height="30" Width="102"/>
         <TextBox x:Name="ocupancy" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Text="{Binding SearchedOcupancy}" Margin="298,346,0,0" Height="30" Width="102"/>
-        <Button x:Name="SearchButton" Margin="329,455,171,35" Content="Pretraži" Click="SearchToursClick" 
+        <Button x:Name="SearchButton" Margin="329,455,171,35" Content="Pretraži" Command="{Binding SearchCommand}" 
                 Width="100" Height="30"></Button>
-        <Button x:Name="CancelButton" Margin="160,455,340,35" Content="Odustani" Click="CancelClick" 
+        <Button x:Name="CancelButton" Margin="160,455,340,35" Content="Odustani" Command="{Binding CancelCommand}" 
                 Width="100" Height="30"></Button>
     </Grid>
 </Window>
