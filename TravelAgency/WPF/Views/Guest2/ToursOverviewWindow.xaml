@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest2"
         mc:Ignorable="d"
-        Title="ToursOverviewWindow" Height="800" Width="1280"
+        Title="ToursOverviewWindow" Height="900" Width="1280"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         Background="AliceBlue"
@@ -103,11 +103,8 @@
                 Grid.Column="1" Margin="10">
             <ScrollViewer HorizontalAlignment="Right" Width="990">
                 <!-- Your content here -->
+                
             </ScrollViewer>
         </Border>
-
-        <ContentControl Grid.Column="1" Margin="10">
-
-        </ContentControl>
     </Grid>
 </Window>

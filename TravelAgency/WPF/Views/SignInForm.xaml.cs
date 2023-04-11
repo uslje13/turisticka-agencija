@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.Views.Guest2;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -78,10 +79,11 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST2)
                 {
-                    ToursOverviewWindow overview = new ToursOverviewWindow(user);
-                    overview.Show();  
-                   // overview.GetAttendanceMessage();
-                   
+                    // ToursOverviewWindow overview = new ToursOverviewWindow(user);
+                    // overview.Show();  
+                    // overview.GetAttendanceMessage();
+                    Views.Guest2.ToursOverviewWindow overview = new Views.Guest2.ToursOverviewWindow(user);
+                    overview.Show();
                     Close();
                 }
                 else

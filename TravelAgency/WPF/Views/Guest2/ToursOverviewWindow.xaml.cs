@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,11 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     /// </summary>
     public partial class ToursOverviewWindow : Window
     {
-        public ToursOverviewWindow()
+        public ToursOverviewWindow(User loggedInUser)
         {
             InitializeComponent();
+            MainViewModel viewModel = new MainViewModel(loggedInUser);
+            this.DataContext = viewModel;
         }
     }
 }
