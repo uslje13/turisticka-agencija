@@ -14,6 +14,9 @@ using System.Windows.Shapes;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
+using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -22,22 +25,39 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class EnterGuestNumberWindow : Window
     {
+        
         public AccReservationViewModel forwardedItem { get; set; }
         public User LoggedInUser { get; set; }
+        /*
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
+        */
+        public AccommodationReservationService accResService { get; set; }
+        public int guestNumber {  get; set; }
+        public RelayCommand finishReserveCommand { get; set; }
+
 
         public EnterGuestNumberWindow(AccReservationViewModel item, User user)
         {
             InitializeComponent();
             DataContext = this;
+
+            finishReserveCommand = new RelayCommand(ExecuteReserveAccommodation);
             forwardedItem = item;
             LoggedInUser = user;
 
-            accommodationReservationRepository = new AccommodationReservationRepository();
-            accommodationReservations = accommodationReservationRepository.GetAll();
+            //accommodationReservationRepository = new AccommodationReservationRepository();
+            //accommodationReservations = accommodationReservationRepository.GetAll();
         }
 
+        private void ExecuteReserveAccommodation(object sender)
+        {
+            guestNumber = int.Parse(GuestNumber.Text);
+            accResService = new AccommodationReservationService(forwardedItem, LoggedInUser, guestNumber);
+            accResService.ExecuteReserveAccommodation();
+        }
+
+        /*
         private void AddReservation(DateTime start, DateTime end, int guests, int days, int accId)
         {
             AccommodationReservation reservation = new AccommodationReservation(start, end, days, guests, accId, LoggedInUser.Id);
@@ -90,5 +110,6 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
             return appropriateGuestNumber;
         }
+        */
     }
 }

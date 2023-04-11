@@ -16,6 +16,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class ToursOverviewViewModel : ViewModel
     {
+        private Window _window;
         public User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
         public static ObservableCollection<Location> Locations { get; set; }
@@ -63,7 +64,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public ToursOverviewViewModel(User loggedInUser)
+        public ToursOverviewViewModel(User loggedInUser, Window window)
         {
             InitializeServices();
             GetUsableLists();
@@ -71,6 +72,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             LoggedInUser = loggedInUser;
             SearchCommand = new RelayCommand(Execute_OpenSearchWindow, CanExecuteMethod);
             ReserveCommand = new RelayCommand(Execute_OpenBookTourWindow, CanExecuteMethod);
+            _window = window;
         }
 
         private void GetUsableLists()
@@ -162,7 +164,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             BookTourWindow bookTourWindow = new BookTourWindow(Selected, LoggedInUser);
             bookTourWindow.Show();
-           // _window.Close();
+            _window.Close();
         }
 
         private void OpenAlternativeToursWindow()
@@ -170,14 +172,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             MessageBox.Show("Nema slobodnih mesta za odabranu turu");
             AlternativeToursWindow alternativeTours = new AlternativeToursWindow(Selected, LoggedInUser, TourViewModels);
             alternativeTours.Show();
-           // _window.Close();
+            _window.Close();
         }
 
         private void Execute_OpenSearchWindow(object sender)
         {
             SearchToursWindow searchToursWindow = new SearchToursWindow(TourViewModels, LoggedInUser);
             searchToursWindow.Show();
-           // _window.Close();
+            _window.Close();
         }
     }
 }

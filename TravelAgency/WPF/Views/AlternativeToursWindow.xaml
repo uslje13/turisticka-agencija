@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views"
         mc:Ignorable="d"
         Title="Alternativne ture" Height="392" Width="875">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CancelCommand }"></KeyBinding>
+        <KeyBinding Command="{Binding ReserveCommand }"></KeyBinding>
+    </Window.InputBindings>
     <Grid>
         <DataGrid Background="#FFE5E5E5" Name="ToursGrid"
                           ItemsSource="{Binding TourDTOs, UpdateSourceTrigger=PropertyChanged}"
@@ -23,7 +27,7 @@
                 <DataGridTextColumn Header="Vreme" Binding="{Binding Time}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Rezervisi" HorizontalAlignment="Left" Height="50" Margin="10,16,0,0" VerticalAlignment="Top" Width="106" Click="ReserveClick"/>
-        <Button Content="Odustani" HorizontalAlignment="Left" Height="50" Margin="145,16,0,0" VerticalAlignment="Top" Width="106" Click="CancelClick"/>
+        <Button Content="Rezervisi" HorizontalAlignment="Left" Height="50" Margin="10,16,0,0" VerticalAlignment="Top" Width="106" Command="{Binding ReserveCommand}"/>
+        <Button Content="Odustani" HorizontalAlignment="Left" Height="50" Margin="145,16,0,0" VerticalAlignment="Top" Width="106" Command="{Binding CancelCommand}"/>
     </Grid>
 </Window>

@@ -24,6 +24,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class ShowAvailableDatesWindow : Window
     {
+        /*
         public ObservableCollection<AccReservationViewModel> reservationDTOList {  get; set; }
         public AccommodationRepository accommodationRepository { get; set; }
         public AccommodationReservationRepository reservationRepository { get; set; }
@@ -36,16 +37,17 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public int DaysDuration { get; set; }
         public List<AccReservationViewModel> dtoReservation { get; set; }
         public User LoggedInUser { get; set; }
-
-        public ShowAvailableDatesWindow()
-        {
-            InitializeComponent();
-        }
+        */
 
         public ShowAvailableDatesWindow(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user)
         {
             InitializeComponent();
-            DataContext = this;
+
+            ShowAvailableDatesViewModel viewModel = new ShowAvailableDatesViewModel(dto, firstDay, lastDay, days, user, Calendar);
+            DataContext = viewModel;
+
+            //DataContext = this;
+            /*
             reservationDTOList = new ObservableCollection<AccReservationViewModel>();
             accommodationRepository = new AccommodationRepository();
             reservationRepository = new AccommodationReservationRepository();
@@ -63,8 +65,10 @@ namespace SOSTeam.TravelAgency.WPF.Views
             reservations = reservationRepository.GetAll();
 
             MarkCalendars();
+            */
         }
 
+        /*
         private List<AccReservationViewModel> CreateAllDTOreservations()
         {
             foreach (var accommodation in accommodations)
@@ -296,5 +300,6 @@ namespace SOSTeam.TravelAgency.WPF.Views
             selectReservationDates.ShowDialog();
             Close();
         }
+        */
     }
 }

@@ -1,4 +1,5 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
+﻿using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
 using SOSTeam.TravelAgency.WPF.Views;
 using System;
@@ -26,6 +27,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
+        public RelayCommand searchCommand { get; set; }
+        public RelayCommand reserveCommand { get; set; }
+
+
 
         public SearchAccommodationViewModel(User user)
         {
@@ -40,14 +45,25 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             accommodationReservations = accommodationReservationRepository.GetAll();
             LoggedInUser = user;
 
+            searchCommand = new RelayCommand(ExecuteSearchAccommodation);
+            reserveCommand = new RelayCommand(ExecuteReserveAccommodation);
+
             CreateAllDTOForms();
         }
 
+        public void ExecuteSearchAccommodation(object sender)
+        {
+            SearchWindow searchWindow = new SearchWindow(LoggedInUser);
+            searchWindow.ShowDialog();
+        }
+
+        /*
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
         {
             SearchWindow searchWindow = new SearchWindow(LoggedInUser);
             searchWindow.ShowDialog();
         }
+        */
 
         private void CreateAllDTOForms()
         {
@@ -99,6 +115,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 return LocAccommodationViewModel.AccommType.NOTYPE;
         }
 
+        public void ExecuteReserveAccommodation(object sender)
+        {
+            if (SelectedAccommodationDTO != null)
+            {
+                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
+                newWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
+            }
+        }
+
+        /*
         private void ReserveAccommodationClick(object sender, RoutedEventArgs e)
         {
             if (SelectedAccommodationDTO != null)
@@ -111,5 +141,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
             }
         }
+        */
     }
 }

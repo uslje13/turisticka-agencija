@@ -23,48 +23,13 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class AlternativeToursWindow : Window
     {
-        public static ObservableCollection<TourViewModel> TourDTOs { get; set; }
-        public User LoggedInUser { get; set; }
-        public TourViewModel Selected { get; set; }
-        public AlternativeToursWindow(TourViewModel tourDTO, User loggedInUser, ObservableCollection<TourViewModel> tourDTOs)
+     
+        public AlternativeToursWindow(TourViewModel tourViewModel, User loggedInUser, ObservableCollection<TourViewModel> tourViewModels)
         {
             InitializeComponent();
-            DataContext = this;
-            TourDTOs = new ObservableCollection<TourViewModel>();
-            LoggedInUser = loggedInUser;
-            FillDTOList(tourDTO, tourDTOs);
+            AlternativeToursViewModel viewModel = new AlternativeToursViewModel(tourViewModel, loggedInUser, tourViewModels,this);
+            DataContext = viewModel;
         }
 
-        private static void FillDTOList(TourViewModel tourDTO, ObservableCollection<TourViewModel> tourDTOs)
-        {
-            foreach (TourViewModel t in tourDTOs)
-            {
-                if (t.City == tourDTO.City && t.Country == tourDTO.Country && t.Ocupancy != t.MaxNumOfGuests)
-                {
-                    TourDTOs.Add(t);
-                }
-            }
-        }
-
-        private void ReserveClick(object sender, RoutedEventArgs e)
-        {
-            if(Selected == null)
-            {
-                MessageBox.Show("Izaberi turu za rezervaciju");
-            }
-            else
-            {
-                BookTourWindow bookTourWindow = new BookTourWindow(Selected, LoggedInUser);
-                bookTourWindow.Show();
-                this.Close();
-            }
-        }
-
-        private void CancelClick(object sender, RoutedEventArgs e)
-        {
-            ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
-            overview.Show();
-            this.Close();
-        }
     }
 }

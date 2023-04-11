@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
         mc:Ignorable="d"
         Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         Title="Tour Agency" Height="750" Width="430">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="57"></RowDefinition>
-            <RowDefinition></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
             <RowDefinition Height="57"></RowDefinition>
         </Grid.RowDefinitions>
@@ -19,16 +20,11 @@
             <Button Width="50" Background="Transparent" BorderBrush="Transparent">
                 <Image Source="/Resources/Icons/burger_menu.png"></Image>
             </Button>
-            <Label Foreground="White" Content="Home" FontSize="20" Width="350" VerticalAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Label Foreground="White" Content="Home" FontSize="20" Width="336" VerticalAlignment="Center" HorizontalContentAlignment="Center"/>
         </StackPanel>
 
-        <Label Content="Your tours" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" 
-               Margin="10, 0,0, 0"></Label>
-        <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Width="75" Height="25"
-                Content="Today tours" BorderBrush="Transparent" Margin="0,0,10,0"></Button>
-        
         <!-- BOTTOM MENU -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Name="BackButton" Width="86" Background="Transparent" BorderBrush="Transparent">
                 <Image Source="/Resources/Icons/back_button.png"></Image>
             </Button>
@@ -45,5 +41,6 @@
                 <Image Source="/Resources/Icons/demo.png"></Image>
             </Button>
         </StackPanel>
+        <Frame x:Name="ToursOverview" Grid.Row="1"></Frame>
     </Grid>
 </Window>

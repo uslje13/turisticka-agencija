@@ -21,6 +21,6 @@
                 <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="ReservationButton" Margin="336,351,336,40" Content="Rezerviši smeštaj" />
+        <Button x:Name="ReservationButton" Margin="336,351,336,40" Content="Rezerviši smeštaj" Command="{Binding reserveCommand}"/>
     </Grid>
 </Window>
