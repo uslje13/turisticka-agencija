@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Owner;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,20 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
     /// </summary>
     public partial class AccommodationsPage : Page
     {
-        public AccommodationsPage()
+        private AccommodationPageViewModel _accommodationPageViewModel;
+
+
+        public AccommodationsPage(User user)
         {
+            _accommodationPageViewModel = new AccommodationPageViewModel(user,this);
+            DataContext = _accommodationPageViewModel;
             InitializeComponent();
+            _accommodationPageViewModel.FillAccommodationsPanel();
         }
+
+        
+
+
+
     }
 }

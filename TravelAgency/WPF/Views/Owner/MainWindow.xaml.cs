@@ -22,12 +22,14 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainWindowViewModel _mainWindowViewModel;
         public MainWindow(User user)
         {
-            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel(user,this);
-            DataContext = mainWindowViewModel;
+            _mainWindowViewModel = new MainWindowViewModel(user,this);
+            DataContext = _mainWindowViewModel;
 
             InitializeComponent();
+            _mainWindowViewModel.SetStartupPage();
         }
 
         

@@ -10,6 +10,19 @@
 
 
     <Grid Background="White">
-        <Label Content="Baaaaaka accomm" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="30,0">
+            <Label Content="Smeštaji pod vašim vlasništvom " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Grid.Row="1" Margin="30,0,30,50">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <WrapPanel x:Name="AccommodationsPanel" Orientation="Horizontal" ItemWidth="330" ItemHeight="260">
+                </WrapPanel>
+            </ScrollViewer>
+        </Grid>
+        <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black" Margin="30,0,30,50"/>
     </Grid>
 </Page>

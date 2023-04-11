@@ -72,6 +72,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _accommodationRepository.GetAll();
         }
 
+        public List<Accommodation> FindUsersAccommodations(int ownerId)
+        { 
+            return _accommodationRepository.GetAll().Where(p => p.OwnerId == ownerId).ToList();
+        }
+
         public Accommodation GetById(int id)
         {
             return _accommodationRepository.GetById(id);

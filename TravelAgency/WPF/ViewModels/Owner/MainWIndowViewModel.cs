@@ -19,35 +19,57 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public User LoggedInUser { get; private set; }
         private MainWindow _mainWindow;
 
-        public RelayCommand HomeButtonCommand { get; private set; }
-        public RelayCommand AccommodationButtonCommand { get; private set; }
-        public RelayCommand UserButtonCommand { get; private set; }
-        public RelayCommand ReviewButtonCommand { get; private set; }
-        public RelayCommand RenovationsButtonCommand { get; private set; }
-        public RelayCommand RequestsButtonCommand { get; private set; }
-        public RelayCommand SuggestionsButtonCommand { get; private set; }
-        public RelayCommand ForumButtonCommand { get; private set; }
+        public RelayCommand NavigationButtonCommand { get; private set; }
         public MainWindowViewModel(User user,MainWindow mainWindow)
         {
             _mainWindow = mainWindow;
             Username = user.Username;
-            AccommodationService accommodationService = new();
-            accommodationService.GetAll();
-
-
             LoggedInUser = user;
-            HomeButtonCommand = new RelayCommand(Execute_HomeButtonCommand, CanExecuteMethod);
-            AccommodationButtonCommand = new RelayCommand(Execute_AccommodationButtonCommand, CanExecuteMethod);
+            NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand, CanExecuteMethod);
         }
 
-        private void Execute_AccommodationButtonCommand(object sender)
+        public void SetStartupPage() 
         {
-            _mainWindow.MainFrame.NavigationService.Navigate(new AccommodationsPage());
+            Execute_NavigationButtonCommand("Home");
         }
 
-        private void Execute_HomeButtonCommand(object sender)
+        private void Execute_NavigationButtonCommand(object parameter)
         {
-            _mainWindow.MainFrame.NavigationService.Navigate(new HomePage()) ;
+            string nextPage = parameter.ToString();
+            var navigationService = _mainWindow.MainFrame.NavigationService;
+
+            switch (nextPage) 
+            {
+                case "Home":
+                    navigationService.Navigate(new HomePage(LoggedInUser));
+                    break;
+                case "Accommodation":
+                    navigationService.Navigate(new AccommodationsPage(LoggedInUser));
+                    break;
+                /*
+                case "Review":
+                    navigationService.Navigate(new HomePage());
+                    break;
+                case "Renovation":
+                    navigationService.Navigate(new HomePage());
+                    break;
+                case "Request":
+                    navigationService.Navigate(new HomePage());
+                    break;
+                case "Suggestion":
+                    navigationService.Navigate(new HomePage());
+                    break;
+                case "Forum":
+                    navigationService.Navigate(new HomePage());
+                    break;
+                */
+
+                default:
+                    break;
+            }
+            return;
+
+            
         }
 
         private bool CanExecuteMethod(object parameter)

@@ -21,6 +21,8 @@
             </WrapPanel>
             <WrapPanel HorizontalAlignment="Right"   >
                 <Image Source="/Resources/Icons/NotificationAlertNoColor.png" Width="40" Height="40" Margin="0,15"></Image>
+                <Image Source="/Resources/Icons/user_ikonica2.png" Width="45" Height="45" Margin="15,15,0,15"></Image>
+
                 <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Margin="15" Height="80" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="24" VerticalContentAlignment="Center"></Label>
             </WrapPanel>
         </Grid>
@@ -48,17 +50,22 @@
                 </Grid>
 
                 <Grid Grid.Row="1">
-                    <StackPanel>
-                        <Button x:Name="HomeButton" Command="{Binding HomeButtonCommand}"  Content="HOME"  Height="40" />
-                        <Button x:Name="AccommodationsButton" Command="{Binding AccommodationButtonCommand}"  Content="Accommodations"  Height="40" />
-                    </StackPanel>
+                    <UniformGrid Rows="7" >
+                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Home"  Content="Home"  VerticalAlignment="Stretch" />
+                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Accommodation" Content="Smeštaji"  VerticalAlignment="Stretch" />
+                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Review" Content="Recenzije"  VerticalAlignment="Stretch" />
+                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Renovation" Content="Renoviranja"  VerticalAlignment="Stretch" />
+                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Request" Content="Zahtevi"  VerticalAlignment="Stretch" />
+                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Suggestion" Content="Predlozi"  VerticalAlignment="Stretch" />
+                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Forum" Content="Forumi"  VerticalAlignment="Stretch" />
+                    </UniformGrid>
                 </Grid>
 
 
             </Grid>
 
             <Grid Grid.Column="1">
-                <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden"  Source="HomePage.xaml"/>
+                <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
             </Grid>
             
             

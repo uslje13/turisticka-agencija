@@ -35,6 +35,7 @@
     <None Remove="Resources\Icons\video.png" />
     <None Remove="Resources\Icons\voucher_icon.png" />
     <None Remove="Resources\Images\Tours\budapest.jpg" />
+    <None Remove="Resources\Images\UnknownPhoto.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -107,6 +108,7 @@
     <Resource Include="Resources\Icons\user_ikonica.png" />
     <Resource Include="Resources\Icons\video.png" />
     <Resource Include="Resources\Icons\voucher_icon.png" />
+    <Resource Include="Resources\Images\UnknownPhoto.png" />
   </ItemGroup>
 
   <ItemGroup>

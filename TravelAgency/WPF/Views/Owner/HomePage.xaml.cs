@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Owner;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,8 +22,11 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
     /// </summary>
     public partial class HomePage : Page
     {
-        public HomePage()
+        private HomePageViewModel _homePageViewModel;
+        public HomePage(User user)
         {
+            _homePageViewModel = new HomePageViewModel(user);
+            DataContext = _homePageViewModel;
             InitializeComponent();
         }
     }

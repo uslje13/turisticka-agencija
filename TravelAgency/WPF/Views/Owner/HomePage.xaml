@@ -9,6 +9,52 @@
       Title="HomePage">
 
     <Grid Background="White">
-        <Label Content="Baaaaaka home" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label Content="Dobrodošli nazad " FontSize="25"/>
+                <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" FontSize="25"></Label>
+                <Label Content="!" FontSize="25"/>
+
+            </WrapPanel>
+        </Grid>
+        <Grid Grid.Row="2">
+            <UniformGrid Columns="3" Margin="15,0" >
+                <Grid Margin="20">
+                    <StackPanel VerticalAlignment="Center">
+                        <Label Content="Vaš najpopularniji smeštaj " HorizontalAlignment="Center"/>
+                        <Image Source="/Resources/Images/UnknownPhoto.png"></Image>
+                        <Label Content="Smeštaj naziv " HorizontalAlignment="Center"/>
+                    </StackPanel>
+                    
+                </Grid>
+                <Grid Margin="20">
+                    <StackPanel VerticalAlignment="Center">
+                        <Label Content="Zauzetost ovog meseca" HorizontalAlignment="Center"/>
+                        <Image Source="/Resources/Images/UnknownPhoto.png"></Image>
+                        <Label Content="" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                </Grid>
+                <Grid Margin="20">
+                    <StackPanel VerticalAlignment="Center">
+                        <Label Content="Trenutna popunjenost" HorizontalAlignment="Center"/>
+                        <Image Source="/Resources/Images/UnknownPhoto.png"></Image>
+                        <Label Content=" " HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                </Grid>
+            </UniformGrid>
+        </Grid>
+
+
+        
+
+
     </Grid>
 </Page>
