@@ -23,7 +23,9 @@
                  Text="{Binding Username}"></TextBox>
         <Label Grid.Row="3" Content="Password" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="29,22,0,0" Height="31" Width="76"></Label>
         <PasswordBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" Height="25" Width="360" Margin="0,50,0,0"
-                     Password="{Binding Password}"></PasswordBox>
-        <Button Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25" Width="360" Content="Sign in" FontSize="16"></Button>
+                     PasswordChanged="PasswordBoxPasswordChanged"></PasswordBox>
+        <Button Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25" Width="360" Content="Sign in" FontSize="16"
+                Command="{Binding SignInCommand}" CommandParameter="{Binding ElementName=LoginWindow}">
+        </Button>
     </Grid>
 </Window>

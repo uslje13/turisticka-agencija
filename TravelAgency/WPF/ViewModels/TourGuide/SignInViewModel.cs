@@ -9,6 +9,7 @@ using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.WPF.Views;
+using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
@@ -47,28 +48,31 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
+        public RelayCommand SignInCommand { get; set; }
 
+        public event EventHandler OnRequestClose;
 
         public SignInViewModel()
         {
             _userService = new UserService();
+            SignInCommand = new RelayCommand(OpenMainWindow, CanExecuteMethod);
         }
 
-        private void SignIn(object sender, RoutedEventArgs e)
+        private bool CanExecuteMethod(object parameter)
+        {
+            return true;
+        }
+
+        private void OpenMainWindow(object sender)
         {
             User user = _userService.GetByUsername(Username);
             if (user != null)
             {
                 if (user.Password == Password && user.Role == Roles.TOURISTGUIDE)
                 {
-                    Views.TourGuide.MainWindow mainWindow = new Views.TourGuide.MainWindow();
+                    Views.TourGuide.MainWindow mainWindow = new Views.TourGuide.MainWindow(user);
                     mainWindow.Show();
-
-                    /*
-                    Views.Owner.MainPage mainPage = new Views.Owner.MainPage(user);
-                    mainPage.Show();
-                    Close();
-                    */
+                    OnRequestClose(this, new EventArgs());
                 }
                 else
                 {
@@ -79,10 +83,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 MessageBox.Show("Wrong username!");
             }
+
+            
         }
-
-        public RelayCommand SignInCommand { get; set; }
-
-
     }
 }

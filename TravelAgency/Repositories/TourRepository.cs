@@ -41,11 +41,13 @@ namespace SOSTeam.TravelAgency.Repositories
             return _tours.Find(t => t.Id == id) ?? throw new ArgumentException();
         }
 
+        /*
         public List<Tour> GetAllByUserId(int id)
         {
             _tours = _serializer.FromCSV(FilePath);
             return _tours.FindAll(t => t.UserId == id);
         }
+        */
 
         public int NextId()
         {

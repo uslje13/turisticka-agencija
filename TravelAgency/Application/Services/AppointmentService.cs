@@ -26,6 +26,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _appointmentRepository.GetAll();
         }
 
+        public List<Appointment> GetAllByUserId(int userId)
+        {
+            return _appointmentRepository.GetAllByUserId(userId);
+        }
+
         public List<Appointment> GetAllByTours(List<Tour> tours)
         {
             return _appointmentRepository.GetAllByTours(tours);

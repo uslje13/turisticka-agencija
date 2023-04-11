@@ -179,7 +179,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             {
                 int locationId = FindLocationId();
                 int tourId = _tourRepository.NextId();
-                Tour newTour = new Tour(tourId, TourName, locationId, Description, TourLanguage, MaxNumOfGuests, Duration, LoggedInUser.Id);
+                Tour newTour = new Tour(tourId, TourName, locationId, Description, TourLanguage, MaxNumOfGuests, Duration);
                 _tourRepository.Save(newTour);
                 SetEntitesTourId(newTour);
                 SaveEntites();
