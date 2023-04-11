@@ -9,6 +9,7 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
 {
     public interface IAppointmentRepository : IRepository<Appointment>
     {
+        List<Appointment> GetAllByUserId(int userId);
         List<Appointment> GetAllByTours(List<Tour> tours);
         List<Appointment> GetTodayAppointments();
         void SaveAll(List<Appointment> appointments);

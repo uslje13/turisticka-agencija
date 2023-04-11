@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SOSTeam.TravelAgency.Domain.Models;
 
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
@@ -19,10 +20,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(User loggedUser)
         {
             InitializeComponent();
-            ToursOverview.Content = new HomePage();
+            ToursOverview.Content = new HomePage(loggedUser);
         }
     }
 }

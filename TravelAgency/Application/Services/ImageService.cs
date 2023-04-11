@@ -25,6 +25,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _imageRepository.GetAll();
         }
 
+        public List<Image> GetAllForTours()
+        {
+            return _imageRepository.GetAllForTours();
+        }
+
         public Image GetById(int id)
         {
             return _imageRepository.GetById(id);

@@ -53,6 +53,21 @@ namespace SOSTeam.TravelAgency.Repositories
             return appointments;
         }
 
+        public List<Appointment> GetAllByUserId(int userId)
+        {
+            _appointments = _serializer.FromCSV(FilePath);
+            List<Appointment> appointments = new List<Appointment>();
+
+            foreach (var appointment in _appointments)
+            {
+                if (appointment.UserId == userId)
+                {
+                    appointments.Add(appointment);
+                }
+            }
+            return appointments;
+        }
+
         public Appointment GetById(int id)
         {
             _appointments = _serializer.FromCSV(FilePath);

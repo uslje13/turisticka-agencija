@@ -38,6 +38,12 @@ namespace SOSTeam.TravelAgency.Repositories
             return _serializer.FromCSV(FilePath);
         }
 
+        public List<Image> GetAllForTours()
+        {
+            _images = _serializer.FromCSV(FilePath);
+            return _images.FindAll(i => i.Type == Image.ImageType.TOUR);
+        }
+
         public Image GetById(int id)
         {
             _images = _serializer.FromCSV(FilePath);

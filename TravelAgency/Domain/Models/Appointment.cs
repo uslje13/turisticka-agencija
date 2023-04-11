@@ -12,6 +12,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public bool Started { get; set; }
         public bool Finished { get; set; }
         public int TourId { get; set; }
+        public int UserId { get; set; }
 
         public Appointment()
         {
@@ -22,9 +23,10 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Started = false;
             Finished = false;
             TourId = -1;
+            UserId = -1;
         }
 
-        public Appointment(int id, DateOnly date, TimeOnly time, int occupancy, bool started, bool finished, int tourId)
+        public Appointment(int id, DateOnly date, TimeOnly time, int occupancy, bool started, bool finished, int tourId, int userId)
         {
             Id = id;
             Date = date;
@@ -33,6 +35,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Started = started;
             Finished = finished;
             TourId = tourId;
+            UserId = userId;
         }
 
         public void FromCSV(string[] values)
@@ -44,6 +47,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Started = bool.Parse(values[4]);
             Finished = bool.Parse(values[5]);
             TourId = int.Parse(values[6]);
+            UserId = int.Parse(values[7]);
         }
 
         public string[] ToCSV()
@@ -56,7 +60,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 Occupancy.ToString(),
                 Started.ToString(),
                 Finished.ToString(),
-                TourId.ToString()
+                TourId.ToString(),
+                UserId.ToString()
             };
             return csvValues;
         }

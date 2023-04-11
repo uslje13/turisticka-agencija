@@ -35,10 +35,12 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _tourRepository.GetById(id);
         }
 
+        /*
         public List<Tour> GetByUserId(int id)
         {
             return _tourRepository.GetAllByUserId(id);
         }
+        */
         public void Save(Tour tour)
         {
             _tourRepository.Save(tour);

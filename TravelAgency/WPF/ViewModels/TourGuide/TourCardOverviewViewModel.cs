@@ -11,7 +11,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public int TourId { get; set; }
         public int LocationId { get; set; }
         public int AppointmentId { get; set; }
-        public string ImageLocation { get; set; }
+        public string ImageUrl { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
         public DateOnly Date { get; set; }
@@ -20,12 +20,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public TourCardOverviewViewModel() { }
 
-        public TourCardOverviewViewModel(int tourId, int locationId, int appointmentId, string imageLocation, string name, string location, DateOnly date, bool started, bool finished)
+        public TourCardOverviewViewModel(int tourId, int locationId, int appointmentId, string imageUrl, string name, string location, DateOnly date, bool started, bool finished)
         {
             TourId = tourId;
             LocationId = locationId;
             AppointmentId = appointmentId;
-            ImageLocation = imageLocation;
+            ImageUrl = imageUrl;
             Name = name;
             Location = location;
             Date = date;

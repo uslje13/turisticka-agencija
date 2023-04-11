@@ -57,7 +57,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             _tourReository = new TourRepository();
             _appointmentReository = new AppointmentRepository();
 
-            Tours = new List<Tour>(_tourReository.GetAllByUserId(user.Id));
+            //Tours = new List<Tour>(_tourReository.GetAllByUserId(user.Id));
             Appointments = new List<Appointment>(_appointmentReository.GetAll());
 
             _locationConverter = new();
