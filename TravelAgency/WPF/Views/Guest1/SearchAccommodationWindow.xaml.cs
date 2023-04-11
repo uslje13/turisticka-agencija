@@ -28,6 +28,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SearchAccommodationWindow : Window
     {
+        /*
         public User LoggedInUser { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -40,17 +41,22 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
+        */
 
-
+        /*
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        */
 
         public SearchAccommodationWindow(User user)
         {
             InitializeComponent();
-            DataContext = this;
+            //DataContext = this;
+            SearchAccommodationViewModel viewModel = new SearchAccommodationViewModel(user);
+            DataContext = viewModel;
+            /*
             AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
 
 
@@ -64,8 +70,10 @@ namespace SOSTeam.TravelAgency.WPF.Views
             LoggedInUser = user;
 
             CreateAllDTOForms();
+            */
         }
 
+        /*
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
         {
             SearchWindow searchWindow = new SearchWindow(LoggedInUser);
@@ -135,5 +143,6 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
             }
         }
+        */
     }
 }

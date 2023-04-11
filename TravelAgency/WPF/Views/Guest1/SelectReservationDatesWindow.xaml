@@ -21,6 +21,6 @@
                 <DataGridTextColumn Header="Trajanje rezervacije" Binding="{Binding ReservationDuration}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Nastavi sa rezervacijom" Click="ContinueReservation" Margin="312,345,312,39" FontSize="14"/>
+        <Button Content="Nastavi sa rezervacijom"  Margin="312,345,312,39" FontSize="14" Command="{Binding continueReserveCommand}"/>
     </Grid>
 </Window>

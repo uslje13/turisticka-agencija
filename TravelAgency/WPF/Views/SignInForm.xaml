@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views"
         mc:Ignorable="d"
-        Title="SignInForm" Height="250" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="SignInForm" Height="250" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="150"></RowDefinition>
@@ -24,12 +28,26 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
+
             <Label Grid.Row="0" Grid.Column="0" Height="30">Username:</Label>
             <Label Grid.Row="1" Grid.Column="0" Height="30">Password:</Label>
             <TextBox Grid.Row="0" Text="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Height="25" TextWrapping="Wrap" VerticalAlignment="Center"/>
             <PasswordBox Name="txtPassword" Grid.Row="1" Grid.Column="1" Height="25" VerticalAlignment="Center"/>
+
+
+
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Image  Source="/Resources/Images/SOSlogo.png" Width="150" Height="150" Margin="10,0,10,25"></Image>
         </Grid>
 
-        <Button Grid.Row="2" Click="SignIn" Content="Sign in" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="60"/>
+        
+        
+
+        
+
+        <Button Grid.Row="2" Click="SignIn" Content="Sign in" VerticalAlignment="Center" Margin="165,0,0,0" Height="20" Width="60"/>
+
+        
     </Grid>
 </Window>

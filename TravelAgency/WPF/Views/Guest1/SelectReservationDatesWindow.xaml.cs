@@ -23,23 +23,25 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SelectReservationDatesWindow : Window
     {
+        /*
         public List<AccReservationViewModel> suggestCatalog { get; set; }
         public AccReservationViewModel selectedCatalogItem { get; set; }
         public User LoggedInUser { get; set; }
-
-        public SelectReservationDatesWindow()
-        {
-            InitializeComponent();
-        }
+        */
 
         public SelectReservationDatesWindow(List<AccReservationViewModel> list, User user)
         {
             InitializeComponent();
-            DataContext = this;
+            SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user);
+            DataContext = viewModel;
+            //DataContext = this;
+            /*
             suggestCatalog = list;
             LoggedInUser = user;
+            */
         }
 
+        /*
         private void ContinueReservation(object sender, RoutedEventArgs e)
         {
             if(selectedCatalogItem == null)
@@ -53,5 +55,6 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 Close();
             }
         }
+        */
     }
 }

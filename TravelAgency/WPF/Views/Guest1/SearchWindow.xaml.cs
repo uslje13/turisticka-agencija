@@ -17,6 +17,8 @@ using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
+using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -25,6 +27,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SearchWindow : Window
     {
+        /*
         public string searchedAccName { get; set; }
         public string searchedAccCity { get; set; }
         public string searchedAccCountry { get; set; }
@@ -38,12 +41,21 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public LocationRepository locationRepository { get; set; }
         public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
+        */
         public User LoggedInUser { get; set; }
+        
+        public RelayCommand searchCommand { get; set; }
+        public RelayCommand cancelCommand { get; set; }
+
 
         public SearchWindow(User user)
         {
             InitializeComponent();
             DataContext = this;
+            
+            searchCommand = new RelayCommand(ExecuteAccommodationSearch);
+            cancelCommand = new RelayCommand(ExecuteCancelAccommodationSearch);
+            /*
             AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
             
             accommodationRepository = new AccommodationRepository();
@@ -53,9 +65,30 @@ namespace SOSTeam.TravelAgency.WPF.Views
             accommodations = accommodationRepository.GetAll();
             locations = locationRepository.GetAll();
             accommodationReservations = accommodationReservationRepository.GetAll();
-            LoggedInUser = user; 
+            */
+            LoggedInUser = user;
         }
 
+        private void ExecuteAccommodationSearch(object sender)
+        {
+            AccommodationService accommodationService = new AccommodationService(LoggedInUser, name.Text, city.Text, country.Text, GetSelectedItem(CBTypes), int.Parse(guestsNumber.Text), int.Parse(daysNumber.Text));
+            accommodationService.ExecuteAccommodationSearch();
+        }
+
+        private void ExecuteCancelAccommodationSearch(object sender)
+        {
+            Close();
+        }
+
+        private LocAccommodationViewModel.AccommType GetSelectedItem(ComboBox cb)
+        {
+            if (cb.SelectedItem == CBItemApart) return LocAccommodationViewModel.AccommType.APARTMENT;
+            else if (cb.SelectedItem == CBItemHouse) return LocAccommodationViewModel.AccommType.HOUSE;
+            else if (cb.SelectedItem == CBItemHut) return LocAccommodationViewModel.AccommType.HUT;
+            else return LocAccommodationViewModel.AccommType.NOTYPE;
+        }
+
+        /*
         private void SearchAccommodationClick(object sender, RoutedEventArgs e)
         {
             CreateAllDTOForms();
@@ -190,5 +223,6 @@ namespace SOSTeam.TravelAgency.WPF.Views
         {
             Close();
         }
+        */
     }
 }

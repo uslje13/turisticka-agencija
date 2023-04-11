@@ -10,6 +10,6 @@
     <Grid>
         <Label Content="Unesite broj gostiju ove rezervacije :" FontSize="15" FontWeight="Bold" Margin="91,163,41,204"></Label>
         <TextBox x:Name="GuestNumber" Margin="162,217,162,162"/>
-        <Button Content="Rezerviši" Click="Reserve" Margin="179,297,179,86" FontSize="14"/>
+        <Button Content="Rezerviši" Command="{Binding finishReserveCommand}" Margin="179,297,179,86" FontSize="14"/>
     </Grid>
 </Window>

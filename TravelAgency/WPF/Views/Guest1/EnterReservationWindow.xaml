@@ -19,7 +19,7 @@
         <TextBox x:Name="Days" Margin="266,136,103,478"/>
         <DatePicker x:Name="FirstDay" Margin="265,183,103,417" SelectedDate="{Binding FirstDate, StringFormat='dd/MM/yyyy HH:mm:ss'}"/>
         <DatePicker x:Name="LastDay" Margin="266,244,103,357" SelectedDate="{Binding LastDate, StringFormat='dd/MM/yyyy HH:mm:ss'}"/>
-        <Button x:Name="CancelButton" Click="GoBackClick" Content="Odustani" Margin="134,345,266,248"/>
-        <Button x:Name="ReserveButton" Click="ReserveClick" Content="Pretraži datume" Margin="266,345,134,248"/>
+        <Button x:Name="CancelButton" Command="{Binding cancelCommand}" Content="Odustani" Margin="134,345,266,248"/>
+        <Button x:Name="ReserveButton" Command="{Binding searchDatesCommand}" Content="Pretraži datume" Margin="266,345,134,248"/>
     </Grid>
 </Window>
