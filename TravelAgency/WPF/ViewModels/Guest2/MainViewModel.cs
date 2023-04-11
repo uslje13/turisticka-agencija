@@ -1,5 +1,7 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Views.Guest2;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,42 +14,58 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class MainViewModel : ViewModel
     {
-        private Window _window;
         public User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
         public static ObservableCollection<Location> Locations { get; set; }
         public List<GuestAttendance> UserAttendances { get; set; }
-        public static ObservableCollection<Appointment> Appointments { get; set; }
 
-        public static ObservableCollection<TourViewModel> TourViewModels { get; set; }
+        public static ObservableCollection<TourViewModel2> TourViewModels { get; set; }
 
         private TourService _tourService;
         private LocationService _locationService;
-        private AppointmentService _appointmenService;
         private GuestAttendanceService _guestAttendanceService;
 
-        public MainViewModel(User loggedInUser)
+        private RelayCommand _tourDetailsCommand;
+
+        public RelayCommand TourDetailsCommand
+        {
+            get { return _tourDetailsCommand; }
+            set
+            {
+                _tourDetailsCommand = value;
+            }
+        }
+        public MainViewModel(User loggedInUser, Window window)
         {
             InitializeServices();
             GetUsableLists();
+            TourViewModels = new ObservableCollection<TourViewModel2>();
             FillTourViewModelList();
             LoggedInUser = loggedInUser;
+            TourDetailsCommand = new RelayCommand(Execute_OpenBookTourWindow,CanExecuteMethod);
         }
 
+        private void Execute_OpenBookTourWindow(object obj)
+        {
+            BookTourWindow window = new BookTourWindow();
+            window.ShowDialog();
+        }
+
+        private bool CanExecuteMethod(object parameter)
+        {
+            return true;
+        }
         private void GetUsableLists()
         {
-            Appointments = new ObservableCollection<Appointment>(_appointmenService.GetAll());
             Locations = new ObservableCollection<Location>(_locationService.GetAll());
             Tours = new ObservableCollection<Tour>(_tourService.GetAll());
             UserAttendances = new List<GuestAttendance>(_guestAttendanceService.GetAll());
-            TourViewModels = new ObservableCollection<TourViewModel>();
         }
 
         private void InitializeServices()
         {
             _tourService = new TourService();
             _locationService = new LocationService();
-            _appointmenService = new AppointmentService();
             _guestAttendanceService = new GuestAttendanceService();
         }
 
@@ -84,13 +102,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 foreach (Location l in Locations)
                 {
-                    foreach (Appointment a in Appointments)
+                    if (l.Id == t.LocationId)
                     {
-                        if (l.Id == t.LocationId && t.Id == a.TourId)
-                        {
-                            TourViewModel tourDTO = new TourViewModel(t.Name, t.Language, t.MaxNumOfGuests, t.Duration, a.Occupancy, l.City, l.Country, t.Id, a.Time, a.Date);
-                            TourViewModels.Add(tourDTO);
-                        }
+                        TourViewModel2 tourDTO = new TourViewModel2(t.Name, t.Language,t.Duration,l.City, l.Country);
+                        TourViewModels.Add(tourDTO);
                     }
                 }
             }
