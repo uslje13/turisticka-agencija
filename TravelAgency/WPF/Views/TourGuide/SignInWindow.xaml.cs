@@ -15,14 +15,13 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SignInWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SignInWindow : Window
     {
-        public MainWindow()
+        public SignInWindow()
         {
             InitializeComponent();
-            ToursOverview.Content = new HomePage();
         }
     }
 }

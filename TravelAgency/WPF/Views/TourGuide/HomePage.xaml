@@ -19,17 +19,17 @@
         <Button Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"  Width="75" Height="25"
                 Content="Today tours" BorderBrush="Transparent" Margin="0,0,10,0"></Button>
         <ScrollViewer Grid.Row="1" Background="AliceBlue">
-            <StackPanel Margin="20 0">
-                <Border Margin="10" Width="360" Height="120" HorizontalAlignment="Center" BorderBrush="DarkGray" BorderThickness="0 2 0 2">
-                    <StackPanel Orientation="Horizontal">
-                        <ItemsControl x:Name="TourListOverview" ItemsSource="{Binding }">
+            <StackPanel Orientation="Vertical" Margin="20 0">
+                <StackPanel Orientation="Horizontal">
+                        <ItemsControl x:Name="TourListOverview" ItemsSource="{Binding ToursForCards}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="360" Height="100" Margin="0 8 0 0">
+                                    <Border Margin="10" Width="360" Height="120" HorizontalAlignment="Center" BorderBrush="DarkGray" BorderThickness="0 2 0 2">
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="360" Height="100" Margin="0 8 0 0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="100"></ColumnDefinition>
-                                            <ColumnDefinition Width="210"></ColumnDefinition>
-                                            <ColumnDefinition Width="50"></ColumnDefinition>
+                                            <ColumnDefinition Width="185"></ColumnDefinition>
+                                            <ColumnDefinition Width="75"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition></RowDefinition>
@@ -37,44 +37,36 @@
                                             <RowDefinition></RowDefinition>
                                         </Grid.RowDefinitions>
 
-                                        <Border Width="100" Height="100" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="/Resources/Images/Tours/budapest.jpg"></ImageBrush>
-                                            </Border.Background>
-                                        </Border>
-
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Budapest" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                       FontSize="17" Padding="5 0 0 5"></TextBlock>
+                                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="/Resources/Images/Tours/budapest.jpg"></Image>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                        FontSize="17" Padding="5 0 0 5"></TextBlock>
                                         <Image Grid.Column="1" Grid.Row="1" Source="/Resources/Icons/checkpoint_light.png" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                   Width="16" Margin= "4 1 0 0">
+                                            Width="16" Margin= "4 1 0 0">
                                         </Image>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="Hungary, Budapest" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Location}" HorizontalAlignment="Left" VerticalAlignment="Top" 
                                          FontSize="13"  Padding="20 0 0 0" Foreground="#FF999999">
                                         </TextBlock>
                                         <Image Grid.Column="1" Grid.Row="2" Source="/Resources/Icons/calendar_blank_light.png" Width="17" HorizontalAlignment="Left"
-                                   VerticalAlignment="Bottom" Margin="5 0 0 0"></Image>
-                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="25.06.2023." HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                                       FontSize="13" Foreground="#FF999999" Padding="23 0 0 0"></TextBlock>
-                                        <Button Grid.Column="2"  Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="17" Height="17" 
-                                    Margin="0 4 4 0" Background="Transparent" BorderBrush="Transparent">
+                                        VerticalAlignment="Bottom" Margin="5 0 0 2"></Image>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Date, StringFormat='dd.MM.yyyy.'}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                         FontSize="13" Foreground="#FF999999" Padding="23 0 0 2"></TextBlock>
+                                        <Button Grid.Column="2"  Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" 
+                                            Margin="0 4 12 0" Background="Transparent" BorderBrush="Transparent">
                                             <Image Source="/Resources/Icons/cancel.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="20"></Image>
                                         </Button>
-                                        <TextBlock Grid.Column="2" Grid.Row="2" Text="Active" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 5 0"></TextBlock>
+                                        <TextBlock Grid.Column="2" Grid.Row="2" Text="Not started" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 15 0"></TextBlock>
                                     </Grid>
+                                    </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapPanel></WrapPanel>
+                                    <WrapPanel Orientation="Vertical"></WrapPanel>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
-                        
                     </StackPanel>
-                </Border>
             </StackPanel>
         </ScrollViewer>
-
-
     </Grid>
 </Page>
