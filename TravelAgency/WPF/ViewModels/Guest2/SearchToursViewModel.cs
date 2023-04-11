@@ -14,6 +14,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class SearchToursViewModel : ViewModel
     {
+        private Window _window;
         private string _searchedLanguage;
         private string _searchedCity;
         private string _searchedCountry;
@@ -105,13 +106,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public SearchToursViewModel(ObservableCollection<TourViewModel> tourDTOs, User loggedInUser)
+        public SearchToursViewModel(ObservableCollection<TourViewModel> tourDTOs, User loggedInUser, Window window)
         {
             TourDTOs = new ObservableCollection<TourViewModel>();
             TourDTOs = tourDTOs;
             LoggedInUser = loggedInUser;
             SearchCommand = new RelayCommand(Execute_SearchToursClick, CanExecuteMethod);
             CancelCommand = new RelayCommand(Execute_CancelClick, CanExecuteMethod);
+            _window = window;
         }
 
         private bool CanExecuteMethod(object parameter)
@@ -152,7 +154,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
                 overview.ToursGrid.ItemsSource = searchResult;
                 overview.Show();
-                //Close();
+                _window.Close();
             }
             else
             {
@@ -175,7 +177,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
             overview.Show();
-           // Close();
+            _window.Close();
         }
     }
 }

@@ -33,8 +33,6 @@
                     Command="{Binding ReserveCommand}"/>
             <Button Content="Pretrazi" Height="39" Width="76"
                     Command="{Binding SearchCommand}"/>
-            <Button Content="Osvezi listu" Height="39" Width="76"
-                    Click="RefreshToursButtonClick"/>
         </ToolBar>
     </Grid>
 </Window>

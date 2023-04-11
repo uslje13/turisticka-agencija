@@ -113,21 +113,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-       /* private void CreateReservation()
-        {
-            foreach (Appointment a in Appointments)
-            {
-                if (_selected.TourId == a.TourId && _selected.Date == a.Date && _selected.Time == a.Time)
-                {
-                    a.Occupancy += int.Parse(_touristNum);
-                    _selected.Ocupancy += int.Parse(_touristNum);
-                    _appointmentService.Update(a);
-                    Reservation newReservation = new Reservation(int.Parse(_touristNum), LoggedInUser.Id, a.Id);
-                    _reservationService.Save(newReservation);
-                }
-            }
-        }*/
-
         private void OpenToursOverviewWindow()
         {
             ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
