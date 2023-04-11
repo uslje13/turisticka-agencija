@@ -15,12 +15,15 @@
     <None Remove="Resources\Icons\burger_menu.png" />
     <None Remove="Resources\Icons\calendar_blank_light.png" />
     <None Remove="Resources\Icons\cancel.png" />
+    <None Remove="Resources\Icons\checkpoint.png" />
     <None Remove="Resources\Icons\checkpoint_light.png" />
     <None Remove="Resources\Icons\demo.png" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
     <None Remove="Resources\Icons\help--v1.png" />
     <None Remove="Resources\Icons\home.png" />
     <None Remove="Resources\Icons\info-icon.png" />
+    <None Remove="Resources\Icons\kalendar_datumi.png" />
+    <None Remove="Resources\Icons\language.png" />
     <None Remove="Resources\Icons\list-square-icon.png" />
     <None Remove="Resources\Icons\livetour.png" />
     <None Remove="Resources\Icons\plus.png" />
@@ -64,9 +67,9 @@
     <Content Include="Resources\Icons\sos_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\Tours\budapest.jpg">
+    <Resource Include="Resources\Images\Tours\budapest.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -82,6 +85,9 @@
     <Content Include="Resources\Icons\burger_menu.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Icons\checkpoint.png" />
+    <Resource Include="Resources\Icons\kalendar_datumi.png" />
+    <Resource Include="Resources\Icons\language.png" />
     <Resource Include="Resources\Icons\NotificationAlertNoColor.png" />
     <Resource Include="Resources\Images\SOSlogo.png" />
   </ItemGroup>
