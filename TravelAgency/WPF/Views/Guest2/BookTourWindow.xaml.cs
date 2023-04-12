@@ -17,16 +17,14 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for ToursOverviewWindow.xaml
+    /// Interaction logic for BookTourWindow.xaml
     /// </summary>
-    public partial class ToursOverviewWindow : Window
+    public partial class BookTourWindow : Window
     {
-        public ToursOverviewWindow(User loggedInUser)
+        public BookTourWindow(int id,User loggedInUser)
         {
-            MainViewModel viewModel = new MainViewModel(loggedInUser);
-            this.DataContext = viewModel;
-            viewModel.GetAttendanceMessage();
             InitializeComponent();
+            this.DataContext = new BookTourViewModel(id, loggedInUser,this);
         }
     }
 }
