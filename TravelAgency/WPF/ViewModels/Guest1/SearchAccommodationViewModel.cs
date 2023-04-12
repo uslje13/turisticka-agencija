@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using SOSTeam.TravelAgency.Application.Services;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -22,10 +23,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public List<Location> locations { get; set; }
         public ObservableCollection<LocAccommodationViewModel> AccommDTOsCollection { get; set; }
 
-        public AccommodationRepository accommodationRepository { get; set; }
-        public LocationRepository locationRepository { get; set; }
+        public AccommodationService accommodationService { get; set; }
+        public LocationService locationService { get; set; }
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
-        public AccommodationReservationRepository accommodationReservationRepository { get; set; }
+        public AccommodationReservationService accommodationReservationService { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
         public RelayCommand searchCommand { get; set; }
         public RelayCommand reserveCommand { get; set; }
@@ -36,13 +37,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
 
-            accommodationRepository = new AccommodationRepository();
-            locationRepository = new LocationRepository();
-            accommodationReservationRepository = new AccommodationReservationRepository();
+            accommodationService = new AccommodationService();
+            locationService = new LocationService();
+            accommodationReservationService = new AccommodationReservationService();
 
-            accommodations = accommodationRepository.GetAll();
-            locations = locationRepository.GetAll();
-            accommodationReservations = accommodationReservationRepository.GetAll();
+            accommodations = accommodationService.GetAll();
+            locations = locationService.GetAll();
+            accommodationReservations = accommodationReservationService.GetAll();
             LoggedInUser = user;
 
             searchCommand = new RelayCommand(ExecuteSearchAccommodation);
@@ -119,7 +120,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (SelectedAccommodationDTO != null)
             {
-                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
+                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser, false);
                 newWindow.ShowDialog();
             }
             else
