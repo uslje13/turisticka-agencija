@@ -12,9 +12,12 @@
   <ItemGroup>
     <None Remove="Resources\Icons\active_tour.png" />
     <None Remove="Resources\Icons\back_button.png" />
+    <None Remove="Resources\Icons\bin.png" />
     <None Remove="Resources\Icons\burger_menu.png" />
     <None Remove="Resources\Icons\calendar_blank_light.png" />
     <None Remove="Resources\Icons\cancel.png" />
+    <None Remove="Resources\Icons\cancel_light.png" />
+    <None Remove="Resources\Icons\checkpoint.png" />
     <None Remove="Resources\Icons\checkpoint_light.png" />
     <None Remove="Resources\Icons\demo.png" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
@@ -23,6 +26,7 @@
     <None Remove="Resources\Icons\info-icon.png" />
     <None Remove="Resources\Icons\list-square-icon.png" />
     <None Remove="Resources\Icons\livetour.png" />
+    <None Remove="Resources\Icons\pencil.png" />
     <None Remove="Resources\Icons\plus.png" />
     <None Remove="Resources\Icons\request.png" />
     <None Remove="Resources\Icons\reserved.png" />
@@ -44,10 +48,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\Icons\bin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\calendar_blank_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\cancel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\cancel_light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\checkpoint.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\checkpoint_light.png">
@@ -57,6 +70,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\livetour.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\pencil.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\plus.png">
@@ -92,6 +108,7 @@
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
 
   <ItemGroup>

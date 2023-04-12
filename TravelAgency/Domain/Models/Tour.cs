@@ -1,4 +1,5 @@
-﻿using SOSTeam.TravelAgency.Repositories.Serializer;
+﻿using System;
+using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Domain.Models
 {
