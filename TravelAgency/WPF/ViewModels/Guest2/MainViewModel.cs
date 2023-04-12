@@ -14,7 +14,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class MainViewModel : ViewModel
     {
-        public User LoggedInUser { get; set; }
+        public static User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
         public static ObservableCollection<Location> Locations { get; set; }
         public List<GuestAttendance> UserAttendances { get; set; }
@@ -25,35 +25,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private LocationService _locationService;
         private GuestAttendanceService _guestAttendanceService;
 
-        private RelayCommand _tourDetailsCommand;
-
-        public RelayCommand TourDetailsCommand
-        {
-            get { return _tourDetailsCommand; }
-            set
-            {
-                _tourDetailsCommand = value;
-            }
-        }
-        public MainViewModel(User loggedInUser, Window window)
+        public MainViewModel(User loggedInUser)
         {
             InitializeServices();
             GetUsableLists();
+            LoggedInUser = loggedInUser;
             TourViewModels = new ObservableCollection<TourViewModel2>();
             FillTourViewModelList();
-            LoggedInUser = loggedInUser;
-            TourDetailsCommand = new RelayCommand(Execute_OpenBookTourWindow,CanExecuteMethod);
-        }
-
-        private void Execute_OpenBookTourWindow(object obj)
-        {
-            BookTourWindow window = new BookTourWindow();
-            window.ShowDialog();
-        }
-
-        private bool CanExecuteMethod(object parameter)
-        {
-            return true;
         }
         private void GetUsableLists()
         {
@@ -104,7 +82,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     if (l.Id == t.LocationId)
                     {
-                        TourViewModel2 tourDTO = new TourViewModel2(t.Name, t.Language,t.Duration,l.City, l.Country);
+                        TourViewModel2 tourDTO = new TourViewModel2(t.Id,t.Name, t.Language,t.Duration,l.City, l.Country, LoggedInUser);
                         TourViewModels.Add(tourDTO);
                     }
                 }

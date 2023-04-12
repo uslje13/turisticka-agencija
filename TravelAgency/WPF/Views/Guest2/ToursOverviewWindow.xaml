@@ -11,9 +11,6 @@
         Background="AliceBlue"
         >
 
-    <Window.InputBindings>
-        <KeyBinding Command="{Binding TourDetailsCommand}" />
-    </Window.InputBindings>
 
     <Window.Resources>
         <ResourceDictionary>
@@ -115,10 +112,12 @@
                                     <Border Margin="20" Width="400" Height="420" HorizontalAlignment="Left" VerticalAlignment="Top" >
                                         <StackPanel>
                                             <Border Height="300">
-                                                <Image Source="/Resources/Images/Tours/budapest.jpg" MouseLeftButtonDown="{Binding TourDetailsCommand}" />
+                                                <Button Command="{Binding TourDetailsCommand}" Background="AliceBlue" BorderBrush="AliceBlue">
+                                                    <Image Source="/Resources/Images/Tours/budapest.jpg" />
+                                                </Button>
                                             </Border>
                                             <TextBlock TextAlignment="Center" Text="{Binding Name}" FontSize="30"/>
-                                            <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding CityAndCountry}">
+                                            <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding LocationFullName}">
                                                 <InlineUIContainer>
                                                     <Image Source="/Resources/Icons/checkpoint.png" Width="20" Height="20" />
                                                 </InlineUIContainer>
@@ -128,7 +127,7 @@
                                                     <Image Source="/Resources/Icons/language.png" Width="20" Height="20" />
                                                 </InlineUIContainer>
                                             </TextBlock>
-                                            <TextBlock TextAlignment="Center" FontSize="20" Text="11 dana">
+                                            <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding Duration}">
                                                 <InlineUIContainer>
                                                     <Image Source="/Resources/Icons/kalendar_datumi.png" Width="20" Height="20" />
                                                 </InlineUIContainer>

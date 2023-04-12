@@ -1,40 +1,30 @@
-﻿using SOSTeam.TravelAgency.Application.Services;
-using SOSTeam.TravelAgency.Commands;
-using SOSTeam.TravelAgency.Domain.Models;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using System.Windows;
+using SOSTeam.TravelAgency.WPF.Views;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
-    public class BookTourViewModel : ViewModel
+    public class BookTourViewModel2 : ViewModel
     {
         private Window _window;
         public User LoggedInUser { get; set; }
-        public Tour Tour { get; set; }
-        private int _availableSlots;
-        private AppoitmentOverviewViewModel _selected;
-
-        public AppoitmentOverviewViewModel Selected
-        {
-            get { return _selected; }
-            set
-            {
-                _selected = value;
-                OnPropertyChanged("Selected");
-            }
-        }
+        private string _availableSlots;
+        private string _touristNum;
+        private TourViewModel _selected;
 
         public static ObservableCollection<Appointment> Appointments;
         private readonly AppointmentService _appointmentService;
         private readonly ReservationService _reservationService;
-        private readonly TourService _tourService;
-
-        public static ObservableCollection<AppoitmentOverviewViewModel> AppoitmentOverviewViewModels { get; set; }
 
         private RelayCommand cancelCommand;
         public RelayCommand CancelCommand
@@ -56,7 +46,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 reserveCommand = value;
             }
         }
-        public int AvailableSlots
+
+        public string AvailableSlots
         {
             get { return _availableSlots; }
             set
@@ -69,8 +60,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        private int _touristNum;
-        public int TouristNum
+        public string TouristNum
         {
             get { return _touristNum; }
             set
@@ -83,37 +73,30 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public BookTourViewModel(int id, User loggedInUser,Window window)
+        public BookTourViewModel2(TourViewModel selected, User loggedInUser, Window window)
         {
             LoggedInUser = loggedInUser;
+            _selected = selected;
+            _availableSlots = (selected.MaxNumOfGuests - selected.Ocupancy).ToString();
             _appointmentService = new AppointmentService();
             _reservationService = new ReservationService();
-            _tourService = new TourService();
             Appointments = new ObservableCollection<Appointment>(_appointmentService.GetAll());
-            AppoitmentOverviewViewModels = new ObservableCollection<AppoitmentOverviewViewModel>();
-            Tour = _tourService.FindTourById(id);
+            CancelCommand = new RelayCommand(Execute_CancelClick, CanExecuteMethod);
+            ReserveCommand = new RelayCommand(Execute_ReserveClick, CanExecuteMethod);
             _window = window;
-            CancelCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
-            ReserveCommand = new RelayCommand(Execute_ReserveCommand, CanExecuteMethod);
-            FillAppoitmentViewModelList();
         }
-
         private bool CanExecuteMethod(object parameter)
         {
             return true;
         }
 
-        private void Execute_ReserveCommand(object sender)
+        private void Execute_ReserveClick(object sender)
         {
-            if(Selected == null)
-            {
-                MessageBox.Show("Niste odabrali termin");
-            }
-            else if (_touristNum == null || _touristNum == 0)
+            if (_touristNum == null || _touristNum == "" || int.Parse(_touristNum) == 0)
             {
                 MessageBox.Show("Niste uneli broj osoba prilikom rezervacije");
             }
-            else if (_touristNum > _availableSlots)
+            else if (int.Parse(_touristNum) > int.Parse(_availableSlots))
             {
                 MessageBox.Show("Ne moze se rezervisati tura, nema dovoljno slobodnih mesta");
             }
@@ -123,10 +106,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum);
+                    //_reservationService.CreateReservation(_selected,LoggedInUser,_touristNum);
+                    OpenToursOverviewWindow();
                     _window.Close();
                 }
             }
+        }
+
+        private void OpenToursOverviewWindow()
+        {
+            ToursOverviewWindow overview = new ToursOverviewWindow(LoggedInUser);
+            overview.Show();
         }
 
         private MessageBoxResult ConfirmReservation()
@@ -140,22 +130,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
             return result;
         }
-        private void Execute_CancelCommand(object sender)
-        {
-            _window.Close();
-        }
 
-        public void FillAppoitmentViewModelList()
+        private void Execute_CancelClick(object sender)
         {
-            foreach(Appointment appointment in Appointments)
-            {
-                if(appointment.TourId == Tour.Id && appointment.Date > DateOnly.FromDateTime(DateTime.Today))
-                {
-                    AvailableSlots = Tour.MaxNumOfGuests - appointment.Occupancy;
-                    AppoitmentOverviewViewModel viewModel = new AppoitmentOverviewViewModel(appointment.Date, appointment.Time, AvailableSlots, Tour.Id);
-                    AppoitmentOverviewViewModels.Add(viewModel);
-                }
-            }
+            OpenToursOverviewWindow();
+            _window.Close();
         }
     }
 }

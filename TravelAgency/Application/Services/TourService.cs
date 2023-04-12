@@ -49,5 +49,13 @@ namespace SOSTeam.TravelAgency.Application.Services
             _tourRepository.Update(tour);
         }
 
+        public Tour? FindTourById(int id)
+        {
+            foreach(var tour in _tourRepository.GetAll())
+            {
+                if(tour.Id == id) return tour;
+            }
+            return null;
+        }
     }
 }

@@ -23,10 +23,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     {
         public ToursOverviewWindow(User loggedInUser)
         {
-            InitializeComponent();
-            MainViewModel viewModel = new MainViewModel(loggedInUser,this);
+            MainViewModel viewModel = new MainViewModel(loggedInUser);
             this.DataContext = viewModel;
             viewModel.GetAttendanceMessage();
+            InitializeComponent();
         }
     }
 }

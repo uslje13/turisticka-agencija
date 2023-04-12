@@ -41,16 +41,16 @@ namespace SOSTeam.TravelAgency.Application.Services
             _reservationRepository.Save(reservation);
         }
 
-       public void CreateReservation(TourViewModel selected, User loggedInUser, string touristNum)
+       public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum)
        {
            foreach (Appointment a in _appointmentRepository.GetAll())
            {
                if (selected.TourId == a.TourId && selected.Date == a.Date && selected.Time == a.Time)
                {
-                   a.Occupancy += int.Parse(touristNum);
-                   selected.Ocupancy += int.Parse(touristNum);
+                   a.Occupancy += touristNum;
+                  // selected.Ocupancy += touristNum;
                    _appointmentRepository.Update(a);
-                   Reservation newReservation = new Reservation(int.Parse(touristNum), loggedInUser.Id, a.Id);
+                   Reservation newReservation = new Reservation(touristNum, loggedInUser.Id, a.Id);
                    _reservationRepository.Save(newReservation);
                }
            }

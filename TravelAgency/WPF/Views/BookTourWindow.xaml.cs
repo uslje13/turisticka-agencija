@@ -29,7 +29,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public BookTourWindow(TourViewModel selected, User loggedInUser)
         {
             InitializeComponent();
-            BookTourViewModel viewModel = new BookTourViewModel(selected, loggedInUser,this);
+            BookTourViewModel2 viewModel = new BookTourViewModel2(selected, loggedInUser,this);
             DataContext = viewModel;
         }
 
