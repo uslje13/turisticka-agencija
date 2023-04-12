@@ -1,0 +1,15 @@
+﻿<Window x:Class="SOSTeam.TravelAgency.WPF.Views.Guest1.UserProfilleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="UserProfille" Height="450" Width="800">
+    <Grid>
+        <TextBlock x:Name="UsersName" FontSize="30" FontWeight="Bold" Margin="46,36,469,312"></TextBlock>
+        <Button Command="{Binding goToRequestsStatus}" Content="Prikaži zahtjeve" Margin="639,144,40,246"/>
+        <Button Command="{Binding goToSearchCommand}" Content="Prikaži smještaj" Margin="639,350,40,40"/>
+    </Grid>
+</Window>

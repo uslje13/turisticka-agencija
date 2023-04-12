@@ -35,20 +35,35 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public AccommodationReservationService accResService { get; set; }
         public int guestNumber {  get; set; }
         public RelayCommand finishReserveCommand { get; set; }
+        public ChangedReservationRequest ChangedReservationRequest { get; set; }
 
 
-        public EnterGuestNumberWindow(AccReservationViewModel item, User user)
+        public EnterGuestNumberWindow(AccReservationViewModel item, User user, bool enterOfChange, ChangedReservationRequest request)
         {
             InitializeComponent();
             DataContext = this;
-
-            finishReserveCommand = new RelayCommand(ExecuteReserveAccommodation);
             forwardedItem = item;
             LoggedInUser = user;
+            ChangedReservationRequest = request;
 
+            if (!enterOfChange)
+            {
+                finishReserveCommand = new RelayCommand(ExecuteReserveAccommodation);
+            } 
+            else
+            {
+                finishReserveCommand = new RelayCommand(ExecuteSendRequestForChange);
+            }
             //accommodationReservationRepository = new AccommodationReservationRepository();
             //accommodationReservations = accommodationReservationRepository.GetAll();
         }
+
+        private void ExecuteSendRequestForChange(object sender)
+        {
+            guestNumber = int.Parse(GuestNumber.Text);
+            accResService = new AccommodationReservationService(forwardedItem, LoggedInUser, guestNumber, ChangedReservationRequest);
+            accResService.ExecuteSendRequestForChange();
+        } 
 
         private void ExecuteReserveAccommodation(object sender)
         {

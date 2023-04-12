@@ -23,19 +23,25 @@ namespace SOSTeam.TravelAgency.Application.Services
         public LocAccommodationViewModel DTO { get; set; }
 
         private readonly IAccReservationRepository _accReservationRepository = Injector.CreateInstance<IAccReservationRepository>();
+        private readonly IAccommodationRepository _accommodationRepository = Injector.CreateInstance<IAccommodationRepository>();
+        private readonly IChangedResRequestRepositroy _changedResRequestRepositroy = Injector.CreateInstance<IChangedResRequestRepositroy>();
         public AccReservationViewModel forwardedItem { get; set; }
         public User LoggedInUser { get; set; }
-        public AccommodationReservationRepository accommodationReservationRepository { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
         public int guestNumber { get; set; }
+        public bool IsEnteredOfChange { get; set; }
+        public ChangedReservationRequest selectedReservation { get; set; }
 
-        public AccommodationReservationService(LocAccommodationViewModel dto, User user, DateTime fDay, DateTime lDay, int days)
+
+        public AccommodationReservationService(LocAccommodationViewModel dto, User user, DateTime fDay, DateTime lDay, int days, bool isEnteredOfChange, ChangedReservationRequest request)
         {
             DTO = dto;
             FirstDate = fDay;
             LastDate = lDay;
             DaysDuration = days;
             LoggedInUser = user;
+            IsEnteredOfChange = isEnteredOfChange;
+            selectedReservation = request;
         }
 
         public AccommodationReservationService(AccReservationViewModel item, User user, int forwadedGuestNumber)
@@ -47,6 +53,20 @@ namespace SOSTeam.TravelAgency.Application.Services
             accommodationReservations = _accReservationRepository.GetAll();
         }
 
+        public AccommodationReservationService(AccReservationViewModel item, User user, int forwadedGuestNumber, ChangedReservationRequest SelectedReservation)
+        {
+            forwardedItem = item;
+            LoggedInUser = user;
+            guestNumber = forwadedGuestNumber;
+            selectedReservation = SelectedReservation;
+
+            accommodationReservations = _accReservationRepository.GetAll();
+        }
+
+        public AccommodationReservationService() 
+        { 
+            
+        }
         public void Delete(int id)
         {
             _accReservationRepository.Delete(id);
@@ -103,6 +123,43 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
         }
 
+        public void ExecuteSendRequestForChange()
+        {
+            int appropriateGuestNumber = FindAppropriateGuestsNumber();
+
+            if (guestNumber > 0)
+            {
+                int helpVar = appropriateGuestNumber + guestNumber;
+                if (helpVar > forwardedItem.AccommodationMaxGuests)
+                {
+                    MessageBox.Show("Prekoračen je maksimalni broj gostiju za ovaj smeštaj. Pokušajte ponovo.");
+                }
+                else
+                {
+                    Accommodation acc = _accommodationRepository.GetById(forwardedItem.AccommodationId);
+                    ProcessReservation();
+                    SendRequestToOwner(acc.OwnerId);
+                    MessageBox.Show("Zahtjev za pomjeranje rezervacije je uspješno poslat vlasniku.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ne možete izvršiti rezervaciju za 0 osoba.");
+            }
+        }
+
+        private void ProcessReservation()
+        {
+            selectedReservation.status = ChangedReservationRequest.Status.ON_HOLD;
+            selectedReservation.ownerComment = "Komentar nije dostupan";
+            _changedResRequestRepositroy.Save(selectedReservation);
+        }
+
+        private void SendRequestToOwner(int ownerId)
+        {
+
+        }
+
         private int FindAppropriateGuestsNumber()
         {
             int appropriateGuestNumber = 0;
@@ -129,7 +186,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             bool validDays = CheckDays();
             if (validDates && validDays)
             {
-                ShowAvailableDatesWindow availableDates = new ShowAvailableDatesWindow(DTO, FirstDate, LastDate, DaysDuration, LoggedInUser);
+                ShowAvailableDatesWindow availableDates = new ShowAvailableDatesWindow(DTO, FirstDate, LastDate, DaysDuration, LoggedInUser, IsEnteredOfChange, selectedReservation);
                 availableDates.Show();
             }
             else if (!validDates)

@@ -36,8 +36,10 @@ namespace SOSTeam.TravelAgency.WPF.Views
         
         public RelayCommand searchDatesCommand { get; set; }
         public RelayCommand cancelCommand { get; set; }
+        public bool IsEnterOfGhange { get; set; }
+        public ChangedReservationRequest selectedReservation { get; set; }
 
-        public EnterReservationWindow(LocAccommodationViewModel dto, User user)
+        public EnterReservationWindow(LocAccommodationViewModel dto, User user, bool enter)
         {
             InitializeComponent();
             DataContext = this;
@@ -51,11 +53,30 @@ namespace SOSTeam.TravelAgency.WPF.Views
             FirstDay.BlackoutDates.AddDatesInPast();
             LastDay.BlackoutDates.AddDatesInPast();
             LoggedInUser = user;
+            IsEnterOfGhange = enter;
+        }
+
+        public EnterReservationWindow(LocAccommodationViewModel dto, User user, bool enter, ChangedReservationRequest request)
+        {
+            InitializeComponent();
+            DataContext = this;
+
+            searchDatesCommand = new RelayCommand(ExecuteSearchingDates);
+            cancelCommand = new RelayCommand(ExecuteCancelingOfSearchingDates);
+
+            DTO = dto;
+            FirstDate = DateTime.Now;
+            LastDate = DateTime.Now;
+            FirstDay.BlackoutDates.AddDatesInPast();
+            LastDay.BlackoutDates.AddDatesInPast();
+            LoggedInUser = user;
+            IsEnterOfGhange = enter;
+            selectedReservation = request;
         }
 
         private void ExecuteSearchingDates(object sender)
         {
-            AccommodationReservationService accResService = new AccommodationReservationService(DTO, LoggedInUser, FirstDate, LastDate, int.Parse(Days.Text));
+            AccommodationReservationService accResService = new AccommodationReservationService(DTO, LoggedInUser, FirstDate, LastDate, int.Parse(Days.Text), IsEnterOfGhange, selectedReservation);
             accResService.ExecuteSearchingDates();
         }
 

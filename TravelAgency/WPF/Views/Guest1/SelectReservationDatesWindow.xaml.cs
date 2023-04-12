@@ -29,10 +29,10 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public User LoggedInUser { get; set; }
         */
 
-        public SelectReservationDatesWindow(List<AccReservationViewModel> list, User user)
+        public SelectReservationDatesWindow(List<AccReservationViewModel> list, User user, bool enter, ChangedReservationRequest request)
         {
             InitializeComponent();
-            SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user);
+            SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user, enter, request);
             DataContext = viewModel;
             //DataContext = this;
             /*

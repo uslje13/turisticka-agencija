@@ -39,11 +39,11 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public User LoggedInUser { get; set; }
         */
 
-        public ShowAvailableDatesWindow(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user)
+        public ShowAvailableDatesWindow(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, bool enter, ChangedReservationRequest request)
         {
             InitializeComponent();
 
-            ShowAvailableDatesViewModel viewModel = new ShowAvailableDatesViewModel(dto, firstDay, lastDay, days, user, Calendar);
+            ShowAvailableDatesViewModel viewModel = new ShowAvailableDatesViewModel(dto, firstDay, lastDay, days, user, Calendar, enter, request);
             DataContext = viewModel;
 
             //DataContext = this;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.Repositories;
 
@@ -23,6 +24,7 @@ namespace SOSTeam.TravelAgency.Domain
             { typeof(IUserRepository), new UserRepository() },
             { typeof(IAccReservationRepository), new AccommodationReservationRepository() },
             { typeof(IAccommodationRepository), new AccommodationRepository() },
+            { typeof(IChangedResRequestRepositroy), new ChangedResRequestRepository() },
             //{ typeof(IUserService), new UserService() },
 
 

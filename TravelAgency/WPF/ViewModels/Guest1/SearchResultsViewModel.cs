@@ -29,7 +29,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (SelectedAccommodationDTO != null)
             {
-                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
+                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser, false);
                 newWindow.ShowDialog();
             }
             else

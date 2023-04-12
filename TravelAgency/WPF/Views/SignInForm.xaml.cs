@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -72,8 +73,8 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST1)
                 {
-                    SearchAccommodationWindow searchAccommodation = new SearchAccommodationWindow(user);
-                    searchAccommodation.Show();
+                    UserProfilleWindow userProfilleWindow = new UserProfilleWindow(user);
+                    userProfilleWindow.Show();
                     Close();
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST2)
