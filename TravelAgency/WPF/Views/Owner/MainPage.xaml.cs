@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using SOSTeam.TravelAgency.Application.Services;
+
 namespace SOSTeam.TravelAgency.WPF.Views.Owner
 {
     /// <summary>
@@ -28,6 +30,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
             Username = user.Username;
             AccommodationService accommodationService = new();
             accommodationService.GetAll();
+
+            AccommodationReservationService service = new AccommodationReservationService();
+            service.SendRequestToOwner(user.Id);
+
             InitializeComponent();
         }
     }

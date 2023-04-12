@@ -12,6 +12,7 @@ using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using SOSTeam.TravelAgency.WPF.Views;
 using System.Windows.Controls;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
 
 namespace SOSTeam.TravelAgency.Application.Services
 {
@@ -25,6 +26,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         private readonly IAccReservationRepository _accReservationRepository = Injector.CreateInstance<IAccReservationRepository>();
         private readonly IAccommodationRepository _accommodationRepository = Injector.CreateInstance<IAccommodationRepository>();
         private readonly IChangedResRequestRepositroy _changedResRequestRepositroy = Injector.CreateInstance<IChangedResRequestRepositroy>();
+        private readonly IWantedNewDateRepository _wantedNewDateRepository = Injector.CreateInstance<IWantedNewDateRepository>();
         public AccReservationViewModel forwardedItem { get; set; }
         public User LoggedInUser { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
@@ -138,7 +140,7 @@ namespace SOSTeam.TravelAgency.Application.Services
                 {
                     Accommodation acc = _accommodationRepository.GetById(forwardedItem.AccommodationId);
                     ProcessReservation();
-                    SendRequestToOwner(acc.OwnerId);
+                    //SendRequestToOwner(acc.OwnerId);
                     MessageBox.Show("Zahtjev za pomjeranje rezervacije je uspješno poslat vlasniku.");
                 }
             }
@@ -150,14 +152,36 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void ProcessReservation()
         {
+            WantedNewDate wanted = new WantedNewDate(forwardedItem.AccommodationId, forwardedItem.AccommodationName,
+                                                      forwardedItem.AccommodationMinDaysStay, forwardedItem.ReservationFirstDay,
+                                                      forwardedItem.ReservationLastDay, forwardedItem.ReservationDuration,
+                                                      forwardedItem.AccommodationMaxGuests, forwardedItem.CurrentGuestNumber);
+
+            _wantedNewDateRepository.Save(wanted);
             selectedReservation.status = ChangedReservationRequest.Status.ON_HOLD;
             selectedReservation.ownerComment = "Komentar nije dostupan";
             _changedResRequestRepositroy.Save(selectedReservation);
         }
 
-        private void SendRequestToOwner(int ownerId)
+        public void SendRequestToOwner(int ownerId)
         {
-
+            List<ChangedReservationRequest> list = _changedResRequestRepositroy.GetAll();
+            List<WantedNewDate> wantedDates = _wantedNewDateRepository.GetAll();
+            foreach(var item in list)
+            {
+                Accommodation accommodation = _accommodationRepository.GetById(item.AccommodationId);
+                foreach(var item2 in wantedDates)
+                {
+                    if(accommodation.Id == item2.wantedDate.AccommodationId)
+                    {
+                        if (accommodation.OwnerId == ownerId)
+                        {
+                            AnswerToGuestWindow newWindow = new AnswerToGuestWindow(item2, item);
+                            newWindow.ShowDialog();
+                        }
+                    }
+                }
+            }
         }
 
         private int FindAppropriateGuestsNumber()
