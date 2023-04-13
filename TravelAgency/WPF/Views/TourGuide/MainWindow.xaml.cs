@@ -24,7 +24,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
         {
             InitializeComponent();
             //ToursOverview.Content = new HomePage(loggedUser);
-            ToursOverview.Content = new AddCheckpointsPage();
+            ToursOverview.Content = new AddDatesAndTimePage();
         }
 
         private void CreateButton_OnClick(object sender, RoutedEventArgs e)

@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             get => _toursForCards;
             set
             {
-                if (!_toursForCards.Equals(value))
+                if (_toursForCards != value)
                 {
                     _toursForCards = value;
                     OnPropertyChanged("ToursForCards");
@@ -40,7 +40,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             get => _selectedTourCard;
             set
             {
-                if (!_selectedTourCard.Equals(value))
+                if (_selectedTourCard != value)
                 {
                     _selectedTourCard = value;
                     OnPropertyChanged("SelectedTourCard");
@@ -69,11 +69,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public void FillObservableCollection(User loggedUser)
         {
-            var tours = CreateEntitiesList(loggedUser, out var locations, out var appointments, out var images);
-
-            foreach (var appointment in appointments)
+            foreach (var appointment in _appointmentService.GetAllByUserId(loggedUser.Id))
             {
-                foreach (var tour in tours)
+                foreach (var tour in _tourService.GetAll())
                 {
                     if (appointment.TourId == tour.Id)
                     {
@@ -81,9 +79,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
                         SetTourAndAppointmentFields(viewModel, appointment, tour);
 
-                        SetLocationField(locations, tour, viewModel);
+                        SetLocationField(tour, viewModel);
 
-                        SetImageField(images, tour, viewModel);
+                        SetImageField(tour, viewModel);
 
                         CanCancelAppointment(appointment, viewModel);
 
@@ -99,23 +97,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void CancelTourClick(object sender)
         {
-            var selectedData = sender as TourCardOverviewViewModel;
-            _appointmentService.Delete(selectedData.AppointmentId);
-            _toursForCards.Remove(selectedData);
+            var selectedAppointment = sender as TourCardOverviewViewModel;
+            _appointmentService.Delete(selectedAppointment.AppointmentId);
+            _toursForCards.Remove(selectedAppointment);
         }
 
-        private List<Tour> CreateEntitiesList(User loggedUser, out List<Location> locations, out List<Appointment> appointments, out List<Image> images)
+        private void SetImageField(Tour tour, TourCardOverviewViewModel viewModel)
         {
-            List<Tour> tours = _tourService.GetAll();
-            locations = _locationService.GetAll();
-            appointments = _appointmentService.GetAllByUserId(loggedUser.Id);
-            images = _imageService.GetAllForTours();
-            return tours;
-        }
-
-        private static void SetImageField(List<Image> images, Tour tour, TourCardOverviewViewModel viewModel)
-        {
-            foreach (var image in images)
+            foreach (var image in _imageService.GetAllForTours())
             {
                 if (image.Cover && image.EntityId == tour.Id)
                 {
@@ -125,9 +114,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private static void SetLocationField(List<Location> locations, Tour tour, TourCardOverviewViewModel viewModel)
+        private void SetLocationField(Tour tour, TourCardOverviewViewModel viewModel)
         {
-            foreach (var location in locations)
+            foreach (var location in _locationService.GetAll())
             {
                 if (location.Id == tour.LocationId)
                 {
@@ -148,15 +137,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private static void SetAppointmentStatus(TourCardOverviewViewModel viewModel, Appointment appointment)
         {
-            if (appointment.Started == false && appointment.Finished == false)
+            if (!appointment.Started && !appointment.Finished)
             {
                 viewModel.Status = "Not started";
             }
-            else if (appointment.Started == true && appointment.Finished == false)
+            else if (appointment.Started && !appointment.Finished)
             {
                 viewModel.Status = "Active";
             }
-            else if (appointment.Started == true && appointment.Finished == true)
+            else if (appointment.Started && appointment.Finished)
             {
                 viewModel.Status = "Finished";
             }

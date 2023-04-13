@@ -19,7 +19,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             get => _name;
             set
             {
-                if (!_name.Equals(value))
+                if (_name != value)
                 {
                     _name = value;
                     OnPropertyChanged("Name");
@@ -32,7 +32,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             get => _city;
             set
             {
-                if (!_city.Equals(value))
+                if (_city != value)
                 {
                     _city = value;
                     OnPropertyChanged("City");
@@ -45,7 +45,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             get => _country;
             set
             {
-                if (!_country.Equals(value))
+                if (_country != value)
                 {
                     _country = value;
                     OnPropertyChanged("Country");
@@ -58,7 +58,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             get => _description;
             set
             {
-                if (!_description.Equals(value))
+                if (_description != value)
                 {
                     _description = value;
                     OnPropertyChanged("Description");
@@ -71,7 +71,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             get => _language;
             set
             {
-                if (!_language.Equals(value))
+                if (_language != value)
                 {
                     _description = value;
                     OnPropertyChanged("Language");
@@ -98,7 +98,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
             set
             {
-                if (!_duration.Equals(value))
+                if (_duration != value)
                 {
                     _duration = value;
                     OnPropertyChanged("Duration");

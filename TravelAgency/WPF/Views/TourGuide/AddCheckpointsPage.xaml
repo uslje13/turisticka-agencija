@@ -27,10 +27,9 @@
         <Label Grid.Column="0" Grid.Row="1" Content="Type:" HorizontalAlignment="Center" VerticalAlignment="Center" 
                Margin=" 0 0 269 26" FontSize="14"/>
         <ComboBox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                  Margin="0,20,0,0" Text="{Binding Type}">
-            <ComboBoxItem>START</ComboBoxItem>
-            <ComboBoxItem>EXTRA</ComboBoxItem>
-            <ComboBoxItem>END</ComboBoxItem>
+                  Margin="0,20,0,0" Text="{Binding Type}"
+                  ItemsSource="{Binding Path=CheckpointsTypes}"
+                  SelectedItem="{Binding Path=Type}">
         </ComboBox>
         <Button Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="300" Height="25"
                 Content="Add" FontSize="14"
@@ -40,7 +39,7 @@
         <Label Grid.Column="0" Grid.Row="3" Content="Checkpoints" HorizontalAlignment="Left" VerticalAlignment="Center" 
                Margin="15,20,0,0" FontSize="16"/>
         <Button Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Height="21" Width="75"
-                Content="Clear" Margin="0,20,15,0" FontSize="13" VerticalContentAlignment="Center"></Button>
+                Content="Clear" Margin="0,20,15,0" FontSize="13" VerticalContentAlignment="Center" Command="{Binding ClearCheckpointsCommand }"></Button>
         <ListBox Grid.Row="4" x:Name="CheckpointList" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                  VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding Checkpoints}" SelectedItem="{Binding SelectedCheckpoint}">
             <ItemsControl.ItemTemplate>
@@ -63,7 +62,9 @@
                                 <Image Source="/Resources/Icons/pencil.png"></Image>
                             </Button>
                             <!-- Delete -->
-                            <Button Grid.Column="3" Background="Transparent" BorderBrush="Transparent">
+                            <Button Grid.Column="3" Background="Transparent" BorderBrush="Transparent"
+                                    Command="{Binding DataContext.DeleteCheckpointCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                    CommandParameter="{Binding }">
                                 <Image Source="/Resources/Icons/bin.png"></Image>
                             </Button>
                         </Grid>
