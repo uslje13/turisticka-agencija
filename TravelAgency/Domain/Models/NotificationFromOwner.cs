@@ -1,0 +1,43 @@
+﻿using SOSTeam.TravelAgency.Repositories.Serializer;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Metrics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static SOSTeam.TravelAgency.Domain.Models.ChangedReservationRequest;
+
+namespace SOSTeam.TravelAgency.Domain.Models
+{
+    public class NotificationFromOwner : ISerializable
+    {
+        public int Id { get; set; }
+        public int OwnerId { get; set; }
+        public string AccommodationName { get; set; }
+        public string Answer { get; set; }
+
+        public NotificationFromOwner(Accommodation accommodation, int ownerid)
+        {
+            OwnerId = ownerid;
+            AccommodationName = accommodation.Name;
+            Answer = "None";
+        }
+
+        public NotificationFromOwner() { }
+
+        public string[] ToCSV()
+        {
+            string[] csvValues = { Id.ToString(), OwnerId.ToString(), AccommodationName, Answer };
+            return csvValues;
+        }
+
+        public void FromCSV(string[] values)
+        {
+            int i = 0;
+            Id = Convert.ToInt32(values[i++]);
+            OwnerId = Convert.ToInt32(values[i++]);
+            AccommodationName += values[i++];
+            Answer = values[i++];
+        }
+    }
+}

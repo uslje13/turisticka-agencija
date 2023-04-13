@@ -31,14 +31,17 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         //public string givenOwnerComment { get; set; }
         public WantedNewDate newReservation { get; set; }
         public ChangedReservationRequest oldReservation { get; set; }
+        public int LoggedInOwner { get; set; }
 
-        public AnswerToGuestWindow(WantedNewDate dto, ChangedReservationRequest request)
+
+        public AnswerToGuestWindow(WantedNewDate dto, ChangedReservationRequest request, int ownerId)
         {
             InitializeComponent();
             DataContext = this;
 
             oldReservation = request;
             newReservation = dto;
+            LoggedInOwner = ownerId;
 
             FillTextBlocks();
         }
@@ -100,13 +103,13 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         private void PotvrdiKlik(object sender, RoutedEventArgs e)
         {
             AccommodationReservationService service = new AccommodationReservationService();
-            service.acceptReservationChanges(newReservation, oldReservation);
+            service.acceptReservationChanges(newReservation, oldReservation, LoggedInOwner);
         }
 
         private void odbijKlik(object sender, RoutedEventArgs e)
         {
             AccommodationReservationService service = new AccommodationReservationService();
-            service.declineReservationChanges(givenOwnerComment.Text, newReservation, oldReservation);
+            service.declineReservationChanges(givenOwnerComment.Text, newReservation, oldReservation, LoggedInOwner);
         }
     }
 }

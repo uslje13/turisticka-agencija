@@ -47,6 +47,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         private readonly IAccommodationRepository _accommodationRepository = Injector.CreateInstance<IAccommodationRepository>();
         private readonly IChangedResRequestRepositroy _changedResRequestRepositroy = Injector.CreateInstance<IChangedResRequestRepositroy>();
         private readonly IWantedNewDateRepository _wantedNewDateRepository = Injector.CreateInstance<IWantedNewDateRepository>();
+        private readonly INotificationFromOwnerRepository _notificationFromOwnerRepository = Injector.CreateInstance<INotificationFromOwnerRepository>();
 
         public AccReservationViewModel forwardedItem { get; set; }
         public User LoggedInUser { get; set; }
@@ -231,13 +232,13 @@ namespace SOSTeam.TravelAgency.Application.Services
                 Accommodation accommodation = _accommodationRepository.GetById(item.AccommodationId);
                 foreach(var item2 in wantedDates)
                 {
-                    if(accommodation.Id == item2.wantedDate.AccommodationId && item.UserId == item2.UserId && item.reservationId == item2.OldReservationId && item.status == ChangedReservationRequest.Status.ON_HOLD)
+                    if(isValidToBeRequest(accommodation, item, item2))
                     {
                         if (accommodation.OwnerId == ownerId)
                         {
                             //reservationsInformations.requests.Add(item);
                             //reservationsInformations.newDates.Add(item2);
-                            AnswerToGuestWindow newWindow = new AnswerToGuestWindow(item2, item);
+                            AnswerToGuestWindow newWindow = new AnswerToGuestWindow(item2, item, ownerId);
                             newWindow.ShowDialog();
                         }
                     }
@@ -247,7 +248,12 @@ namespace SOSTeam.TravelAgency.Application.Services
             //return reservationsInformations;
         }
 
-        public void acceptReservationChanges(WantedNewDate newReservation, ChangedReservationRequest oldReservation)
+        private bool isValidToBeRequest(Accommodation accommodation, ChangedReservationRequest item, WantedNewDate item2)
+        {
+            return accommodation.Id == item2.wantedDate.AccommodationId && item.UserId == item2.UserId && item.reservationId == item2.OldReservationId && item.status == ChangedReservationRequest.Status.ON_HOLD;
+        }
+
+        public void acceptReservationChanges(WantedNewDate newReservation, ChangedReservationRequest oldReservation, int ownerId)
         {
             AccommodationReservation reservation = new AccommodationReservation(newReservation.wantedDate.ReservationFirstDay, newReservation.wantedDate.ReservationLastDay,
                                                                                 newReservation.wantedDate.ReservationDuration, newReservation.wantedDate.AccommodationMaxGuests,
@@ -265,10 +271,16 @@ namespace SOSTeam.TravelAgency.Application.Services
             _changedResRequestRepositroy.Save(processedReservation);
 
             _wantedNewDateRepository.Delete(newReservation.Id);
+
+            Accommodation accommodation = _accommodationRepository.GetById(reservation.AccommodationId);
+            NotificationFromOwner newNotification = new NotificationFromOwner(accommodation, ownerId);
+            newNotification.Answer = "Odobreno";
+            _notificationFromOwnerRepository.Save(newNotification);
+
             MessageBox.Show("Zahtjev je prihvaćen.");
         }
         
-        public void declineReservationChanges(string ownerComment, WantedNewDate newReservation, ChangedReservationRequest oldReservation)
+        public void declineReservationChanges(string ownerComment, WantedNewDate newReservation, ChangedReservationRequest oldReservation, int ownerId)
         {
             if(ownerComment.Equals(""))
             {
@@ -280,7 +292,8 @@ namespace SOSTeam.TravelAgency.Application.Services
                 AccommodationReservation reservation = new AccommodationReservation();
                 foreach (var item in helpList)
                 {
-                    if (item.FirstDay == oldReservation.OldFirstDay && item.LastDay == oldReservation.OldLastDay && item.Id == oldReservation.reservationId)
+                    bool correct = item.FirstDay == oldReservation.OldFirstDay && item.LastDay == oldReservation.OldLastDay && item.Id == oldReservation.reservationId;
+                    if (correct)
                     {
                         reservation = item;
                         _accReservationRepository.DeleteFromOtherCSV(reservation);
@@ -301,6 +314,12 @@ namespace SOSTeam.TravelAgency.Application.Services
                 _changedResRequestRepositroy.Save(processedReservation);
 
                 _wantedNewDateRepository.Delete(newReservation.Id);
+
+                Accommodation accommodation = _accommodationRepository.GetById(reservation.AccommodationId);
+                NotificationFromOwner newNotification = new NotificationFromOwner(accommodation, ownerId);
+                newNotification.Answer = "Odbijeno";
+                _notificationFromOwnerRepository.Save(newNotification);
+
                 MessageBox.Show("Zahtjev je odbijen.");
             }
         }
