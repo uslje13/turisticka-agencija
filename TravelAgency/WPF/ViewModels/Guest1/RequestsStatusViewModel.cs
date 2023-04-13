@@ -43,7 +43,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             locations = locationService.GetAll();
             accommodations = accommodationService.GetAll();
             locAccommodationViewModels = new List<LocAccommodationViewModel>();
-            changedReservationRequests = changedReservationRequestService.GetAll();
+            changedReservationRequests = new List<ChangedReservationRequest>();
+
+            List<ChangedReservationRequest> helpList = changedReservationRequestService.GetAll();
+            if(helpList.Count > 0)
+            {
+                foreach (var item in helpList)
+                {
+                    if (LoggedInUser.Id == item.UserId)
+                    {
+                        changedReservationRequests.Add(item);
+                    }
+                }
+            }
 
             PrepareAccommodationReservationsList();
             PrepareReservationsForChangeRequest();
@@ -66,7 +78,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if(res.Id == ch.reservationId)
                     {
-                        accommodationReservations.Remove(res);
+                        accommodationReservationService.Delete(res.Id);
                     }
                 }
             }
@@ -80,7 +92,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     PrepareReservationCSV();
                     LocAccommodationViewModel model = FindModel(selectedReservation);
-                    EnterReservationWindow newWindow = new EnterReservationWindow(model, LoggedInUser, true, selectedReservation);
+                    EnterReservationWindow newWindow = new EnterReservationWindow(model, LoggedInUser, true, selectedReservation, selectedAccReservationCopy);
                     newWindow.ShowDialog();
                 }
                 else
@@ -100,8 +112,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 if(res.Id == selectedReservation.reservationId)
                 {
-                    selectedAccReservationCopy = res;
-                    //accommodationReservationService.Delete(res.Id);
+                    accommodationReservationService.SaveToOtherCSV(res);
+                    accommodationReservationService.Delete(res.Id);
                     break;
                 }
             }

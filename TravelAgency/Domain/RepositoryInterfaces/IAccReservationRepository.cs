@@ -10,6 +10,8 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
 {
     public interface IAccReservationRepository : IRepository<AccommodationReservation>
     {
-
+        void SaveToOtherCSV(AccommodationReservation reservation);
+        List<AccommodationReservation> LoadFromOtherCSV();
+        void SaveChangeAcceptedReservation(AccommodationReservation reservation);
     }
 }

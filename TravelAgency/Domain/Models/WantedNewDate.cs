@@ -15,10 +15,14 @@ namespace SOSTeam.TravelAgency.Domain.Models
     {
         public int Id { get; set; }
         public AccReservationViewModel wantedDate { get; set; }
+        public int UserId { get; set; }
+        public int OldReservationId { get; set; }
 
-        public WantedNewDate(int id, string name, int days, DateTime fDay, DateTime lDay, int duration, int maxGuests, int currGuests)
+        public WantedNewDate(int id, string name, int days, DateTime fDay, DateTime lDay, int duration, int maxGuests, int currGuests, int userId, int oldReservationId)
         {
             wantedDate = new AccReservationViewModel(id, name, days, fDay, lDay, duration, maxGuests, currGuests);
+            UserId = userId;
+            OldReservationId = oldReservationId;
         }
 
         public WantedNewDate()
@@ -30,7 +34,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
         {
             string[] csvValues = { Id.ToString(), wantedDate.AccommodationId.ToString(), wantedDate.AccommodationName,  wantedDate.AccommodationMinDaysStay.ToString(), 
                                     wantedDate.ReservationFirstDay.ToString(), wantedDate.ReservationLastDay.ToString(), 
-                                    wantedDate.ReservationDuration.ToString(), wantedDate.AccommodationMaxGuests.ToString(), wantedDate.CurrentGuestNumber.ToString()};
+                                    wantedDate.ReservationDuration.ToString(), wantedDate.AccommodationMaxGuests.ToString(), wantedDate.CurrentGuestNumber.ToString(), 
+                                    UserId.ToString(), OldReservationId.ToString()};
             return csvValues;
         }
 
@@ -46,6 +51,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
             wantedDate.ReservationDuration = Convert.ToInt32(values[i++]);
             wantedDate.AccommodationMaxGuests = Convert.ToInt32(values[i++]);
             wantedDate.CurrentGuestNumber = Convert.ToInt32(values[i++]);
+            UserId = Convert.ToInt32(values[i++]);
+            OldReservationId = Convert.ToInt32(values[i++]);
         }
     }
 }

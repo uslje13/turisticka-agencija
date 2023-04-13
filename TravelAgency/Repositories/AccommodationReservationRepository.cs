@@ -15,6 +15,7 @@ namespace SOSTeam.TravelAgency.Repositories
         private const string FilePath = "../../../Resources/Data/accommodationReservation.csv";
         private readonly Serializer<AccommodationReservation> _serializer;
         private List<AccommodationReservation> _accommodationReservations;
+        private List<AccommodationReservation> _reservations;
 
         public AccommodationReservationRepository() 
         { 
@@ -33,9 +34,23 @@ namespace SOSTeam.TravelAgency.Repositories
             return _accommodationReservations.Find(a => a.Id == id) ?? throw new ArgumentException();
         }
 
+        public void SaveToOtherCSV(AccommodationReservation reservation)
+        {
+            const string filePath = "../../../Resources/Data/shortTimeDeletedReservations.csv";
+            _reservations = _serializer.FromCSV(filePath);
+            _reservations.Add(reservation);
+            _serializer.ToCSV(filePath, _reservations);
+        }
+
         public List<AccommodationReservation> GetAll()
         {
             return _serializer.FromCSV(FilePath);
+        }
+
+        public List<AccommodationReservation> LoadFromOtherCSV()
+        {
+            const string filePath = "../../../Resources/Data/shortTimeDeletedReservations.csv";
+            return _serializer.FromCSV(filePath);
         }
 
         public void Save(AccommodationReservation accommodationReservation)
@@ -43,6 +58,14 @@ namespace SOSTeam.TravelAgency.Repositories
             accommodationReservation.Id = NextId();
             _accommodationReservations = _serializer.FromCSV(FilePath);
             _accommodationReservations.Add(accommodationReservation);
+            _serializer.ToCSV(FilePath, _accommodationReservations);
+        }
+
+        public void SaveChangeAcceptedReservation(AccommodationReservation accReservation)
+        {
+            accReservation.Id = NextId() + 50;
+            _accommodationReservations = _serializer.FromCSV(FilePath);
+            _accommodationReservations.Add(accReservation);
             _serializer.ToCSV(FilePath, _accommodationReservations);
         }
 
