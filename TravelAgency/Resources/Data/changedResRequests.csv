@@ -1,2 +1,4 @@
-1|52|1|Lux Malone|Kragujevac|Srbija|17.4.2023. 00:00:00|21.4.2023. 00:00:00|4|2|8|ACCEPTED|Rezervacija je uspješno pomjerena.
-2|1|1|Lux Malone|Kragujevac|Srbija|17.4.2023. 00:00:00|20.4.2023. 00:00:00|3|2|2|REFUSED|ne moze
+1|1|1|Lux Malone|Kragujevac|Srbija|15.4.2023. 19:31:32|18.4.2023. 19:31:32|26.4.2023. 19:55:38|29.4.2023. 19:55:38|2|2|REFUSED|neee
+2|1|1|Lux Malone|Kragujevac|Srbija|15.4.2023. 19:31:32|18.4.2023. 19:31:32|18.4.2023. 19:57:11|21.4.2023. 19:57:11|2|2|ACCEPTED|Rezervacija je uspješno pomjerena.
+3|51|1|Lux Malone|Kragujevac|Srbija|18.4.2023. 19:57:11|21.4.2023. 19:57:11|1.5.2023. 19:58:16|4.5.2023. 19:58:16|5|2|REFUSED|ne prvi put
+4|1|1|Lux Malone|Kragujevac|Srbija|18.4.2023. 19:57:11|21.4.2023. 19:57:11|23.4.2023. 19:59:17|25.4.2023. 19:59:17|5|2|REFUSED|ne drugi put

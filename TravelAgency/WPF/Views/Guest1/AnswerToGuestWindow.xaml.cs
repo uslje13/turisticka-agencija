@@ -65,14 +65,14 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         private void FillFirstOldDay()
         {
             Binding binding = new Binding();
-            binding.Source = oldReservation.FirstDay.ToString();
+            binding.Source = oldReservation.OldFirstDay.ToString();
             firstOldDay.SetBinding(TextBlock.TextProperty, binding);
         }
 
         private void FillLastOldDay()
         {
             Binding binding = new Binding();
-            binding.Source = oldReservation.LastDay.ToString();
+            binding.Source = oldReservation.OldLastDay.ToString();
             lastOldDay.SetBinding(TextBlock.TextProperty, binding);
         }
 

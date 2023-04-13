@@ -42,6 +42,15 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(filePath, _reservations);
         }
 
+        public void DeleteFromOtherCSV(AccommodationReservation reservation)
+        {
+            const string filePath = "../../../Resources/Data/shortTimeDeletedReservations.csv";
+            _accommodationReservations = _serializer.FromCSV(filePath);
+            AccommodationReservation found = _accommodationReservations.Find(t => t.Id == reservation.Id) ?? throw new ArgumentException();
+            _accommodationReservations.Remove(found);
+            _serializer.ToCSV(filePath, _accommodationReservations);
+        }
+
         public List<AccommodationReservation> GetAll()
         {
             return _serializer.FromCSV(FilePath);

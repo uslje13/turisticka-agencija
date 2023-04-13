@@ -67,6 +67,8 @@ namespace SOSTeam.TravelAgency.Application.Services
             IsEnteredOfChange = isEnteredOfChange;
             selectedReservation = request;
             selectedReservationCopy = reservation;
+
+            accommodationReservations = _accReservationRepository.GetAll();
         }
 
         public AccommodationReservationService(AccReservationViewModel item, User user, int forwadedGuestNumber)
@@ -100,8 +102,8 @@ namespace SOSTeam.TravelAgency.Application.Services
         }
 
         public AccommodationReservationService() 
-        { 
-            
+        {
+            accommodationReservations = _accReservationRepository.GetAll();
         }
         public void Delete(int id)
         {
@@ -121,6 +123,11 @@ namespace SOSTeam.TravelAgency.Application.Services
         public void SaveToOtherCSV(AccommodationReservation reservation)
         {
             _accReservationRepository.SaveToOtherCSV(reservation);
+        }
+
+        public void DeleteFromOtherCSV(AccommodationReservation reservation)
+        {
+            _accReservationRepository.DeleteFromOtherCSV(reservation);
         }
 
         public List<AccommodationReservation> LoadFromOtherCSV()
@@ -147,7 +154,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             AccommodationReservation reservation = new AccommodationReservation(start, end, days, guests, accId, LoggedInUser.Id);
             _accReservationRepository.Save(reservation);
-            MessageBox.Show("Uspešno rezervisano.");
+            MessageBox.Show("Uspješno rezervisano.");
         }
 
         public void ExecuteReserveAccommodation()
@@ -206,6 +213,8 @@ namespace SOSTeam.TravelAgency.Application.Services
                                                       LoggedInUser.Id, selectedReservation.reservationId);
 
             _wantedNewDateRepository.Save(wanted);
+            selectedReservation.NewFirstDay = forwardedItem.ReservationFirstDay;
+            selectedReservation.NewLastDay = forwardedItem.ReservationLastDay;
             selectedReservation.status = ChangedReservationRequest.Status.ON_HOLD;
             selectedReservation.ownerComment = "Komentar nije dostupan";
             _changedResRequestRepositroy.Save(selectedReservation);
@@ -222,7 +231,7 @@ namespace SOSTeam.TravelAgency.Application.Services
                 Accommodation accommodation = _accommodationRepository.GetById(item.AccommodationId);
                 foreach(var item2 in wantedDates)
                 {
-                    if(accommodation.Id == item2.wantedDate.AccommodationId && item.UserId == item2.UserId && item.reservationId == item2.OldReservationId)
+                    if(accommodation.Id == item2.wantedDate.AccommodationId && item.UserId == item2.UserId && item.reservationId == item2.OldReservationId && item.status == ChangedReservationRequest.Status.ON_HOLD)
                     {
                         if (accommodation.OwnerId == ownerId)
                         {
@@ -247,8 +256,10 @@ namespace SOSTeam.TravelAgency.Application.Services
             _changedResRequestRepositroy.Delete(oldReservation.Id);
             ChangedReservationRequest processedReservation = new ChangedReservationRequest(oldReservation.reservationId, oldReservation.AccommodationId,
                                                                                             oldReservation.AccommodationName, oldReservation.City, oldReservation.Country,
-                                                                                            oldReservation.FirstDay, oldReservation.LastDay, oldReservation.ReservationDuration,
+                                                                                            oldReservation.OldFirstDay, oldReservation.OldLastDay,
                                                                                             oldReservation.GuestNumber, oldReservation.UserId);
+            processedReservation.NewFirstDay = newReservation.wantedDate.ReservationFirstDay;
+            processedReservation.NewLastDay = newReservation.wantedDate.ReservationLastDay;
             processedReservation.status = ChangedReservationRequest.Status.ACCEPTED;
             processedReservation.ownerComment = "Rezervacija je uspješno pomjerena.";
             _changedResRequestRepositroy.Save(processedReservation);
@@ -269,9 +280,10 @@ namespace SOSTeam.TravelAgency.Application.Services
                 AccommodationReservation reservation = new AccommodationReservation();
                 foreach (var item in helpList)
                 {
-                    if (item.Id == oldReservation.reservationId)
+                    if (item.FirstDay == oldReservation.OldFirstDay && item.LastDay == oldReservation.OldLastDay && item.Id == oldReservation.reservationId)
                     {
                         reservation = item;
+                        _accReservationRepository.DeleteFromOtherCSV(reservation);
                         break;
                     }
                 }
@@ -280,8 +292,10 @@ namespace SOSTeam.TravelAgency.Application.Services
                 _changedResRequestRepositroy.Delete(oldReservation.Id);
                 ChangedReservationRequest processedReservation = new ChangedReservationRequest(oldReservation.reservationId, oldReservation.AccommodationId,
                                                                                                 oldReservation.AccommodationName, oldReservation.City, oldReservation.Country,
-                                                                                                oldReservation.FirstDay, oldReservation.LastDay, oldReservation.ReservationDuration,
+                                                                                                oldReservation.OldFirstDay, oldReservation.OldLastDay,
                                                                                                 oldReservation.GuestNumber, oldReservation.UserId);
+                processedReservation.NewFirstDay = newReservation.wantedDate.ReservationFirstDay;
+                processedReservation.NewLastDay = newReservation.wantedDate.ReservationLastDay;
                 processedReservation.status = ChangedReservationRequest.Status.REFUSED;
                 processedReservation.ownerComment = ownerComment;
                 _changedResRequestRepositroy.Save(processedReservation);

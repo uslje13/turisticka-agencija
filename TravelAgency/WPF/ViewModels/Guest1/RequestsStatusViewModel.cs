@@ -76,7 +76,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 foreach(var ch in changedReservationRequests)
                 {
-                    if(res.Id == ch.reservationId)
+                    if(res.Id == ch.reservationId && ch.status != ChangedReservationRequest.Status.ACCEPTED && ch.status != ChangedReservationRequest.Status.REFUSED)
                     {
                         accommodationReservationService.Delete(res.Id);
                     }
@@ -142,7 +142,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     if(IsValid(res, model)) 
                     {
                         ChangedReservationRequest request = new ChangedReservationRequest(res.Id, res.AccommodationId, model.AccommodationName, model.LocationCity, model.LocationCountry,
-                                                                                            res.FirstDay, res.LastDay, res.ReservationDuration, res.GuestNumber, res.UserId);
+                                                                                            res.FirstDay, res.LastDay, res.GuestNumber, res.UserId);
                         changedReservationRequests.Add(request);
                     }
                 }
@@ -153,7 +153,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             foreach(var request in changedReservationRequests)
             {
-                if(request.reservationId == res.Id)
+                if(request.reservationId == res.Id && request.status != ChangedReservationRequest.Status.ACCEPTED && request.status != ChangedReservationRequest.Status.REFUSED)
                 {
                     return false;
                 }

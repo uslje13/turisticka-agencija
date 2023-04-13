@@ -16,9 +16,10 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public string AccommodationName { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public DateTime FirstDay { get; set; }
-        public DateTime LastDay { get; set; }
-        public int ReservationDuration { get; set; }
+        public DateTime OldFirstDay { get; set; }
+        public DateTime OldLastDay { get; set; }
+        public DateTime? NewFirstDay { get; set; }
+        public DateTime? NewLastDay { get; set; }
         public int GuestNumber { get; set; }
         public int UserId { get; set; }
         public Status status { get; set; }
@@ -29,16 +30,17 @@ namespace SOSTeam.TravelAgency.Domain.Models
 
         }
 
-        public ChangedReservationRequest(int resId, int accId, string accName, string city, string country, DateTime fDay, DateTime lDay, int duration, int guests, int userId)
+        public ChangedReservationRequest(int resId, int accId, string accName, string city, string country, DateTime fDay, DateTime lDay, int guests, int userId)
         {
             reservationId = resId;
             AccommodationId = accId;
             AccommodationName = accName;
             City = city;
             Country = country;
-            FirstDay = fDay;
-            LastDay = lDay;
-            ReservationDuration = duration;
+            OldFirstDay = fDay;
+            OldLastDay = lDay;
+            NewFirstDay = null;
+            NewLastDay = null;
             GuestNumber = guests;
             UserId = userId;
             status = Status.NOT_REQUIRED;
@@ -48,7 +50,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public string[] ToCSV()
         {
             string[] csvValues = { Id.ToString(), reservationId.ToString(), AccommodationId.ToString(), AccommodationName, City, Country, 
-                                    FirstDay.ToString(), LastDay.ToString(), ReservationDuration.ToString(), GuestNumber.ToString(), UserId.ToString(), status.ToString(), ownerComment };
+                                    OldFirstDay.ToString(), OldLastDay.ToString(), NewFirstDay.ToString(), NewLastDay.ToString(),GuestNumber.ToString(), UserId.ToString(), status.ToString(), ownerComment };
             return csvValues;
         }
 
@@ -61,9 +63,10 @@ namespace SOSTeam.TravelAgency.Domain.Models
             AccommodationName = values[i++];
             City = values[i++];
             Country = values[i++];
-            FirstDay = Convert.ToDateTime(values[i++]);
-            LastDay = Convert.ToDateTime(values[i++]);
-            ReservationDuration = Convert.ToInt32(values[i++]);
+            OldFirstDay = Convert.ToDateTime(values[i++]);
+            OldLastDay = Convert.ToDateTime(values[i++]);
+            NewFirstDay = Convert.ToDateTime(values[i++]);
+            NewLastDay = Convert.ToDateTime(values[i++]);
             GuestNumber = Convert.ToInt32(values[i++]);
             UserId = Convert.ToInt32(values[i++]);
             status = FindStatus(values[i++]);
