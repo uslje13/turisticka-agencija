@@ -17,6 +17,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public string Name { get; set; }
         public string Language { get; set; }
         public int Duration { get; set; }
+        public int MaxNumOfGuests { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
         public string LocationFullName { get; set; }
@@ -32,12 +33,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public TourViewModel2(int id,string name,string language,int duration,string city,string country,User loggedInUser) 
+        public TourViewModel2(int id,string name,string language,int duration,int maxNumOfGuests,string city,string country,User loggedInUser) 
         {
             TourId = id;
             Name = name;
             Language = language;
             Duration = duration;
+            MaxNumOfGuests= maxNumOfGuests;
             Country = country;
             City = city;
             LocationFullName = city + " (" + country + ")";

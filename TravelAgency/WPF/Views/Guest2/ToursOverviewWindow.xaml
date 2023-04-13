@@ -147,14 +147,11 @@
                 </ScrollViewer>
             </Border>
 
-            <Grid>
-                <Frame x:Name="SearchFrame" NavigationUIVisibility ="Hidden" />
-            </Grid>
 
-        
         </Grid>
         <Frame x:Name="HelpFrame" NavigationUIVisibility ="Hidden" />
         <Frame x:Name="RequestsFrame" NavigationUIVisibility ="Hidden" />
         <Frame x:Name="MyToursFrame" NavigationUIVisibility ="Hidden" />
+        <Frame x:Name="SearchFrame" NavigationUIVisibility ="Hidden" />
     </Grid>
 </Window>

@@ -1,5 +1,4 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
+﻿using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,15 +18,17 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for SearchPage.xaml
+    /// Interaction logic for SearchResultPage.xaml
     /// </summary>
-    public partial class SearchPage : Page
+    public partial class SearchResultPage : Page
     {
-        public SearchPage(User loggedInUser, ObservableCollection<TourViewModel2> tourViewModels)
+        public ObservableCollection<TourViewModel2> SearchResults { get; set; }
+        public SearchResultPage(ObservableCollection<TourViewModel2> results)
         {
             InitializeComponent();
-            SearchPageViewModel viewModel = new SearchPageViewModel(loggedInUser, this, tourViewModels);
-            DataContext = viewModel;
+            SearchResults = new ObservableCollection<TourViewModel2>();
+            SearchResults = results;
+            DataContext = this;
         }
     }
 }

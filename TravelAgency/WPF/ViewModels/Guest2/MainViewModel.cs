@@ -103,7 +103,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_SearchPageCommand(object obj)
         {
             var navigationService = _window.SearchFrame.NavigationService;
-            navigationService.Navigate(new SearchPage());
+            navigationService.Navigate(new SearchPage(LoggedInUser,TourViewModels));
         }
 
         private void Execute_HelpPageCommand(object obj)
@@ -165,7 +165,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     if (l.Id == t.LocationId)
                     {
-                        TourViewModel2 tourDTO = new TourViewModel2(t.Id,t.Name, t.Language,t.Duration,l.City, l.Country, LoggedInUser);
+                        TourViewModel2 tourDTO = new TourViewModel2(t.Id,t.Name, t.Language,t.Duration,t.MaxNumOfGuests,l.City, l.Country, LoggedInUser);
                         TourViewModels.Add(tourDTO);
                     }
                 }

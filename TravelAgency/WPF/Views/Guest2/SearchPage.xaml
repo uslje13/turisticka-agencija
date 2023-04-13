@@ -46,25 +46,34 @@
 
                     <StackPanel Orientation="Vertical" Margin="10" Height="396">
                         <Label Content="Drzava" Margin="0,0,0,5" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="78" ></Label>
-                        <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
+                        <ComboBox Name="country" Height="37" Margin="0,0,0,5"
+                                  ItemsSource="{Binding Countries}"
+                                  SelectedValue="SearchedCountry"
+                                  FontSize="18"></ComboBox>
                         <Label Content="Grad" Margin="0,0,0,5" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="78" ></Label>
-                        <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
+                        <ComboBox Name="city" Height="37" Margin="0,0,0,5"
+                                  ItemsSource="{Binding Cities}"
+                                  SelectedValue="SearchedCity"
+                                  FontSize="18"></ComboBox>
                         <Label Content="Jezik" Margin="0,0,0,5" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="78" ></Label>
-                        <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
+                        <ComboBox Name="language" Height="37" Margin="0,0,0,5"
+                                  ItemsSource="{Binding Languages}"
+                                  SelectedValue="SearchedLanguage"
+                                  FontSize="18"></ComboBox>
                         <Label Content="Trajanje (dani)" Margin="0,0,0,5" FontSize="20" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="146" />
-                        <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
+                        <TextBox Name="duration" FontSize="18"  Height="37" Margin="0,0,0,5" Text="{Binding Path=SearchedDuration,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                         <Label Content="Broj ljudi" Margin="0,0,0,5" FontSize="20" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="93" />
-                        <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
+                        <TextBox Name="ocupancy" FontSize="18" Height="37" Margin="0,0,0,5" Text="{Binding Path=SearchedOcupancy,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
 
-                    <Button Style="{StaticResource MenuButtons}" >
+                    <Button Style="{StaticResource MenuButtons}" Command="{Binding SearchCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/search.png" Height="40" Width="38"/>
                             <TextBlock Text="  Pretrazite" Height="24" Width="190"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" >
+                    <Button Style="{StaticResource MenuButtons}" Command="{Binding BackCommand}" >
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/back_button.png" Height="47" Width="38"/>
                             <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="192"/>
@@ -75,11 +84,55 @@
             </Border>
 
             <Border CornerRadius="0,10,10,0"
-                        Grid.Column="1" Margin="10">
+                    Grid.Column="1" Margin="10">
                 <ScrollViewer HorizontalAlignment="Right" Width="990">
                     <!-- Your content here -->
+                    <ItemsControl x:Name="ToursList" ItemsSource="{Binding TourViewModels}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="20,0,0,20">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Margin="20" Width="400" Height="420" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                                            <StackPanel>
+                                                <Border Height="300">
+                                                    <Button Command="{Binding TourDetailsCommand}" Background="AliceBlue" BorderBrush="AliceBlue">
+                                                        <Image Source="/Resources/Images/Tours/budapest.jpg" />
+                                                    </Button>
+                                                </Border>
+                                                <TextBlock TextAlignment="Center" Text="{Binding Name}" FontSize="30"/>
+                                                <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding LocationFullName}">
+                                                    <InlineUIContainer>
+                                                        <Image Source="/Resources/Icons/checkpoint.png" Width="20" Height="20" />
+                                                    </InlineUIContainer>
+                                                </TextBlock>
+                                                <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding Language}">
+                                                    <InlineUIContainer>
+                                                        <Image Source="/Resources/Icons/language.png" Width="20" Height="20" />
+                                                    </InlineUIContainer>
+                                                </TextBlock>
+                                                <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding Duration}">
+                                                    <InlineUIContainer>
+                                                        <Image Source="/Resources/Icons/kalendar_datumi.png" Width="20" Height="20" />
+                                                    </InlineUIContainer>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel></WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
                 </ScrollViewer>
             </Border>
+            
+            <Grid Grid.Column="1">
+                <Frame x:Name="SearchResultFrame" NavigationUIVisibility ="Hidden"/>
+            </Grid>
         </Grid>
     </Grid>
 </Page>
