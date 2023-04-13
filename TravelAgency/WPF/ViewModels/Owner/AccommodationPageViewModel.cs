@@ -74,6 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_DeleteAccommodation(object obj)
         {
+            _accommodationService.Delete(SelectedAccommodation.AccommodationId);
             Accommodations.Remove(SelectedAccommodation);
         }
 
