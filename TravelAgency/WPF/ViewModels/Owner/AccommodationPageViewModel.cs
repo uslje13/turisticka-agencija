@@ -39,13 +39,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             AddAccommodation = new RelayCommand(Execute_AddAccommodation, CanExecuteAddAccommodation);
             EditAccommodation = new RelayCommand(Execute_EditAccommodation, CanExecuteEditAccommodation);
             DeleteAccommodation = new RelayCommand(Execute_DeleteAccommodation, CanExecuteDeleteAccommodation);
+            OpenAccommodationDetails = new RelayCommand(Execute_OpenAccommodationDetails, CanExecuteOpenAccommodationDetails);
+
 
 
         }
 
+        private bool CanExecuteOpenAccommodationDetails(object obj)
+        {
+            return SelectedAccommodation != null;
+        }
+
+
         private bool CanExecuteDeleteAccommodation(object obj)
         {
-            return true;
+            return SelectedAccommodation != null;
         }
 
         private bool CanExecuteEditAccommodation(object obj)
@@ -58,8 +66,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             return true;
         }
 
+        private void Execute_OpenAccommodationDetails(object obj)
+        {
+            _mainwindowVM.SetPage(new AccommodationInfoPage(LoggedInUser,_accommodationService.GetById(SelectedAccommodation.AccommodationId)));
+        }
+
+
         private void Execute_DeleteAccommodation(object obj)
         {
+            _accommodationService.Delete(SelectedAccommodation.AccommodationId);
             Accommodations.Remove(SelectedAccommodation);
         }
 

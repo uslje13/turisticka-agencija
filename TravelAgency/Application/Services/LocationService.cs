@@ -20,6 +20,15 @@ namespace SOSTeam.TravelAgency.Application.Services
             _locationRepository.Delete(id);
         }
 
+        public string GetFullName(Location location) 
+        {
+            string fullName = location.City.ToString();
+            fullName += " (";
+            fullName += location.Country.ToString();
+            fullName += ")";
+            return fullName;
+        }
+
         public List<Location> GetAll()
         {
             return _locationRepository.GetAll();

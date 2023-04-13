@@ -33,6 +33,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Execute_NavigationButtonCommand("Home");
         }
 
+        internal void SetPage(object root) 
+        {
+            _mainWindow.MainFrame.NavigationService.Navigate(root);
+        }
 
         public void Execute_NavigationButtonCommand(object parameter)
         {
@@ -48,8 +52,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                     navigationService.Navigate(new AccommodationsPage(LoggedInUser,this));
                     break;
                 case "AccommodationAdd":
-                    navigationService.Navigate(new HomePage(LoggedInUser));
+                    navigationService.Navigate(new AddAccommodationPage(LoggedInUser,this));
                     break;
+                
                 /*
                 case "Review":
                     navigationService.Navigate(new HomePage());
