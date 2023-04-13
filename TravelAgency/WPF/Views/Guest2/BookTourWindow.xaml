@@ -50,7 +50,7 @@
                 <Border Height="58">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="     Iskoristite vaucer:" FontSize="24" TextAlignment="Center" VerticalAlignment="Center" Width="401" />
-                        <TextBox Width="453" Margin="10" FontSize="24"></TextBox>
+                        <ComboBox Width="453" Margin="10" FontSize="24"></ComboBox>
                     </StackPanel>
                 </Border>
             </StackPanel>

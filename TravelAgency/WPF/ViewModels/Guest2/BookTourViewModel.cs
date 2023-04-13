@@ -36,24 +36,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         public static ObservableCollection<AppoitmentOverviewViewModel> AppoitmentOverviewViewModels { get; set; }
 
-        private RelayCommand cancelCommand;
+        private RelayCommand _cancelCommand;
         public RelayCommand CancelCommand
         {
-            get { return cancelCommand; }
+            get { return _cancelCommand; }
             set
             {
-                cancelCommand = value;
+                _cancelCommand = value;
             }
         }
 
-        private RelayCommand reserveCommand;
+        private RelayCommand _reserveCommand;
 
         public RelayCommand ReserveCommand
         {
-            get { return reserveCommand; }
+            get { return _reserveCommand; }
             set
             {
-                reserveCommand = value;
+                _reserveCommand = value;
             }
         }
         public int AvailableSlots

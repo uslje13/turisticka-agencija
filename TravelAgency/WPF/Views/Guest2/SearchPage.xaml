@@ -18,71 +18,68 @@
     </Page.Resources>
 
     <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <!--Navigation menu-->
+                <ColumnDefinition Width="286"/>
+                <!--Content section-->
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <!--Navigation menu-->
-            <ColumnDefinition Width="286"/>
-            <!--Content section-->
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+            <Border CornerRadius="10,0,0,10"
+                    Grid.Column="0" Margin="0,0,1,0">
 
-        <Border CornerRadius="10,0,0,10"
-                Grid.Column="0" Margin="0,0,1,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
+                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"></GradientStop>
+                    </LinearGradientBrush>
+                </Border.Background>
 
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
-                    <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
-                    <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"></GradientStop>
-                </LinearGradientBrush>
-            </Border.Background>
+                <StackPanel>
+                    <StackPanel Orientation="Vertical"
+                                Height="155"
+                                Margin="15,25,0,40" Width="220">
+                        <Image Source="/Resources/Icons/user_ikonica.png" Height="126" Width="229"/>
+                        <Label Content="Drasko Novakovic" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="160"/>
+                    </StackPanel>
 
-            <StackPanel>
-                <StackPanel Orientation="Vertical"
-                            Height="155"
-                            Margin="15,25,0,40" Width="220">
-                    <Image Source="/Resources/Icons/user_ikonica.png" Height="126" Width="229"/>
-                    <Label Content="Drasko Novakovic" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="160"/>
+                    <StackPanel Orientation="Vertical" Margin="10" Height="396">
+                        <Label Content="Drzava" Margin="0,0,0,5" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="78" ></Label>
+                        <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
+                        <Label Content="Grad" Margin="0,0,0,5" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="78" ></Label>
+                        <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
+                        <Label Content="Jezik" Margin="0,0,0,5" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="78" ></Label>
+                        <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
+                        <Label Content="Trajanje (dani)" Margin="0,0,0,5" FontSize="20" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="146" />
+                        <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
+                        <Label Content="Broj ljudi" Margin="0,0,0,5" FontSize="20" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="93" />
+                        <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
+                    </StackPanel>
+
+                    <Button Style="{StaticResource MenuButtons}" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/Icons/search.png" Height="40" Width="38"/>
+                            <TextBlock Text="  Pretrazite" Height="24" Width="190"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource MenuButtons}" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/Icons/back_button.png" Height="47" Width="38"/>
+                            <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="192"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" Margin="10" Height="396">
-                    <Label Content="Drzava" Margin="0,0,0,5" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="78" ></Label>
-                    <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
-                    <Label Content="Grad" Margin="0,0,0,5" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="78" ></Label>
-                    <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
-                    <Label Content="Jezik" Margin="0,0,0,5" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="78" ></Label>
-                    <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
-                    <Label Content="Trajanje (dani)" Margin="0,0,0,5" FontSize="20" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="146" />
-                    <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
-                    <Label Content="Broj ljudi" Margin="0,0,0,5" FontSize="20" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="93" />
-                    <ComboBox Height="37" Margin="0,0,0,5"></ComboBox>
-                </StackPanel>
+            </Border>
 
-                <Button Style="{StaticResource MenuButtons}" >
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Resources/Icons/search.png" Height="40" Width="38"/>
-                        <TextBlock Text="  Pretrazite" Height="24" Width="190"/>
-                    </StackPanel>
-                </Button>
-
-                <Button Style="{StaticResource MenuButtons}" >
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Resources/Icons/back_button.png" Height="47" Width="38"/>
-                        <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="192"/>
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-
-        </Border>
-
-        <Border CornerRadius="0,10,10,0"
-                Grid.Column="1" Margin="10">
-            <ScrollViewer HorizontalAlignment="Right" Width="990">
-                <!-- Your content here -->
-            </ScrollViewer>
-        </Border>
-
-        <ContentControl Grid.Column="1" Margin="10">
-
-        </ContentControl>
+            <Border CornerRadius="0,10,10,0"
+                        Grid.Column="1" Margin="10">
+                <ScrollViewer HorizontalAlignment="Right" Width="990">
+                    <!-- Your content here -->
+                </ScrollViewer>
+            </Border>
+        </Grid>
     </Grid>
 </Page>
