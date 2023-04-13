@@ -10,6 +10,8 @@ using System.Windows;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.WPF.Views.Owner;
 using System.Windows.Controls;
+using System.Collections.ObjectModel;
+using SOSTeam.TravelAgency.Repositories;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
@@ -18,14 +20,56 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public string Username { get; private set; }
         public User LoggedInUser { get; private set; }
         private MainWindow _mainWindow;
+        private NotificationRepository _notificationRepository;
+
+        public static ObservableCollection<Notification> Notifications { get; set; }
+        public Notification SelectedNotification { get; set; }
 
         public RelayCommand NavigationButtonCommand { get; private set; }
+        public RelayCommand ToggleShowNotifications { get; private set; }
+        
+
+        private bool _isDropdownOpen;
+        public bool IsDropdownOpen
+        {
+            get => _isDropdownOpen;
+            set
+            {
+                if (_isDropdownOpen != value)
+                {
+                    _isDropdownOpen = value;
+                    IsDropdownClosed = !IsDropdownOpen;
+                    OnPropertyChanged(nameof(IsDropdownOpen));
+                    
+                }
+            }
+        }
+        public bool IsDropdownClosed { get; set; }
         public MainWindowViewModel(User user,MainWindow mainWindow)
         {
             _mainWindow = mainWindow;
             Username = user.Username;
             LoggedInUser = user;
+            IsDropdownOpen = false;
+            IsDropdownClosed = !IsDropdownOpen;
             NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand, CanExecuteMethod);
+            ToggleShowNotifications = new RelayCommand(Execute_ToggleShowNotifications, CanExecuteMethod);
+
+            Notifications = new ObservableCollection<Notification>();
+
+            //REFAKTORISI NAPRAVI SERVIS
+            //
+            //
+            // oBAVEZNO
+            _notificationRepository = new();
+
+            foreach (Notification notification in _notificationRepository.GetAll())
+            {
+                if (notification.UserId == LoggedInUser.Id)
+                {
+                    Notifications.Add(notification);
+                }
+            }
         }
 
         public void SetStartupPage() 
@@ -37,6 +81,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             _mainWindow.MainFrame.NavigationService.Navigate(root);
         }
+
+        public void Execute_ToggleShowNotifications(object parameter) 
+        {
+            IsDropdownOpen = !IsDropdownOpen;
+        }
+        
 
         public void Execute_NavigationButtonCommand(object parameter)
         {
