@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Owner"
         mc:Ignorable="d"
-        Title="Travel Agency" Height="768" Width="1024">
+        Title="Travel Agency" Height="768" Width="1024"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="90"/>

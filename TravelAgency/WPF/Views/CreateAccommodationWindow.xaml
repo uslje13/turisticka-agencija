@@ -34,7 +34,6 @@
             <Label Grid.Row="4" Grid.Column="0" Height="30" Content ="Minimalan broj dana"></Label>
             <Label Grid.Row="5" Grid.Column="0" Height="30" Content ="Minimalano dana za otkazivanje"></Label>
             <Label Grid.Row="6" Grid.Column="0" Height="30" Content ="Slike"></Label>
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=AName, UpdateSourceTrigger=PropertyChanged}" Height="20"></TextBox>
             <WrapPanel Grid.Row="1" Grid.Column="1" >
                 <RadioButton Margin="2,10" GroupName="type" Checked="CheckedType" Content="Apartment"></RadioButton>
                 <RadioButton Margin="2,10" GroupName="type" Checked="CheckedType" Content="House"></RadioButton>

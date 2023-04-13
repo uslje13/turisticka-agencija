@@ -25,10 +25,10 @@
                         <Grid Height="60">
                             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center" Height="Auto" >
                                 <Button Margin="10,0,10,0" Command="{Binding AddAccommodation}">
-                                    <Image Source="/Resources/Icons/plusnotext.png" Width="40" Height="40" ></Image>
+                                    <Image Source="/Resources/Icons/plusicon.png" Width="40" Height="40" ></Image>
                                 </Button>
-                                <Button Margin="10,0,10,0" Command="{Binding EditAccommodation}">
-                                    <Image Source="/Resources/Icons/Pencil.png" Width="40" Height="40" ></Image>
+                                <Button Margin="10,0,10,0" Command="{Binding OpenAccommodationDetails}">
+                                    <Image Source="/Resources/Icons/info-icon.png" Width="40" Height="40" ></Image>
                                 </Button>
                                 <Button Margin="10,0,10,0" Command="{Binding DeleteAccommodation}">
                                     <Image Source="/Resources/Icons/Trash.png" Width="40" Height="40" ></Image>
