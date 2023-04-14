@@ -14,7 +14,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class MainViewModel : ViewModel
     {
-        private ToursOverviewWindow _window;
+        private static ToursOverviewWindow _window;
         public static User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
         public static ObservableCollection<Location> Locations { get; set; }
@@ -165,7 +165,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     if (l.Id == t.LocationId)
                     {
-                        TourViewModel2 tourDTO = new TourViewModel2(t.Id,t.Name, t.Language,t.Duration,t.MaxNumOfGuests,l.City, l.Country, LoggedInUser);
+                        TourViewModel2 tourDTO = new TourViewModel2(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, l.City, l.Country, LoggedInUser, _window);
                         TourViewModels.Add(tourDTO);
                     }
                 }
