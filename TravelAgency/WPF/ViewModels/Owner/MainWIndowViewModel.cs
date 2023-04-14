@@ -20,7 +20,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public string Username { get; private set; }
         public User LoggedInUser { get; private set; }
         private MainWindow _mainWindow;
-        private NotificationRepository _notificationRepository;
+        private NotificationService _notificationService;
 
         public static ObservableCollection<Notification> Notifications { get; set; }
         public Notification SelectedNotification { get; set; }
@@ -57,13 +57,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
             Notifications = new ObservableCollection<Notification>();
 
-            //REFAKTORISI NAPRAVI SERVIS
-            //
-            //
-            // oBAVEZNO
-            _notificationRepository = new();
+            _notificationService = new();
+            _notificationService.Refresh(LoggedInUser.Id);
+            GetUserNotifications();
+        }
 
-            foreach (Notification notification in _notificationRepository.GetAll())
+        private void GetUserNotifications()
+        {
+            foreach (Notification notification in _notificationService.GetAll())
             {
                 if (notification.UserId == LoggedInUser.Id)
                 {
@@ -136,6 +137,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             return true;
         }
 
+        private void FillObservableCollection()
+        {
+            foreach (Notification notification in _notificationService.GetAll())
+            {
+                if (notification.UserId == LoggedInUser.Id)
+                {
+                    Notifications.Add(notification);
+                }
+            }
+        }
 
     }
 }

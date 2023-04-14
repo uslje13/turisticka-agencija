@@ -65,6 +65,10 @@ namespace SOSTeam.TravelAgency.Repositories
             return _accommodations.Find(t => t.Id == id) ?? throw new ArgumentException();
         }
 
+        public List<Accommodation> GetAllByUserId(int id)
+        {
+            return GetAll().Where(p => p.OwnerId == id).ToList();
+        }
     }
 }
 

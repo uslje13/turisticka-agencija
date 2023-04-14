@@ -9,5 +9,6 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
 {
     internal interface IAccommodationRepository : IRepository<Accommodation>
     {
+        List<Accommodation> GetAllByUserId(int id);
     }
 }

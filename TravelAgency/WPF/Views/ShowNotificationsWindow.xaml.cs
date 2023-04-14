@@ -56,12 +56,12 @@ namespace SOSTeam.TravelAgency.WPF.Views
         
         private void DeleteClick(object sender, RoutedEventArgs e)
         {
-            if (SelectedNotification != null)
+           /* if (SelectedNotification != null)
             {
                 SelectedNotification.Read = true;
                 _notificationRepository.Delete(SelectedNotification);
                 Update();
-            }
+            }*/
         }
 
         private void OpenNotificationClick(object sender, MouseButtonEventArgs e)
