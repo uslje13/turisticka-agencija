@@ -22,6 +22,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public User LoggedInUser { get; private set; }
         private MainWindow _mainWindow;
         private NotificationService _notificationService;
+        private GuestReviewService _guestReviewService;
 
         public static ObservableCollection<Notification> Notifications { get; set; }
         public Notification SelectedNotification { get; set; }
@@ -52,6 +53,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             _mainWindow = mainWindow;
             _userService = new();
+            _guestReviewService = new();
             Username = user.Username;
             LoggedInUser = user;
             IsDropdownOpen = false;
@@ -101,7 +103,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             SelectedNotification.Read = true;
             _notificationService.Update(SelectedNotification);
 
-            if (SelectedNotification.Type == Notification.NotificationType.GUESTREVIEW) 
+            if (SelectedNotification.Type == Notification.NotificationType.GUESTREVIEW && !_guestReviewService.ReviewExists(LoggedInUser.Id, SelectedNotification.GuestId)) 
             {
                 SetPage(new GuestReviewPage(LoggedInUser,this,_userService.GetById(SelectedNotification.GuestId)));
             }

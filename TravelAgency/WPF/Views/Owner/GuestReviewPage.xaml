@@ -4,17 +4,18 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Owner"
+      xmlns:converter="clr-namespace:SOSTeam.TravelAgency.WPF.ViewModels.Owner"
       mc:Ignorable="d" 
        d:DesignHeight="662" d:DesignWidth="804"
-      Title="AddAccommodationPage">
+      Title="Guest Review">
     <Page.Resources>
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Margin" Value="10" />
         </Style>
-        
 
+        <converter:StringToIntConverter x:Key="StringToIntConverter" />
     </Page.Resources>
 
     <Grid Background="White">
@@ -34,8 +35,42 @@
                     <Label Content="{Binding Path=Guest.Username, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Column="1">
-                
+            <Grid Grid.Column="1" Width="AUto" Height="Auto" Margin="0,0,40,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120"></RowDefinition>
+                    <RowDefinition Height="80"></RowDefinition>
+                    <RowDefinition Height="80"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="1" Grid.Column="0"  Content ="Ćistoća:" VerticalAlignment="Center"></Label>
+                <Label Grid.Row="2" Grid.Column="0"  Content ="Poštovanje pravila:" VerticalAlignment="Center"></Label>
+                <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+                    <RadioButton Margin="2,10" GroupName="clean" IsChecked="{Binding Cleanliness, Converter={StaticResource StringToIntConverter}, ConverterParameter=1}" >1</RadioButton>
+                    <RadioButton Margin="2,10" GroupName="clean" IsChecked="{Binding Cleanliness, Converter={StaticResource StringToIntConverter}, ConverterParameter=2}" >2</RadioButton>
+                    <RadioButton Margin="2,10" GroupName="clean" IsChecked="{Binding Cleanliness, Converter={StaticResource StringToIntConverter}, ConverterParameter=3}" >3</RadioButton>
+                    <RadioButton Margin="2,10" GroupName="clean" IsChecked="{Binding Cleanliness, Converter={StaticResource StringToIntConverter}, ConverterParameter=4}" >4</RadioButton>
+                    <RadioButton Margin="2,10" GroupName="clean" IsChecked="{Binding Cleanliness, Converter={StaticResource StringToIntConverter}, ConverterParameter=5}" >5</RadioButton>
+                </WrapPanel>
+                <WrapPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+                    <RadioButton Margin="2,10" GroupName="rules" IsChecked="{Binding RuleCompliance, Converter={StaticResource StringToIntConverter}, ConverterParameter=1}" Content="1" ></RadioButton>
+                    <RadioButton Margin="2,10" GroupName="rules" IsChecked="{Binding RuleCompliance, Converter={StaticResource StringToIntConverter}, ConverterParameter=2}" Content="2"></RadioButton>
+                    <RadioButton Margin="2,10" GroupName="rules" IsChecked="{Binding RuleCompliance, Converter={StaticResource StringToIntConverter}, ConverterParameter=3}" Content="3"></RadioButton>
+                    <RadioButton Margin="2,10" GroupName="rules" IsChecked="{Binding RuleCompliance, Converter={StaticResource StringToIntConverter}, ConverterParameter=4}" Content="4"></RadioButton>
+                    <RadioButton Margin="2,10" GroupName="rules" IsChecked="{Binding RuleCompliance, Converter={StaticResource StringToIntConverter}, ConverterParameter=5}" Content="5"></RadioButton>
+                </WrapPanel>
+                <Grid Grid.Row="3" Grid.ColumnSpan="2" Height="250">
+                    <StackPanel>
+                        <Label   Content ="Komentar:" Margin="10,10,0,0"></Label>
+                        <TextBox  VerticalAlignment="Top" Text="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged}" Height="150" TextWrapping="Wrap"></TextBox>
+                    </StackPanel>
+
+                </Grid>
+
+
             </Grid>
 
         </Grid>
