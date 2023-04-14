@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using SOSTeam.TravelAgency.Application.Services;
+
 namespace SOSTeam.TravelAgency.WPF.Views.Owner
 {
     /// <summary>
@@ -25,8 +27,13 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
         private MainWindowViewModel _mainWindowViewModel;
         public MainWindow(User user)
         {
-            _mainWindowViewModel = new MainWindowViewModel(user,this);
-            DataContext = _mainWindowViewModel;
+            DataContext = this;
+            Username = user.Username;
+            AccommodationService accommodationService = new();
+            accommodationService.GetAll();
+
+            AccommodationReservationService service = new AccommodationReservationService();
+            service.SendRequestToOwner(user.Id);
 
             InitializeComponent();
             _mainWindowViewModel.SetStartupPage();
