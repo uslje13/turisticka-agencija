@@ -23,6 +23,20 @@ namespace SOSTeam.TravelAgency.Repositories
             _accommodationReservations = new List<AccommodationReservation>();
         }
 
+        public void SaveCanceledReservation(AccommodationReservation reservation)
+        {
+            const string filePath = "../../../Resources/Data/canceledReservations.csv";
+            _reservations = _serializer.FromCSV(filePath);
+            _reservations.Add(reservation);
+            _serializer.ToCSV(filePath, _reservations);
+        }
+
+        public List<AccommodationReservation> LoadCanceledReservations()
+        {
+            const string filePath = "../../../Resources/Data/canceledReservations.csv";
+            return _serializer.FromCSV(filePath);
+        }
+
         public void Update(AccommodationReservation accommodationReservation)
         {
 

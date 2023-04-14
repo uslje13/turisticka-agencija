@@ -12,7 +12,8 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
     {
         void SaveToOtherCSV(AccommodationReservation reservation);
         void DeleteFromOtherCSV(AccommodationReservation reservation);
-
+        void SaveCanceledReservation(AccommodationReservation reservation);
+        List<AccommodationReservation> LoadCanceledReservations();
         List<AccommodationReservation> LoadFromOtherCSV();
         void SaveChangeAcceptedReservation(AccommodationReservation reservation);
     }

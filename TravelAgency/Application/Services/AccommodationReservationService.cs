@@ -221,7 +221,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             _changedResRequestRepositroy.Save(selectedReservation);
         }
 
-        public void /*ReservationsInformations*/ SendRequestToOwner(int ownerId)
+        public /*void*/ ReservationsInformations SendRequestToOwner(int ownerId)
         {
             List<ChangedReservationRequest> processedReservations = _changedResRequestRepositroy.GetAll();
             List<WantedNewDate> wantedDates = _wantedNewDateRepository.GetAll();
@@ -236,16 +236,16 @@ namespace SOSTeam.TravelAgency.Application.Services
                     {
                         if (accommodation.OwnerId == ownerId)
                         {
-                            //reservationsInformations.requests.Add(item);
-                            //reservationsInformations.newDates.Add(item2);
-                            AnswerToGuestWindow newWindow = new AnswerToGuestWindow(item2, item, ownerId);
-                            newWindow.ShowDialog();
+                            reservationsInformations.requests.Add(item);
+                            reservationsInformations.newDates.Add(item2);
+                            //AnswerToGuestWindow newWindow = new AnswerToGuestWindow(item2, item, ownerId);
+                            //newWindow.ShowDialog();
                         }
                     }
                 }
             }
 
-            //return reservationsInformations;
+            return reservationsInformations;
         }
 
         private bool isValidToBeRequest(Accommodation accommodation, ChangedReservationRequest item, WantedNewDate item2)
@@ -389,12 +389,17 @@ namespace SOSTeam.TravelAgency.Application.Services
         public void CancelReservation(CancelReservationViewModel selectedReservation)
         {
             Accommodation accommodation = _accommodationRepository.GetById(selectedReservation.AccommodationId);
-            int differnce = selectedReservation.FirstDay.DayOfYear - DateTime.Today.DayOfYear;
-            if (differnce >= 1)
+            AccommodationReservation accommodationReservation = _accReservationRepository.GetById(selectedReservation.ReservationId);
+
+            int difference = selectedReservation.FirstDay.DayOfYear - DateTime.Today.DayOfYear;
+            if (difference >= 1)
             {
-                if(differnce >= accommodation.MinDaysForCancelation)
+                if (difference >= accommodation.MinDaysForCancelation)
                 {
                     _accReservationRepository.Delete(selectedReservation.ReservationId);
+                    _accReservationRepository.SaveCanceledReservation(accommodationReservation);
+
+                    //ovaj sledeci dio da se mozda pozove nova metoda iz RequestsStatusViewModel-a koja se zove MakeNotificationToOwner()??
                     NotificationRepository notificationRepository = new NotificationRepository();
                     string Text = "Otkazana je rezervacija u periodu od " + selectedReservation.FirstDay.ToString() + " do " +
                                     selectedReservation.LastDay.ToString() + " u smještaju " + selectedReservation.AccommodationName + ".";

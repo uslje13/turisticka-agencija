@@ -32,8 +32,8 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
             AccommodationService accommodationService = new();
             accommodationService.GetAll();
 
-            AccommodationReservationService service = new AccommodationReservationService();
-            service.SendRequestToOwner(user.Id);
+            //AccommodationReservationService service = new AccommodationReservationService();
+            //service.SendRequestToOwner(user.Id);
 
             InitializeComponent();
             _mainWindowViewModel.SetStartupPage();
