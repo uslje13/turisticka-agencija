@@ -14,13 +14,15 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public int Id { get; set; }
         public int AppointmentId { get; set; }
         public int TouristNum { get; set; }
+        public float AverageAge { get; set; }
         public int UserId { get; set; }
 
         public Reservation() { }
 
-        public Reservation(int touristNum, int userId, int appointmentId)
+        public Reservation(int touristNum,float averageAge, int userId, int appointmentId)
         {
             TouristNum = touristNum;
+            AverageAge = averageAge;
             UserId = userId;
             AppointmentId = appointmentId;
         }
@@ -31,6 +33,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             UserId = int.Parse(values[1]);
             AppointmentId = int.Parse(values[2]);
             TouristNum = int.Parse(values[3]);
+            AverageAge = float.Parse(values[4]);
         }
 
         public string[] ToCSV()
@@ -40,7 +43,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 Id.ToString(),
                 UserId.ToString(),
                 AppointmentId.ToString(),
-                TouristNum.ToString()
+                TouristNum.ToString(),
+                AverageAge.ToString()
             };
 
             return csvValues;

@@ -44,7 +44,7 @@
                 <Border Height="58">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="     Unesite prosek godina tih ljudi:       " FontSize="24" TextAlignment="Center" VerticalAlignment="Center" Width="400" Height="30" />
-                        <TextBox Width="453" Margin="10" FontSize="24"></TextBox>
+                        <TextBox Width="453" Margin="10" FontSize="24" Text="{Binding AverageAge,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
                 </Border>
                 <Border Height="58">

@@ -83,6 +83,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
+        private string _averageAge;
+        public string AverageAge
+        {
+            get { return _averageAge; }
+            set
+            {
+                if (value != _averageAge)
+                {
+                    _averageAge = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public BookTourViewModel(int id, User loggedInUser,Window window)
         {
             LoggedInUser = loggedInUser;
@@ -109,9 +123,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 MessageBox.Show("Niste odabrali termin");
             }
-            else if (_touristNum == null || _touristNum == 0)
+            else if (_touristNum == null || _touristNum == 0 || _averageAge == null)
             {
-                MessageBox.Show("Niste uneli broj osoba prilikom rezervacije");
+                MessageBox.Show("Niste popunili potrebne podatke");
             }
             else if (_touristNum > _availableSlots)
             {
@@ -123,7 +137,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum);
+                    _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge));
                     _window.Close();
                 }
             }
