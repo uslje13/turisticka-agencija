@@ -49,19 +49,30 @@
                 <Label Grid.Row="1" Grid.Column="0"  Content ="Ćistoća:" VerticalAlignment="Center"></Label>
                 <Label Grid.Row="2" Grid.Column="0"  Content ="Poštovanje pravila:" VerticalAlignment="Center"></Label>
                 <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
-                    <RadioButton Margin="2,10" GroupName="clean" IsChecked="{Binding Cleanliness, Converter={StaticResource StringToIntConverter}, ConverterParameter=1}" >1</RadioButton>
-                    <RadioButton Margin="2,10" GroupName="clean" IsChecked="{Binding Cleanliness, Converter={StaticResource StringToIntConverter}, ConverterParameter=2}" >2</RadioButton>
-                    <RadioButton Margin="2,10" GroupName="clean" IsChecked="{Binding Cleanliness, Converter={StaticResource StringToIntConverter}, ConverterParameter=3}" >3</RadioButton>
-                    <RadioButton Margin="2,10" GroupName="clean" IsChecked="{Binding Cleanliness, Converter={StaticResource StringToIntConverter}, ConverterParameter=4}" >4</RadioButton>
-                    <RadioButton Margin="2,10" GroupName="clean" IsChecked="{Binding Cleanliness, Converter={StaticResource StringToIntConverter}, ConverterParameter=5}" >5</RadioButton>
+                    <RadioButton Margin="2,10" GroupName="clean" Content="1"
+                 IsChecked="{Binding CleanlinessRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=1}" />
+                    <RadioButton Margin="2,10" GroupName="clean" Content="2"
+                 IsChecked="{Binding CleanlinessRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=2}" />
+                    <RadioButton Margin="2,10" GroupName="clean" Content="3"
+                 IsChecked="{Binding CleanlinessRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=3}" />
+                    <RadioButton Margin="2,10" GroupName="clean" Content="4"
+                 IsChecked="{Binding CleanlinessRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=4}" />
+                    <RadioButton Margin="2,10" GroupName="clean" Content="5"
+                 IsChecked="{Binding CleanlinessRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=5}" />
                 </WrapPanel>
                 <WrapPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
-                    <RadioButton Margin="2,10" GroupName="rules" IsChecked="{Binding RuleCompliance, Converter={StaticResource StringToIntConverter}, ConverterParameter=1}" Content="1" ></RadioButton>
-                    <RadioButton Margin="2,10" GroupName="rules" IsChecked="{Binding RuleCompliance, Converter={StaticResource StringToIntConverter}, ConverterParameter=2}" Content="2"></RadioButton>
-                    <RadioButton Margin="2,10" GroupName="rules" IsChecked="{Binding RuleCompliance, Converter={StaticResource StringToIntConverter}, ConverterParameter=3}" Content="3"></RadioButton>
-                    <RadioButton Margin="2,10" GroupName="rules" IsChecked="{Binding RuleCompliance, Converter={StaticResource StringToIntConverter}, ConverterParameter=4}" Content="4"></RadioButton>
-                    <RadioButton Margin="2,10" GroupName="rules" IsChecked="{Binding RuleCompliance, Converter={StaticResource StringToIntConverter}, ConverterParameter=5}" Content="5"></RadioButton>
+                    <RadioButton Margin="2,10" GroupName="rules" Content="1"
+                 IsChecked="{Binding RulesRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=1}" />
+                    <RadioButton Margin="2,10" GroupName="rules" Content="2"
+                 IsChecked="{Binding RulesRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=2}" />
+                    <RadioButton Margin="2,10" GroupName="rules" Content="3"
+                 IsChecked="{Binding RulesRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=3}" />
+                    <RadioButton Margin="2,10" GroupName="rules" Content="4"
+                 IsChecked="{Binding RulesRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=4}" />
+                    <RadioButton Margin="2,10" GroupName="rules" Content="5"
+                 IsChecked="{Binding RulesRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=5}" />
                 </WrapPanel>
+
                 <Grid Grid.Row="3" Grid.ColumnSpan="2" Height="250">
                     <StackPanel>
                         <Label   Content ="Komentar:" Margin="10,10,0,0"></Label>

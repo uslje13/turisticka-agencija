@@ -18,8 +18,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         public User LoggedInUser { get; private set; }
         public User Guest { get; private set; }
-        public int Cleanliness { get;  set; }
-        public int RuleCompliance { get;  set; }
+        public int CleanlinessRating { get;  set; }
+        public int RulesRating { get;  set; }
         public string Comment { get;  set; }
         public RelayCommand Cancel { get; private set; }
         public RelayCommand AddReview { get; private set; }
@@ -29,8 +29,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Guest = guest;
             _guestReviewService = new();
             _mainwindowVM = mainWindowVM;
-            Cleanliness = 5;
-            RuleCompliance = 5;
+            CleanlinessRating = 5;
+            RulesRating = 5;
             AddReview = new RelayCommand(Execute_AddReview, CanExecuteAddReview);
             Cancel = new RelayCommand(Execute_Cancel, CanExecuteCancel);
         }
@@ -47,7 +47,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private void Execute_AddReview(object obj)
         {
             if (Comment == null) Comment = "";
-            _guestReviewService.Save(new GuestReview(LoggedInUser.Id, Guest.Id, Cleanliness, RuleCompliance, Comment));
+            _guestReviewService.Save(new GuestReview(LoggedInUser.Id, Guest.Id, CleanlinessRating, RulesRating, Comment));
 
 
             _mainwindowVM.Execute_NavigationButtonCommand("Home");
@@ -65,28 +65,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            
-            if (value == null || !(value is string stringValue))
-            {
-                return 0;
-            }
 
-            
-            if (int.TryParse(stringValue, out int intValue))
+            if (value is int intValue)
             {
-                return intValue;
+                return intValue == int.Parse(parameter?.ToString() ?? "0");
             }
-
-            
-            return 0;
+            return false;
         }
 
         
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            
-            return value.ToString();
+
+            if (value is bool isChecked && isChecked)
+            {
+                return int.Parse(parameter?.ToString() ?? "0");
+            }
+            return Binding.DoNothing;
         }
 
     }
