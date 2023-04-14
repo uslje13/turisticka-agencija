@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,12 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     /// </summary>
     public partial class MyToursPage : Page
     {
-        public MyToursPage()
+        public MyToursPage(User loggedInUser)
         {
             InitializeComponent();
+            MyToursPageViewModel viewModel = new MyToursPageViewModel(loggedInUser, this);
+            DataContext = viewModel;
+            viewModel.SetStartupPage();
         }
     }
 }

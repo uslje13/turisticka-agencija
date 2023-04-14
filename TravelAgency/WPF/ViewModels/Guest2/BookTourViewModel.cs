@@ -117,6 +117,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             return true;
         }
 
+        private void Execute_CancelCommand(object sender)
+        {
+            _window.Close();
+        }
         private void Execute_ReserveCommand(object sender)
         {
             if(Selected == null)
@@ -153,10 +157,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
             MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
             return result;
-        }
-        private void Execute_CancelCommand(object sender)
-        {
-            _window.Close();
         }
 
         public void FillAppoitmentViewModelList()

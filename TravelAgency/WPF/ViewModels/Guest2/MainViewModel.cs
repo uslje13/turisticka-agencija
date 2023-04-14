@@ -69,6 +69,28 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 _myToursCommand = value;
             }
         }
+
+        private RelayCommand _vouchersCommand;
+
+        public RelayCommand VouchersCommand
+        {
+            get { return _vouchersCommand; }
+            set
+            {
+                _vouchersCommand = value;
+            }
+        }
+
+        private RelayCommand _notificationsCommand;
+
+        public RelayCommand NotificationsCommand
+        {
+            get { return _notificationsCommand; }
+            set
+            {
+                _notificationsCommand = value;
+            }
+        }
         public MainViewModel(User loggedInUser, ToursOverviewWindow window)
         {
             _window = window;
@@ -86,12 +108,26 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             HelpCommand = new RelayCommand(Execute_HelpPageCommand, CanExecuteMethod);
             RequestsCommand = new RelayCommand(Execute_RequestsPageCommand, CanExecuteMethod);
             MyToursCommand = new RelayCommand(Execute_MyToursPageCommand, CanExecuteMethod);
+            VouchersCommand = new RelayCommand(Execute_VouchersWindowCommand, CanExecuteMethod);
+            NotificationsCommand = new RelayCommand(Execute_NotificationsWindowCommand, CanExecuteMethod);
+        }
+
+        private void Execute_NotificationsWindowCommand(object obj)
+        {
+            NotificationsWindow window = new NotificationsWindow();
+            window.Show();
+        }
+
+        private void Execute_VouchersWindowCommand(object obj)
+        {
+            VouchersWindow window = new VouchersWindow();
+            window.Show();
         }
 
         private void Execute_MyToursPageCommand(object obj)
         {
             var navigationService = _window.MyToursFrame.NavigationService;
-            navigationService.Navigate(new MyToursPage());
+            navigationService.Navigate(new MyToursPage(LoggedInUser));
         }
 
         private void Execute_RequestsPageCommand(object obj)

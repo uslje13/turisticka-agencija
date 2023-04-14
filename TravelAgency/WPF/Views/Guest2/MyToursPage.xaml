@@ -43,7 +43,7 @@
                     <Label Content="Drasko Novakovic" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
                 </StackPanel>
 
-                <Button Style="{StaticResource MenuButtons}">
+                <Button Style="{StaticResource MenuButtons}" Command="{Binding NavigationCommand}" CommandParameter="ActiveTour">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Icons/active_tour.png" Height="40" Width="38"/>
                         <TextBlock Text="  Aktivna tura" Height="24" Width="186"/>
@@ -64,7 +64,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Style="{StaticResource MenuButtons}">
+                <Button Style="{StaticResource MenuButtons}" Command="{Binding BackCommand}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Icons/back_button.png" Height="40" Width="38"/>
                         <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="189"/>
@@ -82,8 +82,8 @@
             </ScrollViewer>
         </Border>
 
-        <ContentControl Grid.Column="1" Margin="10">
-
-        </ContentControl>
+        <Grid Grid.Column="1" Margin="10">
+            <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
+        </Grid>
     </Grid>
 </Page>

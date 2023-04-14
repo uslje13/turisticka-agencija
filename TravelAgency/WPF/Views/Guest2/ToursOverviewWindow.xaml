@@ -62,7 +62,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}">
+                    <Button Style="{StaticResource MenuButtons}" Command="{Binding VouchersCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/voucher_icon.png" Height="40" Width="38"/>
                             <TextBlock Text="  Vauceri (Ctrl + v)" Height="24" Width="189"/>
@@ -76,7 +76,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" >
+                    <Button Style="{StaticResource MenuButtons}" Command="{Binding NotificationsCommand}" >
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/info-icon.png" Height="40" Width="38"/>
                             <TextBlock Text="  Obavestenja (Ctrl + o)" Height="24" Width="189"/>
