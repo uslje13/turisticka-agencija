@@ -28,8 +28,27 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             userName = uName;
             //IsEnterFromChange = false;
             FillTextBlock(LoggedInUser);
+            ShowNotifications();
             goToSearchCommand = new RelayCommand(ExecuteGoToSearch);
             goToRequestsStatus = new RelayCommand(ExecuteGoToStatuses);
+        }
+
+        private void ShowNotifications()
+        {
+            NotificationFromOwnerService service = new NotificationFromOwnerService();
+            UserService userService = new UserService();
+            List<NotificationFromOwner> localList = service.GetAll();
+
+            if(localList.Count > 0)
+            {
+                foreach (var item in localList)
+                {
+                    User user = userService.GetById(item.OwnerId);
+                    MessageBox.Show("Vlasnik " + user.Username + " je odgovorio na Vaš zahtjev za pomjeranje rezervacije u smještaju " +
+                                    item.AccommodationName + " sa: " + item.Answer + ".");
+                    service.Delete(item.Id);
+                }
+            }
         }
 
         private void ExecuteGoToStatuses(object sender)

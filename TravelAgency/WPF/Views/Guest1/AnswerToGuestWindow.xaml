@@ -1,0 +1,29 @@
+﻿<Window x:Class="SOSTeam.TravelAgency.WPF.Views.Guest1.AnswerToGuestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
+        mc:Ignorable="d"
+        Title="AnswerToGuest" Height="450" Width="800">
+    <Grid>
+        <Label Content="OBAVJEŠTENjE" FontSize="30" FontWeight="Bold" Margin="290,40,249,331"></Label>
+        <Label Content="Gost: " FontSize="15" FontWeight="Bold" Margin="61,124,653,240"></Label>
+        <TextBlock x:Name="UsersName" FontSize="15" FontWeight="Bold" Margin="134,124,412,240"></TextBlock>
+        <Label Content=" želi da pomjeri rezervaciju zakazanu za period od " FontSize="15" FontWeight="Bold" Margin="388,124,25,240"></Label>
+        <TextBlock x:Name="firstOldDay" FontSize="15" FontWeight="Bold" Margin="61,182,618,194"></TextBlock>
+        <Label Content=" do " FontSize="15" FontWeight="Bold" Margin="187,183,568,197"></Label>
+        <TextBlock x:Name="lastOldDay" FontSize="15" FontWeight="Bold" Margin="262,184,410,194"></TextBlock>
+        <Label Content=" za period od " FontSize="15" FontWeight="Bold" Margin="388,182,282,194"></Label>
+        <TextBlock x:Name="firstNewDay" FontSize="15" FontWeight="Bold" Margin="518,183,158,194"></TextBlock>
+        <Label Content=" do " FontSize="15" FontWeight="Bold" Margin="642,183,113,197"></Label>
+        <TextBlock x:Name="lastNewDay" FontSize="15" FontWeight="Bold" Margin="61,240,613,141"></TextBlock>
+        <Label Content=" u smještaju " FontSize="15" FontWeight="Bold" Margin="187,239,506,141"></Label>
+        <TextBlock x:Name="accommodationName" FontSize="15" FontWeight="Bold" Margin="313,240,249,141"></TextBlock>
+        <Label Content=". " FontSize="15" FontWeight="Bold" Margin="471,239,284,141"></Label>
+        <Button Content="Potvrdi" Margin="61,306,647,83" Click="PotvrdiKlik"/>
+        <Button Content="Odbij" Margin="168,306,550,83" Click="odbijKlik"/>
+        <Label Content="Ostavite komentar : " FontSize="15" Margin="61,351,590,29"></Label>
+        <TextBox x:Name="givenOwnerComment" Margin="218,351,49,29"/>
+    </Grid>
+</Window>
