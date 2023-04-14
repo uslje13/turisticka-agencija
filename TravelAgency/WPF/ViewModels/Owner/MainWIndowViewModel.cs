@@ -17,6 +17,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
     public class MainWindowViewModel : ViewModel
     {
+        private UserService _userService;
         public string Username { get; private set; }
         public User LoggedInUser { get; private set; }
         private MainWindow _mainWindow;
@@ -27,7 +28,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         public RelayCommand NavigationButtonCommand { get; private set; }
         public RelayCommand ToggleShowNotifications { get; private set; }
-        
+        public RelayCommand NotificationDoubleClick { get; private set; }
+
+
 
         private bool _isDropdownOpen;
         public bool IsDropdownOpen
@@ -48,12 +51,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public MainWindowViewModel(User user,MainWindow mainWindow)
         {
             _mainWindow = mainWindow;
+            _userService = new();
             Username = user.Username;
             LoggedInUser = user;
             IsDropdownOpen = false;
             IsDropdownClosed = !IsDropdownOpen;
             NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand, CanExecuteMethod);
             ToggleShowNotifications = new RelayCommand(Execute_ToggleShowNotifications, CanExecuteMethod);
+            NotificationDoubleClick = new RelayCommand(Execute_NotificationDoubleClick, CanExecuteMethod);
+
 
             Notifications = new ObservableCollection<Notification>();
 
@@ -87,7 +93,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             IsDropdownOpen = !IsDropdownOpen;
         }
-        
+
+        public void Execute_NotificationDoubleClick(object parameter)
+        {
+            if (SelectedNotification == null) return;
+
+            SelectedNotification.Read = true;
+            _notificationService.Update(SelectedNotification);
+
+            if (SelectedNotification.Type == Notification.NotificationType.GUESTREVIEW) 
+            {
+                SetPage(new GuestReviewPage(LoggedInUser,this,_userService.GetById(SelectedNotification.GuestId)));
+            }
+        }
 
         public void Execute_NavigationButtonCommand(object parameter)
         {

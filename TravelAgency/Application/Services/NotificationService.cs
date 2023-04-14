@@ -15,8 +15,8 @@ namespace SOSTeam.TravelAgency.Application.Services
         private readonly INotificationRepository _notificationRepository = Injector.CreateInstance<INotificationRepository>();
         private readonly IAccReservationRepository _accommodationReservationRepository = Injector.CreateInstance<IAccReservationRepository>();
         private readonly IAccommodationRepository _accommodationRepository = Injector.CreateInstance<IAccommodationRepository>();
-        //REFACTOR
-        private readonly GuestReviewRepository _guestReviewRepository = new();
+        private readonly IGuestReviewRepository _guestReviewRepository = Injector.CreateInstance<IGuestReviewRepository>();
+
 
         
         public NotificationService()
