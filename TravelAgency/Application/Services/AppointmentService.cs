@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using SOSTeam.TravelAgency.Domain;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 
 namespace SOSTeam.TravelAgency.Application.Services
 {
@@ -56,5 +57,19 @@ namespace SOSTeam.TravelAgency.Application.Services
             _appointmentRepository.Update(appointment);
         }
 
+        public bool CheckAvailableAppoitments(Tour tour)
+        {
+            foreach(Appointment appointment in _appointmentRepository.GetAll()) 
+            {
+                if(tour.Id == appointment.TourId )
+                {
+                    if(appointment.Occupancy < tour.MaxNumOfGuests)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

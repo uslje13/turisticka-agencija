@@ -14,6 +14,7 @@ namespace SOSTeam.TravelAgency.Application.Services
     {
 
         private readonly ITourRepository _tourRepository = Injector.CreateInstance<ITourRepository>();
+        private readonly ILocationRepository _locationRepository = Injector.CreateInstance<ILocationRepository>();
 
         public TourService()
         {
@@ -58,6 +59,43 @@ namespace SOSTeam.TravelAgency.Application.Services
                 if(tour.Id == id) return tour;
             }
             return null;
+        }
+
+        public List<Tour> FindSameLocatedTours(int locationId)
+        {
+            List<Tour> tours = new List<Tour>();
+            foreach(Tour tour in _tourRepository.GetAll())
+            {
+                if(tour.LocationId == locationId)
+                {
+                    tours.Add(tour);
+                }
+            }
+            return tours;
+        }
+
+        public string GetTourCity(Tour tour)
+        {
+            foreach(Location location in _locationRepository.GetAll())
+            {
+                if(tour.LocationId == location.Id)
+                {
+                    return location.City;
+                }
+            }
+            return string.Empty;
+        }
+
+        public string GetTourCountry(Tour tour)
+        {
+            foreach (Location location in _locationRepository.GetAll())
+            {
+                if (tour.LocationId == location.Id)
+                {
+                    return location.Country;
+                }
+            }
+            return string.Empty;
         }
     }
 }

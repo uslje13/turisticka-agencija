@@ -14,6 +14,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class MainViewModel : ViewModel
     {
+        private static ToursOverviewWindow _window;
         public static User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
         public static ObservableCollection<Location> Locations { get; set; }
@@ -25,13 +26,95 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private LocationService _locationService;
         private GuestAttendanceService _guestAttendanceService;
 
-        public MainViewModel(User loggedInUser)
+        private RelayCommand _searchCommand;
+
+        public RelayCommand SearchCommand
         {
+            get { return _searchCommand; }
+            set
+            {
+                _searchCommand = value;
+            }
+        }
+
+        private RelayCommand _helpCommand;
+
+        public RelayCommand HelpCommand
+        {
+            get { return _helpCommand; }
+            set
+            {
+                _helpCommand = value;
+            }
+        }
+
+        private RelayCommand _requestsCommand;
+
+        public RelayCommand RequestsCommand
+        {
+            get { return _requestsCommand; }
+            set
+            {
+                _requestsCommand = value;
+            }
+        }
+
+        private RelayCommand _myToursCommand;
+
+        public RelayCommand MyToursCommand
+        {
+            get { return _myToursCommand; }
+            set
+            {
+                _myToursCommand = value;
+            }
+        }
+        public MainViewModel(User loggedInUser, ToursOverviewWindow window)
+        {
+            _window = window;
             InitializeServices();
             GetUsableLists();
             LoggedInUser = loggedInUser;
             TourViewModels = new ObservableCollection<TourViewModel2>();
+            CreateCommands();
             FillTourViewModelList();
+        }
+
+        private void CreateCommands()
+        {
+            SearchCommand = new RelayCommand(Execute_SearchPageCommand, CanExecuteMethod);
+            HelpCommand = new RelayCommand(Execute_HelpPageCommand, CanExecuteMethod);
+            RequestsCommand = new RelayCommand(Execute_RequestsPageCommand, CanExecuteMethod);
+            MyToursCommand = new RelayCommand(Execute_MyToursPageCommand, CanExecuteMethod);
+        }
+
+        private void Execute_MyToursPageCommand(object obj)
+        {
+            var navigationService = _window.MyToursFrame.NavigationService;
+            navigationService.Navigate(new MyToursPage());
+        }
+
+        private void Execute_RequestsPageCommand(object obj)
+        {
+            var navigationService = _window.RequestsFrame.NavigationService;
+            navigationService.Navigate(new RequestsPage());
+        }
+
+        private void Execute_SearchPageCommand(object obj)
+        {
+            var navigationService = _window.SearchFrame.NavigationService;
+            navigationService.Navigate(new SearchPage(LoggedInUser,TourViewModels));
+        }
+
+        private void Execute_HelpPageCommand(object obj)
+        {
+            var navigationService = _window.HelpFrame.NavigationService;
+            navigationService.Navigate(new HelpPage());
+        }
+
+        private bool CanExecuteMethod(object parameter)
+        {
+            return true;
         }
         private void GetUsableLists()
         {
@@ -82,7 +165,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     if (l.Id == t.LocationId)
                     {
-                        TourViewModel2 tourDTO = new TourViewModel2(t.Id,t.Name, t.Language,t.Duration,l.City, l.Country, LoggedInUser);
+                        TourViewModel2 tourDTO = new TourViewModel2(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, l.City, l.Country, LoggedInUser, _window);
                         TourViewModels.Add(tourDTO);
                     }
                 }
