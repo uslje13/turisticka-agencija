@@ -41,7 +41,7 @@
                                 Height="155"
                                 Margin="15,25,0,40" Width="220">
                         <Image Source="/Resources/Icons/user_ikonica.png" Height="126" Width="229"/>
-                        <Label Content="Drasko Novakovic" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="160"/>
+                        <Label Content="{Binding LoggedInUser.Username}" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="160"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Margin="10" Height="396">
@@ -84,7 +84,7 @@
             </Border>
 
             <Border CornerRadius="0,10,10,0"
-                    Grid.Column="1" Margin="10">
+                    Grid.Column="1" Margin="10,10,23,10">
                 <ScrollViewer HorizontalAlignment="Right" Width="990">
                     <!-- Your content here -->
                     <ItemsControl x:Name="ToursList" ItemsSource="{Binding TourViewModels}">

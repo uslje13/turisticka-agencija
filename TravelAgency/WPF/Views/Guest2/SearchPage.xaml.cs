@@ -23,7 +23,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     /// </summary>
     public partial class SearchPage : Page
     {
-        public SearchPage(User loggedInUser, ObservableCollection<TourViewModel2> tourViewModels)
+        public SearchPage(User loggedInUser, ObservableCollection<TourViewModel> tourViewModels)
         {
             InitializeComponent();
             SearchPageViewModel viewModel = new SearchPageViewModel(loggedInUser, this, tourViewModels);

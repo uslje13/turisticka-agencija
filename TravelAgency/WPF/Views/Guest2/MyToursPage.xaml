@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest2"
       mc:Ignorable="d" 
       Title="HelpPage" Height="800" Width="1280"
-      Background="AliceBlue">
+      Background="AliceBlue"
+      >
 
     <Page.Resources>
         <ResourceDictionary>
@@ -40,7 +41,7 @@
                             Height="155"
                             Margin="15,25,0,40" Width="220">
                     <Image Source="/Resources/Icons/user_ikonica.png" Height="126" Width="229"/>
-                    <Label Content="Drasko Novakovic" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
+                    <Label Content="{Binding LoggedInUser.Username}" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
                 </StackPanel>
 
                 <Button Style="{StaticResource MenuButtons}" Command="{Binding NavigationCommand}" CommandParameter="ActiveTour">

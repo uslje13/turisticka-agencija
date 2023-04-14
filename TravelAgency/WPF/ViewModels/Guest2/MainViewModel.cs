@@ -20,7 +20,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public static ObservableCollection<Location> Locations { get; set; }
         public List<GuestAttendance> UserAttendances { get; set; }
 
-        public static ObservableCollection<TourViewModel2> TourViewModels { get; set; }
+        public static ObservableCollection<TourViewModel> TourViewModels { get; set; }
 
         private TourService _tourService;
         private LocationService _locationService;
@@ -97,7 +97,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             InitializeServices();
             GetUsableLists();
             LoggedInUser = loggedInUser;
-            TourViewModels = new ObservableCollection<TourViewModel2>();
+            TourViewModels = new ObservableCollection<TourViewModel>();
             CreateCommands();
             FillTourViewModelList();
         }
@@ -201,7 +201,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     if (l.Id == t.LocationId)
                     {
-                        TourViewModel2 tourDTO = new TourViewModel2(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, l.City, l.Country, LoggedInUser, _window);
+                        TourViewModel tourDTO = new TourViewModel(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, l.City, l.Country, LoggedInUser, _window);
                         TourViewModels.Add(tourDTO);
                     }
                 }

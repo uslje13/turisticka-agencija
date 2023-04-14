@@ -39,7 +39,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             foreach (Tour tour in TodayTours)
             {
                 string location = _locationConverter.GetFullNameById(tour.LocationId);
-                TodayToursDTO.Add(new TourViewModel(tour.Id, tour.Name, tour.Language, location, tour.MaxNumOfGuests, tour.Duration));
+                //TodayToursDTO.Add(new TourViewModel(tour.Id, tour.Name, tour.Language, location, tour.MaxNumOfGuests, tour.Duration));
             }
         }
 
