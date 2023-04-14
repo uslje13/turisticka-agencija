@@ -58,12 +58,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public RelayCommand AddAppointmentCommand { get; set; }
         public RelayCommand DeleteAppointmentCommand { get; set; }
+        public RelayCommand ClearAppointmentsCommand { get; set; }
 
         public AddAppointmentsViewModel()
         {
             Appointments = new ObservableCollection<Appointment>();
             AddAppointmentCommand = new RelayCommand(AddAppointment, CanExecuteMethod);
             DeleteAppointmentCommand = new RelayCommand(DeleteAppointment, CanExecuteMethod);
+            ClearAppointmentsCommand = new RelayCommand(DeleteAllAppointments, CanExecuteMethod);
             Date = DateTime.Now;
         }
 
@@ -85,6 +87,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var selectedAppointment = sender as Appointment;
             Appointments.Remove(selectedAppointment);
+        }
+
+        public void DeleteAllAppointments(object sender)
+        {
+            Appointments.Clear();
         }
 
     }

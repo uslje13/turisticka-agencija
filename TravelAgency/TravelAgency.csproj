@@ -20,11 +20,15 @@
     <None Remove="Resources\Icons\checkpoint.png" />
     <None Remove="Resources\Icons\checkpoint_light.png" />
     <None Remove="Resources\Icons\clock.png" />
+    <None Remove="Resources\Icons\clock_light.png" />
     <None Remove="Resources\Icons\demo.png" />
+    <None Remove="Resources\Icons\earth.png" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
+    <None Remove="Resources\Icons\guests_with_text.png" />
     <None Remove="Resources\Icons\help--v1.png" />
     <None Remove="Resources\Icons\home.png" />
     <None Remove="Resources\Icons\info-icon.png" />
+    <None Remove="Resources\Icons\kalendar.png" />
     <None Remove="Resources\Icons\kalendar_datumi.png" />
     <None Remove="Resources\Icons\list-square-icon.png" />
     <None Remove="Resources\Icons\livetour.png" />
@@ -74,6 +78,15 @@
     <Content Include="Resources\Icons\demo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\earth.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\guests_with_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\kalendar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\kalendar_datumi.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -108,6 +121,9 @@
 
   <ItemGroup>
     <Content Include="Resources\Icons\burger_menu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\clock_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Icons\NotificationAlertNoColor.png" />

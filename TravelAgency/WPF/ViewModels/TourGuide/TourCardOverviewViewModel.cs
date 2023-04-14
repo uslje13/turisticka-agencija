@@ -15,9 +15,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public string Name { get; set; }
         public string Location { get; set; }
         public DateOnly Date { get; set; }
+        public TimeOnly Time { get; set; }
         public string Status { get; set; }
         public string CancelImage { get; set; }
         public bool CanCancel { get; set; }
+        public bool CanStart { get; set; }
 
         public TourCardOverviewViewModel() { }
 

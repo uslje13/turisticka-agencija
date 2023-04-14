@@ -2,27 +2,31 @@
 
 namespace SOSTeam.TravelAgency.Domain.Models
 {
+    public enum CheckpointStatus { NOT_STARTED = 0, ACTIVE = 1, FINISHED = 2 };
     public class CheckpointActivity : ISerializable
     {
         public int Id { get; set; }
         public int AppointmentId { get; set; }
         public int CheckpointId { get; set; }
-        public bool Activated { get; set; }
+        public CheckpointStatus Status { get; set; }
+        public bool GuestsCalled { get; set; }
 
         public CheckpointActivity()
         {
             Id = -1;
             AppointmentId = -1;
             CheckpointId = -1;
-            Activated = false;
+            Status = CheckpointStatus.NOT_STARTED;
+            GuestsCalled = false;
         }
 
-        public CheckpointActivity(int id, int appointmentId, int checkpointId, bool checkpointActive)
+        public CheckpointActivity(int id, int appointmentId, int checkpointId, CheckpointStatus status, bool guestsCalled)
         {
             Id = id;
             AppointmentId = appointmentId;
             CheckpointId = checkpointId;
-            Activated = checkpointActive;
+            Status = status;
+            GuestsCalled = guestsCalled;
         }
 
         public void FromCSV(string[] values)
@@ -30,7 +34,19 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Id = int.Parse(values[0]);
             AppointmentId = int.Parse(values[1]);
             CheckpointId = int.Parse(values[2]);
-            Activated = bool.Parse(values[3]);
+            if (values[3].Equals("NOT_STARTED"))
+            {
+                Status = CheckpointStatus.NOT_STARTED;
+            }
+            else if (values[3].Equals("ACTIVE"))
+            {
+                Status = CheckpointStatus.ACTIVE;
+            }
+            else if (values[3].Equals("FINISHED"))
+            {
+                Status = CheckpointStatus.FINISHED;
+            }
+            GuestsCalled = bool.Parse(values[4]);
         }
         public string[] ToCSV()
         {
@@ -39,7 +55,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 Id.ToString(),
                 AppointmentId.ToString(),
                 CheckpointId.ToString(),
-                Activated.ToString()
+                Status.ToString(),
+                GuestsCalled.ToString()
             };
             return csvValues;
         }

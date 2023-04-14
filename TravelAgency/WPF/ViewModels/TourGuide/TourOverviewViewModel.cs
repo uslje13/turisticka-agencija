@@ -53,6 +53,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public TourOverviewViewModel(User loggedUser)
         {
             InitializeServices();
+            CancelTourCommand = new RelayCommand(CancelTourClick, CanExecuteMethod);
             FillObservableCollection(loggedUser);
         }
 
@@ -63,8 +64,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _locationService = new LocationService();
             _appointmentService = new AppointmentService();
             _imageService = new ImageService();
-
-            CancelTourCommand = new RelayCommand(CancelTourClick, CanExecuteMethod);
         }
 
         public void FillObservableCollection(User loggedUser)
@@ -99,7 +98,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var selectedAppointment = sender as TourCardOverviewViewModel;
             _appointmentService.Delete(selectedAppointment.AppointmentId);
-            _toursForCards.Remove(selectedAppointment);
+            ToursForCards.Remove(selectedAppointment);
         }
 
         private void SetImageField(Tour tour, TourCardOverviewViewModel viewModel)
@@ -131,8 +130,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             viewModel.AppointmentId = appointment.Id;
             viewModel.Date = appointment.Date;
-            SetAppointmentStatus(viewModel, appointment);
             viewModel.TourId = tour.Id;
+            viewModel.Name = tour.Name;
+            SetAppointmentStatus(viewModel, appointment);
         }
 
         private static void SetAppointmentStatus(TourCardOverviewViewModel viewModel, Appointment appointment)
