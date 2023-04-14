@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen"
         Title="RequestsStatus" Height="450" Width="800">
     <Grid>
-        <TabControl>
+        <TabControl x:Name="Tabs" GotFocus="TestFocus">
             <TabItem Header="Zahtjevi za pomjeranje">
                 <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding changedReservationRequests}" 
                   SelectedItem="{Binding Path=selectedReservation, UpdateSourceTrigger=PropertyChanged}"
@@ -26,8 +26,22 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            <TabItem Header="Zahtjevi za otkazivanje" />
+            <TabItem Header="Zahtjevi za otkazivanje">
+                <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding allReservationsInfoList}" 
+                  SelectedItem="{Binding Path=selectedCancelReservation, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" SelectionMode="Single"
+                  IsReadOnly="True" Margin="10,10,10,110">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
+                        <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
+                        <DataGridTextColumn Header="Država" Binding="{Binding AccommodationCountry}" Width="1*"/>
+                        <DataGridTextColumn Header="Prvi dan" Binding="{Binding FirstDay}" Width="1*"/>
+                        <DataGridTextColumn Header="Poslednji dan" Binding="{Binding LastDay}" Width="1*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
         </TabControl>
-        <Button Command="{Binding FindNewDateCommand}" Content="Kreiraj zahtjev" Margin="639,350,40,40"/>
+        <Button x:Name="ChangeButton" Command="{Binding FindNewDateCommand}" Content="Kreiraj zahtjev" Margin="513,350,166,40"/>
+        <Button x:Name="CancelResButton" Command="{Binding CancelReservationCommand}" Content="Otkaži" Margin="639,350,40,40" IsEnabled="False"/>
     </Grid>
 </Window>

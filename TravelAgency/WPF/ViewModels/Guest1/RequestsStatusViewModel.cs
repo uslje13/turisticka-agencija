@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Ribbon.Primitives;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
@@ -28,6 +30,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public ChangedReservationRequest selectedReservation { get; set; }
         public AccommodationReservation selectedAccReservationCopy { get; set; }
         public RelayCommand FindNewDateCommand { get; set; }
+        public RelayCommand CancelReservationCommand { get; set; }
+        public CancelReservationViewModel selectedCancelReservation { get; set; }
+        public List<CancelReservationViewModel> allReservationsInfoList { get; set; }
 
 
         public RequestsStatusViewModel(User user) 
@@ -38,6 +43,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             locationService = new LocationService();
             accommodationService = new AccommodationService();
             changedReservationRequestService = new ChangedReservationRequestService();
+            allReservationsInfoList = new List<CancelReservationViewModel>();
 
             accommodationReservations = accommodationReservationService.GetAll();
             locations = locationService.GetAll();
@@ -59,8 +65,41 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             PrepareAccommodationReservationsList();
             PrepareReservationsForChangeRequest();
+            PrepareCancelReservationList();
 
+           
             FindNewDateCommand = new RelayCommand(ExecuteFindNewDate);
+            CancelReservationCommand = new RelayCommand(ExecuteCancelReservation);
+             
+        }
+
+        private void ExecuteCancelReservation(object sender)
+        {
+            if(selectedCancelReservation != null)
+            {
+                accommodationReservationService.CancelReservation(selectedCancelReservation);
+            }
+            else
+            {
+                MessageBox.Show("Odaberite rezervaciju koju želite otkazati.");
+            }
+        }
+
+        private void PrepareCancelReservationList()
+        {
+            foreach(var reserv in accommodationReservations)
+            {
+                foreach(var lavm in locAccommodationViewModels)
+                {
+                    if(reserv.AccommodationId == lavm.AccommodationId)
+                    {
+                        CancelReservationViewModel crModel = new CancelReservationViewModel(lavm.AccommodationName, lavm.LocationCity, 
+                                                                                            lavm.LocationCountry, reserv.FirstDay, reserv.LastDay, 
+                                                                                            reserv.Id, lavm.AccommodationId);
+                        allReservationsInfoList.Add(crModel);
+                    }
+                }
+            }
         }
 
         private void PrepareAccommodationReservationsList()

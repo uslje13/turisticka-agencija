@@ -385,5 +385,33 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
             else return false;
         }
+
+        public void CancelReservation(CancelReservationViewModel selectedReservation)
+        {
+            Accommodation accommodation = _accommodationRepository.GetById(selectedReservation.AccommodationId);
+            int differnce = selectedReservation.FirstDay.DayOfYear - DateTime.Today.DayOfYear;
+            if (differnce >= 1)
+            {
+                if(differnce >= accommodation.MinDaysForCancelation)
+                {
+                    _accReservationRepository.Delete(selectedReservation.ReservationId);
+                    NotificationRepository notificationRepository = new NotificationRepository();
+                    string Text = "Otkazana je rezervacija u periodu od " + selectedReservation.FirstDay.ToString() + " do " +
+                                    selectedReservation.LastDay.ToString() + " u smještaju " + selectedReservation.AccommodationName + ".";
+                    Notification notification = new Notification(accommodation.OwnerId, Text, Notification.NotificationType.NOTYPE, false);
+                    notificationRepository.Save(notification);
+                    MessageBox.Show(Text);
+                }
+                else
+                {
+                    MessageBox.Show("Odabrana rezervacija se ne može otkazati zbog postavljenog vlasnikovog ograničenja za otkazivanje od " +
+                                    accommodation.MinDaysForCancelation.ToString() + " dana do početka rezervacije.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Odabrana rezervacija se ne može otkazati jer počinje sutra.");
+            }
+        }
     }
 }

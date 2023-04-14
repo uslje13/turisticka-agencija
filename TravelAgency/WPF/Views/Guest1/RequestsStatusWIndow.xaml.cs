@@ -32,5 +32,19 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             RequestsStatusViewModel viewModel = new RequestsStatusViewModel(LoggedInUser);
             DataContext = viewModel;
         }
+
+        private void TestFocus(object sender, RoutedEventArgs e)
+        {
+            if (Tabs.SelectedIndex == 0)
+            {
+                ChangeButton.IsEnabled = true;
+                CancelResButton.IsEnabled = false;
+            }
+            else
+            {
+                ChangeButton.IsEnabled = false;
+                CancelResButton.IsEnabled = true;
+            }
+        }
     }
 }
