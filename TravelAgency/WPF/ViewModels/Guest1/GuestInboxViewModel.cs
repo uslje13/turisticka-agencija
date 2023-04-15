@@ -68,18 +68,22 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                         int diff = DateTime.Today.DayOfYear - reserv.LastDay.DayOfYear;
                         if (diff > 0)
                         {
-                            CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity,
-                                                                                            lavm.LocationCountry, reserv.FirstDay, reserv.LastDay,
-                                                                                            reserv.Id, lavm.AccommodationId);
-                            reservationsForMark.Add(crModel);
+                            if(!reserv.ReadMarkNotification)
+                            {
+                                CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity,
+                                                                                                                            lavm.LocationCountry, reserv.FirstDay, reserv.LastDay,
+                                                                                                                            reserv.Id, lavm.AccommodationId);
+                                reservationsForMark.Add(crModel);
+                            }
                         }
                     }
                 }
             }
         }
 
-        private void ExecuteAccommodationMarking(object sender, Comman)
+        private void ExecuteAccommodationMarking(object sender)
         {
+            CancelAndMarkResViewModel? selected = sender as CancelAndMarkResViewModel;
             MarkAccommodationWindow newWindow = new MarkAccommodationWindow(LoggedInUser, selected);
             newWindow.ShowDialog();
         }
@@ -90,13 +94,30 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             List<AccommodationReservation> finishedReservations = service.LoadFinishedReservations();
             foreach (var item in finishedReservations)
             {
-                if (item.UserId == LoggedInUser.Id && item.ReadMarkNotification == false)
+                if (item.UserId == LoggedInUser.Id /*&& item.ReadMarkNotification == false*/)
                 {
                     int diff = DateTime.Today.DayOfYear - item.LastDay.DayOfYear;
                     if (diff > 5)
                     {
                         RemoveFinishedReservation(item.Id);
+                    } 
+                    else
+                    {
+                        SetDaysForMarking(diff, item.Id);
                     }
+                }
+            }
+        }
+
+        private void SetDaysForMarking(int days, int resId)
+        {
+            foreach (var item in reservationsForMark)
+            {
+                if (resId == item.ReservationId)
+                {
+                    int diff = 6 - days;
+                    item.DaysForMarking = diff.ToString() + " dana";
+                    break;
                 }
             }
         }
@@ -113,6 +134,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 if(resId == item.ReservationId)
                 {
                     reservationsForMark.Remove(item);
+                    break;
                 }
             }
         }

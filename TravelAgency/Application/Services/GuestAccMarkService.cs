@@ -23,6 +23,8 @@ namespace SOSTeam.TravelAgency.Application.Services
         public void MarkAccommodation(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc)
         {
             GuestAccommodationMark accommodationMarks = new GuestAccommodationMark(cleanMark, ownerMark, comment, urls, user.Id, acc.AccommodationId);
+            if (accommodationMarks.UrlGuestImage.Equals(""))
+                accommodationMarks.UrlGuestImage = "Nema priloženih slika.";
             _guestAccommodationMarkRepository.Save(accommodationMarks);
             //ukloniti iz liste notificationsForMarking
             List<AccommodationReservation> finishedReservations = _accReservationRepository.LoadFinishedReservations();
@@ -32,6 +34,7 @@ namespace SOSTeam.TravelAgency.Application.Services
                 {
                     item.ReadMarkNotification = true;
                     _accReservationRepository.UpdateFinishedReservationsCSV(item);
+                    _accReservationRepository.Update(item);
                 }
             }
 

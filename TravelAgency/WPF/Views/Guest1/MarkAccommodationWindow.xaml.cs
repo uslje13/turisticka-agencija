@@ -31,7 +31,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         {
             InitializeComponent();
             FillTextBox(accommodation);
-            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(cleanMark, ownerMark, GuestComment.Text, GuestURLs.Text, user, accommodation);
+            List<RadioButton> cleanButtons = new List<RadioButton> { c1, c2, c3, c4, c5 };
+            List<RadioButton> ownerButtons = new List<RadioButton> { v1, v2, v3, v4, v5 };
+            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(cleanButtons, ownerButtons, GuestComment, GuestURLs, user, accommodation);
             DataContext = viewModel; 
         }
 
@@ -43,7 +45,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             binding.Source = accommodation.Name;
             AccommodationNameTb.SetBinding(TextBlock.TextProperty, binding);
         }
-
+        /*
         private void c1_Checked(object sender, RoutedEventArgs e)
         {
             cleanMark = 1;
@@ -93,5 +95,6 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         {
             ownerMark = 5;
         }
+        */
     }
 }

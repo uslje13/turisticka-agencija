@@ -15,10 +15,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public DateTime LastDay { get; set; }
         public int ReservationId { get; set; }
         public int AccommodationId { get; set; }
+        public string DaysForMarking { get; set; }
 
         public CancelAndMarkResViewModel() { }
 
-        public CancelAndMarkResViewModel(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId)
+        public CancelAndMarkResViewModel(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId, string daysForMarking = "")
         {
             AccommodationName = accommodationName;
             AccommodationCity = accommodationCity;
@@ -27,6 +28,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             LastDay = lastDay;
             ReservationId = reservationId;
             AccommodationId = accommodationId;
+            DaysForMarking = daysForMarking;
         }
     }
 }
