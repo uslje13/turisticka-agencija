@@ -117,10 +117,11 @@
                                                     </Button>
                                                 </Border>
                                                 <TextBlock TextAlignment="Center" Text="{Binding Name}" FontSize="30"/>
-                                                <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding LocationFullName}">
-                                                    <InlineUIContainer>
+                                                <TextBlock>
+                                                    <StackPanel Orientation="Horizontal">      
                                                         <Image Source="/Resources/Icons/checkpoint.png" Width="20" Height="20" />
-                                                    </InlineUIContainer>
+                                                        <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding LocationFullName}"/>
+                                                    </StackPanel>
                                                 </TextBlock>
                                                 <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding Language}">
                                                     <InlineUIContainer>
