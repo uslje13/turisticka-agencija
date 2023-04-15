@@ -58,14 +58,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             searchWindow.ShowDialog();
         }
 
-        /*
-        private void SearchAccommodationClick(object sender, RoutedEventArgs e)
-        {
-            SearchWindow searchWindow = new SearchWindow(LoggedInUser);
-            searchWindow.ShowDialog();
-        }
-        */
-
         private void CreateAllDTOForms()
         {
             AccommDTOsCollection.Clear();
@@ -128,20 +120,5 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
             }
         }
-
-        /*
-        private void ReserveAccommodationClick(object sender, RoutedEventArgs e)
-        {
-            if (SelectedAccommodationDTO != null)
-            {
-                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
-                newWindow.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
-            }
-        }
-        */
     }
 }

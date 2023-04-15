@@ -28,9 +28,6 @@ namespace SOSTeam.TravelAgency.WPF.Views
     {
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; } 
-        /*
-        public int DaysDuration { get; set; }
-        */
         public LocAccommodationViewModel DTO { get; set; }
         public User LoggedInUser { get; set; }
         
@@ -39,7 +36,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public bool IsEnterOfGhange { get; set; }
         public ChangedReservationRequest selectedReservation { get; set; }
         public AccommodationReservation selectedReservationCopy { get; set; }
-
+        public AccommodationReservationService accResService { get; set; }
 
         public EnterReservationWindow(LocAccommodationViewModel dto, User user, bool enter)
         {
@@ -79,8 +76,8 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
         private void ExecuteSearchingDates(object sender)
         {
-            AccommodationReservationService accResService = new AccommodationReservationService(DTO, LoggedInUser, FirstDate, LastDate, int.Parse(Days.Text), IsEnterOfGhange, selectedReservation, selectedReservationCopy);
-            accResService.ExecuteSearchingDates();
+            accResService = new AccommodationReservationService();
+            ExecuteSearchingDates(DTO, LoggedInUser, FirstDate, LastDate, int.Parse(Days.Text), IsEnterOfGhange, selectedReservation);
         }
 
         private void ExecuteCancelingOfSearchingDates(object sender)
@@ -88,54 +85,23 @@ namespace SOSTeam.TravelAgency.WPF.Views
             Close();
         }
 
-        /*
-        private void GoBackClick(object sender, RoutedEventArgs e)
+        public void ExecuteSearchingDates(LocAccommodationViewModel dto, User user, DateTime fDay, DateTime lDay, int days, bool isEnteredOfChange, ChangedReservationRequest request)
         {
-            Close();
-        }
-
-        private void ReserveClick(object sender, RoutedEventArgs e)
-        {
-            bool validDates = CheckDates(FirstDate, LastDate);
-            bool validDays = CheckDays();
+            bool validDates = accResService.CheckDates(fDay, lDay);
+            bool validDays = accResService.CheckDays(dto, days);
             if (validDates && validDays)
             {
-                ShowAvailableDatesWindow availableDates = new ShowAvailableDatesWindow(DTO, FirstDate, LastDate, DaysDuration, LoggedInUser);
+                ShowAvailableDatesWindow availableDates = new ShowAvailableDatesWindow(dto, fDay, lDay, days, user, isEnteredOfChange, request);
                 availableDates.Show();
-            } 
+            }
             else if (!validDates)
             {
                 MessageBox.Show("Nevalidan odabir datuma. Pokušajte ponovo.");
-            } 
+            }
             else if (!validDays)
             {
                 MessageBox.Show("Unešeni broj dana boravka je manji od minimalnog za izabrani smeštaj.");
             }
         }
-
-        private bool CheckDays()
-        {
-            DaysDuration = int.Parse(Days.Text);
-            int check = DTO.AccommodationMinDaysStay;
-            if (DaysDuration >= check) return true;
-            else return false;
-        }
-
-        private bool CheckDates(DateTime start, DateTime end)
-        {
-            if (start.Year < end.Year) return true;
-            else if (start.Year == end.Year)
-            {
-                if (start.Month < end.Month) return true;
-                else if (start.Month == end.Month)
-                {
-                    if (start.Day <= end.Day) return true;
-                    else return false;
-                }
-                else return false;
-            }
-            else return false;
-        }
-        */
     }
 }

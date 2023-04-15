@@ -27,23 +27,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SearchWindow : Window
     {
-        /*
-        public string searchedAccName { get; set; }
-        public string searchedAccCity { get; set; }
-        public string searchedAccCountry { get; set; }
-        public LocAccommodationViewModel.AccommType searchedAccType { get; set; }
-        public int searchedAccGuestsNumber { get; set; }
-        public int searchedAccDaysNumber { get; set; }
-        public List<Accommodation> accommodations { get; set; }
-        public List<Location> locations { get; set; }
-        public ObservableCollection<LocAccommodationViewModel> AccommDTOsCollection { get; set; }
-        public AccommodationRepository accommodationRepository { get; set; }
-        public LocationRepository locationRepository { get; set; }
-        public AccommodationReservationRepository accommodationReservationRepository { get; set; }
-        public List<AccommodationReservation> accommodationReservations { get; set; }
-        */
         public User LoggedInUser { get; set; }
-        
         public RelayCommand searchCommand { get; set; }
         public RelayCommand cancelCommand { get; set; }
 
@@ -61,8 +45,9 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
         private void ExecuteAccommodationSearch(object sender)
         {
-            AccommodationService accommodationService = new AccommodationService(LoggedInUser, name.Text, city.Text, country.Text, GetSelectedItem(CBTypes), int.Parse(guestsNumber.Text), int.Parse(daysNumber.Text));
-            accommodationService.ExecuteAccommodationSearch();
+            AccommodationService accommodationService = new AccommodationService();
+            List<LocAccommodationViewModel> searchResult = accommodationService.ExecuteAccommodationSearch(name.Text, city.Text, country.Text, GetSelectedItem(CBTypes), int.Parse(guestsNumber.Text), int.Parse(daysNumber.Text));
+            ShowResults(searchResult);
         }
 
         private void ExecuteCancelAccommodationSearch(object sender)
@@ -76,6 +61,19 @@ namespace SOSTeam.TravelAgency.WPF.Views
             else if (cb.SelectedItem == CBItemHouse) return LocAccommodationViewModel.AccommType.HOUSE;
             else if (cb.SelectedItem == CBItemHut) return LocAccommodationViewModel.AccommType.HUT;
             else return LocAccommodationViewModel.AccommType.NOTYPE;
+        }
+        
+        private void ShowResults(List<LocAccommodationViewModel> results)
+        {
+            if (results.Count > 0)
+            {
+                SearchResultsWindow newWindow = new SearchResultsWindow(results, LoggedInUser);
+                newWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Nepostojeća kombinacija podataka. Pokušajte ponovo.");
+            }
         }
     }
 }

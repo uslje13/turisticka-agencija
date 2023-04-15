@@ -10,7 +10,9 @@ using System.Windows.Controls.Ribbon.Primitives;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.WPF.Views;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -77,11 +79,35 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if(selectedCancelReservation != null)
             {
-                accommodationReservationService.CancelReservation(selectedCancelReservation);
+                CancelReservation(selectedCancelReservation);
             }
             else
             {
                 MessageBox.Show("Odaberite rezervaciju koju želite otkazati.");
+            }
+        }
+
+        public void CancelReservation(CancelAndMarkResViewModel selectedReservation)
+        {
+            Accommodation accommodation = accommodationService.GetById(selectedReservation.AccommodationId);
+            
+            int difference = selectedReservation.FirstDay.DayOfYear - DateTime.Today.DayOfYear;
+            if (difference > 1)
+            {
+                if (difference >= accommodation.MinDaysForCancelation)
+                {
+                    accommodationReservationService.CancelReservation(selectedReservation);
+                    MessageBox.Show("Uspješno otkazano!");
+                }
+                else
+                {
+                    MessageBox.Show("Odabrana rezervacija se ne može otkazati zbog postavljenog vlasnikovog ograničenja za otkazivanje od " +
+                                    accommodation.MinDaysForCancelation.ToString() + " dana do početka rezervacije.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Odabrana rezervacija se ne može otkazati jer počinje sutra.");
             }
         }
 
@@ -93,7 +119,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if(reserv.AccommodationId == lavm.AccommodationId)
                     {
-                        if(reserv.FirstDay.DayOfYear > DateTime.Today.DayOfYear && reserv.Id == LoggedInUser.Id)
+                        if(reserv.FirstDay.DayOfYear > DateTime.Today.DayOfYear && reserv.UserId == LoggedInUser.Id)
                         {
                             CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity,
                                                                                             lavm.LocationCountry, reserv.FirstDay, reserv.LastDay,

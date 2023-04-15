@@ -20,48 +20,11 @@ namespace SOSTeam.TravelAgency.Application.Services
 {
     public class AccommodationService
     {
-        public string searchedAccName { get; set; }
-        public string searchedAccCity { get; set; }
-        public string searchedAccCountry { get; set; }
-        public LocAccommodationViewModel.AccommType searchedAccType { get; set; }
-        public int searchedAccGuestsNumber { get; set; }
-        public int searchedAccDaysNumber { get; set; }
-        public List<Accommodation> accommodations { get; set; }
-        public List<Location> locations { get; set; }
-        public ObservableCollection<LocAccommodationViewModel> AccommDTOsCollection { get; set; }
-        public AccommodationRepository accommodationRepository { get; set; }
-        public LocationRepository locationRepository { get; set; }
-        public AccommodationReservationRepository accommodationReservationRepository { get; set; }
-        public List<AccommodationReservation> accommodationReservations { get; set; }
-        public User LoggedInUser { get; set; }
-
         private readonly IAccommodationRepository _accommodationRepository = Injector.CreateInstance<IAccommodationRepository>();
+        private readonly ILocationRepository _locationRepository = Injector.CreateInstance<ILocationRepository>();
+        private readonly IAccReservationRepository _accReservationRepository = Injector.CreateInstance<IAccReservationRepository>();
 
-        public AccommodationService()
-        {
-
-        }
-
-        public AccommodationService(User user, string name, string city, string country, LocAccommodationViewModel.AccommType type, int guestNumber, int daysNumber)
-        {
-            AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
-
-            accommodationRepository = new AccommodationRepository();
-            locationRepository = new LocationRepository();
-            accommodationReservationRepository = new AccommodationReservationRepository();
-
-            accommodations = accommodationRepository.GetAll();
-            locations = locationRepository.GetAll();
-            accommodationReservations = accommodationReservationRepository.GetAll();
-
-            LoggedInUser = user;
-            searchedAccName = name;
-            searchedAccCity = city;
-            searchedAccCountry = country;
-            searchedAccType = type;
-            searchedAccGuestsNumber = guestNumber;
-            searchedAccDaysNumber = daysNumber;
-        }
+        public AccommodationService() { }
 
         public void Delete(int id)
         {
@@ -93,15 +56,19 @@ namespace SOSTeam.TravelAgency.Application.Services
             _accommodationRepository.Update(accommodation);
         }
 
-        public void ExecuteAccommodationSearch()
+        public List<LocAccommodationViewModel> ExecuteAccommodationSearch(string name, string city, string country, LocAccommodationViewModel.AccommType type, int guestNumber, int daysNumber)
         {
-            CreateAllDTOForms();
-            LocAccommodationViewModel dtoRequest = CreateDTORequest();
-            SearchAndShow(dtoRequest);
+            ObservableCollection<LocAccommodationViewModel> AccommDTOsCollection = CreateAllDTOForms();
+            LocAccommodationViewModel dtoRequest = CreateDTORequest(name, city, country, type, guestNumber, daysNumber);
+            return Search(dtoRequest, AccommDTOsCollection);
         }
 
-        private void CreateAllDTOForms()
+        private ObservableCollection<LocAccommodationViewModel> CreateAllDTOForms()
         {
+            List<Accommodation> accommodations = _accommodationRepository.GetAll();
+            List<Location> locations = _locationRepository.GetAll();
+            ObservableCollection<LocAccommodationViewModel>  AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
+
             AccommDTOsCollection.Clear();
             foreach (var accommodation in accommodations)
             {
@@ -114,10 +81,14 @@ namespace SOSTeam.TravelAgency.Application.Services
                     }
                 }
             }
+
+            return AccommDTOsCollection;
         }
 
         private LocAccommodationViewModel CreateDTOForm(Accommodation acc, Location loc)
         {
+            List<AccommodationReservation> accommodationReservations = _accReservationRepository.GetAll();
+
             int currentGuestNumber = 0;
             foreach (var item in accommodationReservations)
             {
@@ -149,20 +120,14 @@ namespace SOSTeam.TravelAgency.Application.Services
                 return LocAccommodationViewModel.AccommType.NOTYPE;
         }
 
-        private LocAccommodationViewModel CreateDTORequest()
+        private LocAccommodationViewModel CreateDTORequest(string searchedAccName, string searchedAccCity, string searchedAccCountry, LocAccommodationViewModel.AccommType searchedAccType, int searchedAccGuestsNumber, int searchedAccDaysNumber)
         {
             LocAccommodationViewModel acDTO = new LocAccommodationViewModel(searchedAccName, searchedAccCity, searchedAccCountry, searchedAccType,
                                                             searchedAccGuestsNumber, searchedAccDaysNumber);
             return acDTO;
         }
 
-        private void SearchAndShow(LocAccommodationViewModel request)
-        {
-            List<LocAccommodationViewModel> searchResult = Search(request);
-            ShowResults(searchResult);
-        }
-
-        private List<LocAccommodationViewModel> Search(LocAccommodationViewModel request)
+        private List<LocAccommodationViewModel> Search(LocAccommodationViewModel request, ObservableCollection<LocAccommodationViewModel> AccommDTOsCollection)
         {
             List<LocAccommodationViewModel> SearchResult = new List<LocAccommodationViewModel>();
             foreach (var item in AccommDTOsCollection)
@@ -186,19 +151,6 @@ namespace SOSTeam.TravelAgency.Application.Services
             bool checkDaysStay = request.AccommodationMinDaysStay >= item.AccommodationMinDaysStay;
 
             return checkName && checkCity && checkCountry && checkType && checkMaxGuests && checkDaysStay;
-        }
-
-        private void ShowResults(List<LocAccommodationViewModel> results)
-        {
-            if (results.Count > 0)
-            {
-                SearchResultsWindow newWindow = new SearchResultsWindow(results, LoggedInUser);
-                newWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("Nepostojeća kombinacija podataka. Pokušajte ponovo.");
-            }
         }
     }
 }

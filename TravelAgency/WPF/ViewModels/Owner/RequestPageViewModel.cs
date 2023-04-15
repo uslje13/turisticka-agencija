@@ -78,12 +78,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private void Execute_Deny(object obj)
         {
             if (Comment == null) Comment = "";
-            _accommodationReservationService.declineReservationChanges(Comment,SelectedRequest.NewDate, SelectedRequest.Request, LoggedInUser.Id);
+            _accommodationReservationService.DeclineReservationChanges(Comment,SelectedRequest.NewDate, SelectedRequest.Request, LoggedInUser.Id);
             RefreshList();
         }
         private void Execute_Accept(object obj)
         {
-            _accommodationReservationService.acceptReservationChanges( SelectedRequest.NewDate,SelectedRequest.Request,LoggedInUser.Id);
+            _accommodationReservationService.AcceptReservationChanges( SelectedRequest.NewDate,SelectedRequest.Request,LoggedInUser.Id);
             RefreshList();
         }
 
@@ -110,7 +110,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             Request = changedReservationRequest;
             NewDate = wantedNewDate;
-            OldReservationDates = changedReservationRequest.OldFirstDay.ToShortDateString() + " - " + changedReservationRequest.OldFirstDay.ToShortDateString();
+            OldReservationDates = changedReservationRequest.OldFirstDay.ToShortDateString() + " - " + changedReservationRequest.OldLastDay.ToShortDateString();
             NewReservationDates = wantedNewDate.wantedDate.ReservationFirstDay.ToShortDateString() + " - " + wantedNewDate.wantedDate.ReservationLastDay.ToShortDateString();
             Username = username;
         }
