@@ -13,10 +13,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using SOSTeam.TravelAgency.WPF.Views.Guest2;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -74,7 +77,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST1)
                 {
-                    UserProfilleWindow userProfilleWindow = new UserProfilleWindow(user);
+                    UserProfilleWindow userProfilleWindow = new UserProfilleWindow(user, TestInboxCharge());
                     userProfilleWindow.Show();
                     Close();
                 }
@@ -96,6 +99,30 @@ namespace SOSTeam.TravelAgency.WPF.Views
             {
                 MessageBox.Show("Wrong username!");
             }
+        }
+
+        private bool TestInboxCharge()
+        {
+            AccommodationReservationService resService = new AccommodationReservationService();
+            NotificationFromOwnerService notifService = new NotificationFromOwnerService();
+
+            List<AccommodationReservation> finishedRes = resService.LoadFinishedReservations();
+            List<NotificationFromOwner> notifications = notifService.GetAll();
+            if (notifications.Count > 0)
+                return true;
+            foreach (var res in finishedRes)
+            {
+                if (!res.ReadMarkNotification)
+                {
+                    int diff = DateTime.Today.DayOfYear - res.LastDay.DayOfYear;
+                    if (diff <= 5)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

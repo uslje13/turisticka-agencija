@@ -23,16 +23,13 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class UserProfilleWindow : Window
     {
-        public UserProfilleWindow(User user)
+        public UserProfilleWindow(User user, bool color)
         {
             InitializeComponent();
+            if (color)
+                InboxButton.Background = new SolidColorBrush(Colors.OrangeRed);
             UserProfilleViewModel viewModel = new UserProfilleViewModel(user, UsersName);
             DataContext = viewModel;
-        }
-
-        private void TestInboxCharge(object sender, RoutedEventArgs e)
-        {
-            //InboxButton.Background = new SolidColorBrush(Colors.OrangeRed);
         }
     }
 }

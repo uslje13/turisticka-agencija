@@ -11,6 +11,7 @@ using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.WPF.Views;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using System.Windows.Media;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -30,7 +31,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             FillTextBlock(LoggedInUser);
             CollectFinishedReservations();
-            //ShowNotifications();
+            
             goToSearchCommand = new RelayCommand(ExecuteGoToSearch);
             goToRequestsStatus = new RelayCommand(ExecuteGoToStatuses);
             goToInboxCommand = new RelayCommand(ExecuteInboxShowing);
@@ -60,30 +61,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void ExecuteInboxShowing(object sender)
         {
-            //MarkAccommodationWindow markAccommodationWindow = new MarkAccommodationWindow(LoggedInUser);
-            //markAccommodationWindow.Show();
             GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser);
             newWindow.ShowDialog();
         }
-        /*
-        private void ShowNotifications()
-        {
-            NotificationFromOwnerService service = new NotificationFromOwnerService();
-            UserService userService = new UserService();
-            List<NotificationFromOwner> localList = service.GetAll();
 
-            if(localList.Count > 0)
-            {
-                foreach (var item in localList)
-                {
-                    User user = userService.GetById(item.OwnerId);
-                    MessageBox.Show("Vlasnik " + user.Username + " je odgovorio na Vaš zahtjev za pomjeranje rezervacije u smještaju " +
-                                    item.AccommodationName + " sa: " + item.Answer + ".");
-                    service.Delete(item.Id);
-                }
-            }
-        }
-        */
         private void ExecuteGoToStatuses(object sender)
         {
             RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser);
