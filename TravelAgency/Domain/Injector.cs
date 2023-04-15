@@ -30,6 +30,7 @@ namespace SOSTeam.TravelAgency.Domain
             { typeof(IWantedNewDateRepository), new WantedNewDateRepository() },
             { typeof(INotificationFromOwnerRepository), new NotificationFromOwnerRepository() },
             { typeof(ITourReviewRepository), new ChangedResRequestRepository() },
+            { typeof(IVoucherRepository), new VoucherRepository() },
             //{ typeof(IUserService), new UserService() },
 
 
