@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
-    internal class RequestPageViewModel
+    internal class RequestPageViewModel : ViewModel
     {
         private AccommodationReservationService _accommodationReservationService;
         private UserService _userService;
@@ -20,7 +20,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand Accept { get; private set; }
         public RelayCommand Deny { get; private set; }
         public RelayCommand ShowDenialPopup { get; private set; }
-        public bool IsDropdownOpen { get; set; }
+        public string Comment { get; set; }
+        private bool _isCommentDropOpen;
+
+        public bool IsCommentDropOpen
+        {
+            get => _isCommentDropOpen;
+            set
+            {
+                if (_isCommentDropOpen != value)
+                {
+                    _isCommentDropOpen = value;
+                    OnPropertyChanged(nameof(IsCommentDropOpen));
+                }
+            }
+        }
         public ObservableCollection<RequestViewModel> Requests { get; set; }
         public RequestViewModel SelectedRequest { get; set; }
 
@@ -31,7 +45,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _mainwindowVM = mainWindowVM;
             LoggedInUser = user;
             Requests = new();
-            IsDropdownOpen = true;
+            IsCommentDropOpen = true;
             FillObservableCollection();
 
             
@@ -59,11 +73,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_ShowDenialPopup(object obj)
         {
-            IsDropdownOpen = !IsDropdownOpen;
+            IsCommentDropOpen = true;
         }
         private void Execute_Deny(object obj)
         {
-            throw new NotImplementedException();
+            if (Comment == null) Comment = "";
+            _accommodationReservationService.declineReservationChanges(Comment,SelectedRequest.NewDate, SelectedRequest.Request, LoggedInUser.Id);
         }
         private void Execute_Accept(object obj)
         {

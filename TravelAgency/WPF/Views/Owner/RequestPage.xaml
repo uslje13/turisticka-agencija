@@ -55,47 +55,58 @@
         </Grid>
         <Grid Grid.Row="1">
             <Border BorderBrush="Black" BorderThickness="1"/>
+            <Popup x:Name="MyPopup" StaysOpen="False" AllowsTransparency="True"
+                   PlacementTarget="{Binding ElementName=DenialButton}"
+                   Placement="Top"
+                       VerticalOffset="15"
+                       HorizontalOffset="-20"
+                       IsOpen="{Binding IsCommentDropOpen,Mode=TwoWay}">
+                <Grid Height="300" Width="300" Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+
+                    </Grid.RowDefinitions>
+
+                    <Grid x:Name="TriangleGrid"
+                                      Grid.Row="1"
+                                      Background="Transparent"
+                                      Width="50"
+                                      Height="40"
+                                      Margin="0, -10, 0, 0"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Top">
+                        <Path Fill="White" Stretch="Fill" Data="M0,0 L30,30 L60,0 Z" Stroke="Black" StrokeThickness="1" Margin="0,0,20,0"/>
+                    </Grid>
+                    <Grid Grid.Row="0" Background="Transparent">
+                        <Border BorderThickness="2" BorderBrush="Black" CornerRadius="20" Background="White"></Border>
+                        <Grid Margin="2,20">
+
+                            <Grid>
+                                <StackPanel>
+                                    <Border BorderThickness="1" BorderBrush="Black"  Background="White" Margin="10">
+                                    <TextBox Text="{Binding Comment,Mode=TwoWay}" Height="180" FontSize="16" TextWrapping="Wrap">
+
+                                    </TextBox>
+                                    </Border>
+                                    <Button Content="Potvrdi" Command="{Binding Deny}" Width="80" Height="25" FontSize="16" Margin="3"></Button>
+                                </StackPanel>
+                                
+                            </Grid>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+            </Popup>
             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button Content="Prihvati" FontSize="25" Margin="20" Width="120" Command="{Binding Accept}">
 
                 </Button>
-                <Button Content="Odbi" x:Name="MyButton" FontSize="25" Margin="20" Width="120" Command="{Binding ShowDenialPopup}">
+                <Button Content="Odbi"  x:Name="DenialButton" FontSize="25" Margin="20" Width="120" Command="{Binding ShowDenialPopup}">
 
                 </Button>
-                <Popup x:Name="MyPopup" StaysOpen="False" AllowsTransparency="True"
-                   PlacementTarget="{Binding ElementName=MyButton}"
-                   Placement="Top"
-                       VerticalOffset="15"
-                       HorizontalOffset="130"
-                       IsOpen="{Binding IsDropdownOpen}">
-                    <Grid Height="300" Width="300" Background="Transparent">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                            
-                        </Grid.RowDefinitions>
-
-                        <Grid x:Name="TriangleGrid"
-                                      Grid.Row="1"
-                                      Background="Transparent"
-                                      Width="30"
-                                      Height="40"
-                                      Margin="0, -10, 0, 0"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Top">
-                            <Path Fill="White" Stretch="Fill" Data="M0,0 L30,30 L60,0 Z" Stroke="Black" StrokeThickness="1" />
-                        </Grid>
-                        <Grid Grid.Row="0" Background="Transparent">
-                            <Border BorderThickness="2" BorderBrush="Black" CornerRadius="20" Background="White"></Border>
-                            <Grid Margin="2,20">
-                                
-
-
-                            </Grid>
-                        </Grid>
-                    </Grid>
-
-                </Popup>
+                
             </WrapPanel>
         </Grid>
 
