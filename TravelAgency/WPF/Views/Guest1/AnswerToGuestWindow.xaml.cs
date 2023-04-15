@@ -103,13 +103,13 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         private void PotvrdiKlik(object sender, RoutedEventArgs e)
         {
             AccommodationReservationService service = new AccommodationReservationService();
-            service.acceptReservationChanges(newReservation, oldReservation, LoggedInOwner);
+            service.AcceptReservationChanges(newReservation, oldReservation, LoggedInOwner);
         }
 
         private void odbijKlik(object sender, RoutedEventArgs e)
         {
             AccommodationReservationService service = new AccommodationReservationService();
-            service.declineReservationChanges(givenOwnerComment.Text, newReservation, oldReservation, LoggedInOwner);
+            service.DeclineReservationChanges(givenOwnerComment.Text, newReservation, oldReservation, LoggedInOwner);
         }
     }
 }

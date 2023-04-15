@@ -17,6 +17,7 @@ using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -54,50 +55,27 @@ namespace SOSTeam.TravelAgency.WPF.Views
             {
                 finishReserveCommand = new RelayCommand(ExecuteSendRequestForChange);
             }
-            //accommodationReservationRepository = new AccommodationReservationRepository();
-            //accommodationReservations = accommodationReservationRepository.GetAll();
         }
 
         private void ExecuteSendRequestForChange(object sender)
         {
             guestNumber = int.Parse(GuestNumber.Text);
-            accResService = new AccommodationReservationService(forwardedItem, LoggedInUser, guestNumber, ChangedReservationRequest);
-            accResService.ExecuteSendRequestForChange();
-        } 
-
-        private void ExecuteReserveAccommodation(object sender)
-        {
-            guestNumber = int.Parse(GuestNumber.Text);
-            accResService = new AccommodationReservationService(forwardedItem, LoggedInUser, guestNumber);
-            accResService.ExecuteReserveAccommodation();
+            accResService = new AccommodationReservationService();
+            ExecuteSendRequestForChange(forwardedItem, guestNumber);
         }
 
-        /*
-        private void AddReservation(DateTime start, DateTime end, int guests, int days, int accId)
+        private void ExecuteSendRequestForChange(AccReservationViewModel item, int forwadedGuestNumber)
         {
-            AccommodationReservation reservation = new AccommodationReservation(start, end, days, guests, accId, LoggedInUser.Id);
-            AccommodationReservationRepository reservationRepository = new AccommodationReservationRepository();
-            reservationRepository.Save(reservation);
-            MessageBox.Show("Uspešno rezervisano.");
-            Close();
-        }
-
-        private void Reserve(object sender, RoutedEventArgs e)
-        {
-            int appropriateGuestNumber = FindAppropriateGuestsNumber();
-
-            int guestNumber = int.Parse(GuestNumber.Text);
-            if(guestNumber > 0)
+            if (forwadedGuestNumber > 0)
             {
-                int helpVar = appropriateGuestNumber + guestNumber;
-                if (helpVar > forwardedItem.AccommodationMaxGuests)
+                if (forwadedGuestNumber > item.AccommodationMaxGuests)
                 {
                     MessageBox.Show("Prekoračen je maksimalni broj gostiju za ovaj smeštaj. Pokušajte ponovo.");
                 }
                 else
                 {
-                    AddReservation(forwardedItem.ReservationFirstDay, forwardedItem.ReservationLastDay, guestNumber,
-                                    forwardedItem.ReservationDuration, forwardedItem.AccommodationId);
+                    accResService.ProcessReservation(item, LoggedInUser, ChangedReservationRequest);
+                    MessageBox.Show("Zahtjev za pomjeranje rezervacije je uspješno poslat vlasniku.");
                 }
             }
             else
@@ -106,25 +84,32 @@ namespace SOSTeam.TravelAgency.WPF.Views
             }
         }
 
-        private int FindAppropriateGuestsNumber()
+        private void ExecuteReserveAccommodation(object sender)
         {
-            int appropriateGuestNumber = 0;
-            foreach (var item in accommodationReservations)
+            guestNumber = int.Parse(GuestNumber.Text);
+            accResService = new AccommodationReservationService();
+            ExecuteReserveAccommodation(forwardedItem, guestNumber);
+        }
+
+        private void ExecuteReserveAccommodation(AccReservationViewModel item, int forwadedGuestNumber)
+        {
+            if (forwadedGuestNumber > 0)
             {
-                if (item.AccommodationId == forwardedItem.AccommodationId)
+                if (forwadedGuestNumber > item.AccommodationMaxGuests)
                 {
-                    DateTime today = DateTime.Today;
-                    int helpVar1 = today.DayOfYear - forwardedItem.ReservationFirstDay.DayOfYear;
-                    int helpVar2 = today.DayOfYear - forwardedItem.ReservationLastDay.DayOfYear;
-                    if (helpVar1 >= 0 && helpVar2 <= 0)
-                    {
-                        appropriateGuestNumber += item.GuestNumber;
-                    }
+                    MessageBox.Show("Prekoračen je maksimalni broj gostiju za ovaj smeštaj. Pokušajte ponovo.");
+                }
+                else
+                {
+                    accResService.AddReservation(item.ReservationFirstDay, item.ReservationLastDay, forwadedGuestNumber,
+                                    item.ReservationDuration, item.AccommodationId, LoggedInUser);
+                    MessageBox.Show("Uspješno rezervisano.");
                 }
             }
-
-            return appropriateGuestNumber;
+            else
+            {
+                MessageBox.Show("Ne možete izvršiti rezervaciju za 0 osoba.");
+            }
         }
-        */
     }
 }

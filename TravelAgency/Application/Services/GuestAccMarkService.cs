@@ -22,23 +22,31 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         public void MarkAccommodation(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc)
         {
-            GuestAccommodationMark accommodationMarks = new GuestAccommodationMark(cleanMark, ownerMark, comment, urls, user.Id, acc.AccommodationId);
-            if (accommodationMarks.UrlGuestImage.Equals(""))
-                accommodationMarks.UrlGuestImage = "Nema priloženih slika.";
-            _guestAccommodationMarkRepository.Save(accommodationMarks);
-            //ukloniti iz liste notificationsForMarking
+            MakeAndSaveMark(cleanMark, ownerMark, comment, urls, user, acc);
+            SaveChangesToCSVs(acc);
+            SaveImages(urls, acc.ReservationId);
+        }
+
+        private void SaveChangesToCSVs(CancelAndMarkResViewModel acc)
+        {
             List<AccommodationReservation> finishedReservations = _accReservationRepository.LoadFinishedReservations();
-            foreach(var item in finishedReservations)
+            foreach (var item in finishedReservations)
             {
-                if(item.Id == acc.ReservationId)
+                if (item.Id == acc.ReservationId)
                 {
                     item.ReadMarkNotification = true;
                     _accReservationRepository.UpdateFinishedReservationsCSV(item);
                     _accReservationRepository.Update(item);
                 }
             }
+        }
 
-            SaveImages(urls, acc.ReservationId);
+        private void MakeAndSaveMark(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc)
+        {
+            GuestAccommodationMark accommodationMarks = new GuestAccommodationMark(cleanMark, ownerMark, comment, urls, user.Id, acc.AccommodationId);
+            if (accommodationMarks.UrlGuestImage.Equals(""))
+                accommodationMarks.UrlGuestImage = "Nema priloženih slika.";
+            _guestAccommodationMarkRepository.Save(accommodationMarks);
         }
 
         private void SaveImages(string urls, int resId)
