@@ -22,14 +22,14 @@
             <RowDefinition Height="78*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Height="50" Width="300">
+        <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Image Source="/Resources/Icons/earth.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Height="50"/>
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding TourName}"  
-                       FontSize="22" Width="250">
+                       FontSize="22">
             </TextBlock>
         </WrapPanel>
-        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="{Binding Date, StringFormat='dd.MM.yyyy. hh:mm'}"  
-                   TextAlignment="Center" Margin="132,0,0,5" FontSize="16" Height="26" Width="163"/>
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Date, StringFormat='dd.MM.yyyy. hh:mm'}"  
+                   TextAlignment="Center" FontSize="16" Height="26" Width="163"/>
         <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Checkpoints"  
                Margin="15,0,0,0" FontSize="18" Height="34" Width="107"/>
         <Button Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" Height="24"
@@ -57,7 +57,8 @@
                         <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Type}" FontSize="16" Foreground="#FF999999" 
                                    Margin=" 0 25 0 0 "></TextBlock>
                         <TextBlock Grid.Column="2" Text="{Binding Status}" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold"></TextBlock>
-                        <Button Grid.Column="3" Background="Transparent" BorderBrush="Transparent">
+                        <Button Grid.Column="3" Background="Transparent" BorderBrush="Transparent" Command="{Binding DataContext.ViewGuestAttendanceCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                CommandParameter="{Binding }">
                             <Image Source="/Resources/Icons/guests_with_text.png" Width="56">
                             </Image>
                         </Button>

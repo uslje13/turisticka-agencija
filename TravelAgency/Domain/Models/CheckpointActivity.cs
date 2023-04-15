@@ -17,7 +17,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             AppointmentId = -1;
             CheckpointId = -1;
             Status = CheckpointStatus.NOT_STARTED;
-            GuestsCalled = false;
+            GuestsCalled = true;
         }
 
         public CheckpointActivity(int id, int appointmentId, int checkpointId, CheckpointStatus status, bool guestsCalled)
