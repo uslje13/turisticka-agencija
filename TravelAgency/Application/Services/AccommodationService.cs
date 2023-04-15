@@ -53,6 +53,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             accommodations = accommodationRepository.GetAll();
             locations = locationRepository.GetAll();
             accommodationReservations = accommodationReservationRepository.GetAll();
+
             LoggedInUser = user;
             searchedAccName = name;
             searchedAccCity = city;
