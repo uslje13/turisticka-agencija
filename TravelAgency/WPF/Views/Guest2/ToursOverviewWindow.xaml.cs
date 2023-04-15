@@ -21,12 +21,18 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     /// </summary>
     public partial class ToursOverviewWindow : Window
     {
+        private readonly MainViewModel _viewModel;
         public ToursOverviewWindow(User loggedInUser)
         {
-            MainViewModel viewModel = new MainViewModel(loggedInUser,this);
-            this.DataContext = viewModel;
-            viewModel.GetAttendanceMessage();
             InitializeComponent();
+            MainViewModel viewModel = new MainViewModel(loggedInUser,this);
+            _viewModel = viewModel; 
+            this.DataContext = viewModel;
+        }
+
+        public void GetAttendanceMessages()
+        {
+            _viewModel.GetAttendanceMessage();
         }
     }
 }
