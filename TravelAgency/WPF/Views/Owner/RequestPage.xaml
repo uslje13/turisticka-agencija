@@ -84,12 +84,14 @@
 
                             <Grid>
                                 <StackPanel>
-                                    <Border BorderThickness="1" BorderBrush="Black"  Background="White" Margin="10">
-                                    <TextBox Text="{Binding Comment,Mode=TwoWay}" Height="180" FontSize="16" TextWrapping="Wrap">
+                                    <Label Content="Objašnjenje (opciono):" FontSize="16" Margin="5,-5,0,0" />
+                                    <Border BorderThickness="1" BorderBrush="Black"  Background="White" Margin="10,0,10,10">
+                                        
+                                        <TextBox Text="{Binding Comment,Mode=TwoWay}" Height="165" FontSize="16" TextWrapping="Wrap">
 
-                                    </TextBox>
-                                    </Border>
-                                    <Button Content="Potvrdi" Command="{Binding Deny}" Width="80" Height="25" FontSize="16" Margin="3"></Button>
+                                        </TextBox>
+                                        </Border>
+                                    <Button Content="Potvrdi" Command="{Binding Deny}" Width="80" Height="25" FontSize="16" Margin="0"></Button>
                                 </StackPanel>
                                 
                             </Grid>
