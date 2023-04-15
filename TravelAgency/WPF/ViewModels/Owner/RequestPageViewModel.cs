@@ -79,15 +79,23 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             if (Comment == null) Comment = "";
             _accommodationReservationService.declineReservationChanges(Comment,SelectedRequest.NewDate, SelectedRequest.Request, LoggedInUser.Id);
+            RefreshList();
         }
         private void Execute_Accept(object obj)
         {
             _accommodationReservationService.acceptReservationChanges( SelectedRequest.NewDate,SelectedRequest.Request,LoggedInUser.Id);
+            RefreshList();
         }
 
         private bool CanExecuteDenyorAccept(object obj)
         {
             return SelectedRequest != null;
+        }
+
+        private void RefreshList() 
+        {
+            Requests.Clear();
+            FillObservableCollection();
         }
     }
 
