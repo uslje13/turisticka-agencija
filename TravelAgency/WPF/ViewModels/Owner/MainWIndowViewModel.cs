@@ -125,7 +125,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 case "AccommodationAdd":
                     navigationService.Navigate(new AddAccommodationPage(LoggedInUser,this));
                     break;
-                
+                case "Request":
+                    navigationService.Navigate(new RequestPage(LoggedInUser, this));
+                    break;
                 /*
                 case "Review":
                     navigationService.Navigate(new HomePage());
@@ -133,9 +135,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 case "Renovation":
                     navigationService.Navigate(new HomePage());
                     break;
-                case "Request":
-                    navigationService.Navigate(new HomePage());
-                    break;
+                
                 case "Suggestion":
                     navigationService.Navigate(new HomePage());
                     break;
