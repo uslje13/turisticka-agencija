@@ -7,7 +7,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
     {
         public enum ImageType
         {
-            ACCOMMODATION,TOUR,NOTYPE
+            ACCOMMODATION,TOUR,RESERVATION,NOTYPE
         }
         public int Id { get; set; }
         public string Url { get; set; }
@@ -32,6 +32,15 @@ namespace SOSTeam.TravelAgency.Domain.Models
             EntityId = tourId;
             Type = type;
         }
+
+        public Image(string url, bool cover, int tourId, ImageType type)
+        {
+            Url = url;
+            Cover = cover;
+            EntityId = tourId;
+            Type = type;
+        }
+
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
-    public class CancelReservationViewModel
+    public class CancelAndMarkResViewModel
     {
         public string AccommodationName { get; set; }
         public string AccommodationCity { get; set; }
@@ -16,10 +16,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int ReservationId { get; set; }
         public int AccommodationId { get; set; }
 
+        public CancelAndMarkResViewModel() { }
 
-        public CancelReservationViewModel() { }
-
-        public CancelReservationViewModel(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId)
+        public CancelAndMarkResViewModel(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId)
         {
             AccommodationName = accommodationName;
             AccommodationCity = accommodationCity;

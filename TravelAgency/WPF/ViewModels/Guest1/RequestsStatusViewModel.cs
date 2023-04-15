@@ -31,8 +31,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public AccommodationReservation selectedAccReservationCopy { get; set; }
         public RelayCommand FindNewDateCommand { get; set; }
         public RelayCommand CancelReservationCommand { get; set; }
-        public CancelReservationViewModel selectedCancelReservation { get; set; }
-        public List<CancelReservationViewModel> allReservationsInfoList { get; set; }
+        public CancelAndMarkResViewModel selectedCancelReservation { get; set; }
+        public List<CancelAndMarkResViewModel> allReservationsInfoList { get; set; }
 
 
         public RequestsStatusViewModel(User user) 
@@ -43,7 +43,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             locationService = new LocationService();
             accommodationService = new AccommodationService();
             changedReservationRequestService = new ChangedReservationRequestService();
-            allReservationsInfoList = new List<CancelReservationViewModel>();
+            allReservationsInfoList = new List<CancelAndMarkResViewModel>();
 
             accommodationReservations = accommodationReservationService.GetAll();
             locations = locationService.GetAll();
@@ -93,10 +93,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if(reserv.AccommodationId == lavm.AccommodationId)
                     {
-                        CancelReservationViewModel crModel = new CancelReservationViewModel(lavm.AccommodationName, lavm.LocationCity, 
-                                                                                            lavm.LocationCountry, reserv.FirstDay, reserv.LastDay, 
+                        if(reserv.FirstDay.DayOfYear > DateTime.Today.DayOfYear)
+                        {
+                            CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity,
+                                                                                            lavm.LocationCountry, reserv.FirstDay, reserv.LastDay,
                                                                                             reserv.Id, lavm.AccommodationId);
-                        allReservationsInfoList.Add(crModel);
+                            allReservationsInfoList.Add(crModel);
+                        }
                     }
                 }
             }

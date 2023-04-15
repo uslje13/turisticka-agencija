@@ -20,19 +20,52 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public TextBlock userName { get; set; }
         public RelayCommand goToSearchCommand { get; set; }
         public RelayCommand goToRequestsStatus { get; set; }
-        //public bool IsEnterFromChange { get; set; }
+        public RelayCommand goToInboxCommand { get; set; }
+
 
         public UserProfilleViewModel(User user, TextBlock uName) 
         {
             LoggedInUser = user;
             userName = uName;
-            //IsEnterFromChange = false;
+
             FillTextBlock(LoggedInUser);
-            ShowNotifications();
+            CollectFinishedReservations();
+            //ShowNotifications();
             goToSearchCommand = new RelayCommand(ExecuteGoToSearch);
             goToRequestsStatus = new RelayCommand(ExecuteGoToStatuses);
+            goToInboxCommand = new RelayCommand(ExecuteInboxShowing);
         }
 
+        private void CollectFinishedReservations()
+        {
+            AccommodationReservationService service = new AccommodationReservationService();
+            List<AccommodationReservation> localList = service.LoadFinishedReservations();
+
+            if(localList.Count > 0)
+            {
+                foreach (var item in localList)
+                {
+                    service.DeleteFromFinsihedCSV(item);
+                }
+            }
+
+            foreach (var item in service.GetAll())
+            {
+                if (DateTime.Today.DayOfYear > item.LastDay.DayOfYear)
+                {
+                    service.SaveFinishedReservation(item);
+                }
+            }
+        }
+
+        private void ExecuteInboxShowing(object sender)
+        {
+            //MarkAccommodationWindow markAccommodationWindow = new MarkAccommodationWindow(LoggedInUser);
+            //markAccommodationWindow.Show();
+            GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser);
+            newWindow.ShowDialog();
+        }
+        /*
         private void ShowNotifications()
         {
             NotificationFromOwnerService service = new NotificationFromOwnerService();
@@ -50,10 +83,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 }
             }
         }
-
+        */
         private void ExecuteGoToStatuses(object sender)
         {
-            //IsEnterFromChange = true;
             RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser);
             newWindow.Show();
         }
