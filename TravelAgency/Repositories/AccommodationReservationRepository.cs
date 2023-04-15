@@ -23,12 +23,35 @@ namespace SOSTeam.TravelAgency.Repositories
             _accommodationReservations = new List<AccommodationReservation>();
         }
 
+        public void DeleteFromFinishedCSV(AccommodationReservation reservation)
+        {
+            const string filePath = "../../../Resources/Data/finishedReservations.csv";
+            _accommodationReservations = _serializer.FromCSV(filePath);
+            AccommodationReservation found = _accommodationReservations.Find(t => t.Id == reservation.Id) ?? throw new ArgumentException();
+            _accommodationReservations.Remove(found);
+            _serializer.ToCSV(filePath, _accommodationReservations);
+        }
+
+        public void SaveFinishedReservation(AccommodationReservation reservation)
+        {
+            const string filePath = "../../../Resources/Data/finishedReservations.csv";
+            _reservations = _serializer.FromCSV(filePath);
+            _reservations.Add(reservation);
+            _serializer.ToCSV(filePath, _reservations);
+        }
+
         public void SaveCanceledReservation(AccommodationReservation reservation)
         {
             const string filePath = "../../../Resources/Data/canceledReservations.csv";
             _reservations = _serializer.FromCSV(filePath);
             _reservations.Add(reservation);
             _serializer.ToCSV(filePath, _reservations);
+        }
+
+        public List<AccommodationReservation> LoadFinishedReservations()
+        {
+            const string filePath = "../../../Resources/Data/finishedReservations.csv";
+            return _serializer.FromCSV(filePath);
         }
 
         public List<AccommodationReservation> LoadCanceledReservations()
@@ -39,7 +62,23 @@ namespace SOSTeam.TravelAgency.Repositories
 
         public void Update(AccommodationReservation accommodationReservation)
         {
+            _accommodationReservations = _serializer.FromCSV(FilePath);
+            AccommodationReservation current = _accommodationReservations.Find(d => d.Id == accommodationReservation.Id) ?? throw new ArgumentException();
+            int index = _accommodationReservations.IndexOf(current);
+            _accommodationReservations.Remove(current);
+            _accommodationReservations.Insert(index, accommodationReservation);
+            _serializer.ToCSV(FilePath, _accommodationReservations);
+        }
 
+        public void UpdateFinishedReservationsCSV(AccommodationReservation accommodationReservation)
+        {
+            const string FilePath = "../../../Resources/Data/finishedReservations.csv";
+            _accommodationReservations = _serializer.FromCSV(FilePath);
+            AccommodationReservation current = _accommodationReservations.Find(d => d.Id == accommodationReservation.Id) ?? throw new ArgumentException();
+            int index = _accommodationReservations.IndexOf(current);
+            _accommodationReservations.Remove(current);
+            _accommodationReservations.Insert(index, accommodationReservation);
+            _serializer.ToCSV(FilePath, _accommodationReservations);
         }
 
         public AccommodationReservation GetById(int id)

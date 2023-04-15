@@ -19,7 +19,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public int GuestNumber { get; set; }
         public int AccommodationId { get; set; }
         public int UserId { get; set; }
-
+        public bool ReadMarkNotification { get; set; }
 
         public AccommodationReservation() 
         {
@@ -29,6 +29,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             ReservationDuration = -1;
             AccommodationId = -1;
             UserId = -1;
+            ReadMarkNotification = false;
         }
 
         public AccommodationReservation(int id, DateTime firstDay, DateTime lastDay, int reservationDuration, int accommodationId, int uId)
@@ -41,7 +42,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             UserId = uId;
         }
 
-        public AccommodationReservation(DateTime firstDay, DateTime lastDay, int reservationDuration, int guestNumber, int accommodationId, int uid)
+        public AccommodationReservation(DateTime firstDay, DateTime lastDay, int reservationDuration, int guestNumber, int accommodationId, int uid, bool read = false)
         {
             FirstDay = firstDay;
             LastDay = lastDay;
@@ -49,11 +50,12 @@ namespace SOSTeam.TravelAgency.Domain.Models
             GuestNumber = guestNumber;
             AccommodationId = accommodationId;
             UserId= uid;
+            ReadMarkNotification = read;
         }
         
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), FirstDay.ToString(), LastDay.ToString(), ReservationDuration.ToString(), GuestNumber.ToString(), AccommodationId.ToString(), UserId.ToString() };
+            string[] csvValues = { Id.ToString(), FirstDay.ToString(), LastDay.ToString(), ReservationDuration.ToString(), GuestNumber.ToString(), AccommodationId.ToString(), UserId.ToString(), ReadMarkNotification.ToString() };
             return csvValues;
         }
 
@@ -67,6 +69,10 @@ namespace SOSTeam.TravelAgency.Domain.Models
             GuestNumber = Convert.ToInt32(values[i++]);
             AccommodationId = Convert.ToInt32(values[i++]);
             UserId = Convert.ToInt32(values[i++]);
+            if (values[i++].Equals("False"))
+                ReadMarkNotification = false;
+            else 
+                ReadMarkNotification = true;
         }
     }
 }

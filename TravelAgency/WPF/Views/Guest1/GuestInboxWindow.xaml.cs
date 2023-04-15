@@ -14,25 +14,19 @@ using System.Windows.Shapes;
 using SOSTeam.TravelAgency.WPF.ViewModels;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.Application.Services;
 
 namespace SOSTeam.TravelAgency.WPF.Views.Guest1
 {
     /// <summary>
-    /// Interaction logic for UserProfille.xaml
+    /// Interaction logic for GuestInboxWindow.xaml
     /// </summary>
-    public partial class UserProfilleWindow : Window
+    public partial class GuestInboxWindow : Window
     {
-        public UserProfilleWindow(User user)
+        public GuestInboxWindow(User user)
         {
             InitializeComponent();
-            UserProfilleViewModel viewModel = new UserProfilleViewModel(user, UsersName);
+            GuestInboxViewModel viewModel = new GuestInboxViewModel(user);
             DataContext = viewModel;
-        }
-
-        private void TestInboxCharge(object sender, RoutedEventArgs e)
-        {
-            //InboxButton.Background = new SolidColorBrush(Colors.OrangeRed);
         }
     }
 }

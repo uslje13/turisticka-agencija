@@ -15,19 +15,21 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public int OwnerId { get; set; }
         public string AccommodationName { get; set; }
         public string Answer { get; set; }
+        public int GuestId { get; set; }
 
-        public NotificationFromOwner(Accommodation accommodation, int ownerid)
+        public NotificationFromOwner(Accommodation accommodation, int ownerid, int guestId)
         {
             OwnerId = ownerid;
             AccommodationName = accommodation.Name;
             Answer = "None";
+            GuestId = guestId;
         }
 
         public NotificationFromOwner() { }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), OwnerId.ToString(), AccommodationName, Answer };
+            string[] csvValues = { Id.ToString(), OwnerId.ToString(), AccommodationName, Answer, GuestId.ToString() };
             return csvValues;
         }
 
@@ -38,6 +40,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             OwnerId = Convert.ToInt32(values[i++]);
             AccommodationName += values[i++];
             Answer = values[i++];
+            GuestId = Convert.ToInt32(values[i++]);
         }
     }
 }
