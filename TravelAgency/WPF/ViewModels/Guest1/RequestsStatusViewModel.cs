@@ -93,7 +93,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if(reserv.AccommodationId == lavm.AccommodationId)
                     {
-                        if(reserv.FirstDay.DayOfYear > DateTime.Today.DayOfYear)
+                        if(reserv.FirstDay.DayOfYear > DateTime.Today.DayOfYear && reserv.Id == LoggedInUser.Id)
                         {
                             CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity,
                                                                                             lavm.LocationCountry, reserv.FirstDay, reserv.LastDay,
