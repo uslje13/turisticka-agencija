@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using SOSTeam.TravelAgency.Domain.Models;
 
 namespace TravelAgency.DTO
 {
@@ -14,15 +15,15 @@ namespace TravelAgency.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public CheckpointType Type { get; set; }
-        public bool Activated { get; set; }
+        public CheckpointStatus Status { get; set; }
         public int CheckpointId { get; set; }
 
-        public CheckpointActivityDTO(int id, string name, CheckpointType type, bool activated, int checkpointId)
+        public CheckpointActivityDTO(int id, string name, CheckpointType type, CheckpointStatus status, int checkpointId)
         {
             Id = id;
             Name = name;
             Type = type;
-            Activated = activated;
+            Status = status;
             CheckpointId = checkpointId;
         }
     }

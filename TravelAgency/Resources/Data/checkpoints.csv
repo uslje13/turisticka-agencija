@@ -1,15 +1,14 @@
 1|Novi Sad|START|1
-2|Trebinje|EXTRA|1
-3|Sarajevo|EXTRA|1
-4|Dubrovnik|END|1
+2|Subotica|EXTRA|1
+3|Budimpesta|END|1
 5|Nis|START|2
 6|Novi Sad|END|2
 7|Beograd|START|3
 8|Zagreb|EXTRA|3
 9|Ljubljana|END|3
 10|Beograd|START|4
-11|Lisabon|EXTRA|4
-12|Rio De Zaneiro|END|4
+11|Subotica|EXTRA|4
+12|Budimpesta|END|4
 13|Beograd|START|5
 14|Madrid|EXTRA|5
 15|Buenos Ajres|END|5

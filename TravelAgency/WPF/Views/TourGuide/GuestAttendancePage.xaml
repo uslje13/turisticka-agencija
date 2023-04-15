@@ -15,14 +15,35 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Image Grid.Row="0" Source="/Resources/Icons/earth.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" 
-               Margin="130,0,0,0"/>
-        <Label Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Tour name"  
-               Margin="190,0,0,0" FontSize="22"/>
+        <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Source="/Resources/Icons/earth.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Height="50"/>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding TourName}"  
+                       FontSize="22">
+            </TextBlock>
+        </WrapPanel>
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Date, StringFormat='dd.MM.yyyy. hh:mm'}"  
+                   TextAlignment="Center" FontSize="16" Height="26" Width="163"/>
         <Image Grid.Row="1" Source="/Resources/Icons/checkpoint.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="25" 
                Margin="10 0 0 0">
         </Image>
-        <Label Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
-               Margin="30 0 0 0" Content="Checkpoint name" FontSize="16"></Label>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
+               Margin="35 0 0 0" Text="{Binding CheckpointName}" FontSize="16"></TextBlock>
+        <ListBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" x:Name="TourListOverview" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding CheckpointCards}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Grid.Row="2" Width="380" Height="50">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Resources/Icons/guest.png"></Image>
+                        <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Name" FontSize="20"></TextBlock>
+                        <Image Grid.Column="2" Source="/Resources/Icons/checkpoint_yes.png" Width="50"></Image>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListBox>
     </Grid>
 </Page>
