@@ -106,16 +106,16 @@ namespace SOSTeam.TravelAgency.WPF.Views
             AccommodationReservationService resService = new AccommodationReservationService();
             NotificationFromOwnerService notifService = new NotificationFromOwnerService();
 
-            List<AccommodationReservation> finishedRes = resService.LoadFinishedReservations();
+            List<AccommodationReservation> allRes = resService.GetAll();
             List<NotificationFromOwner> notifications = notifService.GetAll();
             if (notifications.Count > 0)
                 return true;
-            foreach (var res in finishedRes)
+            foreach (var res in allRes)
             {
                 if (!res.ReadMarkNotification)
                 {
                     int diff = DateTime.Today.DayOfYear - res.LastDay.DayOfYear;
-                    if (diff <= 5)
+                    if (diff <= 5 && diff > 0)
                     {
                         return true;
                     }
