@@ -77,7 +77,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST1)
                 {
-                    UserProfilleWindow userProfilleWindow = new UserProfilleWindow(user, TestInboxCharge());
+                    UserProfilleWindow userProfilleWindow = new UserProfilleWindow(user, TestInboxCharge(user.Id));
                     userProfilleWindow.Show();
                     Close();
                 }
@@ -101,23 +101,33 @@ namespace SOSTeam.TravelAgency.WPF.Views
             }
         }
 
-        private bool TestInboxCharge()
+        private bool TestInboxCharge(int loggedInUserId)
         {
             AccommodationReservationService resService = new AccommodationReservationService();
             NotificationFromOwnerService notifService = new NotificationFromOwnerService();
 
             List<AccommodationReservation> allRes = resService.GetAll();
             List<NotificationFromOwner> notifications = notifService.GetAll();
-            if (notifications.Count > 0)
-                return true;
+
+            foreach(var item in notifications)
+            {
+                if(item.GuestId ==  loggedInUserId)
+                {
+                    return true;
+                }
+            }
+
             foreach (var res in allRes)
             {
-                if (!res.ReadMarkNotification)
+                if(res.UserId == loggedInUserId)
                 {
-                    int diff = DateTime.Today.DayOfYear - res.LastDay.DayOfYear;
-                    if (diff <= 5 && diff > 0)
+                    if (!res.ReadMarkNotification)
                     {
-                        return true;
+                        int diff = DateTime.Today.DayOfYear - res.LastDay.DayOfYear;
+                        if (diff <= 5 && diff > 0)
+                        {
+                            return true;
+                        }
                     }
                 }
             }

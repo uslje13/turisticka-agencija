@@ -68,7 +68,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                         int diff = DateTime.Today.DayOfYear - reserv.LastDay.DayOfYear;
                         if (diff > 0)
                         {
-                            if(!reserv.ReadMarkNotification)
+                            if(!reserv.ReadMarkNotification && reserv.UserId == LoggedInUser.Id)
                             {
                                 CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity,
                                                                                                                             lavm.LocationCountry, reserv.FirstDay, reserv.LastDay,
@@ -94,18 +94,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             List<AccommodationReservation> finishedReservations = service.LoadFinishedReservations();
             foreach (var item in finishedReservations)
             {
-                if (item.UserId == LoggedInUser.Id /*&& item.ReadMarkNotification == false*/)
+                int diff = DateTime.Today.DayOfYear - item.LastDay.DayOfYear;
+                if (diff > 5)
                 {
-                    int diff = DateTime.Today.DayOfYear - item.LastDay.DayOfYear;
-                    if (diff > 5)
-                    {
-                        RemoveFinishedReservation(item.Id);
-                    } 
-                    else
-                    {
-                        SetDaysForMarking(diff, item.Id);
-                    }
+                    RemoveDeadlineEndedReservation(item.Id);
+                } 
+                else
+                {
+                    SetDaysForMarking(diff, item.Id);
                 }
+               
             }
         }
 
@@ -122,7 +120,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private void RemoveFinishedReservation(int resId)
+        private void RemoveDeadlineEndedReservation(int resId)
         {
             List<CancelAndMarkResViewModel> local = new List<CancelAndMarkResViewModel>();
             foreach(var item in reservationsForMark)
