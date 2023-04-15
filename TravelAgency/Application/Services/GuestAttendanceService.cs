@@ -34,6 +34,10 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             return _guestAttendanceRepository.GetByUserId(id);
         }
+        public List<GuestAttendance> GetAllByActivityId(int id)
+        {
+            return _guestAttendanceRepository.GetAllByActivityId(id);
+        }
 
         public void Save(GuestAttendance guestAttendance)
         {

@@ -18,10 +18,10 @@
         </Grid.RowDefinitions>
 
         <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Height="200" Source="/Resources/Icons/sos_logo.png" Margin="0,64,0,0"></Image>
-        <Label Grid.Row="2" Content="Username" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="29,22,0,0" Height="31" Width="81"></Label>
+        <Label Grid.Row="2" Content="Username" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" Margin="0,22,290,0" Height="31" Width="81"></Label>
         <TextBox Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Height="25" Width="360" Margin="0,50,0,0"
                  Text="{Binding Username}"></TextBox>
-        <Label Grid.Row="3" Content="Password" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="29,22,0,0" Height="31" Width="76"></Label>
+        <Label Grid.Row="3" Content="Password" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" Margin="0,22,296,0" Height="31" Width="76"></Label>
         <PasswordBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" Height="25" Width="360" Margin="0,50,0,0"
                      PasswordChanged="PasswordBoxPasswordChanged"></PasswordBox>
         <Button Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25" Width="360" Content="Sign in" FontSize="16"

@@ -110,7 +110,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
             if (checkpoint.Type.Equals(CheckpointType.START))
             {
-                activity.Activated = true;
+                activity.Status = CheckpointStatus.ACTIVE;
             }
 
             return activity;

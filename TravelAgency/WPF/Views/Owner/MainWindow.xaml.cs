@@ -32,6 +32,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
             _mainWindowViewModel.SetStartupPage();
         }
 
-        
+        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            doubleClickButton.Command.Execute(null);
+        }
+
     }
 }

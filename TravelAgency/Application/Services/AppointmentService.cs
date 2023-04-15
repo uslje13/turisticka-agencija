@@ -32,6 +32,28 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _appointmentRepository.GetAllByUserId(userId);
         }
 
+        public List<Appointment> GetTodayAppointmentsByUserId(int id)
+        {
+            List<Appointment> appointments = new List<Appointment>();
+
+            foreach (var userAppointment in _appointmentRepository.GetAllByUserId(id))
+            {
+                foreach (var todayAppointment in _appointmentRepository.GetTodayAppointments())
+                {
+                    if (userAppointment.Id == todayAppointment.Id)
+                    {
+                        appointments.Add(userAppointment);
+                    }
+                }
+            }
+            return appointments;
+        }
+
+        public Appointment GetActiveByUserId(int id)
+        {
+            return _appointmentRepository.GetAllByUserId(id).Find(a => a.Started == true && a.Finished == false);
+        }
+
         public List<Appointment> GetAllByTours(List<Tour> tours)
         {
             return _appointmentRepository.GetAllByTours(tours);

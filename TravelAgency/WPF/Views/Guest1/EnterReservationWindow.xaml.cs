@@ -38,6 +38,8 @@ namespace SOSTeam.TravelAgency.WPF.Views
         public RelayCommand cancelCommand { get; set; }
         public bool IsEnterOfGhange { get; set; }
         public ChangedReservationRequest selectedReservation { get; set; }
+        public AccommodationReservation selectedReservationCopy { get; set; }
+
 
         public EnterReservationWindow(LocAccommodationViewModel dto, User user, bool enter)
         {
@@ -56,7 +58,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             IsEnterOfGhange = enter;
         }
 
-        public EnterReservationWindow(LocAccommodationViewModel dto, User user, bool enter, ChangedReservationRequest request)
+        public EnterReservationWindow(LocAccommodationViewModel dto, User user, bool enter, ChangedReservationRequest request, AccommodationReservation reservation)
         {
             InitializeComponent();
             DataContext = this;
@@ -72,11 +74,12 @@ namespace SOSTeam.TravelAgency.WPF.Views
             LoggedInUser = user;
             IsEnterOfGhange = enter;
             selectedReservation = request;
+            selectedReservationCopy = reservation;
         }
 
         private void ExecuteSearchingDates(object sender)
         {
-            AccommodationReservationService accResService = new AccommodationReservationService(DTO, LoggedInUser, FirstDate, LastDate, int.Parse(Days.Text), IsEnterOfGhange, selectedReservation);
+            AccommodationReservationService accResService = new AccommodationReservationService(DTO, LoggedInUser, FirstDate, LastDate, int.Parse(Days.Text), IsEnterOfGhange, selectedReservation, selectedReservationCopy);
             accResService.ExecuteSearchingDates();
         }
 

@@ -21,11 +21,89 @@
                 <Label Margin="0,8" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="Travel Agency" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="48" FontWeight="Normal" FontFamily="Segoe UI Black"/>
             </WrapPanel>
             <WrapPanel HorizontalAlignment="Right"   >
-                <Image Source="/Resources/Icons/NotificationAlertNoColor.png" Width="40" Height="40" Margin="0,15"></Image>
-                <Image Source="/Resources/Icons/user_ikonica2.png" Width="45" Height="45" Margin="15,15,0,15"></Image>
+                <Button Margin="0,15" Height="42" Command="{Binding ToggleShowNotifications}" IsEnabled="{Binding IsDropdownClosed}">
+                    <Image x:Name="MyButton" Source="/Resources/Icons/NotificationAlertNoColor.png" Width="40" Height="40" ></Image>
+                </Button>
+                
+                <Popup x:Name="MyPopup" StaysOpen="False" AllowsTransparency="True"
+                   PlacementTarget="{Binding ElementName=MyButton}"
+                   Placement="Bottom"
+                       VerticalOffset="-15"
+                       HorizontalOffset="130"
+                       IsOpen="{Binding IsDropdownOpen}">
+                            <Grid Height="300" Width="300" Background="Transparent">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                
+                                <Grid x:Name="TriangleGrid"
+                                      Grid.Row="0"
+                                      Background="Transparent"
+                                      Width="30"
+                                      Height="40"
+                                      Margin="0, -10, 0, 0"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Top">
+                                    <Path Fill="White" Stretch="Fill" StrokeThickness="2" Stroke="Black" >
+                                        <Path.Data>
+                                            <PathGeometry>
+                                                <PathFigure StartPoint="0,30">
+                                                    <LineSegment Point="30,0"  />
+                                                    <LineSegment Point="60,30" />
+                                                    <LineSegment Point="0,30" />
+                                                </PathFigure>
+                                            </PathGeometry>
+                                        </Path.Data>
+                                    </Path>
+                                </Grid>
+                                <Grid Grid.Row="1" Background="White">
+                                    <Border BorderThickness="2" BorderBrush="Black" CornerRadius="20"></Border>
+                                    <Grid Margin="2,20">
+                                <Button Visibility="Collapsed" x:Name="doubleClickButton" Command="{Binding NotificationDoubleClick}"></Button>
+                                <ScrollViewer  >
+                                    <ListView Grid.Row="1" ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" MouseDoubleClick="ListView_MouseDoubleClick" >
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ListViewItem}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Read}" Value="False">
+                                                            <Setter Property="Background" Value="LightGoldenrodYellow"/>
+                                                            <Setter Property="BorderThickness" Value="4"/>
+                                                            <Setter Property="BorderBrush" Value="Red"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Read}" Value="True">
+                                                            <Setter Property="Background" Value="LightGray"/>
+                                                            <Setter Property="BorderThickness" Value="2"/>
+                                                            <Setter Property="BorderBrush" Value="DarkGray"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" >
+                                                        <TextBlock Margin="10" Text="{Binding Text}" TextWrapping="Wrap" MaxWidth="230"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                </ScrollViewer>
+                                
+
+                            </Grid>
+                                </Grid>
+                            </Grid>
+                        
+                </Popup>
+
+
+                <Image  Source="/Resources/Icons/user_ikonica2.png" Width="45" Height="45" Margin="15,15,0,15"></Image>
 
                 <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Margin="15" Height="80" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="24" VerticalContentAlignment="Center"></Label>
             </WrapPanel>
+            
+
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

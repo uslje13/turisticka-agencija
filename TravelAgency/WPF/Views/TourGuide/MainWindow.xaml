@@ -28,7 +28,7 @@
             <Button Name="BackButton" Width="86" Background="Transparent" BorderBrush="Transparent">
                 <Image Source="/Resources/Icons/back_button.png"></Image>
             </Button>
-            <Button Name="CreateButton" Width="86" Background="Transparent" BorderBrush="Transparent">
+            <Button Name="CreateButton" Width="86" Background="Transparent" BorderBrush="Transparent" Click="CreateButton_OnClick">
                 <Image Source="/Resources/Icons/plus.png"></Image>
             </Button>
             <Button Name="HomeButton" Width="86" Background="Transparent" BorderBrush="Transparent">

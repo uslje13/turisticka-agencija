@@ -23,7 +23,15 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
         public MainWindow(User loggedUser)
         {
             InitializeComponent();
-            ToursOverview.Content = new HomePage(loggedUser);
+            ToursOverview.Content = new LiveTourPage(loggedUser);
+            //ToursOverview.Content = new AddDatesAndTimePage();
+            //ToursOverview.Content = new CreateTourPage();
+        }
+
+        private void CreateButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            //TourGuide.CreateTourPage.Content = new CreateTourPage();
+            
         }
     }
 }

@@ -15,7 +15,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
     public class SignInViewModel : ViewModel
     {
-        private UserService _userService;
+        private readonly UserService _userService;
 
         private string _username;
 
@@ -83,8 +83,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 MessageBox.Show("Wrong username!");
             }
-
-            
         }
     }
 }

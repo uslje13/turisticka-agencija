@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Repositories
 {
-    public class NotificationRepository
+    public class NotificationRepository : INotificationRepository
 
     {
         private const string FilePath = "../../../Resources/Data/notification.csv";
@@ -24,24 +25,23 @@ namespace SOSTeam.TravelAgency.Repositories
             return _serializer.FromCSV(FilePath);
         }
 
-        public Notification Save(Notification notification)
+        public void Save(Notification notification)
         {
             notification.Id = NextId();
             _notifications = _serializer.FromCSV(FilePath);
             _notifications.Add(notification);
             _serializer.ToCSV(FilePath, _notifications);
-            return notification;
         }
 
-        public void Delete(Notification notification)
+        public void Delete(int id)
         {
             _notifications = _serializer.FromCSV(FilePath);
-            Notification found = _notifications.Find(t => t.Id == notification.Id) ?? throw new ArgumentException();
+            Notification found = _notifications.Find(t => t.Id == id) ?? throw new ArgumentException();
             _notifications.Remove(found);
             _serializer.ToCSV(FilePath, _notifications);
         }
 
-        public Notification Update(Notification notification)
+        public void Update(Notification notification)
         {
             _notifications = _serializer.FromCSV(FilePath);
             Notification current = _notifications.Find(t => t.Id == notification.Id) ?? throw new ArgumentException();
@@ -49,7 +49,6 @@ namespace SOSTeam.TravelAgency.Repositories
             _notifications.Remove(current);
             _notifications.Insert(index, notification);
             _serializer.ToCSV(FilePath, _notifications);
-            return notification;
         }
 
         public int NextId()
@@ -60,6 +59,12 @@ namespace SOSTeam.TravelAgency.Repositories
                 return 1;
             }
             return _notifications.Max(l => l.Id) + 1;
+        }
+
+        public Notification GetById(int id)
+        {
+            _notifications = _serializer.FromCSV(FilePath);
+            return _notifications.Find(t => t.Id == id) ?? throw new ArgumentException();
         }
 
     }

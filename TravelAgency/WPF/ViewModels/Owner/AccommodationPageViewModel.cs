@@ -92,7 +92,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public void FillAccommodationsPanel()
         {
 
-            foreach (Accommodation accommodation in _accommodationService.FindUsersAccommodations(LoggedInUser.Id))
+            foreach (Accommodation accommodation in _accommodationService.GetAllByUserId(LoggedInUser.Id))
             {
                 Accommodations.Add(new PictureViewModel(accommodation.Name, "/Resources/Images/UnknownPhoto.png",accommodation.Id));
             }

@@ -5,48 +5,59 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       mc:Ignorable="d" 
-      d:DesignHeight="750" d:DesignWidth="430"
+      d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="TodayToursPage">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
-            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Background="#001E28">
-            <Button Width="50" Background="Transparent" BorderBrush="Transparent">
-                <Image Source="/Resources/Icons/burger_menu.png"></Image>
-            </Button>
-            <Label Foreground="White" Content="Today tours" FontSize="20" Width="350" VerticalAlignment="Center" HorizontalContentAlignment="Center"/>
-        </StackPanel>
-        <Image Source="/Resources/Icons/kalendar.png" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Height="40"
+        <Image Source="/Resources/Icons/kalendar.png" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="40"
                Margin="10, 0, 0, 0"></Image>
-        <Label Content="12.10.2020." Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" 
+        <TextBlock Text="{Binding TodayDate, StringFormat='dd.MM.yyyy.'}" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" 
                Margin="45, 0,0, 0">
-            
-        </Label>
-
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Button Width="86" Background="Transparent" BorderBrush="Transparent">
-                <Image Source="/Resources/Icons/back_button.png"></Image>
-            </Button>
-            <Button Width="86" Background="Transparent" BorderBrush="Transparent">
-                <Image Source="/Resources/Icons/plus.png"></Image>
-            </Button>
-            <Button Width="86" Background="Transparent" BorderBrush="Transparent">
-                <Image Source="/Resources/Icons/home.png"></Image>
-            </Button>
-            <Button Width="86" Background="Transparent" BorderBrush="Transparent">
-                <Image Source="/Resources/Icons/livetour.png"></Image>
-            </Button>
-            <Button Width="86" Background="Transparent" BorderBrush="Transparent">
-                <Image Source="/Resources/Icons/demo.png"></Image>
-            </Button>
-        </StackPanel>
-
+        </TextBlock>
+        <ListBox Grid.Row="1" x:Name="TourListOverview" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding TodayToursCards}" SelectedItem="{Binding SelectedTourCard}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="360" Height="100" Margin="0 5" Background="AliceBlue">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="180"></ColumnDefinition>
+                            <ColumnDefinition Width="80"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Border Grid.ColumnSpan="3" Grid.RowSpan="3" BorderBrush="#FF999999" BorderThickness="1"></Border>
+                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="{Binding ImageUrl}"></Image>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                        FontSize="17" Padding="5 0 0 5"></TextBlock>
+                        <Image Grid.Column="1" Grid.Row="1" Source="/Resources/Icons/checkpoint_light.png" HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Width="16" Margin= "4 1 0 0">
+                        </Image>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Location}" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                         FontSize="13"  Padding="20 0 0 0" Foreground="#FF999999">
+                        </TextBlock>
+                        <Image Grid.Column="1" Grid.Row="2" Source="/Resources/Icons/clock_light.png" Width="17" HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom" Margin="5 0 0 2"></Image>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Time, StringFormat='hh:mm'}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                         FontSize="13" Foreground="#FF999999" Padding="23 0 0 2"></TextBlock>
+                        <Button x:Name="StartButton" Grid.Column="2"  Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="20" Content="Start" 
+                            Margin="0 4 12 0" BorderBrush="Transparent"
+                            Command="{Binding DataContext.StartTourCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding }"
+                            IsEnabled="{Binding CanStart, Mode=OneWay}">
+                        </Button>
+                        <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Status}"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 15 2" FontWeight="Bold"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListBox>
     </Grid>
 </Page>

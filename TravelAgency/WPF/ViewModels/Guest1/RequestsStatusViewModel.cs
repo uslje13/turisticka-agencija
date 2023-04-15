@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Ribbon.Primitives;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
@@ -28,6 +30,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public ChangedReservationRequest selectedReservation { get; set; }
         public AccommodationReservation selectedAccReservationCopy { get; set; }
         public RelayCommand FindNewDateCommand { get; set; }
+        public RelayCommand CancelReservationCommand { get; set; }
+        public CancelReservationViewModel selectedCancelReservation { get; set; }
+        public List<CancelReservationViewModel> allReservationsInfoList { get; set; }
 
 
         public RequestsStatusViewModel(User user) 
@@ -38,17 +43,63 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             locationService = new LocationService();
             accommodationService = new AccommodationService();
             changedReservationRequestService = new ChangedReservationRequestService();
+            allReservationsInfoList = new List<CancelReservationViewModel>();
 
             accommodationReservations = accommodationReservationService.GetAll();
             locations = locationService.GetAll();
             accommodations = accommodationService.GetAll();
             locAccommodationViewModels = new List<LocAccommodationViewModel>();
-            changedReservationRequests = changedReservationRequestService.GetAll();
+            changedReservationRequests = new List<ChangedReservationRequest>();
+
+            List<ChangedReservationRequest> helpList = changedReservationRequestService.GetAll();
+            if(helpList.Count > 0)
+            {
+                foreach (var item in helpList)
+                {
+                    if (LoggedInUser.Id == item.UserId)
+                    {
+                        changedReservationRequests.Add(item);
+                    }
+                }
+            }
 
             PrepareAccommodationReservationsList();
             PrepareReservationsForChangeRequest();
+            PrepareCancelReservationList();
 
+           
             FindNewDateCommand = new RelayCommand(ExecuteFindNewDate);
+            CancelReservationCommand = new RelayCommand(ExecuteCancelReservation);
+             
+        }
+
+        private void ExecuteCancelReservation(object sender)
+        {
+            if(selectedCancelReservation != null)
+            {
+                accommodationReservationService.CancelReservation(selectedCancelReservation);
+            }
+            else
+            {
+                MessageBox.Show("Odaberite rezervaciju koju želite otkazati.");
+            }
+        }
+
+        private void PrepareCancelReservationList()
+        {
+            foreach(var reserv in accommodationReservations)
+            {
+                foreach(var lavm in locAccommodationViewModels)
+                {
+                    if(reserv.AccommodationId == lavm.AccommodationId)
+                    {
+                        CancelReservationViewModel crModel = new CancelReservationViewModel(lavm.AccommodationName, lavm.LocationCity, 
+                                                                                            lavm.LocationCountry, reserv.FirstDay, reserv.LastDay, 
+                                                                                            reserv.Id, lavm.AccommodationId);
+                        allReservationsInfoList.Add(crModel);
+                    }
+                }
+            }
         }
 
         private void PrepareAccommodationReservationsList()
@@ -64,9 +115,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 foreach(var ch in changedReservationRequests)
                 {
-                    if(res.Id == ch.reservationId)
+                    if(res.Id == ch.reservationId && ch.status != ChangedReservationRequest.Status.ACCEPTED && ch.status != ChangedReservationRequest.Status.REFUSED)
                     {
-                        accommodationReservations.Remove(res);
+                        accommodationReservationService.Delete(res.Id);
                     }
                 }
             }
@@ -80,7 +131,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     PrepareReservationCSV();
                     LocAccommodationViewModel model = FindModel(selectedReservation);
-                    EnterReservationWindow newWindow = new EnterReservationWindow(model, LoggedInUser, true, selectedReservation);
+                    EnterReservationWindow newWindow = new EnterReservationWindow(model, LoggedInUser, true, selectedReservation, selectedAccReservationCopy);
                     newWindow.ShowDialog();
                 }
                 else
@@ -100,8 +151,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 if(res.Id == selectedReservation.reservationId)
                 {
-                    selectedAccReservationCopy = res;
-                    //accommodationReservationService.Delete(res.Id);
+                    accommodationReservationService.SaveToOtherCSV(res);
+                    accommodationReservationService.Delete(res.Id);
                     break;
                 }
             }
@@ -130,7 +181,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     if(IsValid(res, model)) 
                     {
                         ChangedReservationRequest request = new ChangedReservationRequest(res.Id, res.AccommodationId, model.AccommodationName, model.LocationCity, model.LocationCountry,
-                                                                                            res.FirstDay, res.LastDay, res.ReservationDuration, res.GuestNumber, res.UserId);
+                                                                                            res.FirstDay, res.LastDay, res.GuestNumber, res.UserId);
                         changedReservationRequests.Add(request);
                     }
                 }
@@ -141,7 +192,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             foreach(var request in changedReservationRequests)
             {
-                if(request.reservationId == res.Id)
+                if(request.reservationId == res.Id && request.status != ChangedReservationRequest.Status.ACCEPTED && request.status != ChangedReservationRequest.Status.REFUSED)
                 {
                     return false;
                 }

@@ -27,7 +27,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
             foreach (CheckpointActivity activity in CheckpointActivities)
             {
                 Checkpoint checkpoint = _checkpointRepository.GetById(activity.CheckpointId);
-                CheckpointActivitiesDTO.Add(new CheckpointActivityDTO(activity.Id, checkpoint.Name, checkpoint.Type, activity.Activated, checkpoint.Id));
+                CheckpointActivitiesDTO.Add(new CheckpointActivityDTO(activity.Id, checkpoint.Name, checkpoint.Type, activity.Status, checkpoint.Id));
             }
         }
 
@@ -99,7 +99,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
         private void ActivateCheckpointButtonClick(object sender, RoutedEventArgs e)
         {
             SetSelectedCheckpointActivity();
-            if (SelectedCheckpointActivity.Activated == false)
+            /*if (SelectedCheckpointActivity.Activated == false)
             {
                 SelectedCheckpointActivity.Activated = true;
                 _checkpointActivityRepository.Update(SelectedCheckpointActivity);
@@ -114,6 +114,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                     FinishAppointment(activeAppointment);
                 }
             }
+            */
         }
 
         private void FinishTourButtonClick(object sender, RoutedEventArgs e)
@@ -135,7 +136,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
         private void GuestsAttendanceButtonClick(object sender, RoutedEventArgs e)
         {
-            if (SelectedCheckpointActivityDTO == null || SelectedCheckpointActivityDTO.Activated == false)
+           /* if (SelectedCheckpointActivityDTO == null || SelectedCheckpointActivityDTO.Activated == false)
             {
                 MessageBox.Show("Morate izabrati AKTIVNU ključnu tačku!");
             }
@@ -144,7 +145,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 SetSelectedCheckpointActivity();
                 ShowGuestsAttendanceWindow showGuestsAttendanceWindow = new ShowGuestsAttendanceWindow(SelectedCheckpointActivity);
                 showGuestsAttendanceWindow.ShowDialog();
-            }
+            } */
         }
     }
 }

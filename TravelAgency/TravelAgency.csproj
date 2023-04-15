@@ -13,18 +13,32 @@
     <None Remove="Resources\Icons\active_tour.png" />
     <None Remove="Resources\Icons\Add.png" />
     <None Remove="Resources\Icons\back_button.png" />
+    <None Remove="Resources\Icons\bin.png" />
     <None Remove="Resources\Icons\burger_menu.png" />
     <None Remove="Resources\Icons\calendar_blank_light.png" />
     <None Remove="Resources\Icons\cancel.png" />
+    <None Remove="Resources\Icons\cancel_light.png" />
+    <None Remove="Resources\Icons\checkpoint.png" />
     <None Remove="Resources\Icons\checkpoint_light.png" />
+    <None Remove="Resources\Icons\checkpoint_no.png" />
+    <None Remove="Resources\Icons\checkpoint_unknown.png" />
+    <None Remove="Resources\Icons\checkpoint_yes.png" />
+    <None Remove="Resources\Icons\clock.png" />
+    <None Remove="Resources\Icons\clock_light.png" />
     <None Remove="Resources\Icons\demo.png" />
+    <None Remove="Resources\Icons\earth.png" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
+    <None Remove="Resources\Icons\guest.png" />
+    <None Remove="Resources\Icons\guests_with_text.png" />
     <None Remove="Resources\Icons\help--v1.png" />
     <None Remove="Resources\Icons\home.png" />
     <None Remove="Resources\Icons\info-icon.png" />
+    <None Remove="Resources\Icons\kalendar.png" />
+    <None Remove="Resources\Icons\kalendar_datumi.png" />
     <None Remove="Resources\Icons\list-square-icon.png" />
     <None Remove="Resources\Icons\livetour.png" />
     <None Remove="Resources\Icons\Pencil.png" />
+    <None Remove="Resources\Icons\pencil.png" />
     <None Remove="Resources\Icons\plus.png" />
     <None Remove="Resources\Icons\plusicon.png" />
     <None Remove="Resources\Icons\request.png" />
@@ -49,19 +63,58 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\Icons\bin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\calendar_blank_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\cancel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\cancel_light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\checkpoint.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\checkpoint_light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\checkpoint_no.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\checkpoint_unknown.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\checkpoint_yes.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\clock.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\demo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\earth.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\guest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\guests_with_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\kalendar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\kalendar_datumi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\livetour.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\pencil.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\plus.png">
@@ -88,7 +141,11 @@
     <Content Include="Resources\Icons\burger_menu.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+
     <Resource Include="Resources\Icons\Add.png" />
+    <Content Include="Resources\Icons\clock_light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Icons\NotificationAlertNoColor.png" />
     <Resource Include="Resources\Icons\Pencil.png" />
     <Resource Include="Resources\Icons\plusicon.png" />
@@ -99,6 +156,7 @@
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
 
   <ItemGroup>
