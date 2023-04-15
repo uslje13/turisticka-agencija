@@ -45,7 +45,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _mainwindowVM = mainWindowVM;
             LoggedInUser = user;
             Requests = new();
-            IsCommentDropOpen = true;
+            IsCommentDropOpen = false;
             FillObservableCollection();
 
             
