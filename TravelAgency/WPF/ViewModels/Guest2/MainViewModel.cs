@@ -20,7 +20,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public static ObservableCollection<Location> Locations { get; set; }
         public List<GuestAttendance> UserAttendances { get; set; }
 
-        public static ObservableCollection<TourViewModel2> TourViewModels { get; set; }
+        public static ObservableCollection<TourViewModel> TourViewModels { get; set; }
 
         private TourService _tourService;
         private LocationService _locationService;
@@ -69,13 +69,35 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 _myToursCommand = value;
             }
         }
+
+        private RelayCommand _vouchersCommand;
+
+        public RelayCommand VouchersCommand
+        {
+            get { return _vouchersCommand; }
+            set
+            {
+                _vouchersCommand = value;
+            }
+        }
+
+        private RelayCommand _notificationsCommand;
+
+        public RelayCommand NotificationsCommand
+        {
+            get { return _notificationsCommand; }
+            set
+            {
+                _notificationsCommand = value;
+            }
+        }
         public MainViewModel(User loggedInUser, ToursOverviewWindow window)
         {
             _window = window;
             InitializeServices();
             GetUsableLists();
             LoggedInUser = loggedInUser;
-            TourViewModels = new ObservableCollection<TourViewModel2>();
+            TourViewModels = new ObservableCollection<TourViewModel>();
             CreateCommands();
             FillTourViewModelList();
         }
@@ -86,12 +108,26 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             HelpCommand = new RelayCommand(Execute_HelpPageCommand, CanExecuteMethod);
             RequestsCommand = new RelayCommand(Execute_RequestsPageCommand, CanExecuteMethod);
             MyToursCommand = new RelayCommand(Execute_MyToursPageCommand, CanExecuteMethod);
+            VouchersCommand = new RelayCommand(Execute_VouchersWindowCommand, CanExecuteMethod);
+            NotificationsCommand = new RelayCommand(Execute_NotificationsWindowCommand, CanExecuteMethod);
+        }
+
+        private void Execute_NotificationsWindowCommand(object obj)
+        {
+            NotificationsWindow window = new NotificationsWindow();
+            window.Show();
+        }
+
+        private void Execute_VouchersWindowCommand(object obj)
+        {
+            VouchersWindow window = new VouchersWindow();
+            window.Show();
         }
 
         private void Execute_MyToursPageCommand(object obj)
         {
             var navigationService = _window.MyToursFrame.NavigationService;
-            navigationService.Navigate(new MyToursPage());
+            navigationService.Navigate(new MyToursPage(LoggedInUser));
         }
 
         private void Execute_RequestsPageCommand(object obj)
@@ -165,7 +201,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     if (l.Id == t.LocationId)
                     {
-                        TourViewModel2 tourDTO = new TourViewModel2(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, l.City, l.Country, LoggedInUser, _window);
+                        TourViewModel tourDTO = new TourViewModel(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, l.City, l.Country, LoggedInUser, _window);
                         TourViewModels.Add(tourDTO);
                     }
                 }

@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest2"
       mc:Ignorable="d" 
       Title="HelpPage" Height="800" Width="1280"
-      Background="AliceBlue">
+      Background="AliceBlue"
+      >
 
     <Page.Resources>
         <ResourceDictionary>
@@ -40,10 +41,10 @@
                             Height="155"
                             Margin="15,25,0,40" Width="220">
                     <Image Source="/Resources/Icons/user_ikonica.png" Height="126" Width="229"/>
-                    <Label Content="Drasko Novakovic" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
+                    <Label Content="{Binding LoggedInUser.Username}" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
                 </StackPanel>
 
-                <Button Style="{StaticResource MenuButtons}">
+                <Button Style="{StaticResource MenuButtons}" Command="{Binding NavigationCommand}" CommandParameter="ActiveTour">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Icons/active_tour.png" Height="40" Width="38"/>
                         <TextBlock Text="  Aktivna tura" Height="24" Width="186"/>
@@ -64,7 +65,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Style="{StaticResource MenuButtons}">
+                <Button Style="{StaticResource MenuButtons}" Command="{Binding BackCommand}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Icons/back_button.png" Height="40" Width="38"/>
                         <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="189"/>
@@ -82,8 +83,8 @@
             </ScrollViewer>
         </Border>
 
-        <ContentControl Grid.Column="1" Margin="10">
-
-        </ContentControl>
+        <Grid Grid.Column="1" Margin="10">
+            <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
+        </Grid>
     </Grid>
 </Page>

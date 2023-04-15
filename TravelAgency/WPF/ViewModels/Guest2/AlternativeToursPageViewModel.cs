@@ -17,7 +17,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private LocationService _locationService;
         private AppointmentService _appointmentService;
         private TourService _tourService;
-        public static ObservableCollection<TourViewModel2> AlternativeTours { get; set; }
+        public static ObservableCollection<TourViewModel> AlternativeTours { get; set; }
         public User LoggedInUser { get; set; }
         public AlternativeToursPageViewModel(Tour tour, User loggedInUser, ToursOverviewWindow window)
         {
@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _locationService = new LocationService();
             _appointmentService = new AppointmentService();
             _tourService = new TourService();
-            AlternativeTours = new ObservableCollection<TourViewModel2>();
+            AlternativeTours = new ObservableCollection<TourViewModel>();
             FillAlternativeToursList();
             LoggedInUser = loggedInUser;
             _window = window;
@@ -44,7 +44,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     if (appointment.TourId == tour.Id && appointment.Occupancy != tour.MaxNumOfGuests)
                     {
-                        AlternativeTours.Add(new TourViewModel2(tour.Id, tour.Name, tour.Language, tour.Duration, tour.MaxNumOfGuests, city, country, LoggedInUser, _window));
+                        AlternativeTours.Add(new TourViewModel(tour.Id, tour.Name, tour.Language, tour.Duration, tour.MaxNumOfGuests, city, country, LoggedInUser, _window));
                     }
                 }
             }

@@ -1,8 +1,6 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
+﻿using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,21 +11,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for SearchPage.xaml
+    /// Interaction logic for VouchersWindow.xaml
     /// </summary>
-    public partial class SearchPage : Page
+    public partial class VouchersWindow : Window
     {
-        public SearchPage(User loggedInUser, ObservableCollection<TourViewModel> tourViewModels)
+        public VouchersWindow()
         {
             InitializeComponent();
-            SearchPageViewModel viewModel = new SearchPageViewModel(loggedInUser, this, tourViewModels);
-            DataContext = viewModel;
+            VouchersWindowViewModel viewModel = new VouchersWindowViewModel(this);
+            DataContext= viewModel;
         }
     }
 }

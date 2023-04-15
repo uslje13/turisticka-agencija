@@ -22,11 +22,11 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     /// </summary>
     public partial class SearchResultPage : Page
     {
-        public ObservableCollection<TourViewModel2> SearchResults { get; set; }
-        public SearchResultPage(ObservableCollection<TourViewModel2> results)
+        public ObservableCollection<TourViewModel> SearchResults { get; set; }
+        public SearchResultPage(ObservableCollection<TourViewModel> results)
         {
             InitializeComponent();
-            SearchResults = new ObservableCollection<TourViewModel2>();
+            SearchResults = new ObservableCollection<TourViewModel>();
             SearchResults = results;
             DataContext = this;
         }

@@ -90,7 +90,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 }
             }
         }
-        public static ObservableCollection<TourViewModel2> TourViewModels { get; set; }
+        public static ObservableCollection<TourViewModel> TourViewModels { get; set; }
         public static User LoggedInUser { get; set; }
         private RelayCommand _backCommand;
         public RelayCommand BackCommand
@@ -113,13 +113,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public SearchPageViewModel(User loggedInUser, SearchPage page, ObservableCollection<TourViewModel2> viewModels)
+        public SearchPageViewModel(User loggedInUser, SearchPage page, ObservableCollection<TourViewModel> viewModels)
         {
             BackCommand = new RelayCommand(Execute_BackCommand, CanExecuteMethod);
             SearchCommand = new RelayCommand(Execute_SearchCommand, CanExecuteMethod);
             LoggedInUser = loggedInUser;
             _page = page;
-            TourViewModels = new ObservableCollection<TourViewModel2>();
+            TourViewModels = new ObservableCollection<TourViewModel>();
             TourViewModels = viewModels;
             _locationService = new LocationService();
             _tourService = new TourService();
@@ -176,7 +176,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_SearchCommand(object sender)
         {
             LoadEnteredRequests();
-            ObservableCollection<TourViewModel2> searchResult = new ObservableCollection<TourViewModel2>();
+            ObservableCollection<TourViewModel> searchResult = new ObservableCollection<TourViewModel>();
 
             foreach (var item in TourViewModels)
             {
@@ -200,7 +200,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
              SearchedOcupancy = int.Parse(loadedOcupancy);
          }
         
-        private void ShowResults(ObservableCollection<TourViewModel2> searchResult)
+        private void ShowResults(ObservableCollection<TourViewModel> searchResult)
         {
             if (searchResult.Count > 0)
             {
@@ -213,7 +213,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        private bool IsApropriate(TourViewModel2 tourViewModel)
+        private bool IsApropriate(TourViewModel tourViewModel)
         {
             bool checkCity = tourViewModel.City.ToLower().Contains(SearchedCity.ToLower()) || SearchedCity.Equals(string.Empty);
             bool checkCountry = tourViewModel.Country.ToLower().Contains(SearchedCountry.ToLower()) || SearchedCountry.Equals(string.Empty);

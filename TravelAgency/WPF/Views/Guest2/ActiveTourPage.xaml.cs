@@ -1,8 +1,5 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,15 +16,13 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for SearchPage.xaml
+    /// Interaction logic for ActiveTourPage.xaml
     /// </summary>
-    public partial class SearchPage : Page
+    public partial class ActiveTourPage : Page
     {
-        public SearchPage(User loggedInUser, ObservableCollection<TourViewModel> tourViewModels)
+        public ActiveTourPage()
         {
             InitializeComponent();
-            SearchPageViewModel viewModel = new SearchPageViewModel(loggedInUser, this, tourViewModels);
-            DataContext = viewModel;
         }
     }
 }
