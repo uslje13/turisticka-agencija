@@ -7,7 +7,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
     {
         public enum ImageType
         {
-            ACCOMMODATION,TOUR,RESERVATION,NOTYPE
+            ACCOMMODATION,TOUR,RESERVATION,NOTYPE,GUEST2
         }
         public int Id { get; set; }
         public string Url { get; set; }
@@ -24,9 +24,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Type = ImageType.NOTYPE;
         }
 
-        public Image(int id, string url, bool cover, int tourId,ImageType type)
+        public Image(string url, bool cover, int tourId,ImageType type)
         {
-            Id = id;
             Url = url;
             Cover = cover;
             EntityId = tourId;

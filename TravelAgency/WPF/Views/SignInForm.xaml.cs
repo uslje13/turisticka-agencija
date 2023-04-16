@@ -88,6 +88,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                     // overview.GetAttendanceMessage();
                     Views.Guest2.ToursOverviewWindow overview = new Views.Guest2.ToursOverviewWindow(user);
                     overview.Show();
+                    overview.GetAttendanceMessages();
                     Close();
                 }
                 else

@@ -97,5 +97,17 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
             return string.Empty;
         }
+
+        public string GetTourName(int id)
+        {
+            foreach(Tour tour in _tourRepository.GetAll())
+            {
+                if(tour.Id == id)
+                {
+                    return tour.Name;
+                }
+            }
+            return string.Empty;
+        }
     }
 }

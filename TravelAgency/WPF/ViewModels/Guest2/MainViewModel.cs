@@ -25,6 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private TourService _tourService;
         private LocationService _locationService;
         private GuestAttendanceService _guestAttendanceService;
+        private ReservationService _reservationService;
 
         private RelayCommand _searchCommand;
 
@@ -114,7 +115,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_NotificationsWindowCommand(object obj)
         {
-            NotificationsWindow window = new NotificationsWindow();
+            NotificationsWindow window = new NotificationsWindow(LoggedInUser);
             window.Show();
         }
 
@@ -164,6 +165,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _tourService = new TourService();
             _locationService = new LocationService();
             _guestAttendanceService = new GuestAttendanceService();
+            _reservationService = new ReservationService();
         }
 
         public void GetAttendanceMessage()
@@ -185,11 +187,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 attendance.Presence = GuestPresence.YES;
                 _guestAttendanceService.Update(attendance);
+                _reservationService.SetPresence(attendance.ReservationId);
             }
             else
             {
                 attendance.Presence = GuestPresence.NO;
-                _guestAttendanceService.Update(attendance);
+                _guestAttendanceService.Update(attendance);                
             }
         }
 

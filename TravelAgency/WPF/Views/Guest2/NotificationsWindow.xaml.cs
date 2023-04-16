@@ -1,4 +1,5 @@
-﻿using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     /// </summary>
     public partial class NotificationsWindow : Window
     {
-        public NotificationsWindow()
+        public NotificationsWindow(User loggedInUser)
         {
             InitializeComponent();
-            NotificationsWindowViewModel viewModel = new NotificationsWindowViewModel(this);
+            NotificationsWindowViewModel viewModel = new NotificationsWindowViewModel(loggedInUser, this);
             DataContext = viewModel;
         }
     }
