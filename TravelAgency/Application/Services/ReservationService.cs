@@ -51,7 +51,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             _reservationRepository.Reviewed(id);
         }
 
-        public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge)
+        public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge, int voucherId = -1)
         {
            foreach (Appointment a in _appointmentRepository.GetAll())
            {
@@ -60,7 +60,7 @@ namespace SOSTeam.TravelAgency.Application.Services
                    a.Occupancy += touristNum;
                   // selected.Ocupancy += touristNum;
                    _appointmentRepository.Update(a);
-                   Reservation newReservation = new Reservation(touristNum,averageAge, loggedInUser.Id, a.Id);
+                   Reservation newReservation = new Reservation(touristNum,averageAge, loggedInUser.Id, a.Id,voucherId);
                    _reservationRepository.Save(newReservation);
                }
            }

@@ -162,8 +162,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     if(_selectedVoucher != null)
                     {
                         _voucherService.UsedUpdate(_selectedVoucher.VoucherId);
+                        _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge),_selectedVoucher.VoucherId);
                     }
-                    _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge));
+                    else
+                    {
+                        _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge));
+                    }
                     _window.Close();
                 }
             }
