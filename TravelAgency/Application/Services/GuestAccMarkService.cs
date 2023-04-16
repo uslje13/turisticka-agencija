@@ -72,6 +72,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _guestAccommodationMarkRepository.GetAll();
         }
 
+
         public GuestAccommodationMark GetById(int id)
         {
             return _guestAccommodationMarkRepository.GetById(id);
