@@ -81,6 +81,17 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(FilePath, _accommodationReservations);
         }
 
+        public void UpdateToDefinitlyForget(AccommodationReservation accommodationReservation)
+        {
+            const string filePath = "../../../Resources/Data/shortTimeDeletedReservations.csv";
+            _accommodationReservations = _serializer.FromCSV(filePath);
+            AccommodationReservation current = _accommodationReservations.Find(d => d.Id == accommodationReservation.Id) ?? throw new ArgumentException();
+            int index = _accommodationReservations.IndexOf(current);
+            _accommodationReservations.Remove(current);
+            _accommodationReservations.Insert(index, accommodationReservation);
+            _serializer.ToCSV(filePath, _accommodationReservations);
+        }
+
         public AccommodationReservation GetById(int id)
         {
             _accommodationReservations = _serializer.FromCSV(FilePath);

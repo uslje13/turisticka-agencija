@@ -56,8 +56,29 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             accommodations = accommodationService.GetAll();
             reservations = reservationService.GetAll();
 
+            AnalyzeUnknownStatusReservations();
             MarkCalendars();
             pickCommand = new RelayCommand(ExecutePickItem);
+        }
+
+        private void AnalyzeUnknownStatusReservations()
+        {
+            if(IsEnterOfChange)
+            {
+                foreach (var item in reservationService.LoadFromOtherCSV())
+                {
+                    if (!item.DefinitlyChanged && item.UserId != LoggedInUser.Id)
+                        reservations.Add(item);
+                }
+            }
+            else
+            {
+                foreach (var item in reservationService.LoadFromOtherCSV())
+                {
+                    if (!item.DefinitlyChanged)
+                        reservations.Add(item);
+                }
+            }
         }
 
         private List<AccReservationViewModel> CreateAllDTOreservations()
