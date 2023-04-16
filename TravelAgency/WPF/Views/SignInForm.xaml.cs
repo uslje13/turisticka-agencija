@@ -103,35 +103,38 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
         private bool TestInboxCharge(int loggedInUserId)
         {
+            bool marksNotifications = TestMarkNotifications(loggedInUserId);
+            bool ownerNotifications = TestOwnerRequestNotifications(loggedInUserId);
+            return marksNotifications || ownerNotifications;
+        }
+
+        private bool TestMarkNotifications(int loggedInUserId)
+        {
             AccommodationReservationService resService = new AccommodationReservationService();
-            NotificationFromOwnerService notifService = new NotificationFromOwnerService();
-
             List<AccommodationReservation> allRes = resService.GetAll();
-            List<NotificationFromOwner> notifications = notifService.GetAll();
-
-            foreach(var item in notifications)
+            foreach (var res in allRes)
             {
-                if(item.GuestId ==  loggedInUserId)
+                int diff = DateTime.Today.DayOfYear - res.LastDay.DayOfYear;
+                bool fullCharge = res.UserId == loggedInUserId && !res.ReadMarkNotification && diff <= 5 && diff > 0;
+                if (fullCharge)
                 {
                     return true;
                 }
             }
+            return false;
+        }
 
-            foreach (var res in allRes)
+        private bool TestOwnerRequestNotifications(int loggedInUserId)
+        {
+            NotificationFromOwnerService notifService = new NotificationFromOwnerService();
+            List<NotificationFromOwner> notifications = notifService.GetAll();
+            foreach (var item in notifications)
             {
-                if(res.UserId == loggedInUserId)
+                if (item.GuestId == loggedInUserId)
                 {
-                    if (!res.ReadMarkNotification)
-                    {
-                        int diff = DateTime.Today.DayOfYear - res.LastDay.DayOfYear;
-                        if (diff <= 5 && diff > 0)
-                        {
-                            return true;
-                        }
-                    }
+                    return true;
                 }
             }
-
             return false;
         }
     }

@@ -15,8 +15,8 @@
                   AutoGenerateColumns="False" SelectionMode="Single"
                   IsReadOnly="True" Margin="10,10,10,110">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
-                        <DataGridTextColumn Header="Grad" Binding="{Binding City}" Width="1*"/>
+                        <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="0.9*"/>
+                        <DataGridTextColumn Header="Grad" Binding="{Binding City}" Width="0.9*"/>
                         <DataGridTextColumn Header="Prvi dan" Binding="{Binding OldFirstDay}" Width="1*"/>
                         <DataGridTextColumn Header="Poslednji dan" Binding="{Binding OldLastDay}" Width="1*"/>
                         <DataGridTextColumn Header="Novi prvi dan" Binding="{Binding NewFirstDay}" Width="1*"/>

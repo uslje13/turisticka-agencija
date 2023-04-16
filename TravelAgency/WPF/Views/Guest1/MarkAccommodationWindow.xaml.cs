@@ -23,17 +23,13 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class MarkAccommodationWindow : Window
     {
-        public int cleanMark { get; set; }
-        public int ownerMark { get; set; }
-
-
         public MarkAccommodationWindow(User user, CancelAndMarkResViewModel accommodation)
         {
             InitializeComponent();
             FillTextBox(accommodation);
             List<RadioButton> cleanButtons = new List<RadioButton> { c1, c2, c3, c4, c5 };
             List<RadioButton> ownerButtons = new List<RadioButton> { v1, v2, v3, v4, v5 };
-            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(cleanButtons, ownerButtons, GuestComment, GuestURLs, user, accommodation);
+            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(cleanButtons, ownerButtons, GuestComment, GuestURLs, user, accommodation, this);
             DataContext = viewModel; 
         }
 
@@ -45,56 +41,5 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             binding.Source = accommodation.Name;
             AccommodationNameTb.SetBinding(TextBlock.TextProperty, binding);
         }
-        /*
-        private void c1_Checked(object sender, RoutedEventArgs e)
-        {
-            cleanMark = 1;
-        }
-
-        private void c2_Checked(object sender, RoutedEventArgs e)
-        {
-            cleanMark = 2;
-        }
-
-        private void c3_Checked(object sender, RoutedEventArgs e)
-        {
-            cleanMark = 3;
-        }
-
-        private void c4_Checked(object sender, RoutedEventArgs e)
-        {
-            cleanMark = 4;
-        }
-
-        private void c5_Checked(object sender, RoutedEventArgs e)
-        {
-            cleanMark = 5;
-        }
-
-        private void v1_Checked(object sender, RoutedEventArgs e)
-        {
-            ownerMark = 1;
-        }
-
-        private void v2_Checked(object sender, RoutedEventArgs e)
-        {
-            ownerMark = 2;
-        }
-
-        private void v3_Checked(object sender, RoutedEventArgs e)
-        {
-            ownerMark = 3;
-        }
-
-        private void v4_Checked(object sender, RoutedEventArgs e)
-        {
-            ownerMark = 4;
-        }
-
-        private void v5_Checked(object sender, RoutedEventArgs e)
-        {
-            ownerMark = 5;
-        }
-        */
     }
 }
