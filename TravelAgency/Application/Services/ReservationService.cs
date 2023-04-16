@@ -51,16 +51,13 @@ namespace SOSTeam.TravelAgency.Application.Services
             _reservationRepository.Reviewed(id);
         }
 
-        public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge, int voucherId = -1)
-        {
-
         public List<Reservation> GetAllByAppointmentId(int id)
         {
-            return  _reservationRepository.GetAllByAppointmentId(id);
+            return _reservationRepository.GetAllByAppointmentId(id);
         }
 
-       public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge)
-       {
+        public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge, int voucherId = -1)
+        {
 
            foreach (Appointment a in _appointmentRepository.GetAll())
            {

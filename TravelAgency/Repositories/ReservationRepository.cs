@@ -64,6 +64,7 @@ namespace SOSTeam.TravelAgency.Repositories
             {
                 return 1;
             }
+
             return _resevations.Max(l => l.Id) + 1;
         }
 
@@ -78,7 +79,7 @@ namespace SOSTeam.TravelAgency.Repositories
             _resevations = _serializer.FromCSV(FilePath);
             foreach (var resevation in _resevations)
             {
-                if(resevation.Id == id)
+                if (resevation.Id == id)
                 {
                     resevation.Presence = true;
                     Update(resevation);
@@ -99,11 +100,12 @@ namespace SOSTeam.TravelAgency.Repositories
                     break;
                 }
             }
+        }
 
         public List<Reservation> GetAllByAppointmentId(int id)
         {
             _resevations = _serializer.FromCSV(FilePath);
-            return _resevations.FindAll(r=> r.AppointmentId == id) ?? throw new ArgumentException();
+            return _resevations.FindAll(r => r.AppointmentId == id) ?? throw new ArgumentException();
         }
     }
 }
