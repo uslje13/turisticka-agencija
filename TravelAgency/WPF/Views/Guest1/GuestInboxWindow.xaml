@@ -8,8 +8,7 @@
         WindowStartupLocation="CenterScreen"
         Title="GuestInboxWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding reservationsForMark}" 
-                  SelectedItem="{Binding Path=SelectedMarkReservation, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding reservationsForMark}"
                   AutoGenerateColumns="False" SelectionMode="Single"
                   IsReadOnly="True" Margin="10,10,10,110">
             <DataGrid.Columns>

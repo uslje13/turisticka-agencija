@@ -40,6 +40,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
         }
 
+        public void UpdateToDefinitlyForget(AccommodationReservation accommodationReservation)
+        {
+            _accReservationRepository.UpdateToDefinitlyForget(accommodationReservation);
+        }
+
         public void SaveFinishedReservation(AccommodationReservation reservation)
         {
             _accReservationRepository.SaveFinishedReservation(reservation);
@@ -193,6 +198,20 @@ namespace SOSTeam.TravelAgency.Application.Services
             _changedResRequestRepositroy.Save(processedReservation);
 
             _wantedNewDateRepository.Delete(newReservation.Id);
+            DefinitlyForgetReservation(oldReservation);
+        }
+
+        private void DefinitlyForgetReservation(ChangedReservationRequest oldReservation)
+        {
+            List<AccommodationReservation> local = _accReservationRepository.LoadFromOtherCSV();
+            foreach(var item in local)
+            {
+                if(item.Id == oldReservation.reservationId)
+                {
+                    item.DefinitlyChanged = true;
+                    _accReservationRepository.UpdateToDefinitlyForget(item);
+                }
+            }
         }
 
         private AccommodationReservation SaveChangeAcceptedReservation(WantedNewDate newReservation, ChangedReservationRequest oldReservation)

@@ -20,6 +20,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public int AccommodationId { get; set; }
         public int UserId { get; set; }
         public bool ReadMarkNotification { get; set; }
+        public bool DefinitlyChanged { get; set; }
 
         public AccommodationReservation() 
         {
@@ -42,7 +43,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             UserId = uId;
         }
 
-        public AccommodationReservation(DateTime firstDay, DateTime lastDay, int reservationDuration, int guestNumber, int accommodationId, int uid, bool read = false)
+        public AccommodationReservation(DateTime firstDay, DateTime lastDay, int reservationDuration, int guestNumber, int accommodationId, int uid, bool read = false, bool def = false)
         {
             FirstDay = firstDay;
             LastDay = lastDay;
@@ -51,11 +52,12 @@ namespace SOSTeam.TravelAgency.Domain.Models
             AccommodationId = accommodationId;
             UserId= uid;
             ReadMarkNotification = read;
+            DefinitlyChanged = def;
         }
         
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), FirstDay.ToString(), LastDay.ToString(), ReservationDuration.ToString(), GuestNumber.ToString(), AccommodationId.ToString(), UserId.ToString(), ReadMarkNotification.ToString() };
+            string[] csvValues = { Id.ToString(), FirstDay.ToString(), LastDay.ToString(), ReservationDuration.ToString(), GuestNumber.ToString(), AccommodationId.ToString(), UserId.ToString(), ReadMarkNotification.ToString(), DefinitlyChanged.ToString() };
             return csvValues;
         }
 
@@ -73,6 +75,10 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 ReadMarkNotification = false;
             else 
                 ReadMarkNotification = true;
+            if (values[i++].Equals("False"))
+                DefinitlyChanged = false;
+            else
+                DefinitlyChanged = true;
         }
     }
 }
