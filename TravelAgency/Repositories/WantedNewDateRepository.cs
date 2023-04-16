@@ -23,7 +23,12 @@ namespace SOSTeam.TravelAgency.Repositories
 
         public void Update(WantedNewDate wantedNewDate)
         {
-
+            _requests = _serializer.FromCSV(FilePath);
+            WantedNewDate current = _requests.Find(d => d.Id == wantedNewDate.Id) ?? throw new ArgumentException();
+            int index = _requests.IndexOf(current);
+            _requests.Remove(current);
+            _requests.Insert(index, wantedNewDate);
+            _serializer.ToCSV(FilePath, _requests);
         }
 
         public WantedNewDate GetById(int id)

@@ -23,7 +23,12 @@ namespace SOSTeam.TravelAgency.Repositories
 
         public void Update(NotificationFromOwner notificationFromOwner)
         {
-
+            _notifications = _serializer.FromCSV(FilePath);
+            NotificationFromOwner current = _notifications.Find(d => d.Id == notificationFromOwner.Id) ?? throw new ArgumentException();
+            int index = _notifications.IndexOf(current);
+            _notifications.Remove(current);
+            _notifications.Insert(index, notificationFromOwner);
+            _serializer.ToCSV(FilePath, _notifications);
         }
 
         public NotificationFromOwner GetById(int id)

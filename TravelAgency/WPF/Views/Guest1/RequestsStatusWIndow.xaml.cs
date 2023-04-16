@@ -22,14 +22,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class RequestsStatusWindow : Window
     {
-        public User LoggedInUser { get; set; }
-        //public ChangedReservationRequest selectedReservation { get; set; }
-
         public RequestsStatusWindow(User user)
         {
             InitializeComponent();
-            LoggedInUser = user;
-            RequestsStatusViewModel viewModel = new RequestsStatusViewModel(LoggedInUser);
+            RequestsStatusViewModel viewModel = new RequestsStatusViewModel(user, this);
             DataContext = viewModel;
         }
 

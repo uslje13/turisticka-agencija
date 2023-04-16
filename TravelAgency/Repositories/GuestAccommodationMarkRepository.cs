@@ -23,7 +23,12 @@ namespace SOSTeam.TravelAgency.Repositories
 
         public void Update(GuestAccommodationMark guestAccommodationMark)
         {
-
+            _requests = _serializer.FromCSV(FilePath);
+            GuestAccommodationMark current = _requests.Find(d => d.Id == guestAccommodationMark.Id) ?? throw new ArgumentException();
+            int index = _requests.IndexOf(current);
+            _requests.Remove(current);
+            _requests.Insert(index, guestAccommodationMark);
+            _serializer.ToCSV(FilePath, _requests);
         }
 
         public GuestAccommodationMark GetById(int id)
