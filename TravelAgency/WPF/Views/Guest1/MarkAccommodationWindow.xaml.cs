@@ -26,20 +26,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         public MarkAccommodationWindow(User user, CancelAndMarkResViewModel accommodation)
         {
             InitializeComponent();
-            FillTextBox(accommodation);
             List<RadioButton> cleanButtons = new List<RadioButton> { c1, c2, c3, c4, c5 };
             List<RadioButton> ownerButtons = new List<RadioButton> { v1, v2, v3, v4, v5 };
-            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(cleanButtons, ownerButtons, GuestComment, GuestURLs, user, accommodation, this);
+            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(AccommodationNameTb, cleanButtons, ownerButtons, GuestComment, GuestURLs, user, accommodation, this);
             DataContext = viewModel; 
-        }
-
-        private void FillTextBox(CancelAndMarkResViewModel acc)
-        {
-            Binding binding = new Binding();
-            AccommodationService service = new AccommodationService();
-            Accommodation accommodation = service.GetById(acc.AccommodationId);
-            binding.Source = accommodation.Name;
-            AccommodationNameTb.SetBinding(TextBlock.TextProperty, binding);
         }
     }
 }

@@ -17,12 +17,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     public class SearchAccommodationViewModel
     {
         public User LoggedInUser { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
         public List<Accommodation> accommodations { get; set; }
         public List<Location> locations { get; set; }
         public ObservableCollection<LocAccommodationViewModel> AccommDTOsCollection { get; set; }
-
         public AccommodationService accommodationService { get; set; }
         public LocationService locationService { get; set; }
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
@@ -30,10 +27,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public List<AccommodationReservation> accommodationReservations { get; set; }
         public RelayCommand searchCommand { get; set; }
         public RelayCommand reserveCommand { get; set; }
+        public Window ThisWindow { get; set; }
 
-
-
-        public SearchAccommodationViewModel(User user)
+        public SearchAccommodationViewModel(User user, Window window)
         {
             AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
 
@@ -45,6 +41,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             locations = locationService.GetAll();
             accommodationReservations = accommodationReservationService.GetAll();
             LoggedInUser = user;
+            ThisWindow = window;
 
             searchCommand = new RelayCommand(ExecuteSearchAccommodation);
             reserveCommand = new RelayCommand(ExecuteReserveAccommodation);
@@ -56,6 +53,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             SearchWindow searchWindow = new SearchWindow(LoggedInUser);
             searchWindow.ShowDialog();
+            ThisWindow.Close();
         }
 
         private void CreateAllDTOForms()
@@ -114,6 +112,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser, false);
                 newWindow.ShowDialog();
+                ThisWindow.Close();
             }
             else
             {

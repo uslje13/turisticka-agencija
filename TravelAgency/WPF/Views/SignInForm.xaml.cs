@@ -102,41 +102,43 @@ namespace SOSTeam.TravelAgency.WPF.Views
             }
         }
 
-        private bool TestInboxCharge(int loggedInUserId)
+        private int TestInboxCharge(int loggedInUserId)
         {
-            bool marksNotifications = TestMarkNotifications(loggedInUserId);
-            bool ownerNotifications = TestOwnerRequestNotifications(loggedInUserId);
-            return marksNotifications || ownerNotifications;
+            int marksNotifications = TestMarkNotifications(loggedInUserId);
+            int ownerNotifications = TestOwnerRequestNotifications(loggedInUserId);
+            return marksNotifications + ownerNotifications;
         }
 
-        private bool TestMarkNotifications(int loggedInUserId)
+        private int TestMarkNotifications(int loggedInUserId)
         {
             AccommodationReservationService resService = new AccommodationReservationService();
             List<AccommodationReservation> allRes = resService.GetAll();
+            int counter = 0;
             foreach (var res in allRes)
             {
                 int diff = DateTime.Today.DayOfYear - res.LastDay.DayOfYear;
                 bool fullCharge = res.UserId == loggedInUserId && !res.ReadMarkNotification && diff <= 5 && diff > 0;
                 if (fullCharge)
                 {
-                    return true;
+                    counter++;
                 }
             }
-            return false;
+            return counter;
         }
 
-        private bool TestOwnerRequestNotifications(int loggedInUserId)
+        private int TestOwnerRequestNotifications(int loggedInUserId)
         {
             NotificationFromOwnerService notifService = new NotificationFromOwnerService();
             List<NotificationFromOwner> notifications = notifService.GetAll();
+            int counter = 0;
             foreach (var item in notifications)
             {
                 if (item.GuestId == loggedInUserId)
                 {
-                    return true;
+                    counter++;
                 }
             }
-            return false;
+            return counter;
         }
     }
 }
