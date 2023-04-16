@@ -31,10 +31,11 @@
                        VerticalOffset="-15"
                        HorizontalOffset="130"
                        IsOpen="{Binding IsDropdownOpen}">
-                            <Grid Height="300" Width="300" Background="Transparent">
+                            <Grid Height="400" Width="300" Background="Transparent">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
+                                    <RowDefinition Height="20" />
                                 </Grid.RowDefinitions>
                                 
                                 <Grid x:Name="TriangleGrid"
@@ -59,10 +60,13 @@
                                 </Grid>
                                 <Grid Grid.Row="1" Background="Transparent">
                                     <Border BorderThickness="2" BorderBrush="Black" CornerRadius="20" Background="White"></Border>
-                                    <Grid Margin="2,20">
-                                <Button Visibility="Collapsed" x:Name="doubleClickButton" Command="{Binding NotificationDoubleClick}"></Button>
-                                <ScrollViewer  >
-                                    <ListView Grid.Row="1" ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" MouseDoubleClick="ListView_MouseDoubleClick" >
+
+                                <StackPanel Margin="2,20" Width="300">
+                                <Grid HorizontalAlignment="Center">
+                                    <Button Visibility="Collapsed" x:Name="doubleClickButton" Command="{Binding NotificationDoubleClick}"></Button>
+
+                                    <ScrollViewer Width="295" Height="280" >
+                                        <ListView Grid.Row="1" ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" MouseDoubleClick="ListView_MouseDoubleClick" >
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="{x:Type ListViewItem}">
                                                     <Style.Triggers>
@@ -88,11 +92,21 @@
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>
-                                </ScrollViewer>
-                                
+                                    </ScrollViewer>
 
-                            </Grid>
+
                                 </Grid>
+                                <Grid >
+                                    <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <Button Content="Označi kao pročitano" Height="28" FontSize="18" Margin="2,2" Command="{Binding MarkAsReadNotification}"/>
+                                        <Button Content="Izbriši" Height="28" FontSize="18" Margin="0,2,20,2" Command="{Binding DeleteNotification}"/>
+                                    </WrapPanel>
+                                    
+                                </Grid>
+                            </StackPanel>
+                                    
+                        </Grid>
+                                
                             </Grid>
                         
                 </Popup>

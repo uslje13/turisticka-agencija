@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="20">
             <StackPanel>
-                <Label Content="Zahtevi za pomeranje rezervacije " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,10,30" />
+                <Label Content="Recenzije " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,10,30" />
                 <DataGrid Width="730" Height="450" RowHeight="50" ItemsSource="{Binding Reviews}" SelectedItem="{Binding Path=SelectedReview, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="Auto" Header="Gost">
