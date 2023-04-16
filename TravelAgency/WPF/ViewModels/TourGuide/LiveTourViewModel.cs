@@ -171,12 +171,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 {
                     foreach (var checkpointActivity in _checkpointActivityService.GetAll())
                     {
-                        if (checkpointActivity.AppointmentId == ActiveAppointment.Id && checkpointActivity.CheckpointId == selectedGuestAttendance.CheckpointId)
+                        if (checkpointActivity.AppointmentId == ActiveAppointment.Id && checkpointActivity.CheckpointId == selectedGuestAttendance.CheckpointId
+                            && checkpointActivity.GuestsCalled == false)
                         {
                             var guestAttendance = CreateGuestAttendance(reservation, checkpointActivity);
                             guestAttendances.Add(guestAttendance);
 
                             checkpointActivity.GuestsCalled = true;
+                            _checkpointActivityService.Save(checkpointActivity);
                         }
                     }
                 }

@@ -80,7 +80,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 if (_language != value)
                 {
-                    _description = value;
+                    _language = value;
                     OnPropertyChanged("Language");
                 }
             }
@@ -116,7 +116,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly TourService _tourService;
         private readonly CheckpointService _checkpointService;
         private readonly AppointmentService _appointmentService;
-        private Location _location;
+        private readonly ImageService _imageService;
 
         public ObservableCollection<string> Countries { get; set; }
 
@@ -130,7 +130,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public ObservableCollection<Checkpoint> Checkpoints { get; set; }
         public ObservableCollection<Appointment> Appointments { get; set; }
 
-        public ObservableCollection<Image> Images { get; set; }
+        public List<Image> Images { get; set; }
 
         public RelayCommand CitySelectionChangedCommand { get; set; }
         public RelayCommand CountrySelectionChangedCommand { get; set; }
@@ -138,6 +138,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand ShowAddCheckpointsPageCommand { get; set; }
         public RelayCommand ShowAddAppointmentsPageCommand { get; set; }
         public RelayCommand ShowAddImagesCommand { get; set; }
+        public RelayCommand ShowGalleryCommand { get; set; }
         public RelayCommand CreateTourClickCommand { get; set; }
 
         public CreateTourViewModel(User loggedUser)
@@ -146,23 +147,25 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _tourService = new TourService();
             _checkpointService = new CheckpointService();
             _appointmentService = new AppointmentService();
+            _imageService = new ImageService();
             LoggedUser = loggedUser;
 
 
             Locations = _locationService.GetAll();
             Countries = GetCountries();
             Cities = GetCities();
-            _location = new Location();
+
             Checkpoints = new ObservableCollection<Checkpoint>();
             Appointments = new ObservableCollection<Appointment>();
             ImagePaths = new List<string>();
-            Images = new ObservableCollection<Image>();
+            Images = new List<Image>();
 
             CountrySelectionChangedCommand = new RelayCommand(ExecuteCountrySelectionChanged, CanExecuteMethod);
             CitySelectionChangedCommand = new RelayCommand(ExecuteCitySelectionChanged, CanExecuteMethod);
             ShowAddCheckpointsPageCommand = new RelayCommand(ShowAddCheckpointsPage, CanExecuteMethod);
             ShowAddAppointmentsPageCommand = new RelayCommand(ShowAddAppointmentsPage, CanExecuteMethod);
             ShowAddImagesCommand = new RelayCommand(SelectImagesPaths, CanExecuteMethod);
+            ShowGalleryCommand = new RelayCommand(ShowImageGallery, CanExecuteMethod);
             CreateTourClickCommand = new RelayCommand(CreateTour, CanExecuteMethod);
         }
         private bool CanExecuteMethod(object parameter)
@@ -236,16 +239,32 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = addAppointmentsPage;
         }
 
+        private void ShowImageGallery(object sender)
+        {
+            CreateImages();
+            TourGalleryPage tourGalleryPage = new TourGalleryPage(Images);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = tourGalleryPage;
+        }
+
         private void CreateTour(object sender)
         {
             var id = _tourService.NextId();
             var tour = new Tour(id, Name, FindLocationId(), Description, Language, MaxNumOfGuests, Duration);
             SetCheckpointsTourId(id);
             SetAppointmentsTourAndUserId(id);
-            CreateImages(id);
+            SetImagesTourId(id);
             _tourService.Save(tour);
             _checkpointService.SaveAll(new List<Checkpoint>(Checkpoints));
             _appointmentService.SaveAll(new List<Appointment>(Appointments));
+            _imageService.SaveAll(Images);
+        }
+
+        private void SetImagesTourId(int tourId)
+        {
+            foreach (var image in Images)
+            {
+                image.EntityId = tourId;
+            }
         }
 
         private void SetCheckpointsTourId(int id)
@@ -274,7 +293,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void SelectImagesPaths(object parameter)
         {
-
+            ImagePaths.Clear();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
             openFileDialog.Filter = "Image Files|*.jpg;*.png;*.bmp|All Files|*.*";
@@ -288,14 +307,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 string relativePath = fileName.Replace(openFileDialog.InitialDirectory, "").TrimStart('\\');
                 if (!string.IsNullOrEmpty(relativePath))
                 {
-                    string imagePath = Path.Combine("Resources/Images/Tours", relativePath).Replace('\\', '/');
+                    string imagePath = Path.Combine("/Resources/Images/Tours", relativePath).Replace('\\', '/');
                     ImagePaths.Add(imagePath);
                 }
             }
         }
 
-        private void CreateImages(int tourId)
+        private void CreateImages()
         {
+            Images.Clear();
             if (ImagePaths.Count > 0)
             {
                 foreach (var imagePath in ImagePaths)
@@ -305,7 +325,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                     {
                         Cover = false,
                         Path = imagePath,
-                        EntityId = tourId,
                         Type = Image.ImageType.TOUR
                     };
 

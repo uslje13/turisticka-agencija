@@ -35,31 +35,31 @@
             <TextBox Grid.Column="0" Grid.Row="0"  Grid.ColumnSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Height="25"
                      Margin="0,34,0,0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
-            <!-- City: -->
-            <Label Grid.Column="0" Grid.Row="1" Content="City:" HorizontalAlignment="Left" VerticalAlignment="Top"
+            <!-- Country: -->
+            <Label Grid.Column="0" Grid.Row="1" Content="Country:" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Margin="59,10,0,0" FontSize="14">
             </Label>
             <ComboBox Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Top"
                       Margin="65,37,0,0" Width="145"
-                      x:Name="CityComboBox"
-                      ItemsSource="{Binding Cities}" SelectedItem="{Binding City}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding CitySelectionChangedCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ComboBox>
-            <!-- Country: -->
-            <Label Grid.Column="1" Grid.Row="1"  Content="Country:" HorizontalAlignment="Left" VerticalAlignment="Top"
-                   Margin="0,10,0,0" FontSize="14">
-            </Label>
-            <ComboBox Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Top"
-                      Margin="5,37,0,0" Width="145"
                       x:Name="CountryComboBox"
                       ItemsSource="{Binding Countries}" SelectedItem="{Binding Country}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding CountrySelectionChangedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <!-- City: -->
+            <Label Grid.Column="1" Grid.Row="1"  Content="City:" HorizontalAlignment="Left" VerticalAlignment="Top"
+                   Margin="0,10,0,0" FontSize="14">
+            </Label>
+            <ComboBox Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Top"
+                      Margin="5,37,0,0" Width="145"
+                      x:Name="CityComboBox"
+                      ItemsSource="{Binding Cities}" SelectedItem="{Binding City}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding CitySelectionChangedCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
@@ -74,7 +74,7 @@
             <Label Grid.Column="0" Grid.Row="3"  Content="Language:" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Margin="59,5,0,0" FontSize="14"/>
             <ComboBox Grid.Column="0" Grid.Row="3"  Grid.ColumnSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Height="25"
-                     Margin="0,38,0,0">
+                     Margin="0,38,0,0" Text="{Binding Language, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBoxItem Content="Serbian"/>
                 <ComboBoxItem Content="Spanish"/>
                 <ComboBoxItem Content="English"/>
@@ -108,7 +108,7 @@
             </Button>
             <!-- Preview images -->
             <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    Content="Preview images" FontSize="14">
+                    Content="Preview images" FontSize="14" Command="{Binding ShowGalleryCommand}">
             </Button>
             <!-- Create -->
             <Button Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
