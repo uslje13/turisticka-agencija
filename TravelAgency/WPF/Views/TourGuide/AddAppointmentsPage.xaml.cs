@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
@@ -19,12 +21,12 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// <summary>
     /// Interaction logic for AddDatesAndTimePage.xaml
     /// </summary>
-    public partial class AddDatesAndTimePage : Page
+    public partial class AddAppointmentsPage : Page
     {
-        public AddDatesAndTimePage()
+        public AddAppointmentsPage(ObservableCollection<Appointment> appointments)
         {
             InitializeComponent();
-            DataContext = new AddAppointmentsViewModel();
+            DataContext = new AddAppointmentsViewModel(appointments);
         }
     }
 }

@@ -10,5 +10,6 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
     public interface IReservationRepository : IRepository<Reservation>
     {
         int GetId(Reservation reservation);
+        List<Reservation> GetAllByAppointmentId(int id);
     }
 }

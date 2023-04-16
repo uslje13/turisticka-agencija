@@ -41,6 +41,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             _reservationRepository.Save(reservation);
         }
 
+        public List<Reservation> GetAllByAppointmentId(int id)
+        {
+            return  _reservationRepository.GetAllByAppointmentId(id);
+        }
+
        public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge)
        {
            foreach (Appointment a in _appointmentRepository.GetAll())

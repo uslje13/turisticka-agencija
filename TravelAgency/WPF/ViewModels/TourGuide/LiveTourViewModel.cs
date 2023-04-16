@@ -124,22 +124,33 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public void FillObservableCollection()
         {
-            foreach (var checkpointActivity in _checkpointActivityService.GetAll())
+            if (ActiveAppointment != null)
             {
-                if (checkpointActivity.AppointmentId == ActiveAppointment.Id)
+                foreach (var checkpointActivity in _checkpointActivityService.GetAll())
                 {
-                    CheckpointCardViewModel viewModel = new CheckpointCardViewModel();
-                    Checkpoint checkpoint = _checkpointService.GetById(checkpointActivity.CheckpointId);
-                    viewModel.CheckpointId = checkpointActivity.CheckpointId;
-                    viewModel.ActivityId = checkpointActivity.Id;
-                    viewModel.Name = checkpoint.Name;
-                    viewModel.Type = checkpoint.Type;
-                    viewModel.Status = checkpointActivity.Status;
-                    viewModel.GuestsCalled = checkpointActivity.GuestsCalled;
-
-                    CheckpointCards.Add(viewModel);
+                    if (checkpointActivity.AppointmentId == ActiveAppointment.Id)
+                    {
+                        var checkpoint = _checkpointService.GetById(checkpointActivity.CheckpointId);
+                        var viewModel = CreateCheckpointCard(checkpointActivity, checkpoint);
+                        CheckpointCards.Add(viewModel);
+                    }
                 }
             }
+        }
+
+        private static CheckpointCardViewModel CreateCheckpointCard(CheckpointActivity checkpointActivity,
+            Checkpoint checkpoint)
+        {
+            var viewModel = new CheckpointCardViewModel
+            {
+                CheckpointId = checkpointActivity.CheckpointId,
+                ActivityId = checkpointActivity.Id,
+                Name = checkpoint.Name,
+                Type = checkpoint.Type,
+                Status = checkpointActivity.Status,
+                GuestsCalled = checkpointActivity.GuestsCalled
+            };
+            return viewModel;
         }
 
         public void ViewGuestAttendance(object sender)
@@ -153,7 +164,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void CreateQueryForGuests(CheckpointCardViewModel selectedGuestAttendance)
         {
-            List<GuestAttendance> guestAttendances = new List<GuestAttendance>();
+            var guestAttendances = new List<GuestAttendance>();
             foreach (var reservation in _reservationService.GetAll())
             {
                 if (reservation.AppointmentId == ActiveAppointment.Id)
@@ -162,22 +173,33 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                     {
                         if (checkpointActivity.AppointmentId == ActiveAppointment.Id && checkpointActivity.CheckpointId == selectedGuestAttendance.CheckpointId)
                         {
-                            GuestAttendance guestAttendance = new GuestAttendance();
-                            guestAttendance.UserId = reservation.UserId;
-                            guestAttendance.CheckpointActivityId = checkpointActivity.AppointmentId;
-                            guestAttendance.Presence = GuestPresence.UNKNOWN;
-                            guestAttendance.Message = "Da li ste bili prisutni na čekpointu: " +
-                                                      _checkpointService.GetById(checkpointActivity.CheckpointId).Name +
-                                                      " ?";
+                            var guestAttendance = CreateGuestAttendance(reservation, checkpointActivity);
                             guestAttendances.Add(guestAttendance);
 
                             checkpointActivity.GuestsCalled = true;
-
                         }
                     }
                 }
             }
-            _guestAttendanceService.SaveAll(guestAttendances);
+
+            if (guestAttendances.Count > 0)
+            {
+                _guestAttendanceService.SaveAll(guestAttendances);
+            }
+        }
+
+        private GuestAttendance CreateGuestAttendance(Reservation reservation, CheckpointActivity checkpointActivity)
+        {
+            var guestAttendance = new GuestAttendance
+            {
+                UserId = reservation.UserId,
+                CheckpointActivityId = checkpointActivity.AppointmentId,
+                Presence = GuestPresence.UNKNOWN,
+                Message = "Da li ste bili prisutni na čekpointu: " +
+                          _checkpointService.GetById(checkpointActivity.CheckpointId).Name +
+                          " ?"
+            };
+            return guestAttendance;
         }
     }
 }

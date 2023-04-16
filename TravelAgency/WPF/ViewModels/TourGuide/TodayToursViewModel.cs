@@ -21,9 +21,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public CheckpointActivityService _checkpointActivityService;
         
 
-        private ObservableCollection<TourCardOverviewViewModel> _todayToursCards;
+        private ObservableCollection<TourCardViewModel> _todayToursCards;
 
-        public ObservableCollection<TourCardOverviewViewModel> TodayToursCards
+        public ObservableCollection<TourCardViewModel> TodayToursCards
         {
             get => _todayToursCards;
             set
@@ -58,7 +58,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public TodayToursViewModel(User loggedUser)
         {
             InitializeServices();
-            TodayToursCards = new ObservableCollection<TourCardOverviewViewModel>();
+            TodayToursCards = new ObservableCollection<TourCardViewModel>();
             StartTourCommand = new RelayCommand(StartTour, CanExecuteMethod);
             LoggedUser = loggedUser;
             TodayDate = DateOnly.FromDateTime(DateTime.Now);
@@ -91,7 +91,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 {
                     if (appointment.TourId == tour.Id)
                     {
-                        TourCardOverviewViewModel viewModel = new TourCardOverviewViewModel();
+                        TourCardViewModel viewModel = new TourCardViewModel();
 
                         SetTourAndAppointmentFields(viewModel, appointment, tour);
 
@@ -111,19 +111,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             return true;
         }
 
-        private void SetImageField(Tour tour, TourCardOverviewViewModel viewModel)
+        private void SetImageField(Tour tour, TourCardViewModel viewModel)
         {
             foreach (var image in _imageService.GetAllForTours())
             {
                 if (image.Cover && image.EntityId == tour.Id)
                 {
-                    viewModel.ImageUrl = image.Url;
+                    viewModel.CoverImagePath = image.Path;
                     break;
                 }
             }
         }
 
-        private void SetLocationField(Tour tour, TourCardOverviewViewModel viewModel)
+        private void SetLocationField(Tour tour, TourCardViewModel viewModel)
         {
             foreach (var location in _locationService.GetAll())
             {
@@ -136,7 +136,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private static void SetTourAndAppointmentFields(TourCardOverviewViewModel viewModel, Appointment appointment, Tour tour)
+        private static void SetTourAndAppointmentFields(TourCardViewModel viewModel, Appointment appointment, Tour tour)
         {
             viewModel.AppointmentId = appointment.Id;
             viewModel.Time = appointment.Time;
@@ -145,7 +145,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             SetAppointmentStatus(viewModel, appointment);
         }
 
-        private static void SetAppointmentStatus(TourCardOverviewViewModel viewModel, Appointment appointment)
+        private static void SetAppointmentStatus(TourCardViewModel viewModel, Appointment appointment)
         {
             if (!appointment.Started && !appointment.Finished)
             {
@@ -163,7 +163,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public void StartTour(object sender)
         {
-            var selectedAppointment = sender as TourCardOverviewViewModel;
+            var selectedAppointment = sender as TourCardViewModel;
             Appointment appointment = _appointmentService.GetById(selectedAppointment.AppointmentId);
             appointment.Started = true;
             _appointmentService.Update(appointment);
@@ -171,7 +171,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             UpdateObservableCollection();
         }
 
-        public void CanStartAppointment(User loggedUser, TourCardOverviewViewModel viewModel)
+        public void CanStartAppointment(User loggedUser, TourCardViewModel viewModel)
         {
             Appointment activeAppointment = _appointmentService.GetAllByUserId(loggedUser.Id)
                 .Find(a => a.Started == true && a.Finished == false);
@@ -189,7 +189,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private void CreateCheckpointActivities(TourCardOverviewViewModel startedAppointment)
+        private void CreateCheckpointActivities(TourCardViewModel startedAppointment)
         {
             List<CheckpointActivity> checkpointActivities = new List<CheckpointActivity>();
             foreach (var checkpoint in _checkpointService.GetAllByTourId(startedAppointment.TourId))

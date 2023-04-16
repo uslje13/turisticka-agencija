@@ -85,26 +85,26 @@
                    Margin="59,10,0,0" FontSize="14">
             </Label>
             <tk:IntegerUpDown Grid.Column="0" Grid.Row="4" TextAlignment="Left" x:Name="MaxNumOfGuestsPicker" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top"
-                              Minimum="0" Margin="0,35,0,0" Width="300" Height="25" Text="{Binding MaxNumOfGuests, UpdateSourceTrigger=PropertyChanged}">
+                              Minimum="1" Margin="0,35,0,0" Width="300" Height="25" Text="{Binding MaxNumOfGuests, UpdateSourceTrigger=PropertyChanged}">
             </tk:IntegerUpDown>
             <!-- Duration: -->
             <Label Grid.Column="0" Grid.Row="5"  Content="Duration (in hours):" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Margin="59,10,0,0" FontSize="14">
             </Label>
             <tk:IntegerUpDown Grid.Column="0" Grid.Row="5" x:Name="DurationPicker" TextAlignment="Left" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top"
-                              Minimum="0" Margin="0,35,0,0" Width="300" Height="25" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}">
+                              Minimum="1" Margin="0,35,0,0" Width="300" Height="25" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}">
             </tk:IntegerUpDown>
             <!-- Add checkpoints -->
             <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    Content="Add checkpoints" FontSize="14">
+                    Content="Add checkpoints" FontSize="14" Command="{Binding ShowAddCheckpointsPageCommand}">
             </Button>
-            <!-- Add dates and time -->
+            <!-- Add appointment -->
             <Button Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    Content="Add dates and time" FontSize="14">
+                    Content="Add appointments" FontSize="14" Command="{Binding ShowAddAppointmentsPageCommand}">
             </Button>
             <!-- Add images -->
             <Button Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    Content="Add images" FontSize="14">
+                    Content="Add images" FontSize="14" Command="{Binding ShowAddImagesCommand}">
             </Button>
             <!-- Preview images -->
             <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
@@ -112,7 +112,7 @@
             </Button>
             <!-- Create -->
             <Button Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    Content="Create" FontSize="14">
+                    Content="Create" FontSize="14" Command="{Binding CreateTourClickCommand}">
             </Button>
         </Grid>
     </ScrollViewer>

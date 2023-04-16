@@ -93,7 +93,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
         private void AddUrlButtonClick(object sender, RoutedEventArgs e)
         {
             Image image = new Image();
-            image.Url = Url;
+            image.Path = Url;
             image.Type = ImageType;
             Images.Add(image);
             urlTextBox.Text = string.Empty;

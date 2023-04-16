@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class TourCardOverviewViewModel
+    public class TourCardViewModel
     {
         public int TourId { get; set; }
         public int LocationId { get; set; }
         public int AppointmentId { get; set; }
-        public string ImageUrl { get; set; }
+        public string CoverImagePath { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
         public DateOnly Date { get; set; }
@@ -21,14 +21,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public bool CanCancel { get; set; }
         public bool CanStart { get; set; }
 
-        public TourCardOverviewViewModel() { }
+        public TourCardViewModel() { }
 
-        public TourCardOverviewViewModel(int tourId, int locationId, int appointmentId, string imageUrl, string name, string location, DateOnly date, string status, string cancelImage, bool canCancel)
+        public TourCardViewModel(int tourId, int locationId, int appointmentId, string coverImagePath, string name, string location, DateOnly date, string status, string cancelImage, bool canCancel)
         {
             TourId = tourId;
             LocationId = locationId;
             AppointmentId = appointmentId;
-            ImageUrl = imageUrl;
+            CoverImagePath = coverImagePath;
             Name = name;
             Location = location;
             Date = date;

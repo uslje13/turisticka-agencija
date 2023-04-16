@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 using Xceed.Wpf.Toolkit;
 
@@ -22,10 +23,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// </summary>
     public partial class CreateTourPage : Page
     {
-        public CreateTourPage()
+        public CreateTourPage(User loggedUser)
         {
             InitializeComponent();
-            DataContext = new CreateTourViewModel();
+            DataContext = new CreateTourViewModel(loggedUser);
         }
     }
 }

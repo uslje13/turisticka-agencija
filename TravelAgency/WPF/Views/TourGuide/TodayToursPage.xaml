@@ -35,7 +35,7 @@
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Border Grid.ColumnSpan="3" Grid.RowSpan="3" BorderBrush="#FF999999" BorderThickness="1"></Border>
-                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="{Binding ImageUrl}"></Image>
+                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="{Binding CoverImagePath}"></Image>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" 
                         FontSize="17" Padding="5 0 0 5"></TextBlock>
                         <Image Grid.Column="1" Grid.Row="1" Source="/Resources/Icons/checkpoint_light.png" HorizontalAlignment="Left" VerticalAlignment="Top"

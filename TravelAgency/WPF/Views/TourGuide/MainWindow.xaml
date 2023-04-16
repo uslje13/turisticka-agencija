@@ -28,19 +28,19 @@
             <Button Name="BackButton" Width="86" Background="Transparent" BorderBrush="Transparent">
                 <Image Source="/Resources/Icons/back_button.png"></Image>
             </Button>
-            <Button Name="CreateButton" Width="86" Background="Transparent" BorderBrush="Transparent" Click="CreateButton_OnClick">
+            <Button Name="CreateButton" Width="86" Background="Transparent" BorderBrush="Transparent" Command="{Binding ShowCreateTourFormCommand}">
                 <Image Source="/Resources/Icons/plus.png"></Image>
             </Button>
-            <Button Name="HomeButton" Width="86" Background="Transparent" BorderBrush="Transparent">
+            <Button Name="HomeButton" Width="86" Background="Transparent" BorderBrush="Transparent" Command="{Binding ShowHomePageCommand}">
                 <Image Source="/Resources/Icons/home.png"></Image>
             </Button>
-            <Button Name="LiveTourButton" Width="86" Background="Transparent" BorderBrush="Transparent">
+            <Button Name="LiveTourButton" Width="86" Background="Transparent" BorderBrush="Transparent" Command="{Binding ShowLiveTourCommand}">
                 <Image Source="/Resources/Icons/livetour.png"></Image>
             </Button>
             <Button Name="DemoButton" Width="86" Background="Transparent" BorderBrush="Transparent">
                 <Image Source="/Resources/Icons/demo.png"></Image>
             </Button>
         </StackPanel>
-        <Frame x:Name="ToursOverview" Grid.Row="1"></Frame>
+        <Frame x:Name="ToursOverviewFrame" Grid.Row="1"></Frame>
     </Grid>
 </Window>

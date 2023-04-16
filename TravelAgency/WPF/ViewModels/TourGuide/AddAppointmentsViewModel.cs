@@ -60,9 +60,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand DeleteAppointmentCommand { get; set; }
         public RelayCommand ClearAppointmentsCommand { get; set; }
 
-        public AddAppointmentsViewModel()
+        public AddAppointmentsViewModel(ObservableCollection<Appointment> appointments)
         {
-            Appointments = new ObservableCollection<Appointment>();
+            Appointments = appointments;
             AddAppointmentCommand = new RelayCommand(AddAppointment, CanExecuteMethod);
             DeleteAppointmentCommand = new RelayCommand(DeleteAppointment, CanExecuteMethod);
             ClearAppointmentsCommand = new RelayCommand(DeleteAllAppointments, CanExecuteMethod);
@@ -80,6 +80,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             appointment.Date = DateOnly.FromDateTime(Date);
             appointment.Time = TimeOnly.FromDateTime(Time);
             appointment.Occupancy = 0;
+            appointment.Started = false;
+            appointment.Finished = false;
             Appointments.Add(appointment);
         }
 
