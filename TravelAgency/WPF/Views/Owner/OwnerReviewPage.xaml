@@ -1,0 +1,66 @@
+﻿<Page x:Class="SOSTeam.TravelAgency.WPF.Views.Owner.OwnerReviewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Owner"
+      mc:Ignorable="d" 
+       d:DesignHeight="662" d:DesignWidth="804"
+      Title="AddAccommodationPage">
+    <Page.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Margin" Value="10" />
+        </Style>
+        <Style x:Key="CenterTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+    </Page.Resources>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="20">
+            <StackPanel>
+                <Label Content="Recenzije " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,10,30" />
+                <DataGrid Width="730" Height="450" RowHeight="50" ItemsSource="{Binding Reviews}" SelectedItem="{Binding Path=SelectedReview, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="Auto" Header="Gost">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Image Source="/Resources/Icons/user_ikonica2.png" VerticalAlignment="Center" Width="40" Height="40" Margin="5,0,0,0"/>
+                                        <TextBlock Text="{Binding GuestUsername}" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Komentar" Binding="{Binding GuestComment}" Width="1*"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                        <DataGridTextColumn Header="Smeštaj" Binding="{Binding AccommodationName}" Width="1*"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                        <DataGridTextColumn Header="Čistoća" Binding="{Binding CleanMark}" Width="1*"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                        <DataGridTextColumn Header="Saradnja" Binding="{Binding OwnerMark}" Width="1*"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </StackPanel>
+
+
+        </Grid>
+        <Grid Grid.Row="1">
+            <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Label Content="Ukupna ocena: " Margin="10,3,0,0"></Label>
+                <Label Content="{Binding AveridgeGrade}" Margin="0,3,30,0"></Label>
+            </WrapPanel>
+        </Grid>
+
+    </Grid>
+</Page>

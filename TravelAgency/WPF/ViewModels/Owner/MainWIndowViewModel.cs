@@ -27,6 +27,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public static ObservableCollection<Notification> Notifications { get; set; }
         public Notification SelectedNotification { get; set; }
 
+        public RelayCommand DeleteNotification { get; private set; }
+        public RelayCommand MarkAsReadNotification { get; private set; }
         public RelayCommand NavigationButtonCommand { get; private set; }
         public RelayCommand ToggleShowNotifications { get; private set; }
         public RelayCommand NotificationDoubleClick { get; private set; }
@@ -58,6 +60,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             LoggedInUser = user;
             IsDropdownOpen = false;
             IsDropdownClosed = !IsDropdownOpen;
+            DeleteNotification = new RelayCommand(Execute_DeleteNotification, CanExecuteDeleteNotification);
+            MarkAsReadNotification = new RelayCommand(Execute_MarkAsReadNotification, CanExecuteDeleteNotification);
             NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand, CanExecuteMethod);
             ToggleShowNotifications = new RelayCommand(Execute_ToggleShowNotifications, CanExecuteMethod);
             NotificationDoubleClick = new RelayCommand(Execute_NotificationDoubleClick, CanExecuteMethod);
@@ -68,6 +72,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _notificationService = new();
             _notificationService.Refresh(LoggedInUser.Id);
             GetUserNotifications();
+        }
+
+        private void Execute_MarkAsReadNotification(object obj)
+        {
+            SelectedNotification.Read = true;
+            _notificationService.Update(SelectedNotification);
+            UpdateNotifications();
+        }
+
+        private void Execute_DeleteNotification(object obj)
+        {
+            _notificationService.Delete(SelectedNotification.Id);
+            UpdateNotifications();
+        }
+
+        private bool CanExecuteDeleteNotification(object obj)
+        {
+            return SelectedNotification != null;
         }
 
         private void GetUserNotifications()
@@ -107,6 +129,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             {
                 SetPage(new GuestReviewPage(LoggedInUser,this,_userService.GetById(SelectedNotification.GuestId)));
             }
+            UpdateNotifications();
         }
 
         public void Execute_NavigationButtonCommand(object parameter)
@@ -127,6 +150,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                     break;
                 case "Request":
                     navigationService.Navigate(new RequestPage(LoggedInUser, this));
+                    break;
+                case "Review":
+                    navigationService.Navigate(new OwnerReviewPage(LoggedInUser, this));
                     break;
                 /*
                 case "Review":
@@ -166,6 +192,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                     Notifications.Add(notification);
                 }
             }
+        }
+
+        private void UpdateNotifications() 
+        {
+            Notifications.Clear();
+            FillObservableCollection();
         }
 
     }
