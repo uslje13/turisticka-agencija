@@ -10,5 +10,6 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
     public interface IVoucherRepository : IRepository<Voucher>
     {
         void SaveAll(List<Voucher> vouchers);
+        void UsedUpdate(int id);
     }
 }

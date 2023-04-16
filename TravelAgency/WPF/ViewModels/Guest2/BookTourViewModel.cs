@@ -17,6 +17,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public User LoggedInUser { get; set; }
         public Tour Tour { get; set; }
         private int _availableSlots;
+
+        private VouchersViewModel _selectedVoucher;
+
+        public VouchersViewModel SelectedVoucher
+        {
+            get { return _selectedVoucher; }
+            set
+            {
+                _selectedVoucher = value;
+                OnPropertyChanged("SelectedVoucher");
+            }
+        }
+
         private AppoitmentOverviewViewModel _selected;
 
         public AppoitmentOverviewViewModel Selected
@@ -33,8 +46,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private readonly AppointmentService _appointmentService;
         private readonly ReservationService _reservationService;
         private readonly TourService _tourService;
+        private readonly VoucherService _voucherService;
 
         public static ObservableCollection<AppoitmentOverviewViewModel> AppoitmentOverviewViewModels { get; set; }
+        public static ObservableCollection<VouchersViewModel> Vouchers { get; set; }
 
         private RelayCommand _cancelCommand;
         public RelayCommand CancelCommand
@@ -103,13 +118,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _appointmentService = new AppointmentService();
             _reservationService = new ReservationService();
             _tourService = new TourService();
+            _voucherService = new VoucherService();
             Appointments = new ObservableCollection<Appointment>(_appointmentService.GetAll());
             AppoitmentOverviewViewModels = new ObservableCollection<AppoitmentOverviewViewModel>();
+            Vouchers = new ObservableCollection<VouchersViewModel>();
             Tour = _tourService.FindTourById(id);
             _window = window;
             CancelCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
             ReserveCommand = new RelayCommand(Execute_ReserveCommand, CanExecuteMethod);
             FillAppoitmentViewModelList();
+            FillVouchersForShowingList();
         }
 
         private bool CanExecuteMethod(object parameter)
@@ -141,6 +159,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
                 if (result == MessageBoxResult.Yes)
                 {
+                    if(_selectedVoucher != null)
+                    {
+                        _voucherService.UsedUpdate(_selectedVoucher.VoucherId);
+                    }
                     _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge));
                     _window.Close();
                 }
@@ -168,6 +190,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     AvailableSlots = Tour.MaxNumOfGuests - appointment.Occupancy;
                     AppoitmentOverviewViewModel viewModel = new AppoitmentOverviewViewModel(appointment.Date, appointment.Time, AvailableSlots, Tour.Id);
                     AppoitmentOverviewViewModels.Add(viewModel);
+                }
+            }
+        }
+
+        private void FillVouchersForShowingList()
+        {
+            foreach (Voucher voucher in _voucherService.GetAll())
+            {
+                if (voucher.ExpiryDate > DateOnly.FromDateTime(DateTime.Today) && voucher.Used == false)
+                {
+                    Vouchers.Add(new VouchersViewModel(voucher.Id, voucher.ExpiryDate));
                 }
             }
         }

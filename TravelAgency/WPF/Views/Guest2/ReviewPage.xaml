@@ -106,11 +106,11 @@
                 </StackPanel>
                 <StackPanel Grid.Row="3" Orientation="Horizontal">
                     <TextBlock Text="Dodatan komentar:" FontSize="24" Margin="100,0,0,0" Height="39" Width="275" />
-                    <TextBox Width="440" Height="46" Text="{Binding Comment,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBox Width="440" Height="46" FontSize="24" Text="{Binding Comment,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 </StackPanel>
                 <StackPanel Grid.Row="4" Orientation="Horizontal">
                     <TextBlock Text="Unesi sliku (opciono):" FontSize="24" Margin="100,0,0,0" Height="39" Width="275" />
-                    <TextBox Width="360" Height="46" Text="{Binding ImageUrl,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBox Width="360" Height="46" FontSize="24" Text="{Binding ImageUrl,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     <Button Width="54" Height="51" Margin="30,0,0,0" Command="{Binding AddImageCommand}">
                         <Image Source="/Resources/Icons/plusicon.png"  />
                     </Button>

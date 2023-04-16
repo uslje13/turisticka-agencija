@@ -27,6 +27,7 @@
     <None Remove="Resources\Icons\clock_light.png" />
     <None Remove="Resources\Icons\demo.png" />
     <None Remove="Resources\Icons\earth.png" />
+    <None Remove="Resources\Icons\exclamation_star.png" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
     <None Remove="Resources\Icons\guest.png" />
     <None Remove="Resources\Icons\guests_with_text.png" />
@@ -149,6 +150,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Icons\checkpoint.png" />
+    <Resource Include="Resources\Icons\exclamation_star.png" />
     <Resource Include="Resources\Icons\kalendar_datumi.png" />
     <Resource Include="Resources\Icons\language.png" />
     <Resource Include="Resources\Icons\NotificationAlertNoColor.png" />

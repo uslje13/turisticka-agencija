@@ -22,9 +22,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
             UserId = -1;
         }
 
-        public Voucher(int id, bool used, DateOnly expiryDate, int userId)
+        public Voucher(bool used, DateOnly expiryDate, int userId)
         {
-            Id = id;
             Used = used;
             ExpiryDate = expiryDate;
             UserId = userId;

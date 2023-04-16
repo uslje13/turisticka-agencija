@@ -77,5 +77,19 @@ namespace SOSTeam.TravelAgency.Repositories
             _vouchers.Insert(index, voucher);
             _serializer.ToCSV(FilePath, _vouchers);
         }
+
+        public void UsedUpdate(int id)
+        {
+            _vouchers = _serializer.FromCSV(FilePath);
+            foreach (var voucher in _vouchers)
+            {
+                if (voucher.Id == id)
+                {
+                    voucher.Used = true;
+                    Update(voucher);
+                    break;
+                }
+            }
+        }
     }
 }

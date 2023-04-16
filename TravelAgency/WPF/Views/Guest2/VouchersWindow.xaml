@@ -20,5 +20,22 @@
         <Border Margin="0,689,0,0">
             <Button Height="74" Content="Nazad (Ctrl + b)" FontSize="24" Command="{Binding BackCommand}"></Button>
         </Border>
+        <Border Margin="0,109,0,95">
+            <ScrollViewer HorizontalAlignment="Right" Width="880">
+                <ItemsControl x:Name="VouchersList" ItemsSource="{Binding Vouchers}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal" Height="163" Margin="30,0,0,0">
+                                    <Image Source="/Resources/Icons/exclamation_star.png" Height="109" Width="159" />
+                                    <TextBlock TextWrapping="Wrap" TextTrimming="None" Height="66" Width="562" Margin="30,0,20,0" Text="{Binding Message}">
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Window>

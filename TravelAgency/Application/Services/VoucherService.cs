@@ -46,5 +46,9 @@ namespace SOSTeam.TravelAgency.Application.Services
             _voucherRepository.Update(voucher);
         }
 
+        public void UsedUpdate(int id)
+        {
+            _voucherRepository.UsedUpdate(id);
+        }
     }
 }
