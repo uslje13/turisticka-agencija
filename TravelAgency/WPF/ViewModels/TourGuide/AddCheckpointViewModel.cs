@@ -92,10 +92,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand DeleteCheckpointCommand { get; set; }
         public  RelayCommand ClearCheckpointsCommand { get; set; }
 
-        public AddCheckpointViewModel()
+        public AddCheckpointViewModel(ObservableCollection<Checkpoint> checkpoints)
         {
             CheckpointsTypes = InitializeCheckpointTypes();
-            Checkpoints = new ObservableCollection<Checkpoint>();
+            Checkpoints = checkpoints;
             _checkpointService = new CheckpointService();
 
             

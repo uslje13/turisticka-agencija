@@ -99,6 +99,11 @@ namespace SOSTeam.TravelAgency.Repositories
                     break;
                 }
             }
+
+        public List<Reservation> GetAllByAppointmentId(int id)
+        {
+            _resevations = _serializer.FromCSV(FilePath);
+            return _resevations.FindAll(r=> r.AppointmentId == id) ?? throw new ArgumentException();
         }
     }
 }

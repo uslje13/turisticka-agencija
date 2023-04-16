@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
@@ -23,15 +24,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
         public MainWindow(User loggedUser)
         {
             InitializeComponent();
-            ToursOverview.Content = new LiveTourPage(loggedUser);
-            //ToursOverview.Content = new AddDatesAndTimePage();
-            //ToursOverview.Content = new CreateTourPage();
-        }
-
-        private void CreateButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            //TourGuide.CreateTourPage.Content = new CreateTourPage();
+            DataContext = new MainWindowViewModel(loggedUser);
+            ToursOverviewFrame.Content = new HomePage(loggedUser);
             
         }
+
     }
 }

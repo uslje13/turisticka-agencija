@@ -10,7 +10,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             ACCOMMODATION,TOUR,RESERVATION,NOTYPE,GUEST2
         }
         public int Id { get; set; }
-        public string Url { get; set; }
+        public string Path { get; set; }
         public bool Cover { get; set; }
         public int EntityId { get; set; }
         public ImageType Type { get; set; }
@@ -18,24 +18,24 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public Image()
         {
             Id = -1;
-            Url = string.Empty;
+            Path = string.Empty;
             Cover = false;
             EntityId = -1;
             Type = ImageType.NOTYPE;
         }
 
-        public Image(string url, bool cover, int tourId,ImageType type)
+        public Image(string path, bool cover, int entityId,ImageType type)
         {
-            Url = url;
+            Path = path;
             Cover = cover;
-            EntityId = tourId;
+            EntityId = entityId;
             Type = type;
         }
 
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            Url = values[1];
+            Path = values[1];
             Cover = bool.Parse(values[2]);
             EntityId = int.Parse(values[3]);
             Type = (ImageType)Convert.ToInt32(values[4]);
@@ -46,7 +46,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             string[] csvValues =
             {
                 Id.ToString(),
-                Url,
+                Path,
                 Cover.ToString(),
                 EntityId.ToString(),
                 ((int)Type).ToString()

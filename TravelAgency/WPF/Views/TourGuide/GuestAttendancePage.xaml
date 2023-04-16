@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       mc:Ignorable="d" 
-      d:DesignHeight="750" d:DesignWidth="430"
+      d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="GuestAttendancePage">
 
@@ -15,7 +15,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 17">
             <Image Source="/Resources/Icons/earth.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Height="50"/>
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding TourName}"  
                        FontSize="22">
@@ -29,7 +29,7 @@
         <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
                Margin="35 0 0 0" Text="{Binding CheckpointName}" FontSize="16"></TextBlock>
         <ListBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" x:Name="TourListOverview" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding CheckpointCards}">
+                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding GuestCards}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid Grid.Row="2" Width="380" Height="50">
@@ -39,8 +39,8 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0" Source="/Resources/Icons/guest.png"></Image>
-                        <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Name" FontSize="20"></TextBlock>
-                        <Image Grid.Column="2" Source="/Resources/Icons/checkpoint_yes.png" Width="50"></Image>
+                        <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Name}" FontSize="20"></TextBlock>
+                        <Image Grid.Column="2" Source="{Binding StatusImage}" Width="50"></Image>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

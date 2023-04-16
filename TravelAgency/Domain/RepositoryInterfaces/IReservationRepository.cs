@@ -12,5 +12,6 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
         int GetId(Reservation reservation);
         void SetPresence(int id);
         void Reviewed(int id);
+        List<Reservation> GetAllByAppointmentId(int id);
     }
 }

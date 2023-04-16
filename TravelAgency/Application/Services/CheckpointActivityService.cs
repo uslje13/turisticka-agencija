@@ -24,6 +24,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _checkpointActivityRepository.GetAll();
         }
 
+        public List<CheckpointActivity> GetAllByAppointmentId(int id)
+        {
+            return _checkpointActivityRepository.GetAllByAppointmentId(id);
+        }
+
         public CheckpointActivity GetById(int id)
         {
             return _checkpointActivityRepository.GetById(id);

@@ -38,6 +38,7 @@
     <None Remove="Resources\Icons\kalendar_datumi.png" />
     <None Remove="Resources\Icons\kalendar_datumi.png" />
     <None Remove="Resources\Icons\language.png" />
+    <None Remove="Resources\Icons\left_arrow.png" />
     <None Remove="Resources\Icons\list-square-icon.png" />
     <None Remove="Resources\Icons\livetour.png" />
     <None Remove="Resources\Icons\Pencil.png" />
@@ -46,6 +47,7 @@
     <None Remove="Resources\Icons\plusicon.png" />
     <None Remove="Resources\Icons\request.png" />
     <None Remove="Resources\Icons\reserved.png" />
+    <None Remove="Resources\Icons\right_arrow.png" />
     <None Remove="Resources\Icons\search.png" />
     <None Remove="Resources\Icons\settings.png" />
     <None Remove="Resources\Icons\sos_logo.png" />
@@ -56,6 +58,14 @@
     <None Remove="Resources\Icons\video.png" />
     <None Remove="Resources\Icons\voucher_icon.png" />
     <None Remove="Resources\Images\Tours\budapest.jpg" />
+    <None Remove="Resources\Images\Tours\novi_sad.jpg" />
+    <None Remove="Resources\Images\Tours\rio.jpg" />
+    <None Remove="Resources\Images\Tours\rio_1.jpg" />
+    <None Remove="Resources\Images\Tours\rio_2.jpg" />
+    <None Remove="Resources\Images\Tours\rio_3.jpg" />
+    <None Remove="Resources\Images\Tours\split_1.jpg" />
+    <None Remove="Resources\Images\Tours\split_2.jpg" />
+    <None Remove="Resources\Images\Tours\split_3.jpg" />
     <None Remove="Resources\Images\UnknownPhoto.png" />
   </ItemGroup>
 
@@ -114,6 +124,9 @@
     <Content Include="Resources\Icons\kalendar_datumi.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\left_arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\livetour.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -123,10 +136,34 @@
     <Content Include="Resources\Icons\plus.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\right_arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\sos_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\Tours\budapest.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Tours\novi_sad.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Tours\rio_1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Tours\rio_2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Tours\rio_3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Tours\split_1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Tours\split_2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Tours\split_3.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

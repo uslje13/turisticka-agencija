@@ -53,6 +53,15 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge, int voucherId = -1)
         {
+
+        public List<Reservation> GetAllByAppointmentId(int id)
+        {
+            return  _reservationRepository.GetAllByAppointmentId(id);
+        }
+
+       public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge)
+       {
+
            foreach (Appointment a in _appointmentRepository.GetAll())
            {
                if (selected.TourId == a.TourId && selected.Date == a.Date && selected.Time == a.Time)

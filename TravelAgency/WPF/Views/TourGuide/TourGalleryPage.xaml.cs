@@ -13,18 +13,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
+using SOSTeam.TravelAgency.Domain.Models;
+using Image = SOSTeam.TravelAgency.Domain.Models.Image;
 
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
     /// <summary>
-    /// Interaction logic for AddDatesAndTimePage.xaml
+    /// Interaction logic for TourGalleryPage.xaml
     /// </summary>
-    public partial class AddDatesAndTimePage : Page
+    public partial class TourGalleryPage : Page
     {
-        public AddDatesAndTimePage()
+        public TourGalleryPage(List<Image> images)
         {
             InitializeComponent();
-            DataContext = new AddAppointmentsViewModel();
+            DataContext = new GalleryViewModel(images);
         }
     }
 }

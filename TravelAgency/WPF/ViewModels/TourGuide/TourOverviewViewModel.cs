@@ -8,19 +8,22 @@ using System.Threading.Tasks;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
     public class TourOverviewViewModel : ViewModel
     {
-        public TourService _tourService;
-        public LocationService _locationService;
-        public AppointmentService _appointmentService;
-        public ImageService _imageService;
+        private readonly TourService _tourService;
+        private readonly LocationService _locationService;
+        private readonly AppointmentService _appointmentService;
+        private readonly ImageService _imageService;
+        private readonly ReservationService _reservationService;
+        private readonly VoucherService _voucherService;
 
-        private ObservableCollection<TourCardOverviewViewModel> _toursForCards;
+        private ObservableCollection<TourCardViewModel> _toursForCards;
 
-        public ObservableCollection<TourCardOverviewViewModel> ToursForCards
+        public ObservableCollection<TourCardViewModel> ToursForCards
         {
             get => _toursForCards;
             set
@@ -33,60 +36,148 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private TourCardOverviewViewModel _selectedTourCard;
-
-        public TourCardOverviewViewModel SelectedTourCard
-        {
-            get => _selectedTourCard;
-            set
-            {
-                if (_selectedTourCard != value)
-                {
-                    _selectedTourCard = value;
-                    OnPropertyChanged("SelectedTourCard");
-                }
-            }
-        }
 
         public RelayCommand CancelTourCommand { get; set; }
+        public RelayCommand ShowTodayToursCommand { get; set; }
+
+        public User LoggedUser { get; set; }
 
         public TourOverviewViewModel(User loggedUser)
         {
-            InitializeServices();
-            CancelTourCommand = new RelayCommand(CancelTourClick, CanExecuteMethod);
-            FillObservableCollection(loggedUser);
-        }
-
-        private void InitializeServices()
-        {
-            _toursForCards = new ObservableCollection<TourCardOverviewViewModel>();
+            _toursForCards = new ObservableCollection<TourCardViewModel>();
             _tourService = new TourService();
             _locationService = new LocationService();
             _appointmentService = new AppointmentService();
             _imageService = new ImageService();
+            _reservationService = new ReservationService();
+            _voucherService = new VoucherService();
+            LoggedUser = loggedUser;
+
+            CancelTourCommand = new RelayCommand(CancelTourClick, CanExecuteMethod);
+            ShowTodayToursCommand = new RelayCommand(TodayToursClick, CanExecuteMethod);
+
+            SetExpiredAppointments();
+            FillObservableCollection();
         }
 
-        public void FillObservableCollection(User loggedUser)
+        private void SetExpiredAppointments()
         {
-            foreach (var appointment in _appointmentService.GetAllByUserId(loggedUser.Id))
+            foreach (var appointment in _appointmentService.GetAllByUserId(LoggedUser.Id))
+            {
+                if (IsTimeExpired(appointment))
+                {
+                    appointment.Finished = true;
+                    _appointmentService.Update(appointment);
+                }
+            }
+        }
+
+        private bool IsTimeExpired(Appointment appointment)
+        {
+            var tour = _tourService.FindTourById(appointment.TourId);
+            var duration = TimeSpan.FromHours(tour.Duration);
+            var start = new DateTime(appointment.Date.Year, appointment.Date.Month, appointment.Date.Day,
+                                          appointment.Time.Hour, appointment.Time.Minute, appointment.Time.Second);
+            var end = start + duration;
+
+            return DateTime.Now > end;
+        }
+
+        private void FillObservableCollection()
+        {
+            foreach (var appointment in _appointmentService.GetAllByUserId(LoggedUser.Id))
             {
                 foreach (var tour in _tourService.GetAll())
                 {
                     if (appointment.TourId == tour.Id)
                     {
-                        TourCardOverviewViewModel viewModel = new TourCardOverviewViewModel();
+                        var tourCard = new TourCardViewModel();
 
-                        SetTourAndAppointmentFields(viewModel, appointment, tour);
+                        SetTourAndAppointmentFields(tourCard, appointment, tour);
 
-                        SetLocationField(tour, viewModel);
+                        SetLocationField(tour, tourCard);
 
-                        SetImageField(tour, viewModel);
+                        SetImageField(tour, tourCard);
 
-                        CanCancelAppointment(appointment, viewModel);
+                        CanCancelAppointment(appointment, tourCard);
 
-                        ToursForCards.Add(viewModel);
+                        ToursForCards.Add(tourCard);
                     }
                 }
+            }
+        }
+
+        private void SetImageField(Tour tour, TourCardViewModel tourCard)
+        {
+            foreach (var image in _imageService.GetAllForTours())
+            {
+                if (image.Cover && image.EntityId == tour.Id)
+                {
+                    tourCard.CoverImagePath = image.Path;
+                    break;
+                }
+            }
+        }
+
+        private void SetLocationField(Tour tour, TourCardViewModel tourCard)
+        {
+            foreach (var location in _locationService.GetAll())
+            {
+                if (location.Id == tour.LocationId)
+                {
+                    tourCard.Location = location.City + ", " + location.Country;
+                    tourCard.LocationId = location.Id;
+                    break;
+                }
+            }
+        }
+
+        private void SetTourAndAppointmentFields(TourCardViewModel tourCard, Appointment appointment, Tour tour)
+        {
+            tourCard.AppointmentId = appointment.Id;
+            tourCard.Date = appointment.Date;
+            tourCard.TourId = tour.Id;
+            tourCard.Name = tour.Name;
+            SetAppointmentStatus(tourCard, appointment);
+        }
+
+        private void SetAppointmentStatus(TourCardViewModel tourCard, Appointment appointment)
+        {
+            if (!appointment.Started && !appointment.Finished)
+            {
+                tourCard.Status = "Not started";
+            }
+            else if (appointment.Started && !appointment.Finished)
+            {
+                tourCard.Status = "Active";
+            }
+            else if (appointment.Started && appointment.Finished)
+            {
+                tourCard.Status = "Finished";
+            }
+            else if (!appointment.Started && appointment.Finished)
+            {
+                tourCard.Status = "Expired";
+            }
+        }
+
+        private void CanCancelAppointment(Appointment appointment, TourCardViewModel tourCard)
+        {
+            DateTime now = DateTime.Now;
+            DateTime start = new DateTime(appointment.Date.Year, appointment.Date.Month, appointment.Date.Day,
+                                          appointment.Time.Hour, appointment.Time.Minute, appointment.Time.Second);
+            TimeSpan timeDifference = start - now;
+
+            if (timeDifference.TotalHours < 48)
+            {
+                tourCard.CancelImage = "/Resources/Icons/cancel_light.png";
+                tourCard.CanCancel = false;
+
+            }
+            else
+            {
+                tourCard.CancelImage = "/Resources/Icons/cancel.png";
+                tourCard.CanCancel = true;
             }
         }
         private bool CanExecuteMethod(object parameter)
@@ -96,79 +187,44 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void CancelTourClick(object sender)
         {
-            var selectedAppointment = sender as TourCardOverviewViewModel;
+            var selectedAppointment = sender as TourCardViewModel;
             _appointmentService.Delete(selectedAppointment.AppointmentId);
             ToursForCards.Remove(selectedAppointment);
+            GiveVouchers(selectedAppointment);
         }
 
-        private void SetImageField(Tour tour, TourCardOverviewViewModel viewModel)
+        private void GiveVouchers(TourCardViewModel canceledAppointment)
         {
-            foreach (var image in _imageService.GetAllForTours())
+            var vouchers = new List<Voucher>();
+            foreach (var reservation in _reservationService.GetAllByAppointmentId(canceledAppointment.AppointmentId))
             {
-                if (image.Cover && image.EntityId == tour.Id)
-                {
-                    viewModel.ImageUrl = image.Url;
-                    break;
-                }
+                var voucher = CreateVoucher(reservation);
+                vouchers.Add(voucher);
             }
+            if (vouchers.Count > 0)
+            {
+                _voucherService.SaveAll(vouchers);
+            }
+            
         }
 
-        private void SetLocationField(Tour tour, TourCardOverviewViewModel viewModel)
+        private Voucher CreateVoucher(Reservation reservation)
         {
-            foreach (var location in _locationService.GetAll())
+            var voucher = new Voucher
             {
-                if (location.Id == tour.LocationId)
-                {
-                    viewModel.Location = location.City + ", " + location.Country;
-                    viewModel.LocationId = location.Id;
-                    break;
-                }
-            }
+                UserId = reservation.UserId,
+                ExpiryDate = DateOnly.FromDateTime(DateTime.Now.AddMonths(6)),
+                Used = false
+            };
+            return voucher;
         }
 
-        private static void SetTourAndAppointmentFields(TourCardOverviewViewModel viewModel, Appointment appointment, Tour tour)
+        
+        private void TodayToursClick(object sender)
         {
-            viewModel.AppointmentId = appointment.Id;
-            viewModel.Date = appointment.Date;
-            viewModel.TourId = tour.Id;
-            viewModel.Name = tour.Name;
-            SetAppointmentStatus(viewModel, appointment);
+            TodayToursPage todayToursPage = new TodayToursPage(LoggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = todayToursPage;
         }
 
-        private static void SetAppointmentStatus(TourCardOverviewViewModel viewModel, Appointment appointment)
-        {
-            if (!appointment.Started && !appointment.Finished)
-            {
-                viewModel.Status = "Not started";
-            }
-            else if (appointment.Started && !appointment.Finished)
-            {
-                viewModel.Status = "Active";
-            }
-            else if (appointment.Started && appointment.Finished)
-            {
-                viewModel.Status = "Finished";
-            }
-        }
-
-        public void CanCancelAppointment(Appointment appointment, TourCardOverviewViewModel viewModel)
-        {
-            DateTime now = DateTime.Now;
-            DateTime start = new DateTime(appointment.Date.Year, appointment.Date.Month, appointment.Date.Day,
-                                          appointment.Time.Hour, appointment.Time.Minute, appointment.Time.Second);
-            TimeSpan timeDifference = start - now;
-
-            if (timeDifference.TotalHours < 48)
-            {
-                viewModel.CancelImage = "/Resources/Icons/cancel_light.png";
-                viewModel.CanCancel = false;
-
-            }
-            else
-            {
-                viewModel.CancelImage = "/Resources/Icons/cancel.png";
-                viewModel.CanCancel = true;
-            }
-        }
     }
 }

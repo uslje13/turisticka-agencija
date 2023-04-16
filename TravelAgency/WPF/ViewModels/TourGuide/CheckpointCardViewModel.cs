@@ -14,7 +14,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public string Name { get; set; }
         public CheckpointType Type { get; set; }
         public CheckpointStatus Status { get; set; }
-        public bool GuestsCalled { get; set; }
+        public bool CanShowAttendance { get; set; }
 
         public CheckpointCardViewModel() { }
 
@@ -24,7 +24,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             Name = name;
             Type = type;
             Status = status;
-            GuestsCalled = guestsCalled;
         }
     }
 }

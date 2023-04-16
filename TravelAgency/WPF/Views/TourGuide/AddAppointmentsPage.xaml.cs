@@ -19,14 +19,14 @@ using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
     /// <summary>
-    /// Interaction logic for AddCheckpointsPage.xaml
+    /// Interaction logic for AddDatesAndTimePage.xaml
     /// </summary>
-    public partial class AddCheckpointsPage : Page
+    public partial class AddAppointmentsPage : Page
     {
-        public AddCheckpointsPage(ObservableCollection<Checkpoint> checkpoints)
+        public AddAppointmentsPage(ObservableCollection<Appointment> appointments)
         {
             InitializeComponent();
-            DataContext = new AddCheckpointViewModel(checkpoints);
+            DataContext = new AddAppointmentsViewModel(appointments);
         }
     }
 }
