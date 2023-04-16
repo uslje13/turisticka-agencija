@@ -72,5 +72,33 @@ namespace SOSTeam.TravelAgency.Repositories
             _resevations = _serializer.FromCSV(FilePath);
             return _resevations.Find(t => t.Id == id) ?? throw new ArgumentException();
         }
+
+        public void SetPresence(int id)
+        {
+            _resevations = _serializer.FromCSV(FilePath);
+            foreach (var resevation in _resevations)
+            {
+                if(resevation.Id == id)
+                {
+                    resevation.Presence = true;
+                    Update(resevation);
+                    break;
+                }
+            }
+        }
+
+        public void Reviewed(int id)
+        {
+            _resevations = _serializer.FromCSV(FilePath);
+            foreach (var resevation in _resevations)
+            {
+                if (resevation.Id == id)
+                {
+                    resevation.Reviewed = true;
+                    Update(resevation);
+                    break;
+                }
+            }
+        }
     }
 }

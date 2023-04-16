@@ -16,6 +16,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public int CheckpointActivityId { get; set; }
         public GuestPresence Presence { get; set; }
         public string Message { get; set; }
+        public int ReservationId { get; set; }
 
         public GuestAttendance()
         {
@@ -24,15 +25,17 @@ namespace SOSTeam.TravelAgency.Domain.Models
             CheckpointActivityId = -1;
             Presence = GuestPresence.UNKNOWN;
             Message = string.Empty;
+            ReservationId = -1;
         }
 
-        public GuestAttendance(int id, int userId, int checkpointActivityId, GuestPresence presence, string message)
+        public GuestAttendance(int id, int userId, int checkpointActivityId, GuestPresence presence, string message, int reservationId)
         {
             Id = id;
             UserId = userId;
             CheckpointActivityId = checkpointActivityId;
             Presence = presence;
             Message = message;
+            ReservationId = reservationId;
         }
 
         public void FromCSV(string[] values)
@@ -53,6 +56,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 Presence = GuestPresence.UNKNOWN;
             }
             Message = values[4];
+            ReservationId = int.Parse(values[5]);
         }
 
         public string[] ToCSV()
@@ -63,7 +67,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 UserId.ToString(),
                 CheckpointActivityId.ToString(),
                 Presence.ToString(),
-                Message
+                Message,
+                ReservationId.ToString()
             };
             return csvValues;
         }

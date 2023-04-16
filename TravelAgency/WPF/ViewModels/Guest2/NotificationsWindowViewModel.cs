@@ -1,7 +1,10 @@
-﻿using SOSTeam.TravelAgency.Commands;
+﻿using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views.Guest2;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +14,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class NotificationsWindowViewModel : ViewModel
     {
+        public static User LoggedInUser { get; set; }
         private NotificationsWindow _window;
         private RelayCommand _backCommand;
+        private readonly ReservationService _reservationService;
+        private readonly AppointmentService _appointmentSevice;
 
+        public static ObservableCollection<FinishedTourViewModel> FinishedTours { get;  set; }
         public RelayCommand BackCommand
         {
             get { return _backCommand; }
@@ -23,10 +30,29 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public NotificationsWindowViewModel(NotificationsWindow window) 
+        public NotificationsWindowViewModel(User loggedInUser, NotificationsWindow window) 
         {
             _window = window;
-            BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);   
+            LoggedInUser = loggedInUser;
+            BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
+            _reservationService = new ReservationService();
+            _appointmentSevice = new AppointmentService();
+            FinishedTours = new ObservableCollection<FinishedTourViewModel>();
+            FillFinishedToursList();
+        }
+
+        private void FillFinishedToursList()
+        {
+            TourService tourService = new TourService();
+            TourReviewService tourReviewService = new TourReviewService();
+
+            foreach(Reservation reservation in _reservationService.GetAll())
+            {
+                if(reservation.Presence && _appointmentSevice.GetById(reservation.AppointmentId).Finished && reservation.Reviewed == false)
+                {
+                    FinishedTours.Add(new FinishedTourViewModel(_window,reservation.Id, reservation.AppointmentId, LoggedInUser, tourService.GetTourName(_appointmentSevice.GetById(reservation.AppointmentId).TourId)));
+                }
+            }
         }
 
         private bool CanExecuteMethod(object parameter)

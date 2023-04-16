@@ -41,8 +41,18 @@ namespace SOSTeam.TravelAgency.Application.Services
             _reservationRepository.Save(reservation);
         }
 
-       public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge)
-       {
+        public void SetPresence(int id)
+        {
+            _reservationRepository.SetPresence(id);
+        }
+
+        public void Reviewed(int id)
+        {
+            _reservationRepository.Reviewed(id);
+        }
+
+        public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge)
+        {
            foreach (Appointment a in _appointmentRepository.GetAll())
            {
                if (selected.TourId == a.TourId && selected.Date == a.Date && selected.Time == a.Time)
