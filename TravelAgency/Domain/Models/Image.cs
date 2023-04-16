@@ -32,14 +32,6 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Type = type;
         }
 
-        public Image(string url, bool cover, int tourId, ImageType type)
-        {
-            Url = url;
-            Cover = cover;
-            EntityId = tourId;
-            Type = type;
-        }
-
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
