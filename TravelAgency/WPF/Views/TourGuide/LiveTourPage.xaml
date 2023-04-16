@@ -33,16 +33,18 @@
         <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Checkpoints"  
                Margin="15,0,0,0" FontSize="18" Height="34" Width="107"/>
         <Button Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" Height="24"
-                Margin="28,0,0,0" Content="Activate" FontSize="14">
+                Margin="28,0,0,0" Content="Activate" FontSize="14"
+                Command="{Binding ActivateCheckpointCommand}" IsEnabled="{Binding CanActivateCheckpoint}">
         </Button>
         <Button Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" Height="24"
-                Margin="117,0,0,0" Content="Finish" FontSize="14">
+                Margin="117,0,0,0" Content="Finish" FontSize="14"
+                Command="{Binding FinishCheckpointCommand}">
         </Button>
         <Button Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Width="380" Height="24"
-                Content="Finish tour" FontSize="14" Margin="25,0,0,0">
+                Content="Finish tour" FontSize="14" Margin="25,0,0,0" Command="{Binding FinishAppointmentCommand}">
         </Button>
         <ListBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" x:Name="TourListOverview" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding CheckpointCards}">
+                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding CheckpointCards}" SelectedItem="{Binding SelectedCheckpointCard}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid Grid.Column="0" Grid.Row="2" ColumnSpan="2" Width="380" Height="65">
@@ -58,7 +60,7 @@
                                    Margin=" 0 25 0 0 "></TextBlock>
                         <TextBlock Grid.Column="2" Text="{Binding Status}" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold"></TextBlock>
                         <Button Grid.Column="3" Background="Transparent" BorderBrush="Transparent" Command="{Binding DataContext.ViewGuestAttendanceCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                                CommandParameter="{Binding }">
+                                CommandParameter="{Binding }" IsEnabled="{Binding CanShowAttendance, Mode=OneWay}">
                             <Image Source="/Resources/Icons/guests_with_text.png" Width="56">
                             </Image>
                         </Button>

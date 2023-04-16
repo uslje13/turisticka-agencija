@@ -8,17 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
     public class TodayToursViewModel : ViewModel
     {
-        public TourService _tourService;
-        public LocationService _locationService;
-        public AppointmentService _appointmentService;
-        public ImageService _imageService;
-        public CheckpointService _checkpointService;
-        public CheckpointActivityService _checkpointActivityService;
+        private readonly TourService _tourService;
+        private readonly LocationService _locationService;
+        private readonly AppointmentService _appointmentService;
+        private readonly ImageService _imageService;
+        private readonly CheckpointService _checkpointService;
+        private readonly CheckpointActivityService _checkpointActivityService;
+        private readonly GuestAttendanceService _guestAttendanceService;
+        private readonly ReservationService _reservationService;
         
 
         private ObservableCollection<TourCardViewModel> _todayToursCards;
@@ -57,16 +60,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public TodayToursViewModel(User loggedUser)
         {
-            InitializeServices();
-            TodayToursCards = new ObservableCollection<TourCardViewModel>();
-            StartTourCommand = new RelayCommand(StartTour, CanExecuteMethod);
-            LoggedUser = loggedUser;
-            TodayDate = DateOnly.FromDateTime(DateTime.Now);
-            FillObservableCollection(loggedUser);
-        }
-
-        private void InitializeServices()
-        {
             _tourService = new TourService();
             _locationService = new LocationService();
             _appointmentService = new AppointmentService();
@@ -74,6 +67,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _appointmentService = new AppointmentService();
             _checkpointService = new CheckpointService();
             _checkpointActivityService = new CheckpointActivityService();
+            _reservationService = new ReservationService();
+            _guestAttendanceService = new GuestAttendanceService();
+
+            TodayToursCards = new ObservableCollection<TourCardViewModel>();
+            StartTourCommand = new RelayCommand(StartTour, CanExecuteMethod);
+            LoggedUser = loggedUser;
+            TodayDate = DateOnly.FromDateTime(DateTime.Now);
+            FillObservableCollection(loggedUser);
         }
 
 
@@ -169,6 +170,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _appointmentService.Update(appointment);
             CreateCheckpointActivities(selectedAppointment);
             UpdateObservableCollection();
+
+            LiveTourPage liveTourPage = new LiveTourPage(LoggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = liveTourPage;
         }
 
         public void CanStartAppointment(User loggedUser, TourCardViewModel viewModel)
@@ -192,6 +196,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private void CreateCheckpointActivities(TourCardViewModel startedAppointment)
         {
             List<CheckpointActivity> checkpointActivities = new List<CheckpointActivity>();
+            List<GuestAttendance> guestAttendances = new List<GuestAttendance>();
             foreach (var checkpoint in _checkpointService.GetAllByTourId(startedAppointment.TourId))
             {
                 CheckpointActivity checkpointActivity = new CheckpointActivity();
@@ -205,11 +210,42 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 {
                     checkpointActivity.Status = CheckpointStatus.NOT_STARTED;
                 }
-
-                checkpointActivity.GuestsCalled = false;
                 checkpointActivities.Add(checkpointActivity);
             }
             _checkpointActivityService.SaveAll(checkpointActivities);
+            CheckpointActivity activeCheckpoint = _checkpointActivityService.GetAllByAppointmentId(startedAppointment.AppointmentId)
+                                                  .Find(a => a.Status == CheckpointStatus.ACTIVE);
+
+            guestAttendances = CreateGuestAttendances(activeCheckpoint);
+            if (guestAttendances.Count > 0)
+            {
+                _guestAttendanceService.SaveAll(guestAttendances);
+            }
         }
+
+        private List<GuestAttendance> CreateGuestAttendances(CheckpointActivity checkpointActivity)
+        {
+            var guestAttendances = new List<GuestAttendance>();
+            foreach (var reservation in _reservationService.GetAllByAppointmentId(checkpointActivity.AppointmentId))
+            {
+                guestAttendances.Add(CreateGuestAttendance(reservation, checkpointActivity)); 
+            }
+            return guestAttendances;
+        }
+
+        private GuestAttendance CreateGuestAttendance(Reservation reservation, CheckpointActivity checkpointActivity)
+        {
+            var guestAttendance = new GuestAttendance
+            {
+                UserId = reservation.UserId,
+                CheckpointActivityId = checkpointActivity.Id,
+                Presence = GuestPresence.UNKNOWN,
+                Message = "Da li ste bili prisutni na čekpointu: " +
+                          _checkpointService.GetById(checkpointActivity.CheckpointId).Name +
+                          " ?"
+            };
+            return guestAttendance;
+        }
+
     }
 }

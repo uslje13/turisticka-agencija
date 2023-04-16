@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// </summary>
     public partial class GuestAttendancePage : Page
     {
-        public GuestAttendancePage()
+        public GuestAttendancePage(CheckpointCardViewModel selectedCheckpointActivity, string tourName, DateTime? date)
         {
             InitializeComponent();
+            DataContext = new GuestAttendancesViewModel(selectedCheckpointActivity, tourName, date);
         }
     }
 }

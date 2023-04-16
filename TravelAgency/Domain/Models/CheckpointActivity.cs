@@ -9,7 +9,6 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public int AppointmentId { get; set; }
         public int CheckpointId { get; set; }
         public CheckpointStatus Status { get; set; }
-        public bool GuestsCalled { get; set; }
 
         public CheckpointActivity()
         {
@@ -17,16 +16,14 @@ namespace SOSTeam.TravelAgency.Domain.Models
             AppointmentId = -1;
             CheckpointId = -1;
             Status = CheckpointStatus.NOT_STARTED;
-            GuestsCalled = true;
         }
 
-        public CheckpointActivity(int id, int appointmentId, int checkpointId, CheckpointStatus status, bool guestsCalled)
+        public CheckpointActivity(int id, int appointmentId, int checkpointId, CheckpointStatus status)
         {
             Id = id;
             AppointmentId = appointmentId;
             CheckpointId = checkpointId;
             Status = status;
-            GuestsCalled = guestsCalled;
         }
 
         public void FromCSV(string[] values)
@@ -46,7 +43,6 @@ namespace SOSTeam.TravelAgency.Domain.Models
             {
                 Status = CheckpointStatus.FINISHED;
             }
-            GuestsCalled = bool.Parse(values[4]);
         }
         public string[] ToCSV()
         {
@@ -56,7 +52,6 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 AppointmentId.ToString(),
                 CheckpointId.ToString(),
                 Status.ToString(),
-                GuestsCalled.ToString()
             };
             return csvValues;
         }

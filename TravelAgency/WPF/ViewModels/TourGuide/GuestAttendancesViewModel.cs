@@ -26,9 +26,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private DateTime _date;
+        private DateTime? _date;
 
-        public DateTime Date
+        public DateTime? Date
         {
             get => _date;
             set
@@ -73,16 +73,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly GuestAttendanceService _guestAttendanceService;
         private readonly UserService _userService;
 
-        public GuestAttendancesViewModel(CheckpointActivity selectedCheckpointActivity)
+        public GuestAttendancesViewModel(CheckpointCardViewModel selectedCheckpointActivityCard, string tourName, DateTime? date)
         {
             _guestAttendanceService = new GuestAttendanceService();
+            GuestCards = new ObservableCollection<GuestAttendanceCardViewModel>();
             _userService = new UserService();
-            FillObservableCollection(selectedCheckpointActivity);
+            TourName = tourName;
+            Date = date;
+
+            CheckpointName = selectedCheckpointActivityCard.Name;
+            FillObservableCollection(selectedCheckpointActivityCard);
         }
 
-        private void FillObservableCollection(CheckpointActivity selectedCheckpointActivity)
+        private void FillObservableCollection(CheckpointCardViewModel selectedCheckpointActivity)
         {
-            foreach (var guestAttendance in _guestAttendanceService.GetAllByActivityId(selectedCheckpointActivity.Id))
+            foreach (var guestAttendance in _guestAttendanceService.GetAllByActivityId(selectedCheckpointActivity.ActivityId))
             {
                 GuestAttendanceCardViewModel viewModel = new GuestAttendanceCardViewModel();
                 viewModel.Name = _userService.GetById(guestAttendance.UserId).Username;

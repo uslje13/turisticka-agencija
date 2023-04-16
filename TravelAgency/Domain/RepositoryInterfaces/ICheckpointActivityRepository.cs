@@ -10,5 +10,6 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
     public interface ICheckpointActivityRepository : IRepository<CheckpointActivity>
     {
         void SaveAll(List<CheckpointActivity> activities);
+        List<CheckpointActivity> GetAllByAppointmentId(int id);
     }
 }
