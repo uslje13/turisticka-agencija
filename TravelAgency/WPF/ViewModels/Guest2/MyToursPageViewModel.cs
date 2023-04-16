@@ -54,7 +54,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             switch(nextPage)
             {
                 case "ActiveTour":
-                    navigationService.Navigate(new ActiveTourPage());
+                    navigationService.Navigate(new ActiveTourPage(LoggedInUser));
                     break;
             }
         }

@@ -17,13 +17,13 @@
                     <Image Source="/Resources/Images/Tours/budapest.jpg" />
                 </Border>
                 <Border Height="71">
-                    <TextBlock FontSize="24" Text="Tura Slovenija" TextAlignment="Center" Margin="0,27,0,10"></TextBlock>
+                    <TextBlock FontSize="24" Text="{Binding ActiveTour.TourName}" TextAlignment="Center" Margin="0,27,0,10"></TextBlock>
                 </Border>
             </StackPanel>
         </Border>
         <Border Margin="0,460,0,0">
             <StackPanel Orientation="Horizontal" Margin="0,0,3,10">
-                <TextBlock  Text="Kljucna tacka do koje je tura stigla: Ljubljana" FontSize="24" Height="34" Margin="240,0,0,0" />
+                <TextBlock  Text="{Binding ActiveTour.CheckpointMessage}" FontSize="24" Height="34" Margin="240,0,0,0" />
                 <Image Source="/Resources/Icons/checkpoint.png" Height="32" Width="44" Margin="0,0,0,14" />
             </StackPanel>
         </Border>
