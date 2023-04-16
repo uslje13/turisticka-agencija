@@ -29,5 +29,15 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             UserProfilleViewModel viewModel = new UserProfilleViewModel(user, UsersName, InboxButton, notifications);
             DataContext = viewModel;
         }
+
+        private void TestOpeningInbox(object sender, RoutedEventArgs e)
+        {
+            Button? targetButton = (sender as Button);
+            if (targetButton != null)
+            {
+                InboxButton.Content = "Obavještenja - 0";
+                InboxButton.Background = new SolidColorBrush(Colors.AntiqueWhite);
+            }
+        }
     }
 }
