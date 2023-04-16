@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using System.Xml.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using System.Windows.Data;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -25,9 +26,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public User LoggedInUser { get; set; }
         public CancelAndMarkResViewModel Accommodation { get; set; }
         public Window ThisWindow { get; set; }
+        public TextBlock AccommodationNameTb { get; set; }
 
-        public MarkAccommodationViewModel(List<RadioButton> cleans, List<RadioButton> owners, TextBox comment, TextBox urls, User user, CancelAndMarkResViewModel acc, Window window) 
+        public MarkAccommodationViewModel(TextBlock tBlock, List<RadioButton> cleans, List<RadioButton> owners, TextBox comment, TextBox urls, User user, CancelAndMarkResViewModel acc, Window window) 
         {
+            AccommodationNameTb = tBlock;
             CleanMarks = cleans;
             OwnerMarks = owners;
             GuestComment = comment;
@@ -36,7 +39,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             Accommodation = acc;
             ThisWindow = window;
 
+            FillTextBox(acc);
             MarkAccCommand = new RelayCommand(ExecuteAccommodationMarking);
+        }
+
+        private void FillTextBox(CancelAndMarkResViewModel acc)
+        {
+            Binding binding = new Binding();
+            AccommodationService service = new AccommodationService();
+            Accommodation accommodation = service.GetById(acc.AccommodationId);
+            binding.Source = accommodation.Name;
+            AccommodationNameTb.SetBinding(TextBlock.TextProperty, binding);
         }
 
         private int FindCleanMark(List<RadioButton> list)

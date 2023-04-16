@@ -18,14 +18,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand continueReserveCommand { get; set; }
         public bool IsEnterOfChange { get; set; }
         public ChangedReservationRequest ChangedReservationRequest { get; set; }
+        public Window ThisWindow { get; set; }
 
-        public SelectResDatesViewModel(List<AccReservationViewModel> list, User user, bool isEnterOfChange, ChangedReservationRequest request)
+        public SelectResDatesViewModel(List<AccReservationViewModel> list, User user, bool isEnterOfChange, ChangedReservationRequest request, Window window)
         {
             suggestCatalog = list;
             LoggedInUser = user;
-            continueReserveCommand = new RelayCommand(ExecuteCountinueReservation);
             IsEnterOfChange = isEnterOfChange;
             ChangedReservationRequest = request;
+            ThisWindow = window;
+
+            continueReserveCommand = new RelayCommand(ExecuteCountinueReservation);
         }
 
         public void ExecuteCountinueReservation(object sender)
@@ -38,21 +41,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 EnterGuestNumberWindow newWindow = new EnterGuestNumberWindow(selectedCatalogItem, LoggedInUser, IsEnterOfChange, ChangedReservationRequest);
                 newWindow.Show();
+                ThisWindow.Close();
             }
         }
-        /*
-        private void ContinueReservation(object sender, RoutedEventArgs e)
-        {
-            if (selectedCatalogItem == null)
-            {
-                MessageBox.Show("Odaberite smeštaj koji želite rezervisati.");
-            }
-            else
-            {
-                EnterGuestNumberWindow newWindow = new EnterGuestNumberWindow(selectedCatalogItem, LoggedInUser);
-                newWindow.Show();
-            }
-        }
-        */
     }
 }

@@ -17,11 +17,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public User LoggedInUser { get; set; }
         public RelayCommand reserveCommand { get; set; }
+        public Window ThisWindow { get; set; }
 
-        public SearchResultsViewModel(List<LocAccommodationViewModel> Results, User user)
+        public SearchResultsViewModel(List<LocAccommodationViewModel> Results, User user, Window window)
         {
             accommodationDTOs = new ObservableCollection<LocAccommodationViewModel>(Results);
             LoggedInUser = user;
+            ThisWindow = window;
             reserveCommand = new RelayCommand(ExecuteReserveAccommodation);
         }
 
@@ -31,26 +33,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser, false);
                 newWindow.ShowDialog();
+                ThisWindow.Close();
             }
             else
             {
                 MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
             }
         }
-
-        /*
-        private void ReserveAccommodationClick(object sender, RoutedEventArgs e)
-        {
-            if (SelectedAccommodationDTO != null)
-            {
-                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
-                newWindow.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
-            }
-        }
-        */
     }
 }

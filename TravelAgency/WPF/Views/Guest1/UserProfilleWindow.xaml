@@ -8,9 +8,9 @@
         WindowStartupLocation="CenterScreen"
         Title="UserProfille" Height="450" Width="800">
     <Grid>
-        <TextBlock x:Name="UsersName" FontSize="30" FontWeight="Bold" Margin="46,36,469,312"></TextBlock>
+        <TextBlock x:Name="UsersName" FontSize="30" FontWeight="Bold" Margin="46,36,469,312" TextAlignment="Center"></TextBlock>
         <Button Command="{Binding goToRequestsStatus}" Content="Prikaži zahtjeve" Margin="639,144,40,246"/>
         <Button Command="{Binding goToSearchCommand}" Content="Prikaži smještaj" Margin="639,350,40,40"/>
-        <Button x:Name="InboxButton" Command="{Binding goToInboxCommand}" Content="Obavještenja" Margin="639,52,40,338"/>
+        <Button x:Name="InboxButton" Command="{Binding goToInboxCommand}" Content="Obavještenja" HorizontalContentAlignment="Center" Margin="639,52,40,338"/>
     </Grid>
 </Window>

@@ -19,6 +19,7 @@ using SOSTeam.TravelAgency.Repositories;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.WPF.ViewModels;
 
 namespace SOSTeam.TravelAgency.WPF.Views
 {
@@ -27,53 +28,13 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SearchWindow : Window
     {
-        public User LoggedInUser { get; set; }
-        public RelayCommand searchCommand { get; set; }
-        public RelayCommand cancelCommand { get; set; }
-
-
         public SearchWindow(User user)
         {
             InitializeComponent();
-            DataContext = this;
-            
-            searchCommand = new RelayCommand(ExecuteAccommodationSearch);
-            cancelCommand = new RelayCommand(ExecuteCancelAccommodationSearch);
-            
-            LoggedInUser = user;
-        }
-
-        private void ExecuteAccommodationSearch(object sender)
-        {
-            AccommodationService accommodationService = new AccommodationService();
-            List<LocAccommodationViewModel> searchResult = accommodationService.ExecuteAccommodationSearch(name.Text, city.Text, country.Text, GetSelectedItem(CBTypes), int.Parse(guestsNumber.Text), int.Parse(daysNumber.Text));
-            ShowResults(searchResult);
-        }
-
-        private void ExecuteCancelAccommodationSearch(object sender)
-        {
-            Close();
-        }
-
-        private LocAccommodationViewModel.AccommType GetSelectedItem(ComboBox cb)
-        {
-            if (cb.SelectedItem == CBItemApart) return LocAccommodationViewModel.AccommType.APARTMENT;
-            else if (cb.SelectedItem == CBItemHouse) return LocAccommodationViewModel.AccommType.HOUSE;
-            else if (cb.SelectedItem == CBItemHut) return LocAccommodationViewModel.AccommType.HUT;
-            else return LocAccommodationViewModel.AccommType.NOTYPE;
-        }
-        
-        private void ShowResults(List<LocAccommodationViewModel> results)
-        {
-            if (results.Count > 0)
-            {
-                SearchResultsWindow newWindow = new SearchResultsWindow(results, LoggedInUser);
-                newWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("Nepostojeća kombinacija podataka. Pokušajte ponovo.");
-            }
+            List<TextBox> textBoxes = new List<TextBox> { name, city, country, guestsNumber, daysNumber };
+            List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem> { CBItemApart, CBItemHouse, CBItemHut, CBItemNoType };
+            SearchViewModel viewModel = new SearchViewModel(user, textBoxes, comboBoxItems, CBTypes, this);
+            DataContext = viewModel;
         }
     }
 }

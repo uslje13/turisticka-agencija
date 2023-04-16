@@ -23,38 +23,11 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SelectReservationDatesWindow : Window
     {
-        /*
-        public List<AccReservationViewModel> suggestCatalog { get; set; }
-        public AccReservationViewModel selectedCatalogItem { get; set; }
-        public User LoggedInUser { get; set; }
-        */
-
         public SelectReservationDatesWindow(List<AccReservationViewModel> list, User user, bool enter, ChangedReservationRequest request)
         {
             InitializeComponent();
-            SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user, enter, request);
+            SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user, enter, request, this);
             DataContext = viewModel;
-            //DataContext = this;
-            /*
-            suggestCatalog = list;
-            LoggedInUser = user;
-            */
         }
-
-        /*
-        private void ContinueReservation(object sender, RoutedEventArgs e)
-        {
-            if(selectedCatalogItem == null)
-            {
-                MessageBox.Show("Odaberite smeštaj koji želite rezervisati.");
-            } 
-            else
-            {
-                EnterGuestNumberWindow newWindow = new EnterGuestNumberWindow(selectedCatalogItem, LoggedInUser);
-                newWindow.Show();
-                Close();
-            }
-        }
-        */
     }
 }

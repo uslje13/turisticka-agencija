@@ -22,19 +22,31 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand goToSearchCommand { get; set; }
         public RelayCommand goToRequestsStatus { get; set; }
         public RelayCommand goToInboxCommand { get; set; }
+        public Button InboxButton { get; set; }
 
 
-        public UserProfilleViewModel(User user, TextBlock uName) 
+        public UserProfilleViewModel(User user, TextBlock uName, Button button, int notifications) 
         {
             LoggedInUser = user;
             userName = uName;
+            InboxButton = button;
 
+            ControlInboxButton(notifications);
             FillTextBlock(LoggedInUser);
             CollectFinishedReservations();
             
             goToSearchCommand = new RelayCommand(ExecuteGoToSearch);
             goToRequestsStatus = new RelayCommand(ExecuteGoToStatuses);
             goToInboxCommand = new RelayCommand(ExecuteInboxShowing);
+        }
+
+        private void ControlInboxButton(int notifications)
+        {
+            InboxButton.Content = "Obavještenja - " + notifications.ToString();
+            if (notifications > 0)
+            {
+                InboxButton.Background = new SolidColorBrush(Colors.OrangeRed);
+            }
         }
 
         private void CollectFinishedReservations()

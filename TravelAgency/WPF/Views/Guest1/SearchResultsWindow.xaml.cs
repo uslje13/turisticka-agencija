@@ -23,38 +23,11 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SearchResultsWindow : Window
     {
-        /*
-        public ObservableCollection<LocAccommodationViewModel> accommodationDTOs { get; set; }
-        public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
-        public User LoggedInUser { get; set; }
-        */
-
         public SearchResultsWindow(List<LocAccommodationViewModel> Results, User user)
         {
             InitializeComponent();
-            SearchResultsViewModel viewModel = new SearchResultsViewModel(Results, user);
+            SearchResultsViewModel viewModel = new SearchResultsViewModel(Results, user, this);
             DataContext = viewModel;
-            //DataContext = this;
-            /*
-            accommodationDTOs = new ObservableCollection<LocAccommodationViewModel>(Results);
-            LoggedInUser = user;
-            */
         }
-
-        /*
-        private void ReserveAccommodationClick(object sender, RoutedEventArgs e)
-        {
-            if (SelectedAccommodationDTO != null)
-            {
-                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser);
-                newWindow.ShowDialog();
-                Close();
-            }
-            else
-            {
-                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
-            }
-        }
-        */
     }
 }
