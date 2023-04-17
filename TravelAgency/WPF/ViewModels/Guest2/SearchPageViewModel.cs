@@ -123,6 +123,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             TourViewModels = viewModels;
             _locationService = new LocationService();
             _tourService = new TourService();
+            GetDataForComboBoxes();
+        }
+
+        private void GetDataForComboBoxes()
+        {
             Countries = new ReadOnlyObservableCollection<string>(GetCountries());
             Cities = new ReadOnlyObservableCollection<string>(GetCities());
             Languages = new ReadOnlyObservableCollection<string>(GetLanguages());

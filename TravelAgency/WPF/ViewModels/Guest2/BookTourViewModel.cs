@@ -156,20 +156,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             else
             {
                 MessageBoxResult result = ConfirmReservation();
+                ReservationConfirmedEvent(result);
+            }
+        }
 
-                if (result == MessageBoxResult.Yes)
+        private void ReservationConfirmedEvent(MessageBoxResult result)
+        {
+            if (result == MessageBoxResult.Yes)
+            {
+                if (_selectedVoucher != null)
                 {
-                    if(_selectedVoucher != null)
-                    {
-                        _voucherService.UsedUpdate(_selectedVoucher.VoucherId);
-                        _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge),_selectedVoucher.VoucherId);
-                    }
-                    else
-                    {
-                        _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge));
-                    }
-                    _window.Close();
+                    _voucherService.UsedUpdate(_selectedVoucher.VoucherId);
+                    _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge), _selectedVoucher.VoucherId);
                 }
+                else
+                {
+                    _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge));
+                }
+                _window.Close();
             }
         }
 

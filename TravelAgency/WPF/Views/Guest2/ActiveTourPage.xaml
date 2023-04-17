@@ -7,9 +7,25 @@
       mc:Ignorable="d" 
       Height="800" Width="990"
       Title="ActiveTourPage"
-      Background="AliceBlue">
+      Background="AliceBlue"
+      FontFamily="Microsoft Sans Serif">
 
     <Grid>
-        <TextBlock Text="djgskjfnjdfjgnjgfjhjngfhj" FontSize="50"></TextBlock>
+        <Border Margin="0,0,0,345">
+            <StackPanel Margin="250,23,250,-22">
+                <Border Height="362">
+                    <Image Source="/Resources/Images/Tours/budapest.jpg" />
+                </Border>
+                <Border Height="71">
+                    <TextBlock FontSize="24" Text="{Binding ActiveTour.TourName}" TextAlignment="Center" Margin="0,27,0,10"></TextBlock>
+                </Border>
+            </StackPanel>
+        </Border>
+        <Border Margin="0,460,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,0,3,10">
+                <TextBlock  Text="{Binding ActiveTour.CheckpointMessage}" FontSize="24" Height="34" Margin="240,0,0,0" />
+                <Image Source="/Resources/Icons/checkpoint.png" Height="32" Width="44" Margin="0,0,0,14" />
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

@@ -49,5 +49,16 @@ namespace SOSTeam.TravelAgency.Application.Services
             _checkpointActivityRepository.Update(activity);
         }
 
+        public CheckpointActivity FindActiveCheckpoint(int appointmentId)
+        {
+            foreach (CheckpointActivity checkpointActivity in _checkpointActivityRepository.GetAll())
+            {
+                if (checkpointActivity.AppointmentId == appointmentId && checkpointActivity.Status == CheckpointStatus.ACTIVE)
+                {
+                    return checkpointActivity;
+                }
+            }
+            return null;
+        }
     }
 }

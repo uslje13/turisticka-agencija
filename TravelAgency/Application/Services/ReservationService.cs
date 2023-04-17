@@ -71,5 +71,17 @@ namespace SOSTeam.TravelAgency.Application.Services
                }
            }
         }
+
+        public Reservation FindReservationWhereUserIsPresent(User loggedInUser)
+        {
+            foreach (Reservation reservation in _reservationRepository.GetAll())
+            {
+                if (reservation.UserId == loggedInUser.Id && reservation.Presence)
+                {
+                    return reservation;
+                }
+            }
+            return null;
+        }
     }
 }
