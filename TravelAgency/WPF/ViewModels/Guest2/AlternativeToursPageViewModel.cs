@@ -53,7 +53,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private List<Tour> GetSameLocatedTours()
         {
             List<Tour> tours = new List<Tour>();
-            tours = _tourService.FindSameLocatedTours(_tour.LocationId);
+            tours = _tourService.GetSameLocatedTours(_tour.LocationId);
             tours.Remove(_tour);
             return tours;
         }

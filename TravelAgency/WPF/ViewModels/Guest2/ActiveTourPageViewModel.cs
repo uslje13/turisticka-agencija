@@ -32,14 +32,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         public void FindActiveTour()
         {
-            Reservation reservation = FindReservationWhereUserIsPresent();
+            Reservation reservation = _reservationService.FindReservationWhereUserIsPresent(LoggedInUser);
 
             if(reservation != null)
             {
                 Appointment appointment = _appointmentService.GetById(reservation.AppointmentId);
                 if (appointment.Started)
                 {
-                    CheckpointActivity activeCheckpoint = FindActiveCheckpoint(appointment.Id);
+                    CheckpointActivity activeCheckpoint =_checkpointActivityService.FindActiveCheckpoint(appointment.Id);
                     if(activeCheckpoint != null)
                     {
                         string checkpoinName = GetCheckpointName(activeCheckpoint.CheckpointId);
@@ -66,28 +66,5 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             return _checkpointService.GetById(checkpointId).Name;
         }
 
-        private CheckpointActivity FindActiveCheckpoint(int id)
-        {
-            foreach(CheckpointActivity checkpointActivity in _checkpointActivityService.GetAll())
-            {
-                if(checkpointActivity.AppointmentId == id && checkpointActivity.Status == CheckpointStatus.ACTIVE)
-                {
-                    return checkpointActivity;
-                }
-            }
-            return null;
-        }
-
-        private Reservation FindReservationWhereUserIsPresent()
-        {
-            foreach (Reservation reservation in _reservationService.GetAll())
-            {
-                if (reservation.UserId == LoggedInUser.Id && reservation.Presence)
-                {
-                    return reservation;
-                }
-            }
-            return null;
-        }
     }
 }

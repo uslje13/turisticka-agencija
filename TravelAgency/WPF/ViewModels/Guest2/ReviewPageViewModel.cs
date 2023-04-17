@@ -327,7 +327,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
             if(knowledgeFlag && languageFlag && interestFlag && commentFlag)
             {
-                MessageBoxResult result = ConfirmReservation();
+                MessageBoxResult result = ConfirmReview();
                 if (result == MessageBoxResult.Yes)
                 {
                     if(Images.Count > 0)
@@ -340,7 +340,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 }
             }
         }
-        private MessageBoxResult ConfirmReservation()
+        private MessageBoxResult ConfirmReview()
         {
             string sMessageBoxText = $"Da li ste sigurni da želite da ocenite turu i vodica";
             string sCaption = "Porvrda ocene";

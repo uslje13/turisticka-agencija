@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest2"
         mc:Ignorable="d"
         Title="Turisticka agencija" Height="800" Width="1280"
-        WindowStartupLocation="CenterScreen"     
-        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"          
         Background="AliceBlue"
         >
 

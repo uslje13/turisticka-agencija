@@ -61,7 +61,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             return null;
         }
 
-        public List<Tour> FindSameLocatedTours(int locationId)
+        public List<Tour> GetSameLocatedTours(int locationId)
         {
             List<Tour> tours = new List<Tour>();
             foreach(Tour tour in _tourRepository.GetAll())

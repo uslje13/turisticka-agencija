@@ -19,6 +19,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private RelayCommand _backCommand;
         private readonly ReservationService _reservationService;
         private readonly AppointmentService _appointmentSevice;
+        private readonly TourService _tourService;
 
         public static ObservableCollection<FinishedTourViewModel> FinishedTours { get;  set; }
         public RelayCommand BackCommand
@@ -37,20 +38,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
             _reservationService = new ReservationService();
             _appointmentSevice = new AppointmentService();
+            _tourService = new TourService();
             FinishedTours = new ObservableCollection<FinishedTourViewModel>();
             FillFinishedToursList();
         }
 
         private void FillFinishedToursList()
         {
-            TourService tourService = new TourService();
-            TourReviewService tourReviewService = new TourReviewService();
-
             foreach(Reservation reservation in _reservationService.GetAll())
             {
                 if(reservation.Presence && _appointmentSevice.GetById(reservation.AppointmentId).Finished && reservation.Reviewed == false)
                 {
-                    FinishedTours.Add(new FinishedTourViewModel(_window,reservation.Id, reservation.AppointmentId, LoggedInUser, tourService.GetTourName(_appointmentSevice.GetById(reservation.AppointmentId).TourId)));
+                    FinishedTours.Add(new FinishedTourViewModel(_window,reservation.Id, reservation.AppointmentId, LoggedInUser, _tourService.GetTourName(_appointmentSevice.GetById(reservation.AppointmentId).TourId)));
                 }
             }
         }

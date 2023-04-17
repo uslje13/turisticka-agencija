@@ -116,13 +116,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_NotificationsWindowCommand(object obj)
         {
             NotificationsWindow window = new NotificationsWindow(LoggedInUser);
-            window.Show();
+            window.ShowDialog();
         }
 
         private void Execute_VouchersWindowCommand(object obj)
         {
             VouchersWindow window = new VouchersWindow();
-            window.Show();
+            window.ShowDialog();
         }
 
         private void Execute_MyToursPageCommand(object obj)
