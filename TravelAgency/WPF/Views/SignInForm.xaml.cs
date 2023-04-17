@@ -71,9 +71,9 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.TOURISTGUIDE)
                 {
-                    ShowToursWindow showToursWindow = new ShowToursWindow(user);
-                    showToursWindow.Show();
-                    Close();
+                    //ShowToursWindow showToursWindow = new ShowToursWindow(user);
+                    //showToursWindow.Show();
+                    //Close();
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST1)
                 {

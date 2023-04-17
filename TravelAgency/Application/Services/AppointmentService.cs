@@ -88,7 +88,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             foreach(Appointment appointment in _appointmentRepository.GetAll()) 
             {
-                if(tour.Id == appointment.TourId )
+                if(tour.Id == appointment.TourId)
                 {
                     if(appointment.Occupancy < tour.MaxNumOfGuests)
                     {

@@ -5,36 +5,39 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit.NET5"
+     
       mc:Ignorable="d" 
-      d:DesignHeight="950" d:DesignWidth="430"
+      d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="StatPerTourPage">
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1.5*"></RowDefinition>
-            <RowDefinition Height="4.5*"></RowDefinition>
-            <RowDefinition Height="5*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Border Grid.Row="1" BorderBrush="DarkGray" Margin="0,0,0,0" BorderThickness="0 0 0 2"></Border>
-        <Image Grid.Row="0" Source="/Resources/Icons/earth.png" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" 
-               Margin="130,0,0,30"></Image>
-        <Label Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Tour name"  
-               Margin="180,0,0,30" FontSize="22"/>
-        <Image Grid.Row="0" Source="/Resources/Icons/calendar_blank.png" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center"
-               Margin="30 50 100 0"></Image>
-        <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="15.12.2020."  
-               Margin="30 50 0 0" FontSize="14"/>
-        <Label Grid.Row="1" Content="Attendance by age group" FontSize="20" Margin="10 0 0 0"></Label>
-        <DataGrid Grid.Row="1" Height="325" Width="380" Margin="0 20 0 0" HorizontalAlignment="Center" VerticalAlignment="Center"
-                  AutoGenerateColumns="False"
-                  IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Age range" Width="150"></DataGridTextColumn>
-                <DataGridTextColumn Header="Num. guests" Width="280"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Attended with voucher" FontSize="20" Margin="10 0 0 0"></Label>
-        <tk:Pie Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Height="300" Width="300" Margin="15 0 0 0"></tk:Pie>
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <Grid Height="950">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.5*"></RowDefinition>
+                <RowDefinition Height="4.5*"></RowDefinition>
+                <RowDefinition Height="5*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="1" BorderBrush="DarkGray" Margin="0,0,0,0" BorderThickness="0 0 0 2"></Border>
+            <Image Grid.Row="0" Source="/Resources/Icons/earth.png" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Margin="130,0,0,30"></Image>
+            <Label Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Tour name"  
+                   Margin="180,0,0,30" FontSize="22"/>
+            <Image Grid.Row="0" Source="/Resources/Icons/calendar_blank.png" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Margin="30 50 100 0"></Image>
+            <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="15.12.2020."  
+                   Margin="30 50 0 0" FontSize="14"/>
+            <Label Grid.Row="1" Content="Attendance by age group" FontSize="20" Margin="10 0 0 0"></Label>
+            <DataGrid Grid.Row="1" Height="325" Width="380" Margin="0 20 0 0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      ItemsSource="{Binding StatByAgeRange}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Age range" Width="150" Binding="{Binding AgeGroup}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Num. guests" Width="280" Binding="{Binding NumOfGuests}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Attended with voucher" FontSize="20" Margin="10 0 0 0"></Label>
+            
+        </Grid>
+    </ScrollViewer>
 </Page>

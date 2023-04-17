@@ -42,6 +42,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         //Temp RelayCommand ---> Burger Menu
         public RelayCommand ShowFinishedTourReviewCommand { get; set; }
+        public RelayCommand ShowStatsMenuCommand { get; set; }
 
         public User LoggedUser { get; set; }
 
@@ -59,6 +60,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             CancelTourCommand = new RelayCommand(CancelTourClick, CanExecuteMethod);
             ShowTodayToursCommand = new RelayCommand(TodayToursClick, CanExecuteMethod);
             ShowFinishedTourReviewCommand = new RelayCommand(ShowFinishedTourReviews, CanExecuteMethod);
+            ShowStatsMenuCommand = new RelayCommand(ShowStatsMenu, CanExecuteMethod);
 
             SetExpiredAppointments();
             FillObservableCollection();
@@ -234,6 +236,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             FinishedTourReviewsPage finishedReviewsPage = new FinishedTourReviewsPage(LoggedUser);
             System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = finishedReviewsPage;
+        }
+
+        private void ShowStatsMenu(object sender)
+        {
+            TourStatsPage tourStatsPage = new TourStatsPage(LoggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = tourStatsPage;
         }
 
     }
