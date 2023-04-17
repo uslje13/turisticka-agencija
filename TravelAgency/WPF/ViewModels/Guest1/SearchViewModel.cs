@@ -40,10 +40,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         private void ExecuteAccommodationSearch(object sender)
         {
             AccommodationService accommodationService = new AccommodationService();
+            SuperOwnerService superOwnerService = new();
             List<LocAccommodationViewModel> searchResult = accommodationService.ExecuteAccommodationSearch(textBoxes[0].Text, textBoxes[1].Text, textBoxes[2].Text, 
                                                                                                             GetSelectedItem(CBTypes), int.Parse(textBoxes[3].Text), 
                                                                                                             int.Parse(textBoxes[4].Text));
-            ShowResults(searchResult);
+            foreach (LocAccommodationViewModel item in searchResult) 
+            {
+                item.IsSuperOwned = superOwnerService.IsSuperOwnerAccommodation(item.AccommodationId);
+            }
+
+            ShowResults(searchResult.OrderByDescending(a => a.IsSuperOwned).ToList());
         }
 
         private void ExecuteCancelAccommodationSearch(object sender)

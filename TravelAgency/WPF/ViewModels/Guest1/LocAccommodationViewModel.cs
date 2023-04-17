@@ -27,9 +27,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int AccommodationMaxGuests { get; set; }
         public int AccommodationMinDaysStay { get; set; }
         public int GuestNumber { get; set; }
+        public bool IsSuperOwned { get; set; }
 
 
-        public LocAccommodationViewModel(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber)
+        public LocAccommodationViewModel(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber, bool isSuperOwned)
 
         {
             AccommodationId = id;
@@ -40,9 +41,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationMaxGuests = guests;
             AccommodationMinDaysStay = days;
             GuestNumber = guestNumber;
+            IsSuperOwned = isSuperOwned;
         }
 
-        public LocAccommodationViewModel(string name, string city, string country, AccommType type, int guestNumber, int days)
+        public LocAccommodationViewModel(string name, string city, string country, AccommType type, int guestNumber, int days, bool isSuperOwned)
         {
             AccommodationName = name;
             LocationCity = city;
@@ -50,6 +52,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationType = type;
             AccommodationMinDaysStay = days;
             GuestNumber = guestNumber;
+            IsSuperOwned = isSuperOwned;
         }
     }
 }

@@ -268,7 +268,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 }
             }
             LocAccommodationViewModel dto = new LocAccommodationViewModel(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
-                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber);
+                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber, false);
             return dto;
         }
 
