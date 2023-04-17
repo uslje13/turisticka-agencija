@@ -41,6 +41,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             _tourReviewRepository.Update(review);
         }
 
+        public List<TourReview> GetAllByAppointmentId(int id)
+        {
+            return _tourReviewRepository.GetAllByAppointmentId(id);
+        }
+
         public void CreateTourReview(int userId, int appointmentId, int guideKnowledge, int guideLanguage, int interestRating, string comment, bool reported)
         {
             TourReview tourReview = new TourReview(userId,appointmentId,guideKnowledge,guideLanguage,interestRating,comment, false);

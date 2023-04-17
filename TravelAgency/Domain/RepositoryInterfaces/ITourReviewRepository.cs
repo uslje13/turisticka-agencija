@@ -9,6 +9,6 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
 {
     interface ITourReviewRepository : IRepository<TourReview>
     {
-
+        List<TourReview> GetAllByAppointmentId(int id);
     }
 }

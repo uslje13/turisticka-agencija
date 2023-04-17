@@ -1,30 +1,25 @@
-﻿<Page x:Class="SOSTeam.TravelAgency.WPF.Views.TourGuide.HomePage"
+﻿<Page x:Class="SOSTeam.TravelAgency.WPF.Views.TourGuide.FinishedTourReviewsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       mc:Ignorable="d" 
-      d:DesignHeight="750" d:DesignWidth="430"
+      d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
-      Title="HomePage">
+      Title="FinishedTourReviewsPage">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
-            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Content="Your tours" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" 
-               Margin="10, 0,0, 0"></Label>
-        <Button Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"  Width="75" Height="25"
-                Content="Today tours" BorderBrush="Transparent" Margin="0,0,10,0" Command="{Binding ShowTodayToursCommand}"></Button>
-        <Button Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="20" Content="Reviews"
-                Command="{Binding ShowFinishedTourReviewCommand}"></Button>
-        <ListBox Grid.Row="1" x:Name="TourListOverview" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding ToursForCards}">
+        <TextBlock Grid.Row="0" Text="Finished tours:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="5 0 0 0"></TextBlock>
+        <ListBox Grid.Row="1" x:Name="FinishedToursListBox" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding TourCards}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="360" Height="100" Margin="0 5" Background="AliceBlue">
+                    <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="360" Height="100" Margin="0 5" Background="AliceBlue">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"></ColumnDefinition>
                             <ColumnDefinition Width="180"></ColumnDefinition>
@@ -36,26 +31,24 @@
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Border Grid.ColumnSpan="3" Grid.RowSpan="3" BorderBrush="DarkGray" BorderThickness="1"></Border>
+                        <Button Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Background="Transparent" BorderBrush="Transparent"
+                    Command="{Binding DataContext.ShowGuestReviewsCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                    CommandParameter="{Binding }"></Button>
                         <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="{Binding CoverImagePath}"></Image>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                        FontSize="17" Padding="5 0 0 5"></TextBlock>
+                                    FontSize="17" Padding="5 0 0 5"></TextBlock>
                         <Image Grid.Column="1" Grid.Row="1" Source="/Resources/Icons/checkpoint_light.png" HorizontalAlignment="Left" VerticalAlignment="Top"
-                            Width="16" Margin= "4 1 0 0">
+                                        Width="16" Margin= "4 1 0 0">
                         </Image>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Location}" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                         FontSize="13"  Padding="20 0 0 0" Foreground="#FF999999">
+                                     FontSize="13"  Padding="20 0 0 0" Foreground="#FF999999">
                         </TextBlock>
                         <Image Grid.Column="1" Grid.Row="2" Source="/Resources/Icons/calendar_blank_light.png" Width="17" HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom" Margin="5 0 0 2"></Image>
+                                    VerticalAlignment="Bottom" Margin="5 0 0 2"></Image>
                         <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Date, StringFormat='dd.MM.yyyy.'}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                         FontSize="13" Foreground="#FF999999" Padding="23 0 0 2"></TextBlock>
-                        <Button x:Name="CancelButton" Grid.Column="2"  Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" 
-                            Margin="0 4 12 0" Background="Transparent" BorderBrush="Transparent"
-                            Command="{Binding DataContext.CancelTourCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                            CommandParameter="{Binding }"
-                            IsEnabled="{Binding CanCancel, Mode=OneWay}">
-                            <Image Source="{Binding CancelImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="20"></Image>
-                        </Button>
+                                     FontSize="13" Foreground="#FF999999" Padding="23 0 0 2"></TextBlock>
+                        <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Source="/Resources/Icons/star.png" Width="35" VerticalAlignment="Top"></Image>
+                        <TextBlock Grid.Column="2" Grid.Row="1" Text="Reviews" HorizontalAlignment="Center" VerticalAlignment="Top"></TextBlock>
                         <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Status}"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 15 2" FontWeight="Bold"></TextBlock>
                     </Grid>
                 </DataTemplate>

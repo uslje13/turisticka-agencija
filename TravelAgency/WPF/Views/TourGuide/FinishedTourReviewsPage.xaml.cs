@@ -1,5 +1,4 @@
-﻿using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,18 +12,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
     /// <summary>
-    /// Interaction logic for GuestReviewPage.xaml
+    /// Interaction logic for FinishedTourReviewsPage.xaml
     /// </summary>
-    public partial class GuestReviewPage : Page
+    public partial class FinishedTourReviewsPage : Page
     {
-        public GuestReviewPage(GuestReviewCardViewModel selectedReview)
+        public FinishedTourReviewsPage(User loggedUser)
         {
             InitializeComponent();
-            DataContext = new GuestReviewDetailsViewModel(selectedReview);
+            DataContext = new FinishedTourReviewsViewModel(loggedUser);
         }
     }
 }

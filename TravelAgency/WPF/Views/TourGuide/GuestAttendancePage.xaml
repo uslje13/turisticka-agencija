@@ -21,7 +21,7 @@
                        FontSize="22">
             </TextBlock>
         </WrapPanel>
-        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Date, StringFormat='dd.MM.yyyy. hh:mm'}"  
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Date, StringFormat='dd.MM.yyyy. hh:mm'}"  
                    TextAlignment="Center" FontSize="16" Height="26" Width="163"/>
         <Image Grid.Row="1" Source="/Resources/Icons/checkpoint.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="25" 
                Margin="10 0 0 0">

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
@@ -20,9 +21,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// </summary>
     public partial class GuestReviewOverviewPage : Page
     {
-        public GuestReviewOverviewPage()
+        public GuestReviewOverviewPage(TourCardViewModel selectedTour)
         {
             InitializeComponent();
+            DataContext = new GuestReviewsOverviewViewModel(selectedTour);
         }
     }
 }

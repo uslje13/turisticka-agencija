@@ -11,17 +11,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
     public class GuestAttendancesViewModel : ViewModel
     {
-        private ObservableCollection<GuestAttendanceCardViewModel> _guestCards;
+        private ObservableCollection<GuestAttendanceCardViewModel> _guestAttendanceCards;
 
-        public ObservableCollection<GuestAttendanceCardViewModel> GuestCards
+        public ObservableCollection<GuestAttendanceCardViewModel> GuestAttendanceCards
         {
-            get => _guestCards;
+            get => _guestAttendanceCards;
             set
             {
-                if (_guestCards != value)
+                if (_guestAttendanceCards != value)
                 {
-                    _guestCards = value;
-                    OnPropertyChanged("GuestCards");
+                    _guestAttendanceCards = value;
+                    OnPropertyChanged("GuestAttendanceCards");
                 }
             }
         }
@@ -76,7 +76,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public GuestAttendancesViewModel(CheckpointCardViewModel selectedCheckpointActivityCard, string tourName, DateTime? date)
         {
             _guestAttendanceService = new GuestAttendanceService();
-            GuestCards = new ObservableCollection<GuestAttendanceCardViewModel>();
+            GuestAttendanceCards = new ObservableCollection<GuestAttendanceCardViewModel>();
             _userService = new UserService();
             TourName = tourName;
             Date = date;
@@ -92,7 +92,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 GuestAttendanceCardViewModel viewModel = new GuestAttendanceCardViewModel();
                 viewModel.Name = _userService.GetById(guestAttendance.UserId).Username;
                 SetStatusImage(viewModel, guestAttendance);
-                GuestCards.Add(viewModel);
+                GuestAttendanceCards.Add(viewModel);
             }
         }
 

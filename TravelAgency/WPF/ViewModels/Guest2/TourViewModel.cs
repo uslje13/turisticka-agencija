@@ -60,7 +60,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             Tour tour = _tourService.FindTourById(TourId);
 
-            if (!_appoitmentService.CheckAvailableAppoitments(tour))
+            if (!_appoitmentService.CheckAvailableAppointments(tour))
             {
                 MessageBox.Show("Nema slobodnih mesta za odabranu turu, pogledajte druge ture na istoj lokaciji.");
                 var navigationService = _window.AlternativeFrame.NavigationService;

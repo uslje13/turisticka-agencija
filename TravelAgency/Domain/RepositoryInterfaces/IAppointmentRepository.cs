@@ -13,5 +13,7 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
         List<Appointment> GetAllByTours(List<Tour> tours);
         List<Appointment> GetTodayAppointments();
         void SaveAll(List<Appointment> appointments);
+
+        List<Appointment> GetAllFinishedByUserId(int id);
     }
 }
