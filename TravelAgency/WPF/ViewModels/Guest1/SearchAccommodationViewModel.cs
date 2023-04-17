@@ -24,6 +24,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public LocationService locationService { get; set; }
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public AccommodationReservationService accommodationReservationService { get; set; }
+        private SuperOwnerService _superOwnerService;
         public List<AccommodationReservation> accommodationReservations { get; set; }
         public RelayCommand searchCommand { get; set; }
         public RelayCommand reserveCommand { get; set; }
@@ -34,6 +35,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
 
             accommodationService = new AccommodationService();
+            _superOwnerService = new();
             locationService = new LocationService();
             accommodationReservationService = new AccommodationReservationService();
 
@@ -56,8 +58,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ThisWindow.Close();
         }
 
+
         private void CreateAllDTOForms()
         {
+            List<LocAccommodationViewModel> locAccommodationViewModels = new List<LocAccommodationViewModel>();
             AccommDTOsCollection.Clear();
             foreach (var accommodation in accommodations)
             {
@@ -67,10 +71,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     {
                         LocAccommodationViewModel dto = CreateDTOForm(accommodation, location);
 
-                        AccommDTOsCollection.Add(dto);
+                        locAccommodationViewModels.Add(dto);
                     }
                 }
             }
+
+            locAccommodationViewModels = locAccommodationViewModels.OrderByDescending(a => a.IsSuperOwned).ToList();
+
+            locAccommodationViewModels.ForEach(item => AccommDTOsCollection.Add(item));
         }
 
         private LocAccommodationViewModel CreateDTOForm(Accommodation acc, Location loc)
@@ -90,7 +98,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 }
             }
             LocAccommodationViewModel dto = new LocAccommodationViewModel(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
-                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber);
+                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber, _superOwnerService.IsSuperOwnerAccommodation(acc.Id));
             return dto;
         }
 

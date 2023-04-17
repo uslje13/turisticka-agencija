@@ -12,6 +12,15 @@
                   SelectedItem="{Binding Path=SelectedAccommodationDTO, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" SelectionMode="Single"
                   IsReadOnly="True" Margin="10,10,10,110">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSuperOwned}" Value="True">
+                            <Setter Property="Background" Value="Gold" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
                 <DataGridTextColumn Header="Grad" Binding="{Binding LocationCity}" Width="1*"/>

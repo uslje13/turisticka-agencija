@@ -104,7 +104,7 @@ namespace SOSTeam.TravelAgency.Application.Services
                 }
             }
             LocAccommodationViewModel dto = new LocAccommodationViewModel(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
-                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber);
+                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber,false);
             return dto;
         }
 
@@ -123,7 +123,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         private LocAccommodationViewModel CreateDTORequest(string searchedAccName, string searchedAccCity, string searchedAccCountry, LocAccommodationViewModel.AccommType searchedAccType, int searchedAccGuestsNumber, int searchedAccDaysNumber)
         {
             LocAccommodationViewModel acDTO = new LocAccommodationViewModel(searchedAccName, searchedAccCity, searchedAccCountry, searchedAccType,
-                                                            searchedAccGuestsNumber, searchedAccDaysNumber);
+                                                            searchedAccGuestsNumber, searchedAccDaysNumber,false);
             return acDTO;
         }
 
