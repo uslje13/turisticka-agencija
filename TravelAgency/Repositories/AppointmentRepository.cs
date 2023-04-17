@@ -68,6 +68,11 @@ namespace SOSTeam.TravelAgency.Repositories
             return appointments;
         }
 
+        public List<Appointment> GetAllFinishedByUserId(int id)
+        {
+            return GetAllByUserId(id).FindAll(a => a.Started && a.Finished);
+        }
+
         public Appointment GetById(int id)
         {
             _appointments = _serializer.FromCSV(FilePath);

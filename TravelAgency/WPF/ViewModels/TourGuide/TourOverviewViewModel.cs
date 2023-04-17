@@ -40,11 +40,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand CancelTourCommand { get; set; }
         public RelayCommand ShowTodayToursCommand { get; set; }
 
+        //Temp RelayCommand ---> Burger Menu
+        public RelayCommand ShowFinishedTourReviewCommand { get; set; }
+        public RelayCommand ShowStatsMenuCommand { get; set; }
+
         public User LoggedUser { get; set; }
 
         public TourOverviewViewModel(User loggedUser)
         {
-            _toursForCards = new ObservableCollection<TourCardViewModel>();
+            ToursForCards = new ObservableCollection<TourCardViewModel>();
             _tourService = new TourService();
             _locationService = new LocationService();
             _appointmentService = new AppointmentService();
@@ -55,6 +59,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
             CancelTourCommand = new RelayCommand(CancelTourClick, CanExecuteMethod);
             ShowTodayToursCommand = new RelayCommand(TodayToursClick, CanExecuteMethod);
+            ShowFinishedTourReviewCommand = new RelayCommand(ShowFinishedTourReviews, CanExecuteMethod);
+            ShowStatsMenuCommand = new RelayCommand(ShowStatsMenu, CanExecuteMethod);
 
             SetExpiredAppointments();
             FillObservableCollection();
@@ -224,6 +230,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             TodayToursPage todayToursPage = new TodayToursPage(LoggedUser);
             System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = todayToursPage;
+        }
+
+        private void ShowFinishedTourReviews(object sender)
+        {
+            FinishedTourReviewsPage finishedReviewsPage = new FinishedTourReviewsPage(LoggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = finishedReviewsPage;
+        }
+
+        private void ShowStatsMenu(object sender)
+        {
+            TourStatsPage tourStatsPage = new TourStatsPage(LoggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = tourStatsPage;
         }
 
     }

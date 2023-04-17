@@ -79,11 +79,16 @@ namespace SOSTeam.TravelAgency.Application.Services
             _appointmentRepository.Update(appointment);
         }
 
-        public bool CheckAvailableAppoitments(Tour tour)
+        public List<Appointment> GetAllFinishedByUserId(int id)
+        {
+            return _appointmentRepository.GetAllFinishedByUserId(id);
+        }
+
+        public bool CheckAvailableAppointments(Tour tour)
         {
             foreach(Appointment appointment in _appointmentRepository.GetAll()) 
             {
-                if(tour.Id == appointment.TourId )
+                if(tour.Id == appointment.TourId)
                 {
                     if(appointment.Occupancy < tour.MaxNumOfGuests)
                     {

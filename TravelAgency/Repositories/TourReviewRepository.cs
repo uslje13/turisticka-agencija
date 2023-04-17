@@ -37,6 +37,12 @@ namespace SOSTeam.TravelAgency.Repositories
             return _serializer.FromCSV(FilePath);
         }
 
+        public List<TourReview> GetAllByAppointmentId(int id)
+        {
+            _reviews = _serializer.FromCSV(FilePath);
+            return _reviews.FindAll(r => r.AppointmentId == id);
+        }
+
         public TourReview GetById(int id)
         {
             _reviews = _serializer.FromCSV(FilePath);

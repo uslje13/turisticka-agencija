@@ -18,14 +18,14 @@ using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
     /// <summary>
-    /// Interaction logic for StatsByTourPage.xaml
+    /// Interaction logic for FinishedTourReviewsPage.xaml
     /// </summary>
-    public partial class StatsByTourPage : Page
+    public partial class FinishedTourReviewsPage : Page
     {
-        public StatsByTourPage(User loggedUser)
+        public FinishedTourReviewsPage(User loggedUser)
         {
             InitializeComponent();
-            DataContext = new StatByTourOverviewViewModel(loggedUser);
+            DataContext = new FinishedTourReviewsViewModel(loggedUser);
         }
     }
 }

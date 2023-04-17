@@ -5,11 +5,56 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       mc:Ignorable="d" 
-      d:DesignHeight="750" d:DesignWidth="430"
+      d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="GuestReviewOverviewPage">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="6*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 17">
+            <Image Source="/Resources/Icons/earth.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Height="50"/>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding TourName}"  
+                       FontSize="22">
+            </TextBlock>
+        </WrapPanel>
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Date, StringFormat='dd.MM.yyyy. hh:mm'}"  
+                   TextAlignment="Center" FontSize="16"/>
+        <ListBox Grid.Row="1" x:Name="FinishedToursListBox" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding GuestReviewCards}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="75" Width="360" Background="AliceBlue">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="2.5*"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" BorderBrush="DarkGray" BorderThickness="1"></Border>
+                        <Button Grid.Column="0" Grid.ColumnSpan="3" Background="Transparent" BorderBrush="Transparent" Command="{Binding DataContext.ShowReviewDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                CommandParameter="{Binding}"></Button>
+                        <Image Grid.Column="0" Source="/Resources/Icons/review.png" Width="65"></Image>
+                        <WrapPanel Grid.Column="1" Orientation="Vertical">
+                            <WrapPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Icons/guest.png" Width="30" Margin="0 7 0 0"></Image>
+                                <TextBlock Text="{Binding GuestName}" TextAlignment="Center" FontSize="17" Margin="2 9 0 0"></TextBlock>
+                            </WrapPanel>
+                            <WrapPanel Orientation="Horizontal" Margin="0 17 0 0">
+                                <Image Source="/Resources/Icons/earth_light.png" Width="20"></Image>
+                                <TextBlock Text="{Binding TourName}" FontSize="13" Foreground="#FF999999"></TextBlock>
+                            </WrapPanel>
+                        </WrapPanel>
+                        <Image Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Source="{Binding ReportedImage}" Width="30"></Image>
+                        <WrapPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 3 6">
+                            <Image Source="/Resources/Icons/star.png" Width="20"></Image>
+                            <TextBlock Text="{Binding AvgGrade}" TextAlignment="Center" Margin="0 2 0 0"></TextBlock>
+                        </WrapPanel>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListBox>
         
     </Grid>
 </Page>

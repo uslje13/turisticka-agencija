@@ -5,80 +5,113 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       mc:Ignorable="d" 
-      d:DesignHeight="750" d:DesignWidth="430"
+      d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="GuestReviewPage">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <Grid Height="800" Width="430">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.2*"></RowDefinition>
+                <RowDefinition Height="0.7*"></RowDefinition>
+                <RowDefinition Height="0.7*"></RowDefinition>
+                <RowDefinition Height="0.7*"></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
+                <RowDefinition Height="1.5*"></RowDefinition>
+                <RowDefinition Height="0.6*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1.2*"></RowDefinition>
-            <RowDefinition Height="0.7*"></RowDefinition>
-            <RowDefinition Height="0.7*"></RowDefinition>
-            <RowDefinition Height="0.7*"></RowDefinition>
-            <RowDefinition Height="4*"></RowDefinition>
-            <RowDefinition Height="0.5*"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
+            <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
+            <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
+            <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
+            <Border Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
+            <Border Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
+            
+            <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/Resources/Icons/guest.png" HorizontalAlignment="Right" VerticalAlignment="Center" Width="70"></Image>
+                <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 10 0 0" FontSize="20" Text="{Binding SelectedReview.GuestName}"></TextBlock>
+                <WrapPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 8 0 0">
+                    <Image Source="/Resources/Icons/earth_light.png" Width="25"></Image>
+                    <TextBlock Text="{Binding SelectedReview.TourName}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2 0 0 0 " FontSize="15" Foreground="#999999"></TextBlock>
+                    <Image Source="/Resources/Icons/calendar_blank_light.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="25" Margin="40 0 0 0"></Image>
+                    <TextBlock Text="{Binding SelectedReview.Date, StringFormat='dd.MM.yyyy.'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2 0 0 0" FontSize="15" Foreground="#999999"></TextBlock>
+                </WrapPanel>
+            </Grid>
+            
+            <WrapPanel Grid.Column="0" Grid.Row="1">
+                <Image Source="/Resources/Icons/book.png" VerticalAlignment="Center" Width="45" Margin="17 6 0 0"></Image>
+                <Label VerticalContentAlignment="Center" Content="Knowledge" FontSize="20" Margin="0 3 0 0"></Label>
+            </WrapPanel>
+            <WrapPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="{Binding SelectedReview.KnowledgeGrade}" FontSize="20"></TextBlock>
+                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Text="/5" FontSize="20"></TextBlock>
+                <Image Source="/Resources/Icons/star.png" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="27"></Image>
+            </WrapPanel>
 
-        <Border Grid.Row="0" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
-        <Border Grid.Row="1" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
-        <Border Grid.Row="2" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
-        <Border Grid.Row="3" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
-        <Border Grid.Row="4" BorderBrush="DarkGray" Margin="18,0,18,0" BorderThickness="0 0 0 2"></Border>
-        <Image Grid.Row="0" Source="/Resources/Icons/guest.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70"
-               Margin="15 0 0 0">
-        </Image>
-        <Label Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top"
-               Margin="100 0 0 0" FontSize="20" Content="Name Surname">
-        </Label>
-        <Image Grid.Row="0" Source="/Resources/Icons/earth_light.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="25"
-               Margin="105 42 0 0">
-        </Image>
-        <Label Grid.Row="0" Content="12.12.2022." HorizontalAlignment="Right" VerticalAlignment="Bottom"
-               Margin="0 0 55 16" FontSize="15" Foreground="#999999"></Label>
-        <Image Grid.Row="0" Source="/Resources/Icons/calendar_blank_light.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="25"
-               Margin="270 42 0 0">
-        </Image>
-        <Label Grid.Row="0" Content="TourName" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-               Margin="127 0 0 16" FontSize="15" Foreground="#999999"></Label>
-        <Image Grid.Row="1" Source="/Resources/Icons/book.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="45"
-               Margin="17 0 0 0"></Image>
-        <Label Grid.Row="1" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Knowledge" FontSize="20"
-               Margin="65 0 0 0"></Label>
-        <Image Grid.Row="1" Source="/Resources/Icons/star.png" HorizontalAlignment="Right" VerticalAlignment="Center" 
-               Width="27" Margin="0 0 18 0"></Image>
-        <Label Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 79 0"
-               Content="0.0" FontSize="20"></Label>
-        <Label Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 45 0"
-               Content="/5.0" FontSize="20"></Label>
-        <Image Grid.Row="2" Source="/Resources/Icons/language.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="45"
-               Margin="17 0 0 0"></Image>
-        <Label Grid.Row="2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Language" FontSize="20"
-               Margin="65 0 0 0"></Label>
-        <Image Grid.Row="2" Source="/Resources/Icons/star.png" HorizontalAlignment="Right" VerticalAlignment="Center" 
-               Width="27" Margin="0 0 18 0"></Image>
-        <Label Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 79 0"
-               Content="0.0" FontSize="20"></Label>
-        <Label Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 45 0"
-               Content="/5.0" FontSize="20"></Label>
-        <Image Grid.Row="3" Source="/Resources/Icons/firework.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="45"
-               Margin="17 0 0 0"></Image>
-        <Label Grid.Row="3" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Interesting" FontSize="20"
-               Margin="65 0 0 0"></Label>
-        <Image Grid.Row="3" Source="/Resources/Icons/star.png" HorizontalAlignment="Right" VerticalAlignment="Center" 
-               Width="27" Margin="0 0 18 0"></Image>
-        <Label Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 79 0"
-               Content="0.0" FontSize="20"></Label>
-        <Label Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 45 0"
-               Content="/5.0" FontSize="20"></Label>
-        <Image Grid.Row="4" Source="/Resources/Icons/comment.png" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45"
-               Margin="17 0 0 0"></Image>
-        <Label Grid.Row="4" HorizontalAlignment="Left" VerticalContentAlignment="Top" Content="Comment" FontSize="20"
-               Margin="65,3,0,282"></Label>
-        <TextBox Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="250" Width="370" Margin="0 35 0 0"></TextBox>
-        <Image Grid.Row="5" Source="/Resources/Icons/checkpoint.png" Width="30" HorizontalAlignment="Left" VerticalAlignment="Center"
-               Margin="20 0 0 0"></Image>
-        <Label Grid.Row="5" VerticalContentAlignment="Center" HorizontalAlignment="Left" 
-               Margin="45 0 0 0" Content="Checkpoint attendance" FontSize="18"></Label>
-    </Grid>
+            <WrapPanel Grid.Column="0" Grid.Row="2">
+                <Image Source="/Resources/Icons/language.png" VerticalAlignment="Center" Width="45" Margin="17 6 0 0"></Image>
+                <Label VerticalContentAlignment="Center" Content="Language" FontSize="20" Margin="0 3 0 0"></Label>
+            </WrapPanel>
+            <WrapPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="{Binding SelectedReview.LanguageGrade}" FontSize="20"></TextBlock>
+                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Text="/5" FontSize="20"></TextBlock>
+                <Image Source="/Resources/Icons/star.png" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="27"></Image>
+            </WrapPanel>
+
+            <WrapPanel Grid.Column="0" Grid.Row="3">
+                <Image Source="/Resources/Icons/firework.png" VerticalAlignment="Center" Width="45" Margin="17 6 0 0"></Image>
+                <Label VerticalContentAlignment="Center" Content="Interesting" FontSize="20" Margin="0 3 0 0"></Label>
+            </WrapPanel>
+            <WrapPanel Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="{Binding SelectedReview.InterestingGrade}" FontSize="20"></TextBlock>
+                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Text="/5" FontSize="20"></TextBlock>
+                <Image Source="/Resources/Icons/star.png" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="27"></Image>
+            </WrapPanel>
+
+            <WrapPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
+                <Image Source="/Resources/Icons/comment.png" VerticalAlignment="Center" Width="45" Margin="17 6 0 0"></Image>
+                <Label VerticalContentAlignment="Center" Content="Comment" FontSize="20" Margin="0 3 0 0"></Label>
+                <TextBox HorizontalAlignment="Center" VerticalAlignment="Center" Height="250" Width="370" Margin="30 10 0 0" IsReadOnly="True" FontSize="14" BorderThickness="2"
+                         Text="{Binding SelectedReview.Comment}"></TextBox>
+            </WrapPanel>
+
+            <WrapPanel Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Image Source="/Resources/Icons/checkpoint.png" Width="30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                       Margin="20 0 0 0"></Image>
+                <Label VerticalContentAlignment="Center" HorizontalAlignment="Left" 
+                       Margin="0 0 0 0" Content="Checkpoint attendance" FontSize="18"></Label>
+            </WrapPanel>
+            <ListBox Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                     VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding GuestAttendanceCards}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="380" Height="35" Background="AliceBlue">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="DarkGray" BorderThickness="1"></Border>
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" TextAlignment="Left" FontSize="20" Height="28" Margin="2 0 0 0"></TextBlock>
+                            <Image Grid.Column="1" Source="{Binding StatusImage}" Width="30"></Image>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ListBox>
+            <Button Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25" Width="360" Content="Report" FontSize="16" FontWeight="DemiBold"
+                    Command="{Binding ReportReviewCommand}"></Button>
+        </Grid>
+        </ScrollViewer>
 </Page>

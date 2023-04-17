@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LiveCharts;
+using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
@@ -20,9 +22,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// </summary>
     public partial class StatPerTourPage : Page
     {
-        public StatPerTourPage()
+        public StatPerTourPage(TourCardViewModel selectedTourCard)
         {
             InitializeComponent();
+            DataContext = new StatByTourViewModel(selectedTourCard);
         }
     }
 }

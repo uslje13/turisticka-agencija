@@ -94,9 +94,9 @@ namespace SOSTeam.TravelAgency.WPF.Views
 
         private void AddImagesButtonClick(object sender, RoutedEventArgs e)
         {
-            AddImagesWindow addImagesWindow = new AddImagesWindow(Images,Image.ImageType.ACCOMMODATION);
-            addImagesWindow.Owner = Window.GetWindow(this);
-            addImagesWindow.Show();
+            //AddImagesWindow addImagesWindow = new AddImagesWindow(Images,Image.ImageType.ACCOMMODATION);
+            //addImagesWindow.Owner = Window.GetWindow(this);
+            //addImagesWindow.Show();
         }
 
         private void CountryComboBoxSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

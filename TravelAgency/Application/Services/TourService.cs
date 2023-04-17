@@ -14,6 +14,7 @@ namespace SOSTeam.TravelAgency.Application.Services
     {
 
         private readonly ITourRepository _tourRepository = Injector.CreateInstance<ITourRepository>();
+        //Why Drasko?
         private readonly ILocationRepository _locationRepository = Injector.CreateInstance<ILocationRepository>();
 
         public TourService()
@@ -46,6 +47,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             _tourRepository.Update(tour);
         }
 
+        //Why Drasko?
         public Tour? FindTourById(int id)
         {
             foreach(var tour in _tourRepository.GetAll())
@@ -67,7 +69,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
             return tours;
         }
-
+        //Why Drasko?
         public string GetTourCity(Tour tour)
         {
             foreach(Location location in _locationRepository.GetAll())
@@ -79,7 +81,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
             return string.Empty;
         }
-
+        //Why Drasko?
         public string GetTourCountry(Tour tour)
         {
             foreach (Location location in _locationRepository.GetAll())
@@ -91,7 +93,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
             return string.Empty;
         }
-
+        //Why Drasko?
         public string GetTourName(int id)
         {
             foreach(Tour tour in _tourRepository.GetAll())
