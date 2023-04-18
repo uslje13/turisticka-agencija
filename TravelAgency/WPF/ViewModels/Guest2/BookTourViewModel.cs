@@ -189,7 +189,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             foreach(Appointment appointment in Appointments)
             {
-                if(appointment.TourId == Tour.Id && appointment.Date > DateOnly.FromDateTime(DateTime.Today))
+                DateTime date = new DateTime(appointment.Date.Year,appointment.Date.Month,appointment.Date.Day,
+                                             appointment.Time.Hour,appointment.Time.Minute,appointment.Time.Second);
+                if(appointment.TourId == Tour.Id && date > DateTime.Now)
                 {
                     AvailableSlots = Tour.MaxNumOfGuests - appointment.Occupancy;
                     AppoitmentOverviewViewModel viewModel = new AppoitmentOverviewViewModel(appointment.Date, appointment.Time, AvailableSlots, Tour.Id);

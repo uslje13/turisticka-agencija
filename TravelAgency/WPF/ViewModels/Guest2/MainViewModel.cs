@@ -172,7 +172,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             foreach (var attendance in UserAttendances)
             {
-                if (attendance.Presence.Equals(GuestPresence.UNKNOWN))
+                if (attendance.Presence.Equals(GuestPresence.UNKNOWN) && attendance.UserId == LoggedInUser.Id)
                 {
                     ShowAttendanceMessage(attendance);
                 }

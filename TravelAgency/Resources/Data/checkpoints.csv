@@ -1,31 +1,12 @@
-1|Novi Sad|START|1
+1|Beograd|START|1
 2|Subotica|EXTRA|1
-3|Budimpesta|END|1
-5|Nis|START|2
+3|Budapest|END|1
+4|Munchen|START|2
+5|Wien|EXTRA|2
 6|Novi Sad|END|2
-7|Beograd|START|3
-8|Zagreb|EXTRA|3
-9|Ljubljana|END|3
-10|Beograd|START|4
-11|Subotica|EXTRA|4
-12|Budimpesta|END|4
-13|Beograd|START|5
-14|Madrid|EXTRA|5
-15|Buenos Ajres|END|5
-16|dsasa|START|6
-17|dsa|EXTRA|6
-18|dsadsa|END|6
-19|dsadsa|START|7
-20|dsasad|END|7
-21|dsadsa|START|8
-22|dsaads|END|8
-23|Beograd|START|10
-24|Madrid|EXTRA|10
-25|Buenos Ajres|END|10
-26|Beograd|START|11
-27|Lisabon|EXTRA|11
-28|Rio|END|11
-29|London|START|12
-30|Dubrovnik|EXTRA|12
-31|Zadar|EXTRA|12
-32|Split|END|12
+7|Madrid|START|3
+8|Rio de Janeiro|END|3
+9|London|START|4
+10|Dubrovnik|EXTRA|4
+11|Zadar|EXTRA|4
+12|Split|END|4

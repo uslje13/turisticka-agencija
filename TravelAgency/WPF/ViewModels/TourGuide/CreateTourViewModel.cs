@@ -257,6 +257,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _checkpointService.SaveAll(new List<Checkpoint>(Checkpoints));
             _appointmentService.SaveAll(new List<Appointment>(Appointments));
             _imageService.SaveAll(Images);
+            HomePage homePage = new HomePage(LoggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = homePage;
         }
 
         private void SetImagesTourId(int tourId)

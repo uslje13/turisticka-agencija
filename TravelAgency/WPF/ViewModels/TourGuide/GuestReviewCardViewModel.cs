@@ -28,5 +28,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             AvgGrade = string.Empty;
             ReportedImage = string.Empty;
         }
+
+        public void SetReportedImage()
+        {
+            ReportedImage = "/Resources/Icons/reported.png";
+        }
+
     }
 }
