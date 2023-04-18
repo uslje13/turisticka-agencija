@@ -105,7 +105,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand ViewGuestAttendanceCommand { get; set; }
         public RelayCommand ActivateCheckpointCommand { get; set; }
         public RelayCommand FinishCheckpointCommand { get; set; }
-
         public RelayCommand FinishAppointmentCommand { get; set; }
 
         public LiveTourViewModel(User loggedUser)
@@ -162,14 +161,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public void FillObservableCollection()
         {
             CheckpointCards.Clear();
-            if (ActiveAppointment != null)
+            if (ActiveAppointment == null)
             {
-                foreach (var checkpointActivity in _checkpointActivityService.GetAllByAppointmentId(ActiveAppointment.Id))
-                {
-                    var checkpoint = _checkpointService.GetById(checkpointActivity.CheckpointId);
-                    var viewModel = CreateCheckpointCard(checkpointActivity, checkpoint);
-                    CheckpointCards.Add(viewModel);
-                }
+               return;
+            }
+            foreach (var checkpointActivity in _checkpointActivityService.GetAllByAppointmentId(ActiveAppointment.Id))
+            {
+                var checkpoint = _checkpointService.GetById(checkpointActivity.CheckpointId);
+                var viewModel = CreateCheckpointCard(checkpointActivity, checkpoint);
+                CheckpointCards.Add(viewModel);
             }
         }
 
@@ -192,13 +192,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void CreateQueryForGuests(CheckpointCardViewModel selectedCheckpointCard)
         {
-            if (ActiveAppointment != null)
+            if (ActiveAppointment == null)
             {
-                var reservations = _reservationService.GetAllByAppointmentId(ActiveAppointment.Id);
-                var activatedCheckpoint = _checkpointActivityService.GetById(selectedCheckpointCard.ActivityId);
-                var checkpointName = _checkpointService.GetById(activatedCheckpoint.CheckpointId).Name;
-                _guestAttendanceService.CreateAttendanceQueries(reservations, activatedCheckpoint, checkpointName);
+                return;
             }
+
+            var reservations = _reservationService.GetAllByAppointmentId(ActiveAppointment.Id);
+            var activatedCheckpoint = _checkpointActivityService.GetById(selectedCheckpointCard.ActivityId);
+            var checkpointName = _checkpointService.GetById(activatedCheckpoint.CheckpointId).Name;
+            _guestAttendanceService.CreateAttendanceQueries(reservations, activatedCheckpoint, checkpointName);
         }
 
         private void ActivateCheckpoint(object sender)
