@@ -9,6 +9,5 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
 {
     public interface ILocationRepository : IRepository<Location>
     {
-
     }
 }

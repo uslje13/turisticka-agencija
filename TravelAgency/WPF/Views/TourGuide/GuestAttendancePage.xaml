@@ -28,8 +28,8 @@
         </Image>
         <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
                Margin="35 0 0 0" Text="{Binding CheckpointName}" FontSize="16"></TextBlock>
-        <ListBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" x:Name="TourListOverview" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding GuestCards}">
+        <ListBox Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding GuestAttendanceCards}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid Grid.Row="2" Width="380" Height="50">

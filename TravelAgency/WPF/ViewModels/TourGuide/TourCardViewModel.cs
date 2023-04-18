@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SOSTeam.TravelAgency.Domain.Models;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
@@ -36,5 +37,69 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             CancelImage = cancelImage;
             CanCancel = canCancel;
         }
+
+        public void SetCanCancel(Appointment appointment)
+        {
+            DateTime now = DateTime.Now;
+            DateTime start = new DateTime(appointment.Date.Year, appointment.Date.Month, appointment.Date.Day,
+                                          appointment.Time.Hour, appointment.Time.Minute, appointment.Time.Second);
+            TimeSpan timeDifference = start - now;
+
+            if (timeDifference.TotalHours < 48)
+            {
+                CancelImage = "/Resources/Icons/cancel_light.png";
+                CanCancel = false;
+
+            }
+            else
+            {
+                CancelImage = "/Resources/Icons/cancel.png";
+                CanCancel = true;
+            }
+        }
+
+        public void SetCanStart(Appointment? appointment)
+        {
+            if (appointment != null || Status == "Finished")
+            {
+                CanStart = false;
+            }
+            else
+            {
+                CanStart = true;
+            }
+        }
+
+        public void SetAppointmentStatus(Appointment appointment)
+        {
+            if (!appointment.Started && !appointment.Finished)
+            {
+                Status = "Not started";
+            }
+            else if (appointment.Started && !appointment.Finished)
+            {
+                Status = "Active";
+            }
+            else if (appointment.Started && appointment.Finished)
+            {
+                Status = "Finished";
+            }
+            else
+            {
+                Status = "Expired";
+            }
+        }
+
+        public void SetLocation(Location location)
+        {
+            Location = location.City + ", " + location.Country;
+            LocationId = location.Id;
+        }
+
+        public void SetCoverImage(Image? image)
+        {
+            CoverImagePath = image != null ? image.Path : "/Resources/Images/UnknownPhoto.png";
+        }
+
     }
 }

@@ -32,33 +32,6 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _appointmentRepository.GetAllByUserId(userId);
         }
 
-        public List<Appointment> GetTodayAppointmentsByUserId(int id)
-        {
-            List<Appointment> appointments = new List<Appointment>();
-
-            foreach (var userAppointment in _appointmentRepository.GetAllByUserId(id))
-            {
-                foreach (var todayAppointment in _appointmentRepository.GetTodayAppointments())
-                {
-                    if (userAppointment.Id == todayAppointment.Id)
-                    {
-                        appointments.Add(userAppointment);
-                    }
-                }
-            }
-            return appointments;
-        }
-
-        public Appointment GetActiveByUserId(int id)
-        {
-            return _appointmentRepository.GetAllByUserId(id).Find(a => a.Started == true && a.Finished == false);
-        }
-
-        public List<Appointment> GetAllByTours(List<Tour> tours)
-        {
-            return _appointmentRepository.GetAllByTours(tours);
-        }
-
         public Appointment GetById(int id)
         {
             return _appointmentRepository.GetById(id);
@@ -78,12 +51,37 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             _appointmentRepository.Update(appointment);
         }
+        public List<Appointment> GetTodayAppointmentsByUserId(int id)
+        {
+            return _appointmentRepository.GetAllByUserId(id)
+                .FindAll(a => a.Date == DateOnly.FromDateTime(DateTime.Now));
+        }
+
+        public Appointment? GetActiveByUserId(int id)
+        {
+            return _appointmentRepository.GetAllByUserId(id).Find(a => a.Started && !a.Finished);
+        }
 
         public List<Appointment> GetAllFinishedByUserId(int id)
         {
-            return _appointmentRepository.GetAllFinishedByUserId(id);
+            return _appointmentRepository.GetAllByUserId(id).FindAll(a => a.Started && a.Finished);
         }
 
+        public void StartAppointment(int id)
+        {
+            var appointment = _appointmentRepository.GetById(id);
+            appointment.Started = true;
+            _appointmentRepository.Update(appointment);
+        }
+
+        public void FinishAppointment(int id)
+        {
+            var appointment = _appointmentRepository.GetById(id);
+            appointment.Finished = true;
+            _appointmentRepository.Update(appointment);
+        }
+
+        //Zar ovo nije moglo u jednoj liniji da se pita posto moraju???
         public bool CheckAvailableAppointments(Tour tour)
         {
             foreach(Appointment appointment in _appointmentRepository.GetAll()) 

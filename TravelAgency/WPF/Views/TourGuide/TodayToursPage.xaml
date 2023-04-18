@@ -20,7 +20,7 @@
                Margin="45, 0,0, 0">
         </TextBlock>
         <ListBox Grid.Row="1" x:Name="TourListOverview" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding TodayToursCards}" SelectedItem="{Binding SelectedTourCard}">
+                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding TodayTourCards}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="360" Height="100" Margin="0 5" Background="AliceBlue">

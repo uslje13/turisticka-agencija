@@ -29,9 +29,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private CheckpointCardViewModel _selectedCheckpointCard;
+        private CheckpointCardViewModel? _selectedCheckpointCard;
 
-        public CheckpointCardViewModel SelectedCheckpointCard
+        public CheckpointCardViewModel? SelectedCheckpointCard
         {
             get => _selectedCheckpointCard;
             set
@@ -57,6 +57,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                     OnPropertyChanged("TourName");
                 }
             }
+
         }
 
         private DateTime? _date;
@@ -73,21 +74,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 }
             }
         }
-
-        private Appointment _activeAppointment;
-
-        public Appointment ActiveAppointment
-        {
-            get => _activeAppointment;
-            set
-            {
-                if (_activeAppointment != value)
-                {
-                    _activeAppointment = value;
-                    OnPropertyChanged("ActiveAppointment");
-                }
-            }
-        }
+        
+        public Appointment? ActiveAppointment { get; set; }
+        
 
         private bool _canActivateCheckpoint;
 
@@ -116,7 +105,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand ViewGuestAttendanceCommand { get; set; }
         public RelayCommand ActivateCheckpointCommand { get; set; }
         public RelayCommand FinishCheckpointCommand { get; set; }
-
         public RelayCommand FinishAppointmentCommand { get; set; }
 
         public LiveTourViewModel(User loggedUser)
@@ -147,6 +135,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             return true;
         }
 
+        public void ViewGuestAttendance(object sender)
+        {
+            var selectedGuestAttendanceCard = sender as CheckpointCardViewModel;
+            GuestAttendancePage guestAttendancePage = new GuestAttendancePage(selectedGuestAttendanceCard, TourName, Date);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = guestAttendancePage;
+
+        }
+
         private void SetTourNameAndDate()
         {
             if (ActiveAppointment == null)
@@ -156,32 +152,30 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
             else
             {
-                Tour tour = _tourService.GetById(ActiveAppointment.TourId);
-                TourName = tour.Name;
-                Date = new DateTime(ActiveAppointment.Date.Year, ActiveAppointment.Date.Month,
-                    ActiveAppointment.Date.Day,
-                    ActiveAppointment.Time.Hour, ActiveAppointment.Time.Minute, ActiveAppointment.Time.Second);
+                TourName = _tourService.GetById(ActiveAppointment.TourId).Name;
+                Date = new DateTime(ActiveAppointment.Date.Year, ActiveAppointment.Date.Month, ActiveAppointment.Date.Day,
+                                    ActiveAppointment.Time.Hour, ActiveAppointment.Time.Minute, ActiveAppointment.Time.Second);
             }
         }
 
         public void FillObservableCollection()
         {
             CheckpointCards.Clear();
-            if (ActiveAppointment != null)
+            if (ActiveAppointment == null)
             {
-                foreach (var checkpointActivity in _checkpointActivityService.GetAllByAppointmentId(ActiveAppointment.Id))
-                {
-                    var checkpoint = _checkpointService.GetById(checkpointActivity.CheckpointId);
-                    var viewModel = CreateCheckpointCard(checkpointActivity, checkpoint);
-                    CheckpointCards.Add(viewModel);
-                }
+               return;
+            }
+            foreach (var checkpointActivity in _checkpointActivityService.GetAllByAppointmentId(ActiveAppointment.Id))
+            {
+                var checkpoint = _checkpointService.GetById(checkpointActivity.CheckpointId);
+                var viewModel = CreateCheckpointCard(checkpointActivity, checkpoint);
+                CheckpointCards.Add(viewModel);
             }
         }
 
-        private static CheckpointCardViewModel CreateCheckpointCard(CheckpointActivity checkpointActivity,
-            Checkpoint checkpoint)
+        private CheckpointCardViewModel CreateCheckpointCard(CheckpointActivity checkpointActivity, Checkpoint checkpoint)
         {
-            var viewModel = new CheckpointCardViewModel
+            var checkpointCard = new CheckpointCardViewModel
             {
                 CheckpointId = checkpointActivity.CheckpointId,
                 ActivityId = checkpointActivity.Id,
@@ -191,124 +185,75 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 CanShowAttendance = true,
             };
 
-            if (viewModel.Status == CheckpointStatus.NOT_STARTED)
-            {
-                viewModel.CanShowAttendance = false;
-            }
+            checkpointCard.SetCanShowAttendance();
 
-            return viewModel;
-        }
-
-        public void ViewGuestAttendance(object sender)
-        {
-            var selectedGuestAttendanceCard = sender as CheckpointCardViewModel;
-            GuestAttendancePage guestAttendancePage = new GuestAttendancePage(selectedGuestAttendanceCard, TourName, Date);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = guestAttendancePage;
-
+            return checkpointCard;
         }
 
         private void CreateQueryForGuests(CheckpointCardViewModel selectedCheckpointCard)
         {
-            var guestAttendances = new List<GuestAttendance>();
-            foreach (var reservation in _reservationService.GetAllByAppointmentId(ActiveAppointment.Id))
+            if (ActiveAppointment == null)
             {
-                var guestAttendance = CreateGuestAttendance(reservation, selectedCheckpointCard);
-                guestAttendances.Add(guestAttendance);
+                return;
             }
 
-            if (guestAttendances.Count > 0)
-            {
-                _guestAttendanceService.SaveAll(guestAttendances);
-            }
+            var reservations = _reservationService.GetAllByAppointmentId(ActiveAppointment.Id);
+            var activatedCheckpoint = _checkpointActivityService.GetById(selectedCheckpointCard.ActivityId);
+            var checkpointName = _checkpointService.GetById(activatedCheckpoint.CheckpointId).Name;
+            _guestAttendanceService.CreateAttendanceQueries(reservations, activatedCheckpoint, checkpointName);
         }
 
         private void ActivateCheckpoint(object sender)
         {
-            if (SelectedCheckpointCard != null)
+            if (SelectedCheckpointCard == null)
             {
-                var checkpointActivity = _checkpointActivityService.GetById(SelectedCheckpointCard.ActivityId);
-                checkpointActivity.Status = CheckpointStatus.ACTIVE;
-                _checkpointActivityService.Update(checkpointActivity);
-                CreateQueryForGuests(SelectedCheckpointCard);
-
-                FillObservableCollection();
-                CheckCanActivateCheckpoint();
+                return;
             }
+            _checkpointActivityService.ActivateCheckpoint(SelectedCheckpointCard.ActivityId);
+            CreateQueryForGuests(SelectedCheckpointCard);
+
+            FillObservableCollection();
+            CheckCanActivateCheckpoint();
         }
 
         private void FinishCheckpoint(object sender)
         {
-            if (SelectedCheckpointCard != null && SelectedCheckpointCard.Status == CheckpointStatus.ACTIVE)
+            if (SelectedCheckpointCard == null || SelectedCheckpointCard.Status != CheckpointStatus.ACTIVE)
             {
-                //If end checkpoint finish active tour
-                if (SelectedCheckpointCard.Type == CheckpointType.END)
-                {
-                    ActiveAppointment.Finished = true;
-                    _appointmentService.Update(ActiveAppointment);
-                    ActiveAppointment = null;
-                    SetTourNameAndDate();
-                }
-                var checkpointActivity = _checkpointActivityService.GetById(SelectedCheckpointCard.ActivityId);
-                checkpointActivity.Status = CheckpointStatus.FINISHED;
-                _checkpointActivityService.Update(checkpointActivity);
-                FillObservableCollection();
-
-                CheckCanActivateCheckpoint();
+                return;
             }
-        }
 
-        private GuestAttendance CreateGuestAttendance(Reservation reservation, CheckpointCardViewModel selectedCheckpointCard)
-        {
-            var guestAttendance = new GuestAttendance
+            if (SelectedCheckpointCard.Type == CheckpointType.END)
             {
-                UserId = reservation.UserId,
-                CheckpointActivityId = selectedCheckpointCard.ActivityId,
-                Presence = GuestPresence.UNKNOWN,
-                Message = "Da li ste bili prisutni na čekpointu: " +
-                          _checkpointService.GetById(selectedCheckpointCard.CheckpointId).Name +
-                          " ?"
-            };
-            return guestAttendance;
+                _appointmentService.FinishAppointment(ActiveAppointment.Id);
+                ActiveAppointment = null;
+                SetTourNameAndDate();
+            }
+
+            _checkpointActivityService.FinishCheckpoint(SelectedCheckpointCard.ActivityId);
+            FillObservableCollection();
+
+            CheckCanActivateCheckpoint();
         }
 
         private void CheckCanActivateCheckpoint()
         {
-            bool foundedActive = false;
-            bool existNoFinished = false;
+            var canActivate = CheckpointCards.Any(c => c.Status == CheckpointStatus.ACTIVE);
+            var existNoFinished = CheckpointCards.Any(c => c.Status != CheckpointStatus.FINISHED);
 
-            foreach (var checkpointCard in CheckpointCards)
-            {
-                if (checkpointCard.Status == CheckpointStatus.ACTIVE)
-                {
-                    foundedActive = true;
-                }
-                if (checkpointCard.Status != CheckpointStatus.FINISHED)
-                {
-                    existNoFinished = true;
-                }
-            }
-
-
-            if (foundedActive || !existNoFinished)
-            {
-                CanActivateCheckpoint = false;
-            }
-            else
-            {
-                CanActivateCheckpoint = true;
-            }
+            CanActivateCheckpoint = !(canActivate || !existNoFinished);
         }
 
         private void FinishAppointment(object sender)
         {
-            if (ActiveAppointment != null)
+            if (ActiveAppointment == null)
             {
-                ActiveAppointment.Finished = true;
-                _appointmentService.Update(ActiveAppointment);
-                ActiveAppointment = null;
-                SetTourNameAndDate();
-                FillObservableCollection();
+                return;
             }
+            _appointmentService.FinishAppointment(ActiveAppointment.Id);
+            ActiveAppointment = null;
+            SetTourNameAndDate();
+            FillObservableCollection();
         }
 
     }

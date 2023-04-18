@@ -23,7 +23,7 @@
         <Button Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="20" Margin="70 0 0 0" Content="Stats"
                 Command="{Binding ShowStatsMenuCommand}"></Button>
         <ListBox Grid.Row="1" x:Name="TourListOverview" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding ToursForCards}">
+                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding TourCards}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="360" Height="100" Margin="0 5" Background="AliceBlue">

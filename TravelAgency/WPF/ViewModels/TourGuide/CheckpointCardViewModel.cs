@@ -25,5 +25,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             Type = type;
             Status = status;
         }
+
+        public void SetCanShowAttendance()
+        {
+            if (Status == CheckpointStatus.NOT_STARTED)
+            {
+                CanShowAttendance = false;
+            }
+        }
     }
 }

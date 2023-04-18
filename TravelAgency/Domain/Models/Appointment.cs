@@ -38,6 +38,16 @@ namespace SOSTeam.TravelAgency.Domain.Models
             UserId = userId;
         }
 
+        public bool IsExpired(int durationInHours)
+        {
+            var start = new DateTime(Date.Year, Date.Month, Date.Day,
+                                     Time.Hour, Time.Minute, Time.Second);
+            var duration = TimeSpan.FromHours(durationInHours);
+            var end = start + duration;
+
+            return DateTime.Now > end;
+        }
+
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);

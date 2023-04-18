@@ -41,6 +41,26 @@ namespace SOSTeam.TravelAgency.Application.Services
             _voucherRepository.SaveAll(vouchers);
         }
 
+        public void GiveVouchers(List<Reservation> reservations)
+        {
+            List<Voucher> vouchers = new List<Voucher>();
+            foreach (var reservation in reservations)
+            {
+                var voucher = new Voucher
+                {
+                    UserId = reservation.UserId,
+                    ExpiryDate = DateOnly.FromDateTime(DateTime.Now.AddMonths(6)),
+                    Used = false
+                };
+                vouchers.Add(voucher);
+            }
+
+            if (vouchers.Count > 0)
+            {
+                SaveAll(vouchers);
+            }
+        }
+
         public void Update(Voucher voucher)
         {
             _voucherRepository.Update(voucher);
