@@ -127,7 +127,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public void StartTour(object sender)
         {
             var selectedTourCard = sender as TourCardViewModel;
-            _appointmentService.ActivateAppointment(selectedTourCard.AppointmentId);
+            _appointmentService.StartAppointment(selectedTourCard.AppointmentId);
 
             _checkpointActivityService.CreateActivities(_checkpointService.GetAllByTourId(selectedTourCard.TourId), selectedTourCard.AppointmentId);
             CreateGuestAttendances(selectedTourCard);

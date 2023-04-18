@@ -57,9 +57,9 @@ namespace SOSTeam.TravelAgency.Application.Services
                 .FindAll(a => a.Date == DateOnly.FromDateTime(DateTime.Now));
         }
 
-        public Appointment GetActiveByUserId(int id)
+        public Appointment? GetActiveByUserId(int id)
         {
-            return _appointmentRepository.GetAllByUserId(id).Find(a => a.Started && !a.Finished) ?? throw new ArgumentException();
+            return _appointmentRepository.GetAllByUserId(id).Find(a => a.Started && !a.Finished);
         }
 
         public List<Appointment> GetAllFinishedByUserId(int id)
@@ -67,10 +67,17 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _appointmentRepository.GetAllByUserId(id).FindAll(a => a.Started && a.Finished);
         }
 
-        public void ActivateAppointment(int id)
+        public void StartAppointment(int id)
         {
             var appointment = _appointmentRepository.GetById(id);
             appointment.Started = true;
+            _appointmentRepository.Update(appointment);
+        }
+
+        public void FinishAppointment(int id)
+        {
+            var appointment = _appointmentRepository.GetById(id);
+            appointment.Finished = true;
             _appointmentRepository.Update(appointment);
         }
 
