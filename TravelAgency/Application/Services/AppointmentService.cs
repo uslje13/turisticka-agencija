@@ -67,6 +67,13 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _appointmentRepository.GetAllByUserId(id).FindAll(a => a.Started && a.Finished);
         }
 
+        public void ActivateAppointment(int id)
+        {
+            var appointment = _appointmentRepository.GetById(id);
+            appointment.Started = true;
+            _appointmentRepository.Update(appointment);
+        }
+
         //Zar ovo nije moglo u jednoj liniji da se pita posto moraju???
         public bool CheckAvailableAppointments(Tour tour)
         {

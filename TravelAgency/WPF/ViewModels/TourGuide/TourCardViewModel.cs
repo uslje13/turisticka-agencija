@@ -58,6 +58,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
+        public void SetCanStart(Appointment? appointment)
+        {
+            if (appointment != null || Status == "Finished")
+            {
+                CanStart = false;
+            }
+            else
+            {
+                CanStart = true;
+            }
+        }
+
         public void SetAppointmentStatus(Appointment appointment)
         {
             if (!appointment.Started && !appointment.Finished)

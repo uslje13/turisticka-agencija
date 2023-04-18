@@ -53,5 +53,28 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             _guestAttendanceRepository.Update(guestAttendance);
         }
+
+        public void CreateAttendanceQueries(List<Reservation> reservations, CheckpointActivity activeCheckpoint, string checkpointName)
+        {
+            var guestAttendances = new List<GuestAttendance>();
+            foreach (var reservation in reservations)
+            {
+                var guestAttendance = new GuestAttendance
+                {
+                    UserId = reservation.UserId,
+                    ReservationId = reservation.Id,
+                    CheckpointActivityId = activeCheckpoint.Id,
+                    Presence = GuestPresence.UNKNOWN,
+                    Message = "Da li ste bili prisutni na čekpointu: " + checkpointName + "?"
+                };
+                guestAttendances.Add(guestAttendance);
+            }
+
+            if (guestAttendances.Count > 0)
+            {
+                SaveAll(guestAttendances);
+            }
+        }
+
     }
 }

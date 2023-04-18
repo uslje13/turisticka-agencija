@@ -49,5 +49,21 @@ namespace SOSTeam.TravelAgency.Application.Services
             _checkpointActivityRepository.Update(activity);
         }
 
+        public void CreateActivities(List<Checkpoint> tourCheckpoints, int startedAppointmentId)
+        {
+            var checkpointActivities = new List<CheckpointActivity>();
+            foreach (var checkpoint in tourCheckpoints)
+            {
+                var checkpointActivity = new CheckpointActivity
+                {
+                    AppointmentId = startedAppointmentId,
+                    CheckpointId = checkpoint.Id,
+                    Status = checkpoint.Type == CheckpointType.START ? CheckpointStatus.ACTIVE : CheckpointStatus.NOT_STARTED
+                };
+                checkpointActivities.Add(checkpointActivity);
+            }
+            SaveAll(checkpointActivities);
+        }
+
     }
 }
