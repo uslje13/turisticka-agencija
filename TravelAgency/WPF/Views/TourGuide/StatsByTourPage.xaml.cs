@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
         public StatsByTourPage(User loggedUser)
         {
             InitializeComponent();
-            DataContext = new StatByTourOverviewViewModel(loggedUser);
+            DataContext = new StatsPerTourOverviewViewModel(loggedUser);
         }
     }
 }

@@ -152,8 +152,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void ShowStatsMenu(object sender)
         {
-            TourStatsPage tourStatsPage = new TourStatsPage(LoggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = tourStatsPage;
+            StatsMenuPage statsMenuPage = new StatsMenuPage(LoggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statsMenuPage;
         }
     }
 }

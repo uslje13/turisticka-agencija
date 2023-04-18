@@ -9,7 +9,7 @@ using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class StatsPageViewModel
+    public class StatsMenuViewModel
     {
         public RelayCommand ShowToursOverviewStatsCommand { get; set; }
 
@@ -17,7 +17,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public User LoggedUser { get; set; }
 
-        public StatsPageViewModel(User loggedUser)
+        public StatsMenuViewModel(User loggedUser)
         {
             LoggedUser = loggedUser;
             ShowToursOverviewStatsCommand = new RelayCommand(ShowToursOverviewStats, CanExecuteMethod);

@@ -12,7 +12,7 @@ using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class StatByTourOverviewViewModel : ViewModel
+    public class StatsPerTourOverviewViewModel : ViewModel
     {
         private ObservableCollection<TourCardViewModel> _tourCards;
 
@@ -67,7 +67,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly AppointmentService _appointmentService;
         public RelayCommand YearSelectionChangedCommand { get; set; }
         public RelayCommand ShowTourStatsCommand { get; set; }
-        public StatByTourOverviewViewModel(User loggedUser)
+        public StatsPerTourOverviewViewModel(User loggedUser)
         {
             LoggedUser = loggedUser;
             _tourService = new TourService();
