@@ -12,7 +12,7 @@ using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class TourOverviewViewModel : ViewModel
+    public class HomePageViewModel : ViewModel
     {
         private readonly TourService _tourService;
         private readonly LocationService _locationService;
@@ -21,41 +21,40 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly ReservationService _reservationService;
         private readonly VoucherService _voucherService;
 
-        private ObservableCollection<TourCardViewModel> _toursForCards;
+        private ObservableCollection<TourCardViewModel> _tourCards;
 
-        public ObservableCollection<TourCardViewModel> ToursForCards
+        public ObservableCollection<TourCardViewModel> TourCards
         {
-            get => _toursForCards;
+            get => _tourCards;
             set
             {
-                if (_toursForCards != value)
+                if (_tourCards != value)
                 {
-                    _toursForCards = value;
-                    OnPropertyChanged("ToursForCards");
+                    _tourCards = value;
+                    OnPropertyChanged("TourCards");
                 }
             }
         }
 
-
         public RelayCommand CancelTourCommand { get; set; }
         public RelayCommand ShowTodayToursCommand { get; set; }
 
-        //Temp RelayCommand ---> Burger Menu
+        //Ovo ima da leti kada se napravi burger meni
         public RelayCommand ShowFinishedTourReviewCommand { get; set; }
         public RelayCommand ShowStatsMenuCommand { get; set; }
 
         public User LoggedUser { get; set; }
 
-        public TourOverviewViewModel(User loggedUser)
+        public HomePageViewModel(User loggedUser)
         {
-            ToursForCards = new ObservableCollection<TourCardViewModel>();
+            LoggedUser = loggedUser;
+            TourCards = new ObservableCollection<TourCardViewModel>();
             _tourService = new TourService();
             _locationService = new LocationService();
             _appointmentService = new AppointmentService();
             _imageService = new ImageService();
             _reservationService = new ReservationService();
             _voucherService = new VoucherService();
-            LoggedUser = loggedUser;
 
             CancelTourCommand = new RelayCommand(CancelTourClick, CanExecuteMethod);
             ShowTodayToursCommand = new RelayCommand(TodayToursClick, CanExecuteMethod);
@@ -66,27 +65,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             FillObservableCollection();
         }
 
+        private bool CanExecuteMethod(object parameter)
+        {
+            return true;
+        }
+
         private void SetExpiredAppointments()
         {
             foreach (var appointment in _appointmentService.GetAllByUserId(LoggedUser.Id))
             {
-                if (IsTimeExpired(appointment))
+                if (appointment.IsExpired(_tourService.GetById(appointment.TourId).Duration))
                 {
                     appointment.Finished = true;
                     _appointmentService.Update(appointment);
                 }
             }
-        }
-
-        private bool IsTimeExpired(Appointment appointment)
-        {
-            var tour = _tourService.FindTourById(appointment.TourId);
-            var duration = TimeSpan.FromHours(tour.Duration);
-            var start = new DateTime(appointment.Date.Year, appointment.Date.Month, appointment.Date.Day,
-                                          appointment.Time.Hour, appointment.Time.Minute, appointment.Time.Second);
-            var end = start + duration;
-
-            return DateTime.Now > end;
         }
 
         private void FillObservableCollection()
@@ -105,9 +98,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
                         SetImageField(tour, tourCard);
 
-                        CanCancelAppointment(appointment, tourCard);
+                        tourCard.SetCanCancel(appointment);
 
-                        ToursForCards.Add(tourCard);
+                        TourCards.Add(tourCard);
                     }
                 }
             }
@@ -115,123 +108,42 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void SetImageField(Tour tour, TourCardViewModel tourCard)
         {
-            foreach (var image in _imageService.GetAllForTours())
-            {
-                if (image.Cover && image.EntityId == tour.Id)
-                {
-                    tourCard.CoverImagePath = image.Path;
-                    break;
-                }
-            }
+            Image? image = _imageService.GetTourCover(tour.Id);
+            tourCard.SetCoverImage(image);
         }
 
         private void SetLocationField(Tour tour, TourCardViewModel tourCard)
         {
-            foreach (var location in _locationService.GetAll())
-            {
-                if (location.Id == tour.LocationId)
-                {
-                    tourCard.Location = location.City + ", " + location.Country;
-                    tourCard.LocationId = location.Id;
-                    break;
-                }
-            }
+            var location = _locationService.GetById(tour.LocationId);
+            tourCard.SetLocation(location);
         }
 
         private void SetTourAndAppointmentFields(TourCardViewModel tourCard, Appointment appointment, Tour tour)
         {
             tourCard.AppointmentId = appointment.Id;
             tourCard.Date = appointment.Date;
+            tourCard.Time = appointment.Time;
             tourCard.TourId = tour.Id;
             tourCard.Name = tour.Name;
-            SetAppointmentStatus(tourCard, appointment);
-        }
-
-        private void SetAppointmentStatus(TourCardViewModel tourCard, Appointment appointment)
-        {
-            if (!appointment.Started && !appointment.Finished)
-            {
-                tourCard.Status = "Not started";
-            }
-            else if (appointment.Started && !appointment.Finished)
-            {
-                tourCard.Status = "Active";
-            }
-            else if (appointment.Started && appointment.Finished)
-            {
-                tourCard.Status = "Finished";
-            }
-            else if (!appointment.Started && appointment.Finished)
-            {
-                tourCard.Status = "Expired";
-            }
-        }
-
-        private void CanCancelAppointment(Appointment appointment, TourCardViewModel tourCard)
-        {
-            DateTime now = DateTime.Now;
-            DateTime start = new DateTime(appointment.Date.Year, appointment.Date.Month, appointment.Date.Day,
-                                          appointment.Time.Hour, appointment.Time.Minute, appointment.Time.Second);
-            TimeSpan timeDifference = start - now;
-
-            if (timeDifference.TotalHours < 48)
-            {
-                tourCard.CancelImage = "/Resources/Icons/cancel_light.png";
-                tourCard.CanCancel = false;
-
-            }
-            else
-            {
-                tourCard.CancelImage = "/Resources/Icons/cancel.png";
-                tourCard.CanCancel = true;
-            }
-        }
-        private bool CanExecuteMethod(object parameter)
-        {
-            return true;
+            tourCard.SetAppointmentStatus(appointment);
         }
 
         private void CancelTourClick(object sender)
         {
             var selectedAppointment = sender as TourCardViewModel;
             _appointmentService.Delete(selectedAppointment.AppointmentId);
-            ToursForCards.Remove(selectedAppointment);
-            GiveVouchers(selectedAppointment);
+            TourCards.Remove(selectedAppointment);
+            _voucherService.GiveVouchers(_reservationService.GetAllByAppointmentId(selectedAppointment.AppointmentId));
         }
 
-        private void GiveVouchers(TourCardViewModel canceledAppointment)
-        {
-            var vouchers = new List<Voucher>();
-            foreach (var reservation in _reservationService.GetAllByAppointmentId(canceledAppointment.AppointmentId))
-            {
-                var voucher = CreateVoucher(reservation);
-                vouchers.Add(voucher);
-            }
-            if (vouchers.Count > 0)
-            {
-                _voucherService.SaveAll(vouchers);
-            }
-            
-        }
-
-        private Voucher CreateVoucher(Reservation reservation)
-        {
-            var voucher = new Voucher
-            {
-                UserId = reservation.UserId,
-                ExpiryDate = DateOnly.FromDateTime(DateTime.Now.AddMonths(6)),
-                Used = false
-            };
-            return voucher;
-        }
-
-        
         private void TodayToursClick(object sender)
         {
             TodayToursPage todayToursPage = new TodayToursPage(LoggedUser);
             System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = todayToursPage;
         }
 
+
+        //Ovo sve leti kada se sredi Burger Menu!!!
         private void ShowFinishedTourReviews(object sender)
         {
             FinishedTourReviewsPage finishedReviewsPage = new FinishedTourReviewsPage(LoggedUser);
@@ -243,6 +155,5 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             TourStatsPage tourStatsPage = new TourStatsPage(LoggedUser);
             System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = tourStatsPage;
         }
-
     }
 }

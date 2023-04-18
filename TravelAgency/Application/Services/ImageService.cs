@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Automation.Peers;
 
 namespace SOSTeam.TravelAgency.Application.Services
 {
@@ -28,6 +29,11 @@ namespace SOSTeam.TravelAgency.Application.Services
         public List<Image> GetAllForTours()
         {
             return _imageRepository.GetAllForTours();
+        }
+
+        public Image? GetTourCover(int tourId)
+        {
+            return _imageRepository.GetAllForTours().Find(i => i.EntityId == tourId && i.Cover);
         }
 
         public Image GetById(int id)

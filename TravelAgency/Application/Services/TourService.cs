@@ -21,7 +21,6 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
 
         }
-
         public void Delete(int id)
         {
             _tourRepository.Delete(id);
@@ -45,6 +44,11 @@ namespace SOSTeam.TravelAgency.Application.Services
         public void Update(Tour tour)
         {
             _tourRepository.Update(tour);
+        }
+
+        public int NextId()
+        {
+            return _tourRepository.NextId();
         }
 
         //Why Drasko?
@@ -106,11 +110,5 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
             return string.Empty;
         }
-
-        public int NextId()
-        {
-            return _tourRepository.NextId();
-        }
-
     }
 }

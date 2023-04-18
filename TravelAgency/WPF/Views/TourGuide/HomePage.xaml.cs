@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
         public HomePage(User loggedUser)
         {
             InitializeComponent();
-            DataContext = new TourOverviewViewModel(loggedUser);
+            DataContext = new HomePageViewModel(loggedUser);
         }
     }
 }

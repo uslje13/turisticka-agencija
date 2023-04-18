@@ -58,8 +58,6 @@ namespace SOSTeam.TravelAgency.Repositories
             _tours.Add(tour);
             _serializer.ToCSV(FilePath, _tours);
         }
-
-
         public void Update(Tour image)
         {
             _tours = _serializer.FromCSV(FilePath);
@@ -70,5 +68,4 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(FilePath, _tours);
         }
     }
-
 }

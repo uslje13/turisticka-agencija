@@ -24,7 +24,7 @@ namespace SOSTeam.TravelAgency.Repositories
         public void Delete(int id)
         {
             _locations = _serializer.FromCSV(FilePath);
-            Location founded = _locations.Find(l => l.Id == id) ?? throw new ArgumentException();     //da li da dodam upitnik da ukloni warning
+            Location founded = _locations.Find(l => l.Id == id) ?? throw new ArgumentException();
             _locations.Remove(founded);
             _serializer.ToCSV(FilePath, _locations);
         }
