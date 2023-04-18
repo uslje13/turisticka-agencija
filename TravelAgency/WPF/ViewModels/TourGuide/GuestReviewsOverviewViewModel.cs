@@ -76,7 +76,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                     Date = SelectedTour.Date,
                     AvgGrade = Math.Round(FindAvgGrade(tourReview), 1) + "/5.0",
                     KnowledgeGrade = tourReview.GuideKnowledge,
-                    LanguageGrade = tourReview.GuideKnowledge,
+                    LanguageGrade = tourReview.GuideLanguage,
                     InterestingGrade = tourReview.InterestRating,
                     Comment = tourReview.Comment,
                     GuestName = _userService.GetById(tourReview.UserId).Username,

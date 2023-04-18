@@ -314,9 +314,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_CreateReviewCommand(object obj)
         {
-            bool knowledgeFlag = KnowledgeRate();
-            bool languageFlag = LanguageRate();
-            bool interestFlag = InterestRate();
             bool commentFlag = true;
 
             if(Comment == null || Comment == string.Empty)
@@ -325,7 +322,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 commentFlag = false;
             }
 
-            if(knowledgeFlag && languageFlag && interestFlag && commentFlag)
+            if(KnowledgeRate() && LanguageRate() && InterestRate() && commentFlag)
             {
                 MessageBoxResult result = ConfirmReview();
                 if (result == MessageBoxResult.Yes)
