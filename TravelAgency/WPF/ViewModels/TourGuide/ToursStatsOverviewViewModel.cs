@@ -165,6 +165,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 AvailableYears.Add(appointment.Date.Year.ToString());
             }
+
             AvailableYears = new ObservableCollection<string>(AvailableYears.Distinct());
             
             if (AvailableYears.Count > 0)
@@ -172,6 +173,5 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 SelectedYear = AvailableYears[0];
             }
         }
-
     }
 }

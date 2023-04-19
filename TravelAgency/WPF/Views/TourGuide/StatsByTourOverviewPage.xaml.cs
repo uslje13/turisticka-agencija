@@ -20,9 +20,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// <summary>
     /// Interaction logic for StatsByTourPage.xaml
     /// </summary>
-    public partial class StatsByTourPage : Page
+    public partial class StatsByTourOverviewPage : Page
     {
-        public StatsByTourPage(User loggedUser)
+        public StatsByTourOverviewPage(User loggedUser)
         {
             InitializeComponent();
             DataContext = new StatsPerTourOverviewViewModel(loggedUser);

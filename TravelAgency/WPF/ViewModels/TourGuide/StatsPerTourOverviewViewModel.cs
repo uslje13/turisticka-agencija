@@ -67,6 +67,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly AppointmentService _appointmentService;
         public RelayCommand YearSelectionChangedCommand { get; set; }
         public RelayCommand ShowTourStatsCommand { get; set; }
+
         public StatsPerTourOverviewViewModel(User loggedUser)
         {
             LoggedUser = loggedUser;
@@ -78,10 +79,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             AvailableYears = new ObservableCollection<string>();
 
             FindAvailableYears();
-            if (AvailableYears.Count > 0)
-            {
-                SelectedYear = AvailableYears[0];
-            }
 
             FillObservableCollection();
             YearSelectionChangedCommand = new RelayCommand(ExecuteYearSelectionChanged, CanExecuteMethod);
@@ -113,10 +110,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                     if (appointment.TourId == tour.Id && appointment.Date.Year.ToString() == SelectedYear)
                     {
                         var tourCard = new TourCardViewModel();
-
                         SetTourAndAppointmentFields(tourCard, appointment, tour);
-
-                        SetLocationField(tour, tourCard);
+                        tourCard.SetLocation(_locationService.GetById(tourCard.LocationId));
 
                         TourCards.Add(tourCard);
                     }
@@ -124,26 +119,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private void SetLocationField(Tour tour, TourCardViewModel tourCard)
-        {
-            foreach (var location in _locationService.GetAll())
-            {
-                if (location.Id == tour.LocationId)
-                {
-                    tourCard.Location = location.City + ", " + location.Country;
-                    tourCard.LocationId = location.Id;
-                    break;
-                }
-            }
-        }
-
         private void SetTourAndAppointmentFields(TourCardViewModel tourCard, Appointment appointment, Tour tour)
         {
             tourCard.AppointmentId = appointment.Id;
-            tourCard.Date = appointment.Date;
             tourCard.TourId = tour.Id;
+            tourCard.LocationId = tour.LocationId;
+            tourCard.Date = appointment.Date;
+            tourCard.Time = appointment.Time;
             tourCard.Name = tour.Name;
-            tourCard.Status = "Finished";
+            tourCard.SetAppointmentStatus(appointment);
         }
 
         private void FindAvailableYears()
@@ -153,13 +137,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 AvailableYears.Add(appointment.Date.Year.ToString());
             }
             AvailableYears = new ObservableCollection<string>(AvailableYears.Distinct());
+
+            if (AvailableYears.Count > 0)
+            {
+                SelectedYear = AvailableYears[0];
+            }
         }
 
         private void ShowTourStats(object sender)
         {
             var selectedTourCard = sender as TourCardViewModel;
-            StatPerTourPage statPerTourPage = new StatPerTourPage(selectedTourCard);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statPerTourPage;
+            StatByTourPage statByTourPage = new StatByTourPage(selectedTourCard);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statByTourPage;
         }
 
     }

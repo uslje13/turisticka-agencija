@@ -37,8 +37,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void ShowStatByTours(object sender)
         {
-            StatsByTourPage statsByTourTourPage = new StatsByTourPage(LoggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statsByTourTourPage;
+            StatsByTourOverviewPage statsByTourOverviewTourOverviewPage = new StatsByTourOverviewPage(LoggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statsByTourOverviewTourOverviewPage;
         }
 
     }

@@ -25,85 +25,59 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private ObservableCollection<VoucherStatPieViewModel> _statByVoucher;
+        public string PercentOfGuestsWithVoucher { get; set; }
+        public string PercentOfGuestsWithoutVoucher { get; set; }
 
-        public ObservableCollection<VoucherStatPieViewModel> StatByVoucher
-        {
-            get => _statByVoucher;
-            set
-            {
-                if (_statByVoucher != value)
-                {
-                    _statByVoucher = value;
-                    OnPropertyChanged("StatByVoucher");
-                }
-            }
-        }
 
-        private readonly ReservationService _reservationService;
+        public string TourName { get; set; }
+        public DateTime Date { get; set; }
+
+        private readonly TourStatsService _tourStatsService;
 
         public StatByTourViewModel(TourCardViewModel selectedTourCard)
         {
             StatByAgeRange = new ObservableCollection<AttendanceAgeRangeViewModel>();
-            StatByVoucher = new ObservableCollection<VoucherStatPieViewModel>();
-            _reservationService = new ReservationService();
+
+            TourName = selectedTourCard.Name;
+            Date = new DateTime(selectedTourCard.Date.Year, selectedTourCard.Date.Month, selectedTourCard.Date.Day,
+                                selectedTourCard.Time.Hour, selectedTourCard.Time.Minute, selectedTourCard.Time.Second);
+
+            _tourStatsService = new TourStatsService();
+
+            var percentWithVoucher = _tourStatsService
+                .GetPercentsOfGuestAttendancesVoucher(selectedTourCard.AppointmentId).Item1;
+            var percentWithoutVoucher =
+                _tourStatsService.GetPercentsOfGuestAttendancesVoucher(selectedTourCard.AppointmentId).Item2;
+
+            PercentOfGuestsWithVoucher = Math.Round(percentWithVoucher, 2) * 100 + "%";
+            PercentOfGuestsWithoutVoucher = Math.Round(percentWithoutVoucher, 2) * 100 + "%";
+
             CreateStatByAgeRange(selectedTourCard);
-            CreateVoucherPie(selectedTourCard);
         }
 
         private void CreateStatByAgeRange(TourCardViewModel selectedTourCard)
         {
-            AttendanceAgeRangeViewModel attendanceFirstRange = new AttendanceAgeRangeViewModel();
-            AttendanceAgeRangeViewModel attendanceSecondRange = new AttendanceAgeRangeViewModel();
-            AttendanceAgeRangeViewModel attendanceThirdRange = new AttendanceAgeRangeViewModel();
-            attendanceFirstRange.AgeGroup = "0-18";
-            attendanceSecondRange.AgeGroup = "18-50";
-            attendanceThirdRange.AgeGroup = ">50";
-            foreach (var reservation in _reservationService.GetAllByAppointmentId(selectedTourCard.AppointmentId))
+            var numOfGuestsByAgeGroup = _tourStatsService.CountNumOfGuestsByAgeGroup(selectedTourCard.AppointmentId);
+
+            var attendanceFirstRange = new AttendanceAgeRangeViewModel
             {
-                if (reservation.Presence)
-                {
-                    if (reservation.AverageAge <= 18)
-                    {
-                        attendanceFirstRange.NumOfGuests += reservation.TouristNum;
-                    }
-                    else if (reservation.AverageAge > 18 && reservation.AverageAge <= 50)
-                    {
-                        attendanceSecondRange.NumOfGuests += reservation.TouristNum;
-                    }
-                    else
-                    {
-                        attendanceThirdRange.NumOfGuests += reservation.TouristNum;
-                    }
-                }
-            }
+                AgeGroup = "0-18",
+                NumOfGuests = numOfGuestsByAgeGroup.Item1
+            };
+            var attendanceSecondRange = new AttendanceAgeRangeViewModel
+            {
+                AgeGroup = "18-50",
+                NumOfGuests = numOfGuestsByAgeGroup.Item2
+            };
+            var attendanceThirdRange = new AttendanceAgeRangeViewModel
+            {
+                AgeGroup = ">50",
+                NumOfGuests = numOfGuestsByAgeGroup.Item3
+            };
+
             StatByAgeRange.Add(attendanceFirstRange);
             StatByAgeRange.Add(attendanceSecondRange);
             StatByAgeRange.Add(attendanceThirdRange);
-        }
-
-        private void CreateVoucherPie(TourCardViewModel selectedTourCard)
-        {
-            VoucherStatPieViewModel withVoucher = new VoucherStatPieViewModel();
-            VoucherStatPieViewModel withoutVoucher = new VoucherStatPieViewModel();
-            withVoucher.Type = "With voucher";
-            withoutVoucher.Type = "Without voucher";
-            foreach (var reservation in _reservationService.GetAllByAppointmentId(selectedTourCard.AppointmentId))
-            {
-                if (reservation.Presence)
-                {
-                    if (reservation.VoucherId == -1)
-                    {
-                        withVoucher.NumOfGuests += reservation.TouristNum;
-                    }
-                    else if (reservation.AverageAge > 18 && reservation.AverageAge <= 50)
-                    {
-                        withVoucher.NumOfGuests += reservation.TouristNum;
-                    }
-                }
-            }
-            StatByVoucher.Add(withVoucher);
-            StatByVoucher.Add(withoutVoucher);
         }
 
     }

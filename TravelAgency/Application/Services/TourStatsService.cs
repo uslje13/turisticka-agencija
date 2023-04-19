@@ -50,5 +50,66 @@ namespace SOSTeam.TravelAgency.Application.Services
 
             return mostAttendedAppointment;
         }
+
+        public (int, int, int) CountNumOfGuestsByAgeGroup(int appointmentId)
+        {
+            var numOfGuestsByAgeGroup = (0, 0, 0);
+            foreach (var reservation in _reservationService.GetAllByAppointmentId(appointmentId))
+            {
+                if (reservation.Presence)
+                {
+                    if (reservation.AverageAge <= 18)
+                    {
+                        numOfGuestsByAgeGroup.Item1 += reservation.TouristNum;
+                    }
+                    else if (reservation.AverageAge <= 50)
+                    {
+                        numOfGuestsByAgeGroup.Item2 += reservation.TouristNum;
+                    }
+                    else
+                    {
+                        numOfGuestsByAgeGroup.Item3 += reservation.TouristNum;
+                    }
+                }
+            }
+
+            return numOfGuestsByAgeGroup;
+        }
+
+        public (float, float) GetPercentsOfGuestAttendancesVoucher(int appointmentId)
+        {
+            float withVoucher = 0;
+            float withoutVoucher = 0;
+            float sumOfGuestAttendances = 0;
+
+            foreach (var reservation in _reservationService.GetAllByAppointmentId(appointmentId))
+            {
+                if (reservation.Presence)
+                {
+                    if (reservation.VoucherId != -1)
+                    {
+                        withVoucher += reservation.TouristNum;
+                        sumOfGuestAttendances += reservation.TouristNum;
+                    }
+                    else
+                    {
+                        withoutVoucher += reservation.TouristNum;
+                        sumOfGuestAttendances += reservation.TouristNum;
+                    }
+                    
+                }
+            }
+
+            float percentWithVoucher = 0;
+            float percentWithoutVoucher = 0;
+            if (sumOfGuestAttendances != 0)
+            {
+                percentWithVoucher = withVoucher / sumOfGuestAttendances;
+                percentWithoutVoucher = withoutVoucher / sumOfGuestAttendances;
+            }
+
+            return (percentWithVoucher, percentWithoutVoucher);
+        }
+
     }
 }
