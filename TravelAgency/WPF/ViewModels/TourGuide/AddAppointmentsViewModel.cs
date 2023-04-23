@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 
@@ -11,39 +7,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
     public class AddAppointmentsViewModel : ViewModel
     {
-        private DateTime _date;
+        private DateTime _start;
 
-        public DateTime Date
+        public DateTime Start
         {
-            get => _date;
+            get => _start;
             set
             {
-                if (_date != value)
+                if (_start != value)
                 {
-                    _date = value;
-                    OnPropertyChanged("Date");
+                    _start = value;
+                    OnPropertyChanged("Start");
                 }
             }
         }
 
-        private DateTime _time;
+        private ObservableCollection<Appointment>? _appointments;
 
-        public DateTime Time
-        {
-            get => _time;
-            set
-            {
-                if (_time != value)
-                {
-                    _time = value;
-                    OnPropertyChanged("Time");
-                }
-            }
-        }
-
-        private ObservableCollection<Appointment> _appointments;
-
-        public ObservableCollection<Appointment> Appointments
+        public ObservableCollection<Appointment>? Appointments
         {
             get => _appointments;
             set
@@ -66,7 +47,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             AddAppointmentCommand = new RelayCommand(AddAppointment, CanExecuteMethod);
             DeleteAppointmentCommand = new RelayCommand(DeleteAppointment, CanExecuteMethod);
             ClearAppointmentsCommand = new RelayCommand(DeleteAllAppointments, CanExecuteMethod);
-            Date = DateTime.Now;
+            Start = DateTime.Now;
         }
 
         private bool CanExecuteMethod(object parameter)
@@ -76,23 +57,30 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public void AddAppointment(object sender)
         {
-            Appointment appointment = new Appointment();
-            appointment.Date = DateOnly.FromDateTime(Date);
-            appointment.Time = TimeOnly.FromDateTime(Time);
-            appointment.Occupancy = 0;
-            appointment.Started = false;
-            appointment.Finished = false;
+            if (Appointments == null) { return; }
+            var appointment = new Appointment
+            {
+                Start = DateTime.Now,
+                Occupancy = 0,
+                Started = false,
+                Finished = false
+            };
             Appointments.Add(appointment);
         }
 
         public void DeleteAppointment(object sender)
         {
-            var selectedAppointment = sender as Appointment;
+            if (Appointments == null) { return; }
+
+            Appointment? selectedAppointment = sender as Appointment;
+            if (selectedAppointment == null) { return; }
             Appointments.Remove(selectedAppointment);
         }
 
         public void DeleteAllAppointments(object sender)
         {
+            if (Appointments == null) { return; }
+            if (Appointments.Count == 0) {  return; }
             Appointments.Clear();
         }
 

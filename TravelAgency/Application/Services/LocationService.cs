@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _locationRepository.GetAll();
         }
 
-        public Location GetById(int id)
+        public Location? GetById(int id)
         {
             return _locationRepository.GetById(id);
         }

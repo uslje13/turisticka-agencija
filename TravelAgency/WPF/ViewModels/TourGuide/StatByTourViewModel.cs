@@ -39,8 +39,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             StatByAgeRange = new ObservableCollection<AttendanceAgeRangeViewModel>();
 
             TourName = selectedTourCard.Name;
-            Date = new DateTime(selectedTourCard.Date.Year, selectedTourCard.Date.Month, selectedTourCard.Date.Day,
-                                selectedTourCard.Time.Hour, selectedTourCard.Time.Minute, selectedTourCard.Time.Second);
+            Date = selectedTourCard.Start;
 
             _tourStatsService = new TourStatsService();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Domain.Models
@@ -6,8 +7,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
     public class Appointment : ISerializable
     {
         public int Id { get; set; }
-        public DateOnly Date { get; set; }
-        public TimeOnly Time { get; set; }
+        public DateTime Start { get; set; }
         public int Occupancy { get; set; }
         public bool Started { get; set; }
         public bool Finished { get; set; }
@@ -17,8 +17,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public Appointment()
         {
             Id = -1;
-            Date = DateOnly.MinValue;
-            Time = TimeOnly.MinValue;
+            Start = DateTime.MinValue;
             Occupancy = 0;
             Started = false;
             Finished = false;
@@ -26,11 +25,10 @@ namespace SOSTeam.TravelAgency.Domain.Models
             UserId = -1;
         }
 
-        public Appointment(int id, DateOnly date, TimeOnly time, int occupancy, bool started, bool finished, int tourId, int userId)
+        public Appointment(int id, DateTime start, int occupancy, bool started, bool finished, int tourId, int userId)
         {
             Id = id;
-            Date = date;
-            Time = time;
+            Start = start;
             Occupancy = occupancy;
             Started = started;
             Finished = finished;
@@ -40,24 +38,41 @@ namespace SOSTeam.TravelAgency.Domain.Models
 
         public bool IsExpired(int durationInHours)
         {
-            var start = new DateTime(Date.Year, Date.Month, Date.Day,
-                                     Time.Hour, Time.Minute, Time.Second);
+            if (!Started)
+            {
+                return DateTime.Now > Start;
+            }
+            
             var duration = TimeSpan.FromHours(durationInHours);
-            var end = start + duration;
+            var end = Start + duration;
 
             return DateTime.Now > end;
+        }
+
+        public bool IsActive()
+        {
+            return Started && !Finished;
+        }
+
+        public bool IsFinished()
+        {
+            return Started && Finished;
+        }
+
+        public bool IsNotStarted()
+        {
+            return !Started && !Finished;
         }
 
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            Date = DateOnly.ParseExact(values[1],"dd/MM/yyyy");
-            Time = TimeOnly.Parse(values[2]);
-            Occupancy = int.Parse(values[3]);
-            Started = bool.Parse(values[4]);
-            Finished = bool.Parse(values[5]);
-            TourId = int.Parse(values[6]);
-            UserId = int.Parse(values[7]);
+            Start = DateTime.ParseExact(values[1], "dd.MM.yyyy. HH:mm", CultureInfo.InvariantCulture);
+            Occupancy = int.Parse(values[2]);
+            Started = bool.Parse(values[3]);
+            Finished = bool.Parse(values[4]);
+            TourId = int.Parse(values[5]);
+            UserId = int.Parse(values[6]);
         }
 
         public string[] ToCSV()
@@ -65,8 +80,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             string[] csvValues =
             {
                 Id.ToString(),
-                Date.ToString("dd/MM/yyyy"),
-                Time.ToString(),
+                Start.ToString("dd.MM.yyyy. HH:mm"),
                 Occupancy.ToString(),
                 Started.ToString(),
                 Finished.ToString(),

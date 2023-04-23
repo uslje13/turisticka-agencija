@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SOSTeam.TravelAgency.Domain;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
@@ -11,8 +7,12 @@ namespace SOSTeam.TravelAgency.Application.Services
 {
     public class CheckpointActivityService
     {
-        private readonly ICheckpointActivityRepository _checkpointActivityRepository = Injector.CreateInstance<ICheckpointActivityRepository>();
-        public CheckpointActivityService() { }
+        private readonly ICheckpointActivityRepository _checkpointActivityRepository;
+
+        public CheckpointActivityService()
+        {
+            _checkpointActivityRepository = Injector.CreateInstance<ICheckpointActivityRepository>();
+        }
 
         public void Delete(int id)
         {
@@ -29,7 +29,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _checkpointActivityRepository.GetAllByAppointmentId(id);
         }
 
-        public CheckpointActivity GetById(int id)
+        public CheckpointActivity? GetById(int id)
         {
             return _checkpointActivityRepository.GetById(id);
         }
@@ -49,17 +49,9 @@ namespace SOSTeam.TravelAgency.Application.Services
             _checkpointActivityRepository.Update(activity);
         }
 
-
-        public CheckpointActivity FindActiveCheckpoint(int appointmentId)
+        public CheckpointActivity? FindActiveCheckpoint(int appointmentId)
         {
-            foreach (CheckpointActivity checkpointActivity in _checkpointActivityRepository.GetAll())
-            {
-                if (checkpointActivity.AppointmentId == appointmentId && checkpointActivity.Status == CheckpointStatus.ACTIVE)
-                {
-                    return checkpointActivity;
-                }
-            }
-            return null;
+            return _checkpointActivityRepository.GetAllByAppointmentId(appointmentId).Find(a => a.Status == CheckpointStatus.ACTIVE);
         }
 
         public void CreateActivities(List<Checkpoint> tourCheckpoints, int startedAppointmentId)
@@ -81,6 +73,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         public void ActivateCheckpoint(int activityId)
         {
             var checkpointActivity = _checkpointActivityRepository.GetById(activityId);
+            if (checkpointActivity == null) { return; }
             checkpointActivity.Status = CheckpointStatus.ACTIVE;
             Update(checkpointActivity);
         }
@@ -88,9 +81,9 @@ namespace SOSTeam.TravelAgency.Application.Services
         public void FinishCheckpoint(int activityId)
         {
             var checkpointActivity = _checkpointActivityRepository.GetById(activityId);
+            if (checkpointActivity == null) { return; }
             checkpointActivity.Status = CheckpointStatus.FINISHED;
             Update(checkpointActivity);
         }
-
     }
 }

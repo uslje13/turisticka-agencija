@@ -61,7 +61,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
            foreach (Appointment a in _appointmentRepository.GetAll())
            {
-               if (selected.TourId == a.TourId && selected.Date == a.Date && selected.Time == a.Time)
+               if (selected.TourId == a.TourId && selected.StartDateTime == a.Start)
                {
                    a.Occupancy += touristNum;
                   // selected.Ocupancy += touristNum;

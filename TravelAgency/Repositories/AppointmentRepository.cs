@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using Microsoft.VisualBasic;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.Repositories.Serializer;
@@ -42,10 +40,10 @@ namespace SOSTeam.TravelAgency.Repositories
             return _appointments.FindAll(a => a.UserId == id);
         }
 
-        public Appointment GetById(int id)
+        public Appointment? GetById(int id)
         {
             _appointments = _serializer.FromCSV(FilePath);
-            return _appointments.Find(a => a.Id == id) ?? throw new ArgumentException();
+            return _appointments.Find(a => a.Id == id);
         }
 
         public int NextId()

@@ -153,8 +153,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             else
             {
                 TourName = _tourService.GetById(ActiveAppointment.TourId).Name;
-                Date = new DateTime(ActiveAppointment.Date.Year, ActiveAppointment.Date.Month, ActiveAppointment.Date.Day,
-                                    ActiveAppointment.Time.Hour, ActiveAppointment.Time.Minute, ActiveAppointment.Time.Second);
+                Date = ActiveAppointment.Start;
             }
         }
 

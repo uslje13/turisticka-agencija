@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SOSTeam.TravelAgency.Domain;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
@@ -11,9 +7,12 @@ namespace SOSTeam.TravelAgency.Application.Services
 {
     public class GuestAttendanceService
     {
-        private readonly IGuestAttendanceRepository _guestAttendanceRepository = Injector.CreateInstance<IGuestAttendanceRepository>();
+        private readonly IGuestAttendanceRepository _guestAttendanceRepository;
 
-        public GuestAttendanceService() { }
+        public GuestAttendanceService()
+        {
+            _guestAttendanceRepository = Injector.CreateInstance<IGuestAttendanceRepository>();
+        }
 
         public void Delete(int id)
         {
@@ -25,7 +24,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _guestAttendanceRepository.GetAll();
         }
 
-        public GuestAttendance GetById(int id)
+        public GuestAttendance? GetById(int id)
         {
             return  _guestAttendanceRepository.GetById(id);
         }
@@ -75,6 +74,5 @@ namespace SOSTeam.TravelAgency.Application.Services
                 SaveAll(guestAttendances);
             }
         }
-
     }
 }

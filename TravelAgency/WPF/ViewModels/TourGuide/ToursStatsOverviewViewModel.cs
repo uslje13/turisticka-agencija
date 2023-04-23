@@ -132,10 +132,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 TourId = tour.Id,
                 AppointmentId = mostAttendedAppointment.Id,
                 LocationId = tour.LocationId,
-                Date = mostAttendedAppointment.Date,
+                Start = mostAttendedAppointment.Start,
                 Name = tour.Name,
             };
-            tourCard.SetAppointmentStatus(mostAttendedAppointment);
+            tourCard.SetAppointmentStatusAndBackground(mostAttendedAppointment);
             tourCard.SetLocation(location);
             tourCard.SetCoverImage(_imageService.GetTourCover(tourCard.TourId));
 
@@ -163,7 +163,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             foreach (var appointment in _appointmentService.GetAllByUserId(LoggedUser.Id))
             {
-                AvailableYears.Add(appointment.Date.Year.ToString());
+                AvailableYears.Add(appointment.Start.Year.ToString());
             }
 
             AvailableYears = new ObservableCollection<string>(AvailableYears.Distinct());

@@ -9,7 +9,7 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
     public interface IRepository<T>
     {
         List<T> GetAll();
-        T GetById(int id);
+        T? GetById(int id);
         void Save(T entity);
         void Update(T entity);
         void Delete(int id);

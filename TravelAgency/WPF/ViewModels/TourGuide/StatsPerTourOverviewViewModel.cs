@@ -107,11 +107,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 foreach (var tour in _tourService.GetAll())
                 {
-                    if (appointment.TourId == tour.Id && appointment.Date.Year.ToString() == SelectedYear)
+                    if (appointment.TourId == tour.Id && appointment.Start.Year.ToString() == SelectedYear)
                     {
                         var tourCard = new TourCardViewModel();
                         SetTourAndAppointmentFields(tourCard, appointment, tour);
-                        tourCard.SetLocation(_locationService.GetById(tourCard.LocationId));
+                        tourCard.SetLocation(_locationService.GetById(tour.LocationId));
 
                         TourCards.Add(tourCard);
                     }
@@ -124,17 +124,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             tourCard.AppointmentId = appointment.Id;
             tourCard.TourId = tour.Id;
             tourCard.LocationId = tour.LocationId;
-            tourCard.Date = appointment.Date;
-            tourCard.Time = appointment.Time;
+            tourCard.Start = appointment.Start;
             tourCard.Name = tour.Name;
-            tourCard.SetAppointmentStatus(appointment);
+            tourCard.SetAppointmentStatusAndBackground(appointment);
         }
 
         private void FindAvailableYears()
         {
             foreach (var appointment in _appointmentService.GetAllByUserId(LoggedUser.Id))
             {
-                AvailableYears.Add(appointment.Date.Year.ToString());
+                AvailableYears.Add(appointment.Start.Year.ToString());
             }
             AvailableYears = new ObservableCollection<string>(AvailableYears.Distinct());
 

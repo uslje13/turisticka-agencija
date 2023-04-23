@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
@@ -41,10 +40,10 @@ namespace SOSTeam.TravelAgency.Repositories
             return _checkpoints.FindAll(c => c.TourId == id);
         }
 
-        public Checkpoint GetById(int id)
+        public Checkpoint? GetById(int id)
         {
             _checkpoints = _serializer.FromCSV(FilePath);
-            return _checkpoints.Find(c => c.Id == id) ?? throw new ArgumentException();
+            return _checkpoints.Find(c => c.Id == id);
         }
 
         public int NextId()

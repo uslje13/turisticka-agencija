@@ -3,10 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit.NET5"
-      xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-
+      xmlns:sys="clr-namespace:System;assembly=System.Runtime" xmlns:tourguide="clr-namespace:SOSTeam.TravelAgency.WPF.ViewModels.TourGuide" d:DataContext="{d:DesignInstance Type=tourguide:AddAppointmentsViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
@@ -20,49 +18,74 @@
             <RowDefinition Height="4*"></RowDefinition>
         </Grid.RowDefinitions>
         <Border Grid.Column="0" Grid.Row="3" BorderBrush="DarkGray" Margin="0,20,0,0" BorderThickness="0 2 0 0"></Border>
-        <!-- Name: -->
-        <Label Grid.Column="0" Grid.Row="0" Content="Date:" HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Margin="0,0,269,20" FontSize="14"/>
-        <DatePicker  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="267" Height="25" Margin="-32,25,0,0"
-                     DisplayDateStart="{x:Static sys:DateTime.Now}" SelectedDate="{Binding Date}" Text="{Binding Date, StringFormat='dd.MM.yyyy. hh:mm'}" SelectedDateFormat="Short">
-        </DatePicker>
-        <Image Grid.Row="0" Source="/Resources/Icons/kalendar_datumi.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="27"
-               Margin="0,0,64 7"></Image>
-        <!-- Type: -->
-        <Label Grid.Column="0" Grid.Row="1" Content="Time:" HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Margin="0,7,269,30" FontSize="14"/>
-        <Image Grid.Row="1" Source="/Resources/Icons/clock.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="27"
-               Margin="0,0,64,8"></Image>
-        <tk:TimePicker  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="267" Height="25" 
-                  Margin="-32,22,0,0" Value="{Binding Time}" FormatString='hh:mm'>
-        </tk:TimePicker>
-        <Button Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="300" Height="25"
+
+        <!-- Date: -->
+        <Grid Grid.Row="0" Width="300" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8.3*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="1.6*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Date:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Height="16"/>
+            <DatePicker Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="266" Height="25"
+                         DisplayDateStart="{x:Static sys:DateTime.Now}" SelectedDate="{Binding Start}" Text="{Binding Start, StringFormat='dd.MM.yyyy.'}" SelectedDateFormat="Short"/>
+            <Image Grid.Column="1" Grid.Row="1" Source="/Resources/Icons/kalendar_datumi.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="26"></Image>
+        </Grid>
+
+        <!-- Time: -->
+        <Grid Grid.Row="1" Width="300" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8.3*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="1.6*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Time:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Height="16"/>
+            <tk:TimePicker  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="266" Height="25"
+                            Value="{Binding Start}" FormatString='hh:mm'>
+            </tk:TimePicker>
+            <Image Grid.Column="1" Grid.Row="1" Source="/Resources/Icons/clock.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="26"></Image>
+        </Grid>
+        <!-- ADD BUTTON -->
+        <Button Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="296" Height="25"
                 Content="Add" FontSize="14"
                 Command="{Binding AddAppointmentCommand}">
         </Button>
-        <!-- Type: -->
-        <Label Grid.Column="0" Grid.Row="3" Content="Dates" HorizontalAlignment="Left" VerticalAlignment="Center" 
-               Margin="15,20,0,0" FontSize="16"/>
-        <Button Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Height="21" Width="75"
-                Content="Clear" Margin="0,20,15,0" FontSize="13" VerticalContentAlignment="Center"
-                Command="{Binding ClearAppointmentsCommand}">
-        </Button>
+        
+        <!-- Clear -->
+        <Grid Grid.Row="3" Height="45" Width="430" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Appointments" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Margin="15 0 0 0" FontSize="16"/>
+            <Button Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="21" Width="75" Content="Clear" FontSize="13" VerticalContentAlignment="Center"
+                    Command="{Binding ClearAppointmentsCommand}">
+            </Button>
+        </Grid>
+
         <ListBox Grid.Row="4" x:Name="CheckpointList" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                  VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding Appointments}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Grid.Row="4" Height="50" Width="390">
+                    <Grid Grid.Row="4" Height="50" Width="375">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="55"></ColumnDefinition>
                             <ColumnDefinition Width="3*"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition  Width="55"></ColumnDefinition>
+                            <ColumnDefinition Width="55"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Border Grid.ColumnSpan="4" BorderBrush="DarkGray" BorderThickness="1" Background="AliceBlue"></Border>
                         <Image Grid.Column="0" Source="/Resources/Icons/kalendar_datumi.png" Width="46"></Image>
                         <WrapPanel Grid.Column="1" Orientation="Vertical">
-                            <TextBlock Text="{Binding Date, StringFormat='dd.MM.yyyy.'}" FontSize="16" Margin="0 5 0 0"></TextBlock>
-                            <TextBlock Text="{Binding Time, StringFormat='hh:mm'}" Margin="0 0 0 0" FontSize="14" Foreground="#FF999999"></TextBlock>
+                            <TextBlock Text="{Binding Start, StringFormat='dd.MM.yyyy.'}" FontSize="16" Margin="0 5 0 0"></TextBlock>
+                            <TextBlock Text="{Binding Start, StringFormat='hh:mm'}" Margin="0 0 0 0" FontSize="14" Foreground="#FF999999"></TextBlock>
                         </WrapPanel>
                         <!-- Edit -->
                         <Button Grid.Column="2" Background="Transparent" BorderBrush="Transparent">
@@ -78,5 +101,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
+        
     </Grid>
 </Page>

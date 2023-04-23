@@ -26,7 +26,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
             foreach (var appointment in finishedAppointments)
             {
-                if (!isPerYear || appointment.Date.Year.ToString() == year)
+                if (!isPerYear || appointment.Start.Year.ToString() == year)
                 {
                     int currentPresenceGuests = 0;
 

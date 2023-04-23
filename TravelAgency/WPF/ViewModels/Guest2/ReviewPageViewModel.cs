@@ -307,7 +307,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_AddImageCommand(object obj)
         {
-            Domain.Models.Image image = new Domain.Models.Image(ImageUrl,false, AppointmentId, Domain.Models.Image.ImageType.GUEST2);
+            Domain.Models.Image image = new Domain.Models.Image(ImageUrl,false, AppointmentId, ImageType.GUEST2);
             Images.Add(image);
             ImageUrl = string.Empty;
         }

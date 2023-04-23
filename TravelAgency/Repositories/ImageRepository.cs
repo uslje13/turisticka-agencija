@@ -41,13 +41,13 @@ namespace SOSTeam.TravelAgency.Repositories
         public List<Image> GetAllForTours()
         {
             _images = _serializer.FromCSV(FilePath);
-            return _images.FindAll(i => i.Type == Image.ImageType.TOUR);
+            return _images.FindAll(i => i.Type == ImageType.TOUR);
         }
 
-        public Image GetById(int id)
+        public Image? GetById(int id)
         {
             _images = _serializer.FromCSV(FilePath);
-            return _images.Find(i => i.Id == id) ?? throw new ArgumentException();
+            return _images.Find(i => i.Id == id);
         }
 
 

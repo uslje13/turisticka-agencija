@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
@@ -35,10 +34,10 @@ namespace SOSTeam.TravelAgency.Repositories
             return _serializer.FromCSV(FilePath);
         }
 
-        public Tour GetById(int id)
+        public Tour? GetById(int id)
         {
             _tours = _serializer.FromCSV(FilePath);
-            return _tours.Find(t => t.Id == id) ?? throw new ArgumentException();
+            return _tours.Find(t => t.Id == id);
         }
 
         public int NextId()

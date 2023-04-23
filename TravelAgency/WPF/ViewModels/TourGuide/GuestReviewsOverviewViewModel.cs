@@ -52,8 +52,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _tourService = new TourService();
 
             TourName = _tourService.GetById(SelectedTour.TourId).Name;
-            Date = new DateTime(SelectedTour.Date.Year, SelectedTour.Date.Month, SelectedTour.Date.Day,
-                                SelectedTour.Time.Hour, SelectedTour.Time.Minute, SelectedTour.Time.Second);
+            Date = SelectedTour.Start;
             ShowReviewDetailsCommand = new RelayCommand(ShowGuestReviewDetails, CanExecuteMethod);
 
             FillObservableCollection();
@@ -73,7 +72,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                     ReviewId = tourReview.Id,
                     AppointmentId = SelectedTour.AppointmentId,
                     UserId = tourReview.UserId,
-                    Date = SelectedTour.Date,
+                    Date = DateOnly.FromDateTime(SelectedTour.Start),
                     AvgGrade = Math.Round(FindAvgGrade(tourReview), 1) + "/5.0",
                     KnowledgeGrade = tourReview.GuideKnowledge,
                     LanguageGrade = tourReview.GuideLanguage,

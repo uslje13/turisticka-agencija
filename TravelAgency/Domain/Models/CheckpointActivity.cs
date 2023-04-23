@@ -2,7 +2,7 @@
 
 namespace SOSTeam.TravelAgency.Domain.Models
 {
-    public enum CheckpointStatus { NOT_STARTED = 0, ACTIVE = 1, FINISHED = 2 };
+    public enum CheckpointStatus { UNKNOWN = 0, NOT_STARTED = 1, ACTIVE = 2, FINISHED = 3 }
     public class CheckpointActivity : ISerializable
     {
         public int Id { get; set; }
@@ -31,18 +31,13 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Id = int.Parse(values[0]);
             AppointmentId = int.Parse(values[1]);
             CheckpointId = int.Parse(values[2]);
-            if (values[3].Equals("NOT_STARTED"))
+            Status = values[3] switch
             {
-                Status = CheckpointStatus.NOT_STARTED;
-            }
-            else if (values[3].Equals("ACTIVE"))
-            {
-                Status = CheckpointStatus.ACTIVE;
-            }
-            else if (values[3].Equals("FINISHED"))
-            {
-                Status = CheckpointStatus.FINISHED;
-            }
+                "NOT_STARTED" => CheckpointStatus.NOT_STARTED,
+                "ACTIVE" => CheckpointStatus.ACTIVE,
+                "FINISHED" => CheckpointStatus.FINISHED,
+                _ => CheckpointStatus.UNKNOWN,
+            };
         }
         public string[] ToCSV()
         {
