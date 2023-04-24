@@ -15,10 +15,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public CheckpointType Type { get; set; }
         public CheckpointStatus Status { get; set; }
         public bool CanShowAttendance { get; set; }
+        public bool Background { get; set; }
 
-        public CheckpointCardViewModel() { }
+        public CheckpointCardViewModel()
+        {
+            CheckpointId = -1;
+            ActivityId = -1;
+            Name = string.Empty;
 
-        public CheckpointCardViewModel(int checkpointId, string name, CheckpointType type, CheckpointStatus status, bool guestsCalled)
+        }
+
+        public CheckpointCardViewModel(int checkpointId, string name, CheckpointType type, CheckpointStatus status)
         {
             CheckpointId = checkpointId;
             Name = name;

@@ -44,38 +44,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private string _tourName;
+        public string TourName { get; private set; }
 
-        public string TourName
-        {
-            get => _tourName;
-            set
-            {
-                if (_tourName != value)
-                {
-                    _tourName = value;
-                    OnPropertyChanged("TourName");
-                }
-            }
+        public DateTime? Date { get; private set; }
 
-        }
-
-        private DateTime? _date;
-
-        public DateTime? Date
-        {
-            get => _date;
-            set
-            {
-                if (_date != value)
-                {
-                    _date = value;
-                    OnPropertyChanged("Date");
-                }
-            }
-        }
-        
-        public Appointment? ActiveAppointment { get; set; }
+        public Appointment? ActiveAppointment { get; private set; }
         
 
         private bool _canActivateCheckpoint;
@@ -93,8 +66,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        public User LoggedUser { get; set; }
-
         private readonly CheckpointActivityService _checkpointActivityService;
         private readonly CheckpointService _checkpointService;
         private readonly AppointmentService _appointmentService;
@@ -109,7 +80,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public LiveTourViewModel(User loggedUser)
         {
-            LoggedUser = loggedUser;
             CheckpointCards = new ObservableCollection<CheckpointCardViewModel>();
             _checkpointActivityService = new CheckpointActivityService();
             _checkpointService = new CheckpointService();

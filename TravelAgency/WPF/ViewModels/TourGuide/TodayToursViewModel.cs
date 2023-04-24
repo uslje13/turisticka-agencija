@@ -41,13 +41,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        
-
         public DateOnly TodayDate { get; set; }
 
         private readonly User _loggedUser;
-
-        
 
         public TodayToursViewModel(User loggedUser, DispatcherTimer timer)
         {
@@ -78,6 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 tourCard.SetCanStart(appointment, activeAppointment);
             }
         }
+
         private bool CanExecuteMethod(object parameter)
         {
             return true;
@@ -104,6 +101,5 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
             _guestAttendanceService.CreateAttendanceQueries(reservationList, activeCheckpoint, activeCheckpointName);
         }
-
     }
 }
