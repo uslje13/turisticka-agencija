@@ -1,14 +1,10 @@
-﻿using System;
-using SOSTeam.TravelAgency.Repositories.Serializer;
+﻿using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Domain.Models
 {
+    public enum ImageType { NO_TYPE = 0, ACCOMMODATION = 1, TOUR = 2, RESERVATION = 3, GUEST2 = 4 }
     public class Image : ISerializable
     {
-        public enum ImageType
-        {
-            ACCOMMODATION,TOUR,RESERVATION,NOTYPE,GUEST2
-        }
         public int Id { get; set; }
         public string Path { get; set; }
         public bool Cover { get; set; }
@@ -21,7 +17,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Path = string.Empty;
             Cover = false;
             EntityId = -1;
-            Type = ImageType.NOTYPE;
+            Type = ImageType.NO_TYPE;
         }
 
         public Image(string path, bool cover, int entityId,ImageType type)
@@ -38,7 +34,14 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Path = values[1];
             Cover = bool.Parse(values[2]);
             EntityId = int.Parse(values[3]);
-            Type = (ImageType)Convert.ToInt32(values[4]);
+            Type = values[4] switch
+            {
+                "ACCOMMODATION" => ImageType.ACCOMMODATION,
+                "TOUR" => ImageType.TOUR,
+                "RESERVATION" => ImageType.RESERVATION,
+                "GUEST2" => ImageType.GUEST2,
+                _ => ImageType.NO_TYPE,
+            };
         }
 
         public string[] ToCSV()
@@ -49,7 +52,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 Path,
                 Cover.ToString(),
                 EntityId.ToString(),
-                ((int)Type).ToString()
+                Type.ToString()
             };
             return csvValues;
         }

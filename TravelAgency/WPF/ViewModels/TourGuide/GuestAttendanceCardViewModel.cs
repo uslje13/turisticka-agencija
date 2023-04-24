@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,22 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             Name = name;
             StatusImage = statusImage;
         }
+
+        public void SetStatusImage(GuestAttendance guestAttendance)
+        {
+            if (guestAttendance.Presence == GuestPresence.YES)
+            {
+                StatusImage = "/Resources/Icons/checkpoint_yes.png";
+            }
+            else if (guestAttendance.Presence == GuestPresence.NO)
+            {
+                StatusImage = "/Resources/Icons/checkpoint_no.png";
+            }
+            else
+            {
+                StatusImage = "/Resources/Icons/checkpoint_unknown.png";
+            }
+        }
+
     }
 }

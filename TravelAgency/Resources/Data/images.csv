@@ -1,8 +1,8 @@
-1|/Resources/Images/Tours/budapest.jpg|True|1|1
-2|/Resources/Images/Tours/novi_sad.jpg|True|2|1
-3|/Resources/Images/Tours/rio_1.jpg|False|11|1
-4|/Resources/Images/Tours/rio_2.jpg|False|11|1
-5|/Resources/Images/Tours/rio_3.jpg|True|11|1
-6|/Resources/Images/Tours/split_1.jpg|False|12|1
-7|/Resources/Images/Tours/split_2.jpg|True|12|1
-8|/Resources/Images/Tours/split_3.jpg|False|12|1
+1|/Resources/Images/Tours/budapest.jpg|True|1|TOUR
+2|/Resources/Images/Tours/novi_sad.jpg|True|2|TOUR
+3|/Resources/Images/Tours/rio_1.jpg|True|3|TOUR
+4|/Resources/Images/Tours/rio_2.jpg|False|3|TOUR
+5|/Resources/Images/Tours/rio_3.jpg|False|3|TOUR
+6|/Resources/Images/Tours/split_1.jpg|False|4|TOUR
+7|/Resources/Images/Tours/split_2.jpg|True|4|TOUR
+8|/Resources/Images/Tours/split_3.jpg|False|4|TOUR

@@ -24,7 +24,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 if (_guestAttendanceCards != value)
                 {
                     _guestAttendanceCards = value;
-                    OnPropertyChanged("GuestAttendanceCard");
+                    OnPropertyChanged("GuestAttendanceCards");
                 }
             }
         }
@@ -62,28 +62,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 {
                     if (checkpointActivity.Id == guestAttendance.CheckpointActivityId)
                     {
-                        GuestAttendanceCardViewModel guestAttendanceCard = new GuestAttendanceCardViewModel();
-                        guestAttendanceCard.Name = _checkpointService.GetById(checkpointActivity.CheckpointId).Name;
-                        SetStatusImage(guestAttendanceCard, guestAttendance);
+                        var guestAttendanceCard = new GuestAttendanceCardViewModel
+                        {
+                            Name = _checkpointService.GetById(checkpointActivity.CheckpointId).Name
+                        };
+                        guestAttendanceCard.SetStatusImage(guestAttendance);
                         GuestAttendanceCards.Add(guestAttendanceCard);
                     }
                 }
-            }
-        }
-
-        private void SetStatusImage(GuestAttendanceCardViewModel viewModel, GuestAttendance guestAttendance)
-        {
-            if (guestAttendance.Presence == GuestPresence.YES)
-            {
-                viewModel.StatusImage = "/Resources/Icons/checkpoint_yes.png";
-            }
-            else if (guestAttendance.Presence == GuestPresence.NO)
-            {
-                viewModel.StatusImage = "/Resources/Icons/checkpoint_no.png";
-            }
-            else
-            {
-                viewModel.StatusImage = "/Resources/Icons/checkpoint_unknown.png";
             }
         }
 

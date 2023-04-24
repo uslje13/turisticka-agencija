@@ -1,19 +1,19 @@
 ﻿using SOSTeam.TravelAgency.Domain;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SOSTeam.TravelAgency.Application.Services
 {
     public class ImageService
     {
-        private readonly IImageRepository _imageRepository = Injector.CreateInstance<IImageRepository>();
+        private readonly IImageRepository _imageRepository;
 
-        public ImageService() { }
+        public ImageService()
+        {
+            _imageRepository = Injector.CreateInstance<IImageRepository>();
+        }
 
         public void Delete(int id)
         {
@@ -30,7 +30,12 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _imageRepository.GetAllForTours();
         }
 
-        public Image GetById(int id)
+        public Image? GetTourCover(int tourId)
+        {
+            return _imageRepository.GetAllForTours().Find(i => i.EntityId == tourId && i.Cover);
+        }
+
+        public Image? GetById(int id)
         {
             return _imageRepository.GetById(id);
         }

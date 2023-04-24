@@ -81,57 +81,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void SetImageField(Tour tour, TourCardViewModel tourCard)
         {
-            foreach (var image in _imageService.GetAllForTours())
-            {
-                if (image.Cover && image.EntityId == tour.Id)
-                {
-                    tourCard.CoverImagePath = image.Path;
-                    break;
-                }
-            }
+            var coverImage = _imageService.GetTourCover(tour.Id);
+            tourCard.SetCoverImage(coverImage);
         }
 
         private void SetLocationField(Tour tour, TourCardViewModel tourCard)
         {
-            foreach (var location in _locationService.GetAll())
-            {
-                if (location.Id == tour.LocationId)
-                {
-                    tourCard.Location = location.City + ", " + location.Country;
-                    tourCard.LocationId = location.Id;
-                    break;
-                }
-            }
+            var location = _locationService.GetById(tour.LocationId);
+            if(location == null) { return; }
+            tourCard.SetLocation(location);
         }
 
         private void SetTourAndAppointmentFields(TourCardViewModel tourCard, Appointment appointment, Tour tour)
         {
             tourCard.AppointmentId = appointment.Id;
-            tourCard.Date = appointment.Date;
-            tourCard.Time = appointment.Time;
+            tourCard.Start = appointment.Start;
             tourCard.TourId = tour.Id;
             tourCard.Name = tour.Name;
-            SetAppointmentStatus(tourCard, appointment);
-        }
-
-        private void SetAppointmentStatus(TourCardViewModel tourCard, Appointment appointment)
-        {
-            if (!appointment.Started && !appointment.Finished)
-            {
-                tourCard.Status = "Not started";
-            }
-            else if (appointment.Started && !appointment.Finished)
-            {
-                tourCard.Status = "Active";
-            }
-            else if (appointment.Started && appointment.Finished)
-            {
-                tourCard.Status = "Finished";
-            }
-            else if (!appointment.Started && appointment.Finished)
-            {
-                tourCard.Status = "Expired";
-            }
+            tourCard.SetAppointmentStatusAndBackground(appointment);
         }
 
         private void ShowGuestReviews(object sender)
@@ -140,7 +107,5 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             GuestReviewOverviewPage guestReviewOverviewPage = new GuestReviewOverviewPage(selectedTourCard);
             System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = guestReviewOverviewPage;
         }
-
-
     }
 }

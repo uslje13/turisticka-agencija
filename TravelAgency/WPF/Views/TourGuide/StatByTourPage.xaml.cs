@@ -12,20 +12,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SOSTeam.TravelAgency.Domain.Models;
+using LiveCharts;
 using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
     /// <summary>
-    /// Interaction logic for TourStatsPage.xaml
+    /// Interaction logic for StatPerTourPage.xaml
     /// </summary>
-    public partial class TourStatsPage : Page
+    public partial class StatByTourPage : Page
     {
-        public TourStatsPage(User loggedUser)
+        public StatByTourPage(TourCardViewModel selectedTourCard)
         {
             InitializeComponent();
-            DataContext = new StatsPageViewModel(loggedUser);
+            DataContext = new StatByTourViewModel(selectedTourCard);
         }
     }
 }

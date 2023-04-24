@@ -44,14 +44,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public GuestReviewsOverviewViewModel(TourCardViewModel selectedTour)
         {
+            SelectedTour = selectedTour;
+            GuestReviewCards = new ObservableCollection<GuestReviewCardViewModel>();
+
             _tourReviewService = new TourReviewService();
             _userService = new UserService();
             _tourService = new TourService();
-            SelectedTour = selectedTour;
-            GuestReviewCards = new ObservableCollection<GuestReviewCardViewModel>();
+
             TourName = _tourService.GetById(SelectedTour.TourId).Name;
-            Date = new DateTime(SelectedTour.Date.Year, SelectedTour.Date.Month, SelectedTour.Date.Day,
-                                SelectedTour.Time.Hour, SelectedTour.Time.Minute, SelectedTour.Time.Second);
+            Date = SelectedTour.Start;
             ShowReviewDetailsCommand = new RelayCommand(ShowGuestReviewDetails, CanExecuteMethod);
 
             FillObservableCollection();
@@ -71,36 +72,30 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                     ReviewId = tourReview.Id,
                     AppointmentId = SelectedTour.AppointmentId,
                     UserId = tourReview.UserId,
-                    Date = SelectedTour.Date,
+                    Date = DateOnly.FromDateTime(SelectedTour.Start),
                     AvgGrade = Math.Round(FindAvgGrade(tourReview), 1) + "/5.0",
                     KnowledgeGrade = tourReview.GuideKnowledge,
-                    LanguageGrade = tourReview.GuideKnowledge,
+                    LanguageGrade = tourReview.GuideLanguage,
                     InterestingGrade = tourReview.InterestRating,
                     Comment = tourReview.Comment,
                     GuestName = _userService.GetById(tourReview.UserId).Username,
                     TourName = _tourService.GetById(SelectedTour.TourId).Name,
                 };
-                SetReportedReviewImage(guestReviewCard, tourReview);
+                if (tourReview.Reported)
+                {
+                    guestReviewCard.SetReportedImage();
+                }
+                
                 GuestReviewCards.Add(guestReviewCard);
-            }
-        }
-
-        private void SetReportedReviewImage(GuestReviewCardViewModel guestReviewCard, TourReview tourReview)
-        {
-            if (tourReview.Reported)
-            {
-                guestReviewCard.ReportedImage = "/Resources/Icons/reported.png";
             }
         }
 
         private double FindAvgGrade(TourReview tourReview)
         {
             double avgGrade = 0;
-            avgGrade += tourReview.GuideKnowledge;
-            avgGrade += tourReview.GuideLanguage;
-            avgGrade += tourReview.InterestRating;
+            avgGrade = (tourReview.GuideKnowledge + tourReview.GuideLanguage + tourReview.InterestRating)/3;
 
-            return avgGrade / 3;
+            return avgGrade;
         }
 
         private void ShowGuestReviewDetails(object sender)
@@ -109,6 +104,5 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             GuestReviewPage guestReviewPage = new GuestReviewPage(selectedAppointment);
             System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = guestReviewPage;
         }
-
     }
 }

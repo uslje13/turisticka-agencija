@@ -11,9 +11,12 @@ namespace SOSTeam.TravelAgency.Application.Services
 {
     public class CheckpointService
     {
-        private readonly ICheckpointRepository _checkpointRepository = Injector.CreateInstance<ICheckpointRepository>();
+        private readonly ICheckpointRepository _checkpointRepository;
 
-        public CheckpointService() { }
+        public CheckpointService()
+        {
+            _checkpointRepository = Injector.CreateInstance<ICheckpointRepository>();
+        }
 
         public void Delete(int id)
         {
@@ -30,7 +33,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _checkpointRepository.GetAllByTourId(id);
         }
 
-        public Checkpoint GetById(int id)
+        public Checkpoint? GetById(int id)
         {
             return _checkpointRepository.GetById(id);
         }

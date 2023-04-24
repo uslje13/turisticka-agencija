@@ -24,7 +24,7 @@ namespace SOSTeam.TravelAgency.Repositories
         public void Delete(int id)
         {
             _locations = _serializer.FromCSV(FilePath);
-            Location founded = _locations.Find(l => l.Id == id) ?? throw new ArgumentException();     //da li da dodam upitnik da ukloni warning
+            Location founded = _locations.Find(l => l.Id == id) ?? throw new ArgumentException();
             _locations.Remove(founded);
             _serializer.ToCSV(FilePath, _locations);
         }
@@ -34,10 +34,10 @@ namespace SOSTeam.TravelAgency.Repositories
             return _serializer.FromCSV(FilePath);
         }
 
-        public Location GetById(int id)
+        public Location? GetById(int id)
         {
             _locations = _serializer.FromCSV(FilePath);
-            return _locations.Find(l => l.Id == id) ?? throw new ArgumentException();
+            return _locations.Find(l => l.Id == id);
         }
 
         public int NextId()

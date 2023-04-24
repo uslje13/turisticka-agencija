@@ -70,7 +70,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 if (user.Password == Password && user.Role == Roles.TOURISTGUIDE)
                 {
-                    Views.TourGuide.MainWindow mainWindow = new Views.TourGuide.MainWindow(user);
+                    MainWindow mainWindow = new MainWindow(user);
                     mainWindow.Show();
                     OnRequestClose(this, new EventArgs());
                 }

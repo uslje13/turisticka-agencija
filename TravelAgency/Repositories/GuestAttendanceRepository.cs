@@ -43,10 +43,10 @@ namespace SOSTeam.TravelAgency.Repositories
             return _guestsAttendances.FindAll(a => a.CheckpointActivityId == id);
         }
 
-        public GuestAttendance GetById(int id)
+        public GuestAttendance? GetById(int id)
         {
             _guestsAttendances = _serializer.FromCSV(FilePath);
-            return _guestsAttendances.Find(a => a.Id == id) ?? throw new ArgumentException();
+            return _guestsAttendances.Find(a => a.Id == id);
         }
 
         public List<GuestAttendance> GetByUserId(int id)

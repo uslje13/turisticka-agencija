@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 
@@ -22,10 +23,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// </summary>
     public partial class TodayToursPage : Page
     {
-        public TodayToursPage(User loggedUser)
+        public TodayToursPage(User loggedUser, DispatcherTimer timer)
         {
             InitializeComponent();
-            DataContext = new TodayToursViewModel(loggedUser);
+            DataContext = new TodayToursViewModel(loggedUser, timer);
         }
     }
 }

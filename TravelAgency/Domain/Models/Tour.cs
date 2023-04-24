@@ -1,5 +1,4 @@
-﻿using System;
-using SOSTeam.TravelAgency.Repositories.Serializer;
+﻿using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Domain.Models
 {
@@ -25,6 +24,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         }
         public Tour(int id, string name, int locationId, string description, string language, int maxNumOfGuests, int duration)
         {
+            Id = id;
             Name = name;
             LocationId = locationId;
             Description = description;

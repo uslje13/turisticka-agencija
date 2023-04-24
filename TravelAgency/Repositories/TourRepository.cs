@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
@@ -35,10 +34,10 @@ namespace SOSTeam.TravelAgency.Repositories
             return _serializer.FromCSV(FilePath);
         }
 
-        public Tour GetById(int id)
+        public Tour? GetById(int id)
         {
             _tours = _serializer.FromCSV(FilePath);
-            return _tours.Find(t => t.Id == id) ?? throw new ArgumentException();
+            return _tours.Find(t => t.Id == id);
         }
 
         public int NextId()
@@ -58,8 +57,6 @@ namespace SOSTeam.TravelAgency.Repositories
             _tours.Add(tour);
             _serializer.ToCSV(FilePath, _tours);
         }
-
-
         public void Update(Tour image)
         {
             _tours = _serializer.FromCSV(FilePath);
@@ -70,5 +67,4 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(FilePath, _tours);
         }
     }
-
 }

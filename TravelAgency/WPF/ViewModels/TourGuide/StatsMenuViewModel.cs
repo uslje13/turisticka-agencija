@@ -9,7 +9,7 @@ using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class StatsPageViewModel
+    public class StatsMenuViewModel
     {
         public RelayCommand ShowToursOverviewStatsCommand { get; set; }
 
@@ -17,7 +17,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public User LoggedUser { get; set; }
 
-        public StatsPageViewModel(User loggedUser)
+        public StatsMenuViewModel(User loggedUser)
         {
             LoggedUser = loggedUser;
             ShowToursOverviewStatsCommand = new RelayCommand(ShowToursOverviewStats, CanExecuteMethod);
@@ -37,8 +37,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void ShowStatByTours(object sender)
         {
-            StatsByTourPage statsByTourTourPage = new StatsByTourPage(LoggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statsByTourTourPage;
+            StatsByTourOverviewPage statsByTourOverviewTourOverviewPage = new StatsByTourOverviewPage(LoggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statsByTourOverviewTourOverviewPage;
         }
 
     }

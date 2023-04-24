@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
@@ -35,55 +34,16 @@ namespace SOSTeam.TravelAgency.Repositories
             return _serializer.FromCSV(FilePath);
         }
 
-        public List<Appointment> GetAllByTours(List<Tour> tours)
+        public List<Appointment> GetAllByUserId(int id)
         {
             _appointments = _serializer.FromCSV(FilePath);
-            List<Appointment> appointments = new List<Appointment>();
-
-            foreach (Tour tour in tours)
-            {
-                foreach (Appointment appointment in _appointments)
-                {
-                    if (appointment.TourId == tour.Id)
-                    {
-                        appointments.Add(appointment);
-                    }
-                }
-            }
-            return appointments;
+            return _appointments.FindAll(a => a.UserId == id);
         }
 
-        public List<Appointment> GetAllByUserId(int userId)
+        public Appointment? GetById(int id)
         {
             _appointments = _serializer.FromCSV(FilePath);
-            List<Appointment> appointments = new List<Appointment>();
-
-            foreach (var appointment in _appointments)
-            {
-                if (appointment.UserId == userId)
-                {
-                    appointments.Add(appointment);
-                }
-            }
-            return appointments;
-        }
-
-        public List<Appointment> GetAllFinishedByUserId(int id)
-        {
-            return GetAllByUserId(id).FindAll(a => a.Started && a.Finished);
-        }
-
-        public Appointment GetById(int id)
-        {
-            _appointments = _serializer.FromCSV(FilePath);
-            return _appointments.Find(a => a.Id == id) ?? throw new ArgumentException();
-        }
-
-        public List<Appointment> GetTodayAppointments()
-        {
-            _appointments = _serializer.FromCSV(FilePath);
-            DateOnly today = DateOnly.FromDateTime(DateTime.Today);
-            return _appointments.FindAll(a => a.Date.Equals(today));
+            return _appointments.Find(a => a.Id == id);
         }
 
         public int NextId()
@@ -120,6 +80,14 @@ namespace SOSTeam.TravelAgency.Repositories
             _appointments.Remove(current);
             _appointments.Insert(index, appointment);
             _serializer.ToCSV(FilePath, _appointments);
+        }
+
+        public void UpdateAll(List<Appointment> appointments)
+        {
+            foreach (var appointment in appointments)
+            {
+                Update(appointment);
+            }
         }
     }
 }

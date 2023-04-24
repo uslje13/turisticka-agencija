@@ -12,7 +12,7 @@ using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class StatByTourOverviewViewModel : ViewModel
+    public class StatsPerTourOverviewViewModel : ViewModel
     {
         private ObservableCollection<TourCardViewModel> _tourCards;
 
@@ -67,7 +67,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly AppointmentService _appointmentService;
         public RelayCommand YearSelectionChangedCommand { get; set; }
         public RelayCommand ShowTourStatsCommand { get; set; }
-        public StatByTourOverviewViewModel(User loggedUser)
+
+        public StatsPerTourOverviewViewModel(User loggedUser)
         {
             LoggedUser = loggedUser;
             _tourService = new TourService();
@@ -78,10 +79,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             AvailableYears = new ObservableCollection<string>();
 
             FindAvailableYears();
-            if (AvailableYears.Count > 0)
-            {
-                SelectedYear = AvailableYears[0];
-            }
 
             FillObservableCollection();
             YearSelectionChangedCommand = new RelayCommand(ExecuteYearSelectionChanged, CanExecuteMethod);
@@ -110,13 +107,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 foreach (var tour in _tourService.GetAll())
                 {
-                    if (appointment.TourId == tour.Id && appointment.Date.Year.ToString() == SelectedYear)
+                    if (appointment.TourId == tour.Id && appointment.Start.Year.ToString() == SelectedYear)
                     {
                         var tourCard = new TourCardViewModel();
-
                         SetTourAndAppointmentFields(tourCard, appointment, tour);
-
-                        SetLocationField(tour, tourCard);
+                        tourCard.SetLocation(_locationService.GetById(tour.LocationId));
 
                         TourCards.Add(tourCard);
                     }
@@ -124,42 +119,35 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private void SetLocationField(Tour tour, TourCardViewModel tourCard)
-        {
-            foreach (var location in _locationService.GetAll())
-            {
-                if (location.Id == tour.LocationId)
-                {
-                    tourCard.Location = location.City + ", " + location.Country;
-                    tourCard.LocationId = location.Id;
-                    break;
-                }
-            }
-        }
-
         private void SetTourAndAppointmentFields(TourCardViewModel tourCard, Appointment appointment, Tour tour)
         {
             tourCard.AppointmentId = appointment.Id;
-            tourCard.Date = appointment.Date;
             tourCard.TourId = tour.Id;
+            tourCard.LocationId = tour.LocationId;
+            tourCard.Start = appointment.Start;
             tourCard.Name = tour.Name;
-            tourCard.Status = "Finished";
+            tourCard.SetAppointmentStatusAndBackground(appointment);
         }
 
         private void FindAvailableYears()
         {
             foreach (var appointment in _appointmentService.GetAllByUserId(LoggedUser.Id))
             {
-                AvailableYears.Add(appointment.Date.Year.ToString());
+                AvailableYears.Add(appointment.Start.Year.ToString());
             }
             AvailableYears = new ObservableCollection<string>(AvailableYears.Distinct());
+
+            if (AvailableYears.Count > 0)
+            {
+                SelectedYear = AvailableYears[0];
+            }
         }
 
         private void ShowTourStats(object sender)
         {
             var selectedTourCard = sender as TourCardViewModel;
-            StatPerTourPage statPerTourPage = new StatPerTourPage(selectedTourCard);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statPerTourPage;
+            StatByTourPage statByTourPage = new StatByTourPage(selectedTourCard);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statByTourPage;
         }
 
     }

@@ -79,19 +79,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand YearSelectionChangedCommand { get; set; }
 
         private readonly AppointmentService _appointmentService;
-        private readonly ReservationService _reservationService;
         private readonly TourService _tourService;
         private readonly LocationService _locationService;
         private readonly ImageService _imageService;
+        private readonly TourStatsService _tourStatsService;
 
         public ToursStatsOverviewViewModel(User loggedUser)
         {
             LoggedUser = loggedUser;
             _appointmentService = new AppointmentService();
-            _reservationService = new ReservationService();
             _tourService = new TourService();
             _locationService = new LocationService();
             _imageService = new ImageService();
+            _tourStatsService = new TourStatsService();
+
             AvailableYears = new ObservableCollection<string>();
             MostAttendedTourEver = new TourCardViewModel();
             MostAttendedTourOfYear = new TourCardViewModel();
@@ -99,10 +100,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             YearSelectionChangedCommand = new RelayCommand(ExecuteYearSelectionChanged, CanExecuteMethod);
 
             FindAvailableYears();
-            if (AvailableYears.Count > 0)
-            {
-                SelectedYear = AvailableYears[0];
-            }
             FindMostAttendedTourEver();
             FindMostAttendedTourOfYear();
         }
@@ -115,92 +112,41 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void FindMostAttendedTourEver()
         {
-            int maxOfPresenceGuests = 0;
-            int currentPresenceGuests = 0;
-            Appointment maxAttendedAppointment = new Appointment();
-            //pordjem kroz sve zavrsenene termine
-            foreach (var appointment in _appointmentService.GetAllFinishedByUserId(LoggedUser.Id))
-            {
-                //prodjem kroz rezervacije za zavrsen termin
-                foreach (var reservation in _reservationService.GetAllByAppointmentId(appointment.Id))
-                {
-                    //pitam jel bio prisutan
-                    if (reservation.Presence)
-                    {
-                        currentPresenceGuests += reservation.TouristNum;
-                    }           
-                }
-                //Sada sam nasao za termin koliko je bilo gostiju i pitam da li je vece od pretodnog prisustva
-                if (currentPresenceGuests > maxOfPresenceGuests)
-                {
-                    maxOfPresenceGuests = currentPresenceGuests;
-                    maxAttendedAppointment = appointment;
-                }
-
-                currentPresenceGuests = 0;
-            }
-            CreateMostAttendedTourEver(maxAttendedAppointment);
+            Appointment? mostAttendedAppointmentEver = _tourStatsService.FindMostAttendedAppointment(false, string.Empty, LoggedUser);
+            CreateMostAttendedTour(mostAttendedAppointmentEver, false);
         }
 
         private void FindMostAttendedTourOfYear()
         {
-            int maxOfPresenceGuests = 0;
-            int currentPresenceGuests = 0;
-            Appointment maxAttendedAppointmentOfYear = new Appointment();
-            //pordjem kroz sve zavrsenene termine
-            foreach (var appointment in _appointmentService.GetAllFinishedByUserId(LoggedUser.Id))
+            Appointment? mostAttendedAppointmentOfYear = _tourStatsService.FindMostAttendedAppointment(true, SelectedYear, LoggedUser);
+            CreateMostAttendedTour(mostAttendedAppointmentOfYear, true);
+        }
+
+        private void CreateMostAttendedTour(Appointment? mostAttendedAppointment, bool isPerYear)
+        {
+            if (mostAttendedAppointment == null) { return; }
+            var tour = _tourService.GetById(mostAttendedAppointment.TourId);
+            var location = _locationService.GetById(tour.LocationId);
+            TourCardViewModel tourCard = new TourCardViewModel
             {
-                //prodjem kroz rezervacije za zavrsen termin
-                if (appointment.Date.Year.ToString() == SelectedYear)
-                {
-                    foreach (var reservation in _reservationService.GetAllByAppointmentId(appointment.Id))
-                    {
-                        //pitam jel bio prisutan
-                        if (reservation.Presence)
-                        {
-                            currentPresenceGuests += reservation.TouristNum;
-                        }
-                    }
-                    //Sada sam nasao za termin koliko je bilo gostiju i pitam da li je vece od pretodnog prisustva
-                    if (currentPresenceGuests > maxOfPresenceGuests)
-                    {
-                        maxOfPresenceGuests = currentPresenceGuests;
-                        maxAttendedAppointmentOfYear = appointment;
-                    }
-                }
-                currentPresenceGuests = 0;
+                TourId = tour.Id,
+                AppointmentId = mostAttendedAppointment.Id,
+                LocationId = tour.LocationId,
+                Start = mostAttendedAppointment.Start,
+                Name = tour.Name,
+            };
+            tourCard.SetAppointmentStatusAndBackground(mostAttendedAppointment);
+            tourCard.SetLocation(location);
+            tourCard.SetCoverImage(_imageService.GetTourCover(tourCard.TourId));
+
+            if (isPerYear)
+            {
+                MostAttendedTourOfYear = tourCard;
             }
-            CreateMostAttendedTourOfYear(maxAttendedAppointmentOfYear);
-        }
-
-        private void CreateMostAttendedTourEver(Appointment maxAttendedAppointmentEver)
-        {
-            Tour tour = _tourService.GetById(maxAttendedAppointmentEver.TourId);
-            Location location = _locationService.GetById(tour.LocationId);
-            TourCardViewModel tourCard = new TourCardViewModel();
-            tourCard.Date = maxAttendedAppointmentEver.Date;
-            tourCard.AppointmentId = maxAttendedAppointmentEver.Id;
-            tourCard.Name = tour.Name;
-            tourCard.Status = "Finished";
-            tourCard.LocationId = location.Id;
-            tourCard.Location = location.Country + " ," + location.City;
-            SetImageField(tour, tourCard);
-            MostAttendedTourEver = tourCard;
-        }
-
-        private void CreateMostAttendedTourOfYear(Appointment maxAttendedAppointmentOfYear)
-        {
-            Tour tour = _tourService.GetById(maxAttendedAppointmentOfYear.TourId);
-            Location location = _locationService.GetById(tour.LocationId);
-            TourCardViewModel tourCard = new TourCardViewModel();
-            tourCard.Date = maxAttendedAppointmentOfYear.Date;
-            tourCard.AppointmentId = maxAttendedAppointmentOfYear.Id;
-            tourCard.Name = tour.Name;
-            tourCard.Status = "Finished";
-            tourCard.LocationId = location.Id;
-            tourCard.Location = location.Country + " ," + location.City;
-            SetImageField(tour, tourCard);
-            MostAttendedTourOfYear = tourCard;
+            else
+            {
+                MostAttendedTourEver = tourCard;
+            }
         }
 
         public void ExecuteYearSelectionChanged(object parameter)
@@ -213,26 +159,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             FindMostAttendedTourOfYear();
         }
 
-        private void SetImageField(Tour tour, TourCardViewModel tourCard)
-        {
-            foreach (var image in _imageService.GetAllForTours())
-            {
-                if (image.Cover && image.EntityId == tour.Id)
-                {
-                    tourCard.CoverImagePath = image.Path;
-                    break;
-                }
-            }
-        }
-
         private void FindAvailableYears()
         {
             foreach (var appointment in _appointmentService.GetAllByUserId(LoggedUser.Id))
             {
-                AvailableYears.Add(appointment.Date.Year.ToString());
+                AvailableYears.Add(appointment.Start.Year.ToString());
             }
-            AvailableYears = new ObservableCollection<string>(AvailableYears.Distinct());
-        }
 
+            AvailableYears = new ObservableCollection<string>(AvailableYears.Distinct());
+            
+            if (AvailableYears.Count > 0)
+            {
+                SelectedYear = AvailableYears[0];
+            }
+        }
     }
 }

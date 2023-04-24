@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
@@ -257,6 +258,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _checkpointService.SaveAll(new List<Checkpoint>(Checkpoints));
             _appointmentService.SaveAll(new List<Appointment>(Appointments));
             _imageService.SaveAll(Images);
+            Window currentWindow = System.Windows.Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            if (currentWindow != null)
+            {
+                MainWindowViewModel mainWindow = (MainWindowViewModel)currentWindow.DataContext;
+                HomePage homePage = new HomePage(LoggedUser, mainWindow.Timer);
+                System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = homePage;
+            }
         }
 
         private void SetImagesTourId(int tourId)
@@ -325,7 +333,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                     {
                         Cover = false,
                         Path = imagePath,
-                        Type = Image.ImageType.TOUR
+                        Type = ImageType.TOUR
                     };
 
                     //Set first image as cover (default)
