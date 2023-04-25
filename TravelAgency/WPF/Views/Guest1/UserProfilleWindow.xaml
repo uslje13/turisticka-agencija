@@ -6,13 +6,73 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="UserProfille" Height="450" Width="800">
+        ResizeMode="NoResize"
+        Title="UserProfille" Height="768" Width="1024">
     <Grid>
-        <TextBlock x:Name="UsersName" FontSize="30" FontWeight="Bold" Margin="46,36,469,312"></TextBlock>
-        <Button Command="{Binding goToRequestsStatus}" Content="Prikaži zahtjeve" Margin="639,144,40,246"/>
-        <Button Command="{Binding goToSearchCommand}" Content="Prikaži smještaj" Margin="639,350,40,40"/>
-        <Button x:Name="InboxButton" Command="{Binding goToInboxCommand}" 
-                Content="Obavještenja" HorizontalContentAlignment="Center" 
-                Margin="639,52,40,338" GotFocus="TestOpeningInbox"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1.15*"/>
+            <RowDefinition Height="0.9*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Image Source="/Resources/Icons/Guest1/user_siluet.png" Margin="40,21,778,22"/>
+            <TextBlock x:Name="UsersName" FontSize="50" FontWeight="Bold" FontStyle="Italic" Margin="204,61,533,116" TextAlignment="Center"></TextBlock>
+            <Image Source="/Resources/Icons/Guest1/verification.png" Margin="491,71,452,116"/>
+            <Button x:Name="InboxButton" Command="{Binding goToInboxCommand}" FontSize="25" FontWeight="DemiBold"
+                HorizontalContentAlignment="Center" Background="White" BorderBrush="White"
+                Margin="781,52,42,107" GotFocus="TestOpeningInbox">
+                <StackPanel Orientation="Horizontal" Width="200" Height="82">
+                    <Canvas Width="200">
+                        <Image Source="/Resources/Icons/Guest1/inbox.png" Width="105" Height="72" Canvas.Left="17" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Width="91" Height="38" Canvas.Left="109" Canvas.Top="22" HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"><Run Text="Inbox"/></TextBlock>
+                    </Canvas>
+                </StackPanel>
+            </Button>
+            <TextBlock x:Name="Messages" FontSize="25" FontWeight="DemiBold" 
+                       Margin="811,78,163,123"><Run/></TextBlock>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Label FontSize="25" FontWeight="Bold" Margin="10,0,588,203">Vaše predstojeće rezervacije :</Label>
+            <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding finishedReservations}"
+                  AutoGenerateColumns="False" SelectionMode="Single"
+                  IsReadOnly="True" Margin="15,165,15,30">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Naziv smještaja" Binding="{Binding AccommodationName}" Width="1*"/>
+                    <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
+                    <DataGridTextColumn Header="Država" Binding="{Binding AccommodationCountry}" Width="1*"/>
+                    <DataGridTextColumn Header="Tip smještaja" Binding="{Binding AccommodationType}" Width="1*"/>
+                    <DataGridTextColumn Header="Prvi dan" Binding="{Binding FirstDay}" Width="1*"/>
+                    <DataGridTextColumn Header="Poslednji dan" Binding="{Binding LastDay}" Width="1*"/>
+                    <DataGridTextColumn Header="Trajanje rezervacije" Binding="{Binding DaysDuration}" Width="1*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Label FontSize="25" FontWeight="Bold" Margin="10,124,588,79">Vaše dosadašnje rezervacije :</Label>
+            <TextBlock x:Name="ResNumber" FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="724,132,15,107"></TextBlock>
+            <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding futuredReservations}"
+                  AutoGenerateColumns="False" SelectionMode="Single"
+                  IsReadOnly="True" Margin="15,41,15,152">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Naziv smještaja" Binding="{Binding AccommodationName}" Width="1*"/>
+                    <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
+                    <DataGridTextColumn Header="Država" Binding="{Binding AccommodationCountry}" Width="1*"/>
+                    <DataGridTextColumn Header="Tip smještaja" Binding="{Binding AccommodationType}" Width="1*"/>
+                    <DataGridTextColumn Header="Prvi dan" Binding="{Binding FirstDay}" Width="1*"/>
+                    <DataGridTextColumn Header="Poslednji dan" Binding="{Binding LastDay}" Width="1*"/>
+                    <DataGridTextColumn Header="Trajanje rezervacije" Binding="{Binding DaysDuration}" Width="1*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Command="{Binding goToRequestsStatus}" Margin="710,-19,15,244" FontSize="24" FontWeight="DemiBold"
+                    Background="White" BorderBrush="White">
+                <StackPanel Orientation="Horizontal" Width="326" Height="62">
+                    <TextBlock Width="229" Height="31" TextAlignment="Right"><Run Text="Status Vaših zahtjeva"/></TextBlock>
+                    <Image Source="/Resources/Icons/Guest1/statuses.png" Width="52" Height="44"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,250,0,0" Grid.RowSpan="2">
+            <Button Command="{Binding goToSearchCommand}" Content="Prikaži smještaj" Margin="636,83,43,83"/>
+        </Grid>
     </Grid>
 </Window>

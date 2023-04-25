@@ -35,7 +35,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             LoggedInUser = user;
             ThisWindow = window;
-
+            
             reservationsForMark = new List<CancelAndMarkResViewModel>();
             locAccommodationViewModels = new List<LocAccommodationViewModel>();
 

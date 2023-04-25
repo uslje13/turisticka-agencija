@@ -34,6 +34,10 @@
     <None Remove="Resources\Icons\firework.png" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
     <None Remove="Resources\Icons\guest.png" />
+    <None Remove="Resources\Icons\Guest1\inbox.png" />
+    <None Remove="Resources\Icons\Guest1\statuses.png" />
+    <None Remove="Resources\Icons\Guest1\user_siluet.png" />
+    <None Remove="Resources\Icons\Guest1\verification.png" />
     <None Remove="Resources\Icons\guests_with_text.png" />
     <None Remove="Resources\Icons\help--v1.png" />
     <None Remove="Resources\Icons\home.png" />
@@ -232,6 +236,10 @@
     </Content>
     <Resource Include="Resources\Icons\checkpoint.png" />
     <Resource Include="Resources\Icons\exclamation_star.png" />
+    <Resource Include="Resources\Icons\Guest1\inbox.png" />
+    <Resource Include="Resources\Icons\Guest1\statuses.png" />
+    <Resource Include="Resources\Icons\Guest1\user_siluet.png" />
+    <Resource Include="Resources\Icons\Guest1\verification.png" />
     <Resource Include="Resources\Icons\kalendar_datumi.png" />
     <Resource Include="Resources\Icons\language.png" />
     <Resource Include="Resources\Icons\NotificationAlertNoColor.png" />

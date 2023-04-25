@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,10 +17,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int ReservationId { get; set; }
         public int AccommodationId { get; set; }
         public string DaysForMarking { get; set; }
+        public LocAccommodationViewModel.AccommType AccommodationType { get; set; }
+        public int DaysDuration { get; set; }
 
         public CancelAndMarkResViewModel() { }
 
-        public CancelAndMarkResViewModel(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId, string daysForMarking = "")
+        public CancelAndMarkResViewModel(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId, string daysForMarking = "", int daysDuration = -1, LocAccommodationViewModel.AccommType type = LocAccommodationViewModel.AccommType.NOTYPE)
         {
             AccommodationName = accommodationName;
             AccommodationCity = accommodationCity;
@@ -29,6 +32,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ReservationId = reservationId;
             AccommodationId = accommodationId;
             DaysForMarking = daysForMarking;
+            DaysDuration = daysDuration;
+            AccommodationType = type;
         }
     }
 }
