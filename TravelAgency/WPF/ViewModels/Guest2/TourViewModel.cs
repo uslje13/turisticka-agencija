@@ -24,6 +24,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public string Country { get; set; }
         public string City { get; set; }
         public string LocationFullName { get; set; }
+        public string ImagePath { get; set; }
 
         private readonly TourService _tourService;
         private readonly AppointmentService _appoitmentService;
@@ -39,7 +40,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public TourViewModel(int id,string name,string language,int duration,int maxNumOfGuests,string city,string country,User loggedInUser,ToursOverviewWindow window) 
+        public TourViewModel(int id,string name,string language,int duration,int maxNumOfGuests,string city,string country,User loggedInUser,ToursOverviewWindow window,string path) 
         {
             _window = window;
             TourId = id;
@@ -49,6 +50,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             MaxNumOfGuests= maxNumOfGuests;
             Country = country;
             City = city;
+            ImagePath = path;
             LocationFullName = city + " (" + country + ")";
             LoggedInUser = loggedInUser;
             _tourService = new TourService();

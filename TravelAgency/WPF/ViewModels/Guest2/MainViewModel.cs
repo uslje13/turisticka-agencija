@@ -21,11 +21,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public List<GuestAttendance> UserAttendances { get; set; }
 
         public static ObservableCollection<TourViewModel> TourViewModels { get; set; }
+        public static ObservableCollection<TourViewModel> SerbiaTourViewModels { get; set; }
+        public static ObservableCollection<TourViewModel> SummerTourViewModels { get; set; }
+
+        public static ArrowCommandsViewModel ArrowCommands { get; set; }
 
         private TourService _tourService;
         private LocationService _locationService;
         private GuestAttendanceService _guestAttendanceService;
         private ReservationService _reservationService;
+        private AppointmentService _appointmentService;
+        private ImageService _imageService;
 
         private RelayCommand _searchCommand;
 
@@ -92,6 +98,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 _notificationsCommand = value;
             }
         }
+
         public MainViewModel(User loggedInUser, ToursOverviewWindow window)
         {
             _window = window;
@@ -99,8 +106,68 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             GetUsableLists();
             LoggedInUser = loggedInUser;
             TourViewModels = new ObservableCollection<TourViewModel>();
+            SummerTourViewModels = new ObservableCollection<TourViewModel>();
+            SerbiaTourViewModels = new ObservableCollection<TourViewModel>();
             CreateCommands();
             FillTourViewModelList();
+            FillSerbiaTourViewModelList();
+            FillSummerTourViewModelList();
+            ArrowCommands = new ArrowCommandsViewModel(TourViewModels,SerbiaTourViewModels,SummerTourViewModels);
+        }
+
+        private void FindImage(Tour t,Location l, ObservableCollection<TourViewModel> tourViewModels)
+        {
+            foreach(Image i in _imageService.GetAll())
+            {
+                if(i.Type.Equals(ImageType.TOUR) && i.EntityId == t.Id && i.Cover)
+                {
+                    TourViewModel tourDTO = new TourViewModel(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, l.City, l.Country, LoggedInUser, _window,i.Path);
+                    tourViewModels.Add(tourDTO);
+                    break;
+                }
+            }
+        }
+        private void FillSummerTourViewModelList()
+        {
+            DateTime summerStart = new DateTime(DateTime.Now.Year, 6, 21);
+            DateTime summerEnd = new DateTime(DateTime.Now.Year, 9, 23);
+
+            foreach (Tour t in Tours)
+            {
+                foreach (Location l in Locations)
+                {
+                    if (l.Id == t.LocationId)
+                    {
+                        FillList(summerStart, summerEnd, t, l);
+                    }
+                }
+            }
+        }
+
+        private void FillList(DateTime summerStart, DateTime summerEnd, Tour t, Location l)
+        {
+            foreach (Appointment a in _appointmentService.GetAll())
+            {
+                if (a.TourId == t.Id && a.Start >= summerStart && a.Start <= summerEnd)
+                {
+                    FindImage(t, l,SummerTourViewModels);
+                    break;
+                }
+            }
+        }
+
+        private void FillSerbiaTourViewModelList()
+        {
+            foreach (Tour t in Tours)
+            {
+                foreach (Location l in Locations)
+                {
+                    if (l.Id == t.LocationId && l.Country == "Srbija")
+                    {
+                        FindImage(t, l,SerbiaTourViewModels);
+                    }
+                }
+            }
         }
 
         private void CreateCommands()
@@ -112,7 +179,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             VouchersCommand = new RelayCommand(Execute_VouchersWindowCommand, CanExecuteMethod);
             NotificationsCommand = new RelayCommand(Execute_NotificationsWindowCommand, CanExecuteMethod);
         }
-
         private void Execute_NotificationsWindowCommand(object obj)
         {
             NotificationsWindow window = new NotificationsWindow(LoggedInUser);
@@ -166,6 +232,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _locationService = new LocationService();
             _guestAttendanceService = new GuestAttendanceService();
             _reservationService = new ReservationService();
+            _appointmentService= new AppointmentService();
+            _imageService = new ImageService();
         }
 
         public void GetAttendanceMessage()
@@ -196,7 +264,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        private static void FillTourViewModelList()
+        private void FillTourViewModelList()
         {
             foreach (Tour t in Tours)
             {
@@ -204,8 +272,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     if (l.Id == t.LocationId)
                     {
-                        TourViewModel tourDTO = new TourViewModel(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, l.City, l.Country, LoggedInUser, _window);
-                        TourViewModels.Add(tourDTO);
+                        FindImage(t, l,TourViewModels);
                     }
                 }
             }
