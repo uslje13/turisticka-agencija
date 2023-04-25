@@ -78,8 +78,8 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST1)
                 {
                     UserProfilleWindow userProfilleWindow = new UserProfilleWindow(user, TestInboxCharge(user.Id));
-                    userProfilleWindow.Show();
                     Close();
+                    userProfilleWindow.ShowDialog();
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST2)
                 {

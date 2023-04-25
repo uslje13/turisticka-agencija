@@ -23,6 +23,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand goToSearchCommand { get; set; }
         public RelayCommand goToRequestsStatus { get; set; }
         public RelayCommand goToInboxCommand { get; set; }
+        public RelayCommand SignOutCommand { get; set; }
         public Button InboxButton { get; set; }
         public TextBlock Messages { get; set; }
         public List<CancelAndMarkResViewModel> futuredReservations { get; set; }
@@ -36,9 +37,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public List<Location> locations { get; set; }
         public int ThisYearCounter { get; set; }
         public TextBlock ReservationsCounter { get; set;  }
+        public Window ThisWindow { get; set; }
+        public RelayCommand CanceledReservationsCommand { get; set; }
 
 
-        public UserProfilleViewModel(User user, TextBlock uName, Button button, int notifications, TextBlock mess, TextBlock counter) 
+        public UserProfilleViewModel(User user, TextBlock uName, Button button, int notifications, TextBlock mess, TextBlock counter, Window window) 
         {
             LoggedInUser = user;
             userName = uName;
@@ -46,6 +49,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             Messages = mess;
             ThisYearCounter = 0;
             ReservationsCounter = counter;
+            ThisWindow = window;
 
             locAccommodationViewModels = new List<LocAccommodationViewModel>();
             futuredReservations = new List<CancelAndMarkResViewModel>();
@@ -71,6 +75,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             goToSearchCommand = new RelayCommand(ExecuteGoToSearch);
             goToRequestsStatus = new RelayCommand(ExecuteGoToStatuses);
             goToInboxCommand = new RelayCommand(ExecuteInboxShowing);
+            SignOutCommand = new RelayCommand(Execute_SigingOut);
+            CanceledReservationsCommand = new RelayCommand(Execute_ShowCanceledReservations);
+        }
+
+        private void Execute_ShowCanceledReservations(object sender)
+        {
+
         }
 
         private void FillCounterTextBlock()
@@ -178,6 +189,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser);
             newWindow.Show();
+        }
+
+        private void Execute_SigingOut(object sender)
+        {
+            SignInForm form = new SignInForm();
+            ThisWindow.Close();
+            form.ShowDialog();
         }
 
         private void FillTextBlock(User user)

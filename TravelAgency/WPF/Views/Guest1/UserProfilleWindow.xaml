@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
+        Background="White"
         Title="UserProfille" Height="768" Width="1024">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,7 +16,8 @@
             <RowDefinition Height="0.9*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Image Source="/Resources/Icons/Guest1/user_siluet.png" Margin="40,21,778,22"/>
+            <Image Source="/Resources/Icons/Guest1/user_siluet.png" 
+                   Margin="40,21,778,22"/>
             <TextBlock x:Name="UsersName" FontSize="50" FontWeight="Bold" FontStyle="Italic" Margin="204,61,533,116" TextAlignment="Center"></TextBlock>
             <Image Source="/Resources/Icons/Guest1/verification.png" Margin="491,71,452,116"/>
             <Button x:Name="InboxButton" Command="{Binding goToInboxCommand}" FontSize="25" FontWeight="DemiBold"
@@ -64,7 +66,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <Button Command="{Binding goToRequestsStatus}" Margin="710,-19,15,244" FontSize="24" FontWeight="DemiBold"
-                    Background="White" BorderBrush="White">
+                    Background="White" BorderBrush="White" Name="StatusesButton">
                 <StackPanel Orientation="Horizontal" Width="326" Height="62">
                     <TextBlock Width="229" Height="31" TextAlignment="Right"><Run Text="Status Vaših zahtjeva"/></TextBlock>
                     <Image Source="/Resources/Icons/Guest1/statuses.png" Width="52" Height="44"/>
@@ -72,7 +74,13 @@
             </Button>
         </Grid>
         <Grid Grid.Row="1" Margin="0,250,0,0" Grid.RowSpan="2">
-            <Button Command="{Binding goToSearchCommand}" Content="Prikaži smještaj" Margin="636,83,43,83"/>
+            <Label Foreground="DarkGoldenrod" FontSize="20" FontWeight="Bold" FontStyle="Italic" 
+                   Margin="423,6,109,181">Vaše otkazane rezervacije su na sledećem linku :</Label>
+            <Button Command="{Binding CanceledReservationsCommand}" FontSize="20" Content="otkazano" Name="CanceledReportButton"
+                    Margin="881,5,10,195" Background="White" Foreground="DarkGoldenrod"
+                    BorderBrush="White" FontWeight="Bold" FontStyle="Italic"/>
+            <Button Command="{Binding goToSearchCommand}" Width="110" Height="43" FontSize="17" Content="Glavni meni" Margin="838,128,53,57" BorderBrush="Black"/>
+            <Button Command="{Binding SignOutCommand}" Width="110" Height="43" FontSize="17" Content="Odjavi se" Margin="646,128,241,57" BorderBrush="Black"/>
         </Grid>
     </Grid>
 </Window>
