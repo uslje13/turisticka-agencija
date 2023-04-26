@@ -3,36 +3,44 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       mc:Ignorable="d" 
       d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="GuestAttendancePage">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1.7*"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="406"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 17">
+        <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" BorderBrush="DarkGray" BorderThickness="0 1 0 1"/>
+        <!-- Header -->
+        <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Margin="0 0 0 20">
             <Image Source="/Resources/Icons/earth.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Height="50"/>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding TourName}"  
-                       FontSize="22">
-            </TextBlock>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding TourName}" FontSize="22"/>
         </WrapPanel>
-        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Date, StringFormat='dd.MM.yyyy. hh:mm'}"  
-                   TextAlignment="Center" FontSize="16" Height="26" Width="163"/>
-        <Image Grid.Row="1" Source="/Resources/Icons/checkpoint.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="25" 
-               Margin="10 0 0 0">
-        </Image>
-        <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
-               Margin="35 0 0 0" Text="{Binding CheckpointName}" FontSize="16"></TextBlock>
-        <ListBox Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Date, StringFormat='dd.MM.yyyy. HH:mm'}"  
+                   TextAlignment="Center" FontSize="16"/>
+        <!-- Label -->
+        <WrapPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" >
+            <Image Source="/Resources/Icons/checkpoint.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="25"  Margin="0 7 0 0"/>
+            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding CheckpointName}" FontSize="16" Margin="0 7 0 0"/>
+        </WrapPanel>
+        
+        
+        <ListBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="3" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                  VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding GuestAttendanceCards}">
             <ItemsControl.ItemTemplate>
+                <!-- Card -->
                 <DataTemplate>
-                    <Grid Grid.Row="2" Width="380" Height="50">
+                    <Grid Width="380" Height="50" Background="{Binding Background}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition Width="4*"></ColumnDefinition>

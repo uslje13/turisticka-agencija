@@ -66,7 +66,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                         {
                             Name = _checkpointService.GetById(checkpointActivity.CheckpointId).Name
                         };
-                        guestAttendanceCard.SetStatusImage(guestAttendance);
+                        guestAttendanceCard.SetStatusImageAndBackground(guestAttendance);
                         GuestAttendanceCards.Add(guestAttendanceCard);
                     }
                 }

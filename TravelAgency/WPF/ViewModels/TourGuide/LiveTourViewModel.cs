@@ -107,9 +107,33 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        public string TourName { get; private set; }
+        private string _tourName;
+        public string TourName 
+        { 
+            get => _tourName;
+            set
+            {
+                if (_tourName != value)
+                {
+                    _tourName = value;
+                    OnPropertyChanged("TourName");
+                }
+            }
+        }
 
-        public DateTime? Date { get; private set; }
+        private DateTime? _date;
+        public DateTime? Date 
+        { 
+            get => _date;
+            set
+            {
+                if (_date != value)
+                {
+                    _date = value;
+                    OnPropertyChanged("Date");
+                }
+            }
+        }
 
         #endregion
 
@@ -144,8 +168,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public void ViewGuestAttendance(object sender)
         {
-            var selectedGuestAttendanceCard = sender as CheckpointCardViewModel;
-            GuestAttendancePage guestAttendancePage = new GuestAttendancePage(selectedGuestAttendanceCard, TourName, Date);
+            var selectedCheckpointCard = sender as CheckpointCardViewModel;
+            GuestAttendancePage guestAttendancePage = new GuestAttendancePage(selectedCheckpointCard, TourName, Date);
             System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = guestAttendancePage;
 
         }
@@ -227,6 +251,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private void ResetActiveAppointment()
         {
             ActiveAppointment = null;
+            CheckpointCards = new ObservableCollection<CheckpointCardViewModel>();
             SetTourNameAndDate();
         }
     }

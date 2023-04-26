@@ -11,26 +11,31 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
     {
         public string Name { get; set; }
         public string StatusImage { get; set; }
-        public GuestAttendanceCardViewModel() { }
-        public GuestAttendanceCardViewModel(string name, string statusImage)
+        public string Background { get; set; }
+
+        public GuestAttendanceCardViewModel()
         {
-            Name = name;
-            StatusImage = statusImage;
+            Name = string.Empty;
+            StatusImage = string.Empty;
+            Background = string.Empty;
         }
 
-        public void SetStatusImage(GuestAttendance guestAttendance)
+        public void SetStatusImageAndBackground(GuestAttendance guestAttendance)
         {
             if (guestAttendance.Presence == GuestPresence.YES)
             {
                 StatusImage = "/Resources/Icons/checkpoint_yes.png";
+                Background = "#C7FFC2";
             }
             else if (guestAttendance.Presence == GuestPresence.NO)
             {
                 StatusImage = "/Resources/Icons/checkpoint_no.png";
+                Background = "#F0F8FF";
             }
             else
             {
                 StatusImage = "/Resources/Icons/checkpoint_unknown.png";
+                Background = "#FFC7C8";
             }
         }
 
