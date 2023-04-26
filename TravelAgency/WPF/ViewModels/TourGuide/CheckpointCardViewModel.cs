@@ -7,15 +7,58 @@ using SOSTeam.TravelAgency.Domain.Models;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class CheckpointCardViewModel
+    public class CheckpointCardViewModel : ViewModel
     {
         public int CheckpointId { get; set; }
         public int ActivityId { get; set; }
         public string Name { get; set; }
         public CheckpointType Type { get; set; }
-        public CheckpointStatus Status { get; set; }
-        public bool CanShowAttendance { get; set; }
-        public bool Background { get; set; }
+
+        public CheckpointStatus StatusEnum { get; set; }
+
+        private string _status;
+
+        public string Status
+        {
+            get => _status;
+            set
+            {
+                if (_status != value)
+                {
+                    _status = value;
+                    OnPropertyChanged("Status");
+                }
+            }
+        }
+
+        private bool _canShowAttendance;
+        public bool CanShowAttendance
+        {
+            get => _canShowAttendance;
+            set
+            {
+                if (_canShowAttendance != value)
+                {
+                    _canShowAttendance = value;
+                    OnPropertyChanged("CanShowAttendance");
+                }
+            }
+        }
+
+        private string _background;
+
+        public string Background
+        {
+            get => _background;
+            set
+            {
+                if (_background != value)
+                {
+                    _background = value;
+                    OnPropertyChanged("Background");
+                }
+            }
+        }
 
         public CheckpointCardViewModel()
         {
@@ -25,19 +68,35 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         }
 
-        public CheckpointCardViewModel(int checkpointId, string name, CheckpointType type, CheckpointStatus status)
+        public CheckpointCardViewModel(int checkpointId, string name, CheckpointType type, CheckpointStatus statusEnum)
         {
             CheckpointId = checkpointId;
             Name = name;
             Type = type;
-            Status = status;
+            StatusEnum = statusEnum;
         }
 
         public void SetCanShowAttendance()
         {
-            if (Status == CheckpointStatus.NOT_STARTED)
+            CanShowAttendance = StatusEnum != CheckpointStatus.NOT_STARTED;
+        }
+
+        public void SetStatusAndBackground()
+        {
+            if (StatusEnum == CheckpointStatus.NOT_STARTED)
             {
-                CanShowAttendance = false;
+                Status = "Not started";
+                Background = "#F8FFB7";
+            }
+            else if(StatusEnum == CheckpointStatus.ACTIVE)
+            {
+                Status = "Active";
+                Background = "#C7FFC2";
+            }
+            else
+            {
+                Status = "Finished";
+                Background = "#F0F8FF";
             }
         }
     }

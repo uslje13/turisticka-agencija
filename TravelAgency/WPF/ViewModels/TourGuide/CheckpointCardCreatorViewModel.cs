@@ -1,11 +1,6 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Domain.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
@@ -21,6 +16,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _appointmentService = new AppointmentService();
             _checkpointActivityService = new CheckpointActivityService();
             _checkpointService = new CheckpointService();
+
             ActiveAppointment = _appointmentService.GetActiveByUserId(loggedUser.Id);
         }
 
@@ -47,13 +43,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 ActivityId = checkpointActivity.Id,
                 Name = checkpoint.Name,
                 Type = checkpoint.Type,
-                Status = checkpointActivity.Status,
+                StatusEnum = checkpointActivity.Status,
                 CanShowAttendance = true,
             };
 
+            checkpointCard.SetStatusAndBackground();
             checkpointCard.SetCanShowAttendance();
             return checkpointCard;
         }
-
     }
 }

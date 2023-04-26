@@ -28,7 +28,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var appointments = isToday ? _appointmentService.GetTodayAppointmentsByUserId(loggedUser.Id) : _appointmentService.GetAllByUserId(loggedUser.Id);
 
-            ObservableCollection <TourCardViewModel> tourCards = new ObservableCollection<TourCardViewModel>();
+            var tourCards = new ObservableCollection<TourCardViewModel>();
             foreach (var appointment in appointments)
             {
                 foreach (var tour in _tourService.GetAll())
