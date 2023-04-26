@@ -39,7 +39,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
                 Binding binding = new Binding();
                 binding.Source = "   ";
                 Messages.SetBinding(TextBlock.TextProperty, binding);
-                InboxButton.Background = new SolidColorBrush(Colors.White);
+                InboxButton.Background = new SolidColorBrush(Colors.DarkKhaki);
             }
         }
     }

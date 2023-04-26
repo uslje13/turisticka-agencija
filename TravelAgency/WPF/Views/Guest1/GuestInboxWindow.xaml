@@ -47,7 +47,21 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Command="{Binding goToSearchCommand}" Width="110" Height="43" FontSize="17" Content="Glavni meni" Margin="838,620,53,57" BorderBrush="Black"/>
-        <Button Command="{Binding GoBackCommand}" Width="110" Height="43" FontSize="17" Content="Nazad" Margin="53,620,842,57" BorderBrush="Black"/>
+        <Button Command="{Binding goToSearchCommand}" Width="110" Height="43" FontSize="17" Content="Glavni meni" 
+                Margin="838,620,53,57" BorderBrush="DarkBlue" BorderThickness="3" Background="LightSteelBlue">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"></Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Command="{Binding GoBackCommand}" Width="110" Height="43" FontSize="17" Content="Nazad" 
+                Margin="53,620,842,57" BorderBrush="DarkBlue" BorderThickness="3" Background="LightSteelBlue">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"></Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
     </Grid>
 </Window>
