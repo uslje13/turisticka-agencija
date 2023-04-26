@@ -8,6 +8,10 @@
       Title="SearchPage" Height="800" Width="1280"
       Background="AliceBlue">
 
+    <Page.InputBindings>
+        <KeyBinding Key="B" Modifiers="Control" Command="{Binding BackCommand}" />
+    </Page.InputBindings>
+    
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -16,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-
+    
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -60,7 +64,7 @@
                                   ItemsSource="{Binding Languages}"
                                   SelectedValue="SearchedLanguage"
                                   FontSize="18"></ComboBox>
-                        <Label Content="Trajanje (dani)" Margin="0,0,0,5" FontSize="20" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="146" />
+                        <Label Content="Trajanje (sati)" Margin="0,0,0,5" FontSize="20" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="146" />
                         <TextBox Name="duration" FontSize="18"  Height="37" Margin="0,0,0,5" Text="{Binding Path=SearchedDuration,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                         <Label Content="Broj ljudi" Margin="0,0,0,5" FontSize="20" HorizontalAlignment="Left" FontFamily="Microsoft Sans Serif" Width="93" />
                         <TextBox Name="ocupancy" FontSize="18" Height="37" Margin="0,0,0,5" Text="{Binding Path=SearchedOcupancy,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
@@ -73,7 +77,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding BackCommand}" >
+                    <Button Style="{StaticResource MenuButtons}" Focusable="True" Command="{Binding BackCommand}" >
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/back_button.png" Height="47" Width="38"/>
                             <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="192"/>
@@ -133,20 +137,23 @@
                                                                 </Button>
                                                             </Border>
                                                             <TextBlock TextAlignment="Center" Text="{Binding Name}" FontSize="20"/>
-                                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding LocationFullName}">
+                                                            <TextBlock TextAlignment="Center" FontSize="18" >
                                                                                         <InlineUIContainer>
                                                                                             <Image Source="/Resources/Icons/checkpoint.png" Width="20" Height="20" />
                                                                                         </InlineUIContainer>
+                                                                                        <Run Text="{Binding LocationFullName}" />
                                                             </TextBlock>
-                                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding Language}">
+                                                            <TextBlock TextAlignment="Center" FontSize="18">
                                                                                         <InlineUIContainer>
                                                                                             <Image Source="/Resources/Icons/language.png" Width="20" Height="20" />
                                                                                         </InlineUIContainer>
+                                                                                        <Run Text="{Binding Language}"/>
                                                             </TextBlock>
-                                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding Duration}">
+                                                            <TextBlock TextAlignment="Center" FontSize="18">
                                                                                         <InlineUIContainer>
-                                                                                            <Image Source="/Resources/Icons/kalendar_datumi.png" Width="20" Height="20" />
+                                                                                            <Image Source="/Resources/Icons/clock.png" Width="20" Height="20" />
                                                                                         </InlineUIContainer>
+                                                                                        <Run Text="{Binding Duration, StringFormat={}{0}h}"/>
                                                             </TextBlock>
                                                         </StackPanel>
                                                     </Grid>
@@ -197,20 +204,23 @@
                                                                 </Button>
                                                             </Border>
                                                             <TextBlock TextAlignment="Center" Text="{Binding Name}" FontSize="20"/>
-                                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding LocationFullName}">
+                                                            <TextBlock TextAlignment="Center" FontSize="18" >
                                                                                         <InlineUIContainer>
                                                                                             <Image Source="/Resources/Icons/checkpoint.png" Width="20" Height="20" />
                                                                                         </InlineUIContainer>
+                                                                                        <Run Text="{Binding LocationFullName}" />
                                                             </TextBlock>
-                                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding Language}">
+                                                            <TextBlock TextAlignment="Center" FontSize="18">
                                                                                         <InlineUIContainer>
                                                                                             <Image Source="/Resources/Icons/language.png" Width="20" Height="20" />
                                                                                         </InlineUIContainer>
+                                                                                        <Run Text="{Binding Language}"/>
                                                             </TextBlock>
-                                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding Duration}">
+                                                            <TextBlock TextAlignment="Center" FontSize="18">
                                                                                         <InlineUIContainer>
-                                                                                            <Image Source="/Resources/Icons/kalendar_datumi.png" Width="20" Height="20" />
+                                                                                            <Image Source="/Resources/Icons/clock.png" Width="20" Height="20" />
                                                                                         </InlineUIContainer>
+                                                                                        <Run Text="{Binding Duration, StringFormat={}{0}h}"/>
                                                             </TextBlock>
                                                         </StackPanel>
                                                     </Grid>
@@ -261,20 +271,23 @@
                                                                 </Button>
                                                             </Border>
                                                             <TextBlock TextAlignment="Center" Text="{Binding Name}" FontSize="20"/>
-                                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding LocationFullName}">
+                                                            <TextBlock TextAlignment="Center" FontSize="18" >
                                                                                         <InlineUIContainer>
                                                                                             <Image Source="/Resources/Icons/checkpoint.png" Width="20" Height="20" />
                                                                                         </InlineUIContainer>
+                                                                                        <Run Text="{Binding LocationFullName}" />
                                                             </TextBlock>
-                                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding Language}">
+                                                            <TextBlock TextAlignment="Center" FontSize="18">
                                                                                         <InlineUIContainer>
                                                                                             <Image Source="/Resources/Icons/language.png" Width="20" Height="20" />
                                                                                         </InlineUIContainer>
+                                                                                        <Run Text="{Binding Language}"/>
                                                             </TextBlock>
-                                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding Duration}">
+                                                            <TextBlock TextAlignment="Center" FontSize="18">
                                                                                         <InlineUIContainer>
-                                                                                            <Image Source="/Resources/Icons/kalendar_datumi.png" Width="20" Height="20" />
+                                                                                            <Image Source="/Resources/Icons/clock.png" Width="20" Height="20" />
                                                                                         </InlineUIContainer>
+                                                                                        <Run Text="{Binding Duration, StringFormat={}{0}h}"/>
                                                             </TextBlock>
                                                         </StackPanel>
                                                     </Grid>

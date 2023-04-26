@@ -45,6 +45,7 @@
     <None Remove="Resources\Icons\left_arrow.png" />
     <None Remove="Resources\Icons\list-square-icon.png" />
     <None Remove="Resources\Icons\livetour.png" />
+    <None Remove="Resources\Icons\log_out.png" />
     <None Remove="Resources\Icons\medal.png" />
     <None Remove="Resources\Icons\Pencil.png" />
     <None Remove="Resources\Icons\pencil.png" />
@@ -168,6 +169,7 @@
     <Content Include="Resources\Icons\review.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Icons\log_out.png" />
     <Resource Include="Resources\Icons\right_arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

@@ -1,6 +1,7 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Views;
 using SOSTeam.TravelAgency.WPF.Views.Guest2;
 using System;
 using System.Collections.Generic;
@@ -99,6 +100,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
+        private RelayCommand _logOutCommand;
+
+        public RelayCommand LogOutCommand
+        {
+            get { return _logOutCommand; }
+            set
+            {
+                _logOutCommand = value;
+            }
+        }
         public MainViewModel(User loggedInUser, ToursOverviewWindow window)
         {
             _window = window;
@@ -178,7 +189,32 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             MyToursCommand = new RelayCommand(Execute_MyToursPageCommand, CanExecuteMethod);
             VouchersCommand = new RelayCommand(Execute_VouchersWindowCommand, CanExecuteMethod);
             NotificationsCommand = new RelayCommand(Execute_NotificationsWindowCommand, CanExecuteMethod);
+            LogOutCommand = new RelayCommand(Execute_LogOutCommand, CanExecuteMethod);
         }
+
+        private MessageBoxResult ConfirmLogOut()
+        {
+            string sMessageBoxText = $"Da li ste sigurni da želite da se odjavite";
+            string sCaption = "Porvrda odjave";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+        private void Execute_LogOutCommand(object obj)
+        {
+            MessageBoxResult result = ConfirmLogOut();
+
+            if(result == MessageBoxResult.Yes)
+            {
+                SignInForm signInForm = new SignInForm();
+                signInForm.Show();
+                _window.Close();              
+            }
+        }
+
         private void Execute_NotificationsWindowCommand(object obj)
         {
             NotificationsWindow window = new NotificationsWindow(LoggedInUser);
