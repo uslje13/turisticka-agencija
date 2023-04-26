@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         public GuestInboxWindow(User user)
         {
             InitializeComponent();
-            GuestInboxViewModel viewModel = new GuestInboxViewModel(user, this);
+            GuestInboxViewModel viewModel = new GuestInboxViewModel(user, this, MarkNotifications);
             DataContext = viewModel;
         }
     }

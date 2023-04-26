@@ -30,12 +30,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public LocationService LocationService { get; set; }
         public List<Location> locations { get; set; }
         public Window ThisWindow { get; set; }
+        public ListBox MarkNotifications { get; set; }
 
-        public GuestInboxViewModel(User user, Window window)
+
+        public GuestInboxViewModel(User user, Window window, ListBox list)
         {
             LoggedInUser = user;
             ThisWindow = window;
-            
+            MarkNotifications = list;
+
             reservationsForMark = new List<CancelAndMarkResViewModel>();
             locAccommodationViewModels = new List<LocAccommodationViewModel>();
 
@@ -53,7 +56,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             PrepareMarkReservationList();
             ShowMarkingNotifications();
 
+            list.ItemsSource = reservationsForMark;
+            //CreateNotificationList(list);
             MarkAccommodationCommand = new RelayCommand(ExecuteAccommodationMarking);
+        }
+
+        private void CreateNotificationList(ListBox list)
+        {
+            foreach(var item in reservationsForMark)
+            {
+                list.ItemsSource = "Vaša rezervacija u smještaju " + item.AccommodationName + " (" + item.AccommodationCity + ", " +
+                                    item.AccommodationCountry + ") za period " + item.FirstDay.ToString() + "-" + item.LastDay.ToString() +
+                                    " je završena. Još " + item.DaysForMarking + " imate mogućnost da ocijenite ovaj smještaj";
+            }
         }
 
         private void PrepareMarkReservationList()
@@ -113,7 +128,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 if (resId == item.ReservationId)
                 {
                     int diff = 6 - days;
-                    item.DaysForMarking = diff.ToString() + " dana";
+                    item.NotificationShape += diff.ToString() + " dana. Link za ocjenjivanje :";
+                    //item.DaysForMarking = diff.ToString() + " dana.";
                     break;
                 }
             }

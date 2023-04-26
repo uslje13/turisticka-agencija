@@ -6,29 +6,30 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="GuestInboxWindow" Height="450" Width="800">
+        ResizeMode="NoResize"
+        Title="GuestInboxWindow" Height="768" Width="1024">
     <Grid>
-        <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding reservationsForMark}"
-                  AutoGenerateColumns="False" SelectionMode="Single"
-                  IsReadOnly="True" Margin="10,10,10,110">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
-                <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
-                <DataGridTextColumn Header="Država" Binding="{Binding AccommodationCountry}" Width="1*"/>
-                <DataGridTextColumn Header="Prvi dan" Binding="{Binding FirstDay}" Width="1*"/>
-                <DataGridTextColumn Header="Poslednji dan" Binding="{Binding LastDay}" Width="1*"/>
-                <DataGridTextColumn Header="Rok za ocjenjivanje" Binding="{Binding DaysForMarking}" Width="1*"/>
-                <DataGridTemplateColumn Width="1*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button x:Name="MarkButton" 
-                                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, 
+        <ListBox Name="MarkNotifications" HorizontalContentAlignment="Center" Margin="10,10,10,114">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock FontWeight="Bold" FontSize="9" Margin="60, -5">Obavještenje</TextBlock>
+                        <TextBlock Width="962" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
+                                   FontStyle="Italic" Background="AntiqueWhite" Padding="8"
+                                   FontWeight="SemiBold" Text="{Binding NotificationShape}" Margin="6"/>
+                        <Button x:Name="MarkButton" Margin="695, 34.5, 175, 18.5" 
+                                FontSize="17" FontStyle="Italic" FontWeight="SemiBold" Background="AntiqueWhite"
+                                BorderBrush="AntiqueWhite"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, 
                                 Path=DataContext.MarkAccommodationCommand}" CommandParameter="{Binding}"
                                 Content="Ocijeni"></Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

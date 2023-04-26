@@ -36,8 +36,8 @@
         </Grid>
         <Grid Grid.Row="1">
             <Label FontSize="25" FontWeight="Bold" Margin="10,0,588,203">Vaše predstojeće rezervacije :</Label>
-            <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding finishedReservations}"
-                  AutoGenerateColumns="False" SelectionMode="Single"
+            <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding finishedReservations}" 
+                  AutoGenerateColumns="False" SelectionMode="Single" CanUserResizeRows="False"
                   IsReadOnly="True" Margin="15,165,15,30">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Naziv smještaja" Binding="{Binding AccommodationName}" Width="1*"/>
@@ -52,8 +52,8 @@
 
             <Label FontSize="25" FontWeight="Bold" Margin="10,124,588,79">Vaše dosadašnje rezervacije :</Label>
             <TextBlock x:Name="ResNumber" FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="724,132,15,107"></TextBlock>
-            <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding futuredReservations}"
-                  AutoGenerateColumns="False" SelectionMode="Single"
+            <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding futuredReservations}" CanUserResizeRows="False"
+                  AutoGenerateColumns="False" SelectionMode="Single" 
                   IsReadOnly="True" Margin="15,41,15,152">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Naziv smještaja" Binding="{Binding AccommodationName}" Width="1*"/>
