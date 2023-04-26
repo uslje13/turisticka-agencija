@@ -9,7 +9,29 @@
         ResizeMode="NoResize"
         Title="GuestInboxWindow" Height="768" Width="1024">
     <Grid>
-        <ListBox Name="MarkNotifications" HorizontalContentAlignment="Center" Margin="10,10,10,162">
+        <ListBox Name="MarkNotifications" HorizontalContentAlignment="Center" BorderBrush="White" Margin="10,10,10,450">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock FontWeight="Bold" FontSize="9" Margin="60, -5">Podsjetnik</TextBlock>
+                        <TextBlock Width="962" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
+                                   FontStyle="Italic" Background="AntiqueWhite" Padding="8"
+                                   FontWeight="SemiBold" Text="{Binding NotificationShape}" Margin="6"/>
+                        <Button x:Name="MarkButton" Margin="695, 34.5, 175, 18.5" 
+                                FontSize="17" FontStyle="Italic" FontWeight="SemiBold" Background="AntiqueWhite"
+                                BorderBrush="AntiqueWhite"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, 
+                                Path=DataContext.MarkAccommodationCommand}" CommandParameter="{Binding}"
+                                Content="Ocijeni"></Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="ChangeNotifications" HorizontalContentAlignment="Center" BorderBrush="White" Margin="10,302,10,168">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -21,12 +43,6 @@
                         <TextBlock Width="962" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
                                    FontStyle="Italic" Background="AntiqueWhite" Padding="8"
                                    FontWeight="SemiBold" Text="{Binding NotificationShape}" Margin="6"/>
-                        <Button x:Name="MarkButton" Margin="695, 34.5, 175, 18.5" 
-                                FontSize="17" FontStyle="Italic" FontWeight="SemiBold" Background="AntiqueWhite"
-                                BorderBrush="AntiqueWhite"
-                                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, 
-                                Path=DataContext.MarkAccommodationCommand}" CommandParameter="{Binding}"
-                                Content="Ocijeni"></Button>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

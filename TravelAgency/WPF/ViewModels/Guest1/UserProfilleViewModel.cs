@@ -180,7 +180,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser);
             if (Notifications == 0)
             {
-                MessageBox.Show("Vaš inboks je prazan!\nNemate nepročitanih poruka.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("     Vaš inboks je prazan!\nNemate nepročitanih poruka.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
                 newWindow.ShowDialog();

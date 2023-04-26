@@ -22,7 +22,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int DaysDuration { get; set; }
         public string NotificationShape { get; set; }
 
-        public CancelAndMarkResViewModel() { }
+        public CancelAndMarkResViewModel() 
+        {
+            //NotificationShape = "Nemate rezervacija za ocjenjivanje smještaja.";
+        }
 
         public CancelAndMarkResViewModel(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId, string daysForMarking = "", int daysDuration = -1, LocAccommodationViewModel.AccommType type = LocAccommodationViewModel.AccommType.NOTYPE)
         {
