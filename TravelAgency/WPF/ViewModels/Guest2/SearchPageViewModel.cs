@@ -91,6 +91,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
         public static ObservableCollection<TourViewModel> TourViewModels { get; set; }
+        public static ObservableCollection<TourViewModel> SerbiaTourViewModels { get; set; }
+        public static ObservableCollection<TourViewModel> SummerTourViewModels { get; set; }
+        public static ArrowCommandsViewModel ArrowCommands { get; set; }
         public static User LoggedInUser { get; set; }
         private RelayCommand _backCommand;
         public RelayCommand BackCommand
@@ -113,7 +116,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public SearchPageViewModel(User loggedInUser, SearchPage page, ObservableCollection<TourViewModel> viewModels)
+        public SearchPageViewModel(User loggedInUser, SearchPage page, ObservableCollection<TourViewModel> viewModels, ObservableCollection<TourViewModel> serbiaTourViewModels, ObservableCollection<TourViewModel> summerTourViewModels)
         {
             BackCommand = new RelayCommand(Execute_BackCommand, CanExecuteMethod);
             SearchCommand = new RelayCommand(Execute_SearchCommand, CanExecuteMethod);
@@ -121,6 +124,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _page = page;
             TourViewModels = new ObservableCollection<TourViewModel>();
             TourViewModels = viewModels;
+            SerbiaTourViewModels = new ObservableCollection<TourViewModel>();
+            SerbiaTourViewModels = serbiaTourViewModels;
+            SummerTourViewModels = new ObservableCollection<TourViewModel>();
+            SummerTourViewModels = summerTourViewModels;
+            ArrowCommands = new ArrowCommandsViewModel(TourViewModels, SerbiaTourViewModels, SummerTourViewModels);
             _locationService = new LocationService();
             _tourService = new TourService();
             GetDataForComboBoxes();

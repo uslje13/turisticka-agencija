@@ -11,7 +11,7 @@
 
     <Grid>
         <Border>
-            <ScrollViewer HorizontalAlignment="Right" Width="990">
+            <ScrollViewer HorizontalAlignment="Left" Width="980">
                 <!-- Your content here -->
                 <ItemsControl x:Name="ToursList" ItemsSource="{Binding SearchResults}">
                     <ItemsControl.ItemTemplate>
@@ -22,21 +22,21 @@
                                         <StackPanel>
                                             <Border Height="300">
                                                 <Button Command="{Binding TourDetailsCommand}" Background="AliceBlue" BorderBrush="AliceBlue">
-                                                    <Image Source="/Resources/Images/Tours/budapest.jpg" />
+                                                    <Image Source="{Binding ImagePath}" />
                                                 </Button>
                                             </Border>
-                                            <TextBlock TextAlignment="Center" Text="{Binding Name}" FontSize="30"/>
-                                            <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding LocationFullName}">
+                                            <TextBlock TextAlignment="Center" Text="{Binding Name}" FontSize="28"/>
+                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding LocationFullName}">
                                                             <InlineUIContainer>
                                                                 <Image Source="/Resources/Icons/checkpoint.png" Width="20" Height="20" />
                                                             </InlineUIContainer>
                                             </TextBlock>
-                                            <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding Language}">
+                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding Language}">
                                                             <InlineUIContainer>
                                                                 <Image Source="/Resources/Icons/language.png" Width="20" Height="20" />
                                                             </InlineUIContainer>
                                             </TextBlock>
-                                            <TextBlock TextAlignment="Center" FontSize="20" Text="{Binding Duration}">
+                                            <TextBlock TextAlignment="Center" FontSize="18" Text="{Binding Duration}">
                                                             <InlineUIContainer>
                                                                 <Image Source="/Resources/Icons/kalendar_datumi.png" Width="20" Height="20" />
                                                             </InlineUIContainer>

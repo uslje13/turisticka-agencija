@@ -8,8 +8,16 @@
         Title="Turisticka agencija" Height="814" Width="1280"
         WindowStartupLocation="CenterScreen"          
         Background="AliceBlue"
+        ResizeMode="CanResizeWithGrip"
         >
-
+    <Window.InputBindings>
+        <KeyBinding Key="M" Modifiers="Control" Command="{Binding MyToursCommand}" />
+        <KeyBinding Key="Z" Modifiers="Control" Command="{Binding RequestsCommand}" />
+        <KeyBinding Key="V" Modifiers="Control" Command="{Binding VouchersCommand}" />
+        <KeyBinding Key="P" Modifiers="Control" Command="{Binding SearchCommand}" />
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding NotificationsCommand}" />
+        <KeyBinding Key="H" Modifiers="Control" Command="{Binding HelpCommand}" />
+    </Window.InputBindings>
 
     <Window.Resources>
         <ResourceDictionary>
@@ -100,7 +108,7 @@
             </Border>
 
             <Border CornerRadius="0,10,10,0"
-                    Grid.Column="1" Margin="10">
+                    Grid.Column="1" Margin="10,10,0,10">
                 <ScrollViewer HorizontalAlignment="Right" Width="990">
                     <!-- Your content here -->
                     <Grid>
@@ -122,7 +130,7 @@
                                                     </StackPanel>
 
                                                     <StackPanel Margin="837,0,0,0">
-                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsButtonsEnabled}" Command="{Binding ArrowCommands.RightArrowCommand}">
+                                                        <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsButtonsEnabled}" Command="{Binding ArrowCommands.RightArrowCommand}">
                                                             <Image Source="/Resources/Icons/right_arrow.png"></Image>
                                                         </Button>
                                                     </StackPanel>

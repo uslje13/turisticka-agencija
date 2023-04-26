@@ -206,7 +206,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_SearchPageCommand(object obj)
         {
             var navigationService = _window.SearchFrame.NavigationService;
-            navigationService.Navigate(new SearchPage(LoggedInUser,TourViewModels));
+            navigationService.Navigate(new SearchPage(LoggedInUser,TourViewModels,SerbiaTourViewModels,SummerTourViewModels));
         }
 
         private void Execute_HelpPageCommand(object obj)
