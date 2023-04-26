@@ -39,6 +39,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public TextBlock ReservationsCounter { get; set;  }
         public Window ThisWindow { get; set; }
         public RelayCommand CanceledReservationsCommand { get; set; }
+        public int Notifications { get; set; }
 
 
         public UserProfilleViewModel(User user, TextBlock uName, Button button, int notifications, TextBlock mess, TextBlock counter, Window window) 
@@ -50,6 +51,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ThisYearCounter = 0;
             ReservationsCounter = counter;
             ThisWindow = window;
+            Notifications = notifications;
 
             locAccommodationViewModels = new List<LocAccommodationViewModel>();
             futuredReservations = new List<CancelAndMarkResViewModel>();
@@ -176,7 +178,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         private void ExecuteInboxShowing(object sender)
         {
             GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser);
-            newWindow.ShowDialog();
+            if (Notifications == 0)
+            {
+                MessageBox.Show("Vaš inboks je prazan!\nNemate nepročitanih poruka.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                newWindow.ShowDialog();
         }
 
         private void ExecuteGoToStatuses(object sender)

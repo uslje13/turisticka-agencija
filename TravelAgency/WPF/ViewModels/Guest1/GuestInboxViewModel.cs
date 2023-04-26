@@ -1,6 +1,7 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Views;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public List<Location> locations { get; set; }
         public Window ThisWindow { get; set; }
         public ListBox MarkNotifications { get; set; }
+        public RelayCommand goToSearchCommand { get; set; }
+        public RelayCommand GoBackCommand { get; set; }
 
 
         public GuestInboxViewModel(User user, Window window, ListBox list)
@@ -57,18 +60,22 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ShowMarkingNotifications();
 
             list.ItemsSource = reservationsForMark;
-            //CreateNotificationList(list);
+
+            goToSearchCommand = new RelayCommand(ExecuteGoToSearch);
+            GoBackCommand = new RelayCommand(Execute_GoBack);
             MarkAccommodationCommand = new RelayCommand(ExecuteAccommodationMarking);
         }
 
-        private void CreateNotificationList(ListBox list)
+        private void Execute_GoBack(object sender)
         {
-            foreach(var item in reservationsForMark)
-            {
-                list.ItemsSource = "Vaša rezervacija u smještaju " + item.AccommodationName + " (" + item.AccommodationCity + ", " +
-                                    item.AccommodationCountry + ") za period " + item.FirstDay.ToString() + "-" + item.LastDay.ToString() +
-                                    " je završena. Još " + item.DaysForMarking + " imate mogućnost da ocijenite ovaj smještaj";
-            }
+            ThisWindow.Close();
+        }
+
+        private void ExecuteGoToSearch(object sender)
+        {
+            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser);
+            ThisWindow.Close();
+            newWindow.Show();
         }
 
         private void PrepareMarkReservationList()

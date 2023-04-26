@@ -9,7 +9,7 @@
         ResizeMode="NoResize"
         Title="GuestInboxWindow" Height="768" Width="1024">
     <Grid>
-        <ListBox Name="MarkNotifications" HorizontalContentAlignment="Center" Margin="10,10,10,114">
+        <ListBox Name="MarkNotifications" HorizontalContentAlignment="Center" Margin="10,10,10,162">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -31,5 +31,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Command="{Binding goToSearchCommand}" Width="110" Height="43" FontSize="17" Content="Glavni meni" Margin="838,620,53,57" BorderBrush="Black"/>
+        <Button Command="{Binding GoBackCommand}" Width="110" Height="43" FontSize="17" Content="Nazad" Margin="53,620,842,57" BorderBrush="Black"/>
     </Grid>
 </Window>
