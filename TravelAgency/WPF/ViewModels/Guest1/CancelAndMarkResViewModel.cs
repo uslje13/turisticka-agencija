@@ -14,7 +14,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public string AccommodationCity { get; set; }
         public string AccommodationCountry { get; set; }
         public DateTime FirstDay { get; set; }
+        public string FirstDayStr { get; set; }
         public DateTime LastDay { get; set; }
+        public string LastDayStr { get; set; }
         public int ReservationId { get; set; }
         public int AccommodationId { get; set; }
         public string DaysForMarking { get; set; }
@@ -33,7 +35,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationCity = accommodationCity;
             AccommodationCountry = accommodationCountry;
             FirstDay = firstDay;
+            FirstDayStr = firstDay.ToShortDateString();
             LastDay = lastDay;
+            LastDayStr = lastDay.ToShortDateString();
             ReservationId = reservationId;
             AccommodationId = accommodationId;
             DaysForMarking = daysForMarking;

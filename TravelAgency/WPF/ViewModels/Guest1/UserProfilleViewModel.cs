@@ -127,7 +127,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 Binding binding = new Binding();
                 binding.Source = "   " + notifications.ToString();
                 Messages.SetBinding(TextBlock.TextProperty, binding);
-                Messages.Foreground = new SolidColorBrush(Colors.DarkRed);
+                Messages.Foreground = new SolidColorBrush(Colors.MidnightBlue);
             }
         }
 

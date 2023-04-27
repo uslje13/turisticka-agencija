@@ -5,7 +5,7 @@
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect Color="Black" BlurRadius="35" ShadowDepth="3"/>
+                        <DropShadowEffect Color="DarkBlue" BlurRadius="35" ShadowDepth="3"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -14,9 +14,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10"
-                            Background="Silver"
+                            Background="LightSteelBlue"
                             BorderThickness="3"
-                            BorderBrush="Black">
+                            BorderBrush="MidnightBlue">
                         <ContentPresenter
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
