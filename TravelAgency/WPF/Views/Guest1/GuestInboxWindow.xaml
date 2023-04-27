@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
+        Background="LightGray"
         Title="GuestInboxWindow" Height="768" Width="1024">
     <Window.Resources>
         <ResourceDictionary>
@@ -16,7 +17,8 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <ListBox Name="MarkNotifications" HorizontalContentAlignment="Center" BorderBrush="White" Margin="10,10,10,450">
+        <ListBox Name="MarkNotifications" HorizontalContentAlignment="Center" BorderBrush="Black"
+                 Background="LightGray" Margin="10,10,10,450">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -26,11 +28,11 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock FontWeight="Bold" FontSize="9" Margin="60, -5">Podsjetnik</TextBlock>
                         <TextBlock Width="962" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
-                                   FontStyle="Italic" Background="AntiqueWhite" Padding="8"
+                                   FontStyle="Italic" Background="DarkGray" Padding="8"
                                    FontWeight="SemiBold" Text="{Binding NotificationShape}" Margin="6"/>
                         <Button x:Name="MarkButton" Margin="695, 34.5, 175, 18.5" 
-                                FontSize="17" FontStyle="Italic" FontWeight="SemiBold" Background="AntiqueWhite"
-                                BorderBrush="AntiqueWhite"
+                                FontSize="17" FontStyle="Italic" FontWeight="SemiBold" Background="DarkGray"
+                                BorderBrush="DarkGray"
                                 Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, 
                                 Path=DataContext.MarkAccommodationCommand}" CommandParameter="{Binding}"
                                 Content="Ocijeni"></Button>
@@ -38,7 +40,8 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox Name="ChangeNotifications" HorizontalContentAlignment="Center" BorderBrush="White" Margin="10,302,10,168">
+        <ListBox Name="ChangeNotifications" HorizontalContentAlignment="Center" BorderBrush="Black"
+                 Background="LightGray" Margin="10,302,10,168">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -48,7 +51,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock FontWeight="Bold" FontSize="9" Margin="60, -5">Obavještenje</TextBlock>
                         <TextBlock Width="962" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
-                                   FontStyle="Italic" Background="AntiqueWhite" Padding="8"
+                                   FontStyle="Italic" Background="DarkGray" Padding="8"
                                    FontWeight="SemiBold" Text="{Binding NotificationShape}" Margin="6"/>
                     </Grid>
                 </DataTemplate>

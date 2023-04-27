@@ -122,15 +122,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void ControlInboxButton(int notifications)
         {
-            //InboxButton.Content = "Inbox - " + notifications.ToString();
-            //InboxButton.Content = " " + notifications.ToString() + "       Inbox";
             if (notifications > 0)
             {
-                //InboxButton.Background = new SolidColorBrush(Colors.OrangeRed);
                 Binding binding = new Binding();
                 binding.Source = "   " + notifications.ToString();
                 Messages.SetBinding(TextBlock.TextProperty, binding);
-                Messages.Foreground = new SolidColorBrush(Colors.Red);
+                Messages.Foreground = new SolidColorBrush(Colors.DarkRed);
             }
         }
 
