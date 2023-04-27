@@ -77,7 +77,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" Focusable="True" Command="{Binding BackCommand}" >
+                    <Button Style="{StaticResource MenuButtons}" Command="{Binding BackCommand}" >
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/back_button.png" Height="47" Width="38"/>
                             <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="192"/>

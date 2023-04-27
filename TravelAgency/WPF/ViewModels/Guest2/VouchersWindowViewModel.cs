@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
@@ -27,13 +28,40 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
+        private RelayCommand _helpCommand;
+
+        public RelayCommand HelpCommand
+        {
+            get { return _helpCommand; }
+            set
+            {
+                _helpCommand = value;
+            }
+        }
         public VouchersWindowViewModel(VouchersWindow window)
         {
             _window = window;
             BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
+            HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
             Vouchers = new ObservableCollection<VouchersViewModel>();
             _voucherService = new VoucherService();
             FillVouchersForShowingList();
+        }
+        private void Execute_HelpCommand(object obj)
+        {
+            _window.Close();
+
+            var currentApp = System.Windows.Application.Current;
+
+            foreach (Window window in currentApp.Windows)
+            {
+                if (window is ToursOverviewWindow)
+                {
+                    var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
+                    navigationService.Navigate(new HelpPage());
+                    break;
+                }
+            }
         }
 
         private void FillVouchersForShowingList()

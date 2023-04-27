@@ -31,16 +31,44 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
+        private RelayCommand _helpCommand;
+
+        public RelayCommand HelpCommand
+        {
+            get { return _helpCommand; }
+            set
+            {
+                _helpCommand = value;
+            }
+        }
         public NotificationsWindowViewModel(User loggedInUser, NotificationsWindow window) 
         {
             _window = window;
             LoggedInUser = loggedInUser;
             BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
+            HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
             _reservationService = new ReservationService();
             _appointmentSevice = new AppointmentService();
             _tourService = new TourService();
             FinishedTours = new ObservableCollection<FinishedTourViewModel>();
             FillFinishedToursList();
+        }
+
+        private void Execute_HelpCommand(object obj)
+        {
+            _window.Close();
+
+            var currentApp = System.Windows.Application.Current;
+
+            foreach (Window window in currentApp.Windows)
+            {
+                if (window is ToursOverviewWindow)
+                {
+                    var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
+                    navigationService.Navigate(new HelpPage());
+                    break;
+                }
+            }
         }
 
         private void FillFinishedToursList()
