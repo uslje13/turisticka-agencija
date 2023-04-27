@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Background="DarkKhaki"
+        Background="White"
         Title="UserProfille" Height="768" Width="1024">
     <Grid>
         <Grid.RowDefinitions>
@@ -21,7 +21,7 @@
             <TextBlock x:Name="UsersName" FontSize="50" FontWeight="Bold" FontStyle="Italic" Margin="204,61,533,116" TextAlignment="Center"></TextBlock>
             <Image Source="/Resources/Icons/Guest1/verification.png" Margin="491,71,452,116"/>
             <Button x:Name="InboxButton" Command="{Binding goToInboxCommand}" FontSize="25" FontWeight="DemiBold"
-                HorizontalContentAlignment="Center" Background="DarkKhaki" BorderBrush="DarkKhaki"
+                HorizontalContentAlignment="Center" Background="White" BorderBrush="White"
                 Margin="781,52,42,107" GotFocus="TestOpeningInbox">
                 <StackPanel Orientation="Horizontal" Width="200" Height="82">
                     <Canvas Width="200">
@@ -39,90 +39,6 @@
             <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding finishedReservations}" 
                   AutoGenerateColumns="False" SelectionMode="Single" CanUserResizeRows="False"
                   IsReadOnly="True" Margin="15,165,15,31">
-                <DataGrid.Resources>
-                    <Style TargetType="DataGrid">
-                        <!-- Make the border and grid lines a little less imposing -->
-                        <Setter Property="BorderBrush" Value="Black" />
-                        <Setter Property="BorderThickness" Value="2"/>
-                        <Setter Property="Background" Value="DarkKhaki"/>
-                        <Setter Property="HorizontalGridLinesBrush" Value="Black" />
-                        <Setter Property="VerticalGridLinesBrush" Value="Black" />
-                        <Setter Property="CanUserResizeColumns" Value="False"/>
-                        <Setter Property="CanUserResizeRows" Value="False"/>
-
-                        <Setter Property="RowStyle">
-                            <Setter.Value>
-                                <Style TargetType="DataGridRow">
-                                    <Style.Triggers>
-                                        <!-- Highlight a grid row as the mouse passes over -->
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="PaleGoldenrod" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="ColumnHeaderStyle">
-                            <Setter.Value>
-                                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="Foreground" Value="Black"/>
-                                    <Setter Property="Padding" Value="5,4,5,4" />
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="RowHeaderStyle">
-                            <Setter.Value>
-                                <Style BasedOn="{StaticResource {x:Type DataGridRowHeader}}" TargetType="{x:Type DataGridRowHeader}">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="CellStyle">
-                            <Setter.Value>
-                                <Style TargetType="DataGridCell">
-                                    <Style.Triggers>
-                                        <!-- Highlight selected rows -->
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="#ff66ccff" />
-                                            <Setter Property="BorderBrush" Value="Transparent" />
-                                            <Setter Property="Foreground" Value="Black" />
-                                        </Trigger>
-                                        <Trigger Property="IsFocused" Value="True">
-                                            <Setter Property="Background" Value="#ff66ccff" />
-                                            <Setter Property="BorderBrush" Value="Black" />
-                                            <Setter Property="BorderThickness" Value="2"/>
-                                            <Setter Property="Foreground" Value="Black" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                    <!-- Add some padding around the contents of a cell -->
-                                    <Setter Property="Padding" Value="5,4,5,4" />
-                                    <Setter Property="BorderBrush" Value="White"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="DataGridCell">
-                                                <Border Padding="{TemplateBinding Padding}" 
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            Background="{TemplateBinding Background}">
-                                                    <ContentPresenter />
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="FocusVisualStyle">
-                                        <Setter.Value>
-                                            <Style TargetType="Control">
-                                                <Setter Property="BorderBrush" Value="Transparent" />
-                                            </Style>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Naziv smještaja" Binding="{Binding AccommodationName}" Width="1*"/>
                     <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
@@ -133,96 +49,11 @@
                     <DataGridTextColumn Header="Trajanje rezervacije" Binding="{Binding DaysDuration}" Width="1*"/>
                 </DataGrid.Columns>
             </DataGrid>
-
             <Label FontSize="25" FontWeight="Bold" Margin="10,124,588,79">Vaše dosadašnje rezervacije :</Label>
             <TextBlock x:Name="ResNumber" FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="724,132,15,107"></TextBlock>
             <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding futuredReservations}" CanUserResizeRows="False"
                   AutoGenerateColumns="False" SelectionMode="Single" 
                   IsReadOnly="True" Margin="15,41,15,155">
-                <DataGrid.Resources>
-                    <Style TargetType="DataGrid">
-                        <!-- Make the border and grid lines a little less imposing -->
-                        <Setter Property="BorderBrush" Value="Black" />
-                        <Setter Property="BorderThickness" Value="2"/>
-                        <Setter Property="Background" Value="DarkKhaki"/>
-                        <Setter Property="HorizontalGridLinesBrush" Value="Black" />
-                        <Setter Property="VerticalGridLinesBrush" Value="Black" />
-                        <Setter Property="CanUserResizeColumns" Value="False"/>
-                        <Setter Property="CanUserResizeRows" Value="False"/>
-
-                        <Setter Property="RowStyle">
-                            <Setter.Value>
-                                <Style TargetType="DataGridRow">
-                                    <Style.Triggers>
-                                        <!-- Highlight a grid row as the mouse passes over -->
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="PaleGoldenrod" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="ColumnHeaderStyle">
-                            <Setter.Value>
-                                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="Foreground" Value="Black"/>
-                                    <Setter Property="Padding" Value="5,4,5,4" />
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="RowHeaderStyle">
-                            <Setter.Value>
-                                <Style BasedOn="{StaticResource {x:Type DataGridRowHeader}}" TargetType="{x:Type DataGridRowHeader}">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="CellStyle">
-                            <Setter.Value>
-                                <Style TargetType="DataGridCell">
-                                    <Style.Triggers>
-                                        <!-- Highlight selected rows -->
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="#ff66ccff" />
-                                            <Setter Property="BorderBrush" Value="Transparent" />
-                                            <Setter Property="Foreground" Value="Black" />
-                                        </Trigger>
-                                        <Trigger Property="IsFocused" Value="True">
-                                            <Setter Property="Background" Value="#ff66ccff" />
-                                            <Setter Property="BorderBrush" Value="Black" />
-                                            <Setter Property="BorderThickness" Value="2"/>
-                                            <Setter Property="Foreground" Value="Black" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                    <!-- Add some padding around the contents of a cell -->
-                                    <Setter Property="Padding" Value="5,4,5,4" />
-                                    <Setter Property="BorderBrush" Value="White"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="DataGridCell">
-                                                <Border Padding="{TemplateBinding Padding}" 
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            Background="{TemplateBinding Background}">
-                                                    <ContentPresenter />
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="FocusVisualStyle">
-                                        <Setter.Value>
-                                            <Style TargetType="Control">
-                                                <Setter Property="BorderBrush" Value="Transparent" />
-                                            </Style>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Naziv smještaja" Binding="{Binding AccommodationName}" Width="1*"/>
                     <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
@@ -234,7 +65,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <Button Command="{Binding goToRequestsStatus}" Margin="710,-19,15,244" FontSize="24" FontWeight="DemiBold"
-                    Background="DarkKhaki" BorderBrush="DarkKhaki" Name="StatusesButton">
+                    Background="White" BorderBrush="White" Name="StatusesButton">
                 <StackPanel Orientation="Horizontal" Width="326" Height="62">
                     <TextBlock Width="229" Height="31" TextAlignment="Right"><Run Text="Status Vaših zahtjeva"/></TextBlock>
                     <Image Source="/Resources/Icons/Guest1/statuses.png" Width="52" Height="44"/>
@@ -242,26 +73,16 @@
             </Button>
         </Grid>
         <Grid Grid.Row="1" Margin="0,250,0,0" Grid.RowSpan="2">
-            <Label Foreground="Black" FontSize="20" FontWeight="Bold" FontStyle="Italic" 
+            <Label Foreground="Goldenrod" FontSize="20" FontWeight="Bold" FontStyle="Italic" 
                    Margin="423,6,109,181">Vaše otkazane rezervacije su na sledećem linku :</Label>
             <Button Command="{Binding CanceledReservationsCommand}" FontSize="20" Content="otkazano" Name="CanceledReportButton"
-                    Margin="881,5,10,195" Background="DarkKhaki" Foreground="Black"
-                    BorderBrush="DarkKhaki" FontWeight="Bold" FontStyle="Italic"/>
+                    Margin="881,5,10,195" Background="White" Foreground="Goldenrod"
+                    BorderBrush="White" FontWeight="Bold" FontStyle="Italic"/>
             <Button Command="{Binding goToSearchCommand}" Width="110" Height="43" FontSize="17" Content="Glavni meni"
                     Margin="838,128,53,57" BorderBrush="Black" BorderThickness="3" Background="White">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"></Setter>
-                    </Style>
-                </Button.Resources>
             </Button>
             <Button Command="{Binding SignOutCommand}" Width="110" Height="43" FontSize="17" Content="Odjavi se" 
                     Margin="646,128,241,57" BorderBrush="Black" BorderThickness="3" Background="White">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"/>
-                    </Style>
-                </Button.Resources>
             </Button>
         </Grid>
     </Grid>
