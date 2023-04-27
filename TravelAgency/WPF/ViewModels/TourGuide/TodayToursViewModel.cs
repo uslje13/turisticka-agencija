@@ -85,11 +85,29 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             var selectedTourCard = sender as TourCardViewModel;
             _appointmentService.StartAppointment(selectedTourCard.AppointmentId);
 
-            _checkpointActivityService.CreateActivities(_checkpointService.GetAllByTourId(selectedTourCard.TourId), selectedTourCard.AppointmentId);
-            CreateGuestAttendances(selectedTourCard);
+            var messageBoxWindow = CreateMessageBox();
 
-            LiveTourPage liveTourPage = new LiveTourPage(_loggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = liveTourPage;
+            var result = messageBoxWindow.ShowDialog();
+
+            if (result == true)
+            {
+                _checkpointActivityService.CreateActivities(_checkpointService.GetAllByTourId(selectedTourCard.TourId), selectedTourCard.AppointmentId);
+                CreateGuestAttendances(selectedTourCard);
+                LiveTourPage liveTourPage = new LiveTourPage(_loggedUser);
+                System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = liveTourPage;
+            }
+        }
+
+        private static MessageBoxWindow CreateMessageBox()
+        {
+            const string message = "Are you sure you want to start the tour?\n";
+
+            var messageBoxViewModel = new MessageBoxViewModel("Alert", "/Resources/Icons/warning.png", message);
+            var messageBoxWindow = new MessageBoxWindow
+            {
+                DataContext = messageBoxViewModel
+            };
+            return messageBoxWindow;
         }
 
         private void CreateGuestAttendances(TourCardViewModel startedAppointment)

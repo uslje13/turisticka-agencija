@@ -28,9 +28,11 @@
         </WrapPanel>
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Date, StringFormat='dd.MM.yyyy. HH:mm'}"  
                    TextAlignment="Center" FontSize="16"/>
-        <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Checkpoints"  
-               Margin="15,0,0,0" FontSize="18" Height="34" Width="107"/>
-        
+
+        <!-- Label -->
+        <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Checkpoints"  Margin="15,0,0,0" FontSize="18" Height="34" Width="107"/>
+
+        <!-- ListBox -->
         <ListBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" x:Name="TourListOverview" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                  VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding CheckpointCards}" SelectedItem="{Binding SelectedCheckpointCard}">
             <b:Interaction.Triggers>

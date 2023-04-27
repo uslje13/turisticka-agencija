@@ -30,12 +30,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             else if (guestAttendance.Presence == GuestPresence.NO)
             {
                 StatusImage = "/Resources/Icons/checkpoint_no.png";
-                Background = "#F0F8FF";
+                Background = "#FFC7C8";
             }
             else
             {
                 StatusImage = "/Resources/Icons/checkpoint_unknown.png";
-                Background = "#FFC7C8";
+                Background = "#F8FFB7";
             }
         }
 
