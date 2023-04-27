@@ -8,6 +8,13 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Title="GuestInboxWindow" Height="768" Width="1024">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <ListBox Name="MarkNotifications" HorizontalContentAlignment="Center" BorderBrush="White" Margin="10,10,10,450">
             <ListBox.ItemTemplate>
@@ -48,20 +55,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button Command="{Binding goToSearchCommand}" Width="110" Height="43" FontSize="17" Content="Glavni meni" 
-                Margin="838,620,53,57" BorderBrush="DarkBlue" BorderThickness="3" Background="LightSteelBlue">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"></Setter>
-                </Style>
-            </Button.Resources>
+                Style="{StaticResource ButtonStyle}" Margin="838,620,53,57">
         </Button>
         <Button Command="{Binding GoBackCommand}" Width="110" Height="43" FontSize="17" Content="Nazad" 
-                Margin="53,620,842,57" BorderBrush="DarkBlue" BorderThickness="3" Background="LightSteelBlue">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"></Setter>
-                </Style>
-            </Button.Resources>
+                Style="{StaticResource ButtonStyle}" Margin="53,620,842,57">
         </Button>
     </Grid>
 </Window>

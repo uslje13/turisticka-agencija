@@ -9,6 +9,13 @@
         ResizeMode="NoResize"
         Background="White"
         Title="UserProfille" Height="768" Width="1024">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -78,11 +85,13 @@
             <Button Command="{Binding CanceledReservationsCommand}" FontSize="20" Content="otkazano" Name="CanceledReportButton"
                     Margin="881,5,10,195" Background="White" Foreground="Goldenrod"
                     BorderBrush="White" FontWeight="Bold" FontStyle="Italic"/>
-            <Button Command="{Binding goToSearchCommand}" Width="110" Height="43" FontSize="17" Content="Glavni meni"
-                    Margin="838,128,53,57" BorderBrush="Black" BorderThickness="3" Background="White">
+            <Button Command="{Binding goToSearchCommand}" Width="110" Height="43" 
+                    Style="{StaticResource ButtonStyle}" FontSize="17" Content="Glavni meni"
+                    Margin="838,128,53,57">
             </Button>
-            <Button Command="{Binding SignOutCommand}" Width="110" Height="43" FontSize="17" Content="Odjavi se" 
-                    Margin="646,128,241,57" BorderBrush="Black" BorderThickness="3" Background="White">
+            <Button Command="{Binding SignOutCommand}" Width="110" Height="43" 
+                    Style="{StaticResource ButtonStyle}" FontSize="17" Content="Odjavi se" 
+                    Margin="646,128,241,57">
             </Button>
         </Grid>
     </Grid>
