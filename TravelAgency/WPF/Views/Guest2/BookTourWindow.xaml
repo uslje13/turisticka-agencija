@@ -5,11 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest2"
         mc:Ignorable="d"
-        Title="BookTourWindow" Height="800" Width="880" Background="AliceBlue" FontFamily="Microsoft Sans Serif" WindowStartupLocation="CenterScreen">
+        Title="{Binding Tour.Name}" Height="800" Width="880" Background="AliceBlue" FontFamily="Microsoft Sans Serif" WindowStartupLocation="CenterScreen">
+   
+    <Window.InputBindings>
+        <KeyBinding Key="B" Modifiers="Control" Command="{Binding BackCommand}" />
+        <KeyBinding Key="H" Modifiers="Control" Command="{Binding HelpCommand}" />
+    </Window.InputBindings>
+    
     <Grid>
         <Border Margin="0,0,0,566">
-            <StackPanel Margin="0,0,0,-14">
-                <Button Width="195" Height="36" Margin="600,26,27,100">
+            <StackPanel Margin="0,0,-7,-14">
+                <Button Width="187" Height="36" Margin="657,26,27,100" Command="{Binding HelpCommand}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Icons/help--v1.png" Height="33" Width="38"></Image>
                         <TextBlock  Text=" Pomoc (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
@@ -30,7 +36,7 @@
         <Border Margin="0,689,0,0">
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <Button Height="74" Width="440" Content="Rezervisi" FontSize="24" Command="{Binding ReserveCommand}"></Button>
-                <Button Height="74" Width="440" Content="Nazad (Ctrl+b)" FontSize="24" Command="{Binding CancelCommand}"></Button>
+                <Button Height="74" Width="440" Content="Nazad (Ctrl+b)" FontSize="24" Command="{Binding BackCommand}"></Button>
             </StackPanel>
         </Border>
         <Border Margin="0,494,0,100">
@@ -38,19 +44,39 @@
                 <Border Height="58">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="     Unesite broj ljudi koji bi isli na turu:" FontSize="24" TextAlignment="Center" VerticalAlignment="Center" />
-                        <TextBox Width="453" Margin="10" FontSize="24" Text="{Binding TouristNum,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        <TextBox Width="437" Margin="10" FontSize="24" Text="{Binding TouristNum,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsTouristNumValid}" Value="False">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
                     </StackPanel>
                 </Border>
                 <Border Height="58">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="     Unesite prosek godina tih ljudi:       " FontSize="24" TextAlignment="Center" VerticalAlignment="Center" Width="400" Height="30" />
-                        <TextBox Width="453" Margin="10" FontSize="24" Text="{Binding AverageAge,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        <TextBox Width="436" Margin="10" FontSize="24" Text="{Binding AverageAge,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsAverageAgeValid}" Value="False">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
                     </StackPanel>
                 </Border>
                 <Border Height="58">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="     Iskoristite vaucer:" FontSize="24" TextAlignment="Center" VerticalAlignment="Center" Width="401" />
-                        <ComboBox Width="453" Margin="10" FontSize="24" ItemsSource="{Binding Vouchers}" DisplayMemberPath="VoucherName" SelectedItem="{Binding SelectedVoucher}"></ComboBox>
+                        <ComboBox Width="435" Margin="10" FontSize="24" ItemsSource="{Binding Vouchers}" DisplayMemberPath="VoucherName" SelectedItem="{Binding SelectedVoucher}"></ComboBox>
                     </StackPanel>
                 </Border>
             </StackPanel>

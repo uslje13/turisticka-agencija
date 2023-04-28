@@ -1,11 +1,13 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Views.Guest2;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -51,13 +53,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public static ObservableCollection<AppoitmentOverviewViewModel> AppoitmentOverviewViewModels { get; set; }
         public static ObservableCollection<VouchersViewModel> Vouchers { get; set; }
 
-        private RelayCommand _cancelCommand;
-        public RelayCommand CancelCommand
+        private RelayCommand _backCommand;
+        public RelayCommand BackCommand
         {
-            get { return _cancelCommand; }
+            get { return _backCommand; }
             set
             {
-                _cancelCommand = value;
+                _backCommand = value;
             }
         }
 
@@ -69,6 +71,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             set
             {
                 _reserveCommand = value;
+            }
+        }
+
+        private RelayCommand _helpCommand;
+
+        public RelayCommand HelpCommand
+        {
+            get { return _helpCommand; }
+            set
+            {
+                _helpCommand = value;
             }
         }
         public int AvailableSlots
@@ -84,17 +97,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        private int _touristNum;
-        public int TouristNum
+        private string _touristNum;
+        public string TouristNum
         {
             get { return _touristNum; }
             set
             {
-                if (value != _touristNum)
-                {
-                    _touristNum = value;
-                    OnPropertyChanged();
-                }
+                _touristNum = value;
+                ValidateTouristNum();
+                OnPropertyChanged(nameof(TouristNum));
             }
         }
 
@@ -104,14 +115,51 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             get { return _averageAge; }
             set
             {
-                if (value != _averageAge)
-                {
-                    _averageAge = value;
-                    OnPropertyChanged();
-                }
+                _averageAge = value;
+                ValidateAverageAge();
+                OnPropertyChanged(nameof(AverageAge));
             }
         }
 
+        private Regex _ageRegex = new Regex(@"^(?!0*(\.0+)?$)\d+(\.\d+)?$");
+        private Regex _touristNumRegex = new Regex(@"^[1-9][0-9]*$");
+
+        private bool _isAverageAgeValid;
+        public bool IsAverageAgeValid
+        {
+            get => _isAverageAgeValid;
+            set
+            {
+                _isAverageAgeValid = value;
+                OnPropertyChanged(nameof(IsAverageAgeValid));
+            }
+        }
+
+        private bool _isTouristNumValid;
+        public bool IsTouristNumValid
+        {
+            get => _isTouristNumValid;
+            set
+            {
+                _isTouristNumValid = value;
+                OnPropertyChanged(nameof(IsTouristNumValid));
+            }
+        }
+        private void ValidateAverageAge()
+        {
+            if (!string.IsNullOrEmpty(AverageAge))
+            {
+                IsAverageAgeValid = _ageRegex.IsMatch(AverageAge);
+            }
+        }
+
+        private void ValidateTouristNum()
+        {
+            if (!string.IsNullOrEmpty(TouristNum))
+            {
+                IsTouristNumValid = _touristNumRegex.IsMatch(TouristNum);
+            }
+        }
         public BookTourViewModel(int id, User loggedInUser,Window window)
         {
             LoggedInUser = loggedInUser;
@@ -124,12 +172,29 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             Vouchers = new ObservableCollection<VouchersViewModel>();
             Tour = _tourService.FindTourById(id);
             _window = window;
-            CancelCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
+            BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
+            HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
             ReserveCommand = new RelayCommand(Execute_ReserveCommand, CanExecuteMethod);
             FillAppoitmentViewModelList();
             FillVouchersForShowingList();
         }
 
+        private void Execute_HelpCommand(object obj)
+        {
+            _window.Close();
+
+            var currentApp = System.Windows.Application.Current;
+
+            foreach (Window window in currentApp.Windows)
+            {
+                if (window is ToursOverviewWindow)
+                {
+                    var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
+                    navigationService.Navigate(new HelpPage());
+                    break;
+                }
+            }
+        }
         private bool CanExecuteMethod(object parameter)
         {
             return true;
@@ -141,25 +206,39 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         }
         private void Execute_ReserveCommand(object sender)
         {
-            if(Selected == null)
-            {
-                MessageBox.Show("Niste odabrali termin");
-            }
-            else if (_touristNum == null || _touristNum == 0 || _averageAge == null)
-            {
-                MessageBox.Show("Niste popunili potrebne podatke");
-            }
-            else if (_touristNum > _availableSlots)
-            {
-                MessageBox.Show("Ne moze se rezervisati tura, nema dovoljno slobodnih mesta");
-            }
-            else
+
+            if (IsDataCorrect() == true)
             {
                 MessageBoxResult result = ConfirmReservation();
                 ReservationConfirmedEvent(result);
             }
         }
 
+        private bool IsDataCorrect()
+        {
+            bool isCorrect = true;
+            if (Selected == null)
+            {
+                MessageBox.Show("Niste odabrali termin", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                isCorrect = false;
+            }
+            else if (!IsTouristNumValid || _touristNum == "" || _touristNum == null)
+            {
+                MessageBox.Show("Broj turista nije unet u dobrom formatu", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                isCorrect = false;
+            }
+            else if (!IsAverageAgeValid || _averageAge == "" || _averageAge == null)
+            {
+                MessageBox.Show("Prosecan broj godina nije unet u dobrom formatu", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                isCorrect = false;
+            }
+            else if (int.Parse(_touristNum) > _availableSlots)
+            {
+                MessageBox.Show("Ne moze se rezervisati tura, nema dovoljno slobodnih mesta", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                isCorrect = false;
+            }
+            return isCorrect;
+        }
         private void ReservationConfirmedEvent(MessageBoxResult result)
         {
             if (result == MessageBoxResult.Yes)
@@ -167,11 +246,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 if (_selectedVoucher != null)
                 {
                     _voucherService.UsedUpdate(_selectedVoucher.VoucherId);
-                    _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge), _selectedVoucher.VoucherId);
+                    _reservationService.CreateReservation(_selected, LoggedInUser, int.Parse(_touristNum), float.Parse(_averageAge), _selectedVoucher.VoucherId);
                 }
                 else
                 {
-                    _reservationService.CreateReservation(_selected, LoggedInUser, _touristNum, float.Parse(_averageAge));
+                    _reservationService.CreateReservation(_selected, LoggedInUser, int.Parse(_touristNum), float.Parse(_averageAge));
                 }
                 _window.Close();
             }
