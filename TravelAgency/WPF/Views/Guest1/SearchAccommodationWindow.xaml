@@ -6,34 +6,30 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="SearchAccommodation" Height="500" Width="800">
+        Background="LightGoldenrodYellow"
+        ResizeMode="NoResize"
+        Title="SearchAccommodation" Height="768" Width="1024">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding AccommDTOsCollection}" 
-                  SelectedItem="{Binding Path=SelectedAccommodationDTO, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" SelectionMode="Single"
-                  IsReadOnly="True" Margin="10,10,10,110">
-            <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsSuperOwned}" Value="True">
-                            <Setter Property="Background" Value="Gold" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.CellStyle>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
-                <DataGridTextColumn Header="Grad" Binding="{Binding LocationCity}" Width="1*"/>
-                <DataGridTextColumn Header="Drzava" Binding="{Binding LocationCountry}" Width="1*"/>
-                <DataGridTextColumn Header="Tip" Binding="{Binding AccommodationType}" Width="1*"/>
-                <DataGridTextColumn Header="Trenutno gostiju" Binding="{Binding GuestNumber}" Width="1*"/>
-                <DataGridTextColumn Header="Max. gostiju" Binding="{Binding AccommodationMaxGuests}" Width="1*"/>
-                <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="1*"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button x:Name="SearchButton" Margin="270,369,400,35" Content="Pretraži smeštaj"  
-                Width="100" Height="30" Command="{Binding searchCommand}"></Button>
-        <Button x:Name="ReservationButton" Margin="400,369,270,35" Content="Rezerviši smeštaj" 
-                Width="100" Height="30" Command="{Binding reserveCommand}"></Button>
+        <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
+        <Image Source="/Resources/Icons/Guest1/user_siluet.png" 
+                   Margin="0,3,818,567"/>
+        <TextBlock Foreground="Black" x:Name="UsersName" FontSize="20" FontWeight="Bold" 
+                   Margin="0,160,820,542" TextAlignment="Center"></TextBlock>
+        <Label HorizontalContentAlignment="Center" FontSize="80" FontWeight="Bold" FontStyle="Italic" 
+               Margin="205,20,0,590" Width="809">Glavni meni</Label>
+        <UniformGrid Rows="5" Margin="0,255,820,121" >
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Profille"  Content="Profil"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Search" Content="Pretraga smještaja"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Reservation" Content="Rezervacija smještaja"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Whatever" Content="Bilo kada - bilo gdje"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="LogOut" Content="Odjavi se"  VerticalAlignment="Stretch" />
+        </UniformGrid>
     </Grid>
 </Window>

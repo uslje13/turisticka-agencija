@@ -11,111 +11,61 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.WPF.Views.Owner;
+using System.Windows.Controls;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using SOSTeam.TravelAgency.WPF.Views.TourGuide;
+using System.Windows.Data;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class SearchAccommodationViewModel
     {
         public User LoggedInUser { get; set; }
-        public List<Accommodation> accommodations { get; set; }
-        public List<Location> locations { get; set; }
-        public ObservableCollection<LocAccommodationViewModel> AccommDTOsCollection { get; set; }
-        public AccommodationService accommodationService { get; set; }
-        public LocationService locationService { get; set; }
-        public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
-        public AccommodationReservationService accommodationReservationService { get; set; }
-        private SuperOwnerService _superOwnerService;
-        public List<AccommodationReservation> accommodationReservations { get; set; }
         public RelayCommand searchCommand { get; set; }
         public RelayCommand reserveCommand { get; set; }
         public Window ThisWindow { get; set; }
+        public RelayCommand NavigationButtonCommand { get; set; }
+        public Frame ThisFrame { get; set; }
+        public TextBlock TextBlockUsername { get; set; }
 
-        public SearchAccommodationViewModel(User user, Window window)
+        public SearchAccommodationViewModel(User user, Window window, Frame frame, TextBlock textBlock)
         {
-            AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
-
-            accommodationService = new AccommodationService();
-            _superOwnerService = new();
-            locationService = new LocationService();
-            accommodationReservationService = new AccommodationReservationService();
-
-            accommodations = accommodationService.GetAll();
-            locations = locationService.GetAll();
-            accommodationReservations = accommodationReservationService.GetAll();
             LoggedInUser = user;
             ThisWindow = window;
+            ThisFrame = frame;
+            TextBlockUsername = textBlock;
+
+            FillTextBlock(LoggedInUser);
 
             searchCommand = new RelayCommand(ExecuteSearchAccommodation);
             reserveCommand = new RelayCommand(ExecuteReserveAccommodation);
+            NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand);
+        }
 
-            CreateAllDTOForms();
+        private void FillTextBlock(User user)
+        {
+            Binding binding = new Binding();
+            binding.Source = user.Username;
+            TextBlockUsername.SetBinding(TextBlock.TextProperty, binding);
+        }
+
+        public void SetStartupPage()
+        {
+            var navigationService = ThisFrame.NavigationService;
+            navigationService.Navigate(new AccommodationBidPage(LoggedInUser));
         }
 
         public void ExecuteSearchAccommodation(object sender)
         {
-            SearchWindow searchWindow = new SearchWindow(LoggedInUser);
-            searchWindow.ShowDialog();
-            ThisWindow.Close();
-        }
-
-
-        private void CreateAllDTOForms()
-        {
-            List<LocAccommodationViewModel> locAccommodationViewModels = new List<LocAccommodationViewModel>();
-            AccommDTOsCollection.Clear();
-            foreach (var accommodation in accommodations)
-            {
-                foreach (var location in locations)
-                {
-                    if (accommodation.LocationId == location.Id)
-                    {
-                        LocAccommodationViewModel dto = CreateDTOForm(accommodation, location);
-
-                        locAccommodationViewModels.Add(dto);
-                    }
-                }
-            }
-
-            locAccommodationViewModels = locAccommodationViewModels.OrderByDescending(a => a.IsSuperOwned).ToList();
-
-            locAccommodationViewModels.ForEach(item => AccommDTOsCollection.Add(item));
-        }
-
-        private LocAccommodationViewModel CreateDTOForm(Accommodation acc, Location loc)
-        {
-            int currentGuestNumber = 0;
-            foreach (var item in accommodationReservations)
-            {
-                if (item.AccommodationId == acc.Id)
-                {
-                    DateTime today = DateTime.Today;
-                    int helpVar1 = today.DayOfYear - item.FirstDay.DayOfYear;
-                    int helpVar2 = today.DayOfYear - item.LastDay.DayOfYear;
-                    if (helpVar1 >= 0 && helpVar2 <= 0)
-                    {
-                        currentGuestNumber += item.GuestNumber;
-                    }
-                }
-            }
-            LocAccommodationViewModel dto = new LocAccommodationViewModel(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
-                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber, _superOwnerService.IsSuperOwnerAccommodation(acc.Id));
-            return dto;
-        }
-
-        private LocAccommodationViewModel.AccommType FindAccommodationType(Accommodation acc)
-        {
-            if (acc.Type == Accommodation.AccommodationType.APARTMENT)
-                return LocAccommodationViewModel.AccommType.APARTMENT;
-            else if (acc.Type == Accommodation.AccommodationType.HOUSE)
-                return LocAccommodationViewModel.AccommType.HOUSE;
-            else if (acc.Type == Accommodation.AccommodationType.HUT)
-                return LocAccommodationViewModel.AccommType.HUT;
-            else
-                return LocAccommodationViewModel.AccommType.NOTYPE;
+            //SearchWindow searchWindow = new SearchWindow(LoggedInUser);
+            //searchWindow.ShowDialog();
+            //ThisWindow.Close();
         }
 
         public void ExecuteReserveAccommodation(object sender)
-        {
+        {   
+            /*
             if (SelectedAccommodationDTO != null)
             {
                 EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser, false);
@@ -126,6 +76,37 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
             }
+            */
+        }
+
+        public void Execute_NavigationButtonCommand(object parameter)
+        {
+            string nextPage = parameter.ToString();
+            var navigationService = ThisFrame.NavigationService;
+
+            switch (nextPage)
+            {
+                case "Profille":
+                    ThisWindow.Close();
+                    break;
+                case "Search":
+                    navigationService.Navigate(new SearchPage(LoggedInUser));
+                    break;
+                case "Reservation":
+                    //navigationService.Navigate(new AddAccommodationPage(LoggedInUser, this));
+                    break;
+                case "Whatever":
+                    //navigationService.Navigate(new RequestPage(LoggedInUser, this));
+                    break;
+                case "LogOut":
+                    //navigationService.Navigate(new OwnerReviewPage(LoggedInUser, this));
+                    break;
+                default:
+                    break;
+            }
+            return;
+
+
         }
     }
 }

@@ -53,6 +53,10 @@
                             <Setter Property="BorderThickness" Value="2"/>
                             <Setter Property="Foreground" Value="Black" />
                         </Trigger>
+                        <DataTrigger Binding="{Binding IsSuperOwned}" Value="True">
+                            <Setter Property="Background" Value="PaleGoldenrod" />
+                            <Setter Property="BorderBrush" Value="PaleGoldenrod" />
+                        </DataTrigger>
                     </Style.Triggers>
                     <!-- Add some padding around the contents of a cell -->
                     <Setter Property="Padding" Value="5,4,5,4" />

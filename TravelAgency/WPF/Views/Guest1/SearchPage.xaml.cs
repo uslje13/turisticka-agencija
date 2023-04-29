@@ -1,7 +1,7 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,28 +12,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TravelAgency.DTO;
-using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.Repositories;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
-using SOSTeam.TravelAgency.Application.Services;
-using SOSTeam.TravelAgency.Commands;
-using SOSTeam.TravelAgency.WPF.ViewModels;
 
-namespace SOSTeam.TravelAgency.WPF.Views
+namespace SOSTeam.TravelAgency.WPF.Views.Guest1
 {
     /// <summary>
-    /// Interaction logic for SearchWindow.xaml
+    /// Interaction logic for SearchPage.xaml
     /// </summary>
-    public partial class SearchWindow : Window
+    public partial class SearchPage : Page
     {
-        public SearchWindow(User user)
+        public SearchPage(User user)
         {
             InitializeComponent();
             List<TextBox> textBoxes = new List<TextBox> { name, city, country, guestsNumber, daysNumber };
             List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem> { CBItemApart, CBItemHouse, CBItemHut, CBItemNoType };
-            SearchViewModel viewModel = new SearchViewModel(user, textBoxes, comboBoxItems, CBTypes, this);
+            SearchViewModel viewModel = new SearchViewModel(user, textBoxes, comboBoxItems, CBTypes);
             DataContext = viewModel;
         }
     }
