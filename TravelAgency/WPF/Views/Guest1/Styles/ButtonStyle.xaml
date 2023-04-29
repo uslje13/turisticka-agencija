@@ -5,18 +5,22 @@
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect Color="DarkBlue" BlurRadius="35" ShadowDepth="3"/>
+                        <DropShadowEffect Color="DarkGoldenrod" BlurRadius="35" ShadowDepth="3"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
         </Style.Triggers>
+        <Setter Property="Foreground" Value="Black"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10"
-                            Background="LightSteelBlue"
+                            Background="White"
                             BorderThickness="3"
-                            BorderBrush="MidnightBlue">
+                            BorderBrush="DarkGoldenrod">
                         <ContentPresenter
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"

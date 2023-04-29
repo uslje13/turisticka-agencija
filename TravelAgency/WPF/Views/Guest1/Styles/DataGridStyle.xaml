@@ -2,10 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="DataGridStyle" TargetType="DataGrid">
         <!-- Make the border and grid lines a little less imposing -->
-        <Setter Property="BorderBrush" Value="MidnightBlue" />
+        <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="MidnightBlue" />
-        <Setter Property="VerticalGridLinesBrush" Value="MidnightBlue" />
+        <Setter Property="HorizontalGridLinesBrush" Value="Black" />
+        <Setter Property="VerticalGridLinesBrush" Value="Black" />
         <Setter Property="CanUserResizeColumns" Value="False"/>
         <Setter Property="CanUserResizeRows" Value="False"/>
 
@@ -15,7 +15,7 @@
                     <Style.Triggers>
                         <!-- Highlight a grid row as the mouse passes over -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="PowderBlue" />
+                            <Setter Property="Background" Value="White" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
@@ -24,7 +24,7 @@
         <Setter Property="ColumnHeaderStyle">
             <Setter.Value>
                 <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Background" Value="Khaki" />
                     <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Padding" Value="5,4,5,4" />
                 </Style>
@@ -43,20 +43,20 @@
                     <Style.Triggers>
                         <!-- Highlight selected rows -->
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="PowderBlue" />
-                            <Setter Property="BorderBrush" Value="PowderBlue" />
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="BorderBrush" Value="White" />
                             <Setter Property="Foreground" Value="Black" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter Property="Background" Value="PowderBlue" />
-                            <Setter Property="BorderBrush" Value="PowderBlue" />
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="BorderBrush" Value="White" />
                             <Setter Property="BorderThickness" Value="2"/>
                             <Setter Property="Foreground" Value="Black" />
                         </Trigger>
                     </Style.Triggers>
                     <!-- Add some padding around the contents of a cell -->
                     <Setter Property="Padding" Value="5,4,5,4" />
-                    <Setter Property="BorderBrush" Value="PowderBlue"/>
+                    <Setter Property="BorderBrush" Value="White"/>
                     <Setter Property="BorderThickness" Value="1"/>
                     <Setter Property="Template">
                         <Setter.Value>
@@ -73,12 +73,21 @@
                     <Setter Property="FocusVisualStyle">
                         <Setter.Value>
                             <Style TargetType="Control">
-                                <Setter Property="BorderBrush" Value="PowderBlue" />
+                                <Setter Property="BorderBrush" Value="White" />
                             </Style>
                         </Setter.Value>
                     </Setter>
+                    
+                    <Setter Property="ScrollViewer.Background" Value="White"/>
+                    
                 </Style>
             </Setter.Value>
         </Setter>
+    </Style>
+    <Style TargetType="{x:Type ScrollBar}">
+        <Setter Property="Background" Value="Khaki" />
+    </Style>
+    <Style TargetType="ScrollViewer">
+        <Setter Property="Background" Value="Khaki"/>
     </Style>
 </ResourceDictionary>
