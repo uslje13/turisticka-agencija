@@ -93,16 +93,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     ThisWindow.Close();
                     break;
                 case "Search":
-                    navigationService.Navigate(new SearchPage(LoggedInUser));
-                    break;
-                case "Results":
-
+                    navigationService.Navigate(new SearchPage(LoggedInUser, ThisFrame));
                     break;
                 case "Bid":
                     navigationService.Navigate(new AccommodationBidPage(LoggedInUser));
-                    break;
-                case "Reservation":
-
                     break;
                 case "Whatever":
                     
@@ -118,8 +112,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     break;
             }
             return;
-
-
         }
     }
 }

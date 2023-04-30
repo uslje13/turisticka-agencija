@@ -165,8 +165,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     PrepareReservationCSV();
                     LocAccommodationViewModel model = FindModel(selectedReservation);
-                    EnterReservationWindow newWindow = new EnterReservationWindow(model, LoggedInUser, true, selectedReservation);
-                    newWindow.ShowDialog();
+                    //EnterReservation newWindow = new EnterReservationWindow(model, LoggedInUser, true, selectedReservation);
+                    //newWindow.ShowDialog();
                     ThisWindow.Close();
                 }
                 else

@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/WPF/Views/Guest1/Styles/DataGridStyle.xaml" />
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -22,7 +23,7 @@
                   SelectedItem="{Binding Path=SelectedAccommodationDTO, UpdateSourceTrigger=PropertyChanged}"
                   Style="{StaticResource DataGridStyle}"
                   AutoGenerateColumns="False" SelectionMode="Single"
-                  IsReadOnly="True" Margin="0,93,15,121">
+                  IsReadOnly="True" Margin="0,93,15,205">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
                 <DataGridTextColumn Header="Grad" Binding="{Binding LocationCity}" Width="0.95*"/>
@@ -33,7 +34,7 @@
                 <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="0.65*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <!--Button x:Name="ReservationButton" Margin="200,357,315,51" Content="Rezerviši smeštaj" 
-                Width="100" Height="30" Command="{Binding reserveCommand}"/-->
+        <Button x:Name="ReservationButton" Margin="135,295,133,14" Content="Rezerviši" Style="{StaticResource ButtonStyle}"
+                Command="{Binding reserveCommand}"/>
     </Grid>
 </Page>

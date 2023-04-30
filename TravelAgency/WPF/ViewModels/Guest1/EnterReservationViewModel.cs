@@ -19,7 +19,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public LocAccommodationViewModel DTO { get; set; }
         public User LoggedInUser { get; set; }
         public RelayCommand searchDatesCommand { get; set; }
-        public RelayCommand cancelCommand { get; set; }
+        public RelayCommand GoBackCommand { get; set; }
         public bool IsEnterOfGhange { get; set; }
         public ChangedReservationRequest SelectedReservation { get; set; }
         public AccommodationReservationService accResService { get; set; }
@@ -27,34 +27,34 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public DatePicker FirstDay { get; set; }
         public DatePicker LastDay { get; set; }
         public Window ThisWindow { get; set; }
+        public Frame ThisFrame { get; set; }
 
-        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, Window window)
+        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, Frame frame)
         {
             DTO = dto;
             FirstDate = DateTime.Now;
             LastDate = DateTime.Now;
             FirstDay = fDay;
             LastDay = lDay;
-            ThisWindow = window;
             LoggedInUser = user;
             IsEnterOfGhange = enter;
             Days = tb;
+            ThisFrame = frame;
 
             FirstDay.BlackoutDates.AddDatesInPast();
             LastDay.BlackoutDates.AddDatesInPast();
 
             searchDatesCommand = new RelayCommand(ExecuteSearchingDates);
-            cancelCommand = new RelayCommand(ExecuteCancel);
+            GoBackCommand = new RelayCommand(Execute_GoBack);
         }
 
-        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, Window window, ChangedReservationRequest request)
+        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, ChangedReservationRequest request)
         {
             DTO = dto;
             FirstDate = DateTime.Now;
             LastDate = DateTime.Now;
             FirstDay = fDay;
             LastDay = lDay;
-            ThisWindow = window;
             LoggedInUser = user;
             IsEnterOfGhange = enter;
             Days = tb;
@@ -64,7 +64,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             LastDay.BlackoutDates.AddDatesInPast();
 
             searchDatesCommand = new RelayCommand(ExecuteSearchingDates);
-            cancelCommand = new RelayCommand(ExecuteCancel);
+            GoBackCommand = new RelayCommand(Execute_GoBack);
         }
 
         private void ExecuteSearchingDates(object sender)
@@ -73,9 +73,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ExecuteSearchingDates(DTO, LoggedInUser, FirstDate, LastDate, int.Parse(Days.Text), IsEnterOfGhange, SelectedReservation);
         }
 
-        private void ExecuteCancel(object sender)
+        public void Execute_GoBack(object sender)
         {
-            ThisWindow.Close();
+            var navigationService = ThisFrame.NavigationService;
+            navigationService.GoBack();
         }
 
         public void ExecuteSearchingDates(LocAccommodationViewModel dto, User user, DateTime fDay, DateTime lDay, int days, bool isEnteredOfChange, ChangedReservationRequest request)

@@ -18,16 +18,14 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.Guest1
 {
     /// <summary>
-    /// Interaction logic for SearchPage.xaml
+    /// Interaction logic for SearchResultsPage.xaml
     /// </summary>
-    public partial class SearchPage : Page
+    public partial class SearchResultsPage : Page
     {
-        public SearchPage(User user, Frame frame)
+        public SearchResultsPage(List<LocAccommodationViewModel> Results, User user, Frame frame)
         {
             InitializeComponent();
-            List<TextBox> textBoxes = new List<TextBox> { name, city, country, guestsNumber, daysNumber };
-            List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem> { CBItemApart, CBItemHouse, CBItemHut, CBItemNoType };
-            SearchViewModel viewModel = new SearchViewModel(user, textBoxes, comboBoxItems, CBTypes, frame);
+            SearchResultsViewModel viewModel = new SearchResultsViewModel(Results, user, frame);
             DataContext = viewModel;
         }
     }

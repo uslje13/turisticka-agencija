@@ -24,12 +24,10 @@
                    Margin="0,160,820,542" TextAlignment="Center"></TextBlock>
         <Label HorizontalContentAlignment="Center" FontSize="80" FontWeight="Bold" FontStyle="Italic" 
                Margin="205,20,0,590" Width="809">Glavni meni</Label>
-        <UniformGrid Rows="7" Margin="0,255,820,121" >
+        <UniformGrid Rows="5" Margin="0,255,820,121" >
             <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Profille"  Content="Profil"  VerticalAlignment="Stretch" />
-            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Search" Content="Pretraga smještaja"  VerticalAlignment="Stretch" />
-            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Results" Content="Rezultati pretrage"  VerticalAlignment="Stretch" />
-            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Bid" Content="Ponuda smještaja"  VerticalAlignment="Stretch" />
-            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Reservation" Content="Detalji rezervacije"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Search" Content="Pretraga i rezervacija smještaja"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Bid" Content="Ponuda i rezervacija smještaja"  VerticalAlignment="Stretch" />
             <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Whatever" Content="Bilo kada - bilo gdje"  VerticalAlignment="Stretch" />
             <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="LogOut" Content="Odjavi se"  VerticalAlignment="Stretch" />
         </UniformGrid>
