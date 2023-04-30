@@ -187,8 +187,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void ExecuteGoToStatuses(object sender)
         {
-            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser);
-            newWindow.Show();
+            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow);
+            newWindow.ShowDialog();
         }
 
         private void ExecuteGoToSearch(object sender)

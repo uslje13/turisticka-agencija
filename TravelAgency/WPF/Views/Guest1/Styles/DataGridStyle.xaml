@@ -43,9 +43,9 @@
                     <Style.Triggers>
                         <!-- Highlight selected rows -->
                         <DataTrigger Binding="{Binding IsSuperOwned}" Value="True">
-                            <Setter Property="Background" Value="Goldenrod" />
-                            <Setter Property="BorderBrush" Value="Goldenrod" />
-                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="LightYellow" />
+                            <Setter Property="BorderBrush" Value="LightYellow" />
+                            <!--Setter Property="Foreground" Value="White"/-->
                         </DataTrigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="PaleGoldenrod" />

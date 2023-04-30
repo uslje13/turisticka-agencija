@@ -126,6 +126,10 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             selectedReservation.NewFirstDay = forwardedItem.ReservationFirstDay;
             selectedReservation.NewLastDay = forwardedItem.ReservationLastDay;
+
+            selectedReservation.NewFirstDayString = forwardedItem.ReservationFirstDay.ToShortDateString();
+            selectedReservation.NewLastDayString = forwardedItem.ReservationLastDay.ToShortDateString();
+
             selectedReservation.status = ChangedReservationRequest.Status.ON_HOLD;
             selectedReservation.ownerComment = "Komentar nije dostupan";
             _changedResRequestRepositroy.Save(selectedReservation);
@@ -194,7 +198,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             processedReservation.NewFirstDay = newReservation.wantedDate.ReservationFirstDay;
             processedReservation.NewLastDay = newReservation.wantedDate.ReservationLastDay;
             processedReservation.status = ChangedReservationRequest.Status.ACCEPTED;
-            processedReservation.ownerComment = "Rezervacija je uspješno pomjerena.";
+            processedReservation.ownerComment = "Uspješno pomjereno.";
             _changedResRequestRepositroy.Save(processedReservation);
 
             _wantedNewDateRepository.Delete(newReservation.Id);

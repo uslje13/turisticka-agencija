@@ -184,7 +184,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                         CancelAndMarkResViewModel model = new CancelAndMarkResViewModel();
                         model.NotificationShape = shape;
                         ChangedReservations.Add(model);
-                        //service.Delete(item.Id);
+                        service.Delete(item.Id);
                     }
                 }
             }

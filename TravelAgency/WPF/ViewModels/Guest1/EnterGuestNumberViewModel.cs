@@ -68,8 +68,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     accResService.ProcessReservation(item, LoggedInUser, ChangedReservationRequest);
                     MessageBox.Show("Zahtjev za pomjeranje rezervacije je uspješno poslat vlasniku.");
                     var navigationService = ThisFrame.NavigationService;
-                    navigationService.Navigate(new AccommodationBidPage(LoggedInUser, ThisFrame));
-                    //ThisWindow.Close();
+                    navigationService.Navigate(new AllStatusesPage(LoggedInUser, ThisFrame));
                 }
             }
             else

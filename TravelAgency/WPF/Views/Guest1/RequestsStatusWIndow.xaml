@@ -6,42 +6,38 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="RequestsStatus" Height="450" Width="800">
+        Background="LightGoldenrodYellow"
+        ResizeMode="NoResize"
+        Title="RequestsStatus" Height="768" Width="1024">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/MenuButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <TabControl x:Name="Tabs" GotFocus="TestFocus">
-            <TabItem Header="Zahtjevi za pomjeranje">
-                <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding changedReservationRequests}" 
-                  SelectedItem="{Binding Path=selectedReservation, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" SelectionMode="Single"
-                  IsReadOnly="True" Margin="10,10,10,110">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="0.9*"/>
-                        <DataGridTextColumn Header="Grad" Binding="{Binding City}" Width="0.9*"/>
-                        <DataGridTextColumn Header="Prvi dan" Binding="{Binding OldFirstDay}" Width="1*"/>
-                        <DataGridTextColumn Header="Poslednji dan" Binding="{Binding OldLastDay}" Width="1*"/>
-                        <DataGridTextColumn Header="Novi prvi dan" Binding="{Binding NewFirstDay}" Width="1*"/>
-                        <DataGridTextColumn Header="Novi poslednji dan" Binding="{Binding NewLastDay}" Width="1*"/>
-                        <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="1*"/>
-                        <DataGridTextColumn Header="Vlasnikov komentar" Binding="{Binding ownerComment}" Width="1.8*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
-            <TabItem Header="Zahtjevi za otkazivanje">
-                <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding allReservationsInfoList}" 
-                  SelectedItem="{Binding Path=selectedCancelReservation, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" SelectionMode="Single"
-                  IsReadOnly="True" Margin="10,10,10,110">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
-                        <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
-                        <DataGridTextColumn Header="Država" Binding="{Binding AccommodationCountry}" Width="1*"/>
-                        <DataGridTextColumn Header="Prvi dan" Binding="{Binding FirstDay}" Width="1*"/>
-                        <DataGridTextColumn Header="Poslednji dan" Binding="{Binding LastDay}" Width="1*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
-        </TabControl>
-        <Button x:Name="ChangeButton" Command="{Binding FindNewDateCommand}" Content="Kreiraj zahtjev" Margin="513,350,166,40"/>
-        <Button x:Name="CancelResButton" Command="{Binding CancelReservationCommand}" Content="Otkaži" Margin="639,350,40,40" IsEnabled="False"/>
+        <Frame x:Name="StatusFrame" NavigationUIVisibility ="Hidden" />
+        <Image Source="/Resources/Icons/Guest1/user_siluet.png" 
+                   Margin="0,3,818,567"/>
+        <TextBlock Foreground="Black" x:Name="UsersName" FontSize="20" FontWeight="Bold" 
+                   Margin="0,160,820,542" TextAlignment="Center"></TextBlock>
+        <Label HorizontalContentAlignment="Center" FontSize="80" FontWeight="Bold" FontStyle="Italic" 
+               Margin="205,20,0,590" Width="809">Pregled zahtjeva</Label>
+        <UniformGrid Rows="5" Margin="0,255,820,121" >
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Profille" Style="{StaticResource MenuButtonStyle}" 
+                     Content="Profil"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Search" Style="{StaticResource MenuButtonStyle}"
+                     IsEnabled="False"
+                     Content=""  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Bid" Style="{StaticResource MenuButtonStyle}"
+                     IsEnabled="False"
+                     Content=""  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Whatever" Style="{StaticResource MenuButtonStyle}"
+                     IsEnabled="False"
+                     Content=""  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="LogOut" Style="{StaticResource MenuButtonStyle}"  
+                     Content="Odjavi se"  VerticalAlignment="Stretch" />
+        </UniformGrid>
     </Grid>
 </Window>
