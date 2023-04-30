@@ -180,9 +180,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 MessageBox.Show("Odaberite rezervaciju za procesuiranje.");
             }
         }
-
+        
         private void PrepareReservationCSV()
         {
+            List<AccommodationReservation> accommodationReservations = accommodationReservationService.GetAll();
             foreach(var res in accommodationReservations)
             {
                 if(res.Id == selectedReservation.reservationId)
@@ -193,7 +194,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 }
             }
         }
-
+        
         private LocAccommodationViewModel FindModel(ChangedReservationRequest model)
         {
             foreach(var dto in locAccommodationViewModels)

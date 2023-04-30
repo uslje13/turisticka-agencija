@@ -40,6 +40,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
         }
 
+        public void SaveOld(AccommodationReservation reservation)
+        {
+            _accReservationRepository.SaveOld(reservation);
+        }
+
         public void UpdateToDefinitlyForget(AccommodationReservation accommodationReservation)
         {
             _accReservationRepository.UpdateToDefinitlyForget(accommodationReservation);

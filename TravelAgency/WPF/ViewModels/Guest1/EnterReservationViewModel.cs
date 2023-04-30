@@ -45,6 +45,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             FirstDay.BlackoutDates.AddDatesInPast();
             LastDay.BlackoutDates.AddDatesInPast();
 
+            accResService = new AccommodationReservationService();  
+
             searchDatesCommand = new RelayCommand(ExecuteSearchingDates);
             GoBackCommand = new RelayCommand(Execute_GoBack);
         }
@@ -65,6 +67,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             FirstDay.BlackoutDates.AddDatesInPast();
             LastDay.BlackoutDates.AddDatesInPast();
 
+            accResService = new AccommodationReservationService();
+
             searchDatesCommand = new RelayCommand(ExecuteSearchingDates);
             GoBackCommand = new RelayCommand(Execute_GoBack);
         }
@@ -77,8 +81,31 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         public void Execute_GoBack(object sender)
         {
-            var navigationService = ThisFrame.NavigationService;
-            navigationService.GoBack();
+            if(IsEnterOfGhange)
+            {
+                GetOldCSVLists();
+                var navigationService = ThisFrame.NavigationService;
+                navigationService.GoBack();
+            } 
+            else
+            {
+                var navigationService = ThisFrame.NavigationService;
+                navigationService.GoBack();
+            }
+        }
+
+        private void GetOldCSVLists()
+        {
+            List<AccommodationReservation> shortDeletedList = accResService.LoadFromOtherCSV();
+            foreach (var item in shortDeletedList)
+            {
+                if (item.Id == SelectedReservation.reservationId && !item.DefinitlyChanged)
+                {
+                    accResService.DeleteFromOtherCSV(item);
+                    accResService.SaveOld(item);
+                    break;
+                }
+            }
         }
 
         public void ExecuteSearchingDates(LocAccommodationViewModel dto, User user, DateTime fDay, DateTime lDay, int days, bool isEnteredOfChange, ChangedReservationRequest request)
