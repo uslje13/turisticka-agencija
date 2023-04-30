@@ -28,13 +28,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand NavigationButtonCommand { get; set; }
         public Frame ThisFrame { get; set; }
         public TextBlock TextBlockUsername { get; set; }
+        public Window InboxWindow { get; set; }
+        public Window UserProfilleWindow { get; set; }
 
-        public SearchAccommodationViewModel(User user, Window window, Frame frame, TextBlock textBlock)
+        public SearchAccommodationViewModel(User user, Window window, Frame frame, TextBlock textBlock, Window inbox, Window profille)
         {
             LoggedInUser = user;
             ThisWindow = window;
             ThisFrame = frame;
             TextBlockUsername = textBlock;
+            InboxWindow = inbox;
+            UserProfilleWindow = profille;
 
             FillTextBlock(LoggedInUser);
 
@@ -52,8 +56,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         public void SetStartupPage()
         {
-            var navigationService = ThisFrame.NavigationService;
-            navigationService.Navigate(new AccommodationBidPage(LoggedInUser));
+            Execute_NavigationButtonCommand("Bid");
         }
 
         public void ExecuteSearchAccommodation(object sender)
@@ -92,14 +95,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 case "Search":
                     navigationService.Navigate(new SearchPage(LoggedInUser));
                     break;
+                case "Results":
+
+                    break;
+                case "Bid":
+                    navigationService.Navigate(new AccommodationBidPage(LoggedInUser));
+                    break;
                 case "Reservation":
-                    //navigationService.Navigate(new AddAccommodationPage(LoggedInUser, this));
+
                     break;
                 case "Whatever":
-                    //navigationService.Navigate(new RequestPage(LoggedInUser, this));
+                    
                     break;
                 case "LogOut":
-                    //navigationService.Navigate(new OwnerReviewPage(LoggedInUser, this));
+                    SignInForm form = new SignInForm();
+                    ThisWindow.Close();
+                    UserProfilleWindow.Close();
+                    InboxWindow.Close();
+                    form.ShowDialog();
                     break;
                 default:
                     break;

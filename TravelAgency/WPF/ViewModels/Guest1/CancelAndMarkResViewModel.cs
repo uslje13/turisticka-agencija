@@ -23,6 +23,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public LocAccommodationViewModel.AccommType AccommodationType { get; set; }
         public int DaysDuration { get; set; }
         public string NotificationShape { get; set; }
+        public bool IsSuperOwned { get; set; }
 
         public CancelAndMarkResViewModel() 
         {
@@ -46,6 +47,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             NotificationShape = "Vaša rezervacija u smještaju " + AccommodationName + " (" + AccommodationCity + ", " +
                                 AccommodationCountry + ") za period " + FirstDay.ToShortDateString() + " - " + LastDay.ToShortDateString() +
                                 " je završena. Za eventualno ocjenjivanje ovog smještaja Vam je ostalo još ";
+            IsSuperOwned = false;
         }
     }
 }

@@ -174,7 +174,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void ExecuteInboxShowing(object sender)
         {
-            GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser);
+            GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser, ThisWindow);
             if (Notifications == 0)
             {
                 MessageBox.Show("     Vaš inboks je prazan!\nNemate nepročitanih poruka.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -191,7 +191,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void ExecuteGoToSearch(object sender)
         {
-            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser);
+            Window helpWindow = new Window();   
+            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, helpWindow, ThisWindow);
             newWindow.Show();
         }
 

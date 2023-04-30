@@ -5,45 +5,51 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="820"
       Background="LightGoldenrodYellow"
       Title="SearchPage">
 
-    <Grid>
-        <Label Content="Naziv :" FontSize="15" FontWeight="Bold" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-               Margin="104,66,0,0" Height="30" Width="150"/>
-        <Label Content="Lokacija : " FontSize="15" FontWeight="Bold" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-               Margin="104,124,0,0" Height="30" Width="75"/>
-        <Label Content=" *Grad :" FontSize="15" FontWeight="Bold" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-               Margin="204,160,0,0" Height="30" Width="56"/>
-        <Label Content=" *Država :" FontSize="15" FontWeight="Bold" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-               Margin="204,206,0,0" Height="30" Width="71"/>
-        <Label Content="Tip :" FontSize="15" FontWeight="Bold" Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Center" 
-               Margin="104,0,0,0" Height="30" Width="61"/>
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid Margin="205,162,0,0">
+        <Label HorizontalContentAlignment="Center" FontSize="25" FontWeight="Black" Margin="0,32,0,350" Width="615">Unesite parametre za pretragu :</Label>
+        <Label Content="Naziv :" FontSize="15" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+               Margin="205,100,0,0" Height="30" Width="150"/>
+        <Label Content="Grad :" FontSize="15" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+               Margin="205,150,0,0" Height="30" Width="71"/>
+        <Label Content="Država :" FontSize="15" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+               Margin="205,200,0,0" Height="30" Width="81"/>
+        <Label Content="Tip :" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" 
+               Margin="205,250,0,0" Height="30" Width="61"/>
         <Label Content="Broj potencijslnih gostiju :" FontSize="15" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-               Margin="104,320,0,0" Height="30" Width="194"/>
+               Margin="205,300,0,0" Height="30" Width="194"/>
         <Label Content="Broj dana za rezervaciju :" FontSize="15" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-               Margin="104,367,0,0" Height="30" Width="189"/>
+               Margin="205,350,0,0" Height="30" Width="189"/>
         <TextBox x:Name="name" HorizontalAlignment="Left" VerticalAlignment="Top"
-                   Text="{Binding searchedAccName}" Margin="259,66,0,0" Height="30" Width="240"/>
+                   Text="{Binding searchedAccName}" Margin="355,100,0,0" Height="30" Width="240"/>
         <TextBox x:Name="city" HorizontalAlignment="Left" VerticalAlignment="Top"
-                   Text="{Binding searchedAccCity}" Margin="300,160,0,0" Height="30" Width="199"/>
+                   Text="{Binding searchedAccCity}" Margin="355,150,0,0" Height="30" Width="240"/>
         <TextBox x:Name="country" HorizontalAlignment="Left" VerticalAlignment="Top"
-                   Text="{Binding searchedAccCountry}" Margin="300,206,0,0" Height="30" Width="199"/>
-        <ComboBox x:Name="CBTypes" HorizontalAlignment="Left" Margin="157,269,0,0" VerticalAlignment="Top" 
-                  Width="103" Height="30">
+                   Text="{Binding searchedAccCountry}" Margin="355,200,0,0" Height="30" Width="240"/>
+        <ComboBox x:Name="CBTypes" HorizontalAlignment="Left" Margin="425,250,0,0" VerticalAlignment="Top" 
+                  Width="104" Height="30">
             <ComboBoxItem x:Name="CBItemApart" Content="Apartman" FontSize="9"></ComboBoxItem>
             <ComboBoxItem x:Name="CBItemHouse" Content="Kuća" FontSize="9"></ComboBoxItem>
             <ComboBoxItem x:Name="CBItemHut" Content="Koliba" FontSize="9"></ComboBoxItem>
             <ComboBoxItem x:Name="CBItemNoType" Content="Bez tipa" IsSelected="True" FontSize="9"></ComboBoxItem>
         </ComboBox>
         <TextBox x:Name="guestsNumber" HorizontalAlignment="Left" VerticalAlignment="Top"
-                   Text="{Binding searchedAccGuestsNumber}" Margin="298,320,0,0" Height="30" Width="102"/>
+                   Text="{Binding searchedAccGuestsNumber}" Margin="425,300,0,0" Height="30" Width="108"/>
         <TextBox x:Name="daysNumber" HorizontalAlignment="Left" VerticalAlignment="Top"
-                   Text="{Binding searchedAccDaysNumber}" Margin="298,367,0,0" Height="30" Width="102"/>
-        <Button x:Name="SearchButton" Margin="628,383,72,37" Content="Pretraži" Command="{Binding searchCommand}" 
-                Width="100" Height="30"></Button>
-        <Button x:Name="CancelButton" Margin="472,382,228,38" Content="Odustani" Command="{Binding cancelCommand}" 
-                Width="100" Height="30"></Button>
+                   Text="{Binding searchedAccDaysNumber}" Margin="425,350,0,0" Height="30" Width="108"/>
+        <Button x:Name="SearchButton" Margin="135,295,133,14" Content="Pretraži" Command="{Binding searchCommand}" 
+                Style="{StaticResource ButtonStyle}"/>
+        <!--Button x:Name="CancelButton" Margin="208,394,307,14" Content="Odustani" Command="{Binding cancelCommand}" 
+                Width="100" Height="30"/-->
     </Grid>
 </Page>
