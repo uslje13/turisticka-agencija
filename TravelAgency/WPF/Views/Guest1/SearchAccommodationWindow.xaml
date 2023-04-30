@@ -12,7 +12,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/MenuButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -25,11 +25,16 @@
         <Label HorizontalContentAlignment="Center" FontSize="80" FontWeight="Bold" FontStyle="Italic" 
                Margin="205,20,0,590" Width="809">Glavni meni</Label>
         <UniformGrid Rows="5" Margin="0,255,820,121" >
-            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Profille"  Content="Profil"  VerticalAlignment="Stretch" />
-            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Search" Content="Pretraga i rezervacija smještaja"  VerticalAlignment="Stretch" />
-            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Bid" Content="Ponuda i rezervacija smještaja"  VerticalAlignment="Stretch" />
-            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Whatever" Content="Bilo kada - bilo gdje"  VerticalAlignment="Stretch" />
-            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="LogOut" Content="Odjavi se"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Profille" Style="{StaticResource MenuButtonStyle}" 
+                     Content="Profil"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Search" Style="{StaticResource MenuButtonStyle}" 
+                     Content="Pretraga i rezervacija smještaja"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Bid" Style="{StaticResource MenuButtonStyle}" 
+                     Content="Ponuda i rezervacija smještaja"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Whatever" Style="{StaticResource MenuButtonStyle}" 
+                     Content="Bilo kada - bilo gdje"  VerticalAlignment="Stretch" />
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="LogOut" Style="{StaticResource MenuButtonStyle}"  
+                     Content="Odjavi se"  VerticalAlignment="Stretch" />
         </UniformGrid>
     </Grid>
 </Window>

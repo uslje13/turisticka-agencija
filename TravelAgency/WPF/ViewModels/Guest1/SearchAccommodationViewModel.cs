@@ -42,8 +42,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             FillTextBlock(LoggedInUser);
 
-            searchCommand = new RelayCommand(ExecuteSearchAccommodation);
-            reserveCommand = new RelayCommand(ExecuteReserveAccommodation);
             NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand);
         }
 
@@ -57,29 +55,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public void SetStartupPage()
         {
             Execute_NavigationButtonCommand("Bid");
-        }
-
-        public void ExecuteSearchAccommodation(object sender)
-        {
-            //SearchWindow searchWindow = new SearchWindow(LoggedInUser);
-            //searchWindow.ShowDialog();
-            //ThisWindow.Close();
-        }
-
-        public void ExecuteReserveAccommodation(object sender)
-        {   
-            /*
-            if (SelectedAccommodationDTO != null)
-            {
-                EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser, false);
-                newWindow.ShowDialog();
-                ThisWindow.Close();
-            }
-            else
-            {
-                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
-            }
-            */
         }
 
         public void Execute_NavigationButtonCommand(object parameter)
@@ -96,7 +71,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     navigationService.Navigate(new SearchPage(LoggedInUser, ThisFrame));
                     break;
                 case "Bid":
-                    navigationService.Navigate(new AccommodationBidPage(LoggedInUser));
+                    navigationService.Navigate(new AccommodationBidPage(LoggedInUser, ThisFrame));
                     break;
                 case "Whatever":
                     

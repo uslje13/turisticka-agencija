@@ -68,7 +68,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     accResService.ProcessReservation(item, LoggedInUser, ChangedReservationRequest);
                     MessageBox.Show("Zahtjev za pomjeranje rezervacije je uspješno poslat vlasniku.");
                     var navigationService = ThisFrame.NavigationService;
-                    navigationService.Navigate(new SearchPage(LoggedInUser, ThisFrame));
+                    navigationService.Navigate(new AccommodationBidPage(LoggedInUser, ThisFrame));
                     //ThisWindow.Close();
                 }
             }
@@ -98,7 +98,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                                     item.ReservationDuration, item.AccommodationId, LoggedInUser);
                     MessageBox.Show("Uspješno rezervisano.");
                     var navigationService = ThisFrame.NavigationService;
-                    navigationService.Navigate(new SearchPage(LoggedInUser, ThisFrame));
+                    navigationService.Navigate(new AccommodationBidPage(LoggedInUser, ThisFrame));
                     //ThisWindow.Close();
                 }
             }

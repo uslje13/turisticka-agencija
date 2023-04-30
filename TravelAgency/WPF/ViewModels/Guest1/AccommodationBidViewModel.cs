@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -23,12 +24,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public LocationService locationService { get; set; }
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public AccommodationReservationService accommodationReservationService { get; set; }
+        public RelayCommand reserveCommand { get; set; }
         private SuperOwnerService _superOwnerService;
         public List<AccommodationReservation> accommodationReservations { get; set; }
-
-        public AccommodationBidViewModel(User user)
+        public Frame ThisFrame { get; set; }
+        
+        public AccommodationBidViewModel(User user, Frame frame)
         {
             LoggedInUser = user;
+            ThisFrame = frame;
 
             AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
 
@@ -41,7 +45,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             locations = locationService.GetAll();
             accommodationReservations = accommodationReservationService.GetAll();
 
+            reserveCommand = new RelayCommand(ExecuteReserveAccommodation);
+
             CreateAllDTOForms();
+        }
+        public void ExecuteReserveAccommodation(object sender)
+        {
+            if (SelectedAccommodationDTO != null)
+            {
+                var navigationService = ThisFrame.NavigationService;
+                navigationService.Navigate(new EnterReservationPage(SelectedAccommodationDTO, LoggedInUser, false, ThisFrame));
+            }
+            else
+            {
+                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
+            }
         }
 
         private void CreateAllDTOForms()
