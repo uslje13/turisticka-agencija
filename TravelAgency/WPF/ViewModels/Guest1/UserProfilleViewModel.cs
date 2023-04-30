@@ -66,6 +66,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             LocationService = new LocationService();
             locations = LocationService.GetAll();
 
+            ApplyToCounter(accommodationReservations);
             ControlInboxButton(notifications);
             FillTextBlock(LoggedInUser);
             MergeLocationsAndAccommodations();
@@ -106,17 +107,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                                                                                         res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration,
                                                                                         lavm.AccommodationType);
                         futuredReservations.Add(model);
-                        ApplyToCounter(model);
                     } 
                 }
             }
         }
 
-        private void ApplyToCounter(CancelAndMarkResViewModel model)
+        private void ApplyToCounter(List<AccommodationReservation> accommodationReservations)
         {
-            if(model.FirstDay.Year == DateTime.Today.Year)
+            foreach(var item in  accommodationReservations)
             {
-                ThisYearCounter++;
+                if(item.UserId == LoggedInUser.Id && DateTime.Today.Year == item.FirstDay.Year)
+                {
+                    ThisYearCounter++;
+                }
             }
         }
 
@@ -166,7 +169,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                                                                                         fres.LastDay, fres.Id, lavm.AccommodationId, "", fres.ReservationDuration,
                                                                                         lavm.AccommodationType);
                         finishedReservations.Add(model);
-                        ApplyToCounter(model);
                     }
                 }
             }

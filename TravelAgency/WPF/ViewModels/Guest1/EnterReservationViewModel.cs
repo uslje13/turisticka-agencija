@@ -2,6 +2,7 @@
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,9 +86,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             bool validDays = accResService.CheckDays(dto, days);
             if (validDates && validDays)
             {
-                ShowAvailableDatesWindow availableDates = new ShowAvailableDatesWindow(dto, fDay, lDay, days, user, isEnteredOfChange, request);
-                availableDates.Show();
-                ThisWindow.Close();
+                var navigationService = ThisFrame.NavigationService;
+                navigationService.Navigate(new ShowAvailableDatesPage(dto, fDay, lDay, days, user, isEnteredOfChange, request, ThisFrame));
+                //ShowAvailableDatesWindow availableDates = new ShowAvailableDatesWindow(dto, fDay, lDay, days, user, isEnteredOfChange, request);
+                //availableDates.Show();
+                //ThisWindow.Close();
             }
             else if (!validDates)
             {

@@ -1,6 +1,7 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +20,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public AccommodationReservationService accResService { get; set; }
         public int guestNumber { get; set; }
         public RelayCommand finishReserveCommand { get; set; }
+        public RelayCommand GoBackCommand { get; set; }
         public ChangedReservationRequest ChangedReservationRequest { get; set; }
         public TextBox GuestNumber { get; set; }
-        public Window ThisWindow { get; set; }
+        public Frame ThisFrame { get; set; }
 
-        public EnterGuestNumberViewModel(AccReservationViewModel item, User user, bool enterOfChange, ChangedReservationRequest request, TextBox tb, Window thisWindow)
+        public EnterGuestNumberViewModel(AccReservationViewModel item, User user, bool enterOfChange, ChangedReservationRequest request, TextBox tb, Frame frame)
         {
             forwardedItem = item;
             LoggedInUser = user;
             ChangedReservationRequest = request;
             GuestNumber = tb;
-            ThisWindow = thisWindow;
+            ThisFrame = frame;
 
             accResService = new AccommodationReservationService();
 
@@ -37,6 +39,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 finishReserveCommand = new RelayCommand(ExecuteReserveAccommodation);
             else
                 finishReserveCommand = new RelayCommand(ExecuteSendRequestForChange);
+
+            GoBackCommand = new RelayCommand(Execute_GoBack);
+        }
+
+        private void Execute_GoBack(object sender)
+        {
+            var navigationService = ThisFrame.NavigationService;
+            navigationService.GoBack();
         }
 
         private void ExecuteSendRequestForChange(object sender)
@@ -57,7 +67,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     accResService.ProcessReservation(item, LoggedInUser, ChangedReservationRequest);
                     MessageBox.Show("Zahtjev za pomjeranje rezervacije je uspješno poslat vlasniku.");
-                    ThisWindow.Close();
+                    var navigationService = ThisFrame.NavigationService;
+                    navigationService.Navigate(new SearchPage(LoggedInUser, ThisFrame));
+                    //ThisWindow.Close();
                 }
             }
             else
@@ -85,7 +97,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     accResService.AddReservation(item.ReservationFirstDay, item.ReservationLastDay, forwadedGuestNumber,
                                     item.ReservationDuration, item.AccommodationId, LoggedInUser);
                     MessageBox.Show("Uspješno rezervisano.");
-                    ThisWindow.Close();
+                    var navigationService = ThisFrame.NavigationService;
+                    navigationService.Navigate(new SearchPage(LoggedInUser, ThisFrame));
+                    //ThisWindow.Close();
                 }
             }
             else
