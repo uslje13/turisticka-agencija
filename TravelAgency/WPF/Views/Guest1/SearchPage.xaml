@@ -34,6 +34,7 @@
 
         <TextBox x:Name="name" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Text="{Binding searchedAccName}" 
+                   
                    Margin="355,100,0,0" Height="30" Width="240"/>
 
         <TextBox x:Name="city" HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -52,6 +53,7 @@
         <TextBox x:Name="daysNumber" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Text="{Binding searchedAccDaysNumber}" Margin="425,350,0,0" Height="30" Width="108"/>
         <Button x:Name="SearchButton" Margin="135,295,133,14" Content="Pretraži" Command="{Binding searchCommand}" 
+                GotFocus="TestEnteredText"
                 Style="{StaticResource ButtonStyle}"/>
     </Grid>
 </Page>

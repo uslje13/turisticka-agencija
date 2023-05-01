@@ -34,20 +34,36 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
 
         private void TestEnteredText(object sender, RoutedEventArgs e)
         {
-            string input = (sender as TextBox).Text; 
-
-            if(!input.Equals(String.Empty))
+            if(!name.Text.Equals(""))
             {
-                if (!Regex.IsMatch(input, @"^[A-Z][a-z]*$"))
+                if (!Regex.IsMatch(name.Text, @"^[A-Za-z]*$"))
                 {
-                    name.BorderBrush = new SolidColorBrush(Colors.Red);
-                    SearchButton.IsEnabled = false;
+                    MessageBox.Show("Naziv smještaja može sadržati samo velika i mala slova.", " ", MessageBoxButton.OK, MessageBoxImage.Error);
+                    name.Focus();
+                    return;
                 }
-                else
-                {
-                    name.BorderBrush = new SolidColorBrush(Colors.Green);
-                    SearchButton.IsEnabled = true;
-                }
+            }
+
+            if (guestsNumber.Text.Equals(""))
+            {
+                guestsNumber.Text = "0";
+            }
+            else if (!Regex.IsMatch(guestsNumber.Text, @"^[0-9]+$"))
+            {
+                MessageBox.Show("Broj gostiju se mora sastojati od cifara!", " ", MessageBoxButton.OK, MessageBoxImage.Error);
+                guestsNumber.Focus();
+                return;
+            }
+
+            if (daysNumber.Text.Equals(""))
+            {
+                daysNumber.Text = "100";
+            }
+            else if (!Regex.IsMatch(daysNumber.Text, @"^[0-9]+$"))
+            {
+                MessageBox.Show("Broj dana se mora sastojati od cifara!", " ", MessageBoxButton.OK, MessageBoxImage.Error);
+                daysNumber.Focus();
+                return;
             }
         }
     }
