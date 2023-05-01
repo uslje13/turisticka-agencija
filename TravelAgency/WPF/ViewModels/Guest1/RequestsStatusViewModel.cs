@@ -24,14 +24,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public Frame ThisFrame { get; set; }
         public TextBlock TextBlockUsername { get; set; }
         public Window UserProfilleWindow { get; set; }
+        public int Notifications { get; set; }
 
-        public RequestsStatusViewModel(User user, Window window, Frame frame, TextBlock textBlock, Window profille)
+        public RequestsStatusViewModel(User user, Window window, Frame frame, TextBlock textBlock, Window profille, int notifications)
         {
             LoggedInUser = user;
             ThisWindow = window;
             ThisFrame = frame;
             TextBlockUsername = textBlock;
             UserProfilleWindow = profille;
+            Notifications = notifications;
 
             FillTextBlock(LoggedInUser);
 
@@ -59,7 +61,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             switch (nextPage)
             {
                 case "Profille":
+                    UserProfilleWindow newWindow = new UserProfilleWindow(LoggedInUser, Notifications, 0);
                     ThisWindow.Close();
+                    newWindow.ShowDialog();
                     break;
                 case "Search":
                     

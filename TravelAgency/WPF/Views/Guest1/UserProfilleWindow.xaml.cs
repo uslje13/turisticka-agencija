@@ -23,10 +23,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class UserProfilleWindow : Window
     {
-        public UserProfilleWindow(User user, int notifications)
+        public UserProfilleWindow(User user, int notifications, int ownerReq)
         {
             InitializeComponent();
-            UserProfilleViewModel viewModel = new UserProfilleViewModel(user, UsersName, InboxButton, notifications, Messages, ResNumber, this);
+            UserProfilleViewModel viewModel = new UserProfilleViewModel(user, UsersName, InboxButton, notifications, Messages, ResNumber, this, ownerReq);
             DataContext = viewModel;
         }
 
@@ -39,7 +39,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
                 Binding binding = new Binding();
                 binding.Source = "   ";
                 Messages.SetBinding(TextBlock.TextProperty, binding);
-                InboxButton.Background = new SolidColorBrush(Colors.PowderBlue);
+                InboxButton.Background = new SolidColorBrush(Colors.LightGoldenrodYellow);
             }
         }
     }

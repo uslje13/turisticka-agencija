@@ -38,14 +38,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand goToSearchCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
         public Window UserProfilleWindow { get; set; }
+        public int Notifications { get; set; }
 
-        public GuestInboxViewModel(User user, Window window, ListBox list, ListBox newList, Window userProfille)
+        public GuestInboxViewModel(User user, Window window, ListBox list, ListBox newList, Window userProfille, int notifications)
         {
             LoggedInUser = user;
             ThisWindow = window;
             MarkNotifications = list;
             ChangeNotifications = newList;
             UserProfilleWindow = userProfille;
+            Notifications = notifications;
 
             reservationsForMark = new List<CancelAndMarkResViewModel>();
             ChangedReservations = new List<CancelAndMarkResViewModel>();
@@ -80,8 +82,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void ExecuteGoToSearch(object sender)
         {
-            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, ThisWindow, UserProfilleWindow);
+            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, ThisWindow, UserProfilleWindow, Notifications);
             ThisWindow.Close();
+            UserProfilleWindow.Close();
             newWindow.Show();
         }
 

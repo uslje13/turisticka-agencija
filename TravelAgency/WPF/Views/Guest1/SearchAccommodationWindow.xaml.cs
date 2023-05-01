@@ -28,10 +28,10 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SearchAccommodationWindow : Window
     {
-        public SearchAccommodationWindow(User user, Window inbox, Window profille)
+        public SearchAccommodationWindow(User user, Window inbox, Window profille, int notifications)
         {
             InitializeComponent();
-            SearchAccommodationViewModel viewModel = new SearchAccommodationViewModel(user, this, MainFrame, UsersName, inbox, profille);
+            SearchAccommodationViewModel viewModel = new SearchAccommodationViewModel(user, this, MainFrame, UsersName, inbox, profille, notifications);
             DataContext = viewModel;
             viewModel.SetStartupPage();
         }

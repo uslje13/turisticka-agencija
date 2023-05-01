@@ -42,7 +42,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int Notifications { get; set; }
 
 
-        public UserProfilleViewModel(User user, TextBlock uName, Button button, int notifications, TextBlock mess, TextBlock counter, Window window) 
+        public UserProfilleViewModel(User user, TextBlock uName, Button button, int notifications, TextBlock mess, TextBlock counter, Window window, int ownerReq) 
         {
             LoggedInUser = user;
             userName = uName;
@@ -51,7 +51,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ThisYearCounter = 0;
             ReservationsCounter = counter;
             ThisWindow = window;
-            Notifications = notifications;
+            Notifications = notifications - ownerReq;
 
             locAccommodationViewModels = new List<LocAccommodationViewModel>();
             futuredReservations = new List<CancelAndMarkResViewModel>();
@@ -176,7 +176,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void ExecuteInboxShowing(object sender)
         {
-            GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser, ThisWindow);
+            GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser, ThisWindow, Notifications);
             if (Notifications == 0)
             {
                 MessageBox.Show("     Vaš inboks je prazan!\nNemate nepročitanih poruka.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -187,15 +187,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void ExecuteGoToStatuses(object sender)
         {
-            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow);
+            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications);
+            ThisWindow.Close();
             newWindow.ShowDialog();
         }
 
         private void ExecuteGoToSearch(object sender)
         {
             Window helpWindow = new Window();   
-            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, helpWindow, ThisWindow);
-            newWindow.Show();
+            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, helpWindow, ThisWindow, Notifications);
+            ThisWindow.Close();
+            newWindow.ShowDialog();
         }
 
         private void Execute_SigingOut(object sender)
