@@ -12,6 +12,9 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Cursor" Value="Hand"/>
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Silver"/>
+            </Trigger>
         </Style.Triggers>
         <Setter Property="Width" Value="110"/>
         <Setter Property="Height" Value="43"/>

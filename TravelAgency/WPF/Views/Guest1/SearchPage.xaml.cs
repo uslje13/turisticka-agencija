@@ -34,16 +34,6 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
 
         private void TestEnteredText(object sender, RoutedEventArgs e)
         {
-            if(!name.Text.Equals(""))
-            {
-                if (!Regex.IsMatch(name.Text, @"^[A-Za-z]*$"))
-                {
-                    MessageBox.Show("Naziv smještaja može sadržati samo velika i mala slova.", " ", MessageBoxButton.OK, MessageBoxImage.Error);
-                    name.Focus();
-                    return;
-                }
-            }
-
             if (guestsNumber.Text.Equals(""))
             {
                 guestsNumber.Text = "0";

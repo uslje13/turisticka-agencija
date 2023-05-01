@@ -20,8 +20,9 @@
                Width="615">Unesite broj gostiju :</Label>
         <TextBox x:Name="GuestNumber" Height="30" Width="108" Margin="162,120,162,162"/>
         <Button Content="Završi rezervaciju" Style="{StaticResource ButtonStyle}" Margin="135,295,133,14"
+                GotFocus="TestEnteredText"
                 Command="{Binding finishReserveCommand}"/>
-        <Button x:Name="BackToDaysPicking" Margin="-190,338,505,57" Content="Nazad" 
+        <Button x:Name="BackToDaysPicking" Margin="-190,338,505,57" Content="Nazad"
                 Style="{StaticResource ButtonStyle}" Command="{Binding GoBackCommand}"/>
     </Grid>
 </Page>

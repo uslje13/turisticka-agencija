@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,6 +35,20 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             InitializeComponent();
             EnterReservationViewModel viewModel = new EnterReservationViewModel(dto, user, enter, Days, FirstDay, LastDay, request, frame);
             DataContext = viewModel;
+        }
+
+        private void TestEnteredText(object sender, RoutedEventArgs e)
+        {
+            if (Days.Text.Equals(""))
+            {
+                MessageBox.Show("Unesite broj dana.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else if (!Regex.IsMatch(Days.Text, @"^[0-9]+$"))
+            {
+                MessageBox.Show("Broj gostiju se mora sastojati od cifara!", " ", MessageBoxButton.OK, MessageBoxImage.Error);
+                Days.Focus();
+                return;
+            }
         }
     }
 }
