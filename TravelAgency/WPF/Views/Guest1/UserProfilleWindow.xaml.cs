@@ -23,10 +23,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class UserProfilleWindow : Window
     {
-        public UserProfilleWindow(User user, int notifications, int ownerReq)
+        public UserProfilleWindow(User user, int notifications)
         {
             InitializeComponent();
-            UserProfilleViewModel viewModel = new UserProfilleViewModel(user, UsersName, InboxButton, notifications, Messages, ResNumber, this, ownerReq);
+            UserProfilleViewModel viewModel = new UserProfilleViewModel(user, UsersName, InboxButton, notifications, Messages, ResNumber, this);
             DataContext = viewModel;
         }
 

@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="820"
       Background="LightGoldenrodYellow"
@@ -30,8 +31,11 @@
                Margin="205,300,0,0" Height="30" Width="194"/>
         <Label Content="Broj dana za rezervaciju :" FontSize="15" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                Margin="205,350,0,0" Height="30" Width="189"/>
+
         <TextBox x:Name="name" HorizontalAlignment="Left" VerticalAlignment="Top"
-                   Text="{Binding searchedAccName}" Margin="355,100,0,0" Height="30" Width="240"/>
+                   Text="{Binding searchedAccName}" 
+                   Margin="355,100,0,0" Height="30" Width="240"/>
+
         <TextBox x:Name="city" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Text="{Binding searchedAccCity}" Margin="355,150,0,0" Height="30" Width="240"/>
         <TextBox x:Name="country" HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -49,7 +53,5 @@
                    Text="{Binding searchedAccDaysNumber}" Margin="425,350,0,0" Height="30" Width="108"/>
         <Button x:Name="SearchButton" Margin="135,295,133,14" Content="Pretraži" Command="{Binding searchCommand}" 
                 Style="{StaticResource ButtonStyle}"/>
-        <!--Button x:Name="CancelButton" Margin="208,394,307,14" Content="Odustani" Command="{Binding cancelCommand}" 
-                Width="100" Height="30"/-->
     </Grid>
 </Page>

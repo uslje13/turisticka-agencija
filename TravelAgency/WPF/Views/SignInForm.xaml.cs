@@ -77,7 +77,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST1)
                 {
-                    UserProfilleWindow userProfilleWindow = new UserProfilleWindow(user, TestInboxCharge(user.Id), TestOwnerRequestNotifications(user.Id));
+                    UserProfilleWindow userProfilleWindow = new UserProfilleWindow(user, TestInboxCharge(user.Id));
                     Close();
                     userProfilleWindow.ShowDialog();
                 }

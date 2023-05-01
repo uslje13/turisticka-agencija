@@ -42,7 +42,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int Notifications { get; set; }
 
 
-        public UserProfilleViewModel(User user, TextBlock uName, Button button, int notifications, TextBlock mess, TextBlock counter, Window window, int ownerReq) 
+        public UserProfilleViewModel(User user, TextBlock uName, Button button, int notifications, TextBlock mess, TextBlock counter, Window window) 
         {
             LoggedInUser = user;
             userName = uName;
@@ -51,7 +51,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ThisYearCounter = 0;
             ReservationsCounter = counter;
             ThisWindow = window;
-            Notifications = notifications - ownerReq;
+            Notifications = notifications;
 
             locAccommodationViewModels = new List<LocAccommodationViewModel>();
             futuredReservations = new List<CancelAndMarkResViewModel>();

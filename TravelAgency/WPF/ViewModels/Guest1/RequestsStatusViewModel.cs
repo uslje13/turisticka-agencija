@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows;
 using System.Reflection.Metadata;
+using SOSTeam.TravelAgency.Application.Services;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -61,7 +62,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             switch (nextPage)
             {
                 case "Profille":
-                    UserProfilleWindow newWindow = new UserProfilleWindow(LoggedInUser, Notifications, 0);
+                    UserProfilleWindow newWindow = new UserProfilleWindow(LoggedInUser, TestInboxCharge(LoggedInUser.Id));
                     ThisWindow.Close();
                     newWindow.ShowDialog();
                     break;
@@ -84,6 +85,45 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     break;
             }
             return;
+        }
+
+        private int TestInboxCharge(int loggedInUserId)
+        {
+            int marksNotifications = TestMarkNotifications(loggedInUserId);
+            int ownerNotifications = TestOwnerRequestNotifications(loggedInUserId);
+            return marksNotifications + ownerNotifications;
+        }
+
+        private int TestMarkNotifications(int loggedInUserId)
+        {
+            AccommodationReservationService resService = new AccommodationReservationService();
+            List<AccommodationReservation> allRes = resService.GetAll();
+            int counter = 0;
+            foreach (var res in allRes)
+            {
+                int diff = DateTime.Today.DayOfYear - res.LastDay.DayOfYear;
+                bool fullCharge = res.UserId == loggedInUserId && !res.ReadMarkNotification && diff <= 5 && diff > 0;
+                if (fullCharge)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        private int TestOwnerRequestNotifications(int loggedInUserId)
+        {
+            NotificationFromOwnerService notifService = new NotificationFromOwnerService();
+            List<NotificationFromOwner> notifications = notifService.GetAll();
+            int counter = 0;
+            foreach (var item in notifications)
+            {
+                if (item.GuestId == loggedInUserId)
+                {
+                    counter++;
+                }
+            }
+            return counter;
         }
     }
 }
