@@ -67,7 +67,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _appointmentService.SetExpiredAppointments(loggedUser.Id);
 
             var tourCardCreator = new TourCardCreatorViewModel();
-            _tourCards = tourCardCreator.CreateCards(loggedUser, false);
+            _tourCards = tourCardCreator.CreateCards(loggedUser, CreationType.ALL);
 
             _timer.Tick += UpdateTourCards;
 
@@ -131,8 +131,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         //Ovo sve leti kada se sredi Burger Menu!!!
         private void ShowFinishedTourReviews(object sender)
         {
-            FinishedTourReviewsPage finishedReviewsPage = new FinishedTourReviewsPage(_loggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = finishedReviewsPage;
+            GuestReviewsByTourPage guestReviewsByPage = new GuestReviewsByTourPage(_loggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = guestReviewsByPage;
         }
 
         private void ShowStatsMenu(object sender)

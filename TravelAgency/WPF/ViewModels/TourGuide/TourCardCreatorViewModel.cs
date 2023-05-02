@@ -1,10 +1,12 @@
-﻿using SOSTeam.TravelAgency.Application.Services;
+﻿using System.Collections.Generic;
+using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Domain.Models;
 using System.Collections.ObjectModel;
 
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
+    public enum CreationType { ALL = 0, TODAY = 1, FINISHED = 2}
     public class TourCardCreatorViewModel
     {
         #region Services
@@ -24,9 +26,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _imageService = new ImageService();
         }
 
-        public ObservableCollection<TourCardViewModel> CreateCards(User loggedUser, bool isToday)
+        public ObservableCollection<TourCardViewModel> CreateCards(User loggedUser, CreationType type)
         {
-            var appointments = isToday ? _appointmentService.GetTodayAppointmentsByUserId(loggedUser.Id) : _appointmentService.GetAllByUserId(loggedUser.Id);
+            var appointments = GetAppointmentsByUsageType(loggedUser, type);
 
             var tourCards = new ObservableCollection<TourCardViewModel>();
             foreach (var appointment in appointments)
@@ -52,6 +54,25 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 }
             }
             return tourCards;
+        }
+
+        private List<Appointment> GetAppointmentsByUsageType(User loggedUser, CreationType type)
+        {
+            List<Appointment> appointments;
+            switch (type)
+            {
+                case CreationType.ALL:
+                    appointments = _appointmentService.GetAllByUserId(loggedUser.Id);
+                    break;
+                case CreationType.TODAY:
+                    appointments = _appointmentService.GetTodayAppointmentsByUserId(loggedUser.Id);
+                    break;
+                default:
+                    appointments = _appointmentService.GetAllFinishedByUserId(loggedUser.Id);
+                    break;
+            }
+
+            return appointments;
         }
 
         private void SetCoverImage(Tour tour, TourCardViewModel tourCard)

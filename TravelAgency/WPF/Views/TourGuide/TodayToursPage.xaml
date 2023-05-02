@@ -59,7 +59,8 @@
                                 Margin="0 5 5 0" BorderBrush="DarkGray"
                                 Command="{Binding DataContext.StartTourCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                                 CommandParameter="{Binding }"
-                                IsEnabled="{Binding CanStart, Mode=OneWay}">
+                                IsEnabled="{Binding CanStart, Mode=OneWay}"
+                                Cursor="Hand">
                         </Button>
 
                         <!-- Status -->

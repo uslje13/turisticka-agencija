@@ -50,7 +50,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _loggedUser = loggedUser;
             TodayDate = DateOnly.FromDateTime(DateTime.Now);
             TourCardCreatorViewModel tourCardCreator = new TourCardCreatorViewModel();
-            TodayTourCards = tourCardCreator.CreateCards(loggedUser, true);
+            TodayTourCards = tourCardCreator.CreateCards(loggedUser, CreationType.TODAY);
 
             _appointmentService = new AppointmentService();
             _checkpointService = new CheckpointService();
