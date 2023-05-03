@@ -17,7 +17,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public GuestAttendancesViewModel(CheckpointCardViewModel selectedCheckpointCard, string tourName, DateTime? date)
         {
             var guestAttendanceCardCreator = new GuestAttendanceCardCreatorViewModel();
-            GuestAttendanceCards = guestAttendanceCardCreator.CreateCards(selectedCheckpointCard);
+            GuestAttendanceCards = guestAttendanceCardCreator.CreateUserCards(selectedCheckpointCard);
             TourName = tourName;
             Date = date;
             CheckpointName = selectedCheckpointCard.Name;

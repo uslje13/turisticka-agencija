@@ -9,13 +9,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
     public class GuestAttendanceCardViewModel
     {
-        public string Name { get; set; }
+        public string UserName { get; set; }
+        public string CheckpointName { get; set; }
         public string StatusImage { get; set; }
         public string Background { get; set; }
 
         public GuestAttendanceCardViewModel()
         {
-            Name = string.Empty;
+            UserName = string.Empty;
+            CheckpointName = string.Empty;
             StatusImage = string.Empty;
             Background = string.Empty;
         }

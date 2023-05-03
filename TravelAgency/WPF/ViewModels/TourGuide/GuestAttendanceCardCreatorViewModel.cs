@@ -12,25 +12,50 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
     {
         private readonly GuestAttendanceService _guestAttendanceService;
         private readonly UserService _userService;
+        private readonly CheckpointActivityService _checkpointActivityService;
+        private readonly CheckpointService _checkpointService;
 
         public GuestAttendanceCardCreatorViewModel()
         {
             _guestAttendanceService = new GuestAttendanceService();
             _userService = new UserService();
+            _checkpointActivityService = new CheckpointActivityService();
+            _checkpointService = new CheckpointService();
         }
-        public ObservableCollection<GuestAttendanceCardViewModel> CreateCards(CheckpointCardViewModel selectedCheckpointActivity)
+        public ObservableCollection<GuestAttendanceCardViewModel> CreateUserCards(CheckpointCardViewModel selectedCheckpointActivity)
         {
             var guestAttendanceCards = new ObservableCollection<GuestAttendanceCardViewModel>();
             foreach (var guestAttendance in _guestAttendanceService.GetAllByActivityId(selectedCheckpointActivity.ActivityId))
             {
                 var guestAttendanceCard = new GuestAttendanceCardViewModel
                 {
-                    Name = _userService.GetById(guestAttendance.UserId).Username
+                    UserName = _userService.GetById(guestAttendance.UserId).Username
                 };
                 guestAttendanceCard.SetStatusImageAndBackground(guestAttendance);
                 guestAttendanceCards.Add(guestAttendanceCard);
             }
             return guestAttendanceCards;
+        }
+
+        public ObservableCollection<GuestAttendanceCardViewModel> CreateCheckpointCards(GuestReviewCardViewModel selectedReview)
+        {
+            var checkpointAttendanceCards = new ObservableCollection<GuestAttendanceCardViewModel>();
+            foreach (var checkpointActivity in _checkpointActivityService.GetAllByAppointmentId(selectedReview.AppointmentId))
+            {
+                foreach (var guestAttendance in _guestAttendanceService.GetByUserId(selectedReview.UserId))
+                {
+                    if (checkpointActivity.Id == guestAttendance.CheckpointActivityId)
+                    {
+                        var guestAttendanceCard = new GuestAttendanceCardViewModel
+                        {
+                            CheckpointName = _checkpointService.GetById(checkpointActivity.CheckpointId).Name
+                        };
+                        guestAttendanceCard.SetStatusImageAndBackground(guestAttendance);
+                        checkpointAttendanceCards.Add(guestAttendanceCard);
+                    }
+                }
+            }
+            return checkpointAttendanceCards;
         }
     }
 }
