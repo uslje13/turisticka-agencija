@@ -220,10 +220,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Resources\Icons\burger_menu.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -248,6 +244,15 @@
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Xceed.Wpf.AvalonDock.NET5">
+      <HintPath>bin\Debug\net6.0-windows\Xceed.Wpf.AvalonDock.NET5.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit.NET5">
+      <HintPath>bin\Debug\net6.0-windows\Xceed.Wpf.Toolkit.NET5.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

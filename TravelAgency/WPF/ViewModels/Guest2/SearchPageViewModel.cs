@@ -188,18 +188,26 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_SearchCommand(object sender)
         {
-            LoadEnteredRequests();
-            ObservableCollection<TourViewModel> searchResult = new ObservableCollection<TourViewModel>();
-
-            foreach (var item in TourViewModels)
+            try
             {
-                bool isCorrect = IsApropriate(item);
-                if (isCorrect)
+                LoadEnteredRequests();
+                ObservableCollection<TourViewModel> searchResult = new ObservableCollection<TourViewModel>();
+
+                foreach (var item in TourViewModels)
                 {
-                    searchResult.Add(item);
+                    bool isCorrect = IsApropriate(item);
+                    if (isCorrect)
+                    {
+                        searchResult.Add(item);
+                    }
                 }
+                ShowResults(searchResult);
             }
-            ShowResults(searchResult);
+            catch (Exception ex)
+            {
+                MessageBox.Show("Uneti podaci nisu u dobrom formatu: ", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
 
          private void LoadEnteredRequests()

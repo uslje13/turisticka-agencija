@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest2"
+        xmlns:local1="clr-namespace:SOSTeam.TravelAgency.Converter"
         mc:Ignorable="d"
         Title="Obavestenja" FontSize="24" Height="800" Width="880"  Background="AliceBlue" FontFamily="Microsoft Sans Serif" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <local1:BorderConverter x:Key="BorderConverter" />
+    </Window.Resources>
 
     <Window.InputBindings>
         <KeyBinding Key="B" Modifiers="Control" Command="{Binding BackCommand}" />
@@ -28,11 +33,17 @@
         </Border>
         <Border Margin="0,109,0,95">
             <ScrollViewer HorizontalAlignment="Right" Width="880">
-                <ItemsControl x:Name="FinishedToursList" ItemsSource="{Binding FinishedTours}">
+                <ItemsControl x:Name="FinishedToursList" ItemsSource="{Binding FinishedTours}" AlternationCount="{Binding FinishedTours.Count}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
-                                <Border BorderBrush="Black" BorderThickness="0,2,0,2">
+                                <Border BorderBrush="Black">
+                                    <Border.BorderThickness>
+                                        <MultiBinding Converter="{StaticResource BorderConverter}">
+                                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type ContentPresenter}}" Path="(ItemsControl.AlternationIndex)" />
+                                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type ItemsControl}}" Path="Items.Count" />
+                                        </MultiBinding>
+                                    </Border.BorderThickness>
                                     <StackPanel Orientation="Horizontal" Height="163" Margin="30,0,0,0">
                                         <Image Source="/Resources/Icons/info-icon.png" Height="109" Width="159" />
                                         <TextBlock TextWrapping="Wrap" TextTrimming="None" Height="66" Width="483" Margin="10,0,20,0" Text="{Binding TextForShowing}">
@@ -44,6 +55,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+
             </ScrollViewer>
         </Border>
         <Grid>
