@@ -20,7 +20,7 @@
     <Grid>
         <Border Margin="0,0,0,566">
             <StackPanel Margin="0,0,0,-14">
-                <Button Width="195" Height="36" Margin="600,26,27,100" Command="{Binding HelpCommand}">
+                <Button Width="195" Height="36" Margin="600,26,27,100" BorderThickness="1,1,2,2" Command="{Binding HelpCommand}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Icons/help--v1.png" Height="33" Width="38"></Image>
                         <TextBlock  Text=" Pomoc (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
@@ -29,7 +29,7 @@
             </StackPanel>
         </Border>
         <Border Margin="0,689,0,0">
-            <Button Height="74" Content="Nazad (Ctrl + b)" FontSize="24" Command="{Binding BackCommand}"></Button>
+            <Button Height="74" Content="Nazad (Ctrl + b)" FontSize="24" BorderThickness="1,1,2,2" Command="{Binding BackCommand}"></Button>
         </Border>
         <Border Margin="0,109,0,95">
             <ScrollViewer HorizontalAlignment="Right" Width="880">
@@ -48,7 +48,7 @@
                                         <Image Source="/Resources/Icons/info-icon.png" Height="109" Width="159" />
                                         <TextBlock TextWrapping="Wrap" TextTrimming="None" Height="66" Width="483" Margin="10,0,20,0" Text="{Binding TextForShowing}">
                                         </TextBlock>
-                                        <Button Width="127" Height="65" Content="Oceni" Command="{Binding ReviewCommand}"></Button>
+                                        <Button Width="127" Height="65" Content="Oceni" BorderThickness="1,1,2,2" Command="{Binding ReviewCommand}"></Button>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>

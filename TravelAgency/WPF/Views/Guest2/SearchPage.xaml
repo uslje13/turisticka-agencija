@@ -71,14 +71,14 @@
                         <TextBox Name="ocupancy" FontSize="18" Height="37" Margin="0,0,0,5" Text="{Binding Path=SearchedOcupancy,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding SearchCommand}">
+                    <Button Style="{StaticResource MenuButtons}" BorderThickness="1,1,2,2" Command="{Binding SearchCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/search.png" Height="40" Width="38"/>
                             <TextBlock Text="  Pretrazite" Height="24" Width="190"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding BackCommand}" >
+                    <Button Style="{StaticResource MenuButtons}" BorderThickness="1,1,2,2" Command="{Binding BackCommand}" >
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/back_button.png" Height="47" Width="38"/>
                             <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="192"/>

@@ -4,5 +4,10 @@
              xmlns:local="clr-namespace:TravelAgency"
              StartupUri="WPF/Views/SignInForm.xaml">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ClickableStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

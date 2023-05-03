@@ -6,6 +6,12 @@
         <Setter Property="FontFamily" Value="Microsoft Sans Serif" />
         <Setter Property="Margin" Value="10"/>
         <Setter Property="Background" Value="Cornsilk"/>
+        <Setter Property="Cursor" Value="Arrow"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>
 

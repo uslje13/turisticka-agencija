@@ -56,50 +56,50 @@
                         <Label Content="{Binding LoggedInUser.Username}" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154" HorizontalContentAlignment="Center"/>
                     </StackPanel>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding MyToursCommand}">
+                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding MyToursCommand}">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/Icons/tour_icon.png" Height="40" Width="38"/>
+                            <Image Source="/Resources/Icons/tour_icon2.png" Height="40" Width="38"/>
                             <TextBlock Text="  Moje ture (Ctrl + m)" Height="24" Width="186"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding RequestsCommand}">
+                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding RequestsCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/list-square-icon.png" Height="40" Width="38"/>
                             <TextBlock Text="  Zahtevi (Ctrl + z)" Height="24" Width="188"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding VouchersCommand}">
+                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding VouchersCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/voucher_icon.png" Height="40" Width="38"/>
                             <TextBlock Text="  Vauceri (Ctrl + v)" Height="24" Width="189"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding SearchCommand}">
+                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding SearchCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/search.png" Height="40" Width="38"/>
                             <TextBlock Text="  Pretrazi (Ctrl + p)" Height="24" Width="190"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding NotificationsCommand}" >
+                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding NotificationsCommand}" >
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/info-icon.png" Height="40" Width="38"/>
                             <TextBlock Text="  Obavestenja (Ctrl + o)" Height="24" Width="189"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding HelpCommand}" >
+                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding HelpCommand}" >
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/help--v1.png" Height="40" Width="38"/>
                             <TextBlock Text="  Pomoc (Ctrl + h)" Height="24" Width="190"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding LogOutCommand}" >
-                        <StackPanel Orientation="Horizontal">
+                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding LogOutCommand}" >
+                        <StackPanel Orientation="Horizontal" Width="220">
                             <Image Source="/Resources/Icons/log_out.png" Height="40" Width="38"/>
                             <TextBlock Text="  Odjavi se (Ctrl + l)" Height="24" Width="192"/>
                         </StackPanel>
@@ -125,7 +125,7 @@
                                 <Border Margin="30,30,30,10" BorderBrush="Black" BorderThickness="1">
                                                 <Grid>
                                                     <StackPanel Margin="0,0,837,0">
-                                                        <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsButtonsEnabled}" Command="{Binding ArrowCommands.LeftArrowCommand}">
+                                                        <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsButtonsEnabled}" Command="{Binding ArrowCommands.LeftArrowCommand}" Width="72">
                                                             <Image Source="/Resources/Icons/left_arrow.png"></Image>
                                                         </Button>
                                                     </StackPanel>
@@ -192,7 +192,7 @@
                                 <Border Margin="30,30,30,10" BorderBrush="Black" BorderThickness="1">
                                     <Grid>
                                         <StackPanel Margin="0,0,837,0">
-                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsSecondButtonsEnabled}" Command="{Binding ArrowCommands.SecondLeftArrowCommand}">
+                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsSecondButtonsEnabled}" Command="{Binding ArrowCommands.SecondLeftArrowCommand}" Width="72">
                                                 <Image Source="/Resources/Icons/left_arrow.png"></Image>
                                             </Button>
                                         </StackPanel>
@@ -259,7 +259,7 @@
                                 <Border Margin="30,30,30,10" BorderBrush="Black" BorderThickness="1">
                                     <Grid>
                                         <StackPanel Margin="0,0,837,0">
-                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsThirdButtonsEnabled}" Command="{Binding ArrowCommands.ThirdLeftArrowCommand}">
+                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsThirdButtonsEnabled}" Command="{Binding ArrowCommands.ThirdLeftArrowCommand}" Width="72">
                                                 <Image Source="/Resources/Icons/left_arrow.png"></Image>
                                             </Button>
                                         </StackPanel>
