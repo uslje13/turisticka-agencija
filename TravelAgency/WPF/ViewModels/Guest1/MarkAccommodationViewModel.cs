@@ -17,6 +17,7 @@ using Microsoft.Win32;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -34,17 +35,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public ListBox Images { get; set; }
         public RelayCommand DeleteSharedImageCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
-
-        private List<System.Windows.Controls.Image> selectedImages;
         //-----------------------------------------------------------------------------
         //-----------------------------------------------------------------------------
+        private ObservableCollection<System.Windows.Controls.Image> selectedImages;
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChaged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));  
         }
 
-        public List<System.Windows.Controls.Image> SelectedImages
+        public ObservableCollection<System.Windows.Controls.Image> SelectedImages
         {
             get { return selectedImages; }
             set
@@ -66,7 +66,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             Accommodation = acc;
             ThisWindow = window;
             Images = images;
-            SelectedImages = new List<System.Windows.Controls.Image>();
+            SelectedImages = new ObservableCollection<System.Windows.Controls.Image>();
 
             FillTextBox(acc);
 
@@ -79,8 +79,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         private void Execute_DeleteSharedImage(object sender)
         {
             System.Windows.Controls.Image? selected = sender as System.Windows.Controls.Image;
-            //SelectedImages.Remove(selected);
-            SelectedImages.RemoveAt(selected.PersistId);
+            SelectedImages.Remove(selected);
         }
 
         private void Execute_GoBack(object sender)
