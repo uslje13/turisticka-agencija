@@ -54,7 +54,7 @@
             </TabItem>
         </TabControl>
         <Button x:Name="ChangeButton" Command="{Binding FindNewDateCommand}" Style="{StaticResource ButtonStyle}"
-                Content="Kreiraj zahtjev" Margin="135,295,133,14"/>
+                Content="Pomjeri" Margin="135,295,133,14"/>
         <Button x:Name="CancelResButton" Command="{Binding CancelReservationCommand}" Style="{StaticResource ButtonStyle}"
                 Content="Otkaži" Margin="475,338,-190,57" IsEnabled="False"/>
     </Grid>

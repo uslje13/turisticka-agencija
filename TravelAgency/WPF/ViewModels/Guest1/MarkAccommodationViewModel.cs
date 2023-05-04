@@ -56,8 +56,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         //-----------------------------------------------------------------------------
         //-----------------------------------------------------------------------------
         public string AllUrls { get; set; }
+        public ObservableCollection<CancelAndMarkResViewModel> ReservationsForMark { get; set; }
 
-        public MarkAccommodationViewModel(TextBlock tBlock, List<RadioButton> cleans, List<RadioButton> owners, TextBox comment, User user, CancelAndMarkResViewModel acc, Window window, ListBox images) 
+        public MarkAccommodationViewModel(TextBlock tBlock, List<RadioButton> cleans, List<RadioButton> owners, TextBox comment, User user, CancelAndMarkResViewModel acc, Window window, ListBox images, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark) 
         {
             AccommodationNameTb = tBlock;
             CleanMarks = cleans;
@@ -69,6 +70,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             Images = images;
             SelectedImages = new ObservableCollection<System.Windows.Controls.Image>();
             AllUrls = String.Empty;
+            ReservationsForMark = reservationsForMark;
 
             FillTextBox(acc);
 
@@ -161,6 +163,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             GuestAccMarkService service = new GuestAccMarkService();
             service.MarkAccommodation(cleanMark, ownerMark, GuestComment.Text, AllUrls, LoggedInUser, Accommodation);
             MessageBox.Show("Uspješno ocjenjen smještaj!");
+            ReservationsForMark.Remove(Accommodation);
             ThisWindow.Close();
         }
     }

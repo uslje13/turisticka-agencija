@@ -21,9 +21,9 @@
                Width="615">Prikaz odabranih datuma </Label>
         <Calendar x:Name="Calendar" Margin="89,155,89,34" 
                   DisplayDateStart="{Binding EnteredFirstDay}" DisplayDateEnd="{Binding EnteredLastDay}"></Calendar>
-        <Button x:Name="SelectReservationButton" Content="Odaberi termin" Margin="135,295,133,14"
+        <Button x:Name="SelectReservationButton" Content="Nađi termine" Margin="135,295,133,14" FontSize="16"
                 Style="{StaticResource ButtonStyle}" Command="{Binding pickCommand}"/>
-        <Button x:Name="BackToDaysPicking" Margin="-190,338,505,57" Content="Unesi novi opseg" 
+        <Button x:Name="BackToDaysPicking" Margin="-190,338,505,57" Content="Nazad" 
                 Style="{StaticResource ButtonStyle}" Command="{Binding GoBackCommand}"/>
     </Grid>
 </Page>

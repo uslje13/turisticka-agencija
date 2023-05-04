@@ -33,9 +33,9 @@
                 <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="ReservationButton" Margin="135,295,133,14" Content="Rezerviši smeštaj" 
+        <Button x:Name="ReservationButton" Margin="135,295,133,14" Content="Rezerviši" 
                 Style="{StaticResource ButtonStyle}" Command="{Binding reserveCommand}"/>
-        <Button x:Name="BackToSearchParametersButton" Margin="-190,338,505,57" Content="Izmijeni parametre" 
+        <Button x:Name="BackToSearchParametersButton" Margin="-190,338,505,57" Content="Nazad" 
                 Style="{StaticResource ButtonStyle}" Command="{Binding GoBackCommand}"/>
     </Grid>
 </Page>
