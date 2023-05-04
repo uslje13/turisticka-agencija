@@ -117,7 +117,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             CancelAndMarkResViewModel? selected = sender as CancelAndMarkResViewModel;
             MarkAccommodationWindow newWindow = new MarkAccommodationWindow(LoggedInUser, selected);
             newWindow.ShowDialog();
-            ThisWindow.Close();
         }
 
         private void ShowMarkingNotifications()

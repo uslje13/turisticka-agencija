@@ -15,6 +15,7 @@ using SOSTeam.TravelAgency.WPF.ViewModels;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Application.Services;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SOSTeam.TravelAgency.WPF.Views.Guest1
 {
@@ -28,8 +29,8 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             InitializeComponent();
             List<RadioButton> cleanButtons = new List<RadioButton> { c1, c2, c3, c4, c5 };
             List<RadioButton> ownerButtons = new List<RadioButton> { v1, v2, v3, v4, v5 };
-            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(AccommodationNameTb, cleanButtons, ownerButtons, GuestComment, GuestURLs, user, accommodation, this);
-            DataContext = viewModel; 
+            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(AccommodationNameTb, cleanButtons, ownerButtons, GuestComment, user, accommodation, this, Images);
+            DataContext = viewModel;
         }
     }
 }
