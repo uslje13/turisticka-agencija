@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ButtonStyle.xaml" />
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ImageButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -32,10 +33,10 @@
         <RadioButton x:Name="v3" GroupName="owner" Margin="460,159,523,554" Cursor="Hand">3</RadioButton>
         <RadioButton x:Name="v4" GroupName="owner" Margin="460,179,523,534" Cursor="Hand">4</RadioButton>
         <RadioButton x:Name="v5" GroupName="owner" Margin="460,199,523,514" Cursor="Hand">5</RadioButton>
-        <Label Content="Ostavite dodatni komentar : " FontSize="17" Margin="27,258,716,444"></Label>
-        <TextBox x:Name="GuestComment" Margin="270,258,33,430" ></TextBox>
+        <Label Content="Ostavite dodatni komentar : " FontSize="17" Margin="27,299,716,403"></Label>
+        <TextBox x:Name="GuestComment" Margin="270,299,33,389" ></TextBox>
         <Label FontSize="17" Margin="560,108,218,584">Priložene slike :</Label>
-        <ListBox Name="Images" Margin="691,108,33,514">
+        <ListBox Name="Images" Margin="691,115,33,470">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -43,15 +44,20 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Height="125" Width="240" Source="{Binding Source}"/>
-                        <Button Height="35" Width="35" Content="Izbriši" 
+                        <Image VerticalAlignment="Center" HorizontalAlignment="Left" 
+                               Height="135" Width="230" Source="{Binding Source}"/>
+                        <Button Margin="220,50,10,50" Style="{StaticResource ImageButtonStyle}"
                                 Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, 
-                                Path=DataContext.DeleteSharedImageCommand}" CommandParameter="{Binding}"/>
+                                Path=DataContext.DeleteSharedImageCommand}" CommandParameter="{Binding}">
+                            <StackPanel Height="25" Width="25">
+                                <Image Source="/Resources/Icons/Guest1/bin.png"></Image>
+
+                            </StackPanel>
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
         <Button x:Name="MarkButton" Command="{Binding MarkAccCommand}" Content="Ocijeni"
                 Style="{StaticResource ButtonStyle}" Margin="367,620,367,57">
         </Button>

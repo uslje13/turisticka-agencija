@@ -55,6 +55,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         }
         //-----------------------------------------------------------------------------
         //-----------------------------------------------------------------------------
+        public string AllUrls { get; set; }
 
         public MarkAccommodationViewModel(TextBlock tBlock, List<RadioButton> cleans, List<RadioButton> owners, TextBox comment, User user, CancelAndMarkResViewModel acc, Window window, ListBox images) 
         {
@@ -67,6 +68,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ThisWindow = window;
             Images = images;
             SelectedImages = new ObservableCollection<System.Windows.Controls.Image>();
+            AllUrls = String.Empty;
 
             FillTextBox(acc);
 
@@ -98,11 +100,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             if (op.ShowDialog() == true)
             {
+                int i = 1;
                 foreach(string imageUrl in op.FileNames)
                 {
+                    if(i == 1) 
+                        AllUrls += imageUrl;
+                    else 
+                        AllUrls += "," + imageUrl;
+
                     System.Windows.Controls.Image image = new System.Windows.Controls.Image();
                     image.Source = new BitmapImage(new Uri(imageUrl));
                     SelectedImages.Add(image);
+                    i++;
                 }
             } 
             Images.ItemsSource = SelectedImages;
@@ -150,7 +159,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             int cleanMark = FindCleanMark(CleanMarks);
             int ownerMark = FindOwnerMark(OwnerMarks);
             GuestAccMarkService service = new GuestAccMarkService();
-            service.MarkAccommodation(cleanMark, ownerMark, GuestComment.Text, "", LoggedInUser, Accommodation);
+            service.MarkAccommodation(cleanMark, ownerMark, GuestComment.Text, AllUrls, LoggedInUser, Accommodation);
             MessageBox.Show("Uspješno ocjenjen smještaj!");
             ThisWindow.Close();
         }

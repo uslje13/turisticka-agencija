@@ -34,6 +34,7 @@
     <None Remove="Resources\Icons\firework.png" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
     <None Remove="Resources\Icons\guest.png" />
+    <None Remove="Resources\Icons\Guest1\bin.png" />
     <None Remove="Resources\Icons\Guest1\inbox.png" />
     <None Remove="Resources\Icons\Guest1\statuses.png" />
     <None Remove="Resources\Icons\Guest1\user_siluet.png" />
@@ -236,6 +237,7 @@
     </Content>
     <Resource Include="Resources\Icons\checkpoint.png" />
     <Resource Include="Resources\Icons\exclamation_star.png" />
+    <Resource Include="Resources\Icons\Guest1\bin.png" />
     <Resource Include="Resources\Icons\Guest1\inbox.png" />
     <Resource Include="Resources\Icons\Guest1\statuses.png" />
     <Resource Include="Resources\Icons\Guest1\user_siluet.png" />

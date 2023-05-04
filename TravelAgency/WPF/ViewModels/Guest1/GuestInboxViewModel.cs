@@ -5,6 +5,7 @@ using SOSTeam.TravelAgency.WPF.Views;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -23,7 +24,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     {
         public User LoggedInUser { get; set; }
         public RelayCommand MarkAccommodationCommand { get; set; }
-        public List<CancelAndMarkResViewModel> reservationsForMark { get; set; }
+        public ObservableCollection<CancelAndMarkResViewModel> reservationsForMark { get; set; }
         public List<CancelAndMarkResViewModel> ChangedReservations { get; set; }
         public AccommodationReservationService accResService { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
@@ -49,7 +50,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             UserProfilleWindow = userProfille;
             Notifications = notifications;
 
-            reservationsForMark = new List<CancelAndMarkResViewModel>();
+            reservationsForMark = new ObservableCollection<CancelAndMarkResViewModel>();
             ChangedReservations = new List<CancelAndMarkResViewModel>();
             locAccommodationViewModels = new List<LocAccommodationViewModel>();
 
@@ -117,6 +118,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             CancelAndMarkResViewModel? selected = sender as CancelAndMarkResViewModel;
             MarkAccommodationWindow newWindow = new MarkAccommodationWindow(LoggedInUser, selected);
             newWindow.ShowDialog();
+            reservationsForMark.Remove(selected);
         }
 
         private void ShowMarkingNotifications()
