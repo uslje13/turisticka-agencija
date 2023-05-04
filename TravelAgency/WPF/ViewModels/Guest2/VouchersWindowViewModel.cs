@@ -14,6 +14,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class VouchersWindowViewModel : ViewModel
     {
+        public User LoggedInUser { get; set; }
         private VouchersWindow _window;
         private RelayCommand _backCommand;
         private VoucherService _voucherService;
@@ -38,7 +39,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 _helpCommand = value;
             }
         }
-        public VouchersWindowViewModel(VouchersWindow window)
+
+        public VouchersWindowViewModel(VouchersWindow window, User loggedInUser)
         {
             _window = window;
             BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
@@ -46,6 +48,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             Vouchers = new ObservableCollection<VouchersViewModel>();
             _voucherService = new VoucherService();
             FillVouchersForShowingList();
+            LoggedInUser = loggedInUser;
         }
         private void Execute_HelpCommand(object obj)
         {
@@ -57,8 +60,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 if (window is ToursOverviewWindow)
                 {
+                    PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
                     var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
-                    navigationService.Navigate(new HelpPage());
+                    navigationService.Navigate(new HelpPage(LoggedInUser));
                     break;
                 }
             }

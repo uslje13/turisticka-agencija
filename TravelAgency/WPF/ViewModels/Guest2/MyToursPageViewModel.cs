@@ -35,13 +35,33 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 _navigationCommand = value;
             }
         }
+
+        private RelayCommand _helpCommand;
+
+        public RelayCommand HelpCommand
+        {
+            get { return _helpCommand; }
+            set
+            {
+                _helpCommand = value;
+            }
+        }
         public MyToursPageViewModel(User loggedInUser, MyToursPage page) 
         {
             BackCommand = new RelayCommand(Execute_BackCommand,CanExecuteMethod);
             NavigationCommand = new RelayCommand(Execute_NavigationCommand, CanExecuteMethod);
+            HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
             LoggedInUser = loggedInUser;
             _page = page;
         }
+
+        private void Execute_HelpCommand(object obj)
+        {
+            PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
+            var navigationService = _page.HelpFrame.NavigationService;
+            navigationService.Navigate(new HelpPage(LoggedInUser));
+        }
+
         public void SetStartupPage()
         {
             Execute_NavigationCommand("ActiveTour");

@@ -223,7 +223,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_VouchersWindowCommand(object obj)
         {
-            VouchersWindow window = new VouchersWindow();
+            VouchersWindow window = new VouchersWindow(LoggedInUser);
             window.ShowDialog();
         }
 
@@ -247,8 +247,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_HelpPageCommand(object obj)
         {
+            PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
             var navigationService = _window.HelpFrame.NavigationService;
-            navigationService.Navigate(new HelpPage());
+            navigationService.Navigate(new HelpPage(LoggedInUser));
         }
 
         private bool CanExecuteMethod(object parameter)

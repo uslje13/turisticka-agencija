@@ -92,7 +92,7 @@
                     Grid.Column="1" Margin="10,10,14,10">
                 <ScrollViewer HorizontalAlignment="Right" Width="990">
                     <!-- Your content here -->
-                    <Grid>
+                    <Grid Height="1160">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="380"/>
                             <RowDefinition Height="380"/>
