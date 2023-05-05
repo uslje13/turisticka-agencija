@@ -19,7 +19,7 @@
     <Grid Margin="205,162,0,0">
         <Label HorizontalContentAlignment="Center" FontSize="25" FontWeight="Black" Margin="0,32,0,350" 
                Width="615">Prikaz odabranih datuma </Label>
-        <Calendar x:Name="Calendar" Margin="89,155,89,34" 
+        <Calendar x:Name="Calendar" Margin="89,155,89,34" BorderBrush="Black" BorderThickness="2"
                   DisplayDateStart="{Binding EnteredFirstDay}" DisplayDateEnd="{Binding EnteredLastDay}"></Calendar>
         <Button x:Name="SelectReservationButton" Content="Nađi termine" Margin="135,295,133,14" FontSize="16"
                 Style="{StaticResource ButtonStyle}" Command="{Binding pickCommand}"/>

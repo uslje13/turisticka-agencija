@@ -34,9 +34,10 @@
         <RadioButton x:Name="v4" GroupName="owner" Margin="460,179,523,534" Cursor="Hand">4</RadioButton>
         <RadioButton x:Name="v5" GroupName="owner" Margin="460,199,523,514" Cursor="Hand">5</RadioButton>
         <Label Content="Ostavite dodatni komentar : " FontSize="17" Margin="27,299,716,403"></Label>
-        <TextBox x:Name="GuestComment" Margin="270,299,33,389" ></TextBox>
-        <Label FontSize="17" Margin="560,108,218,584">Priložene slike :</Label>
-        <ListBox Name="Images" Margin="691,115,33,470">
+        <TextBox x:Name="GuestComment" Margin="270,299,33,389" BorderBrush="Black" BorderThickness="2" ></TextBox>
+        
+        <Label FontSize="17" Margin="550,108,230,584">Priložene slike :</Label>
+        <ListBox Name="Images" Margin="679,115,33,465.5" Cursor="Hand" BorderBrush="Black" BorderThickness="2">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -46,10 +47,10 @@
                         </Grid.ColumnDefinitions>
                         <Image VerticalAlignment="Center" HorizontalAlignment="Left" 
                                Height="135" Width="230" Source="{Binding Source}"/>
-                        <Button Margin="220,50,10,50" Style="{StaticResource ImageButtonStyle}"
+                        <Button Margin="235,50,-5,50" Style="{StaticResource ImageButtonStyle}" 
                                 Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, 
                                 Path=DataContext.DeleteSharedImageCommand}" CommandParameter="{Binding}">
-                            <StackPanel Height="25" Width="25">
+                            <StackPanel Height="35" Width="28">
                                 <Image Source="/Resources/Icons/Guest1/bin.png"></Image>
                             </StackPanel>
                         </Button>
@@ -57,6 +58,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        
         <Button x:Name="MarkButton" Command="{Binding MarkAccCommand}" Content="Ocijeni"
                 Style="{StaticResource ButtonStyle}" Margin="367,620,367,57">
         </Button>
