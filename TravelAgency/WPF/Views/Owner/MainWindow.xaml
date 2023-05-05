@@ -111,11 +111,13 @@
                         
                 </Popup>
 
-
-                <Image  Source="/Resources/Icons/user_ikonica2.png" Width="45" Height="45" Margin="15,15,0,15"></Image>
-
-                <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Margin="15" Height="80" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="24" VerticalContentAlignment="Center"></Label>
-            </WrapPanel>
+                <Button Command="{Binding NavigationButtonCommand}" CommandParameter="User" Margin="2" Background="Transparent" BorderThickness="0">
+                    <WrapPanel >
+                        <Image  Source="/Resources/Icons/user_ikonica2.png" Width="45" Height="45" Margin="15,15,0,15"></Image>
+                        <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Margin="15" Height="80" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="24" VerticalContentAlignment="Center"></Label>
+                    </WrapPanel>
+                </Button>
+                </WrapPanel>
             
 
         </Grid>
@@ -136,10 +138,13 @@
                 <Border Grid.Row="0" BorderThickness="1" BorderBrush="Black" ></Border>
                 
                 <Grid Grid.Row="0">
-                    <StackPanel>
-                        <Image Source="/Resources/Icons/user_ikonica2.png" Width="130" Height="130" Margin="0,15,0,0"></Image>
-                        <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
-                    </StackPanel>
+                    <Button Command="{Binding NavigationButtonCommand}" Margin="2" CommandParameter="User" Background="Transparent" BorderThickness="0">
+                        <StackPanel >
+                            <Image Source="/Resources/Icons/user_ikonica2.png" Width="130" Height="130" Margin="0,15,0,0"></Image>
+                            <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    
                 </Grid>
 
                 <Grid Grid.Row="1">
@@ -147,7 +152,7 @@
                         
                         <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Home" VerticalAlignment="Stretch" >
                             <WrapPanel HorizontalAlignment="Left" Width="220">
-                                <Image Source="/Resources/Icons/user_ikonica2.png"  Margin="0,8,5,8"></Image>
+                                <Image Source="/Resources/Icons/home.jpg"  Margin="0,8,5,8"></Image>
                                 <Label Content="Početna stranica" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"></Label>
                             </WrapPanel>
                         </Button>

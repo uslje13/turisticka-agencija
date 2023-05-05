@@ -154,6 +154,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 case "Review":
                     navigationService.Navigate(new OwnerReviewPage(LoggedInUser, this));
                     break;
+                case "User":
+                    navigationService.Navigate(new UserPage(LoggedInUser, this));
+                    break;
                 /*
                 case "Review":
                     navigationService.Navigate(new HomePage());
