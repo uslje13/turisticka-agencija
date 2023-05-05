@@ -27,6 +27,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         public static ArrowCommandsViewModel ArrowCommands { get; set; }
 
+        private string _iconPath;
+
+        public string IconPath
+        {
+            get { return _iconPath; }
+            set
+            {
+                _iconPath = value;
+                OnPropertyChanged(nameof(IconPath));
+            }
+        }
+
+
         private TourService _tourService;
         private LocationService _locationService;
         private GuestAttendanceService _guestAttendanceService;
@@ -120,10 +133,40 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             SummerTourViewModels = new ObservableCollection<TourViewModel>();
             SerbiaTourViewModels = new ObservableCollection<TourViewModel>();
             CreateCommands();
+            CheckNotifications();
             FillTourViewModelList();
             FillSerbiaTourViewModelList();
             FillSummerTourViewModelList();
             ArrowCommands = new ArrowCommandsViewModel(TourViewModels,SerbiaTourViewModels,SummerTourViewModels);
+        }
+
+        public void CheckNotifications()
+        {
+            bool isFinished = IsFinishedToursExist();
+
+            if (!isFinished)
+            {
+                IconPath = "/Resources/Icons/notification.png";
+            }
+            else
+            {
+                IconPath = "/Resources/Icons/new_notifications.png";
+            }
+        }
+
+        private bool IsFinishedToursExist()
+        {
+            bool isFinished = false;
+            foreach (Reservation reservation in _reservationService.GetAll())
+            {
+                if (reservation.Presence && _appointmentService.GetById(reservation.AppointmentId).Finished && reservation.Reviewed == false)
+                {
+                    isFinished = true;
+                    break;
+                }
+            }
+
+            return isFinished;
         }
 
         private void FindImage(Tour t,Location l, ObservableCollection<TourViewModel> tourViewModels)

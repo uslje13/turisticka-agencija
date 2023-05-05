@@ -86,7 +86,7 @@
 
                     <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding NotificationsCommand}" >
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/Icons/info-icon.png" Height="40" Width="38"/>
+                            <Image Source="{Binding IconPath}" Height="40" Width="38"/>
                             <TextBlock Text="  Obavestenja (Ctrl + o)" Height="24" Width="189"/>
                         </StackPanel>
                     </Button>

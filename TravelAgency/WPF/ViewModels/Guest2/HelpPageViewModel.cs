@@ -66,6 +66,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 mainWindow.Show();
                 window.ShowDialog();
             }
+            else if (previousWindowOrPageName == typeof(BookTourViewModel).Name)
+            {
+               /* BookTourWindow window = new BookTourWindow(LoggedInUser);
+                ToursOverviewWindow mainWindow = new ToursOverviewWindow(LoggedInUser);
+                Window.GetWindow(_page).Close();
+                mainWindow.Show();
+                window.ShowDialog();*/
+            }
         }
 
         private bool CanExecuteMethod(object parameter)

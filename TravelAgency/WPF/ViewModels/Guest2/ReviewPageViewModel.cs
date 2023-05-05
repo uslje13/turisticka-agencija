@@ -334,9 +334,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     _tourReviewService.CreateTourReview(LoggedInUser.Id, AppointmentId, GuideKnowledge, GuideLanguage, InterestRating, Comment, false);
                     _reservationService.Reviewed(ReservationId);
                     Window.GetWindow(_page).Close();
+                    UpdateNotifications();
                 }
             }
         }
+
+        private void UpdateNotifications()
+        {
+            var currentApp = System.Windows.Application.Current;
+            foreach (Window window in currentApp.Windows)
+            {
+                if (window is ToursOverviewWindow)
+                {
+                    MainViewModel viewModel = window.DataContext as MainViewModel;
+                    viewModel.CheckNotifications();
+                }
+            }
+        }
+
         private MessageBoxResult ConfirmReview()
         {
             string sMessageBoxText = $"Da li ste sigurni da želite da ocenite turu i vodica";

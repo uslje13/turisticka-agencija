@@ -47,6 +47,8 @@
     <None Remove="Resources\Icons\livetour.png" />
     <None Remove="Resources\Icons\log_out.png" />
     <None Remove="Resources\Icons\medal.png" />
+    <None Remove="Resources\Icons\new_notifications.png" />
+    <None Remove="Resources\Icons\notification.png" />
     <None Remove="Resources\Icons\Pencil.png" />
     <None Remove="Resources\Icons\pencil.png" />
     <None Remove="Resources\Icons\plus.png" />
@@ -171,6 +173,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Icons\log_out.png" />
+    <Resource Include="Resources\Icons\new_notifications.png" />
+    <Resource Include="Resources\Icons\notification.png" />
     <Resource Include="Resources\Icons\right_arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

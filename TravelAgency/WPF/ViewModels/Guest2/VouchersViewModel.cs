@@ -18,7 +18,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             VoucherId = voucherId;
             ExpiryDate = expiryDate;
-            Message = "Cestitamo, osvojili ste vaucer! Vaucer vazi do " + ExpiryDate.ToString() + " .";
+            Message = "Cestitamo, osvojili ste vaucer! Vaucer vazi do " + ExpiryDate.ToString();
             VoucherName = "Vaucer " + VoucherId.ToString();
         }
     }
