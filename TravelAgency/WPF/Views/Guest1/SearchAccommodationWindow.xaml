@@ -26,15 +26,45 @@
                Margin="205,20,0,590" Width="809">Glavni meni</Label>
         <UniformGrid Rows="5" Margin="0,255,820,121" >
             <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Profille" Style="{StaticResource MenuButtonStyle}" 
-                     Content="Profil"  VerticalAlignment="Stretch" />
+                     VerticalAlignment="Stretch">
+                <StackPanel Width="202" Height="73">
+                    <Label Margin="75,21,60,22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Profil"/>
+                    <Image Margin="35,-62,90,5" Source="/Resources/Icons/Guest1/user_ikonica2.png" Height="35" Width="35"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
             <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Search" Style="{StaticResource MenuButtonStyle}" 
-                     Content="Pretraga i rezervacija smještaja"  VerticalAlignment="Stretch" />
+                     VerticalAlignment="Stretch">
+                <StackPanel Width="202" Height="73">
+                    <Label Margin="45,21,31,22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Pretraga i rezervacija"/>
+                    <Image Margin="-41,-62,90,5" Source="/Resources/Icons/Guest1/search.png" Height="30" Width="30"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
             <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Bid" Style="{StaticResource MenuButtonStyle}" 
-                     Content="Ponuda i rezervacija smještaja"  VerticalAlignment="Stretch" />
+                     VerticalAlignment="Stretch">
+                <StackPanel Width="202" Height="73">
+                    <Label Margin="45,21,27,22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Ponuda i rezervacija"/>
+                    <Image Margin="-39,-62,90,5" Source="/Resources/Icons/Guest1/list-square-icon.png" Height="28.5" Width="28.5"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
             <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Whatever" Style="{StaticResource MenuButtonStyle}" 
-                     Content="Bilo kada - bilo gdje"  VerticalAlignment="Stretch" />
+                     VerticalAlignment="Stretch">
+                <StackPanel Width="202" Height="73">
+                    <Label Margin="45,21,28,23" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Bilo kada - bilo gdje"/>
+                    <Image Margin="-41,-62,90,5" Source="/Resources/Icons/Guest1/tour_icon.png" Height="32" Width="32"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
             <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="LogOut" Style="{StaticResource MenuButtonStyle}"  
-                     Content="Odjavi se"  VerticalAlignment="Stretch" />
+                     VerticalAlignment="Stretch">
+                <StackPanel Width="202" Height="73">
+                    <Label Margin="78.5,21,59.5,22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Odjavi se"/>
+                    <Image Margin="16.5,-62,90,5" Source="/Resources/Icons/Guest1/log_out.png" Height="29" Width="32"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
         </UniformGrid>
     </Grid>
 </Window>

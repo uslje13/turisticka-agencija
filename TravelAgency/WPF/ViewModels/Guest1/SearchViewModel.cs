@@ -33,7 +33,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             textBoxes = list1;
             comboBoxItems = list2;
             ThisFrame = frame;
-
+            
             searchCommand = new RelayCommand(ExecuteAccommodationSearch);
             cancelCommand = new RelayCommand(ExecuteCancelAccommodationSearch);
         }

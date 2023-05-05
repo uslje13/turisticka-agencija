@@ -51,7 +51,6 @@
                                 Path=DataContext.DeleteSharedImageCommand}" CommandParameter="{Binding}">
                             <StackPanel Height="25" Width="25">
                                 <Image Source="/Resources/Icons/Guest1/bin.png"></Image>
-
                             </StackPanel>
                         </Button>
                     </Grid>
