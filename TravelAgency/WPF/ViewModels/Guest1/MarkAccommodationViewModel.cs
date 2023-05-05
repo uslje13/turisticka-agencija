@@ -13,34 +13,110 @@ using System.Xml.Linq;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System.Windows.Data;
+using Microsoft.Win32;
+using System.Windows.Media.Imaging;
+using System.Windows.Controls;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
-    public class MarkAccommodationViewModel
+    public class MarkAccommodationViewModel : INotifyPropertyChanged
     {
         public List<RadioButton> CleanMarks { get; set; }
         public List<RadioButton> OwnerMarks { get; set; }
         public TextBox GuestComment { get; set; }
-        public TextBox GuestImagesUrls { get; set; }
         public RelayCommand MarkAccCommand { get; set; }
+        public RelayCommand AddImagesCommand { get; set; }
         public User LoggedInUser { get; set; }
         public CancelAndMarkResViewModel Accommodation { get; set; }
         public Window ThisWindow { get; set; }
         public TextBlock AccommodationNameTb { get; set; }
+        public ListBox Images { get; set; }
+        public RelayCommand DeleteSharedImageCommand { get; set; }
+        public RelayCommand GoBackCommand { get; set; }
+        //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+        private ObservableCollection<System.Windows.Controls.Image> selectedImages;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChaged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));  
+        }
 
-        public MarkAccommodationViewModel(TextBlock tBlock, List<RadioButton> cleans, List<RadioButton> owners, TextBox comment, TextBox urls, User user, CancelAndMarkResViewModel acc, Window window) 
+        public ObservableCollection<System.Windows.Controls.Image> SelectedImages
+        {
+            get { return selectedImages; }
+            set
+            {
+                selectedImages = value;
+                OnPropertyChaged("SelectedImages");
+            }
+        }
+        //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+        public string AllUrls { get; set; }
+        public ObservableCollection<CancelAndMarkResViewModel> ReservationsForMark { get; set; }
+
+        public MarkAccommodationViewModel(TextBlock tBlock, List<RadioButton> cleans, List<RadioButton> owners, TextBox comment, User user, CancelAndMarkResViewModel acc, Window window, ListBox images, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark) 
         {
             AccommodationNameTb = tBlock;
             CleanMarks = cleans;
             OwnerMarks = owners;
             GuestComment = comment;
-            GuestImagesUrls = urls;
             LoggedInUser = user;
             Accommodation = acc;
             ThisWindow = window;
+            Images = images;
+            SelectedImages = new ObservableCollection<System.Windows.Controls.Image>();
+            AllUrls = String.Empty;
+            ReservationsForMark = reservationsForMark;
 
             FillTextBox(acc);
+
             MarkAccCommand = new RelayCommand(ExecuteAccommodationMarking);
+            AddImagesCommand = new RelayCommand(Execute_AddImages);
+            GoBackCommand = new RelayCommand(Execute_GoBack);
+            DeleteSharedImageCommand = new RelayCommand(Execute_DeleteSharedImage);
+        }
+
+        private void Execute_DeleteSharedImage(object sender)
+        {
+            System.Windows.Controls.Image? selected = sender as System.Windows.Controls.Image;
+            SelectedImages.Remove(selected);
+        }
+
+        private void Execute_GoBack(object sender)
+        {
+            ThisWindow.Close();
+        }
+
+        private void Execute_AddImages(object sender)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Priložite slike smještaja";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+              "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+              "Portable Network Graphic (*.png)|*.png";
+            op.Multiselect = true;
+
+            if (op.ShowDialog() == true)
+            {
+                int i = 1;
+                foreach(string imageUrl in op.FileNames)
+                {
+                    if(i == 1) 
+                        AllUrls += imageUrl;
+                    else 
+                        AllUrls += "," + imageUrl;
+
+                    System.Windows.Controls.Image image = new System.Windows.Controls.Image();
+                    image.Source = new BitmapImage(new Uri(imageUrl));
+                    SelectedImages.Add(image);
+                    i++;
+                }
+            } 
+            Images.ItemsSource = SelectedImages;
         }
 
         private void FillTextBox(CancelAndMarkResViewModel acc)
@@ -52,7 +128,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationNameTb.SetBinding(TextBlock.TextProperty, binding);
         }
 
-        private int FindCleanMark(List<RadioButton> list)
+        public int FindCleanMark(List<RadioButton> list)
         {
             int i = 1;
             foreach(var radio in list)
@@ -66,7 +142,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             return -1;
         }
 
-        private int FindOwnerMark(List<RadioButton> list)
+        public int FindOwnerMark(List<RadioButton> list)
         {
             int i = 1;
             foreach (var radio in list)
@@ -85,8 +161,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             int cleanMark = FindCleanMark(CleanMarks);
             int ownerMark = FindOwnerMark(OwnerMarks);
             GuestAccMarkService service = new GuestAccMarkService();
-            service.MarkAccommodation(cleanMark, ownerMark, GuestComment.Text, GuestImagesUrls.Text, LoggedInUser, Accommodation);
+            service.MarkAccommodation(cleanMark, ownerMark, GuestComment.Text, AllUrls, LoggedInUser, Accommodation);
             MessageBox.Show("Uspješno ocjenjen smještaj!");
+            ReservationsForMark.Remove(Accommodation);
             ThisWindow.Close();
         }
     }

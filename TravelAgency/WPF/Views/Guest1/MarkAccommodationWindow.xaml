@@ -6,25 +6,65 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="MarkAccommodationWindow" Height="450" Width="800">
+        Background="LightGoldenrodYellow"
+        Title="MarkAccommodationWindow" Height="768" Width="1024">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ButtonStyle.xaml" />
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ImageButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <TextBlock x:Name="AccommodationNameTb" FontSize="30" FontWeight="Bold" Margin="86,27,86,337" TextAlignment="Center"></TextBlock>
-        <Label Content="Ocjena čistoće : " FontSize="17" Margin="86,111,553,263"></Label>
-        <RadioButton x:Name="c1" GroupName="clean" Margin="222,122,528,268">1</RadioButton>
-        <RadioButton x:Name="c2" GroupName="clean" Margin="277,122,473,268">2</RadioButton>
-        <RadioButton x:Name="c3" GroupName="clean" Margin="327,122,423,263">3</RadioButton>
-        <RadioButton x:Name="c4" GroupName="clean" Margin="375,122,375,263">4</RadioButton>
-        <RadioButton x:Name="c5" GroupName="clean" Margin="425,122,325,268">5</RadioButton>
-        <Label Content="Ocjena korektnosti vlasnika : " FontSize="17" Margin="86,166,380,200"></Label>
-        <RadioButton x:Name="v1" GroupName="owner" Margin="327,177,423,205">1</RadioButton>
-        <RadioButton x:Name="v2" GroupName="owner" Margin="375,177,375,205">2</RadioButton>
-        <RadioButton x:Name="v3" GroupName="owner" Margin="425,177,325,205">3</RadioButton>
-        <RadioButton x:Name="v4" GroupName="owner" Margin="475,177,275,205">4</RadioButton>
-        <RadioButton x:Name="v5" GroupName="owner" Margin="525,177,225,205">5</RadioButton>
-        <Label Content="Ostavite dodatni komentar : " FontSize="17" Margin="86,217,448,152"></Label>
-        <TextBox x:Name="GuestComment" Margin="327,228,48,163" ></TextBox>
-        <Label Content="Ostavite URL slika (razdvojenih zarezom) : " FontSize="17" Margin="84,271,350,100"></Label>
-        <TextBox x:Name="GuestURLs" Margin="425,276,48,115" ></TextBox>
-        <Button x:Name="MarkButton" Command="{Binding MarkAccCommand}" Content="Ocijeni" FontSize="14" Margin="322,344,325,43"></Button>
+        <TextBlock x:Name="AccommodationNameTb" FontSize="38" FontWeight="Black" Margin="27,10,0,646" 
+                   TextAlignment="Left"></TextBlock>
+        <Label Content="Ocjena čistoće : " FontSize="17" Margin="27,108,841,584"></Label>
+        <RadioButton x:Name="c1" GroupName="clean" Margin="160,119,823,594" IsChecked="True" Cursor="Hand">1</RadioButton>
+        <RadioButton x:Name="c2" GroupName="clean" Margin="160,139,823,574" Cursor="Hand">2</RadioButton>
+        <RadioButton x:Name="c3" GroupName="clean" Margin="160,159,823,554" Cursor="Hand">3</RadioButton>
+        <RadioButton x:Name="c4" GroupName="clean" Margin="160,179,823,534" Cursor="Hand">4</RadioButton>
+        <RadioButton x:Name="c5" GroupName="clean" Margin="160,199,823,514" Cursor="Hand">5</RadioButton>
+        
+        <Label Content="Ocjena korektnosti vlasnika : " FontSize="17" Margin="233,108,551,584"></Label>
+        <RadioButton x:Name="v1" GroupName="owner" Margin="460,119,523,594" IsChecked="True">1</RadioButton>
+        <RadioButton x:Name="v2" GroupName="owner" Margin="460,139,523,574" Cursor="Hand">2</RadioButton>
+        <RadioButton x:Name="v3" GroupName="owner" Margin="460,159,523,554" Cursor="Hand">3</RadioButton>
+        <RadioButton x:Name="v4" GroupName="owner" Margin="460,179,523,534" Cursor="Hand">4</RadioButton>
+        <RadioButton x:Name="v5" GroupName="owner" Margin="460,199,523,514" Cursor="Hand">5</RadioButton>
+        <Label Content="Ostavite dodatni komentar : " FontSize="17" Margin="27,299,716,403"></Label>
+        <TextBox x:Name="GuestComment" Margin="270,299,33,389" ></TextBox>
+        <Label FontSize="17" Margin="560,108,218,584">Priložene slike :</Label>
+        <ListBox Name="Images" Margin="691,115,33,470">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image VerticalAlignment="Center" HorizontalAlignment="Left" 
+                               Height="135" Width="230" Source="{Binding Source}"/>
+                        <Button Margin="220,50,10,50" Style="{StaticResource ImageButtonStyle}"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, 
+                                Path=DataContext.DeleteSharedImageCommand}" CommandParameter="{Binding}">
+                            <StackPanel Height="25" Width="25">
+                                <Image Source="/Resources/Icons/Guest1/bin.png"></Image>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button x:Name="MarkButton" Command="{Binding MarkAccCommand}" Content="Ocijeni"
+                Style="{StaticResource ButtonStyle}" Margin="367,620,367,57">
+        </Button>
+        <Button Command="{Binding AddImagesCommand}" Width="110" Height="43" FontSize="17" Content="Dodaj slike" 
+                Style="{StaticResource ButtonStyle}" Margin="838,620,53,57">
+        </Button>
+        <Button Command="{Binding GoBackCommand}" Width="110" Height="43" FontSize="17" Content="Nazad" 
+                Style="{StaticResource ButtonStyle}" Margin="53,620,842,57">
+        </Button>
     </Grid>
 </Window>

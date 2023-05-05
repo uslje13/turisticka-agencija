@@ -34,6 +34,16 @@
     <None Remove="Resources\Icons\firework.png" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
     <None Remove="Resources\Icons\guest.png" />
+    <None Remove="Resources\Icons\Guest1\bin.png" />
+    <None Remove="Resources\Icons\Guest1\inbox.png" />
+    <None Remove="Resources\Icons\Guest1\list-square-icon.png" />
+    <None Remove="Resources\Icons\Guest1\log_out.png" />
+    <None Remove="Resources\Icons\Guest1\search.png" />
+    <None Remove="Resources\Icons\Guest1\statuses.png" />
+    <None Remove="Resources\Icons\Guest1\tour_icon.png" />
+    <None Remove="Resources\Icons\Guest1\user_ikonica2.png" />
+    <None Remove="Resources\Icons\Guest1\user_siluet.png" />
+    <None Remove="Resources\Icons\Guest1\verification.png" />
     <None Remove="Resources\Icons\guests_with_text.png" />
     <None Remove="Resources\Icons\help--v1.png" />
     <None Remove="Resources\Icons\home.png" />
@@ -232,6 +242,16 @@
     </Content>
     <Resource Include="Resources\Icons\checkpoint.png" />
     <Resource Include="Resources\Icons\exclamation_star.png" />
+    <Resource Include="Resources\Icons\Guest1\bin.png" />
+    <Resource Include="Resources\Icons\Guest1\inbox.png" />
+    <Resource Include="Resources\Icons\Guest1\list-square-icon.png" />
+    <Resource Include="Resources\Icons\Guest1\log_out.png" />
+    <Resource Include="Resources\Icons\Guest1\search.png" />
+    <Resource Include="Resources\Icons\Guest1\statuses.png" />
+    <Resource Include="Resources\Icons\Guest1\tour_icon.png" />
+    <Resource Include="Resources\Icons\Guest1\user_ikonica2.png" />
+    <Resource Include="Resources\Icons\Guest1\user_siluet.png" />
+    <Resource Include="Resources\Icons\Guest1\verification.png" />
     <Resource Include="Resources\Icons\kalendar_datumi.png" />
     <Resource Include="Resources\Icons\language.png" />
     <Resource Include="Resources\Icons\NotificationAlertNoColor.png" />
@@ -246,6 +266,7 @@
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>

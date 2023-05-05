@@ -1,287 +1,129 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using SOSTeam.TravelAgency.WPF.Views;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Ribbon.Primitives;
+using System.Windows.Data;
+using System.Windows;
+using System.Reflection.Metadata;
 using SOSTeam.TravelAgency.Application.Services;
-using SOSTeam.TravelAgency.Commands;
-using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
-using SOSTeam.TravelAgency.WPF.Views;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class RequestsStatusViewModel
     {
-        public List<ChangedReservationRequest> changedReservationRequests {  get; set; }
-        public AccommodationReservationService accommodationReservationService { get; set; }
-        public LocationService locationService { get; set; }
-        public AccommodationService accommodationService { get; set; }
-        public ChangedReservationRequestService changedReservationRequestService { get; set; }
-        public List<AccommodationReservation> accommodationReservations { get; set; }
-        public List<Location> locations { get; set; }
-        public List<Accommodation> accommodations { get; set; }
-        public List<LocAccommodationViewModel> locAccommodationViewModels { get; set; }
         public User LoggedInUser { get; set; }
-        public ChangedReservationRequest selectedReservation { get; set; }
-        public RelayCommand FindNewDateCommand { get; set; }
-        public RelayCommand CancelReservationCommand { get; set; }
-        public CancelAndMarkResViewModel selectedCancelReservation { get; set; }
-        public List<CancelAndMarkResViewModel> allReservationsInfoList { get; set; }
+        public RelayCommand searchCommand { get; set; }
+        public RelayCommand reserveCommand { get; set; }
         public Window ThisWindow { get; set; }
+        public RelayCommand NavigationButtonCommand { get; set; }
+        public Frame ThisFrame { get; set; }
+        public TextBlock TextBlockUsername { get; set; }
+        public Window UserProfilleWindow { get; set; }
+        public int Notifications { get; set; }
 
-        public RequestsStatusViewModel(User user, Window window) 
-        { 
+        public RequestsStatusViewModel(User user, Window window, Frame frame, TextBlock textBlock, Window profille, int notifications)
+        {
             LoggedInUser = user;
             ThisWindow = window;
+            ThisFrame = frame;
+            TextBlockUsername = textBlock;
+            UserProfilleWindow = profille;
+            Notifications = notifications;
 
-            accommodationReservationService = new AccommodationReservationService();
-            locationService = new LocationService();
-            accommodationService = new AccommodationService();
-            changedReservationRequestService = new ChangedReservationRequestService();
-            
-            allReservationsInfoList = new List<CancelAndMarkResViewModel>();
-            locAccommodationViewModels = new List<LocAccommodationViewModel>();
-            changedReservationRequests = new List<ChangedReservationRequest>();
-            accommodationReservations = accommodationReservationService.GetAll();
-            locations = locationService.GetAll();
-            accommodations = accommodationService.GetAll();
+            FillTextBlock(LoggedInUser);
 
-            AddExistingItems();
-            PrepareAccommodationReservationsList();
-            PrepareReservationsForChangeRequest();
-            PrepareCancelReservationList();
-
-            FindNewDateCommand = new RelayCommand(ExecuteFindNewDate);
-            CancelReservationCommand = new RelayCommand(ExecuteCancelReservation);
-             
+            NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand);
         }
-
-        private void AddExistingItems()
+        
+        private void FillTextBlock(User user)
         {
-            List<ChangedReservationRequest> helpList = changedReservationRequestService.GetAll();
-            if (helpList.Count > 0)
-            {
-                foreach (var item in helpList)
-                {
-                    if (LoggedInUser.Id == item.UserId)
-                    {
-                        changedReservationRequests.Add(item);
-                    }
-                }
-            }
+            Binding binding = new Binding();
+            binding.Source = user.Username;
+            TextBlockUsername.SetBinding(TextBlock.TextProperty, binding);
         }
-
-        private void ExecuteCancelReservation(object sender)
+        
+        public void SetStartupPage()
         {
-            if(selectedCancelReservation != null)
-            {
-                CancelReservation(selectedCancelReservation);
-            }
-            else
-            {
-                MessageBox.Show("Odaberite rezervaciju koju želite otkazati.");
-            }
+            var navigationService = ThisFrame.NavigationService;
+            navigationService.Navigate(new AllStatusesPage(LoggedInUser, ThisFrame));
         }
-
-        public void CancelReservation(CancelAndMarkResViewModel selectedReservation)
+        
+        public void Execute_NavigationButtonCommand(object parameter)
         {
-            Accommodation accommodation = accommodationService.GetById(selectedReservation.AccommodationId);
-            int difference = selectedReservation.FirstDay.DayOfYear - DateTime.Today.DayOfYear;
+            string nextPage = parameter.ToString();
+            var navigationService = ThisFrame.NavigationService;
 
-            if (difference > 1)
+            switch (nextPage)
             {
-                if (difference >= accommodation.MinDaysForCancelation)
-                {
-                    accommodationReservationService.CancelReservation(selectedReservation);
-                    MessageBox.Show("Uspješno otkazano!");
+                case "Profille":
+                    UserProfilleWindow newWindow = new UserProfilleWindow(LoggedInUser, TestInboxCharge(LoggedInUser.Id));
                     ThisWindow.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Odabrana rezervacija se ne može otkazati zbog postavljenog vlasnikovog ograničenja za otkazivanje od " +
-                                    accommodation.MinDaysForCancelation.ToString() + " dana do početka rezervacije.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Odabrana rezervacija se ne može otkazati jer počinje sutra.");
-            }
-        }
-
-        private void PrepareCancelReservationList()
-        {
-            foreach(var reserv in accommodationReservations)
-            {
-                foreach(var lavm in locAccommodationViewModels)
-                {
-                    bool isInFuture = reserv.AccommodationId == lavm.AccommodationId && reserv.FirstDay.DayOfYear > DateTime.Today.DayOfYear && reserv.UserId == LoggedInUser.Id;
-                    if (isInFuture)
-                    {
-                        CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity,
-                                                                                          lavm.LocationCountry, reserv.FirstDay, reserv.LastDay,
-                                                                                          reserv.Id, lavm.AccommodationId);
-                        allReservationsInfoList.Add(crModel);
-                    }
-                }
-            }
-        }
-
-        private void PrepareAccommodationReservationsList()
-        {
-            List<AccommodationReservation> accommodationReservationsCopy = new List<AccommodationReservation>();
-            foreach(var res in accommodationReservations)
-            {
-                accommodationReservationsCopy.Add(res);
-            }
-
-            foreach(var res in accommodationReservationsCopy)
-            {
-                foreach(var ch in changedReservationRequests)
-                {
-                    if(HaveToBeDeleted(res, ch))
-                    {
-                        accommodationReservationService.Delete(res.Id);
-                    }
-                }
-            }
-        }
-
-        private bool HaveToBeDeleted(AccommodationReservation res, ChangedReservationRequest ch)
-        {
-            return res.Id == ch.reservationId && ch.status != ChangedReservationRequest.Status.ACCEPTED && ch.status != ChangedReservationRequest.Status.REFUSED;
-        }
-
-        private void ExecuteFindNewDate(object sender)
-        {
-            if(selectedReservation != null)
-            {
-                if (selectedReservation.status == ChangedReservationRequest.Status.NOT_REQUIRED)
-                {
-                    PrepareReservationCSV();
-                    LocAccommodationViewModel model = FindModel(selectedReservation);
-                    EnterReservationWindow newWindow = new EnterReservationWindow(model, LoggedInUser, true, selectedReservation);
                     newWindow.ShowDialog();
-                    ThisWindow.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Odabrana rezervacija je već procesuirana!");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Odaberite rezervaciju za procesuiranje.");
-            }
-        }
-
-        private void PrepareReservationCSV()
-        {
-            foreach(var res in accommodationReservations)
-            {
-                if(res.Id == selectedReservation.reservationId)
-                {
-                    accommodationReservationService.SaveToOtherCSV(res);
-                    accommodationReservationService.Delete(res.Id);
                     break;
-                }
+                case "Search":
+                    
+                    break;
+                case "Bid":
+                    
+                    break;
+                case "Whatever":
+
+                    break;
+                case "LogOut":
+                    SignInForm form = new SignInForm();
+                    ThisWindow.Close();
+                    UserProfilleWindow.Close();
+                    form.ShowDialog();
+                    break;
+                default:
+                    break;
             }
+            return;
         }
 
-        private LocAccommodationViewModel FindModel(ChangedReservationRequest model)
+        private int TestInboxCharge(int loggedInUserId)
         {
-            foreach(var dto in locAccommodationViewModels)
+            int marksNotifications = TestMarkNotifications(loggedInUserId);
+            int ownerNotifications = TestOwnerRequestNotifications(loggedInUserId);
+            return marksNotifications + ownerNotifications;
+        }
+
+        private int TestMarkNotifications(int loggedInUserId)
+        {
+            AccommodationReservationService resService = new AccommodationReservationService();
+            List<AccommodationReservation> allRes = resService.GetAll();
+            int counter = 0;
+            foreach (var res in allRes)
             {
-                if(dto.AccommodationId == model.AccommodationId)
+                int diff = DateTime.Today.DayOfYear - res.LastDay.DayOfYear;
+                bool fullCharge = res.UserId == loggedInUserId && !res.ReadMarkNotification && diff <= 5 && diff > 0;
+                if (fullCharge)
                 {
-                    return dto;
+                    counter++;
                 }
             }
-            return null;
+            return counter;
         }
 
-        private void PrepareReservationsForChangeRequest()
+        private int TestOwnerRequestNotifications(int loggedInUserId)
         {
-            MergeLocationsAndAccommodations();
-            foreach (var res in accommodationReservations)
+            NotificationFromOwnerService notifService = new NotificationFromOwnerService();
+            List<NotificationFromOwner> notifications = notifService.GetAll();
+            int counter = 0;
+            foreach (var item in notifications)
             {
-                foreach(var model in locAccommodationViewModels)
+                if (item.GuestId == loggedInUserId)
                 {
-                    if(IsValid(res, model)) 
-                    {
-                        ChangedReservationRequest request = new ChangedReservationRequest(res.Id, res.AccommodationId, model.AccommodationName, model.LocationCity, model.LocationCountry,
-                                                                                            res.FirstDay, res.LastDay, res.GuestNumber, res.UserId);
-                        changedReservationRequests.Add(request);
-                    }
+                    counter++;
                 }
             }
-        }
-
-        private bool IsValid(AccommodationReservation res, LocAccommodationViewModel model)
-        {
-            foreach(var request in changedReservationRequests)
-            {
-                bool notValid = request.reservationId == res.Id && request.status != ChangedReservationRequest.Status.ACCEPTED && request.status != ChangedReservationRequest.Status.REFUSED;
-                if (notValid)
-                    return false;
-            }
-
-            return res.AccommodationId == model.AccommodationId && res.UserId == LoggedInUser.Id && res.FirstDay.DayOfYear > DateTime.Today.DayOfYear;
-        }
-
-        private void MergeLocationsAndAccommodations()
-        {
-            locAccommodationViewModels.Clear();
-            foreach (var accommodation in accommodations)
-            {
-                foreach (var location in locations)
-                {
-                    if (accommodation.LocationId == location.Id)
-                    {
-                        LocAccommodationViewModel dto = CreateLocAccForm(accommodation, location);
-
-                        locAccommodationViewModels.Add(dto);
-                    }
-                }
-            }
-        }
-
-        private LocAccommodationViewModel CreateLocAccForm(Accommodation acc, Location loc)
-        {
-            int currentGuestNumber = 0;
-            foreach (var item in accommodationReservations)
-            {
-                if (item.AccommodationId == acc.Id)
-                {
-                    DateTime today = DateTime.Today;
-                    int helpVar1 = today.DayOfYear - item.FirstDay.DayOfYear;
-                    int helpVar2 = today.DayOfYear - item.LastDay.DayOfYear;
-                    if (helpVar1 >= 0 && helpVar2 <= 0)
-                    {
-                        currentGuestNumber += item.GuestNumber;
-                    }
-                }
-            }
-            LocAccommodationViewModel dto = new LocAccommodationViewModel(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
-                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber, false);
-            return dto;
-        }
-
-        private LocAccommodationViewModel.AccommType FindAccommodationType(Accommodation acc)
-        {
-            if (acc.Type == Accommodation.AccommodationType.APARTMENT)
-                return LocAccommodationViewModel.AccommType.APARTMENT;
-            else if (acc.Type == Accommodation.AccommodationType.HOUSE)
-                return LocAccommodationViewModel.AccommType.HOUSE;
-            else if (acc.Type == Accommodation.AccommodationType.HUT)
-                return LocAccommodationViewModel.AccommType.HUT;
-            else
-                return LocAccommodationViewModel.AccommType.NOTYPE;
+            return counter;
         }
     }
 }
