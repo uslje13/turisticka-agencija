@@ -237,11 +237,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private MessageBoxResult ConfirmLogOut()
         {
-            string sMessageBoxText = $"Da li ste sigurni da želite da se odjavite";
+            string sMessageBoxText = $"Da li ste sigurni da želite da se odjavite?";
             string sCaption = "Porvrda odjave";
 
             MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
-            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Question;
 
             MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
             return result;

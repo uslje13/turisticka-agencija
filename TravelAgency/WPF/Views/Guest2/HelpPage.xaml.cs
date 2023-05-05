@@ -22,10 +22,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     /// </summary>
     public partial class HelpPage : Page
     {
-        public HelpPage(User loggedInUser)
+        public HelpPage(User loggedInUser, int tourId = -1)
         {
             InitializeComponent();
-            HelpPageViewModel viewModel = new HelpPageViewModel(this,loggedInUser);
+            HelpPageViewModel viewModel = new HelpPageViewModel(this,loggedInUser,tourId);
             DataContext= viewModel;
         }
     }

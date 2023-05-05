@@ -14,6 +14,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
     public class HelpPageViewModel : ViewModel
     {
         private static HelpPage _page;
+        public static int TourId { get; set; }
         public static User LoggedInUser { get; set; }
 
         private RelayCommand _backCommand;
@@ -26,11 +27,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public HelpPageViewModel(HelpPage page,User loggedInUser) 
+        public HelpPageViewModel(HelpPage page,User loggedInUser,int tourId) 
         {
             _page= page;
             BackCommand = new RelayCommand(Execute_BackCommand, CanExecuteMethod);       
             LoggedInUser= loggedInUser;
+            TourId=tourId;
         }
 
         private void Execute_BackCommand(object obj)
@@ -68,11 +70,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
             else if (previousWindowOrPageName == typeof(BookTourViewModel).Name)
             {
-               /* BookTourWindow window = new BookTourWindow(LoggedInUser);
+                BookTourWindow window = new BookTourWindow(TourId,LoggedInUser);
                 ToursOverviewWindow mainWindow = new ToursOverviewWindow(LoggedInUser);
                 Window.GetWindow(_page).Close();
                 mainWindow.Show();
-                window.ShowDialog();*/
+                window.ShowDialog();
             }
         }
 

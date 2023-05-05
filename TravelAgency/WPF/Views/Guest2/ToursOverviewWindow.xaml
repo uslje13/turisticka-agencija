@@ -323,11 +323,8 @@
                 </ScrollViewer>
             </Border>
 
-            <Grid Grid.Column="1">
-                <Frame x:Name="AlternativeFrame" NavigationUIVisibility ="Hidden" />
-            </Grid>
-
         </Grid>
+        <Frame x:Name="AlternativeFrame" NavigationUIVisibility ="Hidden" />
         <Frame x:Name="HelpFrame" NavigationUIVisibility ="Hidden" />
         <Frame x:Name="RequestsFrame" NavigationUIVisibility ="Hidden" />
         <Frame x:Name="MyToursFrame" NavigationUIVisibility ="Hidden" />

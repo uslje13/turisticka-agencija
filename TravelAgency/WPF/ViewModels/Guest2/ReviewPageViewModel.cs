@@ -1,4 +1,5 @@
-﻿using SOSTeam.TravelAgency.Application.Services;
+﻿using Microsoft.Win32;
+using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views.Guest2;
@@ -56,6 +57,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
+        private RelayCommand _deleteImageCommand;
+        public RelayCommand DeleteImageCommand
+        {
+            get { return _deleteImageCommand; }
+            set
+            {
+                _deleteImageCommand = value;
+            }
+        }
+
         private RelayCommand _createReviewCommand;
 
         public RelayCommand CreateReviewCommand
@@ -67,63 +78,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        private bool _isKnowledgeOption1Selected;
+        private RelayCommand _helpCommand;
 
-        public bool IsKnowledgeOption1Selected
+        public RelayCommand HelpCommand
         {
-            get { return _isKnowledgeOption1Selected; }
+            get { return _helpCommand; }
             set
             {
-                _isKnowledgeOption1Selected = value;
-                OnPropertyChanged(nameof(IsKnowledgeOption1Selected));
-            }
-        }
-
-        private bool _isKnowledgeOption2Selected;
-
-        public bool IsKnowledgeOption2Selected
-        {
-            get { return _isKnowledgeOption2Selected; }
-            set
-            {
-                _isKnowledgeOption2Selected = value;
-                OnPropertyChanged(nameof(IsKnowledgeOption2Selected));
-            }
-        }
-
-        private bool _isKnowledgeOption3Selected;
-
-        public bool IsKnowledgeOption3Selected
-        {
-            get { return _isKnowledgeOption3Selected; }
-            set
-            {
-                _isKnowledgeOption3Selected = value;
-                OnPropertyChanged(nameof(IsKnowledgeOption3Selected));
-            }
-        }
-
-        private bool _isKnowledgeOption4Selected;
-
-        public bool IsKnowledgeOption4Selected
-        {
-            get { return _isKnowledgeOption4Selected; }
-            set
-            {
-                _isKnowledgeOption4Selected = value;
-                OnPropertyChanged(nameof(IsKnowledgeOption4Selected));
-            }
-        }
-
-        private bool _isKnowledgeOption5Selected;
-
-        public bool IsKnowledgeOption5Selected
-        {
-            get { return _isKnowledgeOption5Selected; }
-            set
-            {
-                _isKnowledgeOption5Selected = value;
-                OnPropertyChanged(nameof(IsKnowledgeOption5Selected));
+                _helpCommand = value;
             }
         }
 
@@ -138,65 +100,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        private bool _isLanguageOption1Selected;
-        public bool IsLanguageOption1Selected
-        {
-            get { return _isLanguageOption1Selected; }
-            set
-            {
-                _isLanguageOption1Selected = value;
-                OnPropertyChanged(nameof(IsLanguageOption1Selected));
-            }
-        }
-
-        private bool _isLanguageOption2Selected;
-
-        public bool IsLanguageOption2Selected
-        {
-            get { return _isLanguageOption2Selected; }
-            set
-            {
-                _isLanguageOption2Selected = value;
-                OnPropertyChanged(nameof(IsLanguageOption2Selected));
-            }
-        }
-
-        private bool _isLanguageOption3Selected;
-
-        public bool IsLanguageOption3Selected
-        {
-            get { return _isLanguageOption3Selected; }
-            set
-            {
-                _isLanguageOption3Selected = value;
-                OnPropertyChanged(nameof(IsLanguageOption3Selected));
-            }
-        }
-
-        private bool _isLanguageOption4Selected;
-
-        public bool IsLanguageOption4Selected
-        {
-            get { return _isLanguageOption4Selected; }
-            set
-            {
-                _isLanguageOption4Selected = value;
-                OnPropertyChanged(nameof(IsLanguageOption4Selected));
-            }
-        }
-
-        private bool _isLanguageOption5Selected;
-
-        public bool IsLanguageOption5Selected
-        {
-            get { return _isLanguageOption5Selected; }
-            set
-            {
-                _isLanguageOption5Selected = value;
-                OnPropertyChanged(nameof(IsLanguageOption5Selected));
-            }
-        }
-
+       
         private int _guideLangguage;
         public int GuideLanguage
         {
@@ -208,65 +112,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        private bool _isInterestOption1Selected;
-        public bool IsInterestOption1Selected
-        {
-            get { return _isInterestOption1Selected; }
-            set
-            {
-                _isInterestOption1Selected = value;
-                OnPropertyChanged(nameof(IsInterestOption1Selected));
-            }
-        }
-
-        private bool _isInterestOption2Selected;
-
-        public bool IsInterestOption2Selected
-        {
-            get { return _isInterestOption2Selected; }
-            set
-            {
-                _isInterestOption2Selected = value;
-                OnPropertyChanged(nameof(IsInterestOption2Selected));
-            }
-        }
-
-        private bool _isInterestOption3Selected;
-
-        public bool IsInterestOption3Selected
-        {
-            get { return _isInterestOption3Selected; }
-            set
-            {
-                _isInterestOption3Selected = value;
-                OnPropertyChanged(nameof(IsInterestOption3Selected));
-            }
-        }
-
-        private bool _isInterestOption4Selected;
-
-        public bool IsInterestOption4Selected
-        {
-            get { return _isInterestOption4Selected; }
-            set
-            {
-                _isInterestOption4Selected = value;
-                OnPropertyChanged(nameof(IsInterestOption4Selected));
-            }
-        }
-
-        private bool _isInterestOption5Selected;
-
-        public bool IsInterestOption5Selected
-        {
-            get { return _isInterestOption5Selected; }
-            set
-            {
-                _isInterestOption5Selected = value;
-                OnPropertyChanged(nameof(IsInterestOption5Selected));
-            }
-        }
-
+       
         private int _interestRating;
         public int InterestRating
         {
@@ -303,40 +149,90 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             BackCommand = new RelayCommand(Execute_BackCommand,CanExecuteMethod);
             CreateReviewCommand = new RelayCommand(Execute_CreateReviewCommand, CanExecuteMethod);
             AddImageCommand = new RelayCommand(Execute_AddImageCommand, CanExecuteMethod);
+            DeleteImageCommand = new RelayCommand(Execute_DeleteImageCommand,CanExecuteMethod);
+            HelpCommand = new RelayCommand(Execute_HelpCommand,CanExecuteMethod);
+        }
+        private void Execute_HelpCommand(object obj)
+        {
+            Window.GetWindow(_page).Close();
+
+            var currentApp = System.Windows.Application.Current;
+
+            foreach (Window window in currentApp.Windows)
+            {
+                if (window is ToursOverviewWindow)
+                {
+                    PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
+                    var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
+                    navigationService.Navigate(new HelpPage(LoggedInUser));
+                    break;
+                }
+            }
+        }
+        private void Execute_DeleteImageCommand(object obj)
+        {
+            if(Images.Count > 1)
+            {
+                Images.RemoveAt(Images.Count - 1);
+                ImageUrl = Images[Images.Count - 1].Path;
+            }
+            else if(Images.Count == 1)
+            {
+                Images.RemoveAt(Images.Count - 1);
+                ImageUrl = string.Empty;
+            }
         }
 
         private void Execute_AddImageCommand(object obj)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ImageUrl = openFileDialog.FileName;
+            }
             Domain.Models.Image image = new Domain.Models.Image(ImageUrl,false, AppointmentId, ImageType.GUEST2);
             Images.Add(image);
-            ImageUrl = string.Empty;
         }
 
         private void Execute_CreateReviewCommand(object obj)
         {
-            bool commentFlag = true;
-
-            if(Comment == null || Comment == string.Empty)
+            if(GuideKnowledge == 0)
             {
-                MessageBox.Show("Niste ostavili komentar");
-                commentFlag = false;
+                MessageBox.Show("Niste ocenili znanje vodica!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            if(KnowledgeRate() && LanguageRate() && InterestRate() && commentFlag)
+            else if(GuideLanguage == 0)
+            {
+                MessageBox.Show("Niste ocenili jezik vodica!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (InterestRating == 0)
+            {
+                MessageBox.Show("Niste zanimljivost ture!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (Comment == null || Comment == string.Empty)
+            {
+                MessageBox.Show("Niste ostavili komentar!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
             {
                 MessageBoxResult result = ConfirmReview();
                 if (result == MessageBoxResult.Yes)
                 {
-                    if(Images.Count > 0)
-                    {
-                        _imageService.SaveAll(Images);
-                    }
-                    _tourReviewService.CreateTourReview(LoggedInUser.Id, AppointmentId, GuideKnowledge, GuideLanguage, InterestRating, Comment, false);
-                    _reservationService.Reviewed(ReservationId);
-                    Window.GetWindow(_page).Close();
-                    UpdateNotifications();
+                    CreateReview();
                 }
             }
+        }
+
+        private void CreateReview()
+        {
+            if (Images.Count > 0)
+            {
+                _imageService.SaveAll(Images);
+            }
+            _tourReviewService.CreateTourReview(LoggedInUser.Id, AppointmentId, GuideKnowledge, GuideLanguage, InterestRating, Comment, false);
+            _reservationService.Reviewed(ReservationId);
+            Window.GetWindow(_page).Close();
+            UpdateNotifications();
         }
 
         private void UpdateNotifications()
@@ -375,108 +271,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             return true;
         }
 
-        private bool KnowledgeRate()
-        {
-            if (IsKnowledgeOption1Selected)
-            {
-                GuideKnowledge = 1;
-                return true;
-            }
-            else if (IsKnowledgeOption2Selected)
-            {
-                GuideKnowledge = 2;
-                return true;
-            }
-            else if (IsKnowledgeOption3Selected)
-            {
-                GuideKnowledge = 3;
-                return true;
-            }
-            else if (IsKnowledgeOption4Selected)
-            {
-                GuideKnowledge = 4;
-                return true;
-            }
-            else if (IsKnowledgeOption5Selected)
-            {
-                GuideKnowledge = 5;
-                return true;
-            }
-            else
-            {
-                MessageBox.Show("Niste dodelili ocenu za znanje vodica");
-                return false;
-            }
-        }
-
-        private bool LanguageRate()
-        {
-            if (IsLanguageOption1Selected)
-            {
-                GuideLanguage = 1;
-                return true;
-            }
-            else if (IsLanguageOption2Selected)
-            {
-                GuideLanguage = 2;
-                return true;
-            }
-            else if (IsLanguageOption3Selected)
-            {
-                GuideLanguage = 3;
-                return true;
-            }
-            else if (IsLanguageOption4Selected)
-            {
-                GuideLanguage = 4;
-                return true;
-            }
-            else if (IsLanguageOption5Selected)
-            {
-                GuideLanguage = 5;
-                return true;
-            }
-            else
-            {
-                MessageBox.Show("Niste dodelili ocenu za jezik vodica");
-                return false;
-            }
-        }
-
-        private bool InterestRate()
-        {
-            if (IsInterestOption1Selected)
-            {
-                InterestRating = 1;
-                return true;
-            }
-            else if (IsInterestOption2Selected)
-            {
-                InterestRating = 2;
-                return true;
-            }
-            else if (IsInterestOption3Selected)
-            {
-                InterestRating = 3;
-                return true;
-            }
-            else if (IsInterestOption4Selected)
-            {
-                InterestRating = 4;
-                return true;
-            }
-            else if (IsInterestOption5Selected)
-            {
-                InterestRating = 5;
-                return true;
-            }
-            else
-            {
-                MessageBox.Show("Niste dodelili ocenu za zanimljivost ture");
-                return false;
-            }
-        }
-
+      
 
     }
 }

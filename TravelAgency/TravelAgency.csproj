@@ -47,6 +47,7 @@
     <None Remove="Resources\Icons\livetour.png" />
     <None Remove="Resources\Icons\log_out.png" />
     <None Remove="Resources\Icons\medal.png" />
+    <None Remove="Resources\Icons\minus.png" />
     <None Remove="Resources\Icons\new_notifications.png" />
     <None Remove="Resources\Icons\notification.png" />
     <None Remove="Resources\Icons\Pencil.png" />
@@ -72,6 +73,8 @@
     <None Remove="Resources\Icons\video.png" />
     <None Remove="Resources\Icons\voucher_icon.png" />
     <None Remove="Resources\Icons\warning.png" />
+    <None Remove="Resources\Images\Tours\beograd-na-vodi.jpg" />
+    <None Remove="Resources\Images\Tours\beograd.jpg" />
     <None Remove="Resources\Images\Tours\budapest.jpg" />
     <None Remove="Resources\Images\Tours\novi_sad.jpg" />
     <None Remove="Resources\Images\Tours\rio.jpg" />
@@ -81,6 +84,7 @@
     <None Remove="Resources\Images\Tours\split_1.jpg" />
     <None Remove="Resources\Images\Tours\split_2.jpg" />
     <None Remove="Resources\Images\Tours\split_3.jpg" />
+    <None Remove="Resources\Images\Tours\subotica.jpg" />
     <None Remove="Resources\Images\UnknownPhoto.png" />
   </ItemGroup>
 
@@ -173,6 +177,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Icons\log_out.png" />
+    <Resource Include="Resources\Icons\minus.png" />
     <Resource Include="Resources\Icons\new_notifications.png" />
     <Resource Include="Resources\Icons\notification.png" />
     <Resource Include="Resources\Icons\right_arrow.png">
@@ -276,6 +281,15 @@
     <Resource Include="Resources\Icons\user_ikonica.png" />
     <Resource Include="Resources\Icons\video.png" />
     <Resource Include="Resources\Icons\voucher_icon.png" />
+    <Content Include="Resources\Images\Tours\beograd-na-vodi.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Tours\beograd.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Tours\subotica.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Images\UnknownPhoto.png" />
   </ItemGroup>
 

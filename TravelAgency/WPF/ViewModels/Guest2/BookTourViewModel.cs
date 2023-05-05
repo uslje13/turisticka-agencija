@@ -191,7 +191,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
                     var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
-                    navigationService.Navigate(new HelpPage(LoggedInUser));
+                    navigationService.Navigate(new HelpPage(LoggedInUser,Tour.Id));
                     break;
                 }
             }

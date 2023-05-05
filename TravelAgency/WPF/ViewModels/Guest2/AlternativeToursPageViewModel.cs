@@ -1,4 +1,5 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views.Guest2;
 using System;
@@ -7,11 +8,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class AlternativeToursPageViewModel : ViewModel
     {
+        private AlternativeToursPage _page;
         private static ToursOverviewWindow _window;
         private Tour _tour;
         private LocationService _locationService;
@@ -20,7 +23,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private ImageService _imageService;
         public static ObservableCollection<TourViewModel> AlternativeTours { get; set; }
         public User LoggedInUser { get; set; }
-        public AlternativeToursPageViewModel(Tour tour, User loggedInUser, ToursOverviewWindow window)
+
+        private RelayCommand _backCommand;
+        public RelayCommand BackCommand
+        {
+            get { return _backCommand; }
+            set
+            {
+                _backCommand = value;
+            }
+        }
+        public AlternativeToursPageViewModel(Tour tour, User loggedInUser, ToursOverviewWindow window, AlternativeToursPage page)
         {
             _tour = tour;
             _locationService = new LocationService();
@@ -28,9 +41,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _tourService = new TourService();
             _imageService = new ImageService();
             AlternativeTours = new ObservableCollection<TourViewModel>();
+            BackCommand = new RelayCommand(Execute_BackCommand, CanExecuteMethod);
             FillAlternativeToursList();
             LoggedInUser = loggedInUser;
             _window = window;
+            _page = page;
+        }
+        private bool CanExecuteMethod(object parameter)
+        {
+            return true;
+        }
+        private void Execute_BackCommand(object obj)
+        {
+            ToursOverviewWindow window = new ToursOverviewWindow(LoggedInUser);
+            window.Show();
+            Window.GetWindow(_page).Close();
         }
         private void FindImage(Tour t,string city,string country)
         {
