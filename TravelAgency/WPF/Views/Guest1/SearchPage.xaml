@@ -32,25 +32,25 @@
         <Label Content="Broj dana za rezervaciju :" FontSize="15" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                Margin="205,350,0,0" Height="30" Width="189"/>
 
-        <TextBox x:Name="name" HorizontalAlignment="Left" VerticalAlignment="Top"
+        <TextBox x:Name="name" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="2"
                    Text="{Binding searchedAccName}" 
-                   
                    Margin="355,100,0,0" Height="30" Width="240"/>
-
-        <TextBox x:Name="city" HorizontalAlignment="Left" VerticalAlignment="Top"
+        <TextBox x:Name="city" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="2"
                    Text="{Binding searchedAccCity}" Margin="355,150,0,0" Height="30" Width="240"/>
-        <TextBox x:Name="country" HorizontalAlignment="Left" VerticalAlignment="Top"
+        <TextBox x:Name="country" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="2"
                    Text="{Binding searchedAccCountry}" Margin="355,200,0,0" Height="30" Width="240"/>
+        
         <ComboBox x:Name="CBTypes" HorizontalAlignment="Left" Margin="425,250,0,0" VerticalAlignment="Top" 
-                  Width="104" Height="30">
+                  Width="104" Height="30" BorderThickness="2" >
             <ComboBoxItem x:Name="CBItemApart" Content="Apartman" FontSize="9"></ComboBoxItem>
             <ComboBoxItem x:Name="CBItemHouse" Content="Kuća" FontSize="9"></ComboBoxItem>
             <ComboBoxItem x:Name="CBItemHut" Content="Koliba" FontSize="9"></ComboBoxItem>
             <ComboBoxItem x:Name="CBItemNoType" Content="Bez tipa" IsSelected="True" FontSize="9"></ComboBoxItem>
         </ComboBox>
-        <TextBox x:Name="guestsNumber" HorizontalAlignment="Left" VerticalAlignment="Top"
+
+        <TextBox x:Name="guestsNumber" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="2"
                    Text="{Binding searchedAccGuestsNumber}" Margin="425,300,0,0" Height="30" Width="108"/>
-        <TextBox x:Name="daysNumber" HorizontalAlignment="Left" VerticalAlignment="Top"
+        <TextBox x:Name="daysNumber" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="2"
                    Text="{Binding searchedAccDaysNumber}" Margin="425,350,0,0" Height="30" Width="108"/>
         <Button x:Name="SearchButton" Margin="135,295,133,14" Content="Pretraži" Command="{Binding searchCommand}" 
                 GotFocus="TestEnteredText"
