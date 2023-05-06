@@ -15,6 +15,7 @@
     <None Remove="Resources\Icons\back_button.png" />
     <None Remove="Resources\Icons\bin.png" />
     <None Remove="Resources\Icons\book.png" />
+    <None Remove="Resources\Icons\building.jpg" />
     <None Remove="Resources\Icons\burger_menu.png" />
     <None Remove="Resources\Icons\calendar_blank_light.png" />
     <None Remove="Resources\Icons\cancel.png" />
@@ -32,6 +33,7 @@
     <None Remove="Resources\Icons\earth_light.png" />
     <None Remove="Resources\Icons\exclamation_star.png" />
     <None Remove="Resources\Icons\firework.png" />
+    <None Remove="Resources\Icons\forums.jpg" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
     <None Remove="Resources\Icons\guest.png" />
     <None Remove="Resources\Icons\Guest1\bin.png" />
@@ -46,6 +48,7 @@
     <None Remove="Resources\Icons\Guest1\verification.png" />
     <None Remove="Resources\Icons\guests_with_text.png" />
     <None Remove="Resources\Icons\help--v1.png" />
+    <None Remove="Resources\Icons\home.jpg" />
     <None Remove="Resources\Icons\home.png" />
     <None Remove="Resources\Icons\info-icon.png" />
     <None Remove="Resources\Icons\kalendar.png" />
@@ -56,20 +59,25 @@
     <None Remove="Resources\Icons\list-square-icon.png" />
     <None Remove="Resources\Icons\livetour.png" />
     <None Remove="Resources\Icons\medal.png" />
+    <None Remove="Resources\Icons\notif_bell.jpg" />
     <None Remove="Resources\Icons\Pencil.png" />
     <None Remove="Resources\Icons\pencil.png" />
     <None Remove="Resources\Icons\plus.png" />
     <None Remove="Resources\Icons\plusicon.png" />
+    <None Remove="Resources\Icons\renovations.jpg" />
     <None Remove="Resources\Icons\reported.png" />
     <None Remove="Resources\Icons\request.png" />
+    <None Remove="Resources\Icons\requests.jpg" />
     <None Remove="Resources\Icons\reserved.png" />
     <None Remove="Resources\Icons\review.png" />
+    <None Remove="Resources\Icons\rewies.jpg" />
     <None Remove="Resources\Icons\right_arrow.png" />
     <None Remove="Resources\Icons\search.png" />
     <None Remove="Resources\Icons\settings.png" />
     <None Remove="Resources\Icons\sos_logo.png" />
     <None Remove="Resources\Icons\star.png" />
     <None Remove="Resources\Icons\stat.png" />
+    <None Remove="Resources\Icons\suggestions.jpg" />
     <None Remove="Resources\Icons\tour_icon.png" />
     <None Remove="Resources\Icons\Trash.png" />
     <None Remove="Resources\Icons\trophy.png" />
@@ -240,6 +248,7 @@
     <Content Include="Resources\Icons\clock_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Icons\building.jpg" />
     <Resource Include="Resources\Icons\checkpoint.png" />
     <Resource Include="Resources\Icons\exclamation_star.png" />
     <Resource Include="Resources\Icons\Guest1\bin.png" />
@@ -252,11 +261,18 @@
     <Resource Include="Resources\Icons\Guest1\user_ikonica2.png" />
     <Resource Include="Resources\Icons\Guest1\user_siluet.png" />
     <Resource Include="Resources\Icons\Guest1\verification.png" />
+    <Resource Include="Resources\Icons\forums.jpg" />
+    <Resource Include="Resources\Icons\home.jpg" />
     <Resource Include="Resources\Icons\kalendar_datumi.png" />
     <Resource Include="Resources\Icons\language.png" />
     <Resource Include="Resources\Icons\NotificationAlertNoColor.png" />
+    <Resource Include="Resources\Icons\notif_bell.jpg" />
     <Resource Include="Resources\Icons\Pencil.png" />
     <Resource Include="Resources\Icons\plusicon.png" />
+    <Resource Include="Resources\Icons\renovations.jpg" />
+    <Resource Include="Resources\Icons\requests.jpg" />
+    <Resource Include="Resources\Icons\rewies.jpg" />
+    <Resource Include="Resources\Icons\suggestions.jpg" />
     <Resource Include="Resources\Icons\Trash.png" />
     <Resource Include="Resources\Icons\user_ikonica2.png" />
     <Resource Include="Resources\Images\SOSlogo.png" />

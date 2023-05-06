@@ -24,13 +24,13 @@
                     <Border Background="LightGray" CornerRadius="20">
                         <Grid Height="60">
                             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center" Height="Auto" >
-                                <Button Margin="10,0,10,0" Command="{Binding AddAccommodation}">
+                                <Button Margin="10,0,10,0" Command="{Binding AddAccommodation}" Background="White">
                                     <Image Source="/Resources/Icons/plusicon.png" Width="40" Height="40" ></Image>
                                 </Button>
-                                <Button Margin="10,0,10,0" Command="{Binding OpenAccommodationDetails}">
+                                <Button Margin="10,0,10,0" Command="{Binding OpenAccommodationDetails}" Background="White">
                                     <Image Source="/Resources/Icons/info-icon.png" Width="40" Height="40" ></Image>
                                 </Button>
-                                <Button Margin="10,0,10,0" Command="{Binding DeleteAccommodation}">
+                                <Button Margin="10,0,10,0" Command="{Binding DeleteAccommodation}" Background="White">
                                     <Image Source="/Resources/Icons/Trash.png" Width="40" Height="40" ></Image>
                                 </Button>
                             </WrapPanel>
