@@ -181,6 +181,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             
         }
 
+        public void CloseWindow() 
+        {
+            _mainWindow.Close();
+        }
+
         private bool CanExecuteMethod(object parameter)
         {
             return true;
