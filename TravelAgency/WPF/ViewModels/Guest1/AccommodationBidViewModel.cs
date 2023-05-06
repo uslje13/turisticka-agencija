@@ -16,6 +16,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class AccommodationBidViewModel
     {
+        private SuperOwnerService _superOwnerService;
         public User LoggedInUser { get; set; }
         public List<Accommodation> accommodations { get; set; }
         public List<Location> locations { get; set; }
@@ -24,8 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public LocationService locationService { get; set; }
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public AccommodationReservationService accommodationReservationService { get; set; }
-        public RelayCommand reserveCommand { get; set; }
-        private SuperOwnerService _superOwnerService;
+        public RelayCommand ReserveCommand { get; set; }
         public List<AccommodationReservation> accommodationReservations { get; set; }
         public Frame ThisFrame { get; set; }
         
@@ -45,7 +45,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             locations = locationService.GetAll();
             accommodationReservations = accommodationReservationService.GetAll();
 
-            reserveCommand = new RelayCommand(ExecuteReserveAccommodation);
+            ReserveCommand = new RelayCommand(ExecuteReserveAccommodation);
 
             CreateAllDTOForms();
         }

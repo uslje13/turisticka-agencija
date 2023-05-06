@@ -19,7 +19,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class AllStatusesViewModel
     {
-        public List<ChangedReservationRequest> changedReservationRequests {  get; set; }
+        public ObservableCollection<ChangedReservationRequest> changedReservationRequests {  get; set; }
         public AccommodationReservationService accommodationReservationService { get; set; }
         public LocationService locationService { get; set; }
         public AccommodationService accommodationService { get; set; }
@@ -33,7 +33,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand FindNewDateCommand { get; set; }
         public RelayCommand CancelReservationCommand { get; set; }
         public CancelAndMarkResViewModel selectedCancelReservation { get; set; }
-        public List<CancelAndMarkResViewModel> allReservationsInfoList { get; set; }
+        public ObservableCollection<CancelAndMarkResViewModel> allReservationsInfoList { get; set; }
         public Frame ThisFrame { get; set; }
 
         public AllStatusesViewModel(User user, Frame frame) 
@@ -46,9 +46,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             accommodationService = new AccommodationService();
             changedReservationRequestService = new ChangedReservationRequestService();
             
-            allReservationsInfoList = new List<CancelAndMarkResViewModel>();
+            allReservationsInfoList = new ObservableCollection<CancelAndMarkResViewModel>();
             locAccommodationViewModels = new List<LocAccommodationViewModel>();
-            changedReservationRequests = new List<ChangedReservationRequest>();
+            changedReservationRequests = new ObservableCollection<ChangedReservationRequest>();
             accommodationReservations = accommodationReservationService.GetAll();
             locations = locationService.GetAll();
             accommodations = accommodationService.GetAll();
@@ -101,8 +101,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     accommodationReservationService.CancelReservation(selectedReservation);
                     MessageBox.Show("Uspješno otkazano!");
-                    var navigationService = ThisFrame.NavigationService;
-                    navigationService.Navigate(new AllStatusesPage(LoggedInUser, ThisFrame));
+                    allReservationsInfoList.Remove(selectedReservation); //
+                    ChangedReservationRequest request = FindRequest(selectedReservation); //
+                    changedReservationRequests.Remove(request); //
+                    //var navigationService = ThisFrame.NavigationService;
+                    //navigationService.Navigate(new AllStatusesPage(LoggedInUser, ThisFrame));
                 }
                 else
                 {
@@ -114,6 +117,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 MessageBox.Show("Odabrana rezervacija se ne može otkazati jer počinje sutra.");
             }
+        }
+
+        private ChangedReservationRequest FindRequest(CancelAndMarkResViewModel model)
+        {
+            foreach(var request in changedReservationRequests)
+            {
+                if(request.reservationId == model.ReservationId)
+                {
+                    return request;
+                }
+            }
+
+            return null;
         }
 
         private void PrepareCancelReservationList()

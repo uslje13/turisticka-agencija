@@ -35,6 +35,6 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="ReservationButton" Margin="135,295,133,14" Content="Rezerviši" Style="{StaticResource ButtonStyle}"
-                Command="{Binding reserveCommand}"/>
+                Command="{Binding ReserveCommand}"/>
     </Grid>
 </Page>
