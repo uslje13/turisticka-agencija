@@ -21,10 +21,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// </summary>
     public partial class GuestAttendancePage : Page
     {
-        public GuestAttendancePage(CheckpointCardViewModel selectedCheckpointActivity, string tourName, DateTime? date)
+        public GuestAttendancePage(CheckpointActivityCardViewModel selectedCheckpointActivityActivity, string tourName, DateTime? date)
         {
             InitializeComponent();
-            DataContext = new GuestAttendancesViewModel(selectedCheckpointActivity, tourName, date);
+            DataContext = new GuestAttendancesViewModel(selectedCheckpointActivityActivity, tourName, date);
         }
     }
 }

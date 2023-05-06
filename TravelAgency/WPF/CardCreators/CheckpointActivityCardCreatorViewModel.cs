@@ -4,14 +4,14 @@ using System.Collections.ObjectModel;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class CheckpointCardCreatorViewModel
+    public class CheckpointActivityCardCreatorViewModel
     {
         public Appointment? ActiveAppointment { get; private set; }
 
         private readonly AppointmentService _appointmentService;
         private readonly CheckpointActivityService _checkpointActivityService;
         private readonly CheckpointService _checkpointService;
-        public CheckpointCardCreatorViewModel(User loggedUser)
+        public CheckpointActivityCardCreatorViewModel(User loggedUser)
         {
             _appointmentService = new AppointmentService();
             _checkpointActivityService = new CheckpointActivityService();
@@ -20,9 +20,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             ActiveAppointment = _appointmentService.GetActiveByUserId(loggedUser.Id);
         }
 
-        public ObservableCollection<CheckpointCardViewModel> CreateCards()
+        public ObservableCollection<CheckpointActivityCardViewModel> CreateCards()
         {
-            var checkpointCards = new ObservableCollection<CheckpointCardViewModel>();
+            var checkpointCards = new ObservableCollection<CheckpointActivityCardViewModel>();
             if (ActiveAppointment != null)
             {
                 foreach (var checkpointActivity in _checkpointActivityService.GetAllByAppointmentId(ActiveAppointment.Id))
@@ -35,9 +35,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             return checkpointCards;
         }
 
-        private CheckpointCardViewModel CreateCheckpointCard(CheckpointActivity checkpointActivity, Checkpoint checkpoint)
+        private CheckpointActivityCardViewModel CreateCheckpointCard(CheckpointActivity checkpointActivity, Checkpoint checkpoint)
         {
-            var checkpointCard = new CheckpointCardViewModel
+            var checkpointCard = new CheckpointActivityCardViewModel
             {
                 CheckpointId = checkpointActivity.CheckpointId,
                 ActivityId = checkpointActivity.Id,

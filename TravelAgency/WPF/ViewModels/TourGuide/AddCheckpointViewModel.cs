@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Media;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Managers;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
     public class AddCheckpointViewModel : ViewModel
     {
-        private readonly CheckpointService _checkpointService;
+        #region FieldProperties
         private string _name;
         public string Name
         {
@@ -28,9 +26,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private CheckpointType _type;
+        private string _type;
 
-        public CheckpointType Type
+        public string Type
         {
             get => _type;
             set
@@ -42,40 +40,41 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 }
             }
         }
+        #endregion
 
-        private ObservableCollection<Checkpoint> _checkpoints;
+        private ObservableCollection<CheckpointCardViewModel> _checkpointCards;
 
-        public ObservableCollection<Checkpoint> Checkpoints
+        public ObservableCollection<CheckpointCardViewModel> CheckpointCards
         {
-            get => _checkpoints;
+            get => _checkpointCards;
             set
             {
-                if (_checkpoints != value)
+                if (_checkpointCards != value)
                 {
-                    _checkpoints = value;
-                    OnPropertyChanged("Checkpoints");
+                    _checkpointCards = value;
+                    OnPropertyChanged("CheckpointCards");
                 }
             }
         }
 
-        private Checkpoint _selectedCheckpoint;
+        private CheckpointCardViewModel? _selectedCard;
 
-        public Checkpoint SelectedCheckpoint
+        public CheckpointCardViewModel? SelectedCard
         {
-            get => _selectedCheckpoint;
+            get => _selectedCard;
             set
             {
-                if (_selectedCheckpoint != value)
+                if (_selectedCard != value)
                 {
-                    _selectedCheckpoint = value;
-                    OnPropertyChanged("SelectedCheckpoint");
+                    _selectedCard = value;
+                    OnPropertyChanged("SelectedCard");
                 }
             }
         }
 
-        public ObservableCollection<String> _checkpointTypes;
+        private ObservableCollection<string> _checkpointTypes;
 
-        public ObservableCollection<String> CheckpointsTypes
+        public ObservableCollection<string> CheckpointTypes
         {
             get => _checkpointTypes;
             set
@@ -83,25 +82,45 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 if (_checkpointTypes != value)
                 {
                     _checkpointTypes = value;
-                    OnPropertyChanged("CheckpointsTypes");
+                    OnPropertyChanged("CheckpointTypes");
                 }
             }
         }
 
+        private string _buttonContent;
+
+        public string ButtonContent
+        {
+            get => _buttonContent;
+            set
+            {
+                if (_buttonContent != value)
+                {
+                    _buttonContent = value;
+                    OnPropertyChanged("ButtonContent");
+                }
+            }
+        }
+
+        public CheckpointManager CheckpointManager { get; set; }
+
+
         public RelayCommand AddCheckpointCommand { get; set; }
         public RelayCommand DeleteCheckpointCommand { get; set; }
+        public RelayCommand EditCheckpointCommand { get; set; }
         public  RelayCommand ClearCheckpointsCommand { get; set; }
 
-        public AddCheckpointViewModel(ObservableCollection<Checkpoint> checkpoints)
+        public AddCheckpointViewModel(ObservableCollection<CheckpointCardViewModel> checkpointsCards)
         {
-            CheckpointsTypes = InitializeCheckpointTypes();
-            Checkpoints = checkpoints;
-            _checkpointService = new CheckpointService();
+            _checkpointCards = checkpointsCards;
+            _checkpointTypes = InitializeCheckpointTypes();
+            CheckpointManager = new CheckpointManager(CheckpointCards, CheckpointTypes);
+            _buttonContent = "Add";
 
-            
             AddCheckpointCommand = new RelayCommand(AddCheckpoint, CanExecuteMethod);
             DeleteCheckpointCommand = new RelayCommand(DeleteCheckpoint, CanExecuteMethod);
-            ClearCheckpointsCommand = new RelayCommand(DeleteAllCheckpoints, CanExecuteMethod);
+            EditCheckpointCommand = new RelayCommand(EditCheckpoint, CanExecuteMethod);
+            ClearCheckpointsCommand = new RelayCommand(ClearCheckpoints, CanExecuteMethod);
         }
 
         private bool CanExecuteMethod(object parameter)
@@ -109,95 +128,128 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             return true;
         }
 
-        public ObservableCollection<String> InitializeCheckpointTypes()
+        public ObservableCollection<string> InitializeCheckpointTypes()
         {
-            ObservableCollection<String> checkpointsTypes = new ObservableCollection<String>();
-            checkpointsTypes.Add("START");
-            checkpointsTypes.Add("EXTRA");
-            checkpointsTypes.Add("END");
+            var checkpointsTypes = new ObservableCollection<string>
+            {
+                "START",
+                "EXTRA",
+                "END"
+            };
 
             return checkpointsTypes;
         }
 
-        public void AddCheckpoint(object sender)
-        {
-            Checkpoint checkpoint = new Checkpoint();
-            checkpoint.Name = Name;
-            checkpoint.Type = Type;
 
-            if (checkpoint.Type == CheckpointType.START)
+        private void AddCheckpoint(object sender)
+        {
+            if (ButtonContent == "Confirm")
             {
-                CheckpointsTypes.Remove("START");
-                if (Checkpoints.Count > 0)
+                var index = CheckpointCards.IndexOf(SelectedCard);
+                CheckpointCards[index].Name = Name;
+                if (Type == "START")
                 {
-                    Checkpoints.Insert(0, checkpoint);
+                    if (CheckpointCards[index].Type == CheckpointType.EXTRA)
+                    {
+                        CheckpointCards.Move(index, 0);
+                        index = 0;
+                    }
+                    else if (CheckpointCards[index].Type == CheckpointType.END)
+                    {
+                        CheckpointCards.Move(index, 0);
+                        index = 0;
+                    }
+                    CheckpointCards[index].Type = CheckpointType.START;
+                    CheckpointManager.CheckpointTypes.RemoveAt(CheckpointTypes.IndexOf("START"));
                 }
-                else
+                else if (Type == "EXTRA")
                 {
-                    Checkpoints.Add(checkpoint);
+                    CheckpointCards[index].Type = CheckpointType.EXTRA;
                 }
+                else if(Type == "END")
+                {
+                    if (CheckpointCards[index].Type == CheckpointType.EXTRA)
+                    {
+                        CheckpointCards.Move(index, CheckpointCards.Count-1);
+                        index = CheckpointCards.Count - 1;
+                    }
+                    else if(CheckpointCards[index].Type == CheckpointType.START)
+                    {
+                        CheckpointCards.Move(index, CheckpointCards.Count - 1);
+                        index = CheckpointCards.Count - 1;
+                    }
+                    CheckpointCards[index].Type = CheckpointType.END;
+                    CheckpointManager.CheckpointTypes.RemoveAt(CheckpointTypes.IndexOf("END"));
+                }
+
+                CheckpointCards[index].Background = new SolidColorBrush(Colors.AliceBlue);
+                CheckpointCards[index].CanEdit = true;
+                CheckpointCards[index].CanDelete = true;
+                
+                ButtonContent = "Add";
+                SelectedCard = null;
             }
-            else if (checkpoint.Type == CheckpointType.END)
+            else
             {
-                CheckpointsTypes.Remove("END");
-                if (Checkpoints.Count > 0)
-                {
-                    Checkpoints.Insert(Checkpoints.Count,checkpoint);
-                }
-                else
-                {
-                    Checkpoints.Add(checkpoint);
-                }
+                CheckpointManager.AddCheckpoint(Name, Type);
             }
-            else if (checkpoint.Type == CheckpointType.EXTRA)
-            {
-                if (Checkpoints.Count == 0)
-                {
-                    Checkpoints.Add(checkpoint);
-                }
-                else if (Checkpoints.Count == 1)
-                {
-                    if (Checkpoints[0].Type == CheckpointType.START || Checkpoints[0].Type == CheckpointType.EXTRA)
-                    {
-                        Checkpoints.Add(checkpoint);
-                    }
-                    else if (Checkpoints[0].Type == CheckpointType.END)
-                    {
-                        Checkpoints.Insert(Checkpoints.Count-1,checkpoint);
-                    }
-                }
-                else if(Checkpoints.Count > 1)
-                {
-                    if (Checkpoints[Checkpoints.Count - 1].Type == CheckpointType.END)
-                    {
-                        Checkpoints.Insert(Checkpoints.Count - 1, checkpoint);
-                    }
-                    else
-                    {
-                        Checkpoints.Insert(Checkpoints.Count, checkpoint);
-                    }
-                }
-            }
+            Name = string.Empty;
+            Type = string.Empty;
         }
 
-        public void DeleteAllCheckpoints(object sender)
+        private void ClearCheckpoints(object sender)
         {
-            Checkpoints.Clear();
+            CheckpointManager.ClearCheckpoints();
+
+            Name = string.Empty;
+            Type = string.Empty;
+            ButtonContent = "Add";
         }
 
-        public void DeleteCheckpoint(object sender)
+        private void EditCheckpoint(object sender)
         {
-            var selectedCheckpoint = sender as Checkpoint;
-            Checkpoints.Remove(selectedCheckpoint);
+            var selectedCheckpoint = sender as CheckpointCardViewModel;
+
+            if (SelectedCard != null)
+            {
+                var index = CheckpointCards.IndexOf(SelectedCard);
+                CheckpointCards[index].Background = new SolidColorBrush(Colors.AliceBlue);
+                CheckpointCards[index].CanEdit = true;
+                CheckpointCards[index].CanDelete = true;
+            }
+
+            SelectedCard = selectedCheckpoint;
+
             if (selectedCheckpoint.Type == CheckpointType.START)
             {
-                CheckpointsTypes.Insert(0,"START");
+                CheckpointTypes.Insert(0,"START");
+            }
+            else if (selectedCheckpoint.Type == CheckpointType.END)
+            {
+                CheckpointTypes.Insert(CheckpointTypes.Count, "END");
+            }
+
+            Name = selectedCheckpoint.Name;
+            Type = selectedCheckpoint.Type.ToString();
+            selectedCheckpoint.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8FFB7"));
+            selectedCheckpoint.CanDelete = false;
+            selectedCheckpoint.CanEdit = false;
+            ButtonContent = "Confirm";
+        }
+
+        private void DeleteCheckpoint(object sender)
+        {
+            var selectedCheckpoint = sender as CheckpointCardViewModel;
+            CheckpointCards.Remove(selectedCheckpoint);
+
+            if (selectedCheckpoint.Type == CheckpointType.START)
+            {
+                CheckpointTypes.Insert(0, "START");
             }
             if (selectedCheckpoint.Type == CheckpointType.END)
             {
-                CheckpointsTypes.Insert(CheckpointsTypes.Count,"END");
+                CheckpointTypes.Insert(CheckpointTypes.Count, "END");
             }
         }
-
     }
 }

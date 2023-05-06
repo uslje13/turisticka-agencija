@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
-using SOSTeam.TravelAgency.Domain.Models;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {

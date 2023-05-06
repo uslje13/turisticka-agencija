@@ -56,6 +56,28 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             return tourCards;
         }
 
+        public ObservableCollection<TourCardViewModel> CreateCardsPerYear(User loggedUser, string selectedYear)
+        {
+            var tourCards = new ObservableCollection<TourCardViewModel>();
+
+            foreach (var appointment in _appointmentService.GetAllFinishedByUserId(loggedUser.Id))
+            {
+                foreach (var tour in _tourService.GetAll())
+                {
+                    if (appointment.TourId == tour.Id && appointment.Start.Year.ToString() == selectedYear)
+                    {
+                        var tourCard = new TourCardViewModel();
+                        SetTourAndAppointment(tourCard, appointment, tour);
+                        SetLocation(tour, tourCard);
+
+                        tourCards.Add(tourCard);
+                    }
+                }
+            }
+
+            return tourCards;
+        }
+
         private List<Appointment> GetAppointmentsByUsageType(User loggedUser, CreationType type)
         {
             List<Appointment> appointments;
@@ -101,5 +123,34 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             var activeAppointment = _appointmentService.GetActiveByUserId(loggedUser.Id);
             tourCard.SetCanStart(appointment, activeAppointment);
         }
+
+        public TourCardViewModel? CreateMostAttendedTour(Appointment? mostAttendedAppointment)
+        {
+            if (mostAttendedAppointment == null)
+            {
+                var notExistsCard = new TourCardViewModel
+                {
+                    Name = "Not exists!",
+                    CoverImagePath = "/Resources/Images/Tours/unknown_cover.jpg"
+                };
+                return notExistsCard;
+            }
+            var tour = _tourService.GetById(mostAttendedAppointment.TourId);
+            var location = _locationService.GetById(tour.LocationId);
+            var tourCard = new TourCardViewModel
+            {
+                TourId = tour.Id,
+                AppointmentId = mostAttendedAppointment.Id,
+                LocationId = tour.LocationId,
+                Start = mostAttendedAppointment.Start,
+                Name = tour.Name,
+            };
+            tourCard.SetAppointmentStatusAndBackground(mostAttendedAppointment);
+            tourCard.SetLocation(location);
+            tourCard.SetCoverImage(_imageService.GetTourCover(tourCard.TourId));
+
+            return tourCard;
+        }
+
     }
 }

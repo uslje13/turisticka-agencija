@@ -62,25 +62,28 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public User LoggedUser { get; set; }
 
-        private readonly TourService _tourService;
-        private readonly LocationService _locationService;
-        private readonly AppointmentService _appointmentService;
+        private readonly TourCardCreatorViewModel _tourCardCreator;
+
         public RelayCommand YearSelectionChangedCommand { get; set; }
         public RelayCommand ShowTourStatsCommand { get; set; }
 
         public StatsPerTourOverviewViewModel(User loggedUser)
         {
             LoggedUser = loggedUser;
-            _tourService = new TourService();
-            _locationService = new LocationService();
-            _appointmentService = new AppointmentService();
 
-            TourCards = new ObservableCollection<TourCardViewModel>();
-            AvailableYears = new ObservableCollection<string>();
+            _tourCardCreator = new TourCardCreatorViewModel();
+            var availableYearsCreator = new AvailableYearsCreator();
 
-            FindAvailableYears();
+            AvailableYears = availableYearsCreator.GetAvailableYears(loggedUser);
 
-            FillObservableCollection();
+            if (AvailableYears.Count > 0)
+            {
+                SelectedYear = AvailableYears[0];
+            }
+
+            TourCards = _tourCardCreator.CreateCardsPerYear(loggedUser, SelectedYear);
+
+            
             YearSelectionChangedCommand = new RelayCommand(ExecuteYearSelectionChanged, CanExecuteMethod);
             ShowTourStatsCommand = new RelayCommand(ShowTourStats, CanExecuteMethod);
         }
@@ -97,50 +100,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public void YearSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FillObservableCollection();
-        }
-
-        private void FillObservableCollection()
-        {
-            TourCards.Clear();
-            foreach (var appointment in _appointmentService.GetAllFinishedByUserId(LoggedUser.Id))
-            {
-                foreach (var tour in _tourService.GetAll())
-                {
-                    if (appointment.TourId == tour.Id && appointment.Start.Year.ToString() == SelectedYear)
-                    {
-                        var tourCard = new TourCardViewModel();
-                        SetTourAndAppointmentFields(tourCard, appointment, tour);
-                        tourCard.SetLocation(_locationService.GetById(tour.LocationId));
-
-                        TourCards.Add(tourCard);
-                    }
-                }
-            }
-        }
-
-        private void SetTourAndAppointmentFields(TourCardViewModel tourCard, Appointment appointment, Tour tour)
-        {
-            tourCard.AppointmentId = appointment.Id;
-            tourCard.TourId = tour.Id;
-            tourCard.LocationId = tour.LocationId;
-            tourCard.Start = appointment.Start;
-            tourCard.Name = tour.Name;
-            tourCard.SetAppointmentStatusAndBackground(appointment);
-        }
-
-        private void FindAvailableYears()
-        {
-            foreach (var appointment in _appointmentService.GetAllByUserId(LoggedUser.Id))
-            {
-                AvailableYears.Add(appointment.Start.Year.ToString());
-            }
-            AvailableYears = new ObservableCollection<string>(AvailableYears.Distinct());
-
-            if (AvailableYears.Count > 0)
-            {
-                SelectedYear = AvailableYears[0];
-            }
+            TourCards = _tourCardCreator.CreateCardsPerYear(LoggedUser, SelectedYear);
         }
 
         private void ShowTourStats(object sender)

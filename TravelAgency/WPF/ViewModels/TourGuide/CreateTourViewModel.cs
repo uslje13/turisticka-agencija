@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ValidationRules.TourGuide;
 using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 using Image = SOSTeam.TravelAgency.Domain.Models.Image;
 
@@ -113,6 +111,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 }
             }
         }
+
         private readonly LocationService _locationService;
         private readonly TourService _tourService;
         private readonly CheckpointService _checkpointService;
@@ -128,8 +127,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public List<Location> Locations { get; set; }
         public List<string> ImagePaths { get; set; }
 
-        public ObservableCollection<Checkpoint> Checkpoints { get; set; }
-        public ObservableCollection<Appointment> Appointments { get; set; }
+        public ObservableCollection<CheckpointCardViewModel> Checkpoints { get; set; }
+        public ObservableCollection<AppointmentCardViewModel> Appointments { get; set; }
 
         public List<Image> Images { get; set; }
 
@@ -156,8 +155,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             Countries = GetCountries();
             Cities = GetCities();
 
-            Checkpoints = new ObservableCollection<Checkpoint>();
-            Appointments = new ObservableCollection<Appointment>();
+            Checkpoints = new ObservableCollection<CheckpointCardViewModel>();
+            Appointments = new ObservableCollection<AppointmentCardViewModel>();
             ImagePaths = new List<string>();
             Images = new List<Image>();
 
@@ -255,8 +254,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             SetAppointmentsTourAndUserId(id);
             SetImagesTourId(id);
             _tourService.Save(tour);
-            _checkpointService.SaveAll(new List<Checkpoint>(Checkpoints));
-            _appointmentService.SaveAll(new List<Appointment>(Appointments));
+            //_checkpointService.SaveAll(new List<CheckpointCardViewModel>(Checkpoints));
+            //_appointmentService.SaveAll(new List<Appointment>(Appointments));
             _imageService.SaveAll(Images);
             Window currentWindow = System.Windows.Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
             if (currentWindow != null)
@@ -277,19 +276,23 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void SetCheckpointsTourId(int id)
         {
+            /*
             foreach (Checkpoint checkpoint in Checkpoints)
             {
                 checkpoint.TourId = id;
             }
+            */
         }
 
         private void SetAppointmentsTourAndUserId(int id)
         {
+            /*
             foreach (Appointment appointment in Appointments)
             {
                 appointment.TourId = id;
                 appointment.UserId = LoggedUser.Id;
             }
+            */
         }
 
         private int FindLocationId()
@@ -302,7 +305,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private void SelectImagesPaths(object parameter)
         {
             ImagePaths.Clear();
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
             openFileDialog.Filter = "Image Files|*.jpg;*.png;*.bmp|All Files|*.*";
             openFileDialog.InitialDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources\\Images\\Tours");

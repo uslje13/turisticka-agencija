@@ -16,14 +16,15 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="6*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Rectangle Grid.Row="0" Fill="DarkGray"></Rectangle>
+        <Border Grid.Row="0" BorderBrush="DarkGray" BorderThickness="0 0 0 1"/>
+        <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0 1"/>
         <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Stat by tour" FontSize="24" FontWeight="Bold"></Label>
-        <Border Grid.Row="1" BorderBrush="DarkGray" Margin="0,0,0,0" BorderThickness="0 0 0 2"></Border>
+        
         <Label Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Year" Margin="10 10 0 0"
                FontSize="16">
         </Label>
-        <ComboBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0" Width="405" Height="25"
-                  ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}">
+        <ComboBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0" Width="405" Height="25" BorderBrush="DarkGray"
+                  BorderThickness="1.5" ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}">
             <b:Interaction.Triggers>
                 <b:EventTrigger EventName="SelectionChanged">
                     <b:InvokeCommandAction Command="{Binding YearSelectionChangedCommand}" />
@@ -34,35 +35,50 @@
                  VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding TourCards}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="360" Height="100" Margin="0 5" Background="AliceBlue">
+                    <!-- Card -->
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="360" Height="100" Background="{Binding Background}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"></ColumnDefinition>
-                            <ColumnDefinition Width="180"></ColumnDefinition>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
+                            <ColumnDefinition Width="190"></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="Transparent" BorderBrush="Transparent"
-                                Command="{Binding DataContext.ShowTourStatsCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                                CommandParameter="{Binding }"></Button>
-                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" BorderBrush="DarkGray" BorderThickness="1"></Border>
-                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="/Resources/Icons/stat.png" Width="90"></Image>
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                    FontSize="17" Padding="5 0 0 5"></TextBlock>
-                        <Image Grid.Column="1" Grid.Row="1" Source="/Resources/Icons/checkpoint_light.png" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                        Width="16" Margin= "4 1 0 0">
-                        </Image>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Location}" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                                     FontSize="13"  Padding="20 0 0 0" Foreground="#FF999999">
-                        </TextBlock>
-                        <Image Grid.Column="1" Grid.Row="2" Source="/Resources/Icons/calendar_blank_light.png" Width="17" HorizontalAlignment="Left"
-                                    VerticalAlignment="Bottom" Margin="5 0 0 2"></Image>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Date, StringFormat='dd.MM.yyyy.'}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                                     FontSize="13" Foreground="#FF999999" Padding="23 0 0 2"></TextBlock>
-                        <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Status}"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 15 2" FontWeight="Bold"></TextBlock>
+                        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" BorderBrush="DarkGray" BorderThickness="1"/>
+                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="/Resources/Icons/stat.png" Width="90"/>
+                        <!-- Name -->
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" Padding="5 0 0 5" TextWrapping="Wrap"/>
+
+                        <!-- Location -->
+                        <WrapPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2 0 0 0">
+                            <Image Source="/Resources/Icons/checkpoint_light.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="19"/>
+                            <TextBlock Text="{Binding Location}" TextWrapping="Wrap" FontSize="14" Foreground="#FF999999" VerticalAlignment="Top" TextAlignment="Center"/>
+                        </WrapPanel>
+
+                        <!-- Date -->
+                        <WrapPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="2 0 0 0">
+                            <Image Source="/Resources/Icons/calendar_blank_light.png" Width="19" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="1 0 0 3"/>
+                            <TextBlock Text="{Binding Start, StringFormat='dd.MM.yyyy.'}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                       FontSize="14" Foreground="#FF999999" Padding="3 0 0 3"/>
+                        </WrapPanel>
+                        <!-- Status -->
+                        <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Status}"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 2" FontWeight="Bold"></TextBlock>
+                        <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="Transparent" BorderBrush="Transparent" Command="{Binding DataContext.ShowTourStatsCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                Cursor="Hand" CommandParameter="{Binding}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

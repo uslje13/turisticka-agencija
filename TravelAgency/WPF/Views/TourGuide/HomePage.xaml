@@ -17,7 +17,7 @@
         <Border Grid.Row="0" BorderBrush="DarkGray" BorderThickness="0 0 0 1"></Border>
         <Label Content="Your tours" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="10, 0,0, 0"/>
         <Button Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"  Width="75" Height="25"
-                Content="Today tours" BorderBrush="DarkGray" Margin="0,0,10,0" Command="{Binding ShowTodayToursCommand}"
+                Content="Today tours" BorderBrush="DarkGray" BorderThickness="1.5" Margin="0,0,10,0" Command="{Binding ShowTodayToursCommand}"
                 Cursor="Hand"/>
         <Button Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="20" Content="Reviews" Margin="0 0 70 0"
                 Command="{Binding ShowFinishedTourReviewCommand}"/>

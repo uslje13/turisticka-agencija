@@ -1,39 +1,27 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Media;
-using SOSTeam.TravelAgency.Domain.Models;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class CheckpointCardViewModel : ViewModel
+    public class AppointmentCardViewModel : ViewModel
     {
-        private string _name;
+        private DateTime _start;
 
-        public string Name
+        public DateTime Start
         {
-            get => _name;
+            get => _start;
             set
             {
-                if (_name != value)
+                if (_start != value)
                 {
-                    _name = value;
-                    OnPropertyChanged("Name");
-                }
-            }
-        }
-
-        private CheckpointType _type;
-
-        public CheckpointType Type
-        {
-            get => _type;
-            set
-            {
-                if (value != _type)
-                {
-                    _type = value;
-                    OnPropertyChanged("Type");
+                    _start = value;
+                    OnPropertyChanged("Start");
                 }
             }
         }
@@ -83,13 +71,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        public CheckpointCardViewModel()
+        public AppointmentCardViewModel()
         {
-            _name = string.Empty;
-            _type = CheckpointType.UNKNOWN;
+            _start = DateTime.MinValue;
             _canEdit = true;
             _canDelete = true;
             _background = new SolidColorBrush(Colors.AliceBlue);
         }
+
     }
 }

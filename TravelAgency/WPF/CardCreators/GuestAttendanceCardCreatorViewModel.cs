@@ -22,10 +22,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _checkpointActivityService = new CheckpointActivityService();
             _checkpointService = new CheckpointService();
         }
-        public ObservableCollection<GuestAttendanceCardViewModel> CreateUserCards(CheckpointCardViewModel selectedCheckpointActivity)
+        public ObservableCollection<GuestAttendanceCardViewModel> CreateUserCards(CheckpointActivityCardViewModel selectedCheckpointActivityActivity)
         {
             var guestAttendanceCards = new ObservableCollection<GuestAttendanceCardViewModel>();
-            foreach (var guestAttendance in _guestAttendanceService.GetAllByActivityId(selectedCheckpointActivity.ActivityId))
+            foreach (var guestAttendance in _guestAttendanceService.GetAllByActivityId(selectedCheckpointActivityActivity.ActivityId))
             {
                 var guestAttendanceCard = new GuestAttendanceCardViewModel
                 {
