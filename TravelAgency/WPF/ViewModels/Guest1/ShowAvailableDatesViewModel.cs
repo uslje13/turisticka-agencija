@@ -34,10 +34,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand GoBackCommand { get; set; }
         public bool IsEnterOfChange { get; set; }
         public ChangedReservationRequest ChangedReservationRequest { get; set; }
-        public Window ThisWindow { get; set; }
         public Frame ThisFrame { get; set; }
 
-        public ShowAvailableDatesViewModel(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, Calendar calendar, bool enter, ChangedReservationRequest request, Frame thosFrame)
+        public ShowAvailableDatesViewModel(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, Calendar calendar, bool enter, ChangedReservationRequest request, Frame thisFrame)
         {
             reservationDTOList = new ObservableCollection<AccReservationViewModel>();
             accommodationService = new AccommodationService();
@@ -54,7 +53,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             Calendar = calendar;
             IsEnterOfChange = enter;
             ChangedReservationRequest = request;
-            ThisFrame = thosFrame;
+            ThisFrame = thisFrame;
 
             accommodations = accommodationService.GetAll();
             reservations = reservationService.GetAll();
@@ -321,9 +320,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             var navigationService = ThisFrame.NavigationService;
             navigationService.Navigate(new SelectReservationDatesPage(dtoReservation, LoggedInUser, IsEnterOfChange, ChangedReservationRequest, ThisFrame));
-            //SelectReservationDatesWindow selectReservationDates = new SelectReservationDatesWindow(dtoReservation, LoggedInUser, IsEnterOfChange, ChangedReservationRequest);
-            //selectReservationDates.ShowDialog();
-            //ThisWindow.Close();
         }
     }
 }

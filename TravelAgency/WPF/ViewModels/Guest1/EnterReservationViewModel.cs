@@ -27,7 +27,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public TextBox Days { get; set; }
         public DatePicker FirstDay { get; set; }
         public DatePicker LastDay { get; set; }
-        public Window ThisWindow { get; set; }
         public Frame ThisFrame { get; set; }
 
         public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, Frame frame)
@@ -116,9 +115,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 var navigationService = ThisFrame.NavigationService;
                 navigationService.Navigate(new ShowAvailableDatesPage(dto, fDay, lDay, days, user, isEnteredOfChange, request, ThisFrame));
-                //ShowAvailableDatesWindow availableDates = new ShowAvailableDatesWindow(dto, fDay, lDay, days, user, isEnteredOfChange, request);
-                //availableDates.Show();
-                //ThisWindow.Close();
             }
             else if (!validDates)
             {

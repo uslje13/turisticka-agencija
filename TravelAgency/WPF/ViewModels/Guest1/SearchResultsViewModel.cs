@@ -37,8 +37,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 var navigationService = ThisFrame.NavigationService;
                 navigationService.Navigate(new EnterReservationPage(SelectedAccommodationDTO, LoggedInUser, false, ThisFrame));
-                //EnterReservationWindow newWindow = new EnterReservationWindow(SelectedAccommodationDTO, LoggedInUser, false);
-                //newWindow.ShowDialog();
             }
             else
             {

@@ -58,7 +58,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Command="{Binding goToSearchCommand}" Width="110" Height="43" FontSize="17" Content="Glavni meni" 
+        <Button Command="{Binding ShowMenuCommand}" Width="110" Height="43" FontSize="17" Content="Glavni meni" 
                 Style="{StaticResource ButtonStyle}" Margin="838,620,53,57">
         </Button>
         <Button Command="{Binding GoBackCommand}" Width="110" Height="43" FontSize="17" Content="Nazad" 

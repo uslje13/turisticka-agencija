@@ -23,7 +23,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public ComboBox CBTypes { get; set; }
         public List<ComboBoxItem> comboBoxItems { get; set; }
         public RelayCommand searchCommand { get; set; }
-        public RelayCommand cancelCommand { get; set; }
         public Frame ThisFrame { get; set; }
 
         public SearchViewModel(User user, List<TextBox> list1, List<ComboBoxItem> list2, ComboBox comboBox, Frame frame)
@@ -35,7 +34,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ThisFrame = frame;
             
             searchCommand = new RelayCommand(ExecuteAccommodationSearch);
-            cancelCommand = new RelayCommand(ExecuteCancelAccommodationSearch);
         }
 
         private void ExecuteAccommodationSearch(object sender)
@@ -53,11 +51,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ShowResults(searchResult.OrderByDescending(a => a.IsSuperOwned).ToList());
         }
 
-        private void ExecuteCancelAccommodationSearch(object sender)
-        {
-            //ThisWindow.Close();
-        }
-
         private LocAccommodationViewModel.AccommType GetSelectedItem(ComboBox cb)
         {
             if (cb.SelectedItem == comboBoxItems[0]) return LocAccommodationViewModel.AccommType.APARTMENT;
@@ -72,7 +65,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 var navigationService = ThisFrame.NavigationService;
                 navigationService.Navigate(new SearchResultsPage(results, LoggedInUser, ThisFrame));
-                //SearchResultsPage newWindow = new SearchResultsPage(results, LoggedInUser);
             }
             else
             {

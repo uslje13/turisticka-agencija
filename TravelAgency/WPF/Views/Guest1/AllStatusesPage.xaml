@@ -20,10 +20,10 @@
     <Grid Margin="205,162,0,0">
         <Label HorizontalContentAlignment="Center" FontSize="25" FontWeight="Black" Margin="0,32,0,350" 
                Width="615">Prikaz statusa</Label>
-        <TabControl x:Name="Tabs" GotFocus="TestFocus" Margin="0,93,15,190">
+        <TabControl x:Name="Tabs" GotFocus="TestFocus" Margin="0,93,15,190" Cursor="Hand">
             <TabItem Header="Zahtjevi za pomjeranje">
-                <DataGrid ItemsSource="{Binding changedReservationRequests}" Style="{StaticResource DataGridStyle}"
-                  SelectedItem="{Binding Path=selectedReservation, UpdateSourceTrigger=PropertyChanged}"
+                <DataGrid ItemsSource="{Binding _changedReservationRequests}" Style="{StaticResource DataGridStyle}"
+                  SelectedItem="{Binding Path=SelectedChangedReservation, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" SelectionMode="Single"
                   IsReadOnly="True" Margin="10,0,10,0" Height="218">
                     <DataGrid.Columns>
@@ -39,8 +39,8 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="Zahtjevi za otkazivanje">
-                <DataGrid ItemsSource="{Binding allReservationsInfoList}" Style="{StaticResource DataGridStyle}"
-                  SelectedItem="{Binding Path=selectedCancelReservation, UpdateSourceTrigger=PropertyChanged}"
+                <DataGrid ItemsSource="{Binding _reservationCancelOptions}" Style="{StaticResource DataGridStyle}"
+                  SelectedItem="{Binding Path=SelectedCanceledReservation, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" SelectionMode="Single"
                   IsReadOnly="True" Margin="10,0,10,0" Height="218">
                     <DataGrid.Columns>
