@@ -67,9 +67,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 var navigationService = ThisFrame.NavigationService;
                 navigationService.Navigate(new EnterGuestNumberPage(selectedCatalogItem, LoggedInUser, IsEnterOfChange, ChangedReservationRequest, ThisFrame));
-                //EnterGuestNumberWindow newWindow = new EnterGuestNumberWindow(selectedCatalogItem, LoggedInUser, IsEnterOfChange, ChangedReservationRequest);
-                //newWindow.Show();
-                //ThisWindow.Close();
             }
         }
     }

@@ -95,9 +95,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             OpenFileDialog op = new OpenFileDialog();
             op.Title = "Priložite slike smještaja";
-            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
-              "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-              "Portable Network Graphic (*.png)|*.png";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" 
+                      + "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" 
+                      + "Portable Network Graphic (*.png)|*.png";
             op.Multiselect = true;
 
             if (op.ShowDialog() == true)

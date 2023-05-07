@@ -67,7 +67,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _appointmentService.SetExpiredAppointments(loggedUser.Id);
 
             var tourCardCreator = new TourCardCreatorViewModel();
-            _tourCards = tourCardCreator.CreateCards(loggedUser, false);
+            _tourCards = tourCardCreator.CreateCards(loggedUser, CreationType.ALL);
 
             _timer.Tick += UpdateTourCards;
 
@@ -108,7 +108,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private static MessageBoxWindow CreateMessageBox()
+        private MessageBoxWindow CreateMessageBox()
         {
             const string message = "Are you sure you want to cancel the tour?\nIf you cancel the tour," +
                                     " all users with a reservation for this tour will receive a voucher.";
@@ -124,21 +124,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private void TodayToursClick(object sender)
         {
             TodayToursPage todayToursPage = new TodayToursPage(_loggedUser, _timer);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = todayToursPage;
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = todayToursPage;
         }
 
 
         //Ovo sve leti kada se sredi Burger Menu!!!
         private void ShowFinishedTourReviews(object sender)
         {
-            FinishedTourReviewsPage finishedReviewsPage = new FinishedTourReviewsPage(_loggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = finishedReviewsPage;
+            GuestReviewsByTourPage guestReviewsByPage = new GuestReviewsByTourPage(_loggedUser);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = guestReviewsByPage;
         }
 
         private void ShowStatsMenu(object sender)
         {
             StatsMenuPage statsMenuPage = new StatsMenuPage(_loggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statsMenuPage;
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = statsMenuPage;
         }
     }
 }

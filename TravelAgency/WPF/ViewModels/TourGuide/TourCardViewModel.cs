@@ -174,7 +174,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         }
         public void SetCoverImage(Image? image)
         {
-            CoverImagePath = image != null ? image.Path : "/Resources/Images/UnknownPhoto.png";
+            CoverImagePath = image != null ? image.Path : "/Resources/Images/Tours/unknown_cover.jpg";
         }
 
     }

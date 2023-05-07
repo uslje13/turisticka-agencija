@@ -23,7 +23,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// </summary>
     public partial class AddAppointmentsPage : Page
     {
-        public AddAppointmentsPage(ObservableCollection<Appointment> appointments)
+        public AddAppointmentsPage(ObservableCollection<AppointmentCardViewModel> appointments)
         {
             InitializeComponent();
             DataContext = new AddAppointmentsViewModel(appointments);
