@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -95,28 +96,54 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             OpenFileDialog op = new OpenFileDialog();
             op.Title = "Priložite slike smještaja";
-            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" 
-                      + "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" 
-                      + "Portable Network Graphic (*.png)|*.png";
+            op.Filter = "Image Files|*.jpg;*.png;*.bmp|All Files|*.*";
             op.Multiselect = true;
+            op.InitialDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources\\Images\\Guest1");
 
             if (op.ShowDialog() == true)
             {
-                int i = 1;
                 foreach(string imageUrl in op.FileNames)
                 {
-                    if(i == 1) 
-                        AllUrls += imageUrl;
-                    else 
-                        AllUrls += "," + imageUrl;
-
+                    string csvPath = CreateCSVPath(op, imageUrl);
+                    AllUrls += csvPath;
+                    
                     System.Windows.Controls.Image image = new System.Windows.Controls.Image();
                     image.Source = new BitmapImage(new Uri(imageUrl));
                     SelectedImages.Add(image);
-                    i++;
                 }
             } 
             Images.ItemsSource = SelectedImages;
+        }
+
+        private string CreateCSVPath(OpenFileDialog op, string imageUrl)
+        {
+            string defaultPath = imageUrl.Replace(op.InitialDirectory, "").TrimStart('\\');
+            string updatedPath = Path.Combine("/Resources/Images/Guest1", defaultPath).Replace('\\', '/');
+            string[] dividedPath = updatedPath.Split('/');
+            string csvPath = "/";
+            int j = 0;
+            foreach (string part in dividedPath)
+            {
+                j++;
+                if (part.Equals("Resources"))
+                {
+                    csvPath += part + "/";
+                }
+                if (part.Equals("Images"))
+                {
+                    csvPath += part + "/";
+                }
+                if (part.Equals("Guest1"))
+                {
+                    csvPath += part + "/";
+                }
+                if (dividedPath.Count() == j)
+                {
+                    csvPath += part + ",";
+                }
+            }
+
+            return csvPath;
         }
 
         private void FillTextBox(CancelAndMarkResViewModel acc)

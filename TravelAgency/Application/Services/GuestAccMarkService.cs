@@ -56,8 +56,11 @@ namespace SOSTeam.TravelAgency.Application.Services
                 string[] urlArray = urls.Split(',');
                 foreach(string url in urlArray) 
                 {
-                    Domain.Models.Image image = new Domain.Models.Image(url, false, resId, ImageType.RESERVATION);
-                    _imageRepository.Save(image);
+                    if (!url.Equals(""))
+                    {
+                        Domain.Models.Image image = new Domain.Models.Image(url, false, resId, ImageType.RESERVATION);
+                        _imageRepository.Save(image);
+                    }
                 }
             }
         }
