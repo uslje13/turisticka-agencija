@@ -23,57 +23,35 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     public class GuestInboxViewModel
     {
         public User LoggedInUser { get; set; }
-        public RelayCommand MarkAccommodationCommand { get; set; }
-        public ObservableCollection<CancelAndMarkResViewModel> reservationsForMark { get; set; }
-        public List<CancelAndMarkResViewModel> ChangedReservations { get; set; }
-        public AccommodationReservationService accResService { get; set; }
-        public List<AccommodationReservation> accommodationReservations { get; set; }
-        public List<LocAccommodationViewModel> locAccommodationViewModels { get; set; }
-        public AccommodationService AccommodationService { get; set; }
-        public List<Accommodation> accommodations { get; set; }
-        public LocationService LocationService { get; set; }
-        public List<Location> locations { get; set; }
-        public Window ThisWindow { get; set; }
-        public ListBox MarkNotifications { get; set; }
-        public ListBox ChangeNotifications { get; set; }
-        public RelayCommand goToSearchCommand { get; set; }
-        public RelayCommand GoBackCommand { get; set; }
-        public Window UserProfilleWindow { get; set; }
         public int Notifications { get; set; }
+        public Window ThisWindow { get; set; }
+        public Window UserProfilleWindow { get; set; }
+        public ObservableCollection<CancelAndMarkResViewModel> _reservationsForMark { get; set; }
+        public List<CancelAndMarkResViewModel> _changedReservations { get; set; }
+        public RelayCommand ShowMenuCommand { get; set; }
+        public RelayCommand GoBackCommand { get; set; }
+        public RelayCommand MarkAccommodationCommand { get; set; }
 
         public GuestInboxViewModel(User user, Window window, ListBox list, ListBox newList, Window userProfille, int notifications)
         {
             LoggedInUser = user;
             ThisWindow = window;
-            MarkNotifications = list;
-            ChangeNotifications = newList;
             UserProfilleWindow = userProfille;
             Notifications = notifications;
 
-            reservationsForMark = new ObservableCollection<CancelAndMarkResViewModel>();
-            ChangedReservations = new List<CancelAndMarkResViewModel>();
-            locAccommodationViewModels = new List<LocAccommodationViewModel>();
-
-            accResService = new AccommodationReservationService();
-            accommodationReservations = accResService.GetAll();
-
-            AccommodationService = new AccommodationService();
-            accommodations = AccommodationService.GetAll();
-
-            LocationService = new LocationService();
-            locations = LocationService.GetAll();
+            _reservationsForMark = new ObservableCollection<CancelAndMarkResViewModel>();
+            _changedReservations = new List<CancelAndMarkResViewModel>();
 
             ShowNotificationsFromOwner();
-            MergeLocationsAndAccommodations();
             PrepareMarkReservationList();
             ShowMarkingNotifications();
 
-            list.ItemsSource = reservationsForMark;
-            newList.ItemsSource = ChangedReservations;
+            list.ItemsSource = _reservationsForMark;
+            newList.ItemsSource = _changedReservations;
 
-            goToSearchCommand = new RelayCommand(ExecuteGoToSearch);
+            ShowMenuCommand = new RelayCommand(Execute_ShowMenu);
             GoBackCommand = new RelayCommand(Execute_GoBack);
-            MarkAccommodationCommand = new RelayCommand(ExecuteAccommodationMarking);
+            MarkAccommodationCommand = new RelayCommand(Execute_MarkAccommodation);
         }
 
         private void Execute_GoBack(object sender)
@@ -81,7 +59,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ThisWindow.Close();
         }
 
-        private void ExecuteGoToSearch(object sender)
+        private void Execute_ShowMenu(object sender)
         {
             SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, ThisWindow, UserProfilleWindow, Notifications);
             ThisWindow.Close();
@@ -91,32 +69,36 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void PrepareMarkReservationList()
         {
-            foreach (var reserv in accommodationReservations)
+            AccommodationService accommodationService = new AccommodationService();
+            ObservableCollection<LocAccommodationViewModel> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
+            
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            List<AccommodationReservation> _accommodationReservations = reservationService.GetAll();
+
+            foreach (var reserv in _accommodationReservations)
             {
                 int diff = DateTime.Today.DayOfYear - reserv.LastDay.DayOfYear;
-                foreach (var lavm in locAccommodationViewModels)
+                foreach (var lavm in _locAccommodationViewModels)
                 {
-                    if (IsValidCandidateForMarkList(reserv, diff, lavm))
+                    if (IsValidCandidate(reserv, diff, lavm))
                     {
-                        CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity,
-                                                                                          lavm.LocationCountry, reserv.FirstDay, reserv.LastDay,
-                                                                                          reserv.Id, lavm.AccommodationId);
-                        reservationsForMark.Add(crModel);
+                        CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, reserv.FirstDay, reserv.LastDay, reserv.Id, lavm.AccommodationId);
+                        _reservationsForMark.Add(crModel);
                            
                     }
                 }
             }
         }
 
-        private bool IsValidCandidateForMarkList(AccommodationReservation reserv, int diff, LocAccommodationViewModel lavm)
+        private bool IsValidCandidate(AccommodationReservation reserv, int diff, LocAccommodationViewModel lavm)
         {
             return reserv.AccommodationId == lavm.AccommodationId && diff > 0 && !reserv.ReadMarkNotification && reserv.UserId == LoggedInUser.Id;
         }
 
-        private void ExecuteAccommodationMarking(object sender)
+        private void Execute_MarkAccommodation(object sender)
         {
             CancelAndMarkResViewModel? selected = sender as CancelAndMarkResViewModel;
-            MarkAccommodationWindow newWindow = new MarkAccommodationWindow(LoggedInUser, selected, reservationsForMark);
+            MarkAccommodationWindow newWindow = new MarkAccommodationWindow(LoggedInUser, selected, _reservationsForMark);
             newWindow.ShowDialog();
         }
 
@@ -129,33 +111,39 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 int diff = DateTime.Today.DayOfYear - item.LastDay.DayOfYear;
                 if (diff > 5)
                 {
-                    RemoveDeadlineEndedReservation(item.Id);
+                    RemoveDeadlineReservation(item.Id);
                 } 
                 else
                 {
-                    SetDaysForMarking(diff, item.Id);
+                    SetMarkingDays(diff, item.Id);
                 }
             }
         }
 
-        private void SetDaysForMarking(int days, int resId)
+        private void SetMarkingDays(int days, int resId)
         {
-            foreach (var item in reservationsForMark)
+            foreach (var item in _reservationsForMark)
             {
                 if (resId == item.ReservationId)
                 {
                     int diff = 6 - days;
-                    item.NotificationShape += diff.ToString() + " dana. Link za ocjenjivanje :";
-                    //item.DaysForMarking = diff.ToString() + " dana.";
+                    if(diff == 1)
+                    {
+                        item.NotificationShape += diff.ToString() + " dan. Link za ocjenjivanje :";
+                    }
+                    else
+                    {
+                        item.NotificationShape += diff.ToString() + " dana. Link za ocjenjivanje :";
+                    }
                     break;
                 }
             }
         }
 
-        private void RemoveDeadlineEndedReservation(int resId)
+        private void RemoveDeadlineReservation(int resId)
         {
             List<CancelAndMarkResViewModel> local = new List<CancelAndMarkResViewModel>();
-            foreach(var item in reservationsForMark)
+            foreach(var item in _reservationsForMark)
             {
                 local.Add(item);
             }
@@ -163,7 +151,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 if(resId == item.ReservationId)
                 {
-                    reservationsForMark.Remove(item);
+                    _reservationsForMark.Remove(item);
                     break;
                 }
             }
@@ -186,61 +174,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                                         item.AccommodationName + " sa: " + item.Answer + ".";
                         CancelAndMarkResViewModel model = new CancelAndMarkResViewModel();
                         model.NotificationShape = shape;
-                        ChangedReservations.Add(model);
+                        _changedReservations.Add(model);
                         service.Delete(item.Id);
                     }
                 }
             }
-        }
-
-        private void MergeLocationsAndAccommodations()
-        {
-            locAccommodationViewModels.Clear();
-            foreach (var accommodation in accommodations)
-            {
-                foreach (var location in locations)
-                {
-                    if (accommodation.LocationId == location.Id)
-                    {
-                        LocAccommodationViewModel dto = CreateLocAccForm(accommodation, location);
-
-                        locAccommodationViewModels.Add(dto);
-                    }
-                }
-            }
-        }
-
-        private LocAccommodationViewModel CreateLocAccForm(Accommodation acc, Location loc)
-        {
-            int currentGuestNumber = 0;
-            foreach (var item in accommodationReservations)
-            {
-                if (item.AccommodationId == acc.Id)
-                {
-                    DateTime today = DateTime.Today;
-                    int helpVar1 = today.DayOfYear - item.FirstDay.DayOfYear;
-                    int helpVar2 = today.DayOfYear - item.LastDay.DayOfYear;
-                    if (helpVar1 >= 0 && helpVar2 <= 0)
-                    {
-                        currentGuestNumber += item.GuestNumber;
-                    }
-                }
-            }
-            LocAccommodationViewModel dto = new LocAccommodationViewModel(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
-                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber,false);
-            return dto;
-        }
-
-        private LocAccommodationViewModel.AccommType FindAccommodationType(Accommodation acc)
-        {
-            if (acc.Type == Accommodation.AccommodationType.APARTMENT)
-                return LocAccommodationViewModel.AccommType.APARTMENT;
-            else if (acc.Type == Accommodation.AccommodationType.HOUSE)
-                return LocAccommodationViewModel.AccommType.HOUSE;
-            else if (acc.Type == Accommodation.AccommodationType.HUT)
-                return LocAccommodationViewModel.AccommType.HUT;
-            else
-                return LocAccommodationViewModel.AccommType.NOTYPE;
         }
     }
 }

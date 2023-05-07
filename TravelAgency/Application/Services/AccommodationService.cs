@@ -63,13 +63,13 @@ namespace SOSTeam.TravelAgency.Application.Services
             return Search(dtoRequest, AccommDTOsCollection);
         }
 
-        private ObservableCollection<LocAccommodationViewModel> CreateAllDTOForms()
+        public ObservableCollection<LocAccommodationViewModel> CreateAllDTOForms()
         {
             List<Accommodation> accommodations = _accommodationRepository.GetAll();
             List<Location> locations = _locationRepository.GetAll();
             ObservableCollection<LocAccommodationViewModel>  AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
+            List<LocAccommodationViewModel> locAccommodationViewModels = new List<LocAccommodationViewModel>();
 
-            AccommDTOsCollection.Clear();
             foreach (var accommodation in accommodations)
             {
                 foreach (var location in locations)
@@ -77,16 +77,20 @@ namespace SOSTeam.TravelAgency.Application.Services
                     if (accommodation.LocationId == location.Id)
                     {
                         LocAccommodationViewModel dto = CreateDTOForm(accommodation, location);
-                        AccommDTOsCollection.Add(dto);
+                        locAccommodationViewModels.Add(dto);
                     }
                 }
             }
+
+            locAccommodationViewModels = locAccommodationViewModels.OrderByDescending(a => a.IsSuperOwned).ToList();
+            locAccommodationViewModels.ForEach(item => AccommDTOsCollection.Add(item));
 
             return AccommDTOsCollection;
         }
 
         private LocAccommodationViewModel CreateDTOForm(Accommodation acc, Location loc)
         {
+            SuperOwnerService superOwnerService = new SuperOwnerService();
             List<AccommodationReservation> accommodationReservations = _accReservationRepository.GetAll();
 
             int currentGuestNumber = 0;
@@ -103,8 +107,7 @@ namespace SOSTeam.TravelAgency.Application.Services
                     }
                 }
             }
-            LocAccommodationViewModel dto = new LocAccommodationViewModel(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc),
-                                                        acc.MaxGuests, acc.MinDaysStay, currentGuestNumber,false);
+            LocAccommodationViewModel dto = new LocAccommodationViewModel(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc), acc.MaxGuests, acc.MinDaysStay, currentGuestNumber, superOwnerService.IsSuperOwnerAccommodation(acc.Id));
             return dto;
         }
 
