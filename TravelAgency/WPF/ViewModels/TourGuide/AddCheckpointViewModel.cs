@@ -102,6 +102,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
+
         public CheckpointManager CheckpointManager { get; set; }
 
 

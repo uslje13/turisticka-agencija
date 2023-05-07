@@ -113,6 +113,36 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
+        private int _minNumOfCheckpoints;
+
+        public int MinNumOfCheckpoints
+        {
+            get => _minNumOfCheckpoints;
+            set
+            {
+                if (_minNumOfCheckpoints != value)
+                {
+                    _minNumOfCheckpoints = value;
+                    OnPropertyChanged("MinNumOfCheckpoints");
+                }
+            }
+        }
+
+        private bool _canCreate;
+
+        public bool CanCreate
+        {
+            get => _canCreate;
+            set
+            {
+                if (_canCreate != value)
+                {
+                    _canCreate = value;
+                    OnPropertyChanged("CanCreate");
+                }
+            }
+        }
+
         private readonly LocationService _locationService;
         private readonly TourService _tourService;
         private readonly CheckpointService _checkpointService;
@@ -150,7 +180,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _imageService = new ImageService();
             LoggedUser = loggedUser;
 
-
+            _canCreate = false;
+            _minNumOfCheckpoints = 0;
             Locations = _locationService.GetAll();
             Countries = GetCountries();
             Cities = GetCities();

@@ -255,6 +255,8 @@
                     </ControlTemplate>
                 </Validation.ErrorTemplate>
             </tk:IntegerUpDown>
+
+            <TextBox Grid.Column="0" Grid.Row="5" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="50" IsEnabled="False" Text="{Binding MinNumOfCheckpoints}"></TextBox>
             <!-- Add checkpoints -->
             <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
                     Cursor="Hand" Content="Add checkpoints" FontSize="14" Command="{Binding ShowAddCheckpointsPageCommand}" BorderBrush="DarkGray" BorderThickness="1.5">
