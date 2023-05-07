@@ -23,7 +23,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// </summary>
     public partial class AddCheckpointsPage : Page
     {
-        public AddCheckpointsPage(ObservableCollection<Checkpoint> checkpoints)
+        public AddCheckpointsPage(ObservableCollection<CheckpointCardViewModel> checkpoints)
         {
             InitializeComponent();
             DataContext = new AddCheckpointViewModel(checkpoints);

@@ -20,12 +20,12 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
     /// <summary>
     /// Interaction logic for FinishedTourReviewsPage.xaml
     /// </summary>
-    public partial class FinishedTourReviewsPage : Page
+    public partial class GuestReviewsByTourPage : Page
     {
-        public FinishedTourReviewsPage(User loggedUser)
+        public GuestReviewsByTourPage(User loggedUser)
         {
             InitializeComponent();
-            DataContext = new FinishedTourReviewsViewModel(loggedUser);
+            DataContext = new GuestReviewsByTourViewModel(loggedUser);
         }
     }
 }

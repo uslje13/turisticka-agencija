@@ -76,11 +76,10 @@ namespace SOSTeam.TravelAgency.Application.Services
             return numOfGuestsByAgeGroup;
         }
 
-        public (float, float) GetPercentsOfGuestAttendancesVoucher(int appointmentId)
+        public (double, double) GetPercentsOfGuestAttendancesVoucher(int appointmentId)
         {
             float withVoucher = 0;
             float withoutVoucher = 0;
-            float sumOfGuestAttendances = 0;
 
             foreach (var reservation in _reservationService.GetAllByAppointmentId(appointmentId))
             {
@@ -89,26 +88,15 @@ namespace SOSTeam.TravelAgency.Application.Services
                     if (reservation.VoucherId != -1)
                     {
                         withVoucher += reservation.TouristNum;
-                        sumOfGuestAttendances += reservation.TouristNum;
                     }
                     else
                     {
                         withoutVoucher += reservation.TouristNum;
-                        sumOfGuestAttendances += reservation.TouristNum;
                     }
                     
                 }
             }
-
-            float percentWithVoucher = 0;
-            float percentWithoutVoucher = 0;
-            if (sumOfGuestAttendances != 0)
-            {
-                percentWithVoucher = withVoucher / sumOfGuestAttendances;
-                percentWithoutVoucher = withoutVoucher / sumOfGuestAttendances;
-            }
-
-            return (percentWithVoucher, percentWithoutVoucher);
+            return (withVoucher, withoutVoucher);
         }
 
     }

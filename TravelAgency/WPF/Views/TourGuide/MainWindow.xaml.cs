@@ -26,7 +26,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
             InitializeComponent();
             MainWindowViewModel mainWindow = new MainWindowViewModel(loggedUser);
             DataContext = mainWindow;
-            ToursOverviewFrame.Content = new HomePage(loggedUser, mainWindow.Timer);
+            MainFrame.Content = new HomePage(loggedUser, mainWindow.Timer);
         }
     }
 }

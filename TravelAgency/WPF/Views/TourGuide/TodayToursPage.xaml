@@ -56,10 +56,11 @@
 
                         <!-- Start -->
                         <Button x:Name="StartButton" Grid.Column="2"  Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="50" Height="20" Content="Start" 
-                                Margin="0 5 5 0" BorderBrush="DarkGray"
+                                Margin="0 5 5 0" BorderBrush="DarkGray" BorderThickness="1.5"
                                 Command="{Binding DataContext.StartTourCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                                 CommandParameter="{Binding }"
-                                IsEnabled="{Binding CanStart, Mode=OneWay}">
+                                IsEnabled="{Binding CanStart, Mode=OneWay}"
+                                Cursor="Hand">
                         </Button>
 
                         <!-- Status -->
