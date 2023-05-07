@@ -58,8 +58,8 @@
                                             </StackPanel>
                                         </Border>
 
-                                        <Border Margin="335,298,-198,0" Grid.Column="1" Height="35" VerticalAlignment="Top">
-                                            <Button Content="Pogledaj izvestaj" FontSize="24" BorderThickness="1,1,2,2" Command="{Binding ReportCommand}"/>
+                                        <Border Margin="335,298,-154,0" Grid.Column="1" Height="35" VerticalAlignment="Top">
+                                            <Button Content="Pogledaj izvestaj" FontSize="20" BorderThickness="1,1,2,2" Command="{Binding ReportCommand}"/>
                                         </Border>
                                     </Grid>
                                 </StackPanel>

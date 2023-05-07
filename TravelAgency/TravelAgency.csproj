@@ -257,10 +257,14 @@
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="MicrosoftExpressionInteractions" Version="3.0.40218" />
+    <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Xceed.Wpf.AvalonDock.NET5">
+	  <Reference Include="System.Windows.Interactivity" />
+	  <Reference Include="Microsoft.Expression.Interactions" />
+	  <Reference Include="Xceed.Wpf.AvalonDock.NET5">
       <HintPath>bin\Debug\net6.0-windows\Xceed.Wpf.AvalonDock.NET5.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.Toolkit.NET5">

@@ -244,5 +244,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
             return checkCity && checkCountry && checkLanguage && checkOcupancy && checkDuration;
         }
+
     }
 }
