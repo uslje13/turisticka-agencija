@@ -26,7 +26,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public int MaxGuests { get; set; }
         public int MinDaysStay { get; set; }
         public int MinDaysForCancelation { get; set; }
-        public ObservableCollection<Image> Images { get; set; }
         public List<Location> Locations { get; set; }
         public ReadOnlyObservableCollection<string> Countries { get; set; }
         public ObservableCollection<string> Cities { get; set; }
@@ -58,9 +57,23 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
         }
 
+        private ObservableCollection<System.Windows.Controls.Image> _selectedImages;
+        public ObservableCollection<System.Windows.Controls.Image> SelectedImages
+        {
+            get { return _selectedImages; }
+            set
+            {
+                _selectedImages = value;
+                OnPropertyChanged("SelectedImages");
+            }
+        }
+
         public bool CountryBoxEnabled { get; set; }
         public RelayCommand Cancel { get; private set; }
         public RelayCommand AddAccommodation { get; private set; }
+        public RelayCommand AddPicture { get; private set; }
+        public RelayCommand RemovePicture { get; private set; }
+        public RelayCommand SetCover { get; private set; }
         public AddAccommodationPageViewModel(User user, MainWindowViewModel mainWindowVM)
         {
             LoggedInUser = user;
@@ -71,7 +84,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
             AddAccommodation = new RelayCommand(Execute_AddAccommodation, CanExecuteAddAccommodation);
             Cancel = new RelayCommand(Execute_Cancel, CanExecuteCancel);
-            Images = new ObservableCollection<Image>();
+            AddPicture = new RelayCommand(Execute_Cancel, CanExecuteCancel);
+            RemovePicture = new RelayCommand(Execute_Cancel, CanExecuteCancel);
+            SetCover = new RelayCommand(Execute_Cancel, CanExecuteCancel);
+
+            _selectedImages = new();
             Locations = new List<Location>(_locationService.GetAll());
             Countries = new ReadOnlyObservableCollection<string>(GetCountries());
             Cities = new ObservableCollection<string>();
@@ -133,13 +150,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             return coutries;
         }
 
-        private void SetImagesTourId(Accommodation accommodation)
-        {
-            foreach (Image image in Images)
-            {
-                image.EntityId = accommodation.Id;
-            }
-        }
 
         public void GetCities()
         {

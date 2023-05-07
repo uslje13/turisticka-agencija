@@ -24,7 +24,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private NotificationService _notificationService;
         private GuestReviewService _guestReviewService;
 
-        public static ObservableCollection<Notification> Notifications { get; set; }
+        public ObservableCollection<Notification> Notifications { get; set; }
         public Notification SelectedNotification { get; set; }
 
         public RelayCommand DeleteNotification { get; private set; }
@@ -33,7 +33,22 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand ToggleShowNotifications { get; private set; }
         public RelayCommand NotificationDoubleClick { get; private set; }
 
+        
 
+        private bool _isUnread;
+        public bool IsUnread
+        {
+            get => _isUnread;
+            set
+            {
+                if (_isUnread != value)
+                {
+                    _isUnread = value;
+                    OnPropertyChanged(nameof(IsUnread));
+
+                }
+            }
+        }
 
         private bool _isDropdownOpen;
         public bool IsDropdownOpen
@@ -72,6 +87,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _notificationService = new();
             _notificationService.Refresh(LoggedInUser.Id);
             GetUserNotifications();
+            IsUnread = Notifications.Any(t => !t.Read);
+
         }
 
         private void Execute_MarkAsReadNotification(object obj)
@@ -206,6 +223,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             Notifications.Clear();
             FillObservableCollection();
+            IsUnread = Notifications.Any(t => !t.Read);
         }
 
     }

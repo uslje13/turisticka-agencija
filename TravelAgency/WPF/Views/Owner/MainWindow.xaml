@@ -22,9 +22,19 @@
             </WrapPanel>
             <WrapPanel HorizontalAlignment="Right"   >
                 <Button Margin="0,15" Height="42" Command="{Binding ToggleShowNotifications}" IsEnabled="{Binding IsDropdownClosed}">
-                    <Image x:Name="MyButton" Source="/Resources/Icons/notif_bell.jpg" Width="40" Height="40" ></Image>
+                    <Image x:Name="MyButton" Source="/Resources/Icons/notif_bell.jpg" Width="40" Height="40"></Image>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsUnread}" Value="True">
+                                    <Setter Property="BorderBrush" Value="Red"/>
+                                    <Setter Property="BorderThickness" Value="4"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
-                
+
                 <Popup x:Name="MyPopup" StaysOpen="False" AllowsTransparency="True"
                    PlacementTarget="{Binding ElementName=MyButton}"
                    Placement="Bottom"
