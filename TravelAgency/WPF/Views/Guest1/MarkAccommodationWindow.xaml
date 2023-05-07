@@ -39,7 +39,7 @@
         <TextBox x:Name="GuestComment" Margin="270,299,33,389" BorderBrush="Black" BorderThickness="2" ></TextBox>
 
         <Label FontSize="17" FontWeight="Bold" Margin="546,108,230,584">Priložene slike :</Label>
-        <ListBox Name="Images" Margin="679,115,33,465.5" Cursor="Hand" BorderBrush="Black" BorderThickness="2">
+        <ListBox Name="Images" Margin="679,115,33,464" Cursor="Hand" BorderBrush="Black" BorderThickness="2">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
