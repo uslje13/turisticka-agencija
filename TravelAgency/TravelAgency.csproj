@@ -86,6 +86,7 @@
     <None Remove="Resources\Icons\video.png" />
     <None Remove="Resources\Icons\voucher_icon.png" />
     <None Remove="Resources\Icons\warning.png" />
+    <None Remove="Resources\Images\Guest1\restoran.jpg" />
     <None Remove="Resources\Images\Tours\budapest.jpg" />
     <None Remove="Resources\Images\Tours\novi_sad.jpg" />
     <None Remove="Resources\Images\Tours\rio.jpg" />
@@ -100,6 +101,7 @@
 
   <ItemGroup>
     <Folder Include="Application\UseCases\" />
+    <Folder Include="Resources\Images\Owner\" />
     <None Remove="Resources\Icons\NotificationAlertNoColor.png" />
     <None Remove="Resources\Images\SOSlogo.png" />
   </ItemGroup>
@@ -204,6 +206,9 @@
     <Content Include="Resources\Icons\warning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\Guest1\restoran.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\Images\Tours\budapest.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
