@@ -49,7 +49,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var selectedAppointment = sender as GuestReviewCardViewModel;
             GuestReviewPage guestReviewPage = new GuestReviewPage(selectedAppointment);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = guestReviewPage;
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = guestReviewPage;
         }
     }
 }

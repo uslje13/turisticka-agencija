@@ -83,7 +83,7 @@
 
   <ItemGroup>
     <Folder Include="Application\UseCases\" />
-    <Folder Include="WPF\CardCreators\TourGuide\" />
+    <Folder Include="WPF\Creators\TourGuide\" />
     <None Remove="Resources\Icons\NotificationAlertNoColor.png" />
     <None Remove="Resources\Images\SOSlogo.png" />
   </ItemGroup>

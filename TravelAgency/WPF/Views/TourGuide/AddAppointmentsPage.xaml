@@ -101,6 +101,7 @@
         </Grid>
         <!-- Add button -->
         <Button Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="296" Height="25" BorderBrush="DarkGray" BorderThickness="1.5"
+                Cursor="Hand"
                 Content="{Binding ButtonContent}" FontSize="14"
                 Command="{Binding AddAppointmentCommand}">
             <Button.Style>
@@ -129,7 +130,7 @@
             <Label Grid.Column="0" Content="Appointments" HorizontalAlignment="Left" VerticalAlignment="Center" 
                    Margin="15 0 0 0" FontSize="16"/>
             <Button Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="21" Width="75" Content="Clear" FontSize="13" VerticalContentAlignment="Center"
-                    BorderBrush="DarkGray" BorderThickness="1.5" Command="{Binding ClearAppointmentsCommand}">
+                    Cursor="Hand" BorderBrush="DarkGray" BorderThickness="1.5" Command="{Binding ClearAppointmentsCommand}">
             </Button>
         </Grid>
 

@@ -107,7 +107,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var selectedTourCard = sender as TourCardViewModel;
             StatByTourPage statByTourPage = new StatByTourPage(selectedTourCard);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statByTourPage;
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = statByTourPage;
         }
 
     }

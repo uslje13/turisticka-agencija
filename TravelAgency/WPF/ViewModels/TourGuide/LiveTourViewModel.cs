@@ -170,7 +170,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var selectedCheckpointCard = sender as CheckpointActivityCardViewModel;
             GuestAttendancePage guestAttendancePage = new GuestAttendancePage(selectedCheckpointCard, TourName, Date);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = guestAttendancePage;
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = guestAttendancePage;
 
         }
 

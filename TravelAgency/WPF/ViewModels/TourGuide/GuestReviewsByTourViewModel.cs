@@ -42,7 +42,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var selectedTourCard = sender as TourCardViewModel;
             var guestReviewOverviewPage = new GuestReviewOverviewPage(selectedTourCard);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = guestReviewOverviewPage;
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = guestReviewOverviewPage;
         }
     }
 }

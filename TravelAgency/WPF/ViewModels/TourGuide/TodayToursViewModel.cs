@@ -94,7 +94,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 _checkpointActivityService.CreateActivities(_checkpointService.GetAllByTourId(selectedTourCard.TourId), selectedTourCard.AppointmentId);
                 CreateGuestAttendances(selectedTourCard);
                 LiveTourPage liveTourPage = new LiveTourPage(_loggedUser);
-                System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = liveTourPage;
+                System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = liveTourPage;
             }
         }
 

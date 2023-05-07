@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Converters;
 using SOSTeam.TravelAgency.WPF.ValidationRules.TourGuide;
 using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 using Image = SOSTeam.TravelAgency.Domain.Models.Image;
@@ -125,10 +126,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public User LoggedUser { get; set; }
 
         public List<Location> Locations { get; set; }
-        public List<string> ImagePaths { get; set; }
 
-        public ObservableCollection<CheckpointCardViewModel> Checkpoints { get; set; }
-        public ObservableCollection<AppointmentCardViewModel> Appointments { get; set; }
+        public ObservableCollection<CheckpointCardViewModel> CheckpointCards { get; set; }
+        public ObservableCollection<AppointmentCardViewModel> AppointmentCards { get; set; }
 
         public List<Image> Images { get; set; }
 
@@ -155,16 +155,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             Countries = GetCountries();
             Cities = GetCities();
 
-            Checkpoints = new ObservableCollection<CheckpointCardViewModel>();
-            Appointments = new ObservableCollection<AppointmentCardViewModel>();
-            ImagePaths = new List<string>();
+            CheckpointCards = new ObservableCollection<CheckpointCardViewModel>();
+            AppointmentCards = new ObservableCollection<AppointmentCardViewModel>();
             Images = new List<Image>();
 
             CountrySelectionChangedCommand = new RelayCommand(ExecuteCountrySelectionChanged, CanExecuteMethod);
             CitySelectionChangedCommand = new RelayCommand(ExecuteCitySelectionChanged, CanExecuteMethod);
             ShowAddCheckpointsPageCommand = new RelayCommand(ShowAddCheckpointsPage, CanExecuteMethod);
             ShowAddAppointmentsPageCommand = new RelayCommand(ShowAddAppointmentsPage, CanExecuteMethod);
-            ShowAddImagesCommand = new RelayCommand(SelectImagesPaths, CanExecuteMethod);
+            ShowAddImagesCommand = new RelayCommand(ExecuteAddImages, CanExecuteMethod);
             ShowGalleryCommand = new RelayCommand(ShowImageGallery, CanExecuteMethod);
             CreateTourClickCommand = new RelayCommand(CreateTour, CanExecuteMethod);
         }
@@ -229,40 +228,40 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void ShowAddCheckpointsPage(object sender)
         {
-            AddCheckpointsPage addCheckpointsPage = new AddCheckpointsPage(Checkpoints);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = addCheckpointsPage;
+            AddCheckpointsPage addCheckpointsPage = new AddCheckpointsPage(CheckpointCards);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = addCheckpointsPage;
         }
 
         private void ShowAddAppointmentsPage(object sender)
         {
-            AddAppointmentsPage addAppointmentsPage = new AddAppointmentsPage(Appointments);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = addAppointmentsPage;
+            AddAppointmentsPage addAppointmentsPage = new AddAppointmentsPage(AppointmentCards);
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = addAppointmentsPage;
         }
 
         private void ShowImageGallery(object sender)
         {
-            CreateImages();
             TourGalleryPage tourGalleryPage = new TourGalleryPage(Images);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = tourGalleryPage;
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = tourGalleryPage;
         }
 
         private void CreateTour(object sender)
         {
-            var id = _tourService.NextId();
-            var tour = new Tour(id, Name, FindLocationId(), Description, Language, MaxNumOfGuests, Duration);
-            SetCheckpointsTourId(id);
-            SetAppointmentsTourAndUserId(id);
-            SetImagesTourId(id);
+            var tourId = _tourService.NextId();
+            var tour = new Tour(tourId, Name, FindLocationId(), Description, Language, MaxNumOfGuests, Duration);
+
             _tourService.Save(tour);
-            //_checkpointService.SaveAll(new List<CheckpointCardViewModel>(Checkpoints));
-            //_appointmentService.SaveAll(new List<Appointment>(Appointments));
+            _checkpointService.SaveAll(TourEntitiesCreator.CreateCheckpoints(CheckpointCards, tourId));
+            _appointmentService.SaveAll(TourEntitiesCreator.CreateAppointments(AppointmentCards, tourId, LoggedUser.Id));
+            SetImagesTourId(tourId);
             _imageService.SaveAll(Images);
+
+
             Window currentWindow = System.Windows.Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
             if (currentWindow != null)
             {
                 MainWindowViewModel mainWindow = (MainWindowViewModel)currentWindow.DataContext;
                 HomePage homePage = new HomePage(LoggedUser, mainWindow.Timer);
-                System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = homePage;
+                System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = homePage;
             }
         }
 
@@ -274,27 +273,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private void SetCheckpointsTourId(int id)
-        {
-            /*
-            foreach (Checkpoint checkpoint in Checkpoints)
-            {
-                checkpoint.TourId = id;
-            }
-            */
-        }
-
-        private void SetAppointmentsTourAndUserId(int id)
-        {
-            /*
-            foreach (Appointment appointment in Appointments)
-            {
-                appointment.TourId = id;
-                appointment.UserId = LoggedUser.Id;
-            }
-            */
-        }
-
         private int FindLocationId()
         {
             var location = Locations.Find(l => l.Country == Country && l.City == City);
@@ -302,53 +280,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             return location.Id;
         }
 
-        private void SelectImagesPaths(object parameter)
+        private void ExecuteAddImages(object parameter)
         {
-            ImagePaths.Clear();
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Multiselect = true;
-            openFileDialog.Filter = "Image Files|*.jpg;*.png;*.bmp|All Files|*.*";
-            openFileDialog.InitialDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources\\Images\\Tours");
-            openFileDialog.RestoreDirectory = true;
-
-            bool? result = openFileDialog.ShowDialog();
-
-            foreach (string fileName in openFileDialog.FileNames)
-            {
-                string relativePath = fileName.Replace(openFileDialog.InitialDirectory, "").TrimStart('\\');
-                if (!string.IsNullOrEmpty(relativePath))
-                {
-                    string imagePath = Path.Combine("/Resources/Images/Tours", relativePath).Replace('\\', '/');
-                    ImagePaths.Add(imagePath);
-                }
-            }
+            var imagePaths= FileDialogService.GetImagePaths("Resources\\Images\\Tours", "/Resources/Images/Tours");
+            Images = TourEntitiesCreator.CreateImages(imagePaths);
         }
 
-        private void CreateImages()
-        {
-            Images.Clear();
-            if (ImagePaths.Count > 0)
-            {
-                foreach (var imagePath in ImagePaths)
-                {
-
-                    var image = new Image
-                    {
-                        Cover = false,
-                        Path = imagePath,
-                        Type = ImageType.TOUR
-                    };
-
-                    //Set first image as cover (default)
-                    if (Images.Count == 0)
-                    {
-                        image.Cover = true;
-                    }
-
-                    Images.Add(image);
-                }
-            }
-        }
     }
 
 }

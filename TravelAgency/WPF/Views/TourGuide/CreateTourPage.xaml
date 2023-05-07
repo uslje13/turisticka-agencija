@@ -257,23 +257,23 @@
             </tk:IntegerUpDown>
             <!-- Add checkpoints -->
             <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    Content="Add checkpoints" FontSize="14" Command="{Binding ShowAddCheckpointsPageCommand}" BorderBrush="DarkGray" BorderThickness="1.5">
+                    Cursor="Hand" Content="Add checkpoints" FontSize="14" Command="{Binding ShowAddCheckpointsPageCommand}" BorderBrush="DarkGray" BorderThickness="1.5">
             </Button>
             <!-- Add appointment -->
             <Button Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    Content="Add appointments" FontSize="14" Command="{Binding ShowAddAppointmentsPageCommand}" BorderBrush="DarkGray" BorderThickness="1.5">
+                    Cursor="Hand" Content="Add appointments" FontSize="14" Command="{Binding ShowAddAppointmentsPageCommand}" BorderBrush="DarkGray" BorderThickness="1.5">
             </Button>
             <!-- Add images -->
             <Button Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    BorderBrush="DarkGray" BorderThickness="1.5" Content="Add images" FontSize="14" Command="{Binding ShowAddImagesCommand}">
+                    Cursor="Hand" BorderBrush="DarkGray" BorderThickness="1.5" Content="Add images" FontSize="14" Command="{Binding ShowAddImagesCommand}">
             </Button>
             <!-- Preview images -->
             <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    BorderBrush="DarkGray" BorderThickness="1.5" Content="Preview images" FontSize="14" Command="{Binding ShowGalleryCommand}">
+                    Cursor="Hand" BorderBrush="DarkGray" BorderThickness="1.5" Content="Preview images" FontSize="14" Command="{Binding ShowGalleryCommand}">
             </Button>
             <!-- Create -->
             <Button Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    BorderBrush="DarkGray" BorderThickness="1.5" Content="Create" FontSize="14" Command="{Binding CreateTourClickCommand}">
+                    Cursor="Hand" BorderBrush="DarkGray" BorderThickness="1.5" Content="Create" FontSize="14" Command="{Binding CreateTourClickCommand}">
             </Button>
         </Grid>
     </ScrollViewer>
