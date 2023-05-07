@@ -20,6 +20,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public User LoggedInUser { get; private set; }
         private AccommodationsPage _accommodationsPage;
         private AccommodationService _accommodationService;
+        private ImageService _imageService;
         private MainWindowViewModel _mainwindowVM;
         public ObservableCollection<PictureViewModel> Accommodations { get; set; }
         public PictureViewModel SelectedAccommodation { get; set; }
@@ -34,6 +35,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _accommodationsPage = accommodationPage;
             _mainwindowVM = mainWindowVM;
             _accommodationService = new();
+            _imageService = new();
             Accommodations = new();
 
             AddAccommodation = new RelayCommand(Execute_AddAccommodation, CanExecuteAddAccommodation);
@@ -94,7 +96,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
             foreach (Accommodation accommodation in _accommodationService.GetAllByUserId(LoggedInUser.Id))
             {
-                Accommodations.Add(new PictureViewModel(accommodation.Name, "/Resources/Images/UnknownPhoto.png",accommodation.Id));
+                string path = "/Resources/Images/UnknownPhoto.png";
+                var img = _imageService.GetAccommodationCover(accommodation.Id);
+                if (img != null) path = img.Path;
+                Accommodations.Add(new PictureViewModel(accommodation.Name, path,accommodation.Id));
             }
 
         }

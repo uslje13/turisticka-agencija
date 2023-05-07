@@ -84,7 +84,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
             AddAccommodation = new RelayCommand(Execute_AddAccommodation, CanExecuteAddAccommodation);
             Cancel = new RelayCommand(Execute_Cancel, CanExecuteCancel);
-            AddPicture = new RelayCommand(Execute_Cancel, CanExecuteCancel);
+            AddPicture = new RelayCommand(Execute_AddPicture, CanExecuteCancel);
             RemovePicture = new RelayCommand(Execute_Cancel, CanExecuteCancel);
             SetCover = new RelayCommand(Execute_Cancel, CanExecuteCancel);
 
@@ -102,6 +102,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             MinDaysForCancelation = 1;
         }
 
+        private void Execute_AddPicture(object obj)
+        {
+            var imagePaths = FileDialogService.GetImagePaths("Resources\\Images\\Owner", "/Resources/Images/Owner");
+            foreach (var imagePath in imagePaths) 
+            {
+                
+            }
+
+        }
+
         private bool CanExecuteAddAccommodation(object obj)
         {
             return IsValid();
@@ -111,6 +121,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             return true;
         }
+
 
         private void Execute_AddAccommodation(object obj)
         {
