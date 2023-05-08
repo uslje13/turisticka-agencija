@@ -51,10 +51,17 @@ namespace SOSTeam.TravelAgency.Application.Services
             _accommodationRepository.Save(accommodation);
         }
 
+        public Accommodation SaveAndReturn(Accommodation accommodation)
+        {
+            return _accommodationRepository.SaveAndReturn(accommodation);
+        }
+
         public void Update(Accommodation accommodation)
         {
             _accommodationRepository.Update(accommodation);
         }
+
+        
 
         public List<LocAccommodationViewModel> ExecuteAccommodationSearch(string name, string city, string country, LocAccommodationViewModel.AccommType type, int guestNumber, int daysNumber)
         {

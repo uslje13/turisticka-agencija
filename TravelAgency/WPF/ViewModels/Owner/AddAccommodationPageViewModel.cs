@@ -17,6 +17,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         
         private AccommodationService _accommodationService;
         private LocationService _locationService;
+        private ImageService _imageService;
         private MainWindowViewModel _mainwindowVM;
 
         public User LoggedInUser { get; private set; }
@@ -57,8 +58,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
         }
 
-        private ObservableCollection<System.Windows.Controls.Image> _selectedImages;
-        public ObservableCollection<System.Windows.Controls.Image> SelectedImages
+        private ObservableCollection<Image> _selectedImages;
+        public ObservableCollection<Image> SelectedImages
         {
             get { return _selectedImages; }
             set
@@ -67,6 +68,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 OnPropertyChanged("SelectedImages");
             }
         }
+        public Image SelectedImage { get; set; }
 
         public bool CountryBoxEnabled { get; set; }
         public RelayCommand Cancel { get; private set; }
@@ -79,14 +81,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             LoggedInUser = user;
             _accommodationService = new AccommodationService();
             _locationService = new();
+            _imageService = new();
             _mainwindowVM = mainWindowVM;
 
 
             AddAccommodation = new RelayCommand(Execute_AddAccommodation, CanExecuteAddAccommodation);
             Cancel = new RelayCommand(Execute_Cancel, CanExecuteCancel);
             AddPicture = new RelayCommand(Execute_AddPicture, CanExecuteCancel);
-            RemovePicture = new RelayCommand(Execute_Cancel, CanExecuteCancel);
-            SetCover = new RelayCommand(Execute_Cancel, CanExecuteCancel);
+            RemovePicture = new RelayCommand(Execute_RemovePicture, CanExecuteSelectedItem);
+            SetCover = new RelayCommand(Execute_SetCover, CanExecuteSelectedItem);
 
             _selectedImages = new();
             Locations = new List<Location>(_locationService.GetAll());
@@ -102,14 +105,35 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             MinDaysForCancelation = 1;
         }
 
+        private void Execute_SetCover(object obj)
+        {
+            foreach (var item in _selectedImages.Where(t => t.Cover == true)) 
+            {
+                item.Cover = false;
+            }
+            SelectedImage.Cover = true;
+        }
+
+        private bool CanExecuteSelectedItem(object obj)
+        {
+            return SelectedImage != null;
+        }
+
+        private void Execute_RemovePicture(object obj)
+        {
+            SelectedImages.Remove(SelectedImage);
+        }
+
         private void Execute_AddPicture(object obj)
         {
             var tempImagePaths = FileDialogService.GetImagePaths("Resources\\Images\\Owner", "Resources/Images/Owner");
-            List<string> imagePaths = new();
             foreach (var imagePath in tempImagePaths) 
             {
-                imagePaths.Add("/" + imagePath);
+                var image = new Image("/" + imagePath, false, -1, ImageType.ACCOMMODATION);
+                SelectedImages.Add(image);
             }
+
+            
 
             
 
@@ -130,9 +154,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             int locationId = FindLocationId();
             Accommodation accommodation = new Accommodation(AName, SelectedType, locationId, MaxGuests, MinDaysStay, LoggedInUser.Id, MinDaysForCancelation);
-            _accommodationService.Save(accommodation);
+            var id = _accommodationService.SaveAndReturn(accommodation).Id;
+            SaveImages(id);
             _mainwindowVM.Execute_NavigationButtonCommand("Accommodation");
             return;
+        }
+
+        private void SaveImages(int accommodationId)
+        {
+            if (SelectedImages.Count == 0) return;
+            if (!SelectedImages.Any(t => t.Cover)) SelectedImages[0].Cover = true;
+            foreach(var img in _selectedImages) 
+            {
+                img.EntityId = accommodationId;
+                _imageService.Save(img);
+            }
         }
 
         private void Execute_Cancel(object obj)
@@ -189,13 +225,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             {
                 return false;
             }
-            if (AName.Length < 1 || City.Length < 1 || Country.Length < 1)
+            if (AName.Length < 1 || City.Length < 1 || Country.Length < 1 || SelectedImages.Count < 1)
             {
                 return false;
             }
             return true;
         }
     }
+
+    
 
     public class EnumToBoolConverter : IValueConverter
     {

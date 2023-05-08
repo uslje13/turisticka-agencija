@@ -10,5 +10,6 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
     public interface IAccommodationRepository : IRepository<Accommodation>
     {
         List<Accommodation> GetAllByUserId(int id);
+        Accommodation SaveAndReturn(Accommodation accommodation);
     }
 }

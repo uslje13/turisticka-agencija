@@ -69,6 +69,15 @@ namespace SOSTeam.TravelAgency.Repositories
         {
             return GetAll().Where(p => p.OwnerId == id).ToList();
         }
+
+        public Accommodation SaveAndReturn(Accommodation accommodation)
+        {
+            accommodation.Id = NextId();
+            _accommodations = _serializer.FromCSV(FilePath);
+            _accommodations.Add(accommodation);
+            _serializer.ToCSV(FilePath, _accommodations);
+            return accommodation;
+        }
     }
 }
 

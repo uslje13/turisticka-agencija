@@ -101,6 +101,16 @@
                     </Grid>
                     <Grid Grid.Row="1">
                         <Border BorderThickness="1" BorderBrush="Black"/>
+                        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding SelectedImages}" SelectedItem="{Binding SelectedImage}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                        <Image Source="{Binding Path}" Width="200" Height="150" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
                     </Grid>
                     <Grid Grid.Row="2">
                         <Border BorderThickness="1" BorderBrush="Black"/>
