@@ -172,13 +172,13 @@
                                 <Border Margin="30,30,30,10" BorderBrush="Black" BorderThickness="1">
                                     <Grid>
                                         <StackPanel Margin="0,0,837,0">
-                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsButtonsEnabled}" Command="{Binding ArrowCommands.LeftArrowCommand}" Width="72">
+                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsSecondButtonsEnabled}" Command="{Binding ArrowCommands.SecondLeftArrowCommand}" Width="72">
                                                 <Image Source="/Resources/Icons/left_arrow.png"></Image>
                                             </Button>
                                         </StackPanel>
 
                                         <StackPanel Margin="837,0,0,0">
-                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsButtonsEnabled}" Command="{Binding ArrowCommands.RightArrowCommand}">
+                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsSecondButtonsEnabled}" Command="{Binding ArrowCommands.SecondRightArrowCommand}">
                                                 <Image Source="/Resources/Icons/right_arrow.png"></Image>
                                             </Button>
                                         </StackPanel>
@@ -239,13 +239,13 @@
                                 <Border Margin="30,30,30,10" BorderBrush="Black" BorderThickness="1">
                                     <Grid>
                                         <StackPanel Margin="0,0,837,0">
-                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsButtonsEnabled}" Command="{Binding ArrowCommands.LeftArrowCommand}" Width="72">
+                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsThirdButtonsEnabled}" Command="{Binding ArrowCommands.ThirdLeftArrowCommand}" Width="72">
                                                 <Image Source="/Resources/Icons/left_arrow.png"></Image>
                                             </Button>
                                         </StackPanel>
 
                                         <StackPanel Margin="837,0,0,0">
-                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsButtonsEnabled}" Command="{Binding ArrowCommands.RightArrowCommand}">
+                                            <Button Height="86" Background="AliceBlue" BorderBrush="AliceBlue" Margin="0,130,0,0" IsEnabled="{Binding ArrowCommands.IsThirdButtonsEnabled}" Command="{Binding ArrowCommands.ThirdRightArrowCommand}">
                                                 <Image Source="/Resources/Icons/right_arrow.png"></Image>
                                             </Button>
                                         </StackPanel>
