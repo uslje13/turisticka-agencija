@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -70,6 +71,20 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(FilePath, _accommodationReservations);
         }
 
+        public void SaveOld(AccommodationReservation reservation)
+        {
+            _accommodationReservations = _serializer.FromCSV(FilePath);
+            if(_accommodationReservations.Count > reservation.Id)
+            {
+                _accommodationReservations.Insert(reservation.Id, reservation);
+            }
+            else
+            {
+                _accommodationReservations.Add(reservation);
+            }
+            _serializer.ToCSV(FilePath, _accommodationReservations);
+        }
+
         public void UpdateFinishedReservationsCSV(AccommodationReservation accommodationReservation)
         {
             const string FilePath = "../../../Resources/Data/finishedReservations.csv";
@@ -110,7 +125,7 @@ namespace SOSTeam.TravelAgency.Repositories
         {
             const string filePath = "../../../Resources/Data/shortTimeDeletedReservations.csv";
             _accommodationReservations = _serializer.FromCSV(filePath);
-            AccommodationReservation found = _accommodationReservations.Find(t => t.Id == reservation.Id) ?? throw new ArgumentException();
+            AccommodationReservation found = _accommodationReservations.Find(t => t.Id == reservation.Id && !t.DefinitlyChanged) ?? throw new ArgumentException();
             _accommodationReservations.Remove(found);
             _serializer.ToCSV(filePath, _accommodationReservations);
         }
@@ -136,7 +151,7 @@ namespace SOSTeam.TravelAgency.Repositories
 
         public void SaveChangeAcceptedReservation(AccommodationReservation accReservation)
         {
-            accReservation.Id = NextId() + 50;
+            accReservation.Id = NextId()/* + 50*/;
             _accommodationReservations = _serializer.FromCSV(FilePath);
             _accommodationReservations.Add(accReservation);
             _serializer.ToCSV(FilePath, _accommodationReservations);

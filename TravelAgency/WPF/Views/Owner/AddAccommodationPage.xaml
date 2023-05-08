@@ -20,17 +20,21 @@
             <Setter Property="Width" Value="180" />
             <Setter Property="Height" Value="30" />
         </Style>
-        
+
         <converter:EnumToBoolConverter x:Key="EnumToBoolConverter" />
     </Page.Resources>
-    
+
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="20">
-            <StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500*"/>
+                <ColumnDefinition Width="333*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel >
                 <Label Content="Dodajte novi smeštaj " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,10,50" />
 
                 <WrapPanel>
@@ -56,15 +60,15 @@
                 </WrapPanel>
                 <WrapPanel>
                     <Label  Content ="Maksimalan broj gostiju" Width="300"></Label>
-                    <TextBox  Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                    <TextBox  Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Width="100" ></TextBox>
                 </WrapPanel>
                 <WrapPanel>
                     <Label   Content ="Minimalan broj dana" Width="300"></Label>
-                    <TextBox  Text="{Binding Path=MinDaysStay, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                    <TextBox  Text="{Binding Path=MinDaysStay, UpdateSourceTrigger=PropertyChanged}"  Width="100"></TextBox>
                 </WrapPanel>
                 <WrapPanel>
                     <Label   Content ="Minimalano dana za otkazivanje" Width="300"></Label>
-                    <TextBox  Text="{Binding Path=MinDaysForCancelation, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                    <TextBox  Text="{Binding Path=MinDaysForCancelation, UpdateSourceTrigger=PropertyChanged}" Width="100" ></TextBox>
                 </WrapPanel>
 
 
@@ -73,13 +77,57 @@
 
 
 
-            </StackPanel>            
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Grid VerticalAlignment="Center" Margin="0,130,0,100" Height="300">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Border BorderThickness="1" BorderBrush="Black"/>
+                        <WrapPanel HorizontalAlignment="Left">
+                            <Label Content="Slike:"/>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Button Margin="10,0,10,0" Command="{Binding AddPicture}" VerticalAlignment="Bottom" Background="White">
+                                <Image Source="/Resources/Icons/plusicon.png" Width="40" Height="40" ></Image>
+                            </Button>
+                            <Button Margin="10,0,10,0" Command="{Binding RemovePicture}" Background="White">
+                                <Image Source="/Resources/Icons/Trash.png" Width="40" Height="40" ></Image>
+                            </Button>
+                        </WrapPanel>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Border BorderThickness="1" BorderBrush="Black"/>
+                        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding SelectedImages}" SelectedItem="{Binding SelectedImage}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                        <Image Source="{Binding Path}" Width="200" Height="150" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Border BorderThickness="1" BorderBrush="Black"/>
+                        <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Button Margin="10,0,10,0" Command="{Binding SetCover}" Content="Obeleži kao naslovnu" FontSize="20"/>
+
+                        </WrapPanel>
+                    </Grid>
+                    
+                </Grid>
+            </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
             <Border BorderBrush="Black" BorderThickness="1"/>
             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button Content="Dodaj smeštaj" FontSize="25" Margin="20" Command="{Binding AddAccommodation}">
-                    
+
                 </Button>
                 <Button Content="Odustani" FontSize="25" Margin="20" Command="{Binding Cancel}">
 

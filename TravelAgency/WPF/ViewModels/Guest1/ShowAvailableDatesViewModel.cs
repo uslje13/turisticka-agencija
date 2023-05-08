@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -30,11 +31,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public User LoggedInUser { get; set; }
         public Calendar Calendar { get; set; }
         public RelayCommand pickCommand { get; set; }
+        public RelayCommand GoBackCommand { get; set; }
         public bool IsEnterOfChange { get; set; }
         public ChangedReservationRequest ChangedReservationRequest { get; set; }
-        public Window ThisWindow { get; set; }
+        public Frame ThisFrame { get; set; }
 
-        public ShowAvailableDatesViewModel(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, Calendar calendar, bool enter, ChangedReservationRequest request, Window window)
+        public ShowAvailableDatesViewModel(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, Calendar calendar, bool enter, ChangedReservationRequest request, Frame thisFrame)
         {
             reservationDTOList = new ObservableCollection<AccReservationViewModel>();
             accommodationService = new AccommodationService();
@@ -51,7 +53,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             Calendar = calendar;
             IsEnterOfChange = enter;
             ChangedReservationRequest = request;
-            ThisWindow = window;
+            ThisFrame = thisFrame;
 
             accommodations = accommodationService.GetAll();
             reservations = reservationService.GetAll();
@@ -59,6 +61,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AnalyzeUnknownStatusReservations();
             MarkCalendars();
             pickCommand = new RelayCommand(ExecutePickItem);
+            GoBackCommand = new RelayCommand(Execute_GoBack);
+        }
+
+        public void Execute_GoBack(object sender)
+        {
+            var navigationService = ThisFrame.NavigationService;
+            navigationService.GoBack();
         }
 
         private void AnalyzeUnknownStatusReservations()
@@ -309,9 +318,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         public void ExecutePickItem(object sender)
         {
-            SelectReservationDatesWindow selectReservationDates = new SelectReservationDatesWindow(dtoReservation, LoggedInUser, IsEnterOfChange, ChangedReservationRequest);
-            selectReservationDates.ShowDialog();
-            ThisWindow.Close();
+            var navigationService = ThisFrame.NavigationService;
+            navigationService.Navigate(new SelectReservationDatesPage(dtoReservation, LoggedInUser, IsEnterOfChange, ChangedReservationRequest, ThisFrame));
         }
     }
 }

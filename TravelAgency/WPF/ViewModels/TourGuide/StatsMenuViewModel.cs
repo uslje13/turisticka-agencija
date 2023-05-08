@@ -32,13 +32,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private void ShowToursOverviewStats(object sender)
         {
             StatsOverviewPage statsOverviewPage = new StatsOverviewPage(LoggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statsOverviewPage;
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = statsOverviewPage;
         }
 
         private void ShowStatByTours(object sender)
         {
             StatsByTourOverviewPage statsByTourOverviewTourOverviewPage = new StatsByTourOverviewPage(LoggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().ToursOverviewFrame.Content = statsByTourOverviewTourOverviewPage;
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = statsByTourOverviewTourOverviewPage;
         }
 
     }

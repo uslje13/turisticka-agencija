@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class GuestReviewCardViewModel
+    public class GuestReviewCardViewModel : ViewModel
     {
         public int ReviewId { get; set; }
         public int AppointmentId { get; set; }
@@ -17,9 +17,37 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public double KnowledgeGrade { get; set; }
         public int LanguageGrade { get; set; }
         public int InterestingGrade { get; set; }
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
         public string Comment { get; set; }
-        public string ReportedImage { get; set; }
+
+        private string _background;
+
+        public string Background
+        {
+            get => _background;
+            set
+            {
+                if (_background != value)
+                {
+                    _background = value;
+                    OnPropertyChanged("Background");
+                }
+            }
+        }
+
+        private string _reportedImage;
+        public string ReportedImage
+        {
+            get => _reportedImage;
+            set
+            {
+                if (_reportedImage != value)
+                {
+                    _reportedImage = value;
+                    OnPropertyChanged("ReportedImage");
+                }
+            }
+        }
 
         public GuestReviewCardViewModel()
         {
@@ -27,11 +55,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             TourName = string.Empty;
             AvgGrade = string.Empty;
             ReportedImage = string.Empty;
+            Background = "#F0F8FF";
         }
 
         public void SetReportedImage()
         {
             ReportedImage = "/Resources/Icons/reported.png";
+            Background = "#FFC7C8";
         }
 
     }

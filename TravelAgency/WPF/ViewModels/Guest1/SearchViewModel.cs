@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Xml.Linq;
 using System.Windows;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -22,19 +23,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public ComboBox CBTypes { get; set; }
         public List<ComboBoxItem> comboBoxItems { get; set; }
         public RelayCommand searchCommand { get; set; }
-        public RelayCommand cancelCommand { get; set; }
-        public Window ThisWindow { get; set; }
+        public Frame ThisFrame { get; set; }
 
-        public SearchViewModel(User user, List<TextBox> list1, List<ComboBoxItem> list2, ComboBox comboBox, Window window)
+        public SearchViewModel(User user, List<TextBox> list1, List<ComboBoxItem> list2, ComboBox comboBox, Frame frame)
         {
             LoggedInUser = user;
             CBTypes = comboBox;
             textBoxes = list1;
             comboBoxItems = list2;
-            ThisWindow = window;
-
+            ThisFrame = frame;
+            
             searchCommand = new RelayCommand(ExecuteAccommodationSearch);
-            cancelCommand = new RelayCommand(ExecuteCancelAccommodationSearch);
         }
 
         private void ExecuteAccommodationSearch(object sender)
@@ -52,11 +51,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ShowResults(searchResult.OrderByDescending(a => a.IsSuperOwned).ToList());
         }
 
-        private void ExecuteCancelAccommodationSearch(object sender)
-        {
-            ThisWindow.Close();
-        }
-
         private LocAccommodationViewModel.AccommType GetSelectedItem(ComboBox cb)
         {
             if (cb.SelectedItem == comboBoxItems[0]) return LocAccommodationViewModel.AccommType.APARTMENT;
@@ -69,9 +63,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (results.Count > 0)
             {
-                SearchResultsWindow newWindow = new SearchResultsWindow(results, LoggedInUser);
-                newWindow.Show();
-                ThisWindow.Close();
+                var navigationService = ThisFrame.NavigationService;
+                navigationService.Navigate(new SearchResultsPage(results, LoggedInUser, ThisFrame));
             }
             else
             {

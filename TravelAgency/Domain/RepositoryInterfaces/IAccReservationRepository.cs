@@ -21,5 +21,6 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
         void SaveChangeAcceptedReservation(AccommodationReservation reservation);
         void UpdateFinishedReservationsCSV(AccommodationReservation accommodationReservation);
         void UpdateToDefinitlyForget(AccommodationReservation accommodationReservation);
+        void SaveOld(AccommodationReservation reservation);
     }
 }

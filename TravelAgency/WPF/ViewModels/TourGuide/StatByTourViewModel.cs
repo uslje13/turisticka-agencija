@@ -5,6 +5,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
@@ -25,8 +28,23 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        public string PercentOfGuestsWithVoucher { get; set; }
-        public string PercentOfGuestsWithoutVoucher { get; set; }
+        private SeriesCollection _attendanceVoucherPie;
+
+        public SeriesCollection AttendanceVoucherPie
+        {
+            get => _attendanceVoucherPie;
+            set
+            {
+                if (_attendanceVoucherPie != value)
+                {
+                    _attendanceVoucherPie = value;
+                    OnPropertyChanged("AttendanceVoucherPie");
+                }
+            }
+        }
+
+        private double _numOfGuestsWithVoucher;
+        private double _numOfGuestsWithoutVoucher;
 
 
         public string TourName { get; set; }
@@ -36,22 +54,40 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public StatByTourViewModel(TourCardViewModel selectedTourCard)
         {
-            StatByAgeRange = new ObservableCollection<AttendanceAgeRangeViewModel>();
-
+            _statByAgeRange = new ObservableCollection<AttendanceAgeRangeViewModel>();
+            _attendanceVoucherPie = new SeriesCollection();
             TourName = selectedTourCard.Name;
             Date = selectedTourCard.Start;
 
             _tourStatsService = new TourStatsService();
 
-            var percentWithVoucher = _tourStatsService
+            _numOfGuestsWithVoucher = _tourStatsService
                 .GetPercentsOfGuestAttendancesVoucher(selectedTourCard.AppointmentId).Item1;
-            var percentWithoutVoucher =
+            _numOfGuestsWithoutVoucher =
                 _tourStatsService.GetPercentsOfGuestAttendancesVoucher(selectedTourCard.AppointmentId).Item2;
 
-            PercentOfGuestsWithVoucher = Math.Round(percentWithVoucher, 2) * 100 + "%";
-            PercentOfGuestsWithoutVoucher = Math.Round(percentWithoutVoucher, 2) * 100 + "%";
-
             CreateStatByAgeRange(selectedTourCard);
+            CreateAttendanceVoucherPie();
+        }
+
+        private void CreateAttendanceVoucherPie()
+        {
+            AttendanceVoucherPie.Add(new PieSeries
+            {
+                Title = "With voucher",
+                Values = new ChartValues<double> { _numOfGuestsWithVoucher },
+                DataLabels = true,
+                Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#87ED41")),
+                LabelPoint = point => $"{point.Y} ({point.Participation:P0})"
+            });
+            AttendanceVoucherPie.Add(new PieSeries
+            {
+                Title = "Without voucher",
+                Values = new ChartValues<double> { _numOfGuestsWithoutVoucher },
+                DataLabels = true,
+                Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ED5153")),
+                LabelPoint = point => $"{point.Y} ({point.Participation:P0})"
+            });
         }
 
         private void CreateStatByAgeRange(TourCardViewModel selectedTourCard)

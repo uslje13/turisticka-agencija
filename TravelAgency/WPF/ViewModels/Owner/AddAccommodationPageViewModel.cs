@@ -17,6 +17,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         
         private AccommodationService _accommodationService;
         private LocationService _locationService;
+        private ImageService _imageService;
         private MainWindowViewModel _mainwindowVM;
 
         public User LoggedInUser { get; private set; }
@@ -26,7 +27,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public int MaxGuests { get; set; }
         public int MinDaysStay { get; set; }
         public int MinDaysForCancelation { get; set; }
-        public ObservableCollection<Image> Images { get; set; }
         public List<Location> Locations { get; set; }
         public ReadOnlyObservableCollection<string> Countries { get; set; }
         public ObservableCollection<string> Cities { get; set; }
@@ -58,20 +58,40 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
         }
 
+        private ObservableCollection<Image> _selectedImages;
+        public ObservableCollection<Image> SelectedImages
+        {
+            get { return _selectedImages; }
+            set
+            {
+                _selectedImages = value;
+                OnPropertyChanged("SelectedImages");
+            }
+        }
+        public Image SelectedImage { get; set; }
+
         public bool CountryBoxEnabled { get; set; }
         public RelayCommand Cancel { get; private set; }
         public RelayCommand AddAccommodation { get; private set; }
+        public RelayCommand AddPicture { get; private set; }
+        public RelayCommand RemovePicture { get; private set; }
+        public RelayCommand SetCover { get; private set; }
         public AddAccommodationPageViewModel(User user, MainWindowViewModel mainWindowVM)
         {
             LoggedInUser = user;
             _accommodationService = new AccommodationService();
             _locationService = new();
+            _imageService = new();
             _mainwindowVM = mainWindowVM;
 
 
             AddAccommodation = new RelayCommand(Execute_AddAccommodation, CanExecuteAddAccommodation);
             Cancel = new RelayCommand(Execute_Cancel, CanExecuteCancel);
-            Images = new ObservableCollection<Image>();
+            AddPicture = new RelayCommand(Execute_AddPicture, CanExecuteCancel);
+            RemovePicture = new RelayCommand(Execute_RemovePicture, CanExecuteSelectedItem);
+            SetCover = new RelayCommand(Execute_SetCover, CanExecuteSelectedItem);
+
+            _selectedImages = new();
             Locations = new List<Location>(_locationService.GetAll());
             Countries = new ReadOnlyObservableCollection<string>(GetCountries());
             Cities = new ObservableCollection<string>();
@@ -85,6 +105,40 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             MinDaysForCancelation = 1;
         }
 
+        private void Execute_SetCover(object obj)
+        {
+            foreach (var item in _selectedImages.Where(t => t.Cover == true)) 
+            {
+                item.Cover = false;
+            }
+            SelectedImage.Cover = true;
+        }
+
+        private bool CanExecuteSelectedItem(object obj)
+        {
+            return SelectedImage != null;
+        }
+
+        private void Execute_RemovePicture(object obj)
+        {
+            SelectedImages.Remove(SelectedImage);
+        }
+
+        private void Execute_AddPicture(object obj)
+        {
+            var tempImagePaths = FileDialogService.GetImagePaths("Resources\\Images\\Owner", "Resources/Images/Owner");
+            foreach (var imagePath in tempImagePaths) 
+            {
+                var image = new Image("/" + imagePath, false, -1, ImageType.ACCOMMODATION);
+                SelectedImages.Add(image);
+            }
+
+            
+
+            
+
+        }
+
         private bool CanExecuteAddAccommodation(object obj)
         {
             return IsValid();
@@ -95,13 +149,26 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             return true;
         }
 
+
         private void Execute_AddAccommodation(object obj)
         {
             int locationId = FindLocationId();
             Accommodation accommodation = new Accommodation(AName, SelectedType, locationId, MaxGuests, MinDaysStay, LoggedInUser.Id, MinDaysForCancelation);
-            _accommodationService.Save(accommodation);
+            var id = _accommodationService.SaveAndReturn(accommodation).Id;
+            SaveImages(id);
             _mainwindowVM.Execute_NavigationButtonCommand("Accommodation");
             return;
+        }
+
+        private void SaveImages(int accommodationId)
+        {
+            if (SelectedImages.Count == 0) return;
+            if (!SelectedImages.Any(t => t.Cover)) SelectedImages[0].Cover = true;
+            foreach(var img in _selectedImages) 
+            {
+                img.EntityId = accommodationId;
+                _imageService.Save(img);
+            }
         }
 
         private void Execute_Cancel(object obj)
@@ -133,13 +200,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             return coutries;
         }
 
-        private void SetImagesTourId(Accommodation accommodation)
-        {
-            foreach (Image image in Images)
-            {
-                image.EntityId = accommodation.Id;
-            }
-        }
 
         public void GetCities()
         {
@@ -165,13 +225,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             {
                 return false;
             }
-            if (AName.Length < 1 || City.Length < 1 || Country.Length < 1)
+            if (AName.Length < 1 || City.Length < 1 || Country.Length < 1 || SelectedImages.Count < 1)
             {
                 return false;
             }
             return true;
         }
     }
+
+    
 
     public class EnumToBoolConverter : IValueConverter
     {

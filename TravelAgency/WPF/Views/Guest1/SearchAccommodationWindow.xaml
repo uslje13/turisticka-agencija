@@ -6,34 +6,65 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="SearchAccommodation" Height="500" Width="800">
+        Background="LightGoldenrodYellow"
+        ResizeMode="NoResize"
+        Title="SearchAccommodation" Height="768" Width="1024">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/MenuButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding AccommDTOsCollection}" 
-                  SelectedItem="{Binding Path=SelectedAccommodationDTO, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" SelectionMode="Single"
-                  IsReadOnly="True" Margin="10,10,10,110">
-            <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsSuperOwned}" Value="True">
-                            <Setter Property="Background" Value="Gold" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.CellStyle>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
-                <DataGridTextColumn Header="Grad" Binding="{Binding LocationCity}" Width="1*"/>
-                <DataGridTextColumn Header="Drzava" Binding="{Binding LocationCountry}" Width="1*"/>
-                <DataGridTextColumn Header="Tip" Binding="{Binding AccommodationType}" Width="1*"/>
-                <DataGridTextColumn Header="Trenutno gostiju" Binding="{Binding GuestNumber}" Width="1*"/>
-                <DataGridTextColumn Header="Max. gostiju" Binding="{Binding AccommodationMaxGuests}" Width="1*"/>
-                <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="1*"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button x:Name="SearchButton" Margin="270,369,400,35" Content="Pretraži smeštaj"  
-                Width="100" Height="30" Command="{Binding searchCommand}"></Button>
-        <Button x:Name="ReservationButton" Margin="400,369,270,35" Content="Rezerviši smeštaj" 
-                Width="100" Height="30" Command="{Binding reserveCommand}"></Button>
+        <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
+        <Image Source="/Resources/Icons/Guest1/user_siluet.png" 
+                   Margin="0,3,818,567"/>
+        <TextBlock Foreground="Black" x:Name="UsersName" FontSize="20" FontWeight="Bold" 
+                   Margin="0,160,820,542" TextAlignment="Center"></TextBlock>
+        <Label HorizontalContentAlignment="Center" FontSize="80" FontWeight="Bold" FontStyle="Italic" 
+               Margin="205,20,0,590" Width="809">Glavni meni</Label>
+        <UniformGrid Rows="5" Margin="0,255,820,121" >
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Profille" Style="{StaticResource MenuButtonStyle}" 
+                     VerticalAlignment="Stretch">
+                <StackPanel Width="202" Height="73">
+                    <Label Margin="75,21,60,22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Profil"/>
+                    <Image Margin="35,-62,90,5" Source="/Resources/Icons/Guest1/user_ikonica2.png" Height="35" Width="35"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Search" Style="{StaticResource MenuButtonStyle}" 
+                     VerticalAlignment="Stretch">
+                <StackPanel Width="202" Height="73">
+                    <Label Margin="45,21,31,22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Pretraga i rezervacija"/>
+                    <Image Margin="-41,-62,90,5" Source="/Resources/Icons/Guest1/search.png" Height="30" Width="30"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Bid" Style="{StaticResource MenuButtonStyle}" 
+                     VerticalAlignment="Stretch">
+                <StackPanel Width="202" Height="73">
+                    <Label Margin="45,21,27,22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Ponuda i rezervacija"/>
+                    <Image Margin="-39,-62,90,5" Source="/Resources/Icons/Guest1/list-square-icon.png" Height="28.5" Width="28.5"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Whatever" Style="{StaticResource MenuButtonStyle}" 
+                     VerticalAlignment="Stretch">
+                <StackPanel Width="202" Height="73">
+                    <Label Margin="45,21,28,23" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Bilo kada - bilo gdje"/>
+                    <Image Margin="-41,-62,90,5" Source="/Resources/Icons/Guest1/tour_icon.png" Height="32" Width="32"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="LogOut" Style="{StaticResource MenuButtonStyle}"  
+                     VerticalAlignment="Stretch">
+                <StackPanel Width="202" Height="73">
+                    <Label Margin="78.5,21,59.5,22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Odjavi se"/>
+                    <Image Margin="16.5,-62,90,5" Source="/Resources/Icons/Guest1/log_out.png" Height="29" Width="32"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </UniformGrid>
     </Grid>
 </Window>

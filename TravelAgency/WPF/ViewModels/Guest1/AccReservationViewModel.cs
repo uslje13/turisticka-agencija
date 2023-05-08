@@ -12,7 +12,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public string AccommodationName { get; set; }
         public int AccommodationMinDaysStay { get; set; }
         public DateTime ReservationFirstDay { get; set; }
+        public string ResFirstDayString { get; set; }
         public DateTime ReservationLastDay { get; set; }
+        public string ResLastDayString { get; set; }
         public int ReservationDuration { get; set; }
         public int AccommodationMaxGuests { get; set; }
         public int CurrentGuestNumber { get; set; }
@@ -24,6 +26,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationMinDaysStay = days;
             ReservationFirstDay = firstDay;
             ReservationLastDay = lastDay;
+            ResFirstDayString = ReservationFirstDay.ToShortDateString();
+            ResLastDayString = ReservationLastDay.ToShortDateString();
             ReservationDuration = duration;
             AccommodationMaxGuests = guests;
             CurrentGuestNumber = current;

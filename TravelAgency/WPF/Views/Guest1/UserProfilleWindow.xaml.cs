@@ -26,7 +26,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         public UserProfilleWindow(User user, int notifications)
         {
             InitializeComponent();
-            UserProfilleViewModel viewModel = new UserProfilleViewModel(user, UsersName, InboxButton, notifications);
+            UserProfilleViewModel viewModel = new UserProfilleViewModel(user, UsersName, notifications, Messages, ResNumber, this);
             DataContext = viewModel;
         }
 
@@ -35,8 +35,11 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             Button? targetButton = (sender as Button);
             if (targetButton != null)
             {
-                InboxButton.Content = "Obavještenja - 0";
-                InboxButton.Background = new SolidColorBrush(Colors.AntiqueWhite);
+                //InboxButton.Content = "Inbox";
+                Binding binding = new Binding();
+                binding.Source = "   ";
+                Messages.SetBinding(TextBlock.TextProperty, binding);
+                InboxButton.Background = new SolidColorBrush(Colors.LightGoldenrodYellow);
             }
         }
     }

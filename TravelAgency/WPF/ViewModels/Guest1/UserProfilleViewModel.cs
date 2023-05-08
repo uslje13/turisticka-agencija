@@ -12,40 +12,111 @@ using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.WPF.Views;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System.Windows.Media;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using System.Collections.ObjectModel;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class UserProfilleViewModel
     {
         public User LoggedInUser { get; set; }
-        public TextBlock userName { get; set; }
-        public RelayCommand goToSearchCommand { get; set; }
-        public RelayCommand goToRequestsStatus { get; set; }
-        public RelayCommand goToInboxCommand { get; set; }
-        public Button InboxButton { get; set; }
+        public int ThisYearCounter { get; set; }
+        public int Notifications { get; set; }
+        public TextBlock UserName { get; set; }
+        public TextBlock Messages { get; set; }
+        public TextBlock ReservationsCounter { get; set; }
+        public Window ThisWindow { get; set; }
+        public List<CancelAndMarkResViewModel> _futuredReservations { get; set; }
+        public List<CancelAndMarkResViewModel> _finishedReservations { get; set; }
+        public List<AccommodationReservation> _accommodationReservations { get; set; }
+        public ObservableCollection<LocAccommodationViewModel> _locAccommodationViewModels { get; set; }
+        public RelayCommand ShowMenuCommand { get; set; }
+        public RelayCommand ShowRequestsCommand { get; set; }
+        public RelayCommand ShowInboxCommand { get; set; }
+        public RelayCommand SignOutCommand { get; set; }
+        public RelayCommand CanceledQueryCommand { get; set; }
 
 
-        public UserProfilleViewModel(User user, TextBlock uName, Button button, int notifications) 
+        public UserProfilleViewModel(User user, TextBlock uName, int notifications, TextBlock mess, TextBlock counter, Window window) 
         {
             LoggedInUser = user;
-            userName = uName;
-            InboxButton = button;
+            UserName = uName;
+            Messages = mess;
+            ThisYearCounter = 0;
+            ReservationsCounter = counter;
+            ThisWindow = window;
+            Notifications = notifications;
 
-            ControlInboxButton(notifications);
-            FillTextBlock(LoggedInUser);
+            _futuredReservations = new List<CancelAndMarkResViewModel>();
+            _finishedReservations = new List<CancelAndMarkResViewModel>();
+
+            AccommodationReservationService accResService = new AccommodationReservationService();
+            _accommodationReservations = accResService.GetAll();
+
+            AccommodationService AccommodationService = new AccommodationService();
+            _locAccommodationViewModels = AccommodationService.CreateAllDTOForms();
+
+            ApplyToCounter(_accommodationReservations);
+            ControlInboxButton(Notifications);
+            FillUsernameTextBlock(LoggedInUser);
+            AddFuturedReservations();
             CollectFinishedReservations();
-            
-            goToSearchCommand = new RelayCommand(ExecuteGoToSearch);
-            goToRequestsStatus = new RelayCommand(ExecuteGoToStatuses);
-            goToInboxCommand = new RelayCommand(ExecuteInboxShowing);
+            AddFinishedReservations();
+            FillCounterTextBlock();
+
+            ShowMenuCommand = new RelayCommand(Execute_ShowMenu);
+            ShowRequestsCommand = new RelayCommand(Execute_ShowStatuses);
+            ShowInboxCommand = new RelayCommand(Execute_ShowInbox);
+            SignOutCommand = new RelayCommand(Execute_SignOut);
+            CanceledQueryCommand = new RelayCommand(Execute_ShowCanceledReservations);
+        }
+
+        private void Execute_ShowCanceledReservations(object sender)
+        {
+
+        }
+
+        private void FillCounterTextBlock()
+        {
+            Binding binding = new Binding();
+            binding.Source = "Broj rezervacija u ovoj godini : " + ThisYearCounter.ToString();
+            ReservationsCounter.SetBinding(TextBlock.TextProperty, binding);
+        }
+
+        private void AddFuturedReservations()
+        {
+            foreach(var lavm in _locAccommodationViewModels)
+            {
+                foreach(var res in _accommodationReservations)
+                {
+                    if(lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && DateTime.Today.DayOfYear < res.FirstDay.DayOfYear)
+                    {
+                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
+                        _futuredReservations.Add(model);
+                    } 
+                }
+            }
+        }
+
+        private void ApplyToCounter(List<AccommodationReservation> _accommodationReservations)
+        {
+            foreach(var item in _accommodationReservations)
+            {
+                if(item.UserId == LoggedInUser.Id && DateTime.Today.Year == item.FirstDay.Year)
+                {
+                    ThisYearCounter++;
+                }
+            }
         }
 
         private void ControlInboxButton(int notifications)
         {
-            InboxButton.Content = "Obavještenja - " + notifications.ToString();
             if (notifications > 0)
             {
-                InboxButton.Background = new SolidColorBrush(Colors.OrangeRed);
+                Binding binding = new Binding();
+                binding.Source = "   " + notifications.ToString();
+                Messages.SetBinding(TextBlock.TextProperty, binding);
+                Messages.Foreground = new SolidColorBrush(Colors.DarkGoldenrod);
             }
         }
 
@@ -71,29 +142,62 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private void ExecuteInboxShowing(object sender)
+        private void AddFinishedReservations()
         {
-            GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser);
+            AccommodationReservationService accResService = new AccommodationReservationService();
+            foreach(var lavm in _locAccommodationViewModels)
+            {
+                foreach(var fres in accResService.LoadFinishedReservations())
+                {
+                    if(lavm.AccommodationId == fres.AccommodationId && fres.UserId == LoggedInUser.Id)
+                    {
+                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, fres.FirstDay, fres.LastDay, fres.Id, lavm.AccommodationId, "", fres.ReservationDuration, lavm.AccommodationType);
+                        _finishedReservations.Add(model);
+                    }
+                }
+            }
+        }
+
+        private void Execute_ShowInbox(object sender)
+        {
+            GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser, ThisWindow, Notifications);
+            if (Notifications == 0)
+            {
+                MessageBox.Show("     Vaš inboks je prazan!\nNemate nepročitanih poruka.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                newWindow.ShowDialog();
+            }
+        }
+
+        private void Execute_ShowStatuses(object sender)
+        {
+            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications);
+            ThisWindow.Close();
             newWindow.ShowDialog();
         }
 
-        private void ExecuteGoToStatuses(object sender)
+        private void Execute_ShowMenu(object sender)
         {
-            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser);
-            newWindow.Show();
+            Window helpWindow = new Window();   
+            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, helpWindow, ThisWindow, Notifications);
+            ThisWindow.Close();
+            newWindow.ShowDialog();
         }
 
-        private void ExecuteGoToSearch(object sender)
+        private void Execute_SignOut(object sender)
         {
-            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser);
-            newWindow.Show();
+            SignInForm form = new SignInForm();
+            ThisWindow.Close();
+            form.ShowDialog();
         }
 
-        private void FillTextBlock(User user)
+        private void FillUsernameTextBlock(User user)
         {
             Binding binding = new Binding();
             binding.Source = user.Username;
-            userName.SetBinding(TextBlock.TextProperty, binding);
+            UserName.SetBinding(TextBlock.TextProperty, binding);
         }
     }
 }

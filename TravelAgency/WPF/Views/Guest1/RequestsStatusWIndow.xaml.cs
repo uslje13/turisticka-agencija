@@ -22,25 +22,12 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class RequestsStatusWindow : Window
     {
-        public RequestsStatusWindow(User user)
+        public RequestsStatusWindow(User user, Window profille, int notifications)
         {
             InitializeComponent();
-            RequestsStatusViewModel viewModel = new RequestsStatusViewModel(user, this);
+            RequestsStatusViewModel viewModel = new RequestsStatusViewModel(user, this, StatusFrame, UsersName, profille, notifications);
             DataContext = viewModel;
-        }
-
-        private void TestFocus(object sender, RoutedEventArgs e)
-        {
-            if (Tabs.SelectedIndex == 0)
-            {
-                ChangeButton.IsEnabled = true;
-                CancelResButton.IsEnabled = false;
-            }
-            else
-            {
-                ChangeButton.IsEnabled = false;
-                CancelResButton.IsEnabled = true;
-            }
+            viewModel.SetStartupPage();
         }
     }
 }

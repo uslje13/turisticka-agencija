@@ -14,7 +14,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using TravelAgency.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Repositories;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
@@ -28,11 +27,12 @@ namespace SOSTeam.TravelAgency.WPF.Views
     /// </summary>
     public partial class SearchAccommodationWindow : Window
     {
-        public SearchAccommodationWindow(User user)
+        public SearchAccommodationWindow(User user, Window inbox, Window profille, int notifications)
         {
             InitializeComponent();
-            SearchAccommodationViewModel viewModel = new SearchAccommodationViewModel(user, this);
+            SearchAccommodationViewModel viewModel = new SearchAccommodationViewModel(user, this, MainFrame, UsersName, inbox, profille, notifications);
             DataContext = viewModel;
+            viewModel.SetStartupPage();
         }
     }
 }

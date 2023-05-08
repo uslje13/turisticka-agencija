@@ -15,6 +15,7 @@
     <None Remove="Resources\Icons\back_button.png" />
     <None Remove="Resources\Icons\bin.png" />
     <None Remove="Resources\Icons\book.png" />
+    <None Remove="Resources\Icons\building.jpg" />
     <None Remove="Resources\Icons\burger_menu.png" />
     <None Remove="Resources\Icons\calendar_blank_light.png" />
     <None Remove="Resources\Icons\cancel.png" />
@@ -32,10 +33,22 @@
     <None Remove="Resources\Icons\earth_light.png" />
     <None Remove="Resources\Icons\exclamation_star.png" />
     <None Remove="Resources\Icons\firework.png" />
+    <None Remove="Resources\Icons\forums.jpg" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
     <None Remove="Resources\Icons\guest.png" />
+    <None Remove="Resources\Icons\Guest1\bin.png" />
+    <None Remove="Resources\Icons\Guest1\inbox.png" />
+    <None Remove="Resources\Icons\Guest1\list-square-icon.png" />
+    <None Remove="Resources\Icons\Guest1\log_out.png" />
+    <None Remove="Resources\Icons\Guest1\search.png" />
+    <None Remove="Resources\Icons\Guest1\statuses.png" />
+    <None Remove="Resources\Icons\Guest1\tour_icon.png" />
+    <None Remove="Resources\Icons\Guest1\user_ikonica2.png" />
+    <None Remove="Resources\Icons\Guest1\user_siluet.png" />
+    <None Remove="Resources\Icons\Guest1\verification.png" />
     <None Remove="Resources\Icons\guests_with_text.png" />
     <None Remove="Resources\Icons\help--v1.png" />
+    <None Remove="Resources\Icons\home.jpg" />
     <None Remove="Resources\Icons\home.png" />
     <None Remove="Resources\Icons\info-icon.png" />
     <None Remove="Resources\Icons\kalendar.png" />
@@ -50,21 +63,26 @@
     <None Remove="Resources\Icons\minus.png" />
     <None Remove="Resources\Icons\new_notifications.png" />
     <None Remove="Resources\Icons\notification.png" />
+    <None Remove="Resources\Icons\notif_bell.jpg" />
     <None Remove="Resources\Icons\Pencil.png" />
     <None Remove="Resources\Icons\pencil.png" />
     <None Remove="Resources\Icons\people.png" />
     <None Remove="Resources\Icons\plus.png" />
     <None Remove="Resources\Icons\plusicon.png" />
+    <None Remove="Resources\Icons\renovations.jpg" />
     <None Remove="Resources\Icons\reported.png" />
     <None Remove="Resources\Icons\request.png" />
+    <None Remove="Resources\Icons\requests.jpg" />
     <None Remove="Resources\Icons\reserved.png" />
     <None Remove="Resources\Icons\review.png" />
+    <None Remove="Resources\Icons\rewies.jpg" />
     <None Remove="Resources\Icons\right_arrow.png" />
     <None Remove="Resources\Icons\search.png" />
     <None Remove="Resources\Icons\settings.png" />
     <None Remove="Resources\Icons\sos_logo.png" />
     <None Remove="Resources\Icons\star.png" />
     <None Remove="Resources\Icons\stat.png" />
+    <None Remove="Resources\Icons\suggestions.jpg" />
     <None Remove="Resources\Icons\tour_icon.png" />
     <None Remove="Resources\Icons\tour_icon2.png" />
     <None Remove="Resources\Icons\Trash.png" />
@@ -76,6 +94,17 @@
     <None Remove="Resources\Icons\warning.png" />
     <None Remove="Resources\Images\Tours\beograd-na-vodi.jpg" />
     <None Remove="Resources\Images\Tours\beograd.jpg" />
+    <None Remove="Resources\Images\Guest1\restoran.jpg" />
+    <None Remove="Resources\Images\Owner\casa_la_bambino_negro.jpg" />
+    <None Remove="Resources\Images\Owner\curacao_la_bamba.jpg" />
+    <None Remove="Resources\Images\Owner\grandiozo_la_hala.jpg" />
+    <None Remove="Resources\Images\Owner\grandiozo_la_hala2.jpg" />
+    <None Remove="Resources\Images\Owner\koliba_ptujcina.jpg" />
+    <None Remove="Resources\Images\Owner\lubura.jpg" />
+    <None Remove="Resources\Images\Owner\lux_malone.jpg" />
+    <None Remove="Resources\Images\Owner\pinjata_centrale.jpg" />
+    <None Remove="Resources\Images\Owner\pula_pola.jpg" />
+    <None Remove="Resources\Images\Owner\pula_pola2.jpg" />
     <None Remove="Resources\Images\Tours\budapest.jpg" />
     <None Remove="Resources\Images\Tours\novi_sad.jpg" />
     <None Remove="Resources\Images\Tours\rio.jpg" />
@@ -86,11 +115,13 @@
     <None Remove="Resources\Images\Tours\split_2.jpg" />
     <None Remove="Resources\Images\Tours\split_3.jpg" />
     <None Remove="Resources\Images\Tours\subotica.jpg" />
+    <None Remove="Resources\Images\Tours\unknown_cover.jpg" />
     <None Remove="Resources\Images\UnknownPhoto.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Application\UseCases\" />
+    <Folder Include="WPF\Creators\TourGuide\" />
     <None Remove="Resources\Icons\NotificationAlertNoColor.png" />
     <None Remove="Resources\Images\SOSlogo.png" />
   </ItemGroup>
@@ -200,6 +231,39 @@
     <Content Include="Resources\Icons\warning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\Owner\casa_la_bambino_negro.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Owner\curacao_la_bamba.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Owner\grandiozo_la_hala.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Owner\grandiozo_la_hala2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Owner\koliba_ptujcina.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Owner\lubura.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Owner\lux_malone.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Owner\pinjata_centrale.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Owner\pula_pola.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Owner\pula_pola2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\Images\Guest1\restoran.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\Images\Tours\budapest.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -224,6 +288,9 @@
     <Content Include="Resources\Images\Tours\split_3.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\Tours\unknown_cover.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -240,14 +307,32 @@
     <Content Include="Resources\Icons\clock_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Icons\building.jpg" />
     <Resource Include="Resources\Icons\checkpoint.png" />
     <Resource Include="Resources\Icons\exclamation_star.png" />
+    <Resource Include="Resources\Icons\Guest1\bin.png" />
+    <Resource Include="Resources\Icons\Guest1\inbox.png" />
+    <Resource Include="Resources\Icons\Guest1\list-square-icon.png" />
+    <Resource Include="Resources\Icons\Guest1\log_out.png" />
+    <Resource Include="Resources\Icons\Guest1\search.png" />
+    <Resource Include="Resources\Icons\Guest1\statuses.png" />
+    <Resource Include="Resources\Icons\Guest1\tour_icon.png" />
+    <Resource Include="Resources\Icons\Guest1\user_ikonica2.png" />
+    <Resource Include="Resources\Icons\Guest1\user_siluet.png" />
+    <Resource Include="Resources\Icons\Guest1\verification.png" />
+    <Resource Include="Resources\Icons\forums.jpg" />
+    <Resource Include="Resources\Icons\home.jpg" />
     <Resource Include="Resources\Icons\kalendar_datumi.png" />
     <Resource Include="Resources\Icons\language.png" />
     <Resource Include="Resources\Icons\NotificationAlertNoColor.png" />
+    <Resource Include="Resources\Icons\notif_bell.jpg" />
     <Resource Include="Resources\Icons\Pencil.png" />
     <Resource Include="Resources\Icons\plusicon.png" />
     <Resource Include="Resources\Icons\tour_icon2.png" />
+    <Resource Include="Resources\Icons\renovations.jpg" />
+    <Resource Include="Resources\Icons\requests.jpg" />
+    <Resource Include="Resources\Icons\rewies.jpg" />
+    <Resource Include="Resources\Icons\suggestions.jpg" />
     <Resource Include="Resources\Icons\Trash.png" />
     <Resource Include="Resources\Icons\user_ikonica2.png" />
     <Resource Include="Resources\Images\SOSlogo.png" />
@@ -270,6 +355,7 @@
     <Reference Include="Xceed.Wpf.Toolkit.NET5">
       <HintPath>bin\Debug\net6.0-windows\Xceed.Wpf.Toolkit.NET5.dll</HintPath>
     </Reference>
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
