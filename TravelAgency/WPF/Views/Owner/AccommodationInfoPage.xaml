@@ -21,7 +21,7 @@
         <Grid Grid.Row="0" Grid.Column="0">
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Label FontSize="25" Content="{Binding Accommodation.Name}" HorizontalAlignment="Center" Margin="0,15,0,25"/>
-                <Image Source="/Resources/Images/UnknownPhoto.png" Width="300" Height="200"></Image>
+                <Image Source="{Binding Image.Path}" Width="300" Height="200"></Image>
             </StackPanel>
             
         </Grid>

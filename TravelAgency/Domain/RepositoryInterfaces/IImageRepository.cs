@@ -7,5 +7,6 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
     {
         void SaveAll(List<Image> images);
         List<Image> GetAllForTours();
+        List<Image> GetAllForAccommodations();
     }
 }
