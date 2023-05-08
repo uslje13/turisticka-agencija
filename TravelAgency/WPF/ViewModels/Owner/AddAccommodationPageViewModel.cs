@@ -104,11 +104,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_AddPicture(object obj)
         {
-            var imagePaths = FileDialogService.GetImagePaths("Resources\\Images\\Owner", "/Resources/Images/Owner");
-            foreach (var imagePath in imagePaths) 
+            var tempImagePaths = FileDialogService.GetImagePaths("Resources\\Images\\Owner", "Resources/Images/Owner");
+            List<string> imagePaths = new();
+            foreach (var imagePath in tempImagePaths) 
             {
-                
+                imagePaths.Add("/" + imagePath);
             }
+
+            
 
         }
 
