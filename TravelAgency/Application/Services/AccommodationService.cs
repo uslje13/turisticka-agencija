@@ -163,4 +163,5 @@ namespace SOSTeam.TravelAgency.Application.Services
             return checkName && checkCity && checkCountry && checkType && checkMaxGuests && checkDaysStay;
         }
     }
+
 }
