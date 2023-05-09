@@ -73,7 +73,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_ShowCanceledReservations(object sender)
         {
-
+            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications, true);
+            ThisWindow.Close();
+            newWindow.ShowDialog();
         }
 
         private void FillCounterTextBlock()
@@ -173,7 +175,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_ShowStatuses(object sender)
         {
-            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications);
+            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications, false);
             ThisWindow.Close();
             newWindow.ShowDialog();
         }
