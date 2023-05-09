@@ -42,7 +42,7 @@
                 <Label Content="Recenzije " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,10,30" />
                 <DataGrid Width="730" Height="450" RowHeight="50" ItemsSource="{Binding Reviews}" SelectedItem="{Binding Path=SelectedReview, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Resources>
-                        <Geometry x:Key="StarGeometry">M 50,0 L 64.14,36.36 L 100,36.36 L 70.71,60 L 82.84,96.36 L 50,76.37 L 17.16,96.36 L 29.29,60 L 0,36.36 L 35.86,36.36 Z</Geometry>
+                        <Geometry x:Key="StarGeometry">M10,0L12.828,7.172L20,7.172L14.142,10.606L16.97,17.778L10,14.142L3.03,17.778L5.858,10.606L0,7.172L7.172,7.172Z</Geometry>
                         <Style TargetType="Path">
                             <Setter Property="Stretch" Value="Uniform"/>
                             <Setter Property="Width" Value="20"/>
@@ -71,11 +71,11 @@
                                 <DataTemplate>
                                     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <StackPanel Orientation="Horizontal">
-                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=1}"  />
-                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=2}"  />
-                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=3}"  />
-                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=4}"  />
-                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=5}"  />
+                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=1}"  Stroke="Black" StrokeThickness="1" />
+                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=2}"  Stroke="Black" StrokeThickness="1" />
+                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=3}"  Stroke="Black" StrokeThickness="1" />
+                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=4}"  Stroke="Black" StrokeThickness="1" />
+                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=5}"  Stroke="Black" StrokeThickness="1" />
                                         </StackPanel>
                                         
                                     </WrapPanel>
@@ -87,11 +87,11 @@
                                 <DataTemplate>
                                     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <StackPanel Orientation="Horizontal">
-                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding OwnerMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=1}"  />
-                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding OwnerMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=2}"  />
-                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding OwnerMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=3}"  />
-                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding OwnerMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=4}"  />
-                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding OwnerMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=5}"  />
+                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding OwnerMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=1}" Stroke="Black" StrokeThickness="1"  />
+                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding OwnerMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=2}" Stroke="Black" StrokeThickness="1"  />
+                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding OwnerMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=3}" Stroke="Black" StrokeThickness="1"  />
+                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding OwnerMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=4}" Stroke="Black" StrokeThickness="1"  />
+                                            <Path Data="{StaticResource StarGeometry}" Fill="{Binding OwnerMark, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=5}" Stroke="Black" StrokeThickness="1"  />
                                         </StackPanel>
 
                                     </WrapPanel>
