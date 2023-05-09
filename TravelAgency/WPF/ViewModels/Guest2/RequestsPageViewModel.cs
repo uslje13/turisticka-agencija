@@ -72,7 +72,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             switch (nextPage)
             {
                 case "OrdinaryRequests":
-                    navigationService.Navigate(new OrdinaryToursRequestsPage());
+                    navigationService.Navigate(new OrdinaryToursRequestsPage(LoggedInUser));
                     break;
                 case "Reservations":
                     navigationService.Navigate(new MyReservationsPage(LoggedInUser));

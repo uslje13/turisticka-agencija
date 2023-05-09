@@ -14,6 +14,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
     public class TourRequest : ISerializable
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
         public string Description { get; set; }
@@ -35,7 +36,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Status = StatusType.ON_HOLD;
         }
 
-        public TourRequest(string city, string country, string description, string language, int maxNumOfGuests, DateTime maintenanceStartDate, DateTime maintenanceEndDate, StatusType statusType)
+        public TourRequest(string city, string country, string description, string language, int maxNumOfGuests, DateTime maintenanceStartDate, DateTime maintenanceEndDate, StatusType statusType, int userId)
         {
             City = city;
             Country = country;
@@ -45,6 +46,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             MaintenanceStartDate = maintenanceStartDate;
             MaintenanceEndDate = maintenanceEndDate;
             Status = statusType;
+            UserId = userId;
         }
 
         public void FromCSV(string[] values)
@@ -63,6 +65,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 "INVALID" => StatusType.INVALID,
                 "ACCEPTED" => StatusType.ACCEPTED,
             };
+            UserId = int.Parse(values[9]);
         }
 
         public string[] ToCSV()
@@ -78,6 +81,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 MaintenanceStartDate.ToString("dd.MM.yyyy. HH:mm"),
                 MaintenanceEndDate.ToString("dd.MM.yyyy. HH:mm"),
                 Status.ToString(),
+                UserId.ToString(),
             };
             return csvValues;
         }

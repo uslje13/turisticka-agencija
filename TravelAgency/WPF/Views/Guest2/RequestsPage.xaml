@@ -51,7 +51,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}">
+                    <Button Style="{StaticResource MenuButtons}" Command="{Binding BackCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/request.png" Height="40" Width="38"/>
                             <TextBlock Text=" Zahtevi za slozene ture" Height="24" Width="195"/>
