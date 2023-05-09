@@ -30,7 +30,6 @@
                 <DataGridTextColumn Header="Drzava" Binding="{Binding LocationCountry}" Width="0.95*"/>
                 <DataGridTextColumn Header="Tip" Binding="{Binding AccommodationType}" Width="0.65*"/>
                 <DataGridTextColumn Header="Trenutno gostiju" Binding="{Binding GuestNumber}" Width="0.7*"/>
-                <DataGridTextColumn Header="Max. gostiju" Binding="{Binding AccommodationMaxGuests}" Width="0.6*"/>
                 <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="0.65*"/>
             </DataGrid.Columns>
         </DataGrid>
