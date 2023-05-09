@@ -40,6 +40,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
         }
 
+        public List<AccommodationReservation> LoadCanceledReservations()
+        {
+           return _accReservationRepository.LoadCanceledReservations();
+        }
+
         public void SaveOld(AccommodationReservation reservation)
         {
             _accReservationRepository.SaveOld(reservation);

@@ -39,13 +39,13 @@
                    Text="{Binding searchedAccCity}" Margin="355,150,0,0" Height="30" Width="240"/>
         <TextBox x:Name="country" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="2"
                    Text="{Binding searchedAccCountry}" Margin="355,200,0,0" Height="30" Width="240"/>
-        
-        <ComboBox x:Name="CBTypes" HorizontalAlignment="Left" Margin="425,250,0,0" VerticalAlignment="Top" 
+
+        <ComboBox x:Name="CBTypes" HorizontalAlignment="Left" Margin="425,250,0,0" VerticalAlignment="Top" Cursor="Hand"
                   Width="104" Height="30" BorderThickness="2" >
-            <ComboBoxItem x:Name="CBItemApart" Content="Apartman" FontSize="9"></ComboBoxItem>
-            <ComboBoxItem x:Name="CBItemHouse" Content="Kuća" FontSize="9"></ComboBoxItem>
-            <ComboBoxItem x:Name="CBItemHut" Content="Koliba" FontSize="9"></ComboBoxItem>
-            <ComboBoxItem x:Name="CBItemNoType" Content="Bez tipa" IsSelected="True" FontSize="9"></ComboBoxItem>
+            <ComboBoxItem x:Name="CBItemApart" Content="Apartman" FontSize="12" Cursor="Hand"></ComboBoxItem>
+            <ComboBoxItem x:Name="CBItemHouse" Content="Kuća" FontSize="12" Cursor="Hand"></ComboBoxItem>
+            <ComboBoxItem x:Name="CBItemHut" Content="Koliba" FontSize="12" Cursor="Hand"></ComboBoxItem>
+            <ComboBoxItem x:Name="CBItemNoType" Content="Bez tipa" IsSelected="True" FontSize="12" Cursor="Hand"></ComboBoxItem>
         </ComboBox>
 
         <TextBox x:Name="guestsNumber" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="2"

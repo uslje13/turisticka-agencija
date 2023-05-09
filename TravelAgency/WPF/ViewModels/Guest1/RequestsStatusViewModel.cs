@@ -26,8 +26,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public TextBlock TextBlockUsername { get; set; }
         public Window UserProfilleWindow { get; set; }
         public int Notifications { get; set; }
+        public bool Report { get; set; }
+        public TextBlock WindowName { get; set; }
 
-        public RequestsStatusViewModel(User user, Window window, Frame frame, TextBlock textBlock, Window profille, int notifications)
+        public RequestsStatusViewModel(User user, Window window, Frame frame, TextBlock textBlock, Window profille, int notifications, bool report, TextBlock windowName)
         {
             LoggedInUser = user;
             ThisWindow = window;
@@ -35,12 +37,31 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             TextBlockUsername = textBlock;
             UserProfilleWindow = profille;
             Notifications = notifications;
+            Report = report;
+            WindowName = windowName;
 
             FillTextBlock(LoggedInUser);
+            FillTitleBlock();
 
             NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand);
         }
         
+        private void FillTitleBlock()
+        {
+            if (!Report)
+            {
+                Binding binding = new Binding();
+                binding.Source = "Pregled zahtjeva";
+                WindowName.SetBinding(TextBlock.TextProperty, binding);
+            }
+            else
+            {
+                Binding binding = new Binding();
+                binding.Source = "Izvještaj";
+                WindowName.SetBinding(TextBlock.TextProperty, binding);
+            }
+        }
+
         private void FillTextBlock(User user)
         {
             Binding binding = new Binding();
@@ -51,7 +72,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public void SetStartupPage()
         {
             var navigationService = ThisFrame.NavigationService;
-            navigationService.Navigate(new AllStatusesPage(LoggedInUser, ThisFrame));
+            if (!Report)
+            {
+                navigationService.Navigate(new AllStatusesPage(LoggedInUser, ThisFrame));
+            }
+            else
+            {
+                navigationService.Navigate(new ReportFiltersPage(LoggedInUser, ThisFrame));
+            }
         }
         
         public void Execute_NavigationButtonCommand(object parameter)
@@ -67,13 +95,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     newWindow.ShowDialog();
                     break;
                 case "Search":
-                    
                     break;
                 case "Bid":
-                    
                     break;
                 case "Whatever":
-
                     break;
                 case "LogOut":
                     SignInForm form = new SignInForm();

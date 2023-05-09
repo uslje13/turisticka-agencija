@@ -89,9 +89,9 @@
         
         <Grid Grid.Row="1" Margin="0,250,0,0" Grid.RowSpan="2">
             <Label Foreground="Black" FontSize="20" FontWeight="Bold" FontStyle="Italic" 
-                   Margin="412,33,120,154">Vaše otkazane rezervacije su na sledećem linku :</Label>
-            <Button Command="{Binding CanceledQueryCommand}" FontSize="20" Content="otkazano" Name="CanceledReportButton"
-                    Margin="881,31,10,168" Style="{StaticResource ImageButtonStyle}"
+                   Margin="195,33,100,154">Izvještaj o svim zakazanim/otkazanim rezervacijama je na sledećem linku :</Label>
+            <Button Command="{Binding CanceledQueryCommand}" FontSize="20" Content="izvještaj" Name="CanceledReportButton"
+                    Margin="905,31,10,168" Style="{StaticResource ImageButtonStyle}" HorizontalContentAlignment="Left"
                     FontWeight="Bold" FontStyle="Italic"/>
             <Button Command="{Binding ShowMenuCommand}" Width="110" Height="43" 
                     Style="{StaticResource ButtonStyle}" FontSize="17" Content="Glavni meni"
