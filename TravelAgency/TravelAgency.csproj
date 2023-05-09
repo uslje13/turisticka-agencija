@@ -16,6 +16,7 @@
     <None Remove="Resources\Icons\bin.png" />
     <None Remove="Resources\Icons\book.png" />
     <None Remove="Resources\Icons\building.jpg" />
+    <None Remove="Resources\Icons\building.png" />
     <None Remove="Resources\Icons\burger_menu.png" />
     <None Remove="Resources\Icons\calendar_blank_light.png" />
     <None Remove="Resources\Icons\cancel.png" />
@@ -34,6 +35,7 @@
     <None Remove="Resources\Icons\exclamation_star.png" />
     <None Remove="Resources\Icons\firework.png" />
     <None Remove="Resources\Icons\forums.jpg" />
+    <None Remove="Resources\Icons\forums.png" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
     <None Remove="Resources\Icons\guest.png" />
     <None Remove="Resources\Icons\Guest1\bin.png" />
@@ -50,12 +52,15 @@
     <None Remove="Resources\Icons\help--v1.png" />
     <None Remove="Resources\Icons\home.jpg" />
     <None Remove="Resources\Icons\home.png" />
+    <None Remove="Resources\Icons\home_owner.png" />
     <None Remove="Resources\Icons\info-icon.png" />
     <None Remove="Resources\Icons\kalendar.png" />
     <None Remove="Resources\Icons\kalendar_datumi.png" />
     <None Remove="Resources\Icons\kalendar_datumi.png" />
     <None Remove="Resources\Icons\language.png" />
+    <None Remove="Resources\Icons\left_arrow.jpg" />
     <None Remove="Resources\Icons\left_arrow.png" />
+    <None Remove="Resources\Icons\left_arrow_owner.png" />
     <None Remove="Resources\Icons\list-square-icon.png" />
     <None Remove="Resources\Icons\livetour.png" />
     <None Remove="Resources\Icons\log_out.png" />
@@ -64,18 +69,23 @@
     <None Remove="Resources\Icons\new_notifications.png" />
     <None Remove="Resources\Icons\notification.png" />
     <None Remove="Resources\Icons\notif_bell.jpg" />
+    <None Remove="Resources\Icons\notif_bell.png" />
     <None Remove="Resources\Icons\Pencil.png" />
     <None Remove="Resources\Icons\pencil.png" />
     <None Remove="Resources\Icons\people.png" />
     <None Remove="Resources\Icons\plus.png" />
     <None Remove="Resources\Icons\plusicon.png" />
     <None Remove="Resources\Icons\renovations.jpg" />
+    <None Remove="Resources\Icons\renovations.png" />
     <None Remove="Resources\Icons\reported.png" />
     <None Remove="Resources\Icons\request.png" />
     <None Remove="Resources\Icons\requests.jpg" />
+    <None Remove="Resources\Icons\requests.png" />
     <None Remove="Resources\Icons\reserved.png" />
     <None Remove="Resources\Icons\review.png" />
     <None Remove="Resources\Icons\rewies.jpg" />
+    <None Remove="Resources\Icons\rewies.png" />
+    <None Remove="Resources\Icons\right_arrow.jpg" />
     <None Remove="Resources\Icons\right_arrow.png" />
     <None Remove="Resources\Icons\search.png" />
     <None Remove="Resources\Icons\settings.png" />
@@ -83,6 +93,7 @@
     <None Remove="Resources\Icons\star.png" />
     <None Remove="Resources\Icons\stat.png" />
     <None Remove="Resources\Icons\suggestions.jpg" />
+    <None Remove="Resources\Icons\suggestions.png" />
     <None Remove="Resources\Icons\tour_icon.png" />
     <None Remove="Resources\Icons\tour_icon2.png" />
     <None Remove="Resources\Icons\Trash.png" />
@@ -133,6 +144,9 @@
     <Content Include="Resources\Icons\book.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\building.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\calendar_blank_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -175,10 +189,16 @@
     <Content Include="Resources\Icons\firework.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\forums.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\guest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\guests_with_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\home_owner.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\kalendar.png">
@@ -189,11 +209,17 @@
     </Content>
     <Resource Include="Resources\Icons\left_arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
+    <Content Include="Resources\Icons\left_arrow_owner.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\livetour.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\medal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\notif_bell.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\pencil.png">
@@ -202,18 +228,22 @@
     <Content Include="Resources\Icons\plus.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\renovations.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\reported.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\requests.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\review.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\Icons\log_out.png" />
-    <Resource Include="Resources\Icons\minus.png" />
-    <Resource Include="Resources\Icons\new_notifications.png" />
-    <Resource Include="Resources\Icons\notification.png" />
-    <Resource Include="Resources\Icons\people.png" />
-    <Resource Include="Resources\Icons\right_arrow.png">
+    <Content Include="Resources\Icons\rewies.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\right_arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Content Include="Resources\Icons\sos_logo.png">
@@ -223,6 +253,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\stat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\suggestions.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\trophy.png">
@@ -259,6 +292,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\Owner\pula_pola2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\left_arrow.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\right_arrow.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Images\Guest1\restoran.jpg">
