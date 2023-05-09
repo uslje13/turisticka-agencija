@@ -279,7 +279,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_RequestsPageCommand(object obj)
         {
             var navigationService = _window.RequestsFrame.NavigationService;
-            navigationService.Navigate(new RequestsPage());
+            navigationService.Navigate(new RequestsPage(LoggedInUser));
         }
 
         private void Execute_SearchPageCommand(object obj)

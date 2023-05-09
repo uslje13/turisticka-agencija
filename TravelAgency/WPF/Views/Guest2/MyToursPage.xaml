@@ -86,7 +86,7 @@
 
             <Grid Grid.Column="1" Margin="10,-69,10,10">
                 <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
-                <Frame x:Name="ReservationsFrame" NavigationUIVisibility ="Hidden" />
+                
             </Grid>
 
         </Grid>

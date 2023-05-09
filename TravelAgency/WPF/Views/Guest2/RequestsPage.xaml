@@ -18,72 +18,73 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <!--Navigation menu-->
-            <ColumnDefinition Width="286"/>
-            <!--Content section-->
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                <!--Navigation menu-->
+                <ColumnDefinition Width="286"/>
+                <!--Content section-->
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-        <Border CornerRadius="10,0,0,10"
-                Grid.Column="0" Margin="0,0,1,0">
+            <Border CornerRadius="10,0,0,10"
+                    Grid.Column="0" Margin="0,0,1,0">
 
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
-                    <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
-                    <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"></GradientStop>
-                </LinearGradientBrush>
-            </Border.Background>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
+                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"></GradientStop>
+                    </LinearGradientBrush>
+                </Border.Background>
 
-            <StackPanel>
-                <StackPanel Orientation="Vertical"
-                            Height="155"
-                            Margin="15,25,0,40" Width="220">
-                    <Image Source="/Resources/Icons/user_ikonica.png" Height="126" Width="229"/>
-                    <Label Content="Drasko Novakovic" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
+                <StackPanel>
+                    <StackPanel Orientation="Vertical"
+                                Height="155"
+                                Margin="15,25,0,40" Width="220">
+                        <Image Source="/Resources/Icons/user_ikonica.png" Height="126" Width="229"/>
+                        <Label Content="Drasko Novakovic" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
+                    </StackPanel>
+
+                    <Button Style="{StaticResource MenuButtons}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/Icons/request.png" Height="40" Width="38"/>
+                            <TextBlock Text="  Zahtevi za obicne ture" Height="24" Width="186"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource MenuButtons}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/Icons/request.png" Height="40" Width="38"/>
+                            <TextBlock Text=" Zahtevi za slozene ture" Height="24" Width="195"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource MenuButtons}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/Icons/help--v1.png" Height="40" Width="38"/>
+                            <TextBlock Text="  Pomoc (Ctrl + h)" Height="24" Width="189"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource MenuButtons}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/Icons/back_button.png" Height="40" Width="38"/>
+                            <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="189"/>
+                        </StackPanel>
+                    </Button>
+
                 </StackPanel>
 
-                <Button Style="{StaticResource MenuButtons}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Resources/Icons/request.png" Height="40" Width="38"/>
-                        <TextBlock Text="  Zahtevi za obicne ture" Height="24" Width="186"/>
-                    </StackPanel>
-                </Button>
+            </Border>
 
-                <Button Style="{StaticResource MenuButtons}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Resources/Icons/request.png" Height="40" Width="38"/>
-                        <TextBlock Text=" Zahtevi za slozene ture" Height="24" Width="195"/>
-                    </StackPanel>
-                </Button>
+            <Border CornerRadius="0,10,10,0"
+                    Grid.Column="1" Margin="10">
+                
+            </Border>
 
-                <Button Style="{StaticResource MenuButtons}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Resources/Icons/help--v1.png" Height="40" Width="38"/>
-                        <TextBlock Text="  Pomoc (Ctrl + h)" Height="24" Width="189"/>
-                    </StackPanel>
-                </Button>
-
-                <Button Style="{StaticResource MenuButtons}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Resources/Icons/back_button.png" Height="40" Width="38"/>
-                        <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="189"/>
-                    </StackPanel>
-                </Button>
-
-            </StackPanel>
-
-        </Border>
-
-        <Border CornerRadius="0,10,10,0"
-                Grid.Column="1" Margin="10">
-            <ScrollViewer HorizontalAlignment="Right" Width="990">
-                <!-- Your content here -->
-            </ScrollViewer>
-        </Border>
-
-        <ContentControl Grid.Column="1" Margin="10">
-
-        </ContentControl>
+            <Grid Grid.Column="1" Margin="10,10,10,10">
+                <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
+            </Grid>
+        </Grid>
+        <Frame x:Name="HelpFrame" NavigationUIVisibility ="Hidden" />
     </Grid>
 </Page>
