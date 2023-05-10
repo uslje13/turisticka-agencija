@@ -24,16 +24,87 @@
                   Style="{StaticResource DataGridStyle}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="0,93,15,246.25">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1.1*"/>
-                <DataGridTextColumn Header="Grad" Binding="{Binding LocationCity}" Width="0.7*"/>
-                <DataGridTextColumn Header="Drzava" Binding="{Binding LocationCountry}" Width="0.75*"/>
-                <DataGridTextColumn Header="Tip" Binding="{Binding AccommodationType}" Width="0.65*"/>
-                <DataGridTextColumn Header="Trenutno gostiju" Binding="{Binding GuestNumber}" Width="0.75*"/>
-                <DataGridTextColumn Header="Min. broj dana" Binding="{Binding AccommodationMinDaysStay}" Width="0.65*"/>
-                <DataGridTemplateColumn Width="0.85*">
+                <DataGridTemplateColumn Header="Informacije" Width="1*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Margin="-2,-14,-2,-14" Height="118" Width="128" Source="{Binding Cover.Path}"/>
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.6*"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0" Grid.Column="0">
+                                        <TextBlock Foreground="DarkGoldenrod" FontWeight="Bold" FontSize="24" 
+                                                   TextAlignment="Left"
+                                                   Text="{Binding TypeString}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1" Grid.Column="0">
+                                        <TextBlock FontSize="21" FontStyle="Italic"
+                                                   TextAlignment="Left"
+                                                   Text="{Binding AccommodationName}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2" Grid.Column="0">
+                                        <TextBlock FontSize="17" 
+                                                   TextAlignment="Left"
+                                                   Text="{Binding FullLocation}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="3" Grid.Column="0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.4*"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                            </Grid>
+                                            <Grid Grid.Column="0" Grid.Row="0">
+                                                <Image Height="18.5" Width="18.5" HorizontalAlignment="Center"
+                                               Source="/Resources/Icons/Guest1/guests.png"/>
+                                            </Grid>
+                                            <Grid Grid.Column="1" Grid.Row="0">
+                                                <TextBlock FontSize="13" Text="{Binding CurrentGuests}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="4" Grid.Column="0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.4*"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                            </Grid>
+                                            <Grid Grid.Column="0" Grid.Row="0">
+                                                <Image Height="16" Width="16" HorizontalAlignment="Left"
+                                               Source="/Resources/Icons/Guest1/list-square-icon.png"/>
+                                            </Grid>
+                                            <Grid Grid.Column="1" Grid.Row="0">
+                                                <TextBlock FontSize="13" Text="{Binding MinDaysString}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Slika" Width="1*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Margin="-40,-22,-40,-22" 
+                                   Height="236" Width="256" Source="{Binding Cover.Path}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

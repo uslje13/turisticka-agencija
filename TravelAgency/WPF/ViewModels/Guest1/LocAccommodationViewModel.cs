@@ -31,6 +31,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int GuestNumber { get; set; }
         public bool IsSuperOwned { get; set; }
         public Image Cover { get; set; }
+        public string FullLocation { get; set; } 
+        public string CurrentGuests { get; set; }
+        public string MinDaysString { get; set; }
+        public string TypeString { get; set; }
 
         public LocAccommodationViewModel(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber, bool isSuperOwned)
 
@@ -39,11 +43,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationName = name;
             LocationCity = city;
             LocationCountry = country;
+            FullLocation = city + ", " + country;
             AccommodationType = type;
+            if (type == AccommType.APARTMENT) TypeString = "APARTMAN";
+            else if (type == AccommType.HOUSE) TypeString = "KUĆA";
+            else TypeString = "KOLIBA";
             AccommodationMaxGuests = guests;
             AccommodationMinDaysStay = days;
             GuestNumber = guestNumber;
+            CurrentGuests = "   Trenutno gostiju: " + guestNumber.ToString();
             IsSuperOwned = isSuperOwned;
+            MinDaysString = "   Minimalno dana: " + days.ToString();
             ImageService imageService = new ImageService();
             Cover = imageService.GetAccommodationCover(id);
             if (Cover == null)

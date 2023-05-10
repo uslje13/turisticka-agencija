@@ -27,7 +27,7 @@
                 <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
                 <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
                 <DataGridTextColumn Header="Drzava" Binding="{Binding AccommodationCountry}" Width="1*"/>
-                <DataGridTextColumn Header="Tip" Binding="{Binding AccommodationType}" Width="1*"/>
+                <DataGridTextColumn Header="Tip" Binding="{Binding TypeString}" Width="1*"/>
                 <DataGridTextColumn Header="Prvi dan" Binding="{Binding FirstDayStr}" Width="1*"/>
                 <DataGridTextColumn Header="Drugi dan" Binding="{Binding LastDayStr}" Width="1*"/>
             </DataGrid.Columns>
