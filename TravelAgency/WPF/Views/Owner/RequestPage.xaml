@@ -20,7 +20,7 @@
 
     </Page.Resources>
 
-    <Grid Background="White">
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
             <RowDefinition/>
@@ -28,7 +28,7 @@
         <Grid Grid.Row="0" Margin="20">
             <StackPanel>
                 <Label Content="Zahtevi za pomeranje rezervacije " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,10,30" />
-                <DataGrid Width="730" Height="400" RowHeight="50" ItemsSource="{Binding Requests}" SelectedItem="{Binding Path=SelectedRequest, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid Width="730" Height="400" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" RowHeight="50" ItemsSource="{Binding Requests}" SelectedItem="{Binding Path=SelectedRequest, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
 
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="Auto" Header="Gost">

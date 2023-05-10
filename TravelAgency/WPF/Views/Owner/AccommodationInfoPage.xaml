@@ -8,7 +8,7 @@
       d:DesignHeight="662" d:DesignWidth="804"
       Title="AccommodationInfoPage">
 
-    <Grid Background="White" Margin="30">
+    <Grid Background="Transparent" Margin="30">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="4*"/>
