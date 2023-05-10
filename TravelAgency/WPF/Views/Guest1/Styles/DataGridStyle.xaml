@@ -27,6 +27,9 @@
                     <Setter Property="Background" Value="Khaki" />
                     <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Padding" Value="5,4,5,4" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
                 </Style>
             </Setter.Value>
         </Setter>
@@ -73,7 +76,7 @@
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding BorderThickness}"
                                             Background="{TemplateBinding Background}">
-                                    <ContentPresenter />
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>
@@ -85,7 +88,7 @@
                             </Style>
                         </Setter.Value>
                     </Setter>
-                    
+                    <Setter Property="FontWeight" Value="Medium"/>
                     <Setter Property="ScrollViewer.Background" Value="White"/>
                     
                 </Style>

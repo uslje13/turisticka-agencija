@@ -7,8 +7,10 @@ using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Repositories;
 using SOSTeam.TravelAgency.Repositories.Serializer;
+using SOSTeam.TravelAgency.Domain.Models;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -28,7 +30,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int AccommodationMinDaysStay { get; set; }
         public int GuestNumber { get; set; }
         public bool IsSuperOwned { get; set; }
-
+        public Image Cover { get; set; }
 
         public LocAccommodationViewModel(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber, bool isSuperOwned)
 
@@ -42,6 +44,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationMinDaysStay = days;
             GuestNumber = guestNumber;
             IsSuperOwned = isSuperOwned;
+            ImageService imageService = new ImageService();
+            Cover = imageService.GetAccommodationCover(id);
+            if (Cover == null)
+            {
+                Cover = new Image();
+                Cover.Path = "/Resources/Images/UnknownPhoto.png";
+            }
         }
 
         public LocAccommodationViewModel(string name, string city, string country, AccommType type, int guestNumber, int days, bool isSuperOwned)
