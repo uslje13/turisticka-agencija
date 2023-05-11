@@ -26,7 +26,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         public SelectReservationDatesPage(List<AccReservationViewModel> list, User user, bool enter, ChangedReservationRequest request, Frame frame)
         {
             InitializeComponent();
-            SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user, enter, request, frame, AccDatesTB);
+            SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user, enter, request, frame);
             DataContext = viewModel;
         }
     }

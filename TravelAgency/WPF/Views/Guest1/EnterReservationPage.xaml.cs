@@ -33,7 +33,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         public EnterReservationPage(LocAccommodationViewModel dto, User user, bool enter, ChangedReservationRequest request, Frame frame)
         {
             InitializeComponent();
-            EnterReservationViewModel viewModel = new EnterReservationViewModel(dto, user, enter, Days, FirstDay, LastDay, request, frame);
+            EnterReservationViewModel viewModel = new EnterReservationViewModel(dto, user, enter, Days, FirstDay, LastDay, frame, request);
             DataContext = viewModel;
         }
 

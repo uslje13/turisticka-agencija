@@ -20,7 +20,7 @@
         <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
         <Image Source="/Resources/Icons/Guest1/user_siluet.png" 
                    Margin="0,3,818,567"/>
-        <TextBlock Foreground="Black" x:Name="UsersName" FontSize="20" FontWeight="Bold" 
+        <TextBlock Foreground="Black" x:Name="UsersName" FontSize="20" FontWeight="Black" Text="{Binding UserNameTextBlock}"
                    Margin="0,160,820,542" TextAlignment="Center"></TextBlock>
         <Label HorizontalContentAlignment="Center" FontSize="80" FontWeight="Bold" FontStyle="Italic" 
                Margin="205,20,0,590" Width="809">Glavni meni</Label>

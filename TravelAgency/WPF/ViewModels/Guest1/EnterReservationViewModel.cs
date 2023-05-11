@@ -29,7 +29,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public DatePicker LastDay { get; set; }
         public Frame ThisFrame { get; set; }
 
-        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, ChangedReservationRequest request = null, Frame frame)
+        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, Frame frame, ChangedReservationRequest request = null)
         {
             DTO = dto;
             FirstDate = DateTime.Now;

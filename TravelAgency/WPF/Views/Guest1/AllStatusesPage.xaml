@@ -41,10 +41,10 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Stari datumi" Binding="{Binding OldReservationString}" Width="1.2*"/>
-                        <DataGridTextColumn Header="Novi datumi" Binding="{Binding NewReservationString}" Width="1.2*"/>
+                        <DataGridTextColumn Header="Stari datumi" Binding="{Binding OldReservationString}" Width="1.3*"/>
+                        <DataGridTextColumn Header="Novi datumi" Binding="{Binding NewReservationString}" Width="1.3*"/>
                         <DataGridTextColumn Header="Status" Binding="{Binding StatusString}" Width="0.9*"/>
-                        <DataGridTemplateColumn Header="Vlasnikov komentar" Width="1.6*">
+                        <DataGridTemplateColumn Header="Vlasnikov komentar" Width="1.4*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding ownerComment}"/>

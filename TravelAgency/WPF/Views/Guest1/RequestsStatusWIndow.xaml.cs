@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         public RequestsStatusWindow(User user, Window profille, int notifications, bool report)
         {
             InitializeComponent();
-            RequestsStatusViewModel viewModel = new RequestsStatusViewModel(user, this, StatusFrame, UsersName, profille, notifications, report, WindowName);
+            RequestsStatusViewModel viewModel = new RequestsStatusViewModel(user, this, StatusFrame, profille, notifications, report);
             DataContext = viewModel;
             viewModel.SetStartupPage();
         }

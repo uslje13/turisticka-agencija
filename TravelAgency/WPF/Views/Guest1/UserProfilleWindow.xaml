@@ -29,7 +29,8 @@
         <Grid Grid.Row="0">
             <Image Source="/Resources/Icons/Guest1/user_siluet.png" 
                    Margin="40,21,778,22"/>
-            <TextBlock Foreground="Black" x:Name="UsersName" FontSize="50" FontWeight="Bold" FontStyle="Italic" Margin="204,61,533,116" TextAlignment="Center"></TextBlock>
+            <TextBlock Foreground="Black" x:Name="UsersName" Text="{Binding Path=UsernameTextBlock}"
+                       FontSize="50" FontWeight="Bold" FontStyle="Italic" Margin="204,61,533,116" TextAlignment="Center"></TextBlock>
             <Image Source="/Resources/Icons/Guest1/verification.png" Margin="491,71,452,116"/>
             <Button x:Name="InboxButton" Command="{Binding ShowInboxCommand}" FontSize="25" FontWeight="DemiBold"
                     Style="{StaticResource ImageButtonStyle}" HorizontalContentAlignment="Center" Margin="781,52,42,107" GotFocus="TestOpeningInbox">
@@ -41,8 +42,8 @@
                         </Canvas>
                     </StackPanel>
             </Button>
-            <TextBlock x:Name="Messages" FontSize="25" FontWeight="DemiBold" TextAlignment="Center" 
-                       Margin="809,77,165,125"><Run/></TextBlock>
+            <TextBlock x:Name="Messages" Text="{Binding Path=MessageNumberTextBlock}" Foreground="DarkGoldenrod"
+                       FontSize="25" FontWeight="DemiBold" TextAlignment="Center" Margin="809,77,165,125"><Run/></TextBlock>
         </Grid>
         
         
@@ -62,7 +63,8 @@
                 </DataGrid.Columns>
             </DataGrid>
             <Label Foreground="Black" FontSize="25" FontWeight="Bold" Margin="10,124,588,79">Vaše dosadašnje rezervacije :</Label>
-            <TextBlock Foreground="Black" x:Name="ResNumber" FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="710,132,15,109"></TextBlock>
+            <TextBlock Foreground="Black" x:Name="ResNumber" Text="{Binding Path=CounterTextBlock}"
+                       FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="710,132,15,109"></TextBlock>
             <DataGrid ItemsSource="{Binding _futuredReservations}" CanUserResizeRows="False"
                   AutoGenerateColumns="False" SelectionMode="Single" Style="{StaticResource DataGridStyle}"
                   IsReadOnly="True" Margin="15,20,15,150">
