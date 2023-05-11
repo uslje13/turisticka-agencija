@@ -42,7 +42,7 @@
                                 Height="155"
                                 Margin="15,25,0,40" Width="220">
                         <Image Source="/Resources/Icons/user_ikonica.png" Height="126" Width="229"/>
-                        <Label Content="{Binding LoggedInUser.Username}" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
+                        <Label Content="{Binding LoggedInUser.Username}" HorizontalContentAlignment="Center" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
                     </StackPanel>
 
                     <Button Style="{StaticResource MenuButtons}" Command="{Binding NavigationCommand}" CommandParameter="ActiveTour">
@@ -86,7 +86,7 @@
 
             <Grid Grid.Column="1" Margin="10,-69,10,10">
                 <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
-                <Frame x:Name="ReservationsFrame" NavigationUIVisibility ="Hidden" />
+                
             </Grid>
 
         </Grid>
