@@ -11,10 +11,22 @@ using System.Threading.Tasks;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
-    public class OrdinaryToursPageViewModel
+    public class OrdinaryToursPageViewModel : ViewModel
     {
         public static User LoggedInUser { get; set; }
-        public static ObservableCollection<RequestViewModel> TourRequests { get; set; }
+        private ObservableCollection<RequestViewModel> _tourRequests;
+        public ObservableCollection<RequestViewModel> TourRequests
+        {
+            get { return _tourRequests; }
+            set
+            {
+                if (value != _tourRequests)
+                {
+                    _tourRequests = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private readonly TourRequestService _tourRequestService;
 
@@ -47,6 +59,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             StatisticsCommand = new RelayCommand(Execute_StatisticsCommand, CanExecuteMethod);
             CreateCommand = new RelayCommand(Execute_CreateCommand,CanExecuteMethod);
             TourRequests = new ObservableCollection<RequestViewModel>();
+            UpdateTourRequests();
             FillTourRequests();
         }
 
@@ -54,10 +67,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             foreach(var request in _tourRequestService.GetAll())
             {
-                TourRequests.Add(new RequestViewModel(LoggedInUser.Id, request.City, request.Country, request.Description, request.Language, request.MaxNumOfGuests, request.MaintenanceStartDate, request.MaintenanceEndDate, request.Status));
+                if(request.UserId == LoggedInUser.Id)
+                {
+                    TourRequests.Add(new RequestViewModel(LoggedInUser.Id, request.City, request.Country, request.Description, request.Language, request.MaxNumOfGuests, request.MaintenanceStartDate, request.MaintenanceEndDate, request.Status));
+                }
             }
         }
 
+        private void UpdateTourRequests()
+        {
+            foreach(var request in _tourRequestService.GetAll())
+            {
+                if(DateOnly.FromDateTime(DateTime.Today) >= request.MaintenanceStartDate.AddDays(-2) && request.Status == StatusType.ON_HOLD)
+                {
+                    request.Status = StatusType.INVALID;
+                    _tourRequestService.Update(request);
+                }
+            }
+        }
         private void Execute_StatisticsCommand(object obj)
         {
             throw new NotImplementedException();
@@ -65,7 +92,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_CreateCommand(object obj)
         {
-            CreateTourRequestWindow window = new CreateTourRequestWindow();
+            CreateTourRequestWindow window = new CreateTourRequestWindow(LoggedInUser);
             window.ShowDialog();
         }
 

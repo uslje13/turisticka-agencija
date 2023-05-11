@@ -39,7 +39,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 }
             }
         }
-        public string LocationFullName { get; set; }
+        private string _locationFullName;
+
+        public String LocationFullName
+        {
+            get { return _locationFullName; }
+            set
+            {
+                if (value != _locationFullName)
+                {
+                    _locationFullName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private string _description;
 
@@ -115,13 +128,30 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
         public string Status { get; set; }
-        public string StartEndDateRange { get; set; }
-        public RequestViewModel(int userId, string city, string coutry, string description, string language, int maxNumOfGuests, DateTime maintenanceStartDate, DateTime maintenanceEndDate, StatusType status)
+
+        private string _startEndDateRange;
+        public String StartEndDateRange
+        {
+            get { return _startEndDateRange; }
+            set
+            {
+                if (value != _startEndDateRange)
+                {
+                    _startEndDateRange = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public RequestViewModel()
+        {
+
+        }
+        public RequestViewModel(int userId, string city, string country, string description, string language, int maxNumOfGuests, DateOnly maintenanceStartDate, DateOnly maintenanceEndDate, StatusType status)
         {
             UserId = userId;
             City = city;
-            Country = coutry;
-            LocationFullName = city + ", " + coutry;
+            Country = country;
+            LocationFullName = city + ", " + country;
             Description = description;
             Language = language;
             MaintenanceStartDate = maintenanceStartDate.ToString();

@@ -41,31 +41,31 @@
                                 Height="155"
                                 Margin="15,25,0,40" Width="220">
                         <Image Source="/Resources/Icons/user_ikonica.png" Height="126" Width="229"/>
-                        <Label Content="Drasko Novakovic" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
+                        <Label Content="{Binding LoggedInUser.Username}" HorizontalContentAlignment="Center" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
                     </StackPanel>
 
-                    <Button Style="{StaticResource MenuButtons}">
+                    <Button Style="{StaticResource MenuButtons}" BorderThickness="1,1,2,2">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/request.png" Height="40" Width="38"/>
                             <TextBlock Text="  Zahtevi za obicne ture" Height="24" Width="186"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" Command="{Binding BackCommand}">
+                    <Button Style="{StaticResource MenuButtons}" Command="{Binding BackCommand}" BorderThickness="1,1,2,2">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/request.png" Height="40" Width="38"/>
                             <TextBlock Text=" Zahtevi za slozene ture" Height="24" Width="195"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}">
+                    <Button Style="{StaticResource MenuButtons}" BorderThickness="1,1,2,2">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/help--v1.png" Height="40" Width="38"/>
                             <TextBlock Text="  Pomoc (Ctrl + h)" Height="24" Width="189"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}">
+                    <Button Style="{StaticResource MenuButtons}" Command="{Binding BackCommand}" BorderThickness="1,1,2,2">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/back_button.png" Height="40" Width="38"/>
                             <TextBlock Text="  Nazad (Ctrl + b)" Height="24" Width="189"/>

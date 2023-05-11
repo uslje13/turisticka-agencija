@@ -15,13 +15,14 @@ namespace SOSTeam.TravelAgency.Domain.Models
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public bool IsNotificationViewed { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
         public string Description { get; set; }
         public string Language { get; set; }
         public int MaxNumOfGuests { get; set; }
-        public DateTime MaintenanceStartDate { get; set; }
-        public DateTime MaintenanceEndDate { get; set; }
+        public DateOnly MaintenanceStartDate { get; set; }
+        public DateOnly MaintenanceEndDate { get; set; }
         public StatusType Status { get; set; }
         public TourRequest()
         {
@@ -31,12 +32,12 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Description = string.Empty;
             Language = string.Empty;
             MaxNumOfGuests = 0;
-            MaintenanceStartDate = DateTime.MinValue;
-            MaintenanceEndDate = DateTime.MaxValue;
+            MaintenanceStartDate = DateOnly.MinValue;
+            MaintenanceEndDate = DateOnly.MaxValue;
             Status = StatusType.ON_HOLD;
         }
 
-        public TourRequest(string city, string country, string description, string language, int maxNumOfGuests, DateTime maintenanceStartDate, DateTime maintenanceEndDate, StatusType statusType, int userId)
+        public TourRequest(string city, string country, string description, string language, int maxNumOfGuests, DateOnly maintenanceStartDate, DateOnly maintenanceEndDate, StatusType statusType, int userId, bool isNotificationViewed = false)
         {
             City = city;
             Country = country;
@@ -47,6 +48,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             MaintenanceEndDate = maintenanceEndDate;
             Status = statusType;
             UserId = userId;
+            IsNotificationViewed = isNotificationViewed;
         }
 
         public void FromCSV(string[] values)
@@ -57,8 +59,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Description = values[3];
             Language = values[4];
             MaxNumOfGuests = int.Parse(values[5]);
-            MaintenanceStartDate = DateTime.ParseExact(values[6], "dd.MM.yyyy. HH:mm", CultureInfo.InvariantCulture);
-            MaintenanceEndDate = DateTime.ParseExact(values[7], "dd.MM.yyyy. HH:mm", CultureInfo.InvariantCulture);
+            MaintenanceStartDate = DateOnly.ParseExact(values[6], "dd.MM.yyyy.", CultureInfo.InvariantCulture);
+            MaintenanceEndDate = DateOnly.ParseExact(values[7], "dd.MM.yyyy.", CultureInfo.InvariantCulture);
             Status = values[8] switch
             {
                 "ON_HOLD" => StatusType.ON_HOLD,
@@ -66,6 +68,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 "ACCEPTED" => StatusType.ACCEPTED,
             };
             UserId = int.Parse(values[9]);
+            IsNotificationViewed = bool.Parse(values[10]);
         }
 
         public string[] ToCSV()
@@ -78,10 +81,11 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 Description,
                 Language,
                 MaxNumOfGuests.ToString(),
-                MaintenanceStartDate.ToString("dd.MM.yyyy. HH:mm"),
-                MaintenanceEndDate.ToString("dd.MM.yyyy. HH:mm"),
+                MaintenanceStartDate.ToString("dd.MM.yyyy."),
+                MaintenanceEndDate.ToString("dd.MM.yyyy."),
                 Status.ToString(),
                 UserId.ToString(),
+                IsNotificationViewed.ToString(),
             };
             return csvValues;
         }
