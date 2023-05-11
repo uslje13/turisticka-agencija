@@ -9,11 +9,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
     public class AppoitmentOverviewViewModel : ViewModel
     {
         public DateTime StartDateTime { get; set; }
-
-        /*
-        public DateOnly Date { get; set; }
-        public TimeOnly Time { get; set; }
-        */
         public int TourId { get; set; }
 
         private string _start;
@@ -52,14 +47,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             Start = start.ToString();
             TourId = tourId;
             StartDateTime = start;
-
-            /*
-            AvailableSlots = availableSlots;
-            Start = date.ToString() + " " + time.ToString();
-            TourId = tourId;
-            Date = date;
-            Time = time;
-            */
         }
     }
 }

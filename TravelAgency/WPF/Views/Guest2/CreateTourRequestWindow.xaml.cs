@@ -12,22 +12,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for RequestsPage.xaml
+    /// Interaction logic for CreateTourRequestWindow.xaml
     /// </summary>
-    public partial class RequestsPage : Page
+    public partial class CreateTourRequestWindow : Window
     {
-        public RequestsPage(User loggedInUser)
+        public CreateTourRequestWindow(User loggedInUser)
         {
             InitializeComponent();
-            RequestsPageViewModel viewModel = new RequestsPageViewModel(loggedInUser, this);
+            CreateTourRequestViewModel viewModel = new CreateTourRequestViewModel(loggedInUser,this);
             DataContext= viewModel;
-            viewModel.SetStartupPage();
         }
     }
 }
