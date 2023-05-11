@@ -27,7 +27,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         public EnterGuestNumberPage(AccReservationViewModel item, User user, bool enterOfChange, ChangedReservationRequest request, Frame frame)
         {
             InitializeComponent();
-            EnterGuestNumberViewModel viewModel = new EnterGuestNumberViewModel(item, user, enterOfChange, request, GuestNumber, frame);
+            EnterGuestNumberViewModel viewModel = new EnterGuestNumberViewModel(item, user, enterOfChange, request, frame);
             DataContext = viewModel;
         }
 

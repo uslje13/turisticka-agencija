@@ -17,16 +17,15 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public string City { get; set; }
         public string Country { get; set; }
         public DateTime OldFirstDay { get; set; }
-        public string OldFirstDayString { get; set; }
-        public string OldLastDayString { get; set; }
-        public string NewFirstDayString { get; set; }
-        public string NewLastDayString { get; set; }
+        public string OldReservationString { get; set; }
+        public string NewReservationString { get; set; }
         public DateTime OldLastDay { get; set; }
         public DateTime? NewFirstDay { get; set; }
         public DateTime? NewLastDay { get; set; }
         public int GuestNumber { get; set; }
         public int UserId { get; set; }
         public Status status { get; set; }
+        public string StatusString { get; set; }
         public string ownerComment { get; set; }
         public bool IsSuperOwned { get; set; }
 
@@ -44,15 +43,14 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Country = country;
             OldFirstDay = fDay;
             OldLastDay = lDay;
-            OldFirstDayString = OldFirstDay.ToShortDateString();
-            OldLastDayString = OldLastDay.ToShortDateString(); 
+            OldReservationString = OldFirstDay.ToShortDateString() + " - " + OldLastDay.ToShortDateString(); 
             NewFirstDay = null;
             NewLastDay = null;
-            NewFirstDayString = "";
-            NewLastDayString = "";
+            NewReservationString = "";
             GuestNumber = guests;
             UserId = userId;
             status = Status.NOT_REQUIRED;
+            StatusString = "BEZ ZAHTJEVA";
             ownerComment = "Nema komentara";
             IsSuperOwned = false;
         }
@@ -79,27 +77,25 @@ namespace SOSTeam.TravelAgency.Domain.Models
             NewFirstDay = Convert.ToDateTime(values[i++]);
             NewLastDay = Convert.ToDateTime(values[i++]);
 
-            OldFirstDayString = OldFirstDay.ToShortDateString();
-            OldLastDayString = OldLastDay.ToShortDateString();
-            NewFirstDayString = NewFirstDay?.ToShortDateString();
-            NewLastDayString = NewLastDay?.ToShortDateString();
+            OldReservationString = OldFirstDay.ToShortDateString() + " - " + OldLastDay.ToShortDateString();
+            NewReservationString = NewFirstDay?.ToShortDateString() + " - " + NewLastDay?.ToShortDateString();
 
             GuestNumber = Convert.ToInt32(values[i++]);
             UserId = Convert.ToInt32(values[i++]);
-            status = FindStatus(values[i++]);
+            StatusString = FindStatus(values[i++]);
             ownerComment = values[i++];
         }
 
-        private Status FindStatus(string str)
+        private string FindStatus(string str)
         {
             if (str.Equals("ACCEPTED"))
-                return Status.ACCEPTED;
+                return "PRIHVAĆENO";
             else if (str.Equals("REFUSED"))
-                return Status.REFUSED;
+                return "ODBIJENO";
             else if (str.Equals("ON_HOLD"))
-                return Status.ON_HOLD;
+                return "NA ČEKANjU";
             else
-                return Status.NOT_REQUIRED;
+                return "BEZ ZAHTJEVA";
         }
     }
 }

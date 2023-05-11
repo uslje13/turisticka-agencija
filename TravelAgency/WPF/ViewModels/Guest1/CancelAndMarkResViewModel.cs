@@ -27,10 +27,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public bool IsSuperOwned { get; set; }
         public string TypeString { get; set; }
 
-        public CancelAndMarkResViewModel() 
-        {
-            //NotificationShape = "Nemate rezervacija za ocjenjivanje smještaja.";
-        }
+        public CancelAndMarkResViewModel() { }
 
         public CancelAndMarkResViewModel(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId, string daysForMarking = "", int daysDuration = -1, LocAccommodationViewModel.AccommType type = LocAccommodationViewModel.AccommType.NOTYPE)
         {

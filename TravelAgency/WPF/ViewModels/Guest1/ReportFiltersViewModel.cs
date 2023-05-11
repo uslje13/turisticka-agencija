@@ -16,12 +16,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     public class ReportFiltersViewModel
     {
         public User LoggedInUser { get; set; }
+        public Frame ThisFrame { get; set; }
         public string SelectedOption { get; set; }
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; }
         public ObservableCollection<string> _comboBoxOptions { get; set; }
         public List<CancelAndMarkResViewModel> _presentedReservations { get; set; }
-        public Frame ThisFrame { get; set; }
         public RelayCommand ProcessReportCommand { get; set; }
 
         public ReportFiltersViewModel(User user, Frame frame)

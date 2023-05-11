@@ -24,7 +24,13 @@
                   Style="{StaticResource DataGridStyle}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="0,93,15,205">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Naziv" Binding="{Binding AccommodationName}" Width="1*"/>
+                <DataGridTemplateColumn Header="Naziv" Width="1*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding AccommodationName}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
                 <DataGridTextColumn Header="Drzava" Binding="{Binding AccommodationCountry}" Width="1*"/>
                 <DataGridTextColumn Header="Tip" Binding="{Binding TypeString}" Width="1*"/>

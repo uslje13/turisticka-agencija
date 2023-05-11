@@ -51,7 +51,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationMaxGuests = guests;
             AccommodationMinDaysStay = days;
             GuestNumber = guestNumber;
-            CurrentGuests = "   Trenutno gostiju: " + guestNumber.ToString();
+            CurrentGuests = "  Trenutno gostiju: " + guestNumber.ToString();
             IsSuperOwned = isSuperOwned;
             MinDaysString = "   Minimalno dana: " + days.ToString();
             ImageService imageService = new ImageService();

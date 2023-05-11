@@ -53,7 +53,7 @@
                                     </Grid>
                                     <Grid Grid.Row="2" Grid.Column="0">
                                         <TextBlock FontSize="17" 
-                                                   TextAlignment="Left"
+                                                   TextAlignment="Left" Foreground="DarkSlateGray"
                                                    Text="{Binding FullLocation}"/>
                                     </Grid>
                                     <Grid Grid.Row="3" Grid.Column="0">
@@ -101,7 +101,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Slika" Width="1*">
+                <DataGridTemplateColumn Header="Slika smještaja" Width="1*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Margin="-40,-22,-40,-22" 

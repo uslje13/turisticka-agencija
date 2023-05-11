@@ -29,28 +29,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public DatePicker LastDay { get; set; }
         public Frame ThisFrame { get; set; }
 
-        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, Frame frame)
-        {
-            DTO = dto;
-            FirstDate = DateTime.Now;
-            LastDate = DateTime.Now;
-            FirstDay = fDay;
-            LastDay = lDay;
-            LoggedInUser = user;
-            IsEnterOfGhange = enter;
-            Days = tb;
-            ThisFrame = frame;
-
-            FirstDay.BlackoutDates.AddDatesInPast();
-            LastDay.BlackoutDates.AddDatesInPast();
-
-            accResService = new AccommodationReservationService();  
-
-            searchDatesCommand = new RelayCommand(ExecuteSearchingDates);
-            GoBackCommand = new RelayCommand(Execute_GoBack);
-        }
-
-        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, ChangedReservationRequest request, Frame frame)
+        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, ChangedReservationRequest request = null, Frame frame)
         {
             DTO = dto;
             FirstDate = DateTime.Now;
@@ -66,7 +45,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             FirstDay.BlackoutDates.AddDatesInPast();
             LastDay.BlackoutDates.AddDatesInPast();
 
-            accResService = new AccommodationReservationService();
+            accResService = new AccommodationReservationService();  
 
             searchDatesCommand = new RelayCommand(ExecuteSearchingDates);
             GoBackCommand = new RelayCommand(Execute_GoBack);

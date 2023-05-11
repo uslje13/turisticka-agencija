@@ -15,12 +15,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class SearchResultsViewModel
     {
+        public User LoggedInUser { get; set; }
+        public Frame ThisFrame { get; set; }
         public ObservableCollection<LocAccommodationViewModel> accommodationDTOs { get; set; }
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
-        public User LoggedInUser { get; set; }
         public RelayCommand reserveCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
-        public Frame ThisFrame { get; set; }
 
         public SearchResultsViewModel(List<LocAccommodationViewModel> Results, User user, Frame thisFrame)
         {
