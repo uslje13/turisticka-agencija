@@ -13,6 +13,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class OrdinaryToursPageViewModel : ViewModel
     {
+        private OrdinaryToursRequestsPage _page;
         public static User LoggedInUser { get; set; }
         private ObservableCollection<RequestViewModel> _tourRequests;
         public ObservableCollection<RequestViewModel> TourRequests
@@ -52,15 +53,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public OrdinaryToursPageViewModel(User loggedInUser)
+        public OrdinaryToursPageViewModel(User loggedInUser, OrdinaryToursRequestsPage page)
         {
-            LoggedInUser= loggedInUser;
+            LoggedInUser = loggedInUser;
             _tourRequestService = new TourRequestService();
             StatisticsCommand = new RelayCommand(Execute_StatisticsCommand, CanExecuteMethod);
-            CreateCommand = new RelayCommand(Execute_CreateCommand,CanExecuteMethod);
+            CreateCommand = new RelayCommand(Execute_CreateCommand, CanExecuteMethod);
             TourRequests = new ObservableCollection<RequestViewModel>();
             UpdateTourRequests();
             FillTourRequests();
+            _page = page;
         }
 
         private void FillTourRequests()
@@ -87,7 +89,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         }
         private void Execute_StatisticsCommand(object obj)
         {
-            throw new NotImplementedException();
+            var navigationService = _page.StatsFrame.NavigationService;
+            navigationService.Navigate(new StatisticsPage());
         }
 
         private void Execute_CreateCommand(object obj)
