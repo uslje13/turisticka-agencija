@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest2"
       mc:Ignorable="d" 
       Height="800" Width="990"
@@ -17,6 +18,15 @@
                 <Button Content="Statistika" FontSize="20" Width="254" Height="33" BorderThickness="1,1,2,2"></Button>
             </StackPanel>
         </Border>
-        
+        <Border Margin="0,0,0,103">
+            <Border Margin="60,49,564,305">
+                <StackPanel>
+                    <TextBlock Text="Opsta statistika" FontSize="24" Margin="5,0,0,0"></TextBlock>
+                    <Border Height="315" BorderThickness="1" BorderBrush="Black">
+                        
+                    </Border>
+                </StackPanel>
+            </Border>
+        </Border>
     </Grid>
 </Page>

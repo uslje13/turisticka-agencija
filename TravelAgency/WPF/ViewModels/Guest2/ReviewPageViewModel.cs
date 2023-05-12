@@ -190,6 +190,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             if (openFileDialog.ShowDialog() == true)
             {
                 ImageUrl = openFileDialog.FileName;
+                string substring = @"\Resources\Images\Tours";
+                int index = ImageUrl.LastIndexOf(substring);
+                string trimmedUrl = ImageUrl.Substring(index).Replace("\\", "/"); ;
+                ImageUrl = trimmedUrl;
             }
             Domain.Models.Image image = new Domain.Models.Image(ImageUrl,false, AppointmentId, ImageType.GUEST2);
             Images.Add(image);

@@ -90,7 +90,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_StatisticsCommand(object obj)
         {
             var navigationService = _page.StatsFrame.NavigationService;
-            navigationService.Navigate(new StatisticsPage());
+            navigationService.Navigate(new StatisticsPage(LoggedInUser));
         }
 
         private void Execute_CreateCommand(object obj)

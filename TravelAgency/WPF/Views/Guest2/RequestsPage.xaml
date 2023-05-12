@@ -44,7 +44,7 @@
                         <Label Content="{Binding LoggedInUser.Username}" HorizontalContentAlignment="Center" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154"/>
                     </StackPanel>
 
-                    <Button Style="{StaticResource MenuButtons}" BorderThickness="1,1,2,2">
+                    <Button Style="{StaticResource MenuButtons}" Command="{Binding NavigationCommand}" CommandParameter="OrdinaryRequests" BorderThickness="1,1,2,2">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/request.png" Height="40" Width="38"/>
                             <TextBlock Text="  Zahtevi za obicne ture" Height="24" Width="186"/>
@@ -58,7 +58,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource MenuButtons}" BorderThickness="1,1,2,2">
+                    <Button Style="{StaticResource MenuButtons}" Command="{Binding HelpCommand}" BorderThickness="1,1,2,2">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/help--v1.png" Height="40" Width="38"/>
                             <TextBlock Text="  Pomoc (Ctrl + h)" Height="24" Width="189"/>
