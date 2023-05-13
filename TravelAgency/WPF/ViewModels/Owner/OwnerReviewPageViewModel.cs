@@ -1,5 +1,6 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -46,13 +47,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                         ,_accommodationService.GetById(mark.AccommodationId).Name
                         ,_userService.GetById(mark.GuestId).Username
                         ,mark.GuestComment
-                        ,mark.UrlGuestImage
-                        ,mark.CleanMark
+                        ,GetImageUrl(mark.UrlGuestImage)
+                        , mark.CleanMark
                         ,mark.OwnerMark
                         ));
                 }
                 
             }
+        }
+
+        private string GetImageUrl(string urls) 
+        {
+            if(urls.Equals("Nema priloženih slika.")) return "/Resources/Images/UnknownPhoto.png";
+            return urls.Split(',')[0] ?? "/Resources/Images/UnknownPhoto.png";
         }
 
         private List<GuestAccommodationMark> GetOwnerMarks()
@@ -74,7 +81,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private double GetAveridgeGrade()
         {
             if(Reviews == null || Reviews.Count < 1) return 0;
-            return Reviews.Average(r => r.OwnerMark + r.CleanMark);
+            return Math.Round( Reviews.Average(r => r.OwnerMark + r.CleanMark),2);
         }
     }
 

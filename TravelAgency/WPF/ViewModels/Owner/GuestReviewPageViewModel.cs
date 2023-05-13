@@ -34,7 +34,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Guest = guest;
             _guestReviewService = new();
             _mainwindowVM = mainWindowVM;
-            CleanlinessRating = 3;
+            CleanlinessRating = 5;
             RulesRating = 5;
             AddReview = new RelayCommand(Execute_AddReview, CanExecuteAddReview);
             Cancel = new RelayCommand(Execute_Cancel, CanExecuteCancel);

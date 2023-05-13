@@ -23,7 +23,6 @@
         <Style TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="Background" Value="#63aaed" />
-            <Setter Property="Foreground" Value="#63aaed" />
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="2" />
 
@@ -54,6 +53,7 @@
         </Style>
 
         <converter:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+        <converter:PositiveIntegerValidationRule x:Key="PositiveIntegerValidationRule"/>
     </Page.Resources>
 
     <Grid Background="Transparent">
@@ -92,15 +92,39 @@
                 </WrapPanel>
                 <WrapPanel>
                     <Label  Content ="Maksimalan broj gostiju" Width="300"></Label>
-                    <TextBox  Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Width="100" ></TextBox>
-                </WrapPanel>
+                            <TextBox  Width="100">
+                                <TextBox.Text>
+                                    <Binding Path="MaxGuests" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <converter:PositiveIntegerValidationRule />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </WrapPanel>
                 <WrapPanel>
                     <Label   Content ="Minimalan broj dana" Width="300"></Label>
-                    <TextBox  Text="{Binding Path=MinDaysStay, UpdateSourceTrigger=PropertyChanged}"  Width="100"></TextBox>
+                    <TextBox  Width="100">
+                        <TextBox.Text>
+                            <Binding Path="MinDaysStay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <converter:PositiveIntegerValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                 </WrapPanel>
                 <WrapPanel>
                     <Label   Content ="Minimalano dana za otkazivanje" Width="300"></Label>
-                    <TextBox  Text="{Binding Path=MinDaysForCancelation, UpdateSourceTrigger=PropertyChanged}" Width="100" ></TextBox>
+                    <TextBox Width="100">
+                        <TextBox.Text>
+                            <Binding Path="MinDaysForCancelation" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <converter:PositiveIntegerValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                 </WrapPanel>
 
 

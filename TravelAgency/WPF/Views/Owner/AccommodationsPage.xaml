@@ -52,7 +52,7 @@
 
             
                 <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center"  >
-                <Border Background="#93caed" CornerRadius="20">
+                <Border Background="#a3daed" CornerRadius="20">
                         <Grid Height="60">
                             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center" Height="Auto" >
                                 <Button Margin="10,0,10,0" Command="{Binding AddAccommodation}">

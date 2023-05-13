@@ -41,7 +41,7 @@
         <Grid Grid.Row="0" Margin="20">
             <StackPanel>
                 <Label Content="Recenzije " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,10,30" />
-                <DataGrid Width="730" Height="450" RowHeight="50" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Reviews}" SelectedItem="{Binding Path=SelectedReview, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid Width="730" Height="450" RowHeight="80" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Reviews}" SelectedItem="{Binding Path=SelectedReview, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Resources>
                         <Geometry x:Key="StarGeometry">M10,0L12.828,7.172L20,7.172L14.142,10.606L16.97,17.778L10,14.142L3.03,17.778L5.858,10.606L0,7.172L7.172,7.172Z</Geometry>
                         <Style TargetType="Path">
@@ -55,12 +55,12 @@
                     </DataGrid.Resources>
                     
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="Auto" Header="Gost">
+                        <DataGridTemplateColumn Width="Auto" MaxWidth="120" Header="Gost">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate >
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Background="Transparent">
                                         <Image Source="/Resources/Icons/user_ikonica2.png" VerticalAlignment="Center" Width="40" Height="40" Margin="5,0,0,0"/>
-                                        <TextBlock Text="{Binding GuestUsername}" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <TextBlock Text="{Binding GuestUsername}" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="75" Margin="5,0,10,0"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -103,6 +103,15 @@
                                         </StackPanel>
 
                                     </WrapPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="130" Header="Gost">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
+                                        <Image Source="{Binding PictureUrl}" VerticalAlignment="Center" Width="100" Height="60" Stretch="UniformToFill" Margin="5,0,0,0"/>
+                                    </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
