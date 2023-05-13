@@ -60,12 +60,29 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
+        private string _guestImagePath;
+
+        public string GuestImagePath
+        {
+            get => _guestImagePath;
+            set
+            {
+                if (_guestImagePath != value)
+                {
+                    _guestImagePath = value;
+                    OnPropertyChanged("GuestImagePath");
+                }
+            }
+        }
+
         public CheckpointActivityCardViewModel()
         {
             CheckpointId = -1;
             ActivityId = -1;
             Name = string.Empty;
-
+            StatusEnum = CheckpointStatus.UNKNOWN;
+            _canShowAttendance = false;
+            _guestImagePath = "/Resources/Icons/guests_with_text_light.png";
         }
 
         public CheckpointActivityCardViewModel(int checkpointId, string name, CheckpointType type, CheckpointStatus statusEnum)
@@ -78,7 +95,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public void SetCanShowAttendance()
         {
-            CanShowAttendance = StatusEnum != CheckpointStatus.NOT_STARTED;
+            if (StatusEnum != CheckpointStatus.NOT_STARTED)
+            {
+                CanShowAttendance = true;
+                GuestImagePath = "/Resources/Icons/guests_with_text.png";
+            }
         }
 
         public void SetStatusAndBackground()

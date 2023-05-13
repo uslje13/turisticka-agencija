@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
-using SOSTeam.TravelAgency.WPF.Views;
+using SOSTeam.TravelAgency.WPF.Navigation;
 using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
@@ -71,8 +66,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 if (user.Password == Password && user.Role == Roles.TOURISTGUIDE)
                 {
                     MainWindow mainWindow = new MainWindow(user);
+                    //System.Windows.Application.Current.MainWindow = mainWindow;
                     mainWindow.Show();
                     OnRequestClose(this, new EventArgs());
+                    App.TourGuideNavigationService = new TourGuideNavigationService();
                 }
                 else
                 {

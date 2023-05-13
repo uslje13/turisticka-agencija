@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Media;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
@@ -138,6 +139,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 "END"
             };
 
+            var containsStart = CheckpointCards.Any(c => c.Type == CheckpointType.START);
+            var containsEnd = CheckpointCards.Any(c => c.Type == CheckpointType.END);
+
+            if (containsStart)
+            {
+                checkpointsTypes.Remove("START");
+            }
+
+            if (containsEnd)
+            {
+                checkpointsTypes.Remove("END");
+            }
+
+            
+
             return checkpointsTypes;
         }
 
@@ -186,6 +202,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 CheckpointCards[index].Background = new SolidColorBrush(Colors.AliceBlue);
                 CheckpointCards[index].CanEdit = true;
                 CheckpointCards[index].CanDelete = true;
+                CheckpointCards[index].CanEditImagePath = "/Resources/Icons/pencil.png";
+                CheckpointCards[index].CanDeleteImagePath = "/Resources/Icons/bin.png";
                 
                 ButtonContent = "Add";
                 SelectedCard = null;
@@ -217,6 +235,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 CheckpointCards[index].Background = new SolidColorBrush(Colors.AliceBlue);
                 CheckpointCards[index].CanEdit = true;
                 CheckpointCards[index].CanDelete = true;
+                CheckpointCards[index].CanEditImagePath = "/Resources/Icons/pencil.png";
+                CheckpointCards[index].CanDeleteImagePath = "/Resources/Icons/bin.png";
             }
 
             SelectedCard = selectedCheckpoint;
@@ -235,6 +255,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             selectedCheckpoint.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8FFB7"));
             selectedCheckpoint.CanDelete = false;
             selectedCheckpoint.CanEdit = false;
+            selectedCheckpoint.CanEditImagePath = "/Resources/Icons/pencil_light.png";
+            selectedCheckpoint.CanDeleteImagePath = "/Resources/Icons/bin_light.png";
             ButtonContent = "Confirm";
         }
 

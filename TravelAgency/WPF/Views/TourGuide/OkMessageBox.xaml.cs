@@ -11,22 +11,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 
 namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for OkMessageBox.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class OkMessageBox : Window
     {
-        public MainWindow(User loggedUser)
+        public OkMessageBox()
         {
             InitializeComponent();
-            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel(loggedUser);
-            DataContext = mainWindowViewModel;
-            MainFrame.Content = new HomePage(loggedUser, mainWindowViewModel.Timer);
+
         }
     }
 }

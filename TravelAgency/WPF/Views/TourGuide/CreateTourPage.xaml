@@ -7,7 +7,7 @@
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:tourGuide="clr-namespace:SOSTeam.TravelAgency.WPF.ValidationRules.TourGuide"
       mc:Ignorable="d" 
-      d:DesignHeight="750" d:DesignWidth="430"
+      d:DesignHeight="950" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="TodayToursPage">
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -137,7 +137,7 @@
             <Label Grid.Column="0" Grid.Row="2"  Content="Description:" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Margin="59,10,0,0" FontSize="14">
             </Label>
-            <TextBox Grid.Column="0" Grid.Row="2"  Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Height="150"
+            <TextBox x:Name="DescriptionTextBox" Grid.Column="0" Grid.Row="2"  Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Height="150"
                      BorderBrush="DarkGray" BorderThickness="1.5"
                      Margin="0,43,0,0" TextWrapping="Wrap">
                 <TextBox.Text>
@@ -166,7 +166,7 @@
             <!-- Language: -->
             <Label Grid.Column="0" Grid.Row="3"  Content="Language:" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Margin="59,5,0,0" FontSize="14"/>
-            <ComboBox Grid.Column="0" Grid.Row="3"  Grid.ColumnSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Height="25"
+            <ComboBox x:Name="LanguageComboBox" Grid.Column="0" Grid.Row="3"  Grid.ColumnSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Height="25"
                       BorderBrush="DarkGray" BorderThickness="1.5" Margin="0,38,0,0" >
                 <ComboBoxItem Content="Serbian"/>
                 <ComboBoxItem Content="Spanish"/>
@@ -200,7 +200,7 @@
             <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="Max. num. of guests:" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Margin="59,10,0,0" FontSize="14">
             </Label>
-            <tk:IntegerUpDown Grid.Column="0" Grid.Row="4" TextAlignment="Left" x:Name="MaxNumOfGuestsPicker" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top"
+            <tk:IntegerUpDown x:Name="MaxNumOfGuestsPicker" Grid.Column="0" Grid.Row="4" TextAlignment="Left"  Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top"
                               BorderBrush="DarkGray" BorderThickness="1.5" Minimum="1" Margin="0,35,0,0" Width="300" Height="25">
                 <tk:IntegerUpDown.Text>
                     <Binding Path="MaxNumOfGuests" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
@@ -230,7 +230,7 @@
             <Label Grid.Column="0" Grid.Row="5"  Content="Duration (in hours):" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Margin="59,10,0,0" FontSize="14">
             </Label>
-            <tk:IntegerUpDown Grid.Column="0" Grid.Row="5" x:Name="DurationPicker" TextAlignment="Left" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top"
+            <tk:IntegerUpDown x:Name="DurationPicker"  Grid.Column="0" Grid.Row="5"  TextAlignment="Left" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top"
                               BorderBrush="DarkGray" BorderThickness="1.5" Minimum="1" Margin="0,35,0,0" Width="300" Height="25">
                 <tk:IntegerUpDown.Text>
                     <Binding Path="Duration" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
@@ -255,8 +255,6 @@
                     </ControlTemplate>
                 </Validation.ErrorTemplate>
             </tk:IntegerUpDown>
-
-            <TextBox Grid.Column="0" Grid.Row="5" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="50" IsEnabled="False" Text="{Binding MinNumOfCheckpoints}"></TextBox>
             <!-- Add checkpoints -->
             <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
                     Cursor="Hand" Content="Add checkpoints" FontSize="14" Command="{Binding ShowAddCheckpointsPageCommand}" BorderBrush="DarkGray" BorderThickness="1.5">
@@ -276,6 +274,25 @@
             <!-- Create -->
             <Button Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
                     Cursor="Hand" BorderBrush="DarkGray" BorderThickness="1.5" Content="Create" FontSize="14" Command="{Binding CreateTourClickCommand}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName= NameTextBox, Path=(Validation.HasError)}" Value="False"></Condition>
+                                    <Condition Binding="{Binding ElementName= CountryComboBox, Path=(Validation.HasError)}" Value="False"></Condition>
+                                    <Condition Binding="{Binding ElementName= CityComboBox, Path=(Validation.HasError)}" Value="False"></Condition>
+                                    <Condition Binding="{Binding ElementName= DescriptionTextBox, Path=(Validation.HasError)}" Value="False"></Condition>
+                                    <Condition Binding="{Binding ElementName= LanguageComboBox, Path=(Validation.HasError)}" Value="False"></Condition>
+                                    <Condition Binding="{Binding ElementName= MaxNumOfGuestsPicker, Path=(Validation.HasError)}" Value="False"></Condition>
+                                    <Condition Binding="{Binding ElementName= DurationPicker, Path=(Validation.HasError)}" Value="False"></Condition>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"></Setter>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
         </Grid>
     </ScrollViewer>

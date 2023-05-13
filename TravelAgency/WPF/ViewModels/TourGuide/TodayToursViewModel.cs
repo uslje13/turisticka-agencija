@@ -43,14 +43,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public DateOnly TodayDate { get; set; }
 
-        private readonly User _loggedUser;
+        public User LoggedUser { get; set; }
 
         public TodayToursViewModel(User loggedUser, DispatcherTimer timer)
         {
-            _loggedUser = loggedUser;
+            LoggedUser = loggedUser;
             TodayDate = DateOnly.FromDateTime(DateTime.Now);
-            TourCardCreatorViewModel tourCardCreator = new TourCardCreatorViewModel();
-            TodayTourCards = tourCardCreator.CreateCards(loggedUser, CreationType.TODAY);
+            var tourCardCreatorViewModel = new TourCardCreatorViewModel();
+            TodayTourCards = tourCardCreatorViewModel.CreateCards(loggedUser, CreationType.TODAY);
 
             _appointmentService = new AppointmentService();
             _checkpointService = new CheckpointService();
@@ -66,7 +66,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void UpdateTourCards(object sender, EventArgs e)
         {
-            var activeAppointment = _appointmentService.GetActiveByUserId(_loggedUser.Id);
+            var activeAppointment = _appointmentService.GetActiveByUserId(LoggedUser.Id);
             foreach (var tourCard in TodayTourCards)
             {
                 var appointment = _appointmentService.GetById(tourCard.AppointmentId);
@@ -83,31 +83,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public void StartTour(object sender)
         {
             var selectedTourCard = sender as TourCardViewModel;
-            _appointmentService.StartAppointment(selectedTourCard.AppointmentId);
 
-            var messageBoxWindow = CreateMessageBox();
+            const string message = "Are you sure you want to start the tour?\n";
 
-            var result = messageBoxWindow.ShowDialog();
+            var result = App.TourGuideNavigationService.GetMessageBoxResult(message);
+
 
             if (result == true)
             {
+                _appointmentService.StartAppointment(selectedTourCard.AppointmentId);
                 _checkpointActivityService.CreateActivities(_checkpointService.GetAllByTourId(selectedTourCard.TourId), selectedTourCard.AppointmentId);
                 CreateGuestAttendances(selectedTourCard);
-                LiveTourPage liveTourPage = new LiveTourPage(_loggedUser);
-                System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = liveTourPage;
+
+                App.TourGuideNavigationService.AddPreviousPage();
+                App.TourGuideNavigationService.SetMainFrame("LiveTour", LoggedUser);
             }
-        }
-
-        private static MessageBoxWindow CreateMessageBox()
-        {
-            const string message = "Are you sure you want to start the tour?\n";
-
-            var messageBoxViewModel = new MessageBoxViewModel("Alert", "/Resources/Icons/warning.png", message);
-            var messageBoxWindow = new MessageBoxWindow
-            {
-                DataContext = messageBoxViewModel
-            };
-            return messageBoxWindow;
         }
 
         private void CreateGuestAttendances(TourCardViewModel startedAppointment)
