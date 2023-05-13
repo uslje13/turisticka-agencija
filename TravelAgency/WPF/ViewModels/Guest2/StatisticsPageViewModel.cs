@@ -44,6 +44,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
+        private SeriesCollection _tourRequestsByLocation;
+        public SeriesCollection TourRequestsByLocation
+        {
+            get { return _tourRequestsByLocation; }
+            set
+            {
+                _tourRequestsByLocation = value;
+                OnPropertyChanged(nameof(TourRequestsByLocation));
+            }
+        }
+
         private TourRequestService _tourRequestService;
 
         public StatisticsPageViewModel(User loggedInUser)
@@ -54,13 +65,46 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             GenerateGeneralStatistics();
             GenerateStatisticsByYear(SelectedYear);
             GenerateTourRequestsByLanguage();
+            GenerateTourRequestsByLocation();
+        }
+
+        private void GenerateChartData(Dictionary<string, int> dataCounts, ref SeriesCollection series)
+        {
+            foreach (var dataCount in dataCounts)
+            {
+                series.Add(new PieSeries
+                {
+                    Title = dataCount.Key,
+                    Values = new ChartValues<int> { dataCount.Value },
+                    DataLabels = true
+                });
+            }
+        }
+
+        private void GenerateTourRequestsByLocation()
+        {
+            Dictionary<string, int> locationCounts = new Dictionary<string, int>();
+
+            foreach (var request in _tourRequestService.GetAll())
+            {
+                string location = request.City + ", " + request.Country;
+
+                if (locationCounts.ContainsKey(location))
+                    locationCounts[location]++;
+                else
+                    locationCounts[location] = 1;
+            }
+
+            SeriesCollection series = new SeriesCollection();
+            GenerateChartData(locationCounts, ref series);
+
+            TourRequestsByLocation = series;
         }
 
         private void GenerateTourRequestsByLanguage()
         {
             Dictionary<string, int> languageCounts = new Dictionary<string, int>();
 
-            // Iterate over your tour requests and count the requests by language
             foreach (var request in _tourRequestService.GetAll())
             {
                 string language = request.Language;
@@ -71,17 +115,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     languageCounts[language] = 1;
             }
 
-            // Create the chart series data
             SeriesCollection series = new SeriesCollection();
-            foreach (var languageCount in languageCounts)
-            {
-                series.Add(new PieSeries
-                {
-                    Title = languageCount.Key,
-                    Values = new ChartValues<int> { languageCount.Value },
-                    DataLabels = true
-                });
-            }
+            GenerateChartData(languageCounts, ref series);
 
             TourRequestsByLanguage = series;
         }
