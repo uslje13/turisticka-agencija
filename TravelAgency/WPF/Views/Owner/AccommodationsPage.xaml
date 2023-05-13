@@ -4,6 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Owner"
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+
       mc:Ignorable="d" 
       d:DesignHeight="662" d:DesignWidth="804"
       Title="AccommodationsPage">
@@ -93,6 +95,11 @@
                         
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding OpenAccommodationDetails}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </ListBox>
         </Grid>
         <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black" Margin="30,0,30,50"/>
