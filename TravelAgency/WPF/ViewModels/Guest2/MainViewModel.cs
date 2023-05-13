@@ -46,6 +46,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private ReservationService _reservationService;
         private AppointmentService _appointmentService;
         private ImageService _imageService;
+        private TourRequestService _tourRequestService;
 
         private RelayCommand _searchCommand;
 
@@ -279,7 +280,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_RequestsPageCommand(object obj)
         {
             var navigationService = _window.RequestsFrame.NavigationService;
-            navigationService.Navigate(new RequestsPage());
+            navigationService.Navigate(new RequestsPage(LoggedInUser));
         }
 
         private void Execute_SearchPageCommand(object obj)
@@ -314,8 +315,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _reservationService = new ReservationService();
             _appointmentService= new AppointmentService();
             _imageService = new ImageService();
+            _tourRequestService= new TourRequestService();
         }
 
+        public void GetAcceptedRequestMessage()
+        {
+            foreach(var request in _tourRequestService.GetAll())
+            {
+                if(request.Status == StatusType.ACCEPTED && !request.IsNotificationViewed && request.UserId == LoggedInUser.Id)
+                {
+                    MessageBox.Show("Vas zahtev za turom je prihvacen. Novu turu mozete pronaci u prozoru sa svim turama (mozete pogledati i rezervisati odradjeni termin)","Obavestenje", MessageBoxButton.OK,MessageBoxImage.Information);
+                    request.IsNotificationViewed = true;
+                    _tourRequestService.Update(request);
+                }
+            }
+        }
         public void GetAttendanceMessage()
         {
             foreach (var attendance in UserAttendances)

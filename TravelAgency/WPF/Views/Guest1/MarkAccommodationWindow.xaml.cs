@@ -30,7 +30,8 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             InitializeComponent();
             List<RadioButton> cleanButtons = new List<RadioButton> { c1, c2, c3, c4, c5 };
             List<RadioButton> ownerButtons = new List<RadioButton> { v1, v2, v3, v4, v5 };
-            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(cleanButtons, ownerButtons, user, accommodation, this, reservationsForMark);
+            List<RadioButton> renovationButtons = new List<RadioButton> { h1, h2, h3, h4, h5 };
+            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(cleanButtons, ownerButtons, renovationButtons, user, accommodation, this, reservationsForMark);
             DataContext = viewModel;
         }
     }

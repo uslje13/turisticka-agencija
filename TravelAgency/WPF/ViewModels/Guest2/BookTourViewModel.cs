@@ -208,7 +208,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_ReserveCommand(object sender)
         {
 
-            if (IsDataCorrect() == true)
+            if (IsDataCorrect())
             {
                 MessageBoxResult result = ConfirmReservation();
                 ReservationConfirmedEvent(result);

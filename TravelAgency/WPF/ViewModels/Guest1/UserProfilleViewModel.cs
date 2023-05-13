@@ -20,12 +20,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     public class UserProfilleViewModel
     {
         public User LoggedInUser { get; set; }
+        public Window ThisWindow { get; set; }
         public int ThisYearCounter { get; set; }
         public int Notifications { get; set; }
-        public TextBlock UserName { get; set; }
-        public TextBlock Messages { get; set; }
-        public TextBlock ReservationsCounter { get; set; }
-        public Window ThisWindow { get; set; }
+        public string UsernameTextBlock { get; set; }
+        public string MessageNumberTextBlock { get; set; }
+        public string CounterTextBlock { get; set; }
         public List<CancelAndMarkResViewModel> _futuredReservations { get; set; }
         public List<CancelAndMarkResViewModel> _finishedReservations { get; set; }
         public List<AccommodationReservation> _accommodationReservations { get; set; }
@@ -37,13 +37,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand CanceledQueryCommand { get; set; }
 
 
-        public UserProfilleViewModel(User user, TextBlock uName, int notifications, TextBlock mess, TextBlock counter, Window window) 
+        public UserProfilleViewModel(User user, int notifications, Window window) 
         {
             LoggedInUser = user;
-            UserName = uName;
-            Messages = mess;
+            UsernameTextBlock = user.Username;
             ThisYearCounter = 0;
-            ReservationsCounter = counter;
             ThisWindow = window;
             Notifications = notifications;
 
@@ -58,7 +56,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             ApplyToCounter(_accommodationReservations);
             ControlInboxButton(Notifications);
-            FillUsernameTextBlock(LoggedInUser);
             AddFuturedReservations();
             CollectFinishedReservations();
             AddFinishedReservations();
@@ -80,9 +77,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void FillCounterTextBlock()
         {
-            Binding binding = new Binding();
-            binding.Source = "Broj rezervacija u ovoj godini : " + ThisYearCounter.ToString();
-            ReservationsCounter.SetBinding(TextBlock.TextProperty, binding);
+            CounterTextBlock = "Broj rezervacija u ovoj godini : " + ThisYearCounter.ToString();
         }
 
         private void AddFuturedReservations()
@@ -115,10 +110,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (notifications > 0)
             {
-                Binding binding = new Binding();
-                binding.Source = "   " + notifications.ToString();
-                Messages.SetBinding(TextBlock.TextProperty, binding);
-                Messages.Foreground = new SolidColorBrush(Colors.DarkGoldenrod);
+                MessageNumberTextBlock = "   " + notifications.ToString();
             }
         }
 
@@ -193,13 +185,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             SignInForm form = new SignInForm();
             ThisWindow.Close();
             form.ShowDialog();
-        }
-
-        private void FillUsernameTextBlock(User user)
-        {
-            Binding binding = new Binding();
-            binding.Source = user.Username;
-            UserName.SetBinding(TextBlock.TextProperty, binding);
         }
     }
 }

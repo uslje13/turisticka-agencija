@@ -1,8 +1,8 @@
 ﻿using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,17 +16,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SOSTeam.TravelAgency.WPF.Views.Guest1
+namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for SelectReservationDatesPage.xaml
+    /// Interaction logic for TourRequestReview.xaml
     /// </summary>
-    public partial class SelectReservationDatesPage : Page
+    public partial class TourRequestReviewPage : Page
     {
-        public SelectReservationDatesPage(List<AccReservationViewModel> list, User user, bool enter, ChangedReservationRequest request, Frame frame)
+        public TourRequestReviewPage(User loggedInUser,ObservableCollection<RequestViewModel> tourRequests)
         {
             InitializeComponent();
-            SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user, enter, request, frame);
+            TourRequestReviewPageViewModel viewModel = new TourRequestReviewPageViewModel(loggedInUser,tourRequests);
             DataContext = viewModel;
         }
     }

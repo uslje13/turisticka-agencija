@@ -34,5 +34,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         {
             _viewModel.GetAttendanceMessage();
         }
+
+        public void GetAcceptedRequestMessage()
+        {
+            _viewModel.GetAcceptedRequestMessage();
+        }
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using SOSTeam.TravelAgency.Domain.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SOSTeam.TravelAgency.Application.Services
 {
@@ -17,14 +18,29 @@ namespace SOSTeam.TravelAgency.Application.Services
         private readonly IGuestAccommodationMarkRepository _guestAccommodationMarkRepository = Injector.CreateInstance<IGuestAccommodationMarkRepository>();
         private readonly IAccReservationRepository _accReservationRepository = Injector.CreateInstance<IAccReservationRepository>();
         private readonly IImageRepository _imageRepository = Injector.CreateInstance<IImageRepository>();
+        private readonly IAccommodationRepository _accommodationRepository = Injector.CreateInstance<IAccommodationRepository>();
+        private readonly INotificationRepository _notificationRepository = Injector.CreateInstance<INotificationRepository>();
+        private readonly IUserRepository _userRepository = Injector.CreateInstance<IUserRepository>();
 
         public GuestAccMarkService() { }
 
-        public void MarkAccommodation(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc)
+        public void MarkAccommodation(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc, string renovationMark, string suggest)
         {
-            MakeAndSaveMark(cleanMark, ownerMark, comment, urls, user, acc);
+            MakeAndSaveMark(cleanMark, ownerMark, comment, urls, user, acc, renovationMark, suggest);
             SaveChangesToCSVs(acc);
             SaveImages(urls, acc.ReservationId);
+            CreateNotificationToOwner(acc, renovationMark, suggest);
+        }
+
+        private void CreateNotificationToOwner(CancelAndMarkResViewModel acc, string renovationMark, string suggest)
+        {
+            Accommodation accommodation = _accommodationRepository.GetById(acc.AccommodationId);
+            AccommodationReservation reservation = _accReservationRepository.GetById(acc.ReservationId);
+            User user = _userRepository.GetById(reservation.UserId);
+            string Text = "Gost " + user.Username + " je dao predlog za renoviranje smještaja: " + suggest + " " +
+                          "Hitnost renoviranja je ocijenio sa: " + renovationMark;
+            Notification notification = new Notification(accommodation.OwnerId, Text, Notification.NotificationType.NOTYPE, false);
+            _notificationRepository.Save(notification);
         }
 
         private void SaveChangesToCSVs(CancelAndMarkResViewModel acc)
@@ -41,9 +57,9 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
         }
 
-        private void MakeAndSaveMark(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc)
+        private void MakeAndSaveMark(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc, string renovationMark, string suggest)
         {
-            GuestAccommodationMark accommodationMarks = new GuestAccommodationMark(cleanMark, ownerMark, comment, urls, user.Id, acc.AccommodationId);
+            GuestAccommodationMark accommodationMarks = new GuestAccommodationMark(cleanMark, ownerMark, comment, urls, user.Id, acc.AccommodationId, renovationMark, suggest);
             if (accommodationMarks.UrlGuestImage.Equals(""))
                 accommodationMarks.UrlGuestImage = "Nema priloženih slika.";
             _guestAccommodationMarkRepository.Save(accommodationMarks);

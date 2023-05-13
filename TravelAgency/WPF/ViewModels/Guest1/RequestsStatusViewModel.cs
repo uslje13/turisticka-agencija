@@ -18,29 +18,25 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     public class RequestsStatusViewModel
     {
         public User LoggedInUser { get; set; }
-        public RelayCommand searchCommand { get; set; }
-        public RelayCommand reserveCommand { get; set; }
         public Window ThisWindow { get; set; }
-        public RelayCommand NavigationButtonCommand { get; set; }
-        public Frame ThisFrame { get; set; }
-        public TextBlock TextBlockUsername { get; set; }
         public Window UserProfilleWindow { get; set; }
+        public Frame ThisFrame { get; set; }
+        public string UsernameTextBlock { get; set; }
         public int Notifications { get; set; }
         public bool Report { get; set; }
-        public TextBlock WindowName { get; set; }
+        public string WindowNameTextBlock { get; set; }
+        public RelayCommand NavigationButtonCommand { get; set; }
 
-        public RequestsStatusViewModel(User user, Window window, Frame frame, TextBlock textBlock, Window profille, int notifications, bool report, TextBlock windowName)
+        public RequestsStatusViewModel(User user, Window window, Frame frame, Window profille, int notifications, bool report)
         {
             LoggedInUser = user;
             ThisWindow = window;
             ThisFrame = frame;
-            TextBlockUsername = textBlock;
+            UsernameTextBlock = user.Username;
             UserProfilleWindow = profille;
             Notifications = notifications;
             Report = report;
-            WindowName = windowName;
 
-            FillTextBlock(LoggedInUser);
             FillTitleBlock();
 
             NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand);
@@ -48,25 +44,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         
         private void FillTitleBlock()
         {
-            if (!Report)
-            {
-                Binding binding = new Binding();
-                binding.Source = "Pregled zahtjeva";
-                WindowName.SetBinding(TextBlock.TextProperty, binding);
-            }
-            else
-            {
-                Binding binding = new Binding();
-                binding.Source = "Izvještaj";
-                WindowName.SetBinding(TextBlock.TextProperty, binding);
-            }
-        }
-
-        private void FillTextBlock(User user)
-        {
-            Binding binding = new Binding();
-            binding.Source = user.Username;
-            TextBlockUsername.SetBinding(TextBlock.TextProperty, binding);
+            if (!Report) WindowNameTextBlock = "Pregled zahtjeva";
+            else WindowNameTextBlock = "Izvještaj";
         }
         
         public void SetStartupPage()

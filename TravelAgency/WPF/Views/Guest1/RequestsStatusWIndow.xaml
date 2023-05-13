@@ -20,10 +20,10 @@
         <Frame x:Name="StatusFrame" NavigationUIVisibility ="Hidden" />
         <Image Source="/Resources/Icons/Guest1/user_siluet.png" 
                    Margin="0,3,818,567"/>
-        <TextBlock Foreground="Black" x:Name="UsersName" FontSize="20" FontWeight="Bold" 
+        <TextBlock Foreground="Black" x:Name="UsersName" FontSize="20" FontWeight="Black" Text="{Binding UsernameTextBlock}"
                    Margin="0,160,820,542" TextAlignment="Center"></TextBlock>
-        <TextBlock x:Name="WindowName" TextAlignment="Center" FontSize="80" FontWeight="Bold" FontStyle="Italic" 
-                    Margin="205,20,0,590" Width="809"/>
+        <TextBlock x:Name="WindowName" TextAlignment="Center" Text="{Binding WindowNameTextBlock}"
+                   FontSize="80" FontWeight="Bold" FontStyle="Italic" Margin="205,20,0,590" Width="809"/>
         <UniformGrid Rows="5" Margin="0,255,820,121" >
             <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Profille" Style="{StaticResource MenuButtonStyle}" 
                      VerticalAlignment="Stretch">
