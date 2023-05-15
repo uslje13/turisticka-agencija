@@ -56,15 +56,24 @@ namespace SOSTeam.TravelAgency.Application.Services
             {
                 foreach (Accommodation accommodation in _accommodationRepository.GetAllByUserId(userId))
                 {
-                    if (reservation.AccommodationId == accommodation.Id && IsInLastFiveDays(reservation.LastDay) && !IsReviewedGuest(userId, reservation.UserId))
+                    if (reservation.AccommodationId == accommodation.Id && IsInLastFiveDays(reservation.LastDay) && !IsReviewedGuest(userId, reservation.UserId, reservation.AccommodationId))
                     {
+                        var review = _guestReviewRepository.SaveAndReturn(new GuestReview(
+                            userId,
+                            reservation.UserId,
+                            reservation.AccommodationId,
+                            -1,
+                            -1,
+                            ""
+                            ));
                         _notificationRepository.Save(new Notification(
                             userId,
                             "Ocenite korisnika",
                             Notification.NotificationType.GUESTREVIEW,
                             false,
-                            reservation.UserId
+                            review.Id
                             ));
+                        
                     }
                 }
             }
@@ -76,9 +85,9 @@ namespace SOSTeam.TravelAgency.Application.Services
             return dayDifference <= 5 && dayDifference > -1;
         }
 
-        private bool IsReviewedGuest(int ownerId, int userId)
+        private bool IsReviewedGuest(int ownerId, int userId, int accommodationId)
         {
-            return _guestReviewRepository.ReviewExists(ownerId, userId);
+            return _guestReviewRepository.ReviewExists(ownerId, userId,accommodationId);
         }
     }
 }

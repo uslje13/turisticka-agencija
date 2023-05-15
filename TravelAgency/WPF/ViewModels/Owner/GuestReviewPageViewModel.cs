@@ -2,37 +2,39 @@
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
     internal class GuestReviewPageViewModel : ViewModel
     {
         private GuestReviewService _guestReviewService;
+        private AccommodationService _accommodationService;
+        private UserService _userService;
         private MainWindowViewModel _mainwindowVM;
 
         public User LoggedInUser { get; private set; }
-        public User Guest { get; private set; }
-        public int CleanlinessRating { get;  set; }
-        public int RulesRating { get;  set; }
-        public string Comment { get;  set; }
+        public User GuestUser { get; private set; }
+        public Accommodation Accommodation { get; private set; }
+        public GuestReview Review { get; private set; }
+        public int CleanlinessRating { get; set; }
+        public int RulesRating { get; set; }
+        public string Comment { get; set; }
         public RelayCommand Cancel { get; private set; }
         public RelayCommand AddReview { get; private set; }
         public RelayCommand RateCleanliness { get; private set; }
         public RelayCommand RateRules { get; private set; }
-        public GuestReviewPageViewModel(User user, MainWindowViewModel mainWindowVM,User guest)
+        public GuestReviewPageViewModel(User user, MainWindowViewModel mainWindowVM, int reviewId)
         {
             LoggedInUser = user;
-            Guest = guest;
             _guestReviewService = new();
+            _userService = new();
+            _accommodationService = new();
+            Review = _guestReviewService.GetById(reviewId);
+            GuestUser = _userService.GetById(Review.GuestId);
+            Accommodation = _accommodationService.GetById(Review.AccommodationId);
             _mainwindowVM = mainWindowVM;
             CleanlinessRating = 5;
             RulesRating = 5;
@@ -68,7 +70,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private void Execute_AddReview(object obj)
         {
             if (Comment == null) Comment = "";
-            _guestReviewService.Save(new GuestReview(LoggedInUser.Id, Guest.Id, CleanlinessRating, RulesRating, Comment));
+            Review.IsReviewed = true;
+            Review.CleanlinessGrade = CleanlinessRating;
+            Review.RespectGrade = RulesRating;
+            Review.Comment = Comment;
+            _guestReviewService.Update(Review);
 
 
             _mainwindowVM.Execute_NavigationButtonCommand("Home");
@@ -81,7 +87,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             return;
         }
 
-        
+
     }
 
     public class RatingToBrushConverter : IValueConverter
@@ -115,7 +121,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             return false;
         }
 
-        
+
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

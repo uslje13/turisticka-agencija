@@ -40,7 +40,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
             foreach (var mark in GetOwnerMarks())
             {
-                if(_guestReviewService.ReviewExists(LoggedInUser.Id,mark.GuestId))
+                if(_guestReviewService.ReviewByGuestExists(LoggedInUser.Id,mark.GuestId))
                 {
                     Reviews.Add(new ReviewViewModel(
                         mark.Id
