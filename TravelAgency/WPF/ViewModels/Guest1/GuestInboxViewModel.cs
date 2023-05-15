@@ -180,5 +180,32 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 }
             }
         }
+
+        private void ShowGuestRatings()
+        {
+            GuestReviewService reviewService = new GuestReviewService();
+            UserService userService = new UserService();
+            List<GuestReview> guestReviews = reviewService.GetAll();
+
+            if(guestReviews.Count > 0)
+            {
+                foreach(var item in  guestReviews)
+                {
+                    if(item.GuestId == LoggedInUser.Id)
+                    {
+                        User owner = userService.GetById(item.OwnerId);
+                        string shape = "Vlasnik " + owner.Username + " je ocijenio Vašu čistoću ocjenom " + item.CleanlinessGrade +
+                                       ", a poštovanje pravila sa " + item.RespectGrade + ". ";
+                        if (!item.Comment.Equals("")) shape += "Nije ostavljao dodatni komentar.";
+                        else shape += "Ostavio je i dodatni komentar: " + item.Comment;
+                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel();
+                        model.NotificationShape = shape;
+                        _changedReservations.Add(model);
+                        //potreban je i smjestaj tj njegov id, i id rezervacije da bi se moglo uporedjivati
+                        //da li je ocjenjen ili nije
+                    }
+                }
+            }
+        }
     }
 }

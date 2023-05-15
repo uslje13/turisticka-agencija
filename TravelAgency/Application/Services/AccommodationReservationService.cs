@@ -144,7 +144,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             selectedReservation.StatusString = "NA ČEKANjU";
             selectedReservation.ownerComment = "Komentar nije dostupan";
             _changedResRequestRepositroy.Save(selectedReservation);
-        }
+        }  
 
         private void SaveWantedDates(AccReservationViewModel forwardedItem, User LoggedInUser, ChangedReservationRequest selectedReservation)
         {
