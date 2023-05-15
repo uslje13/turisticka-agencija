@@ -18,8 +18,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public string Text { get; set; }
         public NotificationType Type { get; set; }
         public bool Read { get; set; }
-        public int GuestId { get; set; }
-
+        public int EntityId { get; set; }
         public Notification()
         {
             Id = -1;
@@ -27,17 +26,17 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Text = String.Empty;
             Type = NotificationType.NOTYPE;
             Read = false;
-            GuestId = -1;
+            EntityId = -1;
         }
 
-        public Notification(int userId, string text, NotificationType type, bool read,int guestId = -1)
+        public Notification(int userId, string text, NotificationType type, bool read,int entityId = -1)
         {
             Id = -1;
             UserId = userId;
             Text = text;
             Type = type;
             Read = read;
-            GuestId = guestId;
+            EntityId = entityId;
         }
 
         public string[] ToCSV()
@@ -47,7 +46,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 UserId.ToString(),
                 Text, ((int)Type).ToString(),
                 Read == true ? "1" : "0",
-                GuestId.ToString() };
+                EntityId.ToString() };
             return csvValues;
 
         }
@@ -60,7 +59,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Text = values[i++];
             Type = (NotificationType)Convert.ToInt32(values[i++]);
             Read = values[i++].Equals("1");
-            GuestId = Convert.ToInt32(values[i++]);
+            EntityId = Convert.ToInt32(values[i++]);
         }
 
     }

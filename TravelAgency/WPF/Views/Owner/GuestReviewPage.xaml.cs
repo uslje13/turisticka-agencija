@@ -22,9 +22,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
     /// </summary>
     public partial class GuestReviewPage : Page
     {
-        public GuestReviewPage(User user, MainWindowViewModel mainWindowVM, User guest)
+        public GuestReviewPage(User user, MainWindowViewModel mainWindowVM, int reviewId)
         {
-            DataContext = new GuestReviewPageViewModel(user, mainWindowVM, guest);
+            DataContext = new GuestReviewPageViewModel(user, mainWindowVM, reviewId);
             InitializeComponent();
         }
     }

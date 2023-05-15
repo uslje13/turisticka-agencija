@@ -34,6 +34,15 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(FilePath, _guestReviews);
         }
 
+        public GuestReview SaveAndReturn(GuestReview guestReview) 
+        {
+            guestReview.Id = NextId();
+            _guestReviews = _serializer.FromCSV(FilePath);
+            _guestReviews.Add(guestReview);
+            _serializer.ToCSV(FilePath, _guestReviews);
+            return guestReview;
+        }
+
         public void Delete(int id)
         {
             _guestReviews = _serializer.FromCSV(FilePath);
@@ -52,10 +61,10 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(FilePath, _guestReviews);
         }
 
-        public bool ReviewExists(int ownerId,int guestId)
+        public bool ReviewExists(int ownerId,int guestId, int accommodationId)
         {
             _guestReviews = _serializer.FromCSV(FilePath);
-            return _guestReviews.Exists(l => l.GuestId == guestId && l.OwnerId == ownerId);
+            return _guestReviews.Exists(l => l.GuestId == guestId && l.OwnerId == ownerId && l.AccommodationId == accommodationId);
         }
         public int NextId()
         {
