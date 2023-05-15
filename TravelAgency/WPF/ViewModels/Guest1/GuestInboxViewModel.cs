@@ -28,11 +28,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public Window UserProfilleWindow { get; set; }
         public ObservableCollection<CancelAndMarkResViewModel> _reservationsForMark { get; set; }
         public List<CancelAndMarkResViewModel> _changedReservations { get; set; }
+        public List<CancelAndMarkResViewModel> _ratingsFromOwner { get; set; }
         public RelayCommand ShowMenuCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
         public RelayCommand MarkAccommodationCommand { get; set; }
 
-        public GuestInboxViewModel(User user, Window window, ListBox list, ListBox newList, Window userProfille, int notifications)
+        public GuestInboxViewModel(User user, Window window, ListBox list, ListBox newList, ListBox ratings, Window userProfille, int notifications)
         {
             LoggedInUser = user;
             ThisWindow = window;
@@ -41,13 +42,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             _reservationsForMark = new ObservableCollection<CancelAndMarkResViewModel>();
             _changedReservations = new List<CancelAndMarkResViewModel>();
+            _ratingsFromOwner = new List<CancelAndMarkResViewModel>();
 
-            ShowNotificationsFromOwner();
+            ShowOwnerAnswers();
+            ShowGuestRatings();
             PrepareMarkReservationList();
             ShowMarkingNotifications();
 
             list.ItemsSource = _reservationsForMark;
             newList.ItemsSource = _changedReservations;
+            ratings.ItemsSource = _ratingsFromOwner;
 
             ShowMenuCommand = new RelayCommand(Execute_ShowMenu);
             GoBackCommand = new RelayCommand(Execute_GoBack);
@@ -157,7 +161,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private void ShowNotificationsFromOwner()
+        private void ShowOwnerAnswers()
         {
             NotificationFromOwnerService service = new NotificationFromOwnerService();
             UserService userService = new UserService();
@@ -200,7 +204,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                         else shape += "Ostavio je i dodatni komentar: " + item.Comment;
                         CancelAndMarkResViewModel model = new CancelAndMarkResViewModel();
                         model.NotificationShape = shape;
-                        _changedReservations.Add(model);
+                        _ratingsFromOwner.Add(model);
                         //potreban je i smjestaj tj njegov id, i id rezervacije da bi se moglo uporedjivati
                         //da li je ocjenjen ili nije
                     }
