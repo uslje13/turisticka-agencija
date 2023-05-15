@@ -105,6 +105,12 @@
     <None Remove="Resources\Icons\video.png" />
     <None Remove="Resources\Icons\voucher_icon.png" />
     <None Remove="Resources\Icons\warning.png" />
+    <None Remove="Resources\Images\Guest1\basta.jpg" />
+    <None Remove="Resources\Images\Guest1\kapija-ulaz.jpg" />
+    <None Remove="Resources\Images\Guest1\kupatilo.jpg" />
+    <None Remove="Resources\Images\Guest1\pogled.jpg" />
+    <None Remove="Resources\Images\Guest1\restoran-vani.jpg" />
+    <None Remove="Resources\Images\Guest1\soba.jpg" />
     <None Remove="Resources\Images\Owner\mastro_lindo.jpg" />
     <None Remove="Resources\Images\Owner\mastro_lindo2.jpg" />
     <None Remove="Resources\Images\Owner\mastro_lindo3.jpg" />
@@ -270,6 +276,24 @@
     <Content Include="Resources\Icons\warning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\Guest1\basta.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Guest1\kapija-ulaz.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Guest1\kupatilo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Guest1\pogled.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Guest1\restoran-vani.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Guest1\soba.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\Owner\casa_la_bambino_negro.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -319,9 +343,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Icons\Guest1\guests.png" />
-    <Resource Include="Resources\Images\Guest1\restoran.jpg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <Content Include="Resources\Images\Guest1\restoran.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\Tours\budapest.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -4,12 +4,45 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Owner"
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+
       mc:Ignorable="d" 
       d:DesignHeight="662" d:DesignWidth="804"
       Title="AccommodationsPage">
 
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="#63aaed" />
+            <Setter Property="Foreground" Value="MediumBlue" />
 
-    <Grid Background="White">
+            
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightBlue"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="6*"/>
@@ -21,18 +54,18 @@
 
             
                 <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center"  >
-                    <Border Background="LightGray" CornerRadius="20">
+                <Border Background="#a3daed" CornerRadius="20">
                         <Grid Height="60">
                             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center" Height="Auto" >
-                                <Button Margin="10,0,10,0" Command="{Binding AddAccommodation}" Background="White">
+                                <Button Margin="10,0,10,0" Command="{Binding AddAccommodation}">
                                     <Image Source="/Resources/Icons/plusicon.png" Width="40" Height="40" ></Image>
                                 </Button>
-                                <Button Margin="10,0,10,0" Command="{Binding OpenAccommodationDetails}" Background="White">
+                                <Button Margin="10,0,10,0" Command="{Binding OpenAccommodationDetails}" >
                                     <Image Source="/Resources/Icons/info-icon.png" Width="40" Height="40" ></Image>
-                                </Button>
-                                <Button Margin="10,0,10,0" Command="{Binding DeleteAccommodation}" Background="White">
+                            </Button>
+                                <Button Margin="10,0,10,0" Command="{Binding DeleteAccommodation}">
                                     <Image Source="/Resources/Icons/Trash.png" Width="40" Height="40" ></Image>
-                                </Button>
+                            </Button>
                             </WrapPanel>
                         </Grid>
                     </Border>
@@ -43,7 +76,7 @@
             
         </Grid>
         <Grid Grid.Row="1" Margin="30,0,30,50">
-            <ListBox x:Name="AccommodationsList" ItemsSource="{Binding Accommodations}" SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox x:Name="AccommodationsList" ItemsSource="{Binding Accommodations}" SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#dceefa">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="Black" Margin="20">
@@ -62,6 +95,11 @@
                         
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding OpenAccommodationDetails}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </ListBox>
         </Grid>
         <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black" Margin="30,0,30,50"/>

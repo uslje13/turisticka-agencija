@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
@@ -30,6 +31,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public List<Location> Locations { get; set; }
         public ReadOnlyObservableCollection<string> Countries { get; set; }
         public ObservableCollection<string> Cities { get; set; }
+
 
         private string _country;
         public string Country
@@ -58,8 +60,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
         }
 
-        private ObservableCollection<Image> _selectedImages;
-        public ObservableCollection<Image> SelectedImages
+        private ObservableCollection<Domain.Models.Image> _selectedImages;
+        public ObservableCollection<Domain.Models.Image> SelectedImages
         {
             get { return _selectedImages; }
             set
@@ -68,7 +70,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 OnPropertyChanged("SelectedImages");
             }
         }
-        public Image SelectedImage { get; set; }
+        public Domain.Models.Image SelectedImage { get; set; }
 
         public bool CountryBoxEnabled { get; set; }
         public RelayCommand Cancel { get; private set; }
@@ -129,7 +131,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             var tempImagePaths = FileDialogService.GetImagePaths("Resources\\Images\\Owner", "Resources/Images/Owner");
             foreach (var imagePath in tempImagePaths) 
             {
-                var image = new Image("/" + imagePath, false, -1, ImageType.ACCOMMODATION);
+                var image = new Domain.Models.Image("/" + imagePath, false, -1, ImageType.ACCOMMODATION);
                 SelectedImages.Add(image);
             }
 
@@ -221,19 +223,27 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private bool IsValid()
         {
-            if(City == null || Country == null) 
-            {
-                return false;
-            }
-            if (AName.Length < 1 || City.Length < 1 || Country.Length < 1 || SelectedImages.Count < 1)
-            {
-                return false;
-            }
+            if(City == null || Country == null)  return false;
+            if (MinDaysForCancelation < 0 || MinDaysStay < 0 || MaxGuests < 0) return false;
+            if (AName.Length < 1 || City.Length < 1 || Country.Length < 1 || SelectedImages.Count < 1) return false;
             return true;
         }
     }
 
-    
+    public class PositiveIntegerValidationRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            if (int.TryParse(value as string, out int result) && result >= 0)
+            {
+                return ValidationResult.ValidResult;
+            }
+            else
+            {
+                return new ValidationResult(false, "Morate uneti validan broj gostiju.");
+            }
+        }
+    }
 
     public class EnumToBoolConverter : IValueConverter
     {
