@@ -18,7 +18,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <TabControl Margin="0,0,0,168" BorderBrush="DarkGoldenrod" Cursor="Hand">
+        <TabControl Margin="10,10,10,168" BorderBrush="DarkGoldenrod" Cursor="Hand">
             <TabItem Header="Podsjetnici za ocjenjivanje">
                 <ListBox Name="MarkNotifications" HorizontalContentAlignment="Center" BorderBrush="DarkGoldenrod"
                  Background="White" Margin="10,10,10,10">
@@ -30,7 +30,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Foreground="DarkGoldenrod" FontWeight="Bold" FontSize="9" Margin="60, -5">Podsjetnik</TextBlock>
-                                <TextBlock Width="950" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
+                                <TextBlock Width="930" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
                                    FontStyle="Italic" Background="LightGoldenrodYellow" Padding="8"
                                    FontWeight="SemiBold" Text="{Binding NotificationShape}" Margin="6"/>
                                 <Button x:Name="MarkButton" Margin="695, 34.5, 175, 18.5" 
@@ -55,7 +55,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Foreground="DarkGoldenrod" FontWeight="Bold" FontSize="9" Margin="60, -5">Obavještenje</TextBlock>
-                                <TextBlock Width="950" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
+                                <TextBlock Width="930" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
                                    FontStyle="Italic" Background="LightGoldenrodYellow" Padding="8"
                                    FontWeight="SemiBold" Text="{Binding NotificationShape}" Margin="6"/>
                             </Grid>
@@ -74,7 +74,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Foreground="DarkGoldenrod" FontWeight="Bold" FontSize="9" Margin="60, -5">Recenzija</TextBlock>
-                                <TextBlock Width="950" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
+                                <TextBlock Width="930" TextWrapping="Wrap" TextAlignment="Left" FontSize="17" 
                                    FontStyle="Italic" Background="LightGoldenrodYellow" Padding="8"
                                    FontWeight="SemiBold" Text="{Binding NotificationShape}" Margin="6"/>
                             </Grid>

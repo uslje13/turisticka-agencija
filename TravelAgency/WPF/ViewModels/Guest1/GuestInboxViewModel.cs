@@ -200,7 +200,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                         User owner = userService.GetById(item.OwnerId);
                         string shape = "Vlasnik " + owner.Username + " je ocijenio Vašu čistoću ocjenom " + item.CleanlinessGrade +
                                        ", a poštovanje pravila sa " + item.RespectGrade + ". ";
-                        if (!item.Comment.Equals("")) shape += "Nije ostavljao dodatni komentar.";
+                        if (item.Comment.Equals("")) shape += "Nije ostavljao dodatni komentar.";
                         else shape += "Ostavio je i dodatni komentar: " + item.Comment;
                         CancelAndMarkResViewModel model = new CancelAndMarkResViewModel();
                         model.NotificationShape = shape;

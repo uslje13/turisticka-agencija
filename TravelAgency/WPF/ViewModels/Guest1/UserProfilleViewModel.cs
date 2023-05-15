@@ -26,6 +26,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public string UsernameTextBlock { get; set; }
         public string MessageNumberTextBlock { get; set; }
         public string CounterTextBlock { get; set; }
+        public bool FirstLogging { get; set; }
         public List<CancelAndMarkResViewModel> _futuredReservations { get; set; }
         public List<CancelAndMarkResViewModel> _finishedReservations { get; set; }
         public List<AccommodationReservation> _accommodationReservations { get; set; }
@@ -44,6 +45,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ThisYearCounter = 0;
             ThisWindow = window;
             Notifications = notifications;
+            FirstLogging = false;
 
             _futuredReservations = new List<CancelAndMarkResViewModel>();
             _finishedReservations = new List<CancelAndMarkResViewModel>();
@@ -60,12 +62,22 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             CollectFinishedReservations();
             AddFinishedReservations();
             FillCounterTextBlock();
+            IsFirstLogging();
 
             ShowMenuCommand = new RelayCommand(Execute_ShowMenu);
             ShowRequestsCommand = new RelayCommand(Execute_ShowStatuses);
             ShowInboxCommand = new RelayCommand(Execute_ShowInbox);
             SignOutCommand = new RelayCommand(Execute_SignOut);
             CanceledQueryCommand = new RelayCommand(Execute_ShowCanceledReservations);
+        }
+
+        private void IsFirstLogging()
+        {
+            if(Notifications == 0 && _futuredReservations.Count == 0 && _finishedReservations.Count == 0)
+            {
+                FirstLogging = true;
+                //MessageBox.Show("Dobrodosli u aplikaciju.");
+            }
         }
 
         private void Execute_ShowCanceledReservations(object sender)
@@ -77,7 +89,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void FillCounterTextBlock()
         {
-            CounterTextBlock = "Broj rezervacija u ovoj godini : " + ThisYearCounter.ToString();
+            CounterTextBlock = "Broj rezervacija u protekloj godini : " + ThisYearCounter.ToString();
         }
 
         private void AddFuturedReservations()
@@ -99,7 +111,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             foreach(var item in _accommodationReservations)
             {
-                if(item.UserId == LoggedInUser.Id && DateTime.Today.Year == item.FirstDay.Year)
+                bool thisYear = false;
+                int diff = DateTime.Today.DayOfYear;
+
+                if (DateTime.Today.Year == item.FirstDay.Year) thisYear = true;
+                if(item.UserId == LoggedInUser.Id && thisYear && item.FirstDay.DayOfYear <= DateTime.Today.DayOfYear)
+                {
+                    ThisYearCounter++;
+                }
+                else if(item.UserId == LoggedInUser.Id && !thisYear && item.FirstDay.DayOfYear >= diff)
                 {
                     ThisYearCounter++;
                 }
