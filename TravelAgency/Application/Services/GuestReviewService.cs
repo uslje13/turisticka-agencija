@@ -25,6 +25,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _guestReviewRepository.GetAll();
         }
 
+        public List<GuestReview> GetAllReviewed()
+        {
+            return _guestReviewRepository.GetAll().Where(t => t.IsReviewed).ToList();
+        }
+
         public List<GuestReview> GetAllByUserId(int ownerId)
         {
             return _guestReviewRepository.GetAll().Where(p => p.OwnerId == ownerId).ToList();
