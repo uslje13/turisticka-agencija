@@ -82,17 +82,29 @@ namespace SOSTeam.TravelAgency.Domain.Models
 
             GuestNumber = Convert.ToInt32(values[i++]);
             UserId = Convert.ToInt32(values[i++]);
-            StatusString = FindStatus(values[i++]);
+            status = FindStatus(values[i++]);
+            StatusString = FindStatusString(status);
             ownerComment = values[i++];
         }
 
-        private string FindStatus(string str)
+        private Status FindStatus(string str)
         {
             if (str.Equals("ACCEPTED"))
-                return "PRIHVAĆENO";
+                return Status.ACCEPTED;
             else if (str.Equals("REFUSED"))
-                return "ODBIJENO";
+                return Status.REFUSED;
             else if (str.Equals("ON_HOLD"))
+                return Status.ON_HOLD;
+            else
+                return Status.NOT_REQUIRED;
+        }
+        private string FindStatusString(Status status)
+        {
+            if (status == Status.ACCEPTED)
+                return "PRIHVAĆENO";
+            else if (status == Status.REFUSED)
+                return "ODBIJENO";
+            else if (status == Status.ON_HOLD)
                 return "NA ČEKANjU";
             else
                 return "BEZ ZAHTJEVA";
