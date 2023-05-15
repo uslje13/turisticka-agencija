@@ -100,7 +100,7 @@
         <Label Grid.Column="0" Grid.Row="3" Content="Checkpoints" HorizontalAlignment="Left" VerticalAlignment="Center" 
                Margin="15,20,0,0" FontSize="16"/>
         <Button Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Height="21" Width="75" BorderBrush="DarkGray" BorderThickness="1.5"
-                Cursor="Hand" Content="Clear" Margin="0,20,15,0" FontSize="13" VerticalContentAlignment="Center" Command="{Binding ClearCheckpointsCommand }"></Button>
+                Cursor="Hand" Content="Clear" Margin="0,20,15,0" FontSize="13" VerticalContentAlignment="Center" Command="{Binding ClearCheckpointsCommand}"></Button>
         <ListBox Grid.Row="4" x:Name="CheckpointList" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                  VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding CheckpointCards}">
             <ItemsControl.ItemTemplate>
@@ -123,15 +123,33 @@
                             <Button Grid.Column="2" Background="Transparent" BorderBrush="Transparent"
                                     Command="{Binding DataContext.EditCheckpointCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                                     CommandParameter="{Binding }"
-                                    IsEnabled="{Binding CanEdit}">
-                                <Image Source="/Resources/Icons/pencil.png"></Image>
+                                    IsEnabled="{Binding CanEdit}"
+                                    Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid>
+                                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            <Image Source="{Binding CanEditImagePath}"></Image>
                             </Button>
                             <!-- Delete -->
                             <Button Grid.Column="3" Background="Transparent" BorderBrush="Transparent"
                                     Command="{Binding DataContext.DeleteCheckpointCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                                     CommandParameter="{Binding }"
-                                    IsEnabled="{Binding CanDelete}">
-                                <Image Source="/Resources/Icons/bin.png"></Image>
+                                    IsEnabled="{Binding CanDelete}"
+                                    Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid>
+                                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            <Image Source="{Binding CanDeleteImagePath}"></Image>
                             </Button>
                         </Grid>
                 </DataTemplate>

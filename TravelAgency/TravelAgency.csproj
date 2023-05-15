@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -10,10 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Icons\account.png" />
     <None Remove="Resources\Icons\active_tour.png" />
     <None Remove="Resources\Icons\Add.png" />
     <None Remove="Resources\Icons\back_button.png" />
     <None Remove="Resources\Icons\bin.png" />
+    <None Remove="Resources\Icons\bin_light.png" />
     <None Remove="Resources\Icons\book.png" />
     <None Remove="Resources\Icons\building.jpg" />
     <None Remove="Resources\Icons\building.png" />
@@ -51,6 +53,7 @@
     <None Remove="Resources\Icons\Guest1\user_siluet.png" />
     <None Remove="Resources\Icons\Guest1\verification.png" />
     <None Remove="Resources\Icons\guests_with_text.png" />
+    <None Remove="Resources\Icons\guests_with_text_light.png" />
     <None Remove="Resources\Icons\help--v1.png" />
     <None Remove="Resources\Icons\home.jpg" />
     <None Remove="Resources\Icons\home.png" />
@@ -65,6 +68,7 @@
     <None Remove="Resources\Icons\left_arrow_owner.png" />
     <None Remove="Resources\Icons\list-square-icon.png" />
     <None Remove="Resources\Icons\livetour.png" />
+    <None Remove="Resources\Icons\logged_user.png" />
     <None Remove="Resources\Icons\log_out.png" />
     <None Remove="Resources\Icons\medal.png" />
     <None Remove="Resources\Icons\minus.png" />
@@ -75,8 +79,13 @@
     <None Remove="Resources\Icons\Pencil.png" />
     <None Remove="Resources\Icons\pencil.png" />
     <None Remove="Resources\Icons\people.png" />
+    <None Remove="Resources\Icons\pdf_report.png" />
+    <None Remove="Resources\Icons\Pencil.png" />
+    <None Remove="Resources\Icons\pencil.png" />
+    <None Remove="Resources\Icons\pencil_light.png" />
     <None Remove="Resources\Icons\plus.png" />
     <None Remove="Resources\Icons\plusicon.png" />
+    <None Remove="Resources\Icons\question.png" />
     <None Remove="Resources\Icons\renovations.jpg" />
     <None Remove="Resources\Icons\renovations.png" />
     <None Remove="Resources\Icons\reported.png" />
@@ -93,11 +102,14 @@
     <None Remove="Resources\Icons\settings.png" />
     <None Remove="Resources\Icons\sos_logo.png" />
     <None Remove="Resources\Icons\star.png" />
+    <None Remove="Resources\Icons\star_white.png" />
     <None Remove="Resources\Icons\stat.png" />
+    <None Remove="Resources\Icons\stats_white.png" />
     <None Remove="Resources\Icons\suggestions.jpg" />
     <None Remove="Resources\Icons\suggestions.png" />
     <None Remove="Resources\Icons\tour_icon.png" />
     <None Remove="Resources\Icons\tour_icon2.png" />
+    <None Remove="Resources\Icons\transparent.png" />
     <None Remove="Resources\Icons\Trash.png" />
     <None Remove="Resources\Icons\trophy.png" />
     <None Remove="Resources\Icons\user_ikonica.png" />
@@ -150,6 +162,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\Icons\account.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\bin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -211,6 +226,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\home_owner.png">
+    <Content Include="Resources\Icons\guests_with_text_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\kalendar.png">
@@ -228,19 +244,30 @@
     <Content Include="Resources\Icons\livetour.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\logged_user.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\log_out.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\medal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\notif_bell.png">
+    <Content Include="Resources\Icons\pdf_report.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\pencil.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\pencil_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\plus.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\renovations.png">
+    <Content Include="Resources\Icons\question.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\reported.png">
@@ -264,10 +291,17 @@
     <Content Include="Resources\Icons\star.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\star_white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\stat.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\suggestions.png">
+    <Content Include="Resources\Icons\stats_white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\transparent.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\trophy.png">
@@ -389,6 +423,9 @@
     <Content Include="Resources\Icons\clock_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\bin_light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Icons\building.jpg" />
     <Resource Include="Resources\Icons\checkpoint.png" />
     <Resource Include="Resources\Icons\exclamation_star.png" />
@@ -437,6 +474,8 @@
     <Reference Include="Xceed.Wpf.Toolkit.NET5">
       <HintPath>bin\Debug\net6.0-windows\Xceed.Wpf.Toolkit.NET5.dll</HintPath>
     </Reference>
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 

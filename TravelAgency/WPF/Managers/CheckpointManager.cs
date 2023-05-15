@@ -22,6 +22,7 @@ namespace SOSTeam.TravelAgency.WPF.Managers
 
         public ObservableCollection<CheckpointCardViewModel> CheckpointCards { get; set; }
         public ObservableCollection<string> CheckpointTypes { get; set; }
+        public int MinNumOfCheckpoints { get; set; }
         public CheckpointManager(ObservableCollection<CheckpointCardViewModel> checkpointCards, ObservableCollection<string> checkpointTypes)
         {
             CheckpointCards = checkpointCards;

@@ -44,7 +44,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 Name = checkpoint.Name,
                 Type = checkpoint.Type,
                 StatusEnum = checkpointActivity.Status,
-                CanShowAttendance = true,
             };
 
             checkpointCard.SetStatusAndBackground();

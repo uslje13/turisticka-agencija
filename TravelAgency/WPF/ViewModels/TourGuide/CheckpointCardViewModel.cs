@@ -68,6 +68,36 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
+        private string _canDeleteImagePath;
+
+        public string CanDeleteImagePath
+        {
+            get => _canDeleteImagePath;
+            set
+            {
+                if (_canDeleteImagePath != value)
+                {
+                    _canDeleteImagePath = value;
+                    OnPropertyChanged("CanDeleteImagePath");
+                }
+            }
+        }
+
+        private string _canEditImagePath;
+
+        public string CanEditImagePath
+        {
+            get => _canEditImagePath;
+            set
+            {
+                if (_canEditImagePath != value)
+                {
+                    _canEditImagePath = value;
+                    OnPropertyChanged("CanEditImagePath");
+                }
+            }
+        }
+
         private SolidColorBrush _background;
 
         public SolidColorBrush Background
@@ -90,6 +120,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _canEdit = true;
             _canDelete = true;
             _background = new SolidColorBrush(Colors.AliceBlue);
+            _canEditImagePath = "/Resources/Icons/pencil.png";
+            _canDeleteImagePath = "/Resources/Icons/bin.png";
         }
     }
 }

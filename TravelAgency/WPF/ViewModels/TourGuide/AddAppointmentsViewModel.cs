@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows.Media;
 using SOSTeam.TravelAgency.Commands;
 
@@ -103,12 +104,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 AppointmentCards[index].Background = new SolidColorBrush(Colors.AliceBlue);
                 AppointmentCards[index].CanEdit = true;
                 AppointmentCards[index].CanDelete = true;
+                AppointmentCards[index].CanEditImagePath = "/Resources/Icons/pencil.png";
+                AppointmentCards[index].CanDeleteImagePath = "/Resources/Icons/bin.png";
             }
             SelectedCard = selectedAppointment;
             Start = SelectedCard.Start;
             selectedAppointment.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8FFB7"));
             selectedAppointment.CanEdit = false;
             selectedAppointment.CanDelete = false;
+            selectedAppointment.CanEditImagePath = "/Resources/Icons/pencil_light.png";
+            selectedAppointment.CanDeleteImagePath = "/Resources/Icons/bin_light.png";
 
             ButtonContent = "Confirm";
         }
@@ -122,6 +127,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 AppointmentCards[index].Background = new SolidColorBrush(Colors.AliceBlue);
                 AppointmentCards[index].CanEdit = true;
                 AppointmentCards[index].CanDelete = true;
+                AppointmentCards[index].CanEditImagePath = "/Resources/Icons/pencil.png";
+                AppointmentCards[index].CanDeleteImagePath = "/Resources/Icons/bin.png";
 
 
                 ButtonContent = "Add";

@@ -135,11 +135,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
+        public User LoggedUser { get; set; }
+        public CheckpointActivityCardViewModel SelectedCheckpointActivityCard { get; set; }
+
         #endregion
 
         public LiveTourViewModel(User loggedUser)
         {
-            CheckpointActivityCardCreatorViewModel checkpointActivityCardCreator = new CheckpointActivityCardCreatorViewModel(loggedUser);
+            LoggedUser = loggedUser;
+            var checkpointActivityCardCreator = new CheckpointActivityCardCreatorViewModel(loggedUser);
             CheckpointCards = checkpointActivityCardCreator.CreateCards();
 
             _checkpointActivityService = new CheckpointActivityService();
@@ -168,9 +172,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public void ViewGuestAttendance(object sender)
         {
-            var selectedCheckpointCard = sender as CheckpointActivityCardViewModel;
-            GuestAttendancePage guestAttendancePage = new GuestAttendancePage(selectedCheckpointCard, TourName, Date);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = guestAttendancePage;
+            SelectedCheckpointActivityCard = sender as CheckpointActivityCardViewModel;
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("GuestAttendances", LoggedUser);
 
         }
 
@@ -238,12 +242,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 CanActivateCheckpoint = false;
                 CanFinishCheckpoint = false;
-
             }
         }
 
         private void FinishAppointment(object sender)
         {
+            if(ActiveAppointment == null) { return; }
             _appointmentService.FinishAppointment(ActiveAppointment.Id);
             ResetActiveAppointment();
         }
