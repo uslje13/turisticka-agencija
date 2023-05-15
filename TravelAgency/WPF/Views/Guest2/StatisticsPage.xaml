@@ -18,15 +18,120 @@
                 <Button Content="Statistika" FontSize="20" Width="254" Height="33" BorderThickness="1,1,2,2"></Button>
             </StackPanel>
         </Border>
-        <Border Margin="0,0,0,103">
-            <Border Margin="60,49,564,305">
-                <StackPanel>
-                    <TextBlock Text="Opsta statistika" FontSize="24" Margin="5,0,0,0"></TextBlock>
-                    <Border Height="315" BorderThickness="1" BorderBrush="Black">
-                        
-                    </Border>
-                </StackPanel>
-            </Border>
+        <Border>
+
+        </Border>
+        <Border Margin="60,25,564,430">
+            <StackPanel>
+                <TextBlock Text="Opsta statistika" FontSize="24" Margin="5,0,0,0"></TextBlock>
+                <Border Height="315" BorderThickness="1" BorderBrush="Black">
+                    <StackPanel>
+                        <Border Height="185">
+                            <lvc:PieChart Grid.Row="0" Grid.Column="0" Margin="10,10,10,0" Width="165">
+                                <lvc:PieChart.Series>
+                                    <lvc:PieSeries Title="Prihvaceni zahtevi" Values="{Binding RequestsPercentage[0].Values}" DataLabels="True" />
+                                    <lvc:PieSeries Title="Odbijeni zahtevi" Values="{Binding RequestsPercentage[1].Values}" DataLabels="True" />
+                                </lvc:PieChart.Series>
+                            </lvc:PieChart>
+                        </Border>
+                        <Border Height="128" BorderThickness="0,1,0,0" BorderBrush="Black">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                    <Label Content="Odbijenih zahteva:" FontSize="16"></Label>
+                                    <Label FontSize="16" Content="{Binding InvalidRequestsPercentage, StringFormat={}{0}%}"></Label>
+                                    <Label Content="%" FontSize="16"></Label>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                                    <Label Content="Prihvacenih zahteva:" FontSize="16"></Label>
+                                    <Label FontSize="16" Content="{Binding AcceptedRequestsPercentage, StringFormat={}{0}%}"></Label>
+                                    <Label Content="%" FontSize="16"></Label>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                                    <Label Content="Prosecan broj ljudi u prihvaceni zahtevima:" FontSize="16"></Label>
+                                    <Label FontSize="16" Content="{Binding AverageTouristNum}"></Label>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+        <Border Margin="516,25,94,430">
+            <StackPanel>
+                <TextBlock Text="Statistika po godini" FontSize="24" Margin="5,0,0,0"></TextBlock>
+                <Border Height="315" BorderThickness="1" BorderBrush="Black">
+                    <StackPanel>
+                        <Border Height="165">
+                            <lvc:PieChart Grid.Row="0" Grid.Column="0" Margin="10,10,10,0" Width="165">
+                                <lvc:PieChart.Series>
+                                    <lvc:PieSeries Title="Prihvaceni zahtevi" Values="{Binding RequestsPercentagePerYear[0].Values}" DataLabels="True" />
+                                    <lvc:PieSeries Title="Odbijeni zahtevi" Values="{Binding RequestsPercentagePerYear[1].Values}" DataLabels="True" />
+                                </lvc:PieChart.Series>
+                            </lvc:PieChart>
+                        </Border>
+                        <Border Height="148" BorderThickness="0,1,0,0" BorderBrush="Black">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                    <Label Content="Odbijenih zahteva:" FontSize="16"></Label>
+                                    <ComboBox Width="71" Margin="10,0,0,0" Height="18" ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                    <Label Content="Odbijenih zahteva:" FontSize="16"></Label>
+                                    <Label FontSize="16" Content="{Binding InvalidRequestsPercentageByYear,UpdateSourceTrigger=PropertyChanged,StringFormat={}{0}%}"></Label>
+                                    <Label Content="%" FontSize="16"></Label>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                                    <Label Content="Prihvacenih zahteva:" FontSize="16"></Label>
+                                    <Label FontSize="16" Content="{Binding AcceptedRequestsPercentageByYear,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0}%}"></Label>
+                                    <Label Content="%" FontSize="16"></Label>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                                    <Label Content="Prosecan broj ljudi u prihvaceni zahtevima:" FontSize="16"></Label>
+                                    <Label FontSize="16" Content="{Binding AverageTouristNumByYear, UpdateSourceTrigger=PropertyChanged}"></Label>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+        <Border Margin="60,400,564,117">
+            <StackPanel>
+                <TextBlock Text="Broj zahteva spram lokacije" FontSize="24" Margin="5,0,0,0"></TextBlock>
+                <Border Height="251" BorderThickness="1" BorderBrush="Black">
+                    <StackPanel>
+                        <Border Height="253">
+                            <lvc:CartesianChart Grid.Row="0" Grid.Column="0" Width="340" Height="233" VerticalAlignment="Top">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:ColumnSeries Title="Broj tura spram lokacije" Values="{Binding TourRequestsByLocation[0].Values}" DataLabels="True" LabelPoint="{Binding TourRequestsByLocation[0].LabelPoint}" />
+                                </lvc:CartesianChart.Series>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Lokacija" Labels="{Binding TourRequestsByLocation[0].Labels}" />
+                                </lvc:CartesianChart.AxisX>
+                            </lvc:CartesianChart>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+        <Border Margin="516,400,94,117">
+            <StackPanel>
+                <TextBlock Text="Broj zahteva spram jezika" FontSize="24" Margin="5,0,0,0"></TextBlock>
+                <Border Height="251" BorderThickness="1" BorderBrush="Black">
+                    <StackPanel>
+                        <Border Height="253">
+                            <lvc:CartesianChart Grid.Row="0" Grid.Column="0" Width="340" Height="233" VerticalAlignment="Center">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:ColumnSeries Title="Broj tura spram lokacije" Values="{Binding TourRequestsByLanguage[0].Values}" DataLabels="True" />
+                                </lvc:CartesianChart.Series>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Jezik" FontSize="10" Labels="{Binding TourRequestsByLanguage.Labels}" />
+                                </lvc:CartesianChart.AxisX>
+                            </lvc:CartesianChart>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
         </Border>
     </Grid>
 </Page>
