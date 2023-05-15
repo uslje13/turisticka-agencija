@@ -113,6 +113,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
+        private bool _canCreate;
+
+        public bool CanCreate
+        {
+            get => _canCreate;
+            set
+            {
+                if (_canCreate != value)
+                {
+                    _canCreate = value;
+                    OnPropertyChanged("CanCreate");
+                }
+            }
+        }
+
         private readonly LocationService _locationService;
         private readonly TourService _tourService;
         private readonly CheckpointService _checkpointService;
@@ -150,7 +165,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _imageService = new ImageService();
             LoggedUser = loggedUser;
 
-
+            _canCreate = false;
             Locations = _locationService.GetAll();
             Countries = GetCountries();
             Cities = GetCities();
@@ -228,40 +243,56 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void ShowAddCheckpointsPage(object sender)
         {
-            AddCheckpointsPage addCheckpointsPage = new AddCheckpointsPage(CheckpointCards);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = addCheckpointsPage;
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("AddCheckpoints", LoggedUser);
         }
 
         private void ShowAddAppointmentsPage(object sender)
         {
-            AddAppointmentsPage addAppointmentsPage = new AddAppointmentsPage(AppointmentCards);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = addAppointmentsPage;
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("AddAppointments", LoggedUser);
         }
 
         private void ShowImageGallery(object sender)
         {
-            TourGalleryPage tourGalleryPage = new TourGalleryPage(Images);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = tourGalleryPage;
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("TourGallery", LoggedUser);
         }
 
         private void CreateTour(object sender)
         {
-            var tourId = _tourService.NextId();
-            var tour = new Tour(tourId, Name, FindLocationId(), Description, Language, MaxNumOfGuests, Duration);
 
-            _tourService.Save(tour);
-            _checkpointService.SaveAll(TourEntitiesCreator.CreateCheckpoints(CheckpointCards, tourId));
-            _appointmentService.SaveAll(TourEntitiesCreator.CreateAppointments(AppointmentCards, tourId, LoggedUser.Id));
-            SetImagesTourId(tourId);
-            _imageService.SaveAll(Images);
-
-
-            Window currentWindow = System.Windows.Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-            if (currentWindow != null)
+            if (CheckpointsValidation() || AppointmentsValidation() || ImagesValidation())
             {
-                MainWindowViewModel mainWindow = (MainWindowViewModel)currentWindow.DataContext;
-                HomePage homePage = new HomePage(LoggedUser, mainWindow.Timer);
-                System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = homePage;
+                if (CheckpointsValidation())
+                {
+                    App.TourGuideNavigationService.CreateOkMessageBox("You must have at least one START and one END checkpoint.");
+                }
+
+                if (AppointmentsValidation())
+                {
+                    App.TourGuideNavigationService.CreateOkMessageBox("You must have at least one appointment.");
+                }
+
+                if (ImagesValidation())
+                {
+                    App.TourGuideNavigationService.CreateOkMessageBox("You must have at least one image.");
+                }
+            }
+            else
+            {
+                var tourId = _tourService.NextId();
+                var tour = new Tour(tourId, Name, FindLocationId(), Description, Language, MaxNumOfGuests, Duration);
+
+                _tourService.Save(tour);
+                _checkpointService.SaveAll(TourEntitiesCreator.CreateCheckpoints(CheckpointCards, tourId));
+                _appointmentService.SaveAll(TourEntitiesCreator.CreateAppointments(AppointmentCards, tourId, LoggedUser.Id));
+                SetImagesTourId(tourId);
+                _imageService.SaveAll(Images);
+
+
+                App.TourGuideNavigationService.AddPreviousPage();
+                App.TourGuideNavigationService.SetMainFrame("HomePage", LoggedUser);
             }
         }
 
@@ -286,6 +317,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             Images = TourEntitiesCreator.CreateImages(imagePaths);
         }
 
-    }
+        private bool CheckpointsValidation()
+        {
+            var containsStart = CheckpointCards.Any(c => c.Type == CheckpointType.START);
+            var containsEnd = CheckpointCards.Any(c => c.Type == CheckpointType.END);
 
+            return (!containsStart || !containsEnd);
+        }
+
+        private bool AppointmentsValidation()
+        {
+            return AppointmentCards.Count == 0;
+        }
+
+        private bool ImagesValidation()
+        {
+            return Images.Count == 0;
+
+        }
+
+    }
 }

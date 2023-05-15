@@ -69,7 +69,9 @@
                 <Label Content="Ocenite gosta " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Image Source="/Resources/Icons/user_ikonica2.png" Width="130" Height="130" Margin="0,15,0,0"></Image>
-                    <Label Content="{Binding Path=Guest.Username, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
+                    <Label Content="{Binding Path=GuestUser.Username, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
+                    <Label Content="u smeštaju" Margin="3" Height="Auto" FontSize="20" HorizontalAlignment="Center" />
+                    <Label Content="{Binding Path=Accommodation.Name, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="20" HorizontalAlignment="Center" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="1" Width="AUto" Height="Auto" Margin="0,0,40,0">

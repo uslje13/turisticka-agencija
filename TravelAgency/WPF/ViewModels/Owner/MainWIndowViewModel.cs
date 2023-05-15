@@ -142,9 +142,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             SelectedNotification.Read = true;
             _notificationService.Update(SelectedNotification);
 
-            if (SelectedNotification.Type == Notification.NotificationType.GUESTREVIEW && !_guestReviewService.ReviewExists(LoggedInUser.Id, SelectedNotification.GuestId)) 
+            if (SelectedNotification.Type == Notification.NotificationType.GUESTREVIEW && !_guestReviewService.IsReviewed( SelectedNotification.EntityId)) 
             {
-                SetPage(new GuestReviewPage(LoggedInUser,this,_userService.GetById(SelectedNotification.GuestId)));
+                SetPage(new GuestReviewPage(LoggedInUser,this,SelectedNotification.EntityId));
             }
             UpdateNotifications();
         }

@@ -15,6 +15,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public int CleanlinessGrade { get; set; }
         public int RespectGrade { get; set; }
         public string Comment { get; set; }
+        public int AccommodationId { get; set; }
+        public bool IsReviewed { get; set; }
 
         public GuestReview()
         {
@@ -24,9 +26,11 @@ namespace SOSTeam.TravelAgency.Domain.Models
             CleanlinessGrade = -1;
             RespectGrade = -1;
             Comment = string.Empty;
+            AccommodationId = -1;
+            IsReviewed = false;
         }
 
-        public GuestReview(int ownerId, int guestId, int cleanlinessGrade, int respectGrade, string comment)
+        public GuestReview(int ownerId, int guestId,int accommodationId, int cleanlinessGrade, int respectGrade, string comment)
         {
             Id = -1;
             OwnerId = ownerId;
@@ -34,6 +38,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
             CleanlinessGrade = cleanlinessGrade;
             RespectGrade = respectGrade;
             Comment = comment;
+            AccommodationId = accommodationId;
+            IsReviewed = false;
         }
 
         public string[] ToCSV()
@@ -44,7 +50,10 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 GuestId.ToString(),
                 CleanlinessGrade.ToString(),
                 RespectGrade.ToString(),
-                Comment };
+                Comment,
+                AccommodationId.ToString(),
+                IsReviewed == true ? "1" : "0"
+            };
             return csvValues;
         }
 
@@ -57,6 +66,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
             CleanlinessGrade = Convert.ToInt32(values[i++]);
             RespectGrade = Convert.ToInt32(values[i++]);
             Comment = values[i++];
+            AccommodationId = Convert.ToInt32(values[i++]);
+            IsReviewed = values[i++].Equals("1");
         }
     }
 }
