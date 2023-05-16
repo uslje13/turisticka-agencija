@@ -1,7 +1,9 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
 using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Views.Guest2;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,9 +16,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
     public class StatisticsPageViewModel : ViewModel
     {
         public User LoggedInUser { get; set; }
-
-        public SeriesCollection RequestsPercentagePerYear { get; set; }
-        public SeriesCollection RequestsPercentage { get; set; }
         public float AcceptedRequestsPercentage { get; set; }
         public float InvalidRequestsPercentage { get; set; }
         public float AverageTouristNum { get; set; }
@@ -63,10 +62,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             set
             {
                 _selectedYear = value;
-                GenerateStatisticsByYear(SelectedYear);
+                (AverageTouristNumByYear, AcceptedRequestsPercentageByYear, InvalidRequestsPercentageByYear) = _tourRequestStatsService.GenerateStatistics(LoggedInUser, SelectedYear);
+                GeneratePieData(SelectedYear);
                 OnPropertyChanged(nameof(SelectedYear));
             }
         }
+        public Dictionary<string, int> LanguageCounts { get; set; }
 
         private SeriesCollection _tourRequestsByLanguage;
         public SeriesCollection TourRequestsByLanguage
@@ -78,6 +79,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 OnPropertyChanged(nameof(TourRequestsByLanguage));
             }
         }
+        public Dictionary<string, int> LocationCounts { get; set; }
 
         private SeriesCollection _tourRequestsByLocation;
         public SeriesCollection TourRequestsByLocation
@@ -90,43 +92,61 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        private TourRequestService _tourRequestService;
+        private SeriesCollection _requestsPercentage;
+        public SeriesCollection RequestsPercentage
+        {
+            get { return _requestsPercentage; }
+            set
+            {
+                _requestsPercentage = value;
+                OnPropertyChanged(nameof(RequestsPercentage));
+            }
+        }
+
+        private SeriesCollection _requestsPercentagePerYear;
+        public SeriesCollection RequestsPercentagePerYear
+        {
+            get { return _requestsPercentagePerYear; }
+            set
+            {
+                _requestsPercentagePerYear = value;
+                OnPropertyChanged(nameof(RequestsPercentagePerYear));
+            }
+        }
+
+        private RelayCommand _createCommand;
+
+        public RelayCommand CreateCommand
+        {
+            get { return _createCommand; }
+            set
+            {
+                _createCommand = value;
+            }
+        }
+
+        private readonly TourRequestStatsService _tourRequestStatsService;
 
         public StatisticsPageViewModel(User loggedInUser)
         {
+            LoggedInUser = loggedInUser;
             RequestsPercentagePerYear = new SeriesCollection();
             RequestsPercentage = new SeriesCollection();
             TourRequestsByLanguage = new SeriesCollection();
             TourRequestsByLocation = new SeriesCollection();
-            LoggedInUser = loggedInUser;
-            _tourRequestService = new TourRequestService();
+            _tourRequestStatsService = new TourRequestStatsService();
             AvailableYears = new ObservableCollection<int>();
-            SelectedYear = 2023;
-            GetAvailableYears();
-            GenerateGeneralStatistics();
-            GenerateStatisticsByYear(SelectedYear);
-            GenerateTourRequestsByLanguage();
-            GenerateTourRequestsByLocation();
-        }
-
-        private void GetAvailableYears()
-        {
-            ObservableCollection<int> availableYears = new ObservableCollection<int>();
-
-            foreach (var request in _tourRequestService.GetAll())
-            {
-                availableYears.Add(request.MaintenanceStartDate.Year);
-                availableYears.Add(request.MaintenanceEndDate.Year);
-            }
-
-            var distinctYears = availableYears.Distinct().ToList();
-
-            availableYears.Clear();
-
-            foreach (var year in distinctYears)
-            {
-                AvailableYears.Add(year);
-            }
+            SelectedYear = 2024;
+            AvailableYears = _tourRequestStatsService.GetAvailableYears();
+            (AverageTouristNum, AcceptedRequestsPercentage, InvalidRequestsPercentage) = _tourRequestStatsService.GenerateStatistics(LoggedInUser);
+            (AverageTouristNumByYear, AcceptedRequestsPercentageByYear, InvalidRequestsPercentageByYear) = _tourRequestStatsService.GenerateStatistics(LoggedInUser,SelectedYear);
+            LocationCounts = _tourRequestStatsService.GenerateTourRequestsByLocation(LoggedInUser);
+            LanguageCounts = _tourRequestStatsService.GenerateTourRequestsByLanguage(LoggedInUser);
+            TourRequestsByLanguage = GenerateChartData(LanguageCounts);
+            TourRequestsByLocation = GenerateChartData(LocationCounts);
+            CreateCommand = new RelayCommand(Execute_CreateCommand, CanExecuteMethod);
+            GeneratePieData();
+            GeneratePieData(SelectedYear);
         }
 
         private SeriesCollection GenerateChartData(Dictionary<string, int> dataCounts)
@@ -150,83 +170,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             series.Add(columnSeries);
 
             return series;
-        }
+        }       
 
-        private void GenerateTourRequestsByLocation()
+        private void GeneratePieData(int selectedYear = 0)
         {
-            Dictionary<string, int> locationCounts = new Dictionary<string, int>();
-
-            foreach (var request in _tourRequestService.GetAll())
-            {
-                if(request.UserId == LoggedInUser.Id)
-                {
-                    string location = request.City + ", " + request.Country;
-
-                    if (locationCounts.ContainsKey(location))
-                        locationCounts[location]++;
-                    else
-                        locationCounts[location] = 1;
-                }
-            }
-
-            TourRequestsByLocation = GenerateChartData(locationCounts);
-        }
-
-        private void GenerateTourRequestsByLanguage()
-        {
-            Dictionary<string, int> languageCounts = new Dictionary<string, int>();
-
-            foreach (var request in _tourRequestService.GetAll())
-            {
-                string language = request.Language;
-
-                if (languageCounts.ContainsKey(language))
-                    languageCounts[language]++;
-                else
-                    languageCounts[language] = 1;
-            }
-
-            TourRequestsByLanguage = GenerateChartData(languageCounts);
-        }
-        private void GenerateStatistics(int selectedYear = 0)
-        {
-            int acceptedRequests = 0;
-            int invalidRequests = 0;
-            int totalTouristNum = 0;
-            int userRequestsNum = 0;
-
-            foreach (var request in _tourRequestService.GetAll())
-            {
-                if (request.UserId == LoggedInUser.Id && (selectedYear == 0 || request.MaintenanceStartDate.Year == selectedYear || request.MaintenanceEndDate.Year == selectedYear))
-                {
-                    if (request.Status == StatusType.ACCEPTED)
-                    {
-                        acceptedRequests++;
-                        totalTouristNum += request.MaxNumOfGuests;
-                    }
-                    else if (request.Status == StatusType.INVALID)
-                    {
-                        invalidRequests++;
-                    }
-
-                    userRequestsNum++;
-                }
-            }
-
             if (selectedYear == 0)
-            {
-                AverageTouristNum = acceptedRequests == 0 ? 0 : totalTouristNum / acceptedRequests;
-                AcceptedRequestsPercentage = userRequestsNum == 0 ? 0 : (float)acceptedRequests / userRequestsNum * 100;
-                InvalidRequestsPercentage = userRequestsNum == 0 ? 0 : (float)invalidRequests / userRequestsNum * 100;
-            }
-            else
-            {
-                AverageTouristNumByYear = acceptedRequests == 0 ? 0 : totalTouristNum / acceptedRequests;
-                AcceptedRequestsPercentageByYear = userRequestsNum == 0 ? 0 : (float)acceptedRequests / userRequestsNum * 100;
-                InvalidRequestsPercentageByYear = userRequestsNum == 0 ? 0 : (float)invalidRequests / userRequestsNum * 100;
-            }
-
-            if(selectedYear== 0)
             {
                 RequestsPercentage = new SeriesCollection
                 {
@@ -262,17 +210,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     }
                 };
             }
-
         }
-
-        private void GenerateStatisticsByYear(int selectedYear)
+        private void Execute_CreateCommand(object obj)
         {
-            GenerateStatistics(selectedYear);
+            CreateTourRequestWindow window = new CreateTourRequestWindow(LoggedInUser);
+            window.ShowDialog();
         }
 
-        private void GenerateGeneralStatistics()
+        private bool CanExecuteMethod(object parameter)
         {
-            GenerateStatistics();
+            return true;
         }
-    }
+    }  
 }
