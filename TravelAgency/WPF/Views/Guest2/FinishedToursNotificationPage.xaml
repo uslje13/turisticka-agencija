@@ -40,8 +40,5 @@
                 </ItemsControl>
             </ScrollViewer>
         </Border>
-        <Grid Height="800">
-            <Frame x:Name="ReviewFrame" NavigationUIVisibility ="Hidden" />
-        </Grid>
     </Grid>
 </Page>
