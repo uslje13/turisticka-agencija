@@ -64,7 +64,7 @@
             </DataGrid>
             <Label Foreground="Black" FontSize="25" FontWeight="Bold" Margin="10,124,588,79">Vaše dosadašnje rezervacije :</Label>
             <TextBlock Foreground="Black" x:Name="ResNumber" Text="{Binding Path=CounterTextBlock}"
-                       FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="710,132,15,109"></TextBlock>
+                       FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="670,132,15,109"></TextBlock>
             <DataGrid ItemsSource="{Binding _futuredReservations}" CanUserResizeRows="False"
                   AutoGenerateColumns="False" SelectionMode="Single" Style="{StaticResource DataGridStyle}"
                   IsReadOnly="True" Margin="15,20,15,150">
