@@ -18,15 +18,15 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for OrdinaryToursRequestsPage.xaml
+    /// Interaction logic for StatisticsPage.xaml
     /// </summary>
-    public partial class OrdinaryToursRequestsPage : Page
+    public partial class StatisticsPage : Page
     {
-        public OrdinaryToursRequestsPage(User loggedInUser)
+        public StatisticsPage(User loggedInUser)
         {
             InitializeComponent();
-            OrdinaryToursPageViewModel viewModel = new OrdinaryToursPageViewModel(loggedInUser,this);
-            DataContext = viewModel;
+            StatisticsPageViewModel viewModel = new StatisticsPageViewModel(loggedInUser);
+            DataContext= viewModel;
         }
     }
 }

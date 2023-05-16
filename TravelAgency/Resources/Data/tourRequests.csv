@@ -1,5 +1,5 @@
 1|Berlin|Nemacka|Tura po glavnom gradu Nemacke, gledanje utakmice Albe|srpski|50|10.05.2023.|14.05.2023.|INVALID|3|False
-2|Bec|Austrija|Grad gde beze svi cigani|srpski|50|01.09.2023.|10.09.2023.|ON_HOLD|3|False
+2|Bec|Austrija|Grad gde beze svi cigani|srpski|50|01.09.2024.|10.09.2024.|ON_HOLD|3|False
 3|Trebinje|Bosna i Hercegovina|Obilazak starog grada boravak u kampu Lastva|srpski|50|10.05.2023.|14.05.2023.|ACCEPTED|3|True
 4|Madrid|Spanija|Gledanje pete utakmice plejofa Eurolige izmedju Partizana i Real Madrida|srpski|50|04.05.2023.|09.05.2023.|INVALID|3|False
 5|Pariz|Francuska|Tura po Parizu|francuski|10|10.10.2023.|15.10.2023.|ON_HOLD|7|False
@@ -8,4 +8,4 @@
 8|Prag|Ceska|Prag tura posle 100 godina|ceski|110|19.10.2023.|24.10.2023.|ON_HOLD|7|False
 9|Berlin|Nemacka|Tura po glavnom gradu Nemacke, gledanje utakmice Albe|srpski|50|10.05.2023.|14.05.2023.|INVALID|7|False
 10|Rim|Italija|Italiano dasa, mafija spageti|italijanski|110|15.09.2023.|30.09.2023.|ON_HOLD|7|False
-11|Temisvar|Rumunija|Tura po Temisvaru.|srpski|30|11.05.2023.|11.05.2023.|INVALID|3|False
+11|Temisvar|Rumunija|Tura po Temisvaru.|srpski|30|11.05.2024.|11.05.2024.|ACCEPTED|3|True

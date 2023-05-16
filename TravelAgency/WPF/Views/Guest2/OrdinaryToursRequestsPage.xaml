@@ -14,11 +14,11 @@
         <Border Margin="0,702,35,45" Background="CornflowerBlue">
             <StackPanel Orientation="Horizontal" Margin="-35,0,0,0">
                 <Button Content="Kreiraj novi zahtev" Command="{Binding CreateCommand}" FontSize="20" Width="254" Height="33" Margin="450,0,0,0" BorderThickness="1,1,2,2"></Button>
-                <Button Content="Statistika" FontSize="20" Width="254" Height="33" BorderThickness="1,1,2,2"></Button>
+                <Button Content="Statistika" Command="{Binding StatisticsCommand}" FontSize="20" Width="254" Height="33" BorderThickness="1,1,2,2"></Button>
             </StackPanel>
         </Border>
         <Border Margin="0,0,0,121">
-            <ScrollViewer Margin="0,0,0,0">
+            <ScrollViewer Margin="0,0,23,0">
                 <ItemsControl x:Name="ToursList" ItemsSource="{Binding TourRequests}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -73,5 +73,8 @@
                 </ItemsControl>
             </ScrollViewer>
         </Border>
+        <Grid>
+            <Frame x:Name="StatsFrame" NavigationUIVisibility ="Hidden" />
+        </Grid>
     </Grid>
 </Page>

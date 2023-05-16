@@ -5,6 +5,7 @@ using SOSTeam.TravelAgency.WPF.Views.Guest2;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -251,7 +252,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 }
                 else
                 {
-                    _reservationService.CreateReservation(_selected, LoggedInUser, int.Parse(_touristNum), float.Parse(_averageAge));
+                    _reservationService.CreateReservation(_selected, LoggedInUser, int.Parse(_touristNum), float.Parse(_averageAge, CultureInfo.InvariantCulture));
                 }
                 _window.Close();
             }
