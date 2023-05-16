@@ -14,6 +14,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class CreateTourRequestViewModel : ViewModel
     {
+        public OrdinaryToursPageViewModel OrdinaryToursPageViewModel { get; set; }
+
         private CreateTourRequestWindow _window;
         public User LoggedInUser { get; set; }
         public ObservableCollection<RequestViewModel> TourRequests { get; set; }
@@ -40,8 +42,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public CreateTourRequestViewModel(User loggedInUser,CreateTourRequestWindow window) 
+        public CreateTourRequestViewModel(User loggedInUser,CreateTourRequestWindow window,OrdinaryToursPageViewModel ordinaryToursPageViewModel) 
         {
+            OrdinaryToursPageViewModel = ordinaryToursPageViewModel;
             _window= window;
             LoggedInUser= loggedInUser;
             TourRequest= new RequestViewModel();
@@ -71,7 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 TourRequests.Add(TourRequest);
                 var navigationService = _window.TourReviewFrame.NavigationService;
-                navigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests));
+                navigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests, OrdinaryToursPageViewModel));
             }          
         }
 

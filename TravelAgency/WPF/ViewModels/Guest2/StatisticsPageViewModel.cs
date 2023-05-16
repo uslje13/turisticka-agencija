@@ -15,6 +15,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class StatisticsPageViewModel : ViewModel
     {
+        public OrdinaryToursPageViewModel OrdinaryToursPageViewModel { get; set; }
         public User LoggedInUser { get; set; }
         public float AcceptedRequestsPercentage { get; set; }
         public float InvalidRequestsPercentage { get; set; }
@@ -127,8 +128,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private readonly TourRequestStatsService _tourRequestStatsService;
 
-        public StatisticsPageViewModel(User loggedInUser)
+        public StatisticsPageViewModel(User loggedInUser,OrdinaryToursPageViewModel ordinaryToursPageViewModel)
         {
+            OrdinaryToursPageViewModel = ordinaryToursPageViewModel;
             LoggedInUser = loggedInUser;
             RequestsPercentagePerYear = new SeriesCollection();
             RequestsPercentage = new SeriesCollection();
@@ -213,7 +215,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         }
         private void Execute_CreateCommand(object obj)
         {
-            CreateTourRequestWindow window = new CreateTourRequestWindow(LoggedInUser);
+            CreateTourRequestWindow window = new CreateTourRequestWindow(LoggedInUser,OrdinaryToursPageViewModel);
             window.ShowDialog();
         }
 

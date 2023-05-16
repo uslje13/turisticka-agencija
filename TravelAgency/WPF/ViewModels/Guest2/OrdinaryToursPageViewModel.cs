@@ -65,7 +65,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _page = page;
         }
 
-        private void FillTourRequests()
+        public void FillTourRequests()
         {
             foreach(var request in _tourRequestService.GetAll())
             {
@@ -90,12 +90,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_StatisticsCommand(object obj)
         {
             var navigationService = _page.StatsFrame.NavigationService;
-            navigationService.Navigate(new StatisticsPage(LoggedInUser));
+            navigationService.Navigate(new StatisticsPage(LoggedInUser,this));
         }
 
         private void Execute_CreateCommand(object obj)
         {
-            CreateTourRequestWindow window = new CreateTourRequestWindow(LoggedInUser);
+            CreateTourRequestWindow window = new CreateTourRequestWindow(LoggedInUser,this);
             window.ShowDialog();
         }
 

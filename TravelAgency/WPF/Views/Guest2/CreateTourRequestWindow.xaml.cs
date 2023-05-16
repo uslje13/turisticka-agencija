@@ -21,10 +21,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     /// </summary>
     public partial class CreateTourRequestWindow : Window
     {
-        public CreateTourRequestWindow(User loggedInUser)
+        public CreateTourRequestWindow(User loggedInUser,OrdinaryToursPageViewModel ordinaryToursViewModel)
         {
             InitializeComponent();
-            CreateTourRequestViewModel viewModel = new CreateTourRequestViewModel(loggedInUser,this);
+            CreateTourRequestViewModel viewModel = new CreateTourRequestViewModel(loggedInUser,this, ordinaryToursViewModel);
             DataContext= viewModel;
         }
     }
