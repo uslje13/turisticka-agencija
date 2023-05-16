@@ -39,7 +39,7 @@
                         <Label Content="Zauzetost ovog meseca" HorizontalAlignment="Center"/>
                         <lvc:CartesianChart Series="{Binding MonthOccupancySeries}" Height="190" Width="280">
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis Title="Time" Labels="{Binding TimeLabels}"/>
+                                <lvc:Axis Title="Vreme" Labels="{Binding TimeLabels}"/>
                             </lvc:CartesianChart.AxisX>
                             
                         </lvc:CartesianChart>

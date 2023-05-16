@@ -32,7 +32,8 @@ namespace SOSTeam.TravelAgency.Domain
             { typeof(ITourReviewRepository), new TourReviewRepository() },
             { typeof(IVoucherRepository), new VoucherRepository() },
             { typeof(IGuestAccommodationMarkRepository), new GuestAccommodationMarkRepository() },
-            { typeof(ITourRequestRepository), new TourRequestRepository() }
+            { typeof(ITourRequestRepository), new TourRequestRepository() },
+            { typeof(IRenovationRecommendationRepository), new RenovationRecommendationRepository()}
             //{ typeof(IUserService), new UserService() },
 
 

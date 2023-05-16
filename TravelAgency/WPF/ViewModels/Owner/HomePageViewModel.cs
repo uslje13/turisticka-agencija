@@ -40,7 +40,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             set
             {
                 _timeLabels = value;
-                OnPropertyChanged("Labels");
+                OnPropertyChanged("TimeLabels");
             }
         }
 
@@ -66,6 +66,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             GetMonthOccupation();
             GetMostPopularAccommodation();
 
+
         }
 
         private void GetMostPopularAccommodation()
@@ -83,13 +84,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             var today = DateTime.Today;
             DateTime startDate = new DateTime(today.Year, today.Month, 1);
             var chartData = new ChartValues<int>();
-            chartData.AddRange(_accommodationStatsService.GetOccupationInRange(startDate, 30));
+            chartData.AddRange(_accommodationStatsService.GetOccupationInDays(startDate, 30));
 
             MonthOccupancySeries = new SeriesCollection
             {
                 new ColumnSeries
                 {
-                    Title = "Occupancy",
+                    Title = "Zauzetost",
                     Values = chartData
                 }
             };

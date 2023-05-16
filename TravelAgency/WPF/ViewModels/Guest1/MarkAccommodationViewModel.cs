@@ -230,17 +230,32 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             return markDescription;
         }
 
+        private int GetMarkNumber(List<RadioButton> list) 
+        {
+            int i = 1;
+            foreach (var radio in list)
+            {
+                if (radio.IsChecked == true)
+                {
+                    break;
+                }
+                i++;
+            }
+            return Math.Min(i,5);
+        }
+
         private void ExecuteAccommodationMarking(object sender)
         {
             int cleanMark = FindCleanMark(CleanMarks);
             int ownerMark = FindOwnerMark(OwnerMarks);
             string renovationMark = FindRenovationMark(RenovationMarks);
-            foreach(var url in AllUrlsList)
+            int renovationNumber = GetMarkNumber(RenovationMarks);
+            foreach (var url in AllUrlsList)
             {
                 AllUrls += url + ",";
             }
             GuestAccMarkService service = new GuestAccMarkService();
-            service.MarkAccommodation(cleanMark, ownerMark, EnteredGuestComment, AllUrls, LoggedInUser, Accommodation, renovationMark, EnteredGuestSuggest);
+            service.MarkAccommodation(cleanMark, ownerMark, EnteredGuestComment, AllUrls, LoggedInUser, Accommodation, renovationMark, EnteredGuestSuggest,renovationNumber);
             MessageBox.Show("Uspješno ocjenjen smještaj!");
             ReservationsForMark.Remove(Accommodation);
             ThisWindow.Close();
