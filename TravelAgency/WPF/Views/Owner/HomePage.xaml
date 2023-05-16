@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Owner"
       mc:Ignorable="d" 
       d:DesignHeight="662" d:DesignWidth="804"
@@ -24,32 +25,40 @@
             </WrapPanel>
         </Grid>
         <Grid Grid.Row="2">
-            <UniformGrid Columns="3" Margin="15,0" >
-                <Grid Margin="20">
+            <WrapPanel  Margin="15,0" VerticalAlignment="Center">
+                <Grid Margin="20" Width="200">
                     <StackPanel VerticalAlignment="Center">
                         <Label Content="Vaš najpopularniji smeštaj " HorizontalAlignment="Center"/>
-                        <Image Source="/Resources/Images/UnknownPhoto.png"></Image>
-                        <Label Content="Smeštaj naziv " HorizontalAlignment="Center"/>
+                        <Image Source="{Binding AccommodationURI}"></Image>
+                        <Label Content="{Binding PopularAccommodation.Name}" HorizontalAlignment="Center"/>
                     </StackPanel>
                     
                 </Grid>
-                <Grid Margin="20">
+                <Grid Margin="20" Width="Auto">
                     <StackPanel VerticalAlignment="Center">
                         <Label Content="Zauzetost ovog meseca" HorizontalAlignment="Center"/>
-                        <Image Source="/Resources/Images/UnknownPhoto.png"></Image>
-                        <Label Content="" HorizontalAlignment="Center"/>
+                        <lvc:CartesianChart Series="{Binding MonthOccupancySeries}" Height="190" Width="280">
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Time" Labels="{Binding TimeLabels}"/>
+                            </lvc:CartesianChart.AxisX>
+                            
+                        </lvc:CartesianChart>
                     </StackPanel>
 
                 </Grid>
                 <Grid Margin="20">
                     <StackPanel VerticalAlignment="Center">
                         <Label Content="Trenutna popunjenost" HorizontalAlignment="Center"/>
-                        <Image Source="/Resources/Images/UnknownPhoto.png"></Image>
+                        <lvc:PieChart Series="{Binding TodayOccupancySeries}" Height="170" Width="150" LegendLocation="Bottom" Margin="0">
+                            <lvc:PieChart.DataTooltip>
+                                <lvc:DefaultTooltip/>
+                            </lvc:PieChart.DataTooltip>
+                        </lvc:PieChart>
                         <Label Content=" " HorizontalAlignment="Center"/>
                     </StackPanel>
 
                 </Grid>
-            </UniformGrid>
+            </WrapPanel>
         </Grid>
 
 
