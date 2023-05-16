@@ -14,11 +14,48 @@
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Margin" Value="10" />
         </Style>
+        <Geometry x:Key="StarGeometry">M 50,0 L 64.14,36.36 L 100,36.36 L 70.71,60 L 82.84,96.36 L 50,76.37 L 17.16,96.36 L 29.29,60 L 0,36.36 L 35.86,36.36 Z</Geometry>
+        <Style TargetType="Path">
+            <Setter Property="Stretch" Value="Uniform"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Stroke" Value="Black"/>
+            <Setter Property="StrokeThickness" Value="2"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="#63aaed" />
 
+
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightBlue"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <converter:StringToIntConverter x:Key="StringToIntConverter" />
+        <converter:RatingToBrushConverter x:Key="RatingToBrushConverter"/>
     </Page.Resources>
 
-    <Grid Background="White">
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
             <RowDefinition/>
@@ -32,7 +69,9 @@
                 <Label Content="Ocenite gosta " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Image Source="/Resources/Icons/user_ikonica2.png" Width="130" Height="130" Margin="0,15,0,0"></Image>
-                    <Label Content="{Binding Path=Guest.Username, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
+                    <Label Content="{Binding Path=GuestUser.Username, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
+                    <Label Content="u smeštaju" Margin="3" Height="Auto" FontSize="20" HorizontalAlignment="Center" />
+                    <Label Content="{Binding Path=Accommodation.Name, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="20" HorizontalAlignment="Center" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="1" Width="AUto" Height="Auto" Margin="0,0,40,0">
@@ -49,28 +88,40 @@
                 <Label Grid.Row="1" Grid.Column="0"  Content ="Ćistoća:" VerticalAlignment="Center"></Label>
                 <Label Grid.Row="2" Grid.Column="0"  Content ="Poštovanje pravila:" VerticalAlignment="Center"></Label>
                 <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
-                    <RadioButton Margin="2,10" GroupName="clean" Content="1"
-                 IsChecked="{Binding CleanlinessRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=1}" />
-                    <RadioButton Margin="2,10" GroupName="clean" Content="2"
-                 IsChecked="{Binding CleanlinessRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=2}" />
-                    <RadioButton Margin="2,10" GroupName="clean" Content="3"
-                 IsChecked="{Binding CleanlinessRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=3}" />
-                    <RadioButton Margin="2,10" GroupName="clean" Content="4"
-                 IsChecked="{Binding CleanlinessRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=4}" />
-                    <RadioButton Margin="2,10" GroupName="clean" Content="5"
-                 IsChecked="{Binding CleanlinessRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=5}" />
+                    <Button Command="{Binding RateCleanliness}" CommandParameter="1" Background="Transparent" BorderThickness="0">
+                        <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanlinessRating, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=1}" />
+                    </Button>
+                    <Button Command="{Binding RateCleanliness}" CommandParameter="2" Background="Transparent" BorderThickness="0">
+                        <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanlinessRating, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=2}" />
+                    </Button>
+                    <Button Command="{Binding RateCleanliness}" CommandParameter="3" Background="Transparent" BorderThickness="0">
+                        <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanlinessRating, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=3}" />
+                    </Button>
+                    <Button Command="{Binding RateCleanliness}" CommandParameter="4" Background="Transparent" BorderThickness="0">
+                        <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanlinessRating, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=4}" />
+                    </Button>
+                    <Button Command="{Binding RateCleanliness}" CommandParameter="5" Background="Transparent" BorderThickness="0">
+                        <Path Data="{StaticResource StarGeometry}" Fill="{Binding CleanlinessRating, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=5}" />
+                    </Button>
                 </WrapPanel>
+
+
                 <WrapPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
-                    <RadioButton Margin="2,10" GroupName="rules" Content="1"
-                 IsChecked="{Binding RulesRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=1}" />
-                    <RadioButton Margin="2,10" GroupName="rules" Content="2"
-                 IsChecked="{Binding RulesRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=2}" />
-                    <RadioButton Margin="2,10" GroupName="rules" Content="3"
-                 IsChecked="{Binding RulesRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=3}" />
-                    <RadioButton Margin="2,10" GroupName="rules" Content="4"
-                 IsChecked="{Binding RulesRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=4}" />
-                    <RadioButton Margin="2,10" GroupName="rules" Content="5"
-                 IsChecked="{Binding RulesRating, Mode=TwoWay, Converter={StaticResource StringToIntConverter}, ConverterParameter=5}" />
+                    <Button Command="{Binding RateRules}" CommandParameter="1" Background="Transparent" BorderThickness="0">
+                        <Path Data="{StaticResource StarGeometry}" Fill="{Binding RulesRating, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=1}" />
+                    </Button>
+                    <Button Command="{Binding RateRules}" CommandParameter="2" Background="Transparent" BorderThickness="0">
+                        <Path Data="{StaticResource StarGeometry}" Fill="{Binding RulesRating, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=2}" />
+                    </Button>
+                    <Button Command="{Binding RateRules}" CommandParameter="3" Background="Transparent" BorderThickness="0">
+                        <Path Data="{StaticResource StarGeometry}" Fill="{Binding RulesRating, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=3}" />
+                    </Button>
+                    <Button Command="{Binding RateRules}" CommandParameter="4" Background="Transparent" BorderThickness="0">
+                        <Path Data="{StaticResource StarGeometry}" Fill="{Binding RulesRating, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=4}" />
+                    </Button>
+                    <Button Command="{Binding RateRules}" CommandParameter="5" Background="Transparent" BorderThickness="0">
+                        <Path Data="{StaticResource StarGeometry}" Fill="{Binding RulesRating, Converter={StaticResource RatingToBrushConverter}, ConverterParameter=5}" />
+                    </Button>
                 </WrapPanel>
 
                 <Grid Grid.Row="3" Grid.ColumnSpan="2" Height="250">

@@ -18,10 +18,12 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public string UrlGuestImage { get; set; }
         public int GuestId { get; set; }
         public int AccommodationId { get; set; }
+        public string RenovationMark { get; set; }
+        public string GuestSuggest { get; set; }
 
         public GuestAccommodationMark() { }
 
-        public GuestAccommodationMark(int cleanMark, int ownerMark, string guestComment, string urlGuestImage, int guestId, int accommodationId)
+        public GuestAccommodationMark(int cleanMark, int ownerMark, string guestComment, string urlGuestImage, int guestId, int accommodationId, string renovationMark, string suggest)
         {
             CleanMark = cleanMark;
             OwnerMark = ownerMark;
@@ -29,12 +31,15 @@ namespace SOSTeam.TravelAgency.Domain.Models
             UrlGuestImage = urlGuestImage;
             GuestId = guestId;
             AccommodationId = accommodationId;
+            RenovationMark = renovationMark;
+            GuestSuggest = suggest;
         }
 
         public string[] ToCSV()
         {
             string[] csvValues = { Id.ToString(), CleanMark.ToString(), OwnerMark.ToString(), 
-                                    GuestComment, UrlGuestImage, GuestId.ToString(), AccommodationId.ToString() };
+                                   GuestComment, UrlGuestImage, GuestId.ToString(), AccommodationId.ToString(), 
+                                   RenovationMark, GuestSuggest };
             return csvValues;
         }
 
@@ -48,6 +53,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
             UrlGuestImage = values[i++];
             GuestId = Convert.ToInt32(values[i++]);
             AccommodationId = Convert.ToInt32(values[i++]);
+            RenovationMark = values[i++];
+            GuestSuggest = values[i++];
         }
     }
 }

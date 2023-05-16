@@ -8,7 +8,7 @@
       d:DesignHeight="662" d:DesignWidth="804"
       Title="HomePage">
 
-    <Grid Background="White">
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="3*"/>

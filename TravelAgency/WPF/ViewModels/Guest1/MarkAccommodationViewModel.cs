@@ -24,27 +24,41 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class MarkAccommodationViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public User LoggedInUser { get; set; }
+        public Window ThisWindow { get; set; }
+        public string AccNameTextBlock { get; set; }
+        public string AllUrls { get; set; }
+        public List<string> AllUrlsList { get; set; }
+        private string enteredGuestComment { get; set; }
+        public string EnteredGuestComment
+        {
+            get { return enteredGuestComment; }
+            set
+            {
+                enteredGuestComment = value;
+                OnPropertyChaged("EnteredGuestComment");
+            }
+        }
+        private string enteredGuestSuggest { get; set; }
+        public string EnteredGuestSuggest
+        {
+            get { return enteredGuestSuggest; }
+            set
+            {
+                enteredGuestSuggest = value;
+                OnPropertyChaged("EnteredGuestSuggest");
+            }
+        }
+        public CancelAndMarkResViewModel Accommodation { get; set; }
+         
         public List<RadioButton> CleanMarks { get; set; }
         public List<RadioButton> OwnerMarks { get; set; }
-        public TextBox GuestComment { get; set; }
-        public RelayCommand MarkAccCommand { get; set; }
-        public RelayCommand AddImagesCommand { get; set; }
-        public User LoggedInUser { get; set; }
-        public CancelAndMarkResViewModel Accommodation { get; set; }
-        public Window ThisWindow { get; set; }
-        public TextBlock AccommodationNameTb { get; set; }
-        public ListBox Images { get; set; }
-        public RelayCommand DeleteSharedImageCommand { get; set; }
-        public RelayCommand GoBackCommand { get; set; }
-        //-----------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------
-        private ObservableCollection<System.Windows.Controls.Image> selectedImages;
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChaged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));  
-        }
+        public List<RadioButton> RenovationMarks { get; set; }
 
+        public ObservableCollection<CancelAndMarkResViewModel> ReservationsForMark { get; set; }
+
+        private ObservableCollection<System.Windows.Controls.Image> selectedImages;
         public ObservableCollection<System.Windows.Controls.Image> SelectedImages
         {
             get { return selectedImages; }
@@ -54,26 +68,25 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 OnPropertyChaged("SelectedImages");
             }
         }
-        //-----------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------
-        public string AllUrls { get; set; }
-        public ObservableCollection<CancelAndMarkResViewModel> ReservationsForMark { get; set; }
+        public RelayCommand MarkAccCommand { get; set; }
+        public RelayCommand AddImagesCommand { get; set; }
+        public RelayCommand DeleteSharedImageCommand { get; set; }
+        public RelayCommand GoBackCommand { get; set; }
 
-        public MarkAccommodationViewModel(TextBlock tBlock, List<RadioButton> cleans, List<RadioButton> owners, TextBox comment, User user, CancelAndMarkResViewModel acc, Window window, ListBox images, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark) 
+        public MarkAccommodationViewModel(List<RadioButton> cleans, List<RadioButton> owners, List<RadioButton> renovations, User user, CancelAndMarkResViewModel acc, Window window, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark) 
         {
-            AccommodationNameTb = tBlock;
+            AccNameTextBlock = acc.AccommodationName;
             CleanMarks = cleans;
             OwnerMarks = owners;
-            GuestComment = comment;
+            RenovationMarks = renovations;
             LoggedInUser = user;
             Accommodation = acc;
             ThisWindow = window;
-            Images = images;
-            SelectedImages = new ObservableCollection<System.Windows.Controls.Image>();
             AllUrls = String.Empty;
             ReservationsForMark = reservationsForMark;
 
-            FillTextBox(acc);
+            SelectedImages = new ObservableCollection<System.Windows.Controls.Image>();
+            AllUrlsList = new List<string>();
 
             MarkAccCommand = new RelayCommand(ExecuteAccommodationMarking);
             AddImagesCommand = new RelayCommand(Execute_AddImages);
@@ -81,10 +94,32 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             DeleteSharedImageCommand = new RelayCommand(Execute_DeleteSharedImage);
         }
 
+        protected void OnPropertyChaged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private void Execute_DeleteSharedImage(object sender)
         {
             System.Windows.Controls.Image? selected = sender as System.Windows.Controls.Image;
             SelectedImages.Remove(selected);
+            RemoveURL(selected);
+        }
+
+        private void RemoveURL(System.Windows.Controls.Image selected)
+        {
+            string realPath = selected.Source.ToString();
+            string deletingPath = "";
+            foreach(var url in AllUrlsList)
+            {
+                if(realPath.Contains(url))
+                {
+                    deletingPath = url;
+                    break;
+                }
+            }
+
+            AllUrlsList.Remove(deletingPath);
         }
 
         private void Execute_GoBack(object sender)
@@ -105,14 +140,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 foreach(string imageUrl in op.FileNames)
                 {
                     string csvPath = CreateCSVPath(op, imageUrl);
-                    AllUrls += csvPath;
+                    AllUrlsList.Add(csvPath);
                     
                     System.Windows.Controls.Image image = new System.Windows.Controls.Image();
                     image.Source = new BitmapImage(new Uri(imageUrl));
                     SelectedImages.Add(image);
                 }
             } 
-            Images.ItemsSource = SelectedImages;
         }
 
         private string CreateCSVPath(OpenFileDialog op, string imageUrl)
@@ -139,20 +173,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 }
                 if (dividedPath.Count() == j)
                 {
-                    csvPath += part + ",";
+                    csvPath += part;
                 }
             }
 
             return csvPath;
-        }
-
-        private void FillTextBox(CancelAndMarkResViewModel acc)
-        {
-            Binding binding = new Binding();
-            AccommodationService service = new AccommodationService();
-            Accommodation accommodation = service.GetById(acc.AccommodationId);
-            binding.Source = accommodation.Name;
-            AccommodationNameTb.SetBinding(TextBlock.TextProperty, binding);
         }
 
         public int FindCleanMark(List<RadioButton> list)
@@ -183,12 +208,39 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             return -1;
         }
 
+        public string FindRenovationMark(List<RadioButton> list)
+        {
+            int i = 1;
+            string markDescription = String.Empty;
+            foreach (var radio in list)
+            {
+                if (radio.IsChecked == true)
+                {
+                    break;
+                }
+                i++;
+            }
+
+            if (i == 1) markDescription += "Nivo 1 - bilo bi dobro renovirati neke sitnice, ali sve funkcioniše kako treba i bez toga.";
+            else if (i == 2) markDescription = "Nivo 2 - male zamjerke na smještaj koje kada bi se uklonile bi ga učinile savršenim.";
+            else if (i == 3) markDescription = "Nivo 3 - nekoliko stvari koje su baš zasmetale bi trebalo renovirati.";
+            else if (i == 4) markDescription = "Nivo 4 - ima dosta loših stvari i renoviranje je stvarno neophodno.";
+            else markDescription = "Nivo 5 - smještaj je u jako lošem stanju i ne vrijedi ga uopšte iznajmljivati ukoliko se ne renovira.";
+
+            return markDescription;
+        }
+
         private void ExecuteAccommodationMarking(object sender)
         {
             int cleanMark = FindCleanMark(CleanMarks);
             int ownerMark = FindOwnerMark(OwnerMarks);
+            string renovationMark = FindRenovationMark(RenovationMarks);
+            foreach(var url in AllUrlsList)
+            {
+                AllUrls += url + ",";
+            }
             GuestAccMarkService service = new GuestAccMarkService();
-            service.MarkAccommodation(cleanMark, ownerMark, GuestComment.Text, AllUrls, LoggedInUser, Accommodation);
+            service.MarkAccommodation(cleanMark, ownerMark, EnteredGuestComment, AllUrls, LoggedInUser, Accommodation, renovationMark, EnteredGuestSuggest);
             MessageBox.Show("Uspješno ocjenjen smještaj!");
             ReservationsForMark.Remove(Accommodation);
             ThisWindow.Close();

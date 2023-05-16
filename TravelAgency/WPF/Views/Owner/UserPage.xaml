@@ -8,13 +8,13 @@
        d:DesignHeight="662" d:DesignWidth="804"
       Title="UserPage">
 
-    <Grid Background="White">
+    <Grid Background="Transparent">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel  Height="220">
                 <Image Source="/Resources/Icons/user_ikonica2.png" Width="130" Height="130" Margin="0,15,0,0"></Image>
                 <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
             </StackPanel>
-            <Button Content="Izloguj se" FontSize="24" Width="180" Margin="20" Command="{Binding LogOut}">
+            <Button Content="Izloguj se" Background="#93caed" FontSize="24" Width="180" Margin="20" Command="{Binding LogOut}">
                 
             </Button>
             <Label Content="Napravi svaki dom posebnim mestom, a tvoji klijenti će to prepoznati" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />

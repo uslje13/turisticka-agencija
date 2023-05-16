@@ -9,6 +9,7 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
 {
     internal interface IGuestReviewRepository : IRepository<GuestReview>
     {
-        public bool ReviewExists(int ownerId, int guestId);
+        public bool ReviewExists(int ownerId, int guestId,int accommodationId);
+        public GuestReview SaveAndReturn(GuestReview guestReview);
     }
 }

@@ -18,40 +18,47 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     public class RequestsStatusViewModel
     {
         public User LoggedInUser { get; set; }
-        public RelayCommand searchCommand { get; set; }
-        public RelayCommand reserveCommand { get; set; }
         public Window ThisWindow { get; set; }
-        public RelayCommand NavigationButtonCommand { get; set; }
-        public Frame ThisFrame { get; set; }
-        public TextBlock TextBlockUsername { get; set; }
         public Window UserProfilleWindow { get; set; }
+        public Frame ThisFrame { get; set; }
+        public string UsernameTextBlock { get; set; }
         public int Notifications { get; set; }
+        public bool Report { get; set; }
+        public string WindowNameTextBlock { get; set; }
+        public RelayCommand NavigationButtonCommand { get; set; }
 
-        public RequestsStatusViewModel(User user, Window window, Frame frame, TextBlock textBlock, Window profille, int notifications)
+        public RequestsStatusViewModel(User user, Window window, Frame frame, Window profille, int notifications, bool report)
         {
             LoggedInUser = user;
             ThisWindow = window;
             ThisFrame = frame;
-            TextBlockUsername = textBlock;
+            UsernameTextBlock = user.Username;
             UserProfilleWindow = profille;
             Notifications = notifications;
+            Report = report;
 
-            FillTextBlock(LoggedInUser);
+            FillTitleBlock();
 
             NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand);
         }
         
-        private void FillTextBlock(User user)
+        private void FillTitleBlock()
         {
-            Binding binding = new Binding();
-            binding.Source = user.Username;
-            TextBlockUsername.SetBinding(TextBlock.TextProperty, binding);
+            if (!Report) WindowNameTextBlock = "Pregled zahtjeva";
+            else WindowNameTextBlock = "Izvještaj";
         }
         
         public void SetStartupPage()
         {
             var navigationService = ThisFrame.NavigationService;
-            navigationService.Navigate(new AllStatusesPage(LoggedInUser, ThisFrame));
+            if (!Report)
+            {
+                navigationService.Navigate(new AllStatusesPage(LoggedInUser, ThisFrame));
+            }
+            else
+            {
+                navigationService.Navigate(new ReportFiltersPage(LoggedInUser, ThisFrame));
+            }
         }
         
         public void Execute_NavigationButtonCommand(object parameter)
@@ -67,13 +74,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     newWindow.ShowDialog();
                     break;
                 case "Search":
-                    
                     break;
                 case "Bid":
-                    
                     break;
                 case "Whatever":
-
                     break;
                 case "LogOut":
                     SignInForm form = new SignInForm();

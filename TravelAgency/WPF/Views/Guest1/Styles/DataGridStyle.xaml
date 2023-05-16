@@ -8,6 +8,7 @@
         <Setter Property="VerticalGridLinesBrush" Value="Black" />
         <Setter Property="CanUserResizeColumns" Value="False"/>
         <Setter Property="CanUserResizeRows" Value="False"/>
+        <Setter Property="Background" Value="Khaki"/>
 
         <Setter Property="RowStyle">
             <Setter.Value>
@@ -27,6 +28,9 @@
                     <Setter Property="Background" Value="Khaki" />
                     <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Padding" Value="5,4,5,4" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
                 </Style>
             </Setter.Value>
         </Setter>
@@ -69,11 +73,9 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="DataGridCell">
-                                <Border Padding="{TemplateBinding Padding}" 
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            Background="{TemplateBinding Background}">
-                                    <ContentPresenter />
+                                <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>
@@ -85,17 +87,16 @@
                             </Style>
                         </Setter.Value>
                     </Setter>
-                    
+                    <Setter Property="FontWeight" Value="Medium"/>
                     <Setter Property="ScrollViewer.Background" Value="White"/>
-                    
                 </Style>
             </Setter.Value>
         </Setter>
     </Style>
     <Style TargetType="{x:Type ScrollBar}">
         <Setter Property="Background" Value="Khaki" />
-    </Style>
-    <Style TargetType="ScrollViewer">
-        <Setter Property="Background" Value="Khaki"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="0.5"/>
+        <Setter Property="Cursor" Value="Hand"/>
     </Style>
 </ResourceDictionary>

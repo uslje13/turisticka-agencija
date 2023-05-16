@@ -25,6 +25,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _guestReviewRepository.GetAll();
         }
 
+        public List<GuestReview> GetAllReviewed()
+        {
+            return _guestReviewRepository.GetAll().Where(t => t.IsReviewed).ToList();
+        }
+
         public List<GuestReview> GetAllByUserId(int ownerId)
         {
             return _guestReviewRepository.GetAll().Where(p => p.OwnerId == ownerId).ToList();
@@ -42,9 +47,20 @@ namespace SOSTeam.TravelAgency.Application.Services
             _guestReviewRepository.Save(guestReview);
         }
 
-        public bool ReviewExists(int ownerId, int guestId)
+        public bool ReviewExists(int ownerId, int guestId,int accommodationId)
         {
-            return _guestReviewRepository.ReviewExists(ownerId, guestId);
+            return _guestReviewRepository.ReviewExists(ownerId, guestId, accommodationId);
+        }
+
+        public bool ReviewByGuestExists(int ownerId, int guestId)
+        {
+            var guestReviews = _guestReviewRepository.GetAll();
+            return guestReviews.Exists(l => l.GuestId == guestId && l.OwnerId == ownerId && l.IsReviewed);
+        }
+
+        public bool IsReviewed(int reviewId) 
+        {
+            return _guestReviewRepository.GetById(reviewId).IsReviewed;
         }
 
 

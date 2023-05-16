@@ -23,7 +23,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="10"
+                    <Border CornerRadius="5"
                             Background="White"
                             BorderThickness="3"
                             BorderBrush="DarkGoldenrod">

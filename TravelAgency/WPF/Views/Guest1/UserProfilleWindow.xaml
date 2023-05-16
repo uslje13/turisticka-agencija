@@ -29,7 +29,8 @@
         <Grid Grid.Row="0">
             <Image Source="/Resources/Icons/Guest1/user_siluet.png" 
                    Margin="40,21,778,22"/>
-            <TextBlock Foreground="Black" x:Name="UsersName" FontSize="50" FontWeight="Bold" FontStyle="Italic" Margin="204,61,533,116" TextAlignment="Center"></TextBlock>
+            <TextBlock Foreground="Black" x:Name="UsersName" Text="{Binding Path=UsernameTextBlock}"
+                       FontSize="50" FontWeight="Bold" FontStyle="Italic" Margin="204,61,533,116" TextAlignment="Center"></TextBlock>
             <Image Source="/Resources/Icons/Guest1/verification.png" Margin="491,71,452,116"/>
             <Button x:Name="InboxButton" Command="{Binding ShowInboxCommand}" FontSize="25" FontWeight="DemiBold"
                     Style="{StaticResource ImageButtonStyle}" HorizontalContentAlignment="Center" Margin="781,52,42,107" GotFocus="TestOpeningInbox">
@@ -41,36 +42,37 @@
                         </Canvas>
                     </StackPanel>
             </Button>
-            <TextBlock x:Name="Messages" FontSize="25" FontWeight="DemiBold" TextAlignment="Center" 
-                       Margin="809,77,165,125"><Run/></TextBlock>
+            <TextBlock x:Name="Messages" Text="{Binding Path=MessageNumberTextBlock}" Foreground="DarkGoldenrod"
+                       FontSize="25" FontWeight="DemiBold" TextAlignment="Center" Margin="809,77,165,125"><Run/></TextBlock>
         </Grid>
         
         
         <Grid Grid.Row="1">
             <Label Foreground="Black" FontSize="25" FontWeight="Bold" Margin="10,-30,588,233">Vaše predstojeće rezervacije :</Label>
-            <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding _finishedReservations}" Style="{StaticResource DataGridStyle}"
+            <DataGrid ItemsSource="{Binding _finishedReservations}" Style="{StaticResource DataGridStyle}"
                   AutoGenerateColumns="False" SelectionMode="Single" CanUserResizeRows="False"
                   IsReadOnly="True" Margin="15,165,15,5">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Naziv smještaja" Binding="{Binding AccommodationName}" Width="1*"/>
                     <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
                     <DataGridTextColumn Header="Država" Binding="{Binding AccommodationCountry}" Width="1*"/>
-                    <DataGridTextColumn Header="Tip smještaja" Binding="{Binding AccommodationType}" Width="1*"/>
+                    <DataGridTextColumn Header="Tip smještaja" Binding="{Binding TypeString}" Width="1*"/>
                     <DataGridTextColumn Header="Prvi dan" Binding="{Binding FirstDayStr}" Width="1*"/>
                     <DataGridTextColumn Header="Poslednji dan" Binding="{Binding LastDayStr}" Width="1*"/>
                     <DataGridTextColumn Header="Trajanje rezervacije" Binding="{Binding DaysDuration}" Width="1*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <Label Foreground="Black" FontSize="25" FontWeight="Bold" Margin="10,124,588,79">Vaše dosadašnje rezervacije :</Label>
-            <TextBlock Foreground="Black" x:Name="ResNumber" FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="710,132,15,109"></TextBlock>
-            <DataGrid Background="#FFE5E5E5" ItemsSource="{Binding _futuredReservations}" CanUserResizeRows="False"
+            <TextBlock Foreground="Black" x:Name="ResNumber" Text="{Binding Path=CounterTextBlock}"
+                       FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="710,132,15,109"></TextBlock>
+            <DataGrid ItemsSource="{Binding _futuredReservations}" CanUserResizeRows="False"
                   AutoGenerateColumns="False" SelectionMode="Single" Style="{StaticResource DataGridStyle}"
                   IsReadOnly="True" Margin="15,20,15,150">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Naziv smještaja" Binding="{Binding AccommodationName}" Width="1*"/>
                     <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
                     <DataGridTextColumn Header="Država" Binding="{Binding AccommodationCountry}" Width="1*"/>
-                    <DataGridTextColumn Header="Tip smještaja" Binding="{Binding AccommodationType}" Width="1*"/>
+                    <DataGridTextColumn Header="Tip smještaja" Binding="{Binding TypeString}" Width="1*"/>
                     <DataGridTextColumn Header="Prvi dan" Binding="{Binding FirstDayStr}" Width="1*"/>
                     <DataGridTextColumn Header="Poslednji dan" Binding="{Binding LastDayStr}" Width="1*"/>
                     <DataGridTextColumn Header="Trajanje rezervacije" Binding="{Binding DaysDuration}" Width="1*"/>
@@ -89,9 +91,9 @@
         
         <Grid Grid.Row="1" Margin="0,250,0,0" Grid.RowSpan="2">
             <Label Foreground="Black" FontSize="20" FontWeight="Bold" FontStyle="Italic" 
-                   Margin="412,33,120,154">Vaše otkazane rezervacije su na sledećem linku :</Label>
-            <Button Command="{Binding CanceledQueryCommand}" FontSize="20" Content="otkazano" Name="CanceledReportButton"
-                    Margin="881,31,10,168" Style="{StaticResource ImageButtonStyle}"
+                   Margin="195,33,100,154">Izvještaj o svim zakazanim/otkazanim rezervacijama je na sledećem linku :</Label>
+            <Button Command="{Binding CanceledQueryCommand}" FontSize="20" Content="izvještaj" Name="CanceledReportButton"
+                    Margin="905,31,10,168" Style="{StaticResource ImageButtonStyle}" HorizontalContentAlignment="Left"
                     FontWeight="Bold" FontStyle="Italic"/>
             <Button Command="{Binding ShowMenuCommand}" Width="110" Height="43" 
                     Style="{StaticResource ButtonStyle}" FontSize="17" Content="Glavni meni"

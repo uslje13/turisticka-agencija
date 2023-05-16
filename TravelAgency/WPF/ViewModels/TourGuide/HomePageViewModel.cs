@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.Views.TourGuide;
-using Xceed.Wpf.Toolkit.Core.Converters;
-using Color = System.Drawing.Color;
-using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
+
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
@@ -49,16 +40,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        //Ovo ima da leti kada se napravi burger meni
-        public RelayCommand ShowFinishedTourReviewCommand { get; set; }
-        public RelayCommand ShowStatsMenuCommand { get; set; }
-
-        private readonly User _loggedUser;
+        public User LoggedUser { get; set; }
         private readonly DispatcherTimer _timer;
 
         public HomePageViewModel(User loggedUser, DispatcherTimer timer)
         {
-            _loggedUser = loggedUser;
+            LoggedUser = loggedUser;
             _timer = timer;
             _appointmentService = new AppointmentService();
             _reservationService = new ReservationService();
@@ -73,8 +60,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
             CancelTourCommand = new RelayCommand(CancelTourClick, CanExecuteMethod);
             ShowTodayToursCommand = new RelayCommand(TodayToursClick, CanExecuteMethod);
-            ShowFinishedTourReviewCommand = new RelayCommand(ShowFinishedTourReviews, CanExecuteMethod);
-            ShowStatsMenuCommand = new RelayCommand(ShowStatsMenu, CanExecuteMethod);
         }
 
         private void UpdateTourCards(object sender, EventArgs e)
@@ -93,12 +78,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void CancelTourClick(object sender)
         {
+            var message = "Are you sure you want to cancel the tour?\nIf you cancel the tour," +
+                          " all users with a reservation for this tour will receive a voucher.";
+            var result = App.TourGuideNavigationService.GetMessageBoxResult(message);
+
             var selectedAppointment = sender as TourCardViewModel;
-            if(selectedAppointment == null) { return; }
-
-            var messageBoxWindow = CreateMessageBox();
-
-            var result = messageBoxWindow.ShowDialog();
 
             if (result == true)
             {
@@ -108,37 +92,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        private MessageBoxWindow CreateMessageBox()
-        {
-            const string message = "Are you sure you want to cancel the tour?\nIf you cancel the tour," +
-                                    " all users with a reservation for this tour will receive a voucher.";
-
-            var messageBoxViewModel = new MessageBoxViewModel("Alert", "/Resources/Icons/warning.png", message);
-            var messageBoxWindow = new MessageBoxWindow
-            {
-                DataContext = messageBoxViewModel
-            };
-            return messageBoxWindow;
-        }
-
         private void TodayToursClick(object sender)
         {
-            TodayToursPage todayToursPage = new TodayToursPage(_loggedUser, _timer);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = todayToursPage;
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("TodayTours", LoggedUser);
         }
 
-
-        //Ovo sve leti kada se sredi Burger Menu!!!
-        private void ShowFinishedTourReviews(object sender)
-        {
-            GuestReviewsByTourPage guestReviewsByPage = new GuestReviewsByTourPage(_loggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = guestReviewsByPage;
-        }
-
-        private void ShowStatsMenu(object sender)
-        {
-            StatsMenuPage statsMenuPage = new StatsMenuPage(_loggedUser);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = statsMenuPage;
-        }
     }
 }

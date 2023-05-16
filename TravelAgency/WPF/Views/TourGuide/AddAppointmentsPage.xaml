@@ -34,9 +34,9 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Date:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Height="16"/>
             <DatePicker x:Name="DatePicker" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="266" Height="25" SelectedDateFormat="Short"
-                        BorderBrush="DarkGray" BorderThickness="1.5" DisplayDateStart="{x:Static sys:DateTime.Now}" Text="{Binding Start, StringFormat='dd.MM.yyyy.'}">
+                        BorderBrush="DarkGray" BorderThickness="1.5" DisplayDateStart="{x:Static sys:DateTime.Now}" Text="{Binding Start, StringFormat='dd.MM.yyyy. HH:mm'}">
                 <DatePicker.SelectedDate>
-                    <Binding Path="Start" StringFormat="dd.MM.yyyy." UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                    <Binding Path="Start" StringFormat="dd.MM.yyyy. HH:mm" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                         <Binding.ValidationRules>
                             <tourGuide:DateTimeValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"></tourGuide:DateTimeValidationRule>
                         </Binding.ValidationRules>
@@ -75,7 +75,7 @@
             <tk:TimePicker x:Name="TimePicker" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="266" Height="25"
                            BorderBrush="DarkGray" BorderThickness="1.5" TextAlignment="Left" FormatString='HH:mm'>
                 <tk:TimePicker.Value>
-                    <Binding Path="Start" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                    <Binding Path="Start " UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True" StringFormat="HH:mm">
                         <Binding.ValidationRules>
                             <tourGuide:DateTimeValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"></tourGuide:DateTimeValidationRule>
                         </Binding.ValidationRules>
@@ -155,15 +155,33 @@
                         <Button Grid.Column="2" Background="Transparent" BorderBrush="Transparent"
                                 Command="{Binding DataContext.EditAppointmentCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                                 CommandParameter="{Binding }"
-                                IsEnabled="{Binding CanEdi}">
-                            <Image Source="/Resources/Icons/pencil.png"></Image>
+                                IsEnabled="{Binding CanEdit}"
+                                Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Image Source="{Binding CanEditImagePath}"></Image>
                         </Button>
                         <!-- Delete -->
                         <Button Grid.Column="3" Background="Transparent" BorderBrush="Transparent"
                                 Command="{Binding DataContext.DeleteAppointmentCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                                 CommandParameter="{Binding }"
-                                IsEnabled="{Binding CanDelete}">
-                            <Image Source="/Resources/Icons/bin.png"></Image>
+                                IsEnabled="{Binding CanDelete}"
+                                Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Image Source="{Binding CanDeleteImagePath}"></Image>
                         </Button>
                     </Grid>
                 </DataTemplate>

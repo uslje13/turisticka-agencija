@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class MessageBoxViewModel
+    public class YesNoMessageBoxViewModel
     {
         public string Title { get; set; }
         public string ImagePath { get; set; }
@@ -16,7 +16,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand ClickYesCommand { get; private set; }
         public RelayCommand ClickNoCommand { get; private set; }
 
-        public MessageBoxViewModel(string title, string imagePath, string message)
+        public YesNoMessageBoxViewModel(string title, string imagePath, string message)
         {
             Title = title;
             ImagePath = imagePath;

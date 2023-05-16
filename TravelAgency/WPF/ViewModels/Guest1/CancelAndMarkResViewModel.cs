@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using static SOSTeam.TravelAgency.WPF.ViewModels.Guest1.LocAccommodationViewModel;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -24,11 +25,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int DaysDuration { get; set; }
         public string NotificationShape { get; set; }
         public bool IsSuperOwned { get; set; }
+        public string TypeString { get; set; }
 
-        public CancelAndMarkResViewModel() 
-        {
-            //NotificationShape = "Nemate rezervacija za ocjenjivanje smještaja.";
-        }
+        public CancelAndMarkResViewModel() { }
 
         public CancelAndMarkResViewModel(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId, string daysForMarking = "", int daysDuration = -1, LocAccommodationViewModel.AccommType type = LocAccommodationViewModel.AccommType.NOTYPE)
         {
@@ -44,6 +43,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             DaysForMarking = daysForMarking;
             DaysDuration = daysDuration;
             AccommodationType = type;
+            if (type == AccommType.APARTMENT) TypeString = "APARTMAN";
+            else if (type == AccommType.HOUSE) TypeString = "KUĆA";
+            else TypeString = "KOLIBA";
             NotificationShape = "Vaša rezervacija u smještaju " + AccommodationName + " (" + AccommodationCity + ", " +
                                 AccommodationCountry + ") za period " + FirstDay.ToShortDateString() + " - " + LastDay.ToShortDateString() +
                                 " je završena. Za eventualno ocjenjivanje ovog smještaja Vam je ostalo još ";

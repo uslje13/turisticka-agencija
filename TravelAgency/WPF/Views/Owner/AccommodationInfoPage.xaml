@@ -7,8 +7,41 @@
       mc:Ignorable="d" 
       d:DesignHeight="662" d:DesignWidth="804"
       Title="AccommodationInfoPage">
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="#63aaed" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="2" />
 
-    <Grid Background="White" Margin="30">
+
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightBlue"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="Transparent" Margin="30">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="4*"/>
@@ -21,7 +54,22 @@
         <Grid Grid.Row="0" Grid.Column="0">
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Label FontSize="25" Content="{Binding Accommodation.Name}" HorizontalAlignment="Center" Margin="0,15,0,25"/>
-                <Image Source="{Binding Image.Path}" Width="300" Height="200"></Image>
+                <WrapPanel>
+                    <Button Width="25" Height="25" Margin="0,0,5,0" Command="{Binding NavigatePhotos}" CommandParameter="Left">
+                        <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" ></Image>
+                    </Button>
+                    <Image Source="{Binding Image.Path}" Width="300" Height="200" Stretch="UniformToFill"></Image>
+                    <Button Width="25" Height="25" Margin="5,0,0,0" Command="{Binding NavigatePhotos}" CommandParameter="Right">
+                        <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" >
+                            <Image.RenderTransformOrigin>
+                                <Point X="0.45" Y="0.5" />
+                            </Image.RenderTransformOrigin>
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="180" />
+                            </Image.RenderTransform>
+                        </Image>
+                    </Button>
+                </WrapPanel>
             </StackPanel>
             
         </Grid>

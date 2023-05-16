@@ -22,36 +22,25 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     public class SearchAccommodationViewModel
     {
         public User LoggedInUser { get; set; }
-        public RelayCommand searchCommand { get; set; }
-        public RelayCommand reserveCommand { get; set; }
         public Window ThisWindow { get; set; }
-        public RelayCommand NavigationButtonCommand { get; set; }
-        public Frame ThisFrame { get; set; }
-        public TextBlock TextBlockUsername { get; set; }
         public Window InboxWindow { get; set; }
         public Window UserProfilleWindow { get; set; }
+        public Frame ThisFrame { get; set; }
         public int Notifications { get; set; }
+        public string UserNameTextBlock { get; set; }
+        public RelayCommand NavigationButtonCommand { get; set; }
 
-        public SearchAccommodationViewModel(User user, Window window, Frame frame, TextBlock textBlock, Window inbox, Window profille, int notifications)
+        public SearchAccommodationViewModel(User user, Window window, Frame frame, Window inbox, Window profille, int notifications)
         {
             LoggedInUser = user;
             ThisWindow = window;
             ThisFrame = frame;
-            TextBlockUsername = textBlock;
+            UserNameTextBlock = user.Username;
             InboxWindow = inbox;
             UserProfilleWindow = profille;
             Notifications = notifications;
 
-            FillTextBlock(LoggedInUser);
-
             NavigationButtonCommand = new RelayCommand(Execute_NavigationButtonCommand);
-        }
-
-        private void FillTextBlock(User user)
-        {
-            Binding binding = new Binding();
-            binding.Source = user.Username;
-            TextBlockUsername.SetBinding(TextBlock.TextProperty, binding);
         }
 
         public void SetStartupPage()
