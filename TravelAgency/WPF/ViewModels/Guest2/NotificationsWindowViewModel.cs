@@ -17,11 +17,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public static User LoggedInUser { get; set; }
         private NotificationsWindow _window;
         private RelayCommand _backCommand;
-        private readonly ReservationService _reservationService;
-        private readonly AppointmentService _appointmentSevice;
-        private readonly TourService _tourService;
 
-        public static ObservableCollection<FinishedTourViewModel> FinishedTours { get;  set; }
         public RelayCommand BackCommand
         {
             get { return _backCommand; }
@@ -41,18 +37,44 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 _helpCommand = value;
             }
         }
+
+        private RelayCommand _navigationCommand;
+        public RelayCommand NavigationCommand
+        {
+            get { return _navigationCommand; }
+            set
+            {
+                _navigationCommand = value;
+            }
+        }
         public NotificationsWindowViewModel(User loggedInUser, NotificationsWindow window) 
         {
             _window = window;
             LoggedInUser = loggedInUser;
             BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
             HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
-            _reservationService = new ReservationService();
-            _appointmentSevice = new AppointmentService();
-            _tourService = new TourService();
-            FinishedTours = new ObservableCollection<FinishedTourViewModel>();
-            FillFinishedToursList();
+            NavigationCommand = new RelayCommand(Execute_NavigationCommand, CanExecuteMethod);
         }
+
+        public void SetStartupPage()
+        {
+            Execute_NavigationCommand("FinishedTour");
+        }
+        private void Execute_NavigationCommand(object obj)
+        {
+            string nextPage = obj.ToString();
+            var navigationService = _window.MainFrame.NavigationService;
+
+            switch (nextPage)
+            {
+                case "FinishedTour":
+                    navigationService.Navigate(new FinishedToursNotificationPage(LoggedInUser));
+                    break;
+                case "NewTour":
+                    navigationService.Navigate(new NewToursNotificationPage());
+                    break;
+            }
+        }    
 
         private void Execute_HelpCommand(object obj)
         {
@@ -68,17 +90,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
                     navigationService.Navigate(new HelpPage(LoggedInUser));
                     break;
-                }
-            }
-        }
-
-        private void FillFinishedToursList()
-        {
-            foreach(Reservation reservation in _reservationService.GetAll())
-            {
-                if(reservation.Presence && _appointmentSevice.GetById(reservation.AppointmentId).Finished && reservation.Reviewed == false)
-                {
-                    FinishedTours.Add(new FinishedTourViewModel(_window,reservation.Id, reservation.AppointmentId, LoggedInUser, _tourService.GetTourName(_appointmentSevice.GetById(reservation.AppointmentId).TourId)));
                 }
             }
         }

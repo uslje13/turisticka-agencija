@@ -12,21 +12,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for NotificationsWindow.xaml
+    /// Interaction logic for FinishedToursNotificationPage.xaml
     /// </summary>
-    public partial class NotificationsWindow : Window
+    public partial class FinishedToursNotificationPage : Page
     {
-        public NotificationsWindow(User loggedInUser)
+        public FinishedToursNotificationPage(User loggedInUser)
         {
             InitializeComponent();
-            NotificationsWindowViewModel viewModel = new NotificationsWindowViewModel(loggedInUser, this);
+            FinishedTourNotificationPageViewModel viewModel = new FinishedTourNotificationPageViewModel(this,loggedInUser);
             DataContext = viewModel;
-            viewModel.SetStartupPage();
         }
     }
 }

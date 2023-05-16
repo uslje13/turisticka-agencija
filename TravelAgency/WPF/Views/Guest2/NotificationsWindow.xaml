@@ -4,13 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest2"
-        xmlns:local1="clr-namespace:SOSTeam.TravelAgency.Converter"
         mc:Ignorable="d"
         Title="Obavestenja" FontSize="24" Height="800" Width="880"  Background="AliceBlue" FontFamily="Microsoft Sans Serif" WindowStartupLocation="CenterScreen">
-
-    <Window.Resources>
-        <local1:BorderConverter x:Key="BorderConverter" />
-    </Window.Resources>
 
     <Window.InputBindings>
         <KeyBinding Key="B" Modifiers="Control" Command="{Binding BackCommand}" />
@@ -18,12 +13,14 @@
     </Window.InputBindings>
 
     <Grid>
-        <Border Margin="0,0,0,566">
-            <StackPanel Margin="0,0,0,-14">
-                <Button Width="195" Height="36" Margin="600,26,27,100" BorderThickness="1,1,2,2" Command="{Binding HelpCommand}">
+        <Border Margin="0,0,0,675">
+            <StackPanel Margin="0,0,0,-14" Orientation="Horizontal">
+                <Button Content="Nove ture" Width="225" Height="41" FontSize="22" Margin="180,0,0,0" BorderThickness="1,1,2,2" BorderBrush="Black" Command="{Binding NavigationCommand}"  CommandParameter="NewTour"></Button>
+                <Button Width="225" Height="41" FontSize="22" Content="Zavrsene ture"  BorderThickness="1,1,2,2" BorderBrush="Black" Command="{Binding NavigationCommand}"  CommandParameter="FinishedTour"></Button>
+                <Button Width="225" Height="41" BorderThickness="1,1,2,2" BorderBrush="Black">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Resources/Icons/help--v1.png" Height="33" Width="38"></Image>
-                        <TextBlock  Text=" Pomoc (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
+                            <Image Source="/Resources/Icons/help--v1.png" Height="33" Width="38"></Image>
+                            <TextBlock  Text=" Pomoc (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -31,35 +28,11 @@
         <Border Margin="0,689,0,0">
             <Button Height="74" Content="Nazad (Ctrl + b)" FontSize="24" BorderThickness="1,1,2,2" Command="{Binding BackCommand}"></Button>
         </Border>
-        <Border Margin="0,109,0,95">
-            <ScrollViewer HorizontalAlignment="Right" Width="880">
-                <ItemsControl x:Name="FinishedToursList" ItemsSource="{Binding FinishedTours}" AlternationCount="{Binding FinishedTours.Count}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <Border BorderBrush="Black">
-                                    <Border.BorderThickness>
-                                        <MultiBinding Converter="{StaticResource BorderConverter}">
-                                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type ContentPresenter}}" Path="(ItemsControl.AlternationIndex)" />
-                                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type ItemsControl}}" Path="Items.Count" />
-                                        </MultiBinding>
-                                    </Border.BorderThickness>
-                                    <StackPanel Orientation="Horizontal" Height="163" Margin="30,0,0,0">
-                                        <Image Source="/Resources/Icons/info-icon.png" Height="109" Width="159" />
-                                        <TextBlock TextWrapping="Wrap" TextTrimming="None" Height="66" Width="483" Margin="10,0,20,0" Text="{Binding TextForShowing}">
-                                        </TextBlock>
-                                        <Button Width="127" Height="65" Content="Oceni" BorderThickness="1,1,2,2" Command="{Binding ReviewCommand}"></Button>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-            </ScrollViewer>
-        </Border>
         <Grid>
             <Frame x:Name="ReviewFrame" NavigationUIVisibility ="Hidden" />
+        </Grid>
+        <Grid Margin="0,109,0,100">
+            <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
         </Grid>
     </Grid>
 </Window>

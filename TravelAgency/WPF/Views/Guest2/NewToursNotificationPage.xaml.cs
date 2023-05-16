@@ -1,6 +1,4 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,21 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for NotificationsWindow.xaml
+    /// Interaction logic for NewToursNotificationPage.xaml
     /// </summary>
-    public partial class NotificationsWindow : Window
+    public partial class NewToursNotificationPage : Page
     {
-        public NotificationsWindow(User loggedInUser)
+        public NewToursNotificationPage()
         {
             InitializeComponent();
-            NotificationsWindowViewModel viewModel = new NotificationsWindowViewModel(loggedInUser, this);
-            DataContext = viewModel;
-            viewModel.SetStartupPage();
         }
     }
 }
