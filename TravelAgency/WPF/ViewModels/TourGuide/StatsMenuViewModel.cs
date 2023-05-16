@@ -14,6 +14,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand ShowToursOverviewStatsCommand { get; set; }
 
         public RelayCommand ShowStatByToursCommand { get; set; }
+        public RelayCommand ShowTourRequestStatsCommand { get; set; }
 
         public User LoggedUser { get; set; }
 
@@ -22,6 +23,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             LoggedUser = loggedUser;
             ShowToursOverviewStatsCommand = new RelayCommand(ShowToursOverviewStats, CanExecuteMethod);
             ShowStatByToursCommand = new RelayCommand(ShowStatByTours, CanExecuteMethod);
+            ShowTourRequestStatsCommand = new RelayCommand(ShowTourRequestStats, CanExecuteMethod);
         }
 
         private bool CanExecuteMethod(object parameter)
@@ -39,6 +41,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             StatsByTourOverviewPage statsByTourOverviewTourOverviewPage = new StatsByTourOverviewPage(LoggedUser);
             System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = statsByTourOverviewTourOverviewPage;
+        }
+
+        private void ShowTourRequestStats(object sender)
+        {
+            TourRequestStatsPage tourRequestStatsPage = new TourRequestStatsPage();
+            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = tourRequestStatsPage;
         }
 
     }
