@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace SOSTeam.TravelAgency.Application.Services
 {
@@ -86,7 +87,8 @@ namespace SOSTeam.TravelAgency.Application.Services
             int counter = 0;
             foreach(var item in  guestReviews)
             {
-                if(item.GuestId == loggedInUserId)
+                AccommodationReservation reservation = accReservationRepository.GetById(item.ReservationId);
+                if (item.GuestId == loggedInUserId && reservation.ReadMarkNotification)
                 {
                     counter++;
                 }

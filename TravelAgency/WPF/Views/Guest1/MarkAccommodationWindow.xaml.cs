@@ -25,13 +25,13 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class MarkAccommodationWindow : Window
     {
-        public MarkAccommodationWindow(User user, CancelAndMarkResViewModel accommodation, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark)
+        public MarkAccommodationWindow(User user, CancelAndMarkResViewModel accommodation, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark, ObservableCollection<CancelAndMarkResViewModel> ratingsFromOwner)
         {
             InitializeComponent();
             List<RadioButton> cleanButtons = new List<RadioButton> { c1, c2, c3, c4, c5 };
             List<RadioButton> ownerButtons = new List<RadioButton> { v1, v2, v3, v4, v5 };
             List<RadioButton> renovationButtons = new List<RadioButton> { h1, h2, h3, h4, h5 };
-            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(cleanButtons, ownerButtons, renovationButtons, user, accommodation, this, reservationsForMark);
+            MarkAccommodationViewModel viewModel = new MarkAccommodationViewModel(cleanButtons, ownerButtons, renovationButtons, user, accommodation, this, reservationsForMark, ratingsFromOwner);
             DataContext = viewModel;
         }
     }

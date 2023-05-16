@@ -19,7 +19,7 @@
     </Window.Resources>
     <Grid>
         <TabControl Margin="10,10,10,168" BorderBrush="DarkGoldenrod" Cursor="Hand">
-            <TabItem Header="Podsjetnici za ocjenjivanje">
+            <TabItem BorderBrush="DarkGoldenrod" Height="35" FontWeight="Bold" Foreground="DarkGoldenrod" Width="328.43" Header="Podsjetnici za ocjenjivanje">
                 <ListBox Name="MarkNotifications" HorizontalContentAlignment="Center" BorderBrush="DarkGoldenrod"
                  Background="White" Margin="10,10,10,10">
                     <ListBox.ItemTemplate>
@@ -44,7 +44,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
-            <TabItem Header="Obavještenja o pomjeranju">
+            <TabItem BorderBrush="DarkGoldenrod" Height="35" FontWeight="Bold" Foreground="DarkGoldenrod" Width="328.43" Header="Obavještenja o pomjeranju">
                 <ListBox Name="ChangeNotifications" HorizontalContentAlignment="Center" BorderBrush="DarkGoldenrod"
                  Background="White" Margin="10,10,10,10">
                     <ListBox.ItemTemplate>
@@ -63,7 +63,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
-            <TabItem Header="Prikaz recenzija">
+            <TabItem BorderBrush="DarkGoldenrod" Height="35" FontWeight="Bold" Foreground="DarkGoldenrod" Width="328.43" Header="Prikaz recenzija">
                 <ListBox Name="RatingsNotifications" HorizontalContentAlignment="Center" BorderBrush="DarkGoldenrod"
                  Background="White" Margin="10,10,10,10">
                     <ListBox.ItemTemplate>

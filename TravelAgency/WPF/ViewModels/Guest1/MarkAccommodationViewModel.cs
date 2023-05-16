@@ -57,6 +57,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public List<RadioButton> RenovationMarks { get; set; }
 
         public ObservableCollection<CancelAndMarkResViewModel> ReservationsForMark { get; set; }
+        public ObservableCollection<CancelAndMarkResViewModel> RatingsFromOwner { get; set; }
 
         private ObservableCollection<System.Windows.Controls.Image> selectedImages;
         public ObservableCollection<System.Windows.Controls.Image> SelectedImages
@@ -73,12 +74,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand DeleteSharedImageCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
 
-        public MarkAccommodationViewModel(List<RadioButton> cleans, List<RadioButton> owners, List<RadioButton> renovations, User user, CancelAndMarkResViewModel acc, Window window, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark) 
+        public MarkAccommodationViewModel(List<RadioButton> cleans, List<RadioButton> owners, List<RadioButton> renovations, User user, CancelAndMarkResViewModel acc, Window window, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark, ObservableCollection<CancelAndMarkResViewModel> ratingsFromOwner) 
         {
             AccNameTextBlock = acc.AccommodationName;
             CleanMarks = cleans;
             OwnerMarks = owners;
             RenovationMarks = renovations;
+            RatingsFromOwner = ratingsFromOwner;
             LoggedInUser = user;
             Accommodation = acc;
             ThisWindow = window;
@@ -243,7 +245,39 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             service.MarkAccommodation(cleanMark, ownerMark, EnteredGuestComment, AllUrls, LoggedInUser, Accommodation, renovationMark, EnteredGuestSuggest);
             MessageBox.Show("Uspješno ocjenjen smještaj!");
             ReservationsForMark.Remove(Accommodation);
+            ShowGuestRatings();
             ThisWindow.Close();
+        }
+
+        private void ShowGuestRatings()
+        {
+            GuestReviewService reviewService = new GuestReviewService();
+            UserService userService = new UserService();
+            AccommodationService accommodationService = new AccommodationService();
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            List<GuestReview> guestReviews = reviewService.GetAll();
+
+            if (guestReviews.Count > 0)
+            {
+                foreach (var item in guestReviews)
+                {
+                    AccommodationReservation reservation = reservationService.GetById(item.ReservationId);
+                    if (item.GuestId == LoggedInUser.Id && item.ReservationId == Accommodation.ReservationId)
+                    {
+                        User owner = userService.GetById(item.OwnerId);
+                        Accommodation accommodation = accommodationService.GetById(item.AccommodationId);
+                        string shape = "Vlasnik " + owner.Username + " je ocijenio Vašu čistoću u smještaju " + accommodation.Name +
+                                       " u periodu od " + reservation.FirstDay.ToShortDateString() + " do " + reservation.LastDay.ToShortDateString() +
+                                       " ocjenom " + item.CleanlinessGrade + ", a poštovanje pravila sa " + item.RespectGrade + ". ";
+                        if (item.Comment.Equals("")) shape += "Nije ostavljao dodatni komentar.";
+                        else shape += "Ostavio je i dodatni komentar: " + item.Comment;
+                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel();
+                        model.NotificationShape = shape;
+                        RatingsFromOwner.Add(model);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
