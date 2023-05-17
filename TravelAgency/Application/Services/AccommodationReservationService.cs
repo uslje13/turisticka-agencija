@@ -181,7 +181,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private bool IsValidToBeRequest(int ownerId, Accommodation accommodation, ChangedReservationRequest item, WantedNewDate item2)
         {
-            return accommodation.OwnerId == ownerId && accommodation.Id == item2.wantedDate.AccommodationId && item.UserId == item2.UserId && item.reservationId == item2.OldReservationId && item.status == ChangedReservationRequest.Status.ON_HOLD;
+            return accommodation.OwnerId == ownerId && accommodation.Id == item2.AccommodationId && item.UserId == item2.UserId && item.reservationId == item2.OldReservationId && item.status == ChangedReservationRequest.Status.ON_HOLD;
         }
 
         public void AcceptReservationChanges(WantedNewDate newReservation, ChangedReservationRequest oldReservation, int ownerId)
@@ -206,8 +206,8 @@ namespace SOSTeam.TravelAgency.Application.Services
                                                                                             oldReservation.AccommodationName, oldReservation.City, oldReservation.Country,
                                                                                             oldReservation.OldFirstDay, oldReservation.OldLastDay,
                                                                                             oldReservation.GuestNumber, oldReservation.UserId);
-            processedReservation.NewFirstDay = newReservation.wantedDate.ReservationFirstDay;
-            processedReservation.NewLastDay = newReservation.wantedDate.ReservationLastDay;
+            processedReservation.NewFirstDay = newReservation.ReservationFirstDay;
+            processedReservation.NewLastDay = newReservation.ReservationLastDay;
             processedReservation.status = ChangedReservationRequest.Status.ACCEPTED;
             processedReservation.StatusString = "PRIHVAĆENO";
             processedReservation.ownerComment = "Uspješno pomjereno.";
@@ -232,9 +232,9 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private AccommodationReservation SaveChangeAcceptedReservation(WantedNewDate newReservation, ChangedReservationRequest oldReservation)
         {
-            AccommodationReservation reservation = new AccommodationReservation(newReservation.wantedDate.ReservationFirstDay, newReservation.wantedDate.ReservationLastDay,
-                                                                                newReservation.wantedDate.ReservationDuration, newReservation.wantedDate.AccommodationMaxGuests,
-                                                                                newReservation.wantedDate.AccommodationId, oldReservation.UserId);
+            AccommodationReservation reservation = new AccommodationReservation(newReservation.ReservationFirstDay, newReservation.ReservationLastDay,
+                                                                                newReservation.ReservationDuration, newReservation.AccommodationMaxGuests,
+                                                                                newReservation.AccommodationId, oldReservation.UserId);
             _accReservationRepository.SaveChangeAcceptedReservation(reservation);
             return reservation;
         }
@@ -265,8 +265,8 @@ namespace SOSTeam.TravelAgency.Application.Services
                                                                                             oldReservation.AccommodationName, oldReservation.City, oldReservation.Country,
                                                                                             oldReservation.OldFirstDay, oldReservation.OldLastDay,
                                                                                             oldReservation.GuestNumber, oldReservation.UserId);
-            processedReservation.NewFirstDay = newReservation.wantedDate.ReservationFirstDay;
-            processedReservation.NewLastDay = newReservation.wantedDate.ReservationLastDay;
+            processedReservation.NewFirstDay = newReservation.ReservationFirstDay;
+            processedReservation.NewLastDay = newReservation.ReservationLastDay;
             processedReservation.status = ChangedReservationRequest.Status.REFUSED;
             processedReservation.StatusString = "ODBIJENO";
             processedReservation.ownerComment = ownerComment;

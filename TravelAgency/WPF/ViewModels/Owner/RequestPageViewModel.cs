@@ -111,7 +111,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Request = changedReservationRequest;
             NewDate = wantedNewDate;
             OldReservationDates = changedReservationRequest.OldFirstDay.ToShortDateString() + " - " + changedReservationRequest.OldLastDay.ToShortDateString();
-            NewReservationDates = wantedNewDate.wantedDate.ReservationFirstDay.ToShortDateString() + " - " + wantedNewDate.wantedDate.ReservationLastDay.ToShortDateString();
+            NewReservationDates = wantedNewDate.ReservationFirstDay.ToShortDateString() + " - " + wantedNewDate.ReservationLastDay.ToShortDateString();
             Username = username;
         }
     }

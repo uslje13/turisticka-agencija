@@ -14,27 +14,38 @@ namespace SOSTeam.TravelAgency.Domain.Models
     public class WantedNewDate : ISerializable
     {
         public int Id { get; set; }
-        public AccReservationViewModel wantedDate { get; set; }
+        public int AccommodationId { get; set; }
+        public string AccommodationName { get; set; }
+        public int AccommodationMinDaysStay { get; set; }
+        public DateTime ReservationFirstDay { get; set; }
+        public DateTime ReservationLastDay { get; set; }
+        public int ReservationDuration { get; set; }
+        public int AccommodationMaxGuests { get; set; }
+        public int CurrentGuestNumber { get; set; }
         public int UserId { get; set; }
         public int OldReservationId { get; set; }
 
         public WantedNewDate(int id, string name, int days, DateTime fDay, DateTime lDay, int duration, int maxGuests, int currGuests, int userId, int oldReservationId)
         {
-            wantedDate = new AccReservationViewModel(id, name, days, fDay, lDay, duration, maxGuests, currGuests);
+            AccommodationId = id;
+            AccommodationName = name;
+            AccommodationMinDaysStay = days;
+            ReservationFirstDay = fDay;
+            ReservationLastDay = lDay;
+            ReservationDuration = duration;
+            AccommodationMaxGuests = maxGuests;
+            CurrentGuestNumber = currGuests;
             UserId = userId;
             OldReservationId = oldReservationId;
         }
 
-        public WantedNewDate()
-        {
-            wantedDate = new AccReservationViewModel();
-        }
+        public WantedNewDate() { }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), wantedDate.AccommodationId.ToString(), wantedDate.AccommodationName,  wantedDate.AccommodationMinDaysStay.ToString(), 
-                                    wantedDate.ReservationFirstDay.ToString(), wantedDate.ReservationLastDay.ToString(), 
-                                    wantedDate.ReservationDuration.ToString(), wantedDate.AccommodationMaxGuests.ToString(), wantedDate.CurrentGuestNumber.ToString(), 
+            string[] csvValues = { Id.ToString(), AccommodationId.ToString(), AccommodationName, AccommodationMinDaysStay.ToString(), 
+                                    ReservationFirstDay.ToString(), ReservationLastDay.ToString(), 
+                                    ReservationDuration.ToString(), AccommodationMaxGuests.ToString(), CurrentGuestNumber.ToString(), 
                                     UserId.ToString(), OldReservationId.ToString()};
             return csvValues;
         }
@@ -43,14 +54,14 @@ namespace SOSTeam.TravelAgency.Domain.Models
         {
             int i = 0;
             Id = Convert.ToInt32(values[i++]);
-            wantedDate.AccommodationId = Convert.ToInt32(values[i++]);
-            wantedDate.AccommodationName = values[i++];
-            wantedDate.AccommodationMinDaysStay = Convert.ToInt32(values[i++]);
-            wantedDate.ReservationFirstDay = Convert.ToDateTime(values[i++]);
-            wantedDate.ReservationLastDay = Convert.ToDateTime(values[i++]);
-            wantedDate.ReservationDuration = Convert.ToInt32(values[i++]);
-            wantedDate.AccommodationMaxGuests = Convert.ToInt32(values[i++]);
-            wantedDate.CurrentGuestNumber = Convert.ToInt32(values[i++]);
+            AccommodationId = Convert.ToInt32(values[i++]);
+            AccommodationName = values[i++];
+            AccommodationMinDaysStay = Convert.ToInt32(values[i++]);
+            ReservationFirstDay = Convert.ToDateTime(values[i++]);
+            ReservationLastDay = Convert.ToDateTime(values[i++]);
+            ReservationDuration = Convert.ToInt32(values[i++]);
+            AccommodationMaxGuests = Convert.ToInt32(values[i++]);
+            CurrentGuestNumber = Convert.ToInt32(values[i++]);
             UserId = Convert.ToInt32(values[i++]);
             OldReservationId = Convert.ToInt32(values[i++]);
         }
