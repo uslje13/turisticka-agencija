@@ -16,9 +16,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private readonly TourService _tourService;
         private readonly TourRequestService _tourRequestService;
+        private readonly NewTourNotificationService _newTourNotificationService;
+        private readonly AppointmentService _appointmentService;
+        
 
         public NewToursNotificationPageViewModel(User loggedInUser)
         {
+            _appointmentService = new AppointmentService();
+            _newTourNotificationService = new NewTourNotificationService();
             _tourService = new TourService();
             _tourRequestService= new TourRequestService();
             LoggedInUser= loggedInUser;
@@ -28,13 +33,52 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void FillNewToursList()
         {
-            foreach(var tour in _tourService.GetAll())
+            List<Tour> potentialToursForShowing = GetPotentialTours();
+            List<TourRequest> invalidRequests = _tourRequestService.GetAllInvalid();
+
+            foreach(var request in invalidRequests)
             {
-                if(tour.LocationId == 17)
+                if(request.UserId == LoggedInUser.Id)
+                {
+                    AddToNewToursList(request,potentialToursForShowing);
+                }
+            }
+
+            NewTours = new ObservableCollection<NewToursViewModel>(NewTours.DistinctBy(v => v.TourId));
+        }
+
+        private void AddToNewToursList(TourRequest request,List<Tour> potentialToursForShowing)
+        {
+            foreach(var tour in potentialToursForShowing)
+            {
+                if((request.City.Equals(_tourService.GetTourCity(tour)) && request.Country.Equals(_tourService.GetTourCountry(tour))) || request.Language.Equals(tour.Language))
                 {
                     NewTours.Add(new NewToursViewModel(LoggedInUser, tour.Id, tour.Name));
                 }
             }
+        }
+
+        private List<Tour> GetPotentialTours()
+        {
+            List<Tour> potentialToursForShowing = new List<Tour>();
+            List<Appointment> notificationAppointments = GetNotificationAppointments();
+
+            foreach(var appointments in notificationAppointments)
+            {
+                potentialToursForShowing.Add(_tourService.GetById(appointments.TourId));
+            }
+
+            return potentialToursForShowing;
+        }
+
+        private List<Appointment> GetNotificationAppointments()
+        {
+            List<Appointment> notificationAppointments = new List<Appointment>();
+            foreach (var newTourNotification in _newTourNotificationService.GetAllByGuestId(LoggedInUser.Id))
+            {
+                notificationAppointments.Add(_appointmentService.GetById(newTourNotification.AppointmentId));
+            }
+            return notificationAppointments;
         }
     }
 }
