@@ -21,18 +21,19 @@ namespace SOSTeam.TravelAgency.Application.Services
         private readonly IAccommodationRepository _accommodationRepository = Injector.CreateInstance<IAccommodationRepository>();
         private readonly INotificationRepository _notificationRepository = Injector.CreateInstance<INotificationRepository>();
         private readonly IUserRepository _userRepository = Injector.CreateInstance<IUserRepository>();
+        private readonly IRenovationRecommendationRepository _renovationRecommendationRepository = Injector.CreateInstance<IRenovationRecommendationRepository>();
 
         public GuestAccMarkService() { }
 
-        public void MarkAccommodation(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc, string renovationMark, string suggest)
+        public void MarkAccommodation(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc, string renovationMark, string suggest,int renovationNumber)
         {
             MakeAndSaveMark(cleanMark, ownerMark, comment, urls, user, acc, renovationMark, suggest);
             SaveChangesToCSVs(acc);
             SaveImages(urls, acc.ReservationId);
-            CreateNotificationToOwner(acc, renovationMark, suggest);
+            CreateNotificationToOwner(acc, renovationMark, suggest, renovationNumber);
         }
 
-        private void CreateNotificationToOwner(CancelAndMarkResViewModel acc, string renovationMark, string suggest)
+        private void CreateNotificationToOwner(CancelAndMarkResViewModel acc, string renovationMark, string suggest,int renovationNumber)
         {
             Accommodation accommodation = _accommodationRepository.GetById(acc.AccommodationId);
             AccommodationReservation reservation = _accReservationRepository.GetById(acc.ReservationId);
