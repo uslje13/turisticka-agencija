@@ -22,10 +22,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     /// </summary>
     public partial class StatisticsPage : Page
     {
-        public StatisticsPage(User loggedInUser)
+        public StatisticsPage(User loggedInUser,OrdinaryToursPageViewModel ordinaryToursPageViewModel)
         {
             InitializeComponent();
-            StatisticsPageViewModel viewModel = new StatisticsPageViewModel(loggedInUser);
+            StatisticsPageViewModel viewModel = new StatisticsPageViewModel(loggedInUser, ordinaryToursPageViewModel);
             DataContext= viewModel;
         }
     }

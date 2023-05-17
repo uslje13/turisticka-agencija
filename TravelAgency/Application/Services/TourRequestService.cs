@@ -55,5 +55,9 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _tourRequestRepository.GetAll().FindAll(r => r.Status == StatusType.ON_HOLD);
         }
 
+        public List<TourRequest> GetAllInvalid()
+        {
+            return _tourRequestRepository.GetAll().FindAll(r => r.Status == StatusType.INVALID);
+        }
     }
 }

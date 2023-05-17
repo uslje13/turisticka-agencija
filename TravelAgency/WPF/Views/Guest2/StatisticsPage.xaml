@@ -108,16 +108,18 @@
                                         </lvc:CartesianChart>
                                     </Border>
                                     <Border Height="251" BorderThickness="1 0 0 0" BorderBrush="Black" Width="374" Margin="105,0,0,0">
-                                        <ItemsControl ItemsSource="{Binding LocationCounts}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
-                                                        <TextBlock Text="{Binding Key}" FontSize="16" Width="200" Margin="10" />
-                                                        <TextBlock Text="{Binding Value}" FontSize="16" Margin="10"/>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        <ScrollViewer>
+                                            <ItemsControl ItemsSource="{Binding LocationCounts}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                                            <TextBlock Text="{Binding Key}" FontSize="16" Width="220" Margin="10" />
+                                                            <TextBlock Text="{Binding Value}" FontSize="16" Margin="10"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </ScrollViewer>
                                     </Border>
                                 </StackPanel>
                             </Border>
@@ -128,24 +130,26 @@
                             <TextBlock Text="Broj zahteva spram jezika" FontSize="24" Margin="5,0,0,0"></TextBlock>
                             <Border Height="251" BorderThickness="1" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Height="253" Width="321">
-                                        <lvc:CartesianChart Grid.Row="0" Grid.Column="0" Margin="0,10,0,0" Width="340" Height="233" VerticalAlignment="Top">
+                                    <Border Height="253" Width="339">
+                                        <lvc:CartesianChart Grid.Row="0" Grid.Column="0" Margin="31,0,10,0" Height="233" VerticalAlignment="Center">
                                             <lvc:CartesianChart.Series>
                                                 <lvc:ColumnSeries Title="Broj tura spram lokacije" Values="{Binding TourRequestsByLanguage[0].Values}" DataLabels="True" />
                                             </lvc:CartesianChart.Series>
                                         </lvc:CartesianChart>
                                     </Border>
                                     <Border Height="251" BorderThickness="1 0 0 0" BorderBrush="Black" Width="374" Margin="120,0,0,0">
-                                        <ItemsControl ItemsSource="{Binding LanguageCounts}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
-                                                        <TextBlock Text="{Binding Key}" FontSize="16" Width="200" Margin="10" />
-                                                        <TextBlock Text="{Binding Value}" FontSize="16" Margin="10"/>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        <ScrollViewer>
+                                            <ItemsControl ItemsSource="{Binding LanguageCounts}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                                            <TextBlock Text="{Binding Key}" FontSize="16" Width="200" Margin="10" />
+                                                            <TextBlock Text="{Binding Value}" FontSize="16" Margin="10"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </ScrollViewer>
                                     </Border>
                                 </StackPanel>
                             </Border>

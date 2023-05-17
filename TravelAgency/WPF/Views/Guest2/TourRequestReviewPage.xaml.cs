@@ -23,10 +23,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
     /// </summary>
     public partial class TourRequestReviewPage : Page
     {
-        public TourRequestReviewPage(User loggedInUser,ObservableCollection<RequestViewModel> tourRequests)
+        public TourRequestReviewPage(User loggedInUser,ObservableCollection<RequestViewModel> tourRequests, OrdinaryToursPageViewModel ordinaryToursPageViewModel)
         {
             InitializeComponent();
-            TourRequestReviewPageViewModel viewModel = new TourRequestReviewPageViewModel(loggedInUser,tourRequests);
+            TourRequestReviewPageViewModel viewModel = new TourRequestReviewPageViewModel(loggedInUser,tourRequests, ordinaryToursPageViewModel);
             DataContext = viewModel;
         }
     }
