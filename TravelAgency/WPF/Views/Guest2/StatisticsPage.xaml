@@ -130,8 +130,8 @@
                             <TextBlock Text="Broj zahteva spram jezika" FontSize="24" Margin="5,0,0,0"></TextBlock>
                             <Border Height="251" BorderThickness="1" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Height="253" Width="321">
-                                        <lvc:CartesianChart Grid.Row="0" Grid.Column="0" Margin="31,0,-60,0" Height="233" VerticalAlignment="Center">
+                                    <Border Height="253" Width="339">
+                                        <lvc:CartesianChart Grid.Row="0" Grid.Column="0" Margin="31,0,10,0" Height="233" VerticalAlignment="Center">
                                             <lvc:CartesianChart.Series>
                                                 <lvc:ColumnSeries Title="Broj tura spram lokacije" Values="{Binding TourRequestsByLanguage[0].Values}" DataLabels="True" />
                                             </lvc:CartesianChart.Series>
