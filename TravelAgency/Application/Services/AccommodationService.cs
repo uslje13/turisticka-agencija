@@ -106,9 +106,7 @@ namespace SOSTeam.TravelAgency.Application.Services
                 if (item.AccommodationId == acc.Id)
                 {
                     DateTime today = DateTime.Today;
-                    int helpVar1 = today.DayOfYear - item.FirstDay.DayOfYear;
-                    int helpVar2 = today.DayOfYear - item.LastDay.DayOfYear;
-                    if (helpVar1 >= 0 && helpVar2 <= 0)
+                    if (today >= item.FirstDay && today <= item.LastDay)
                     {
                         currentGuestNumber += item.GuestNumber;
                     }

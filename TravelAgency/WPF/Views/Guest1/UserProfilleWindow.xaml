@@ -44,6 +44,13 @@
             </Button>
             <TextBlock x:Name="Messages" Text="{Binding Path=MessageNumberTextBlock}" Foreground="DarkGoldenrod"
                        FontSize="25" FontWeight="DemiBold" TextAlignment="Center" Margin="809,77,165,125"><Run/></TextBlock>
+            <Image Height="30" Width="33" Margin="134,121,603,56" Source="/Resources/Icons/Guest1/superGuest.png"/>
+            <TextBlock Text="{Binding Path=SuperGuestBonusPoints}" Foreground="Black" FontSize="15" FontWeight="SemiBold"
+                       TextAlignment="Left" Margin="290,136,442,65"/>
+            <TextBlock Text="{Binding Path=SuperGuestReservations}" Foreground="Black" FontSize="15" FontWeight="SemiBold"
+                       TextAlignment="Left" Margin="290,156,442,46"/>
+            <TextBlock Text="{Binding Path=SuperGuestConclusion}" Foreground="Black" FontSize="15" FontWeight="SemiBold"
+                       TextAlignment="Left" Margin="290,175,385,27"/>
         </Grid>
         
         
@@ -64,7 +71,7 @@
             </DataGrid>
             <Label Foreground="Black" FontSize="25" FontWeight="Bold" Margin="10,124,588,79">Vaše dosadašnje rezervacije :</Label>
             <TextBlock Foreground="Black" x:Name="ResNumber" Text="{Binding Path=CounterTextBlock}"
-                       FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="670,132,15,109"></TextBlock>
+                       FontSize="18" FontWeight="Bold" FontStyle="Italic" Margin="710,132,15,109"></TextBlock>
             <DataGrid ItemsSource="{Binding _futuredReservations}" CanUserResizeRows="False"
                   AutoGenerateColumns="False" SelectionMode="Single" Style="{StaticResource DataGridStyle}"
                   IsReadOnly="True" Margin="15,20,15,150">

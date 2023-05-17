@@ -26,6 +26,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public string UsernameTextBlock { get; set; }
         public string MessageNumberTextBlock { get; set; }
         public string CounterTextBlock { get; set; }
+        public string SuperGuestBonusPoints { get; set; }
+        public string SuperGuestReservations { get; set; }
+        public string SuperGuestConclusion { get; set; }
         public bool FirstLogging { get; set; }
         public List<CancelAndMarkResViewModel> _futuredReservations { get; set; }
         public List<CancelAndMarkResViewModel> _finishedReservations { get; set; }
@@ -56,19 +59,125 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationService AccommodationService = new AccommodationService();
             _locAccommodationViewModels = AccommodationService.CreateAllDTOForms();
 
-            ApplyToCounter(_accommodationReservations);
+            ApplyToThisYearCounter(_accommodationReservations);
             ControlInboxButton(Notifications);
             AddFuturedReservations();
             CollectFinishedReservations();
             AddFinishedReservations();
             FillCounterTextBlock();
             IsFirstLogging();
+            CreateSuperGuestAccounts();
+            FindSuperGuestInformations();
 
             ShowMenuCommand = new RelayCommand(Execute_ShowMenu);
             ShowRequestsCommand = new RelayCommand(Execute_ShowStatuses);
             ShowInboxCommand = new RelayCommand(Execute_ShowInbox);
             SignOutCommand = new RelayCommand(Execute_SignOut);
             CanceledQueryCommand = new RelayCommand(Execute_ShowCanceledReservations);
+        }
+
+        private void FindSuperGuestInformations()
+        {
+            SuperGuestService superGuestService = new SuperGuestService();
+            List<SuperGuest> superGuests = superGuestService.GetAll();
+            foreach(SuperGuest superGuest in superGuests)
+            {
+                if(superGuest.UserId == LoggedInUser.Id)
+                {
+                    SuperGuestBonusPoints = "Super gost : " + superGuest.BonusPoints.ToString();
+                    if(superGuest.BonusPoints == 1) SuperGuestBonusPoints += " bonus poen";
+                    else SuperGuestBonusPoints += " bonus poena";
+                    SuperGuestReservations = "Broj rezervacija u prošloj godini: " + superGuest.LastYearReservationsNumber.ToString();
+                    Conclude(superGuest.LastYearReservationsNumber);
+                    break;
+                }
+            }
+        }
+
+        private void Conclude(int reservationsNumber)
+        {
+            if (reservationsNumber < 10) SuperGuestConclusion = "U prošloj godini niste ispunili potrebnu normu.";
+            else SuperGuestConclusion = "U prošloj godini ste ostvarili status super-gosta.";
+        }
+
+        private void ClearSuperGuestCSV()
+        {
+            SuperGuestService superGuestService = new SuperGuestService();
+            List<SuperGuest> _superGuests = superGuestService.GetAll();
+            if (_superGuests.Count > 0)
+            {
+                foreach (var guest in _superGuests)
+                {
+                    superGuestService.Delete(guest.Id);
+                }
+            }
+        }
+
+        private int FindLastYearReservationsNumber(User user)
+        {
+            int resNumber = 0;
+            foreach (var reservation in _accommodationReservations)
+            {
+                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year - 1)
+                {
+                    resNumber++;
+                }
+            }
+            return resNumber;
+        }
+
+        private int InvestigateShortTimeCSV(User user)
+        {
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            List<AccommodationReservation> _processedReservations = reservationService.LoadFromOtherCSV();
+            int resNumber = 0;
+            foreach(var reservation in _processedReservations)
+            {
+                if(user.Id == reservation.UserId && reservation.FirstDay.Year == DateTime.Today.Year - 1 && !reservation.DefinitlyChanged)
+                {
+                    resNumber++;
+                }
+            }
+            return resNumber;
+        }
+
+        private int ApplyToBonusCounter(User user, int points)
+        {
+            foreach (var reservation in _accommodationReservations)
+            {
+                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year && points > 0)
+                {
+                    points--;
+                }
+            }
+            return points;
+        }
+
+        private void CreateSuperGuestAccounts()
+        {
+            SuperGuestService superGuestService = new SuperGuestService();
+            UserService userService = new UserService();
+            List<User> _users = userService.GetAll();
+            ClearSuperGuestCSV();
+
+            foreach (User user in _users)
+            {
+                if(user.Role == Roles.GUEST1)
+                {
+                    int resNumber = FindLastYearReservationsNumber(user);
+                    resNumber += InvestigateShortTimeCSV(user);
+                    int points = 0;
+                    bool isSuper = false;
+                    if (resNumber >= 10)
+                    {
+                        points = 5;
+                        isSuper = true;
+                    }
+                    points = ApplyToBonusCounter(user, points);
+                    SuperGuest superGuest = new SuperGuest(user.Id, user.Username, points, resNumber, isSuper);
+                    superGuestService.Save(superGuest);
+                }
+            }
         }
 
         private void IsFirstLogging()
@@ -89,7 +198,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void FillCounterTextBlock()
         {
-            CounterTextBlock = "Broj rezervacija u protekloj godini : " + ThisYearCounter.ToString();
+            CounterTextBlock = "Broj rezervacija u ovoj godini : " + ThisYearCounter.ToString();
         }
 
         private void AddFuturedReservations()
@@ -98,7 +207,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 foreach(var res in _accommodationReservations)
                 {
-                    if(lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && DateTime.Today.DayOfYear < res.FirstDay.DayOfYear)
+                    if(lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && DateTime.Today < res.FirstDay)
                     {
                         CancelAndMarkResViewModel model = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
                         _futuredReservations.Add(model);
@@ -107,19 +216,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private void ApplyToCounter(List<AccommodationReservation> _accommodationReservations)
+        private void ApplyToThisYearCounter(List<AccommodationReservation> _accommodationReservations)
         {
             foreach(var item in _accommodationReservations)
             {
-                bool thisYear = false;
-                int diff = DateTime.Today.DayOfYear;
-
-                if (DateTime.Today.Year == item.FirstDay.Year) thisYear = true;
-                if(item.UserId == LoggedInUser.Id && thisYear && item.FirstDay.DayOfYear <= DateTime.Today.DayOfYear)
-                {
-                    ThisYearCounter++;
-                }
-                else if(item.UserId == LoggedInUser.Id && !thisYear && item.FirstDay.DayOfYear >= diff)
+                if (item.UserId == LoggedInUser.Id && DateTime.Today.Year == item.FirstDay.Year)
                 {
                     ThisYearCounter++;
                 }
@@ -149,7 +250,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             foreach (var item in service.GetAll())
             {
-                if (DateTime.Today.DayOfYear > item.LastDay.DayOfYear)
+                if (DateTime.Today > item.LastDay)
                 {
                     service.SaveFinishedReservation(item);
                 }
