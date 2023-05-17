@@ -14,11 +14,17 @@ using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System.Windows.Media;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.Intrinsics.X86;
+using System.Windows.Documents;
+using System.Windows.Shapes;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
-    public class UserProfilleViewModel
+    public class UserProfilleViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
         public User LoggedInUser { get; set; }
         public Window ThisWindow { get; set; }
         public int ThisYearCounter { get; set; }
@@ -29,7 +35,29 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public string SuperGuestBonusPoints { get; set; }
         public string SuperGuestReservations { get; set; }
         public string SuperGuestConclusion { get; set; }
+        public string SuperGuestInformation { get; set; }
         public bool FirstLogging { get; set; }
+        
+        private bool isPopupOpen;
+        public bool IsPopupOpen
+        {
+            get { return isPopupOpen; }
+            set
+            {
+                isPopupOpen = value;
+                OnPropertyChaged("IsPopupOpen");
+            }
+        }
+        private bool commandsEnabled;
+        public bool CommandsEnabled
+        {
+            get { return commandsEnabled; }
+            set
+            {
+                commandsEnabled = value;
+                OnPropertyChaged("CommandsEnabled");
+            }
+        }
         public List<CancelAndMarkResViewModel> _futuredReservations { get; set; }
         public List<CancelAndMarkResViewModel> _finishedReservations { get; set; }
         public List<AccommodationReservation> _accommodationReservations { get; set; }
@@ -39,6 +67,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand ShowInboxCommand { get; set; }
         public RelayCommand SignOutCommand { get; set; }
         public RelayCommand CanceledQueryCommand { get; set; }
+        public RelayCommand SuperGuestInfoCommand { get; set; }
 
 
         public UserProfilleViewModel(User user, int notifications, Window window) 
@@ -49,6 +78,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ThisWindow = window;
             Notifications = notifications;
             FirstLogging = false;
+            IsPopupOpen = false;
+            CommandsEnabled = true;
 
             _futuredReservations = new List<CancelAndMarkResViewModel>();
             _finishedReservations = new List<CancelAndMarkResViewModel>();
@@ -59,6 +90,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationService AccommodationService = new AccommodationService();
             _locAccommodationViewModels = AccommodationService.CreateAllDTOForms();
 
+            FillSuperGuestInfoPopup();
             ApplyToThisYearCounter(_accommodationReservations);
             ControlInboxButton(Notifications);
             AddFuturedReservations();
@@ -74,6 +106,39 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ShowInboxCommand = new RelayCommand(Execute_ShowInbox);
             SignOutCommand = new RelayCommand(Execute_SignOut);
             CanceledQueryCommand = new RelayCommand(Execute_ShowCanceledReservations);
+            SuperGuestInfoCommand = new RelayCommand(Execute_OpenPopup);
+        }
+
+        private void FillSuperGuestInfoPopup()
+        {
+            SuperGuestInformation = "\n"
+                                  + "      Gost može postati super-gost ako u prethodnoj godini ima bar 10 rezervacija.\n"
+                                  + "      Super-gost titula traje godinu dana i prestaje da važi ako gost\n"
+                                  + "      ne bude ponovo zadovoljio uslov od 10 rezervacija.\n"
+                                  + "      Super-gost dobija 5 bonus poena koje može potrošiti u tekućoj godini,\n"
+                                  + "      nakon čega se bodovi resetuju na 0 (ne mogu se akumulirati).\n"
+                                  + "      Prilikom svake naredne rezervacije se troši jedan bonus poen što donosi popuste,      \n"
+                                  + "      što znači da će super-gost imati 5 rezervacija sa popustom."
+                                  + "\n";
+        }
+
+        private void Execute_OpenPopup(object sender)
+        {
+            if (!IsPopupOpen)
+            {
+                IsPopupOpen = true;
+                CommandsEnabled = false;
+            }
+            else
+            {
+                IsPopupOpen = false;
+                CommandsEnabled = true;
+            }
+        }
+
+        protected void OnPropertyChaged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void FindSuperGuestInformations()
@@ -87,7 +152,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     SuperGuestBonusPoints = "Super gost : " + superGuest.BonusPoints.ToString();
                     if(superGuest.BonusPoints == 1) SuperGuestBonusPoints += " bonus poen";
                     else SuperGuestBonusPoints += " bonus poena";
-                    SuperGuestReservations = "Broj rezervacija u prošloj godini: " + superGuest.LastYearReservationsNumber.ToString();
+                    SuperGuestReservations = "Broj rezervacija u prošloj godini : " + superGuest.LastYearReservationsNumber.ToString();
                     Conclude(superGuest.LastYearReservationsNumber);
                     break;
                 }

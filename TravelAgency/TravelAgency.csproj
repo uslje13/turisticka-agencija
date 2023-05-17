@@ -44,6 +44,7 @@
     <None Remove="Resources\Icons\Guest1\bin.png" />
     <None Remove="Resources\Icons\Guest1\guests.png" />
     <None Remove="Resources\Icons\Guest1\inbox.png" />
+    <None Remove="Resources\Icons\Guest1\info-icon.png" />
     <None Remove="Resources\Icons\Guest1\list-square-icon.png" />
     <None Remove="Resources\Icons\Guest1\log_out.png" />
     <None Remove="Resources\Icons\Guest1\search.png" />
@@ -449,6 +450,7 @@
     <Resource Include="Resources\Icons\exclamation_star.png" />
     <Resource Include="Resources\Icons\Guest1\bin.png" />
     <Resource Include="Resources\Icons\Guest1\inbox.png" />
+    <Resource Include="Resources\Icons\Guest1\info-icon.png" />
     <Resource Include="Resources\Icons\Guest1\list-square-icon.png" />
     <Resource Include="Resources\Icons\Guest1\log_out.png" />
     <Resource Include="Resources\Icons\Guest1\search.png" />

@@ -33,6 +33,7 @@
                        FontSize="50" FontWeight="Bold" FontStyle="Italic" Margin="204,61,533,116" TextAlignment="Center"></TextBlock>
             <Image Source="/Resources/Icons/Guest1/verification.png" Margin="491,71,452,116"/>
             <Button x:Name="InboxButton" Command="{Binding ShowInboxCommand}" FontSize="25" FontWeight="DemiBold"
+                    IsEnabled="{Binding Path=CommandsEnabled}"
                     Style="{StaticResource ImageButtonStyle}" HorizontalContentAlignment="Center" Margin="781,52,42,107" GotFocus="TestOpeningInbox">
                     <StackPanel Orientation="Horizontal" Width="200" Height="82">
                         <Canvas Width="200">
@@ -51,6 +52,17 @@
                        TextAlignment="Left" Margin="290,156,442,46"/>
             <TextBlock Text="{Binding Path=SuperGuestConclusion}" Foreground="Black" FontSize="15" FontWeight="SemiBold"
                        TextAlignment="Left" Margin="290,175,385,27"/>
+            <Button Height="16" Width="16" Margin="625,175,365,42" Command="{Binding SuperGuestInfoCommand}"
+                    Style="{StaticResource ImageButtonStyle}">
+                <StackPanel>
+                    <Image x:Name="InfoIcon" Source="/Resources/Icons/Guest1/info-icon.png"/>
+                </StackPanel>
+            </Button>
+            <Popup PopupAnimation="Fade" Placement="Left" AllowsTransparency="True" 
+                   PlacementTarget="{Binding ElementName=InfoIcon}"
+                   IsOpen="{Binding Path=IsPopupOpen}">
+                <TextBlock Background="PaleGoldenrod" FontWeight="SemiBold" Text="{Binding Path=SuperGuestInformation}"/>
+            </Popup>
         </Grid>
         
         
@@ -86,7 +98,8 @@
                 </DataGrid.Columns>
             </DataGrid>
             <Button Command="{Binding ShowRequestsCommand}" Margin="710,-43,15,269" FontSize="24" FontWeight="DemiBold"
-                    Style="{StaticResource ImageButtonStyle}"
+                    IsEnabled="{Binding Path=CommandsEnabled}"
+                    Style="{StaticResource ImageButtonStyle}" 
                     Name="StatusesButton">
                     <StackPanel Orientation="Horizontal" Width="299" Height="62">
                         <TextBlock Width="229" Height="31" TextAlignment="Right"><Run Text="Status Vaših zahtjeva"/></TextBlock>
@@ -101,12 +114,13 @@
                    Margin="195,33,100,154">Izvještaj o svim zakazanim/otkazanim rezervacijama je na sledećem linku :</Label>
             <Button Command="{Binding CanceledQueryCommand}" FontSize="20" Content="izvještaj" Name="CanceledReportButton"
                     Margin="905,31,10,168" Style="{StaticResource ImageButtonStyle}" HorizontalContentAlignment="Left"
+                    IsEnabled="{Binding Path=CommandsEnabled}"
                     FontWeight="Bold" FontStyle="Italic"/>
-            <Button Command="{Binding ShowMenuCommand}" Width="110" Height="43" 
+            <Button Command="{Binding ShowMenuCommand}" Width="110" Height="43" IsEnabled="{Binding Path=CommandsEnabled}"
                     Style="{StaticResource ButtonStyle}" FontSize="17" Content="Glavni meni"
                     Margin="838,128,53,57">
             </Button>
-            <Button Command="{Binding SignOutCommand}" Width="110" Height="43" 
+            <Button Command="{Binding SignOutCommand}" Width="110" Height="43" IsEnabled="{Binding Path=CommandsEnabled}"
                     Style="{StaticResource ButtonStyle}" FontSize="17" Content="Odjavi se" 
                     Margin="646,128,241,57">
             </Button>
