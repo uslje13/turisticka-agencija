@@ -7,6 +7,7 @@
 7|Nis|Srbija|Cair gledanje derbija|srpski|500|13.06.2023. 10:00|10.07.2023.|12.07.2023.|ON_HOLD|7|False
 8|Prag|Ceska|Prag tura posle 100 godina|ceski|110|24.07.2023. 14:23|19.10.2023.|24.10.2023.|ON_HOLD|7|False
 9|Berlin|Nemacka|Tura po glavnom gradu Nemacke, gledanje utakmice Albe|srpski|50|12.03.2023. 12:09|10.05.2023.|14.05.2023.|INVALID|7|False
-10|Rim|Italija|Italiano dasa, mafija spageti|italijanski|110|15.08.2023. 12:00|15.09.2023.|30.09.2023.|ON_HOLD|7|False
+10|Rim|Italija|Italiano dasa, mafija spageti|italijanski|110|15.05.2023. 12:00|17.05.2023.|19.05.2023.|INVALID|7|False
 11|Temisvar|Rumunija|Tura po Temisvaru.|srpski|30|20.02.2023. 19:00|11.05.2024.|11.05.2024.|ACCEPTED|3|True
 12|Secanj|Srbija|Obilazak reke Tamis|kineski|40|16.05.2023. 21:58|10.07.2023.|16.08.2023.|ON_HOLD|3|False
+13|Beograd|Srbija|Obilazak reke Tamis|kineski|40|16.05.2023. 21:58|17.05.2023.|18.05.2023.|INVALID|3|False

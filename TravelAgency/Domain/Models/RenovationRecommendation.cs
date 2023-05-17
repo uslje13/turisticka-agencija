@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using SOSTeam.TravelAgency.Repositories.Serializer;
 using System.Windows.Controls;
+using System.Globalization;
 
 namespace SOSTeam.TravelAgency.Domain.Models
 {
@@ -17,6 +18,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public int GuestId { get; set; }
         public int RenovationRank { get; set; }
         public string Comment { get; set; }
+        public DateTime Date { get; set; }
         public RenovationRecommendation() { }
 
         public RenovationRecommendation(int accommodationId, int guestId, int renovationRank, string comment)
@@ -26,6 +28,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             GuestId = guestId;
             RenovationRank = renovationRank;
             Comment = comment;
+            Date = DateTime.Now;
         }
 
         public void FromCSV(string[] values)
@@ -36,7 +39,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             GuestId = int.Parse(values[i++]);
             RenovationRank = int.Parse(values[i++]);
             Comment = values[i++];
-
+            Date = DateTime.ParseExact(values[i++],"MM yyyy", CultureInfo.InvariantCulture);
 
         }
 
@@ -48,7 +51,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 AccommodationId.ToString(),
                 GuestId.ToString(),
                 RenovationRank.ToString(),
-                Comment
+                Comment,
+                Date.ToString("MM yyyy")
             };
 
             return csvValues;

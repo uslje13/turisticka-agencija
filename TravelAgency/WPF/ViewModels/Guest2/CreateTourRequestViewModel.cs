@@ -14,6 +14,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class CreateTourRequestViewModel : ViewModel
     {
+        public OrdinaryToursPageViewModel OrdinaryToursPageViewModel { get; set; }
+
         private CreateTourRequestWindow _window;
         public User LoggedInUser { get; set; }
         public ObservableCollection<RequestViewModel> TourRequests { get; set; }
@@ -40,8 +42,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public CreateTourRequestViewModel(User loggedInUser,CreateTourRequestWindow window) 
+        public CreateTourRequestViewModel(User loggedInUser,CreateTourRequestWindow window,OrdinaryToursPageViewModel ordinaryToursPageViewModel) 
         {
+            OrdinaryToursPageViewModel = ordinaryToursPageViewModel;
             _window= window;
             LoggedInUser= loggedInUser;
             TourRequest= new RequestViewModel();
@@ -71,7 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 TourRequests.Add(TourRequest);
                 var navigationService = _window.TourReviewFrame.NavigationService;
-                navigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests));
+                navigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests, OrdinaryToursPageViewModel));
             }          
         }
 
@@ -91,6 +94,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             else if(DateTime.Parse(TourRequest.MaintenanceStartDate) > DateTime.Parse(TourRequest.MaintenanceEndDate))
             {
                 MessageBox.Show("Datum zavrsetka je pre datuma pocetka", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                isCorrect = false;
+            }
+            else if(DateTime.Today >= DateTime.Parse(TourRequest.MaintenanceEndDate).AddDays(-2))
+            {
+                MessageBox.Show("Vodic ne moze stici da organizuje turu spram vaseg zahteva", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
                 isCorrect = false;
             }
             return isCorrect;   
