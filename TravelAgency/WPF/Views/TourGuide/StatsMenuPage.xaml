@@ -20,7 +20,9 @@
                     Command="{Binding ShowToursOverviewStatsCommand}"></Button>
             <Button Grid.Row="1" Background="Transparent" Content="Stat by tour" HorizontalContentAlignment="Left" FontSize="25"
                     Command="{Binding ShowStatByToursCommand}"></Button>
-            <Button Grid.Row="2" Background="Transparent" Content="Request stat" HorizontalContentAlignment="Left" FontSize="25"></Button>
+            <Button Grid.Row="2" Background="Transparent" Content="Request stat" HorizontalContentAlignment="Left" FontSize="25"
+                    Command="{Binding ShowTourRequestStatsCommand}">
+            </Button>
         </Grid>
     </Grid>
 </Page>

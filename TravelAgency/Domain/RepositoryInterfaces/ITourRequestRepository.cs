@@ -9,5 +9,6 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
 {
     public interface ITourRequestRepository : IRepository<TourRequest>
     {
+        List<TourRequest> GetInvalidRequests();
     }
 }

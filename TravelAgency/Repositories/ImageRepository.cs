@@ -49,8 +49,6 @@ namespace SOSTeam.TravelAgency.Repositories
             return _images.FindAll(i => i.Type == ImageType.ACCOMMODATION);
         }
 
-        
-
         public Image? GetById(int id)
         {
             _images = _serializer.FromCSV(FilePath);

@@ -73,7 +73,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 if(TourRequests.Count == 1)
                 {
-                    TourRequest tourRequest = new TourRequest(TourRequests[0].City, TourRequests[0].Country, TourRequests[0].Description, TourRequests[0].Language, TourRequests[0].MaxNumOfGuests, DateOnly.Parse(TourRequests[0].MaintenanceStartDate), DateOnly.Parse(TourRequests[0].MaintenanceEndDate),StatusType.ON_HOLD,LoggedInUser.Id);
+                    TourRequest tourRequest = new TourRequest(TourRequests[0].City, TourRequests[0].Country, TourRequests[0].Description, TourRequests[0].Language, TourRequests[0].MaxNumOfGuests,DateTime.Now, DateOnly.Parse(TourRequests[0].MaintenanceStartDate), DateOnly.Parse(TourRequests[0].MaintenanceEndDate),StatusType.ON_HOLD,LoggedInUser.Id);
                     _tourRequestService.Save(tourRequest);
                     CloseWindow();
                 }

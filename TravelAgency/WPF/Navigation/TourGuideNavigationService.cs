@@ -78,6 +78,18 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                 MainWindow.DataContext = _mainWindowViewModel;
                 _mainWindow.MainFrame.Content = new StatsMenuPage(loggedUser);
             }
+            else if(frameName == "Requests")
+            {
+                _mainWindowViewModel.Title = "Requests";
+                MainWindow.DataContext = _mainWindowViewModel;
+                _mainWindow.MainFrame.Content = new RequestMenuPage();
+            }
+            else if (frameName == "RegularRequests")
+            {
+                _mainWindowViewModel.Title = "Requests";
+                MainWindow.DataContext = _mainWindowViewModel;
+                _mainWindow.MainFrame.Content = new TourRequestPage();
+            }
             else if (frameName == "TodayTours")
             {
                 _mainWindowViewModel.Title = "Today tours";
@@ -161,6 +173,18 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                         if (previousPage is StatsMenuPage)
                         {
                             _mainWindowViewModel.Title = "Stats";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is RequestMenuPage)
+                        {
+                            _mainWindowViewModel.Title = "Requests";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is TourRequestPage)
+                        {
+                            _mainWindowViewModel.Title = "Requests";
                             _mainWindow.DataContext = _mainWindowViewModel;
                         }
 
