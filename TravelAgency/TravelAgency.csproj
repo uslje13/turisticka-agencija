@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="WPF\Creators\TourGuide\**" />
+    <EmbeddedResource Remove="WPF\Creators\TourGuide\**" />
+    <None Remove="WPF\Creators\TourGuide\**" />
+    <Page Remove="WPF\Creators\TourGuide\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\Icons\account.png" />
     <None Remove="Resources\Icons\active_tour.png" />
     <None Remove="Resources\Icons\Add.png" />

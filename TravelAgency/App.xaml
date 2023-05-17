@@ -1,7 +1,11 @@
 ﻿<Application x:Class="SOSTeam.TravelAgency.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+<<<<<<< Updated upstream
              xmlns:local="clr-namespace:TravelAgency"
+=======
+             xmlns:local="clr-namespace:SOSTeam.TravelAgency"
+>>>>>>> Stashed changes
              StartupUri="WPF/Views/TourGuide/SignInWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
