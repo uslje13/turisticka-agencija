@@ -21,6 +21,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public string Description { get; set; }
         public string Language { get; set; }
         public int MaxNumOfGuests { get; set; }
+        public DateTime CreationTime { get; set; }
         public DateOnly MaintenanceStartDate { get; set; }
         public DateOnly MaintenanceEndDate { get; set; }
         public StatusType Status { get; set; }
@@ -32,18 +33,20 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Description = string.Empty;
             Language = string.Empty;
             MaxNumOfGuests = 0;
+            CreationTime = DateTime.MinValue;
             MaintenanceStartDate = DateOnly.MinValue;
             MaintenanceEndDate = DateOnly.MaxValue;
             Status = StatusType.ON_HOLD;
         }
 
-        public TourRequest(string city, string country, string description, string language, int maxNumOfGuests, DateOnly maintenanceStartDate, DateOnly maintenanceEndDate, StatusType statusType, int userId, bool isNotificationViewed = false)
+        public TourRequest(string city, string country, string description, string language, int maxNumOfGuests,DateTime creationTime ,DateOnly maintenanceStartDate, DateOnly maintenanceEndDate, StatusType statusType, int userId, bool isNotificationViewed = false)
         {
             City = city;
             Country = country;
             Description = description;
             Language = language;
             MaxNumOfGuests = maxNumOfGuests;
+            CreationTime = creationTime;
             MaintenanceStartDate = maintenanceStartDate;
             MaintenanceEndDate = maintenanceEndDate;
             Status = statusType;
@@ -59,16 +62,17 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Description = values[3];
             Language = values[4];
             MaxNumOfGuests = int.Parse(values[5]);
-            MaintenanceStartDate = DateOnly.ParseExact(values[6], "dd.MM.yyyy.", CultureInfo.InvariantCulture);
-            MaintenanceEndDate = DateOnly.ParseExact(values[7], "dd.MM.yyyy.", CultureInfo.InvariantCulture);
-            Status = values[8] switch
+            CreationTime = DateTime.ParseExact(values[6], "dd.MM.yyyy. HH:mm", CultureInfo.InvariantCulture);
+            MaintenanceStartDate = DateOnly.ParseExact(values[7], "dd.MM.yyyy.", CultureInfo.InvariantCulture);
+            MaintenanceEndDate = DateOnly.ParseExact(values[8], "dd.MM.yyyy.", CultureInfo.InvariantCulture);
+            Status = values[9] switch
             {
                 "ON_HOLD" => StatusType.ON_HOLD,
                 "INVALID" => StatusType.INVALID,
                 "ACCEPTED" => StatusType.ACCEPTED,
             };
-            UserId = int.Parse(values[9]);
-            IsNotificationViewed = bool.Parse(values[10]);
+            UserId = int.Parse(values[10]);
+            IsNotificationViewed = bool.Parse(values[11]);
         }
 
         public string[] ToCSV()
@@ -81,6 +85,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 Description,
                 Language,
                 MaxNumOfGuests.ToString(),
+                CreationTime.ToString("dd.MM.yyyy. HH:mm"),
                 MaintenanceStartDate.ToString("dd.MM.yyyy."),
                 MaintenanceEndDate.ToString("dd.MM.yyyy."),
                 Status.ToString(),

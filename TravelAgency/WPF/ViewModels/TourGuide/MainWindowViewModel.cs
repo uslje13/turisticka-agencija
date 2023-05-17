@@ -62,6 +62,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         //Burger menu commands
         public RelayCommand ShowTourReviewCommand { get; set; }
         public RelayCommand ShowStatsMenuCommand { get; set; }
+        public RelayCommand ShowRequestsMenuCommand { get; set; }
         public RelayCommand NavigationButtonCommand { get; set; }
 
         #endregion
@@ -86,6 +87,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             ShowLiveTourCommand = new RelayCommand(ShowLiveTourPage, CanExecuteMethod);
             ShowTourReviewCommand = new RelayCommand(ShowTourReviews, CanExecuteMethod);
             ShowStatsMenuCommand = new RelayCommand(ShowStatsMenu, CanExecuteMethod);
+            ShowRequestsMenuCommand = new RelayCommand(ShowRequestsMenu, CanExecuteMethod);
         }
 
         private void UpdateAppointments(object sender, EventArgs e)
@@ -126,6 +128,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             App.TourGuideNavigationService.AddPreviousPage();
             App.TourGuideNavigationService.SetMainFrame("Stats", _loggedUser);
+        }
+
+        private void ShowRequestsMenu(object sender)
+        {
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("Requests", _loggedUser);
         }
 
         private void ExecuteNavigationButtonCommand(object parameter)

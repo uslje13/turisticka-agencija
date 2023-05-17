@@ -56,29 +56,49 @@
                         <TextBox Width="437" Margin="10" FontSize="24" Text="{Binding TouristNum,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <TextBox.Style>
                                 <Style TargetType="TextBox">
+                                    <Setter Property="BorderBrush" Value="Red" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsTouristNumValid}" Value="False">
-                                            <Setter Property="Foreground" Value="Red" />
+                                        <DataTrigger Binding="{Binding IsTouristNumValid}" Value="True">
+                                            <Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </TextBox.Style>
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Hidden" />
+                                    </Border>
+                                </ControlTemplate>
+                            </TextBox.Template>
                         </TextBox>
                     </StackPanel>
                 </Border>
                 <Border Height="58">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="     Unesite prosek godina tih ljudi:       " FontSize="24" TextAlignment="Center" VerticalAlignment="Center" Width="400" Height="30" />
-                        <TextBox Width="436" Margin="10" FontSize="24" Text="{Binding AverageAge,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox Width="436" Margin="10" FontSize="24" Text="{Binding AverageAge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <TextBox.Style>
                                 <Style TargetType="TextBox">
+                                    <Setter Property="BorderBrush" Value="Red" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsAverageAgeValid}" Value="False">
-                                            <Setter Property="Foreground" Value="Red" />
+                                        <DataTrigger Binding="{Binding IsAverageAgeValid}" Value="True">
+                                            <Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </TextBox.Style>
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Hidden" />
+                                    </Border>
+                                </ControlTemplate>
+                            </TextBox.Template>
                         </TextBox>
                     </StackPanel>
                 </Border>

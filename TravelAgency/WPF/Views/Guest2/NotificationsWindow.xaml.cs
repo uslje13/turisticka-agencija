@@ -26,6 +26,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
             InitializeComponent();
             NotificationsWindowViewModel viewModel = new NotificationsWindowViewModel(loggedInUser, this);
             DataContext = viewModel;
+            viewModel.SetStartupPage();
         }
     }
 }

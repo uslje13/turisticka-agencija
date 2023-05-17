@@ -62,6 +62,7 @@ namespace SOSTeam.TravelAgency.Application.Services
                             userId,
                             reservation.UserId,
                             reservation.AccommodationId,
+                            reservation.Id,
                             -1,
                             -1,
                             ""

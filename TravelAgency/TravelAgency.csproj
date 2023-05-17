@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -48,6 +48,7 @@
     <None Remove="Resources\Icons\Guest1\log_out.png" />
     <None Remove="Resources\Icons\Guest1\search.png" />
     <None Remove="Resources\Icons\Guest1\statuses.png" />
+    <None Remove="Resources\Icons\Guest1\superGuest.png" />
     <None Remove="Resources\Icons\Guest1\tour_icon.png" />
     <None Remove="Resources\Icons\Guest1\user_ikonica2.png" />
     <None Remove="Resources\Icons\Guest1\user_siluet.png" />
@@ -273,6 +274,15 @@
     <Content Include="Resources\Icons\renovations.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+	<Content Include="Resources\Icons\notification.png">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+	<Content Include="Resources\Icons\new_notifications.png">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>  
+	<Content Include="Resources\Icons\earth2.png">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content> 
     <Content Include="Resources\Icons\question.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -443,6 +453,7 @@
     <Resource Include="Resources\Icons\Guest1\log_out.png" />
     <Resource Include="Resources\Icons\Guest1\search.png" />
     <Resource Include="Resources\Icons\Guest1\statuses.png" />
+    <Resource Include="Resources\Icons\Guest1\superGuest.png" />
     <Resource Include="Resources\Icons\Guest1\tour_icon.png" />
     <Resource Include="Resources\Icons\Guest1\user_ikonica2.png" />
     <Resource Include="Resources\Icons\Guest1\user_siluet.png" />
@@ -450,6 +461,8 @@
     <Resource Include="Resources\Icons\forums.jpg" />
     <Resource Include="Resources\Icons\home.jpg" />
     <Resource Include="Resources\Icons\kalendar_datumi.png" />
+	<Resource Include="Resources\Icons\notification.png" />
+	<Resource Include="Resources\Icons\new_notifications.png" />
     <Resource Include="Resources\Icons\language.png" />
     <Resource Include="Resources\Icons\NotificationAlertNoColor.png" />
     <Resource Include="Resources\Icons\notif_bell.jpg" />
@@ -463,6 +476,7 @@
     <Resource Include="Resources\Icons\Trash.png" />
     <Resource Include="Resources\Icons\user_ikonica2.png" />
     <Resource Include="Resources\Images\SOSlogo.png" />
+	<Resource Include="Resources\Icons\earth2.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,7 +12,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class FinishedTourViewModel : ViewModel
     {
-        private NotificationsWindow _window;
         public User LoggedInUser { get; set; }
         public int AppointmentId { get; set; }
         public int ReservationId { get; set; }
@@ -29,9 +28,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public FinishedTourViewModel(NotificationsWindow window,int reservationId, int appointmentId,User loggedInUser, string tourName)
+        public FinishedTourViewModel(int reservationId, int appointmentId,User loggedInUser, string tourName)
         {
-            _window = window;
             LoggedInUser = loggedInUser;
             ReservationId = reservationId;
             AppointmentId = appointmentId;
@@ -41,8 +39,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_ReviewPageCommand(object obj)
         {
-            var navigationService = _window.ReviewFrame.NavigationService;
-            navigationService.Navigate(new ReviewPage(LoggedInUser,AppointmentId,ReservationId));
+            var currentApp = System.Windows.Application.Current;
+
+            foreach (Window window in currentApp.Windows)
+            {
+                if (window is NotificationsWindow)
+                {
+                    var navigationService = ((NotificationsWindow)window).ReviewFrame.NavigationService;
+                    navigationService.Navigate(new ReviewPage(LoggedInUser, AppointmentId, ReservationId));
+                    ((NotificationsWindow)window).MainFrame.Navigate(null);
+                    break;
+                }
+            }
         }
 
         private bool CanExecuteMethod(object parameter)

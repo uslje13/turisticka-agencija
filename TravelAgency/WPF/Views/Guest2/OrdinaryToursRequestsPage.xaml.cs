@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         public OrdinaryToursRequestsPage(User loggedInUser)
         {
             InitializeComponent();
-            OrdinaryToursPageViewModel viewModel = new OrdinaryToursPageViewModel(loggedInUser);
+            OrdinaryToursPageViewModel viewModel = new OrdinaryToursPageViewModel(loggedInUser,this);
             DataContext = viewModel;
         }
     }

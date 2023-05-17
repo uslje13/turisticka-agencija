@@ -39,5 +39,21 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             _tourRequestRepository.Update(tourRequest);
         }
+
+        public void UpdateInvalidRequests()
+        {
+            var invalidRequests = _tourRequestRepository.GetInvalidRequests();
+            foreach (var request in invalidRequests)
+            {
+                request.Status = StatusType.INVALID;
+                Update(request);
+            }
+        }
+
+        public List<TourRequest> GetAllOnHold()
+        {
+            return _tourRequestRepository.GetAll().FindAll(r => r.Status == StatusType.ON_HOLD);
+        }
+
     }
 }
