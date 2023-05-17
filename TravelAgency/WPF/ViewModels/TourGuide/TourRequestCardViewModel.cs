@@ -84,6 +84,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         }
 
 
-        public TourRequestCardViewModel() { }
+        public TourRequestCardViewModel()
+        {
+            _location = string.Empty;
+            _language = string.Empty;
+            _minDate = DateTime.MinValue;
+            _maxDate = DateTime.MaxValue;
+            _numOfGuests = 0;
+        }
     }
 }

@@ -58,6 +58,12 @@ namespace SOSTeam.TravelAgency.Repositories
             _serializer.ToCSV(FilePath, _requests);
         }
 
+        public List<TourRequest> GetInvalidRequests()
+        {
+            _requests = _serializer.FromCSV(FilePath);
+            return _requests.FindAll(r => r.MaintenanceEndDate.AddDays(-2) < DateOnly.FromDateTime(DateTime.Now));
+        }
+
         public int NextId()
         {
             _requests = _serializer.FromCSV(FilePath);

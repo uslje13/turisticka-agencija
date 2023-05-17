@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit.NET5"
+      xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:tourguide="clr-namespace:SOSTeam.TravelAgency.WPF.ViewModels.TourGuide" d:DataContext="{d:DesignInstance Type=tourguide:TourRequestViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
@@ -35,38 +36,63 @@
                 <Image Source="/Resources/Icons/search_reaquest.png" Width="35"/>
                 <TextBlock Text="Search" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="DemiBold" Margin="3 0 0 0"/>
             </StackPanel>
+
+            <!-- Country -->
             <Grid Grid.Column="0" Grid.Row="1" Width="200">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Country:" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <ComboBox Grid.Row="1" Height="25" BorderBrush="DarkGray"></ComboBox>
+                <ComboBox Grid.Row="1" Height="25" BorderBrush="DarkGray" Text="{Binding Country}" 
+                          ItemsSource="{Binding Countries}" SelectedItem="{Binding Country}">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="SelectionChanged">
+                            <b:InvokeCommandAction Command="{Binding CountrySelectionChangedCommand}" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </ComboBox>
             </Grid>
+
+            <!-- City -->
             <Grid Grid.Column="1" Grid.Row="1"  Width="200">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="City:" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <ComboBox Grid.Row="1" Height="25" BorderBrush="DarkGray"></ComboBox>
+                <ComboBox Grid.Row="1" Height="25" BorderBrush="DarkGray" Text="{Binding City}"
+                          ItemsSource="{Binding Cities}" SelectedItem="{Binding City}">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="SelectionChanged">
+                            <b:InvokeCommandAction Command="{Binding CitySelectionChangedCommand}" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </ComboBox>
             </Grid>
+
+            <!-- Num. of guests -->
             <Grid Grid.Column="0" Grid.Row="2" Width="200">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Num. of guests:" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <tk:IntegerUpDown Grid.Row="1" Height="25" BorderBrush="DarkGray" Minimum="1"></tk:IntegerUpDown>
+                <tk:IntegerUpDown Grid.Row="1" Height="25" BorderBrush="DarkGray" Text="{Binding NumOfGuests}"></tk:IntegerUpDown>
             </Grid>
+
+            <!-- Language -->
             <Grid Grid.Column="1" Grid.Row="2" Width="200">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Language:" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <ComboBox Grid.Row="1" Height="25" BorderBrush="DarkGray"></ComboBox>
+                <ComboBox Grid.Row="1" Height="25" BorderBrush="DarkGray" Text="{Binding Language}"
+                          ItemsSource="{Binding Languages}" SelectedItem="{Binding Language}"/>
             </Grid>
+
+            <!-- Min. date -->
             <Grid Grid.Column="0" Grid.Row="3" Width="200">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"></RowDefinition>
@@ -78,10 +104,12 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition Width="25"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <DatePicker Grid.Column="0" Height="25" Width="170" BorderBrush="DarkGray"></DatePicker>
+                    <DatePicker Grid.Column="0" Height="25" Width="170" BorderBrush="DarkGray" SelectedDate="{Binding MinDate}"/>
                     <Image Grid.Column="1" Source="/Resources/Icons/kalendar_datumi.png" HorizontalAlignment="Left"/>
                 </Grid>
             </Grid>
+
+            <!-- Max. date -->
             <Grid Grid.Column="1" Grid.Row="3" Width="200">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"></RowDefinition>
@@ -93,7 +121,7 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition Width="25"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <DatePicker Grid.Column="0" Height="25" Width="170" BorderBrush="DarkGray"></DatePicker>
+                    <DatePicker Grid.Column="0" Height="25" Width="170" BorderBrush="DarkGray" SelectedDate="{Binding MaxDate}"/>
                     <Image Grid.Column="1" Source="/Resources/Icons/kalendar_datumi.png" HorizontalAlignment="Left"/>
                 </Grid>
             </Grid>
