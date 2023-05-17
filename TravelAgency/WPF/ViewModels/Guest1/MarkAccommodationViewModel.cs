@@ -227,7 +227,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             else if (i == 2) markDescription = "Nivo 2 - male zamjerke na smještaj koje kada bi se uklonile bi ga učinile savršenim.";
             else if (i == 3) markDescription = "Nivo 3 - nekoliko stvari koje su baš zasmetale bi trebalo renovirati.";
             else if (i == 4) markDescription = "Nivo 4 - ima dosta loših stvari i renoviranje je stvarno neophodno.";
-            else markDescription = "Nivo 5 - smještaj je u jako lošem stanju i ne vrijedi ga uopšte iznajmljivati ukoliko se ne renovira.";
+            else if (i == 5) markDescription = "Nivo 5 - smještaj je u jako lošem stanju i ne vrijedi ga uopšte iznajmljivati ukoliko se ne renovira.";
 
             return markDescription;
         }

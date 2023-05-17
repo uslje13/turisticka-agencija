@@ -129,7 +129,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 foreach(var lavm in _locAccommodationViewModels)
                 {
-                    bool isInFuture = reserv.AccommodationId == lavm.AccommodationId && reserv.FirstDay.DayOfYear > DateTime.Today.DayOfYear && reserv.UserId == LoggedInUser.Id;
+                    bool isInFuture = reserv.AccommodationId == lavm.AccommodationId && reserv.FirstDay > DateTime.Today && reserv.UserId == LoggedInUser.Id;
                     if (isInFuture)
                     {
                         CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, reserv.FirstDay, reserv.LastDay, reserv.Id, lavm.AccommodationId);
@@ -244,7 +244,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     return false;
             }
 
-            return res.AccommodationId == model.AccommodationId && res.UserId == LoggedInUser.Id && res.FirstDay.DayOfYear > DateTime.Today.DayOfYear;
+            return res.AccommodationId == model.AccommodationId && res.UserId == LoggedInUser.Id && res.FirstDay > DateTime.Today;
         }
     }
 }

@@ -37,10 +37,22 @@ namespace SOSTeam.TravelAgency.Application.Services
             Accommodation accommodation = _accommodationRepository.GetById(acc.AccommodationId);
             AccommodationReservation reservation = _accReservationRepository.GetById(acc.ReservationId);
             User user = _userRepository.GetById(reservation.UserId);
-            string Text = "Gost " + user.Username + " je dao predlog za renoviranje smještaja: " + suggest + " " +
-                          "Hitnost renoviranja je ocijenio sa: " + renovationMark;
-            Notification notification = new Notification(accommodation.OwnerId, Text, Notification.NotificationType.NOTYPE, false);
-            _notificationRepository.Save(notification);
+            string Text = "";
+            if (suggest != null && !renovationMark.Equals(""))
+                Text = "Gost " + user.Username + " je dao predlog za renoviranje smještaja: " + suggest + " " +
+                       "Hitnost renoviranja je ocijenio sa: " + renovationMark;
+            else if(suggest != null && renovationMark.Equals(""))
+                Text = "Gost " + user.Username + " je dao predlog za renoviranje smještaja: " + suggest + " " +
+                       "Nije komentarisao nivo hitnosti za renoviranje.";
+            else if(suggest == null && !renovationMark.Equals(""))
+                Text = "Gost " + user.Username + " je ocijenio hitnost renoviranja smještaja: " + renovationMark + " " +
+                       "Nije ostavljao preporuku za renoviranje.";
+
+            if(!Text.Equals(""))
+            {
+                Notification notification = new Notification(accommodation.OwnerId, Text, Notification.NotificationType.NOTYPE, false);
+                _notificationRepository.Save(notification);
+            }
         }
 
         private void SaveChangesToCSVs(CancelAndMarkResViewModel acc)

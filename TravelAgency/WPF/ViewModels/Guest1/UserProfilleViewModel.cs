@@ -140,7 +140,22 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
             return resNumber;
         }
-
+        /*
+        private int InvestigateCanceledReservations(User user)
+        {
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            List<AccommodationReservation> _canceledReservations = reservationService.LoadCanceledReservations();
+            int points = 0;
+            foreach (var reservation in _canceledReservations)
+            {
+                if (user.Id == reservation.UserId && reservation.FirstDay.Year == DateTime.Today.Year)
+                {
+                    points++;
+                }
+            }
+            return points;
+        }
+        */
         private int ApplyToBonusCounter(User user, int points)
         {
             foreach (var reservation in _accommodationReservations)
@@ -150,6 +165,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     points--;
                 }
             }
+            //points += InvestigateCanceledReservations(user);
             return points;
         }
 

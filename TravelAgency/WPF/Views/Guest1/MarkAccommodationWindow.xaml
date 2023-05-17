@@ -52,7 +52,7 @@
 
         <Label Content="Ocjena hitnosti renoviranja smještaja : " FontSize="17" FontWeight="Bold" Margin="27,376,646,316"></Label>
         <StackPanel>
-            <RadioButton x:Name="h1" GroupName="accommodation" Margin="346,387,100,347" IsChecked="True"
+            <RadioButton x:Name="h1" GroupName="accommodation" Margin="346,387,100,347"
                          Foreground="DarkGoldenrod" FontWeight="Bold" BorderThickness="2" BorderBrush="Black"
                      Cursor="Hand">Nivo 1 - bilo bi dobro renovirati neke sitnice, ali sve funkcioniše kako treba i bez toga</RadioButton>
         </StackPanel>
