@@ -9,6 +9,12 @@
       d:DesignHeight="662" d:DesignWidth="804"
       Title="AccommodationInfoPage">
     <Page.Resources>
+        <Style x:Key="CenterTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+
+        </Style>
         <Style TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="Background" Value="#63aaed" />
@@ -78,9 +84,15 @@
         <Grid Grid.Row="0" Grid.Column="1">
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Label FontSize="20" Content="Skorašnje rezervacije:" HorizontalAlignment="Center" Margin="0,10,0,5"/>
-                <Grid Height="200" Width="300">
+                <Grid Height="230" Width="324">
                     <Border BorderThickness="1" BorderBrush="Black"/>
+                    <DataGrid Background="#dceefa" RowHeight="30" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Reservations}" AutoGenerateColumns="False" IsReadOnly="True" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Početak rezervacije" Binding="{Binding FirstDay}" Width="*" ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                            <DataGridTextColumn Header="Kraj rezervacije" Binding="{Binding LastDay}" Width="*" ElementStyle="{StaticResource CenterTextBlockStyle}" />
+                        </DataGrid.Columns>
 
+                    </DataGrid>
                 </Grid>
             </StackPanel>
         </Grid>
@@ -112,13 +124,18 @@
         </Grid>
         
         <Grid Grid.Row="1" Grid.Column="1">
-            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Label FontSize="20" Content="Statistika po godinama:" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-                <Grid Height="180" Width="320">
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+                <WrapPanel Margin="0,0,0,5" HorizontalAlignment="Center">
+                    <Label FontSize="20" Content="{Binding StatsLabel}" HorizontalAlignment="Center" />
+                    <Button Height="25" Width="25" Command="{Binding ToggleChart}">
+                        <Image Source="/Resources/Icons/arrowchange.png" Width="20" Height="20" Stretch="UniformToFill" />
+                    </Button>
+                </WrapPanel>
+                <Grid Height="200" Width="324">
                     <Border BorderThickness="1" BorderBrush="Black"/>
-                        <lvc:CartesianChart Series="{Binding ReservationSeries}">
+                        <lvc:CartesianChart Series="{Binding ReservationSeries}" Width="320" Height="190"> 
                             <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Godine" Labels="{Binding YearLabels}"></lvc:Axis>
+                            <lvc:Axis Title="Vreme" Labels="{Binding TimeLabels}"></lvc:Axis>
                             </lvc:CartesianChart.AxisX>
                             <lvc:CartesianChart.AxisY>
                                 <lvc:Axis Title=""></lvc:Axis>
