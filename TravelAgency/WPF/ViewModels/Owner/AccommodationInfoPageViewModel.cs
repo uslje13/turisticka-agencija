@@ -120,7 +120,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 StatsLabel = "Statistika po mesecima";
                 SlidingGridHeight = 100;
             }
-            OnPropertyChanged("ReservationSeries");
             OnPropertyChanged("StatsLabel");
 
 
