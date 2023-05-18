@@ -111,15 +111,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void FillSuperGuestInfoPopup()
         {
-            SuperGuestInformation = "\n"
-                                  + "      Gost može postati super-gost ako u prethodnoj godini ima bar 10 rezervacija.\n"
-                                  + "      Super-gost titula traje godinu dana i prestaje da važi ako gost\n"
-                                  + "      ne bude ponovo zadovoljio uslov od 10 rezervacija.\n"
-                                  + "      Super-gost dobija 5 bonus poena koje može potrošiti u tekućoj godini,\n"
-                                  + "      nakon čega se bodovi resetuju na 0 (ne mogu se akumulirati).\n"
-                                  + "      Prilikom svake naredne rezervacije se troši jedan bonus poen što donosi popuste,      \n"
-                                  + "      što znači da će super-gost imati 5 rezervacija sa popustom."
-                                  + "\n";
+            SuperGuestInformation = "Gost može postati super-gost ako u prethodnoj godini ima bar 10 rezervacija.\n"
+                                  + "Super-gost titula traje godinu dana i prestaje da važi ako gost\n"
+                                  + "ne bude ponovo zadovoljio uslov od 10 rezervacija.\n"
+                                  + "Super-gost dobija 5 bonus poena koje može potrošiti u tekućoj godini,\n"
+                                  + "nakon čega se bodovi resetuju na 0 (ne mogu se akumulirati).\n"
+                                  + "Prilikom svake naredne rezervacije se troši jedan bonus poen što donosi popuste,\n"
+                                  + "što znači da će super-gost imati 5 rezervacija sa popustom.";
         }
 
         private void Execute_OpenPopup(object sender)

@@ -58,10 +58,12 @@
                     <Image x:Name="InfoIcon" Source="/Resources/Icons/Guest1/info-icon.png"/>
                 </StackPanel>
             </Button>
-            <Popup PopupAnimation="Fade" Placement="Left" AllowsTransparency="True" 
+            <Popup PopupAnimation="Fade" Placement="Left" AllowsTransparency="True"
                    PlacementTarget="{Binding ElementName=InfoIcon}"
                    IsOpen="{Binding Path=IsPopupOpen}">
-                <TextBlock Background="PaleGoldenrod" FontWeight="SemiBold" Text="{Binding Path=SuperGuestInformation}"/>
+                <Label Background="White" FontWeight="SemiBold" Padding="10"
+                       BorderBrush="DarkGoldenrod" BorderThickness="2"
+                       Content="{Binding Path=SuperGuestInformation}"/>
             </Popup>
         </Grid>
         
