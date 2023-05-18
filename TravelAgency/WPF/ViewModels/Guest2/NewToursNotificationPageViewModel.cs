@@ -61,7 +61,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private List<Tour> GetPotentialTours()
         {
             List<Tour> potentialToursForShowing = new List<Tour>();
-            List<Appointment> notificationAppointments = GetNotificationAppointments();
+            List<Appointment> notificationAppointments = _appointmentService.GetNotificationAppointments(LoggedInUser);
 
             foreach(var appointments in notificationAppointments)
             {
@@ -71,14 +71,5 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             return potentialToursForShowing;
         }
 
-        private List<Appointment> GetNotificationAppointments()
-        {
-            List<Appointment> notificationAppointments = new List<Appointment>();
-            foreach (var newTourNotification in _newTourNotificationService.GetAllByGuestId(LoggedInUser.Id))
-            {
-                notificationAppointments.Add(_appointmentService.GetById(newTourNotification.AppointmentId));
-            }
-            return notificationAppointments;
-        }
     }
 }
