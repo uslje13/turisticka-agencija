@@ -101,7 +101,8 @@ namespace SOSTeam.TravelAgency.Application.Services
 
             for (int i = 0; i < 12; i++)
             {
-                var monthReservations = requests.Where(r => r.OldFirstDay.Month == year.AddMonths(1 + i).Month ||  year.AddMonths(1 + i).Month == r.OldLastDay.Year);
+                var monthReservations = requests.Where(r => r.OldFirstDay.Month == year.AddMonths(1 + i).Month ||  year.AddMonths(1 + i).Month == r.OldLastDay.Month);
+                monthReservations = monthReservations.Where(r => r.OldFirstDay.Year == year.Year || year.Year == r.OldLastDay.Year);
                 result.Add(monthReservations.Count());
             }
             return result;
@@ -132,6 +133,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             for (int i = 0; i < 12; i++)
             {
                 var monthReservations = requests.Where(r => r.Date.Month == year.AddMonths(1 + i).Month);
+                monthReservations = monthReservations.Where(r => r.Date.Year == year.Year);
                 result.Add(monthReservations.Count());
             }
             return result;
@@ -157,6 +159,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             for (int i = 0; i < 12; i++)
             {
                 var monthReservations = reservations.Where(r => r.FirstDay.Month == Year.AddMonths(1+i).Month || Year.AddMonths(1+i).Month == r.LastDay.Month);
+                monthReservations = monthReservations.Where(r => r.FirstDay.Year == Year.Year || Year.Year == r.LastDay.Year);
                 result.Add(monthReservations.Count());
             }
             return result;

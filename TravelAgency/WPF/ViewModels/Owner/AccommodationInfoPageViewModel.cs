@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
@@ -19,11 +17,53 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public string Location { get; private set; }
         public string StatsLabel { get; private set; }
         public Image Image { get; private set; }
-        public ObservableCollection<ReservationViewModel> Reservations { get; set; }
-        public SeriesCollection ReservationSeries { get; set; }
+        private ObservableCollection<ReservationViewModel> _reservations;
+        public ObservableCollection<ReservationViewModel> Reservations
+        {
+            get { return _reservations; }
+            set
+            {
+                _reservations = value;
+                OnPropertyChanged("Reservations");
+            }
+        }
+
+        private SeriesCollection _reservationSeries;
+        public SeriesCollection ReservationSeries
+        {
+            get { return _reservationSeries; }
+            set
+            {
+                _reservationSeries = value;
+                OnPropertyChanged("ReservationSeries");
+            }
+        }
         public string[] TimeLabels { get; set; }
         public RelayCommand NavigatePhotos { get; private set; }
+        public RelayCommand NavigateYears { get; private set; }
         public RelayCommand ToggleChart { get; private set; }
+
+        private int _slidingGridHeight;
+        public int SlidingGridHeight
+        {
+            get { return _slidingGridHeight; }
+            set
+            {
+                _slidingGridHeight = value;
+                OnPropertyChanged("SlidingGridHeight");
+            }
+        }
+
+        private int _slidingGridYear;
+        public int SlidingGridYear
+        {
+            get { return _slidingGridYear; }
+            set
+            {
+                _slidingGridYear = value;
+                OnPropertyChanged("SlidingGridYear");
+            }
+        }
 
         private List<Image> _images;
         private LocationService _locationService;
@@ -49,10 +89,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             GetReservations(accommodation);
             GetImages(accommodation);
             SetupYearReservationChart();
+            SlidingGridHeight = 0;
             StatsLabel = "Statistika po godinama";
+            SlidingGridYear = DateTime.Now.Year;
             NavigatePhotos = new RelayCommand(Execute_NavigatePhotos, CanExecuteNavigatePhotos);
+            NavigateYears = new RelayCommand(Execute_NavigateYears, CanExecuteToggleChart);
             ToggleChart = new RelayCommand(Execute_ToggleChart, CanExecuteToggleChart);
             Location = _locationService.GetFullName(_locationService.GetById(Accommodation.LocationId));
+        }
+
+        private void Execute_NavigateYears(object obj)
+        {
+            string direction = obj.ToString();
+            if (direction.Equals("Left")) SlidingGridYear--;
+            else SlidingGridYear++;
+            SetupMonthReservationChart();
         }
 
         private void Execute_ToggleChart(object obj)
@@ -61,14 +112,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             {
                 SetupYearReservationChart();
                 StatsLabel = "Statistika po godinama";
+                SlidingGridHeight = 0;
             }
             else
             {
                 SetupMonthReservationChart();
                 StatsLabel = "Statistika po mesecima";
+                SlidingGridHeight = 100;
             }
             OnPropertyChanged("ReservationSeries");
             OnPropertyChanged("StatsLabel");
+
+
+
 
         }
 
@@ -79,11 +135,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void GetReservations(Accommodation accommodation)
         {
-            var reservations = _accommodationReservationService.GetAll().Where(t => t.AccommodationId == accommodation.Id && t.LastDay > DateTime.Now && t.FirstDay < DateTime.Now.AddMonths(1));
+            var reservations = _accommodationReservationService.GetAll().Where(t => t.AccommodationId == accommodation.Id && t.LastDay > DateTime.Now && t.FirstDay < DateTime.Now.AddMonths(3));
             Reservations = new();
-            foreach (var reservation in reservations) 
+            foreach (var reservation in reservations)
             {
-                Reservations.Add(new ReservationViewModel( reservation.FirstDay.ToString("MM-dd-yyyy"), reservation.LastDay.ToString("MM-dd-yyyy") ));
+                Reservations.Add(new ReservationViewModel(reservation.FirstDay.ToString("dd-MM-yyyy"), reservation.LastDay.ToString("dd-MM-yyyy")));
             }
         }
 
@@ -160,13 +216,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void SetupMonthReservationChart()
         {
-            var regular = _accommodationStatsService.GetOccupationInMonths(DateTime.Today, Accommodation.Id);
+            var year = new DateTime(SlidingGridYear, 1, 1);
 
-            var moved = _accommodationStatsService.GetReservationMovesInMonths(DateTime.Today, Accommodation.Id);
+            var regular = _accommodationStatsService.GetOccupationInMonths(year, Accommodation.Id);
 
-            var changed = _accommodationStatsService.GetCancelationInMonths(DateTime.Today, Accommodation.Id);
+            var moved = _accommodationStatsService.GetReservationMovesInMonths(year, Accommodation.Id);
 
-            var renovation = _accommodationStatsService.GetReservationMovesInMonths(DateTime.Today, Accommodation.Id);
+            var changed = _accommodationStatsService.GetCancelationInMonths(year, Accommodation.Id);
+
+            var renovation = _accommodationStatsService.GetReservationMovesInMonths(year, Accommodation.Id);
 
             var regularSeries = new StackedColumnSeries { Title = "Rezervacije", Values = new ChartValues<int>(regular) };
             var movedSeries = new StackedColumnSeries { Title = "Pomeranja", Values = new ChartValues<int>(moved) };
@@ -176,7 +234,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
             ReservationSeries = new SeriesCollection { regularSeries, movedSeries, changedSeries, renovationSeries };
 
-            var year = new DateTime(DateTime.Today.Year, 1, 1);
             var temp = new List<string>();
             for (int i = 0; i < 12; i++)
             {
@@ -192,10 +249,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
     {
         public string FirstDay { get; set; }
         public string LastDay { get; set; }
-        public ReservationViewModel( string firstDay, string lastDay) 
+        public ReservationViewModel(string firstDay, string lastDay)
         {
             FirstDay = firstDay;
-            LastDay = lastDay; 
+            LastDay = lastDay;
         }
     }
 }
