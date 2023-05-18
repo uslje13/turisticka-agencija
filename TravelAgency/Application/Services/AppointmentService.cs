@@ -10,11 +10,12 @@ namespace SOSTeam.TravelAgency.Application.Services
     {
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly TourService _tourService;
-
+        private readonly NewTourNotificationService _newTourNotificationService;
         public AppointmentService()
         {
             _appointmentRepository = Injector.CreateInstance<IAppointmentRepository>();
             _tourService = new TourService();
+            _newTourNotificationService = new NewTourNotificationService();
         }
 
         public void Delete(int id)
@@ -111,6 +112,16 @@ namespace SOSTeam.TravelAgency.Application.Services
                 }
             }
             return false;
+        }
+
+        public List<Appointment> GetNotificationAppointments(User loggedInUser)
+        {
+            List<Appointment> notificationAppointments = new List<Appointment>();
+            foreach (var newTourNotification in _newTourNotificationService.GetAllByGuestId(loggedInUser.Id))
+            {
+                notificationAppointments.Add(_appointmentRepository.GetById(newTourNotification.AppointmentId));
+            }
+            return notificationAppointments;
         }
     }
 }

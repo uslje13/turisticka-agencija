@@ -96,7 +96,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 MessageBox.Show("Datum zavrsetka je pre datuma pocetka", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
                 isCorrect = false;
             }
-            else if(DateTime.Today >= DateTime.Parse(TourRequest.MaintenanceEndDate).AddDays(-2))
+            else if(DateTime.Today >= DateTime.Parse(TourRequest.MaintenanceStartDate).AddDays(-2))
             {
                 MessageBox.Show("Vodic ne moze stici da organizuje turu spram vaseg zahteva", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
                 isCorrect = false;
