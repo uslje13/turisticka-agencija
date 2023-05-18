@@ -106,7 +106,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="130" Header="Gost">
+                        <DataGridTemplateColumn Width="130" Header="Slika">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate >
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">

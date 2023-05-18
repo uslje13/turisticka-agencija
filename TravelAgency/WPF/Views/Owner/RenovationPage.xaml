@@ -7,8 +7,106 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="RenovationPage">
+    <Page.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Margin" Value="10" />
+        </Style>
+        <Style x:Key="CenterTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
 
-    <Grid>
+        </Style>
         
+        <Style TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="#63aaed" />
+
+
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightBlue"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="30,0">
+            <WrapPanel  VerticalAlignment="Center">
+                <Label Content="Renoviranja" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center" />
+            </WrapPanel>
+
+
+            <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center"  >
+                <Border Background="#a3daed" CornerRadius="20">
+                    <Grid Height="60">
+                        <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center" Height="Auto" >
+                            <Button Margin="10,0,10,0" >
+                                <Image Source="/Resources/Icons/plusicon.png" Width="40" Height="40" ></Image>
+                            </Button>
+                            <Button Margin="10,0,10,0">
+                                <Image Source="/Resources/Icons/Trash.png" Width="40" Height="40" ></Image>
+                            </Button>
+                        </WrapPanel>
+                    </Grid>
+                </Border>
+            </WrapPanel>
+
+
+
+
+        </Grid>
+        <Grid Grid.Row="1" >
+            <StackPanel VerticalAlignment="Top">
+                <DataGrid Width="730" Height="470" RowHeight="80" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Renovations}" SelectedItem="{Binding Path=SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
+                    
+
+
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="200" Header="Smeštaj">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
+                                        <Image Source="{Binding PictureUrl}" VerticalAlignment="Center" Width="100" Height="60" Stretch="UniformToFill" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Naziv smeštaja" Binding="{Binding Name}" Width="*"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                        <DataGridTextColumn Header="Period" Binding="{Binding RenovationPeriod}" Width="140"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </StackPanel>
+
+
+        </Grid>
     </Grid>
 </Page>

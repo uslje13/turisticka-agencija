@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Owner;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,8 +22,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
     /// </summary>
     public partial class RenovationPage : Page
     {
-        public RenovationPage()
+        public RenovationPage(User user, MainWindowViewModel mainWindowVM)
         {
+            DataContext = new RenovationPageViewModel(user, mainWindowVM);
             InitializeComponent();
         }
     }

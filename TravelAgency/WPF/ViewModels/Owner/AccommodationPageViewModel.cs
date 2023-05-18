@@ -18,7 +18,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
     internal class AccommodationPageViewModel : ViewModel
     {
         public User LoggedInUser { get; private set; }
-        private AccommodationsPage _accommodationsPage;
         private AccommodationService _accommodationService;
         private ImageService _imageService;
         private MainWindowViewModel _mainwindowVM;
@@ -29,10 +28,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand EditAccommodation { get; private set; }
         public RelayCommand DeleteAccommodation { get; private set; }
 
-        public AccommodationPageViewModel(User user,MainWindowViewModel mainWindowVM,AccommodationsPage accommodationPage)
+        public AccommodationPageViewModel(User user,MainWindowViewModel mainWindowVM)
         {
             LoggedInUser = user;
-            _accommodationsPage = accommodationPage;
             _mainwindowVM = mainWindowVM;
             _accommodationService = new();
             _imageService = new();
