@@ -152,11 +152,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private readonly TourRequestSearchViewModel _tourRequestSearch;
 
+        public TourRequestCardViewModel SelectedTourRequestCard { get; set; }
 
         public RelayCommand CitySelectionChangedCommand { get; set; }
         public RelayCommand CountrySelectionChangedCommand { get; set; }
-
         public RelayCommand ResetFormCommand { get; set; }
+        public RelayCommand ShowAcceptTourRequestFormCommand { get; set; }
+
 
 
         public TourRequestViewModel()
@@ -182,6 +184,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             CountrySelectionChangedCommand = new RelayCommand(ExecuteCountrySelectionChanged, CanExecuteMethod);
             CitySelectionChangedCommand = new RelayCommand(ExecuteCitySelectionChanged, CanExecuteMethod);
             ResetFormCommand = new RelayCommand(ResetForm, CanExecuteMethod);
+            ShowAcceptTourRequestFormCommand = new RelayCommand(ShowAcceptTourRequestForm, CanExecuteMethod);
         }
 
         private bool CanExecuteMethod(object parameter)
@@ -308,5 +311,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             var tourRequestCardCreator = new TourRequestCardCreatorViewModel();
             TourRequestCards = tourRequestCardCreator.CreateTourRequestCards();
         }
+
+        private void ShowAcceptTourRequestForm(object sender)
+        {
+            SelectedTourRequestCard = sender as TourRequestCardViewModel;
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("AcceptTourRequestForm", App.LoggedUser);
+        }
+
     }
 }

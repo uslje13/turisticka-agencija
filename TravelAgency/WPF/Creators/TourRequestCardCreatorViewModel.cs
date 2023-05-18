@@ -28,6 +28,7 @@ namespace SOSTeam.TravelAgency.WPF.Creators
             {
                 var tourRequestCard = new TourRequestCardViewModel
                 {
+                    Id = tourRequest.Id,
                     Language = tourRequest.Language,
                     NumOfGuests = tourRequest.MaxNumOfGuests,
                     Location = tourRequest.Country + ", " + tourRequest.City,

@@ -39,6 +39,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 var tourRequestCard = new TourRequestCardViewModel
                 {
+                    Id = request.Id,
                     Language = request.Language,
                     NumOfGuests = request.MaxNumOfGuests,
                     Location = request.Country + ", " + request.City,

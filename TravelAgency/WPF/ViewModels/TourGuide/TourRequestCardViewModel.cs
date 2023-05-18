@@ -8,6 +8,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
     public class TourRequestCardViewModel : ViewModel
     {
+        public int Id { get; set; }
+
         private string _location;
 
         public string Location
