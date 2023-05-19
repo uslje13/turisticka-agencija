@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       xmlns:tourGuide="clr-namespace:SOSTeam.TravelAgency.WPF.ValidationRules.TourGuide"
-      xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:behavior="clr-namespace:SOSTeam.TravelAgency.WPF.Behaviors"
       xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:sys="clr-namespace:System;assembly=System.Runtime" xmlns:tourguide="clr-namespace:SOSTeam.TravelAgency.WPF.ViewModels.TourGuide" d:DataContext="{d:DesignInstance Type=tourguide:AcceptTourRequestViewModel}"
       mc:Ignorable="d" 
@@ -13,9 +13,13 @@
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="AcceptTourRequestPage">
 
+    <Page.Resources>
+        <behavior:DatePickerBehavior x:Key="DatePickerBehavior" />
+    </Page.Resources>
+
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
-            <Grid Height="1050" Width="430">
+            <Grid Height="1070" Width="430">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
@@ -27,7 +31,7 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition Height="150"></RowDefinition>
+                    <RowDefinition Height="170"></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -254,18 +258,25 @@
                 <!-- Appointment -->
                 <Grid Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Width="300">
+                    <TextBlock Grid.Row="0" Text="Appointment:" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="65 0 0 0" FontSize="14"/>
+                    <Border  Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0.5 0 0" Margin="65 0 70 0"/>
+                    <Border  Grid.Row="2" BorderBrush="DarkGray" BorderThickness="0 0 0 0.5" Margin="65 0 70 -10"/>
+                    <!-- Date picker -->
+                    <Grid Grid.Row="1" Width="300">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="266"></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <DatePicker Grid.Column="0" Grid.Row="0" x:Name="DatePicker"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="266" Height="25" SelectedDateFormat="Short"
-                                    BorderBrush="DarkGray" BorderThickness="1.5" DisplayDateStart="{x:Static sys:DateTime.Now}" Text="{Binding Start, StringFormat='dd.MM.yyyy. HH:mm'}">
+                                    BorderBrush="DarkGray" BorderThickness="1.5" DisplayDateStart="{Binding MinDisplayDate}" DisplayDateEnd="{Binding MaxDisplayDate}" 
+                                    Text="{Binding AppointmentStart, StringFormat='dd.MM.yyyy. HH:mm'}"
+                                    IsEnabled="{Binding CanSelectAppointment}" behavior:DatePickerBehavior.DatesToBlackout="{Binding BlackoutDates}">
                             <DatePicker.SelectedDate>
-                                <Binding Path="Start" StringFormat="dd.MM.yyyy. HH:mm" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding Path="AppointmentStart" StringFormat="dd.MM.yyyy. HH:mm" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
                                         <tourGuide:DateTimeValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"></tourGuide:DateTimeValidationRule>
                                     </Binding.ValidationRules>
@@ -289,15 +300,17 @@
                         </DatePicker>
                         <Image Grid.Column="1" Grid.Row="0" Source="/Resources/Icons/kalendar_datumi.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="26"></Image>
                     </Grid>
-                    <Grid Grid.Row="1" Width="300">
+                    <!-- Time picker -->
+                    <Grid Grid.Row="2" Width="300">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="266"></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <xctk:TimePicker x:Name="TimePicker" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="266" Height="25"
-                                       BorderBrush="DarkGray" BorderThickness="1.5" TextAlignment="Left" FormatString='HH:mm'>
+                                       BorderBrush="DarkGray" BorderThickness="1.5" TextAlignment="Left" FormatString='HH:mm'
+                                       IsEnabled="{Binding CanSelectAppointment}">
                             <xctk:TimePicker.Value>
-                                <Binding Path="Start " UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True" StringFormat="HH:mm">
+                                <Binding Path="AppointmentStart" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True" StringFormat="HH:mm">
                                     <Binding.ValidationRules>
                                         <tourGuide:DateTimeValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"></tourGuide:DateTimeValidationRule>
                                     </Binding.ValidationRules>

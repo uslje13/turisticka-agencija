@@ -32,18 +32,22 @@ namespace SOSTeam.TravelAgency.Application.Services
 
             var busyDateRanges = GetBusyDateRanges(appointmentsInDateRange);        //ovi ce svakako biti zabranjeni
 
-            var availableDateRanges = GetAvailableDateRanges(busyDateRanges);
+            var availableDateRanges = GetAvailableDateRanges(busyDateRanges, requiredDateRange);
+
+            var finalAvailableDateRange = GetAvailableDateRanges(busyDateRanges, requiredDateRange);
 
             foreach (var availableDateRange in availableDateRanges)
             {
                 var freeTime = availableDateRange.End - availableDateRange.Start;
                 if (TimeSpan.FromHours(durationInHours) > freeTime)
                 {
-                    availableDateRanges.Remove(availableDateRange);
+                    var rangeForRemove = finalAvailableDateRange.Find(r => r.Start == availableDateRange.Start && r.End == availableDateRange.End);
+                    finalAvailableDateRange.Remove(rangeForRemove);
+
                 }
             }
 
-            availableDates = availableDateRanges;
+            availableDates = finalAvailableDateRange;
 
             return availableDates;
         }
@@ -71,7 +75,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             foreach (var appointment in appointments)
             {
                 int appointmentDuration = _tourService.GetById(appointment.TourId).Duration;
-                var endDate = appointment.Start.AddDays(appointmentDuration);
+                var endDate = appointment.Start.AddHours(appointmentDuration);
                 var dateRange = new DateRange(appointment.Start, endDate);
                 busyDateRanges.Add(dateRange);
             }
@@ -79,16 +83,53 @@ namespace SOSTeam.TravelAgency.Application.Services
             return busyDateRanges;
         }
 
-        private List<DateRange> GetAvailableDateRanges(List<DateRange> busyDateRanges)
+        private List<DateRange> GetAvailableDateRanges(List<DateRange> busyDateRanges, DateRange requiredDateRange)
         {
             var availableDateRanges = new List<DateRange>();
 
-            for (int i = 0; i < busyDateRanges.Count - 1; i++)
+            //Granice koje je zadao korisni
+            var minDate = requiredDateRange.Start;
+            var maxDate = requiredDateRange.End;
+
+            for (int i = 0; i < busyDateRanges.Count; i++)
             {
-                var currentEndDate = busyDateRanges[i].End;
-                var nextStartDate = busyDateRanges[i + 1].Start;
-                var freeDateRange = new DateRange(currentEndDate, nextStartDate);
-                availableDateRanges.Add(freeDateRange);
+                //Ako je prvi prolazak ide od Start --> Start
+                if (i == 0)
+                {
+                    //Od zadatog do prvog zauzetog.
+                    var currentStartDate = busyDateRanges[i].Start;
+                    var currentEndDate = busyDateRanges[i].End;
+                    availableDateRanges.Add(new DateRange(requiredDateRange.Start, currentStartDate));
+                    //I od kraja prvog zauzetog do narednog koji pocinje ako postoji
+                    if ((i + 1 < busyDateRanges.Count))
+                    {
+                        availableDateRanges.Add(new DateRange(currentEndDate, busyDateRanges[i + 1].Start));
+                    }
+                    //U suprotnom nema vise od tog jednog zauzetog i od njegovog kraja su svi slobodni
+                    else
+                    {
+                        var freeDateRange = new DateRange(currentEndDate, maxDate);
+                        availableDateRanges.Add(freeDateRange);
+                    }
+                }
+                //Ako smo sada na drugom zauzetom npr.
+                //Slobodni smo nakon njegovog zavrsetka do pocetka narednog ukoliko naredni termin postoji
+                else if(i > 0)
+                {
+                    var currentEndDate = busyDateRanges[i].End;
+                    if ((i + 1 < busyDateRanges.Count))
+                    {
+                        var nextStartDate = busyDateRanges[i + 1].Start;
+                        var freeDateRange = new DateRange(currentEndDate, nextStartDate);
+                        availableDateRanges.Add(freeDateRange);
+                    }
+                    //U suprotno nakon njegovog kraja nema vise termina i svi do kraja su slobodni
+                    else
+                    {
+                        var freeDateRange = new DateRange(currentEndDate, maxDate);
+                        availableDateRanges.Add(freeDateRange);
+                    }
+                }
             }
 
             return availableDateRanges;
