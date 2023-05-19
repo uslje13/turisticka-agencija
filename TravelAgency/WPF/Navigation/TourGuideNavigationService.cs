@@ -98,11 +98,24 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
             }
             else if (frameName == "AddCheckpoints")
             {
-                _mainWindowViewModel.Title = "Create tour";
-                MainWindow.DataContext = _mainWindowViewModel;
-                var createTourPage = MainWindow.MainFrame.Content as CreateTourPage;
-                var createTourViewModel = (CreateTourViewModel)createTourPage.DataContext;
-                _mainWindow.MainFrame.Content = new AddCheckpointsPage(createTourViewModel.CheckpointCards);
+                var previousPage = PreviousPages.Pop();
+                if (previousPage is CreateTourPage)
+                {
+                    _mainWindowViewModel.Title = "Create tour";
+                    MainWindow.DataContext = _mainWindowViewModel;
+                    var createTourPage = MainWindow.MainFrame.Content as CreateTourPage;
+                    var createTourViewModel = (CreateTourViewModel)createTourPage.DataContext;
+                    _mainWindow.MainFrame.Content = new AddCheckpointsPage(createTourViewModel.CheckpointCards);
+                }
+                else if(previousPage is AcceptTourRequestPage)
+                {
+                    _mainWindowViewModel.Title = "Accept tour";
+                    MainWindow.DataContext = _mainWindowViewModel;
+                    var acceptRequesTourPage = MainWindow.MainFrame.Content as AcceptTourRequestPage;
+                    var acceptRequesTouModel = (AcceptTourRequestViewModel)acceptRequesTourPage.DataContext;
+                    _mainWindow.MainFrame.Content = new AddCheckpointsPage(acceptRequesTouModel.CheckpointCards);
+                }
+                PreviousPages.Push(previousPage);
             }
             else if (frameName == "AddAppointments")
             {
@@ -114,11 +127,23 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
             }
             else if (frameName == "TourGallery")
             {
-                _mainWindowViewModel.Title = "Create tour";
-                MainWindow.DataContext = _mainWindowViewModel;
-                var createTourPage = MainWindow.MainFrame.Content as CreateTourPage;
-                var createTourViewModel = (CreateTourViewModel)createTourPage.DataContext;
-                _mainWindow.MainFrame.Content = new TourGalleryPage(createTourViewModel.Images);
+                var previousPage = PreviousPages.Pop();
+                if (previousPage is CreateTourPage)
+                {
+                    _mainWindowViewModel.Title = "Create tour";
+                    MainWindow.DataContext = _mainWindowViewModel;
+                    var createTourPage = MainWindow.MainFrame.Content as CreateTourPage;
+                    var createTourViewModel = (CreateTourViewModel)createTourPage.DataContext;
+                    _mainWindow.MainFrame.Content = new TourGalleryPage(createTourViewModel.Images);
+                }
+                else if(previousPage is AcceptTourRequestPage)
+                {
+                    _mainWindowViewModel.Title = "Accept tour";
+                    MainWindow.DataContext = _mainWindowViewModel;
+                    var acceptRequesTourPage = MainWindow.MainFrame.Content as AcceptTourRequestPage;
+                    var acceptRequesTouModel = (AcceptTourRequestViewModel)acceptRequesTourPage.DataContext;
+                    _mainWindow.MainFrame.Content = new TourGalleryPage(acceptRequesTouModel.Images);
+                }
             }
             else if(frameName == "GuestAttendances")
             {

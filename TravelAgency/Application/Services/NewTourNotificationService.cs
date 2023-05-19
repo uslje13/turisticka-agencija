@@ -12,7 +12,12 @@ namespace SOSTeam.TravelAgency.Application.Services
     public class NewTourNotificationService
     {
         private readonly INewTourNotificationRepository _newTourNotificationRepository = Injector.CreateInstance<INewTourNotificationRepository>();
-        public NewTourNotificationService() { }
+        private readonly UserService _userService;
+
+        public NewTourNotificationService()
+        {
+            _userService = new UserService();
+        }
 
         public void Delete(int id)
         {
@@ -48,5 +53,23 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             return _newTourNotificationRepository.GetAllByGuestId(guestId);
         }
+
+        public void CreateNotificationForAllUsers(int appointmentId, NotificationType type)
+        {
+            List<NewTourNotification> notifications = new List<NewTourNotification>();
+            foreach (var user in _userService.GetAll().FindAll(u => u.Role == Roles.GUEST2))
+            {
+                NewTourNotification notification = new NewTourNotification
+                {
+                    AppointmentId = appointmentId,
+                    GuestId = user.Id,
+                    IsRead = false,
+                    Type = type
+                };
+                notifications.Add(notification);
+            }
+            SaveAll(notifications);
+        }
+
     }
 }

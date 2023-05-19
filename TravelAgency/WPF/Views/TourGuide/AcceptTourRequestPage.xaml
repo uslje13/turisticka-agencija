@@ -348,9 +348,9 @@
                 <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
                     Cursor="Hand" BorderBrush="DarkGray" BorderThickness="1.5" Content="Preview images" FontSize="14" Command="{Binding ShowGalleryCommand}">
                 </Button>
-                <!-- Create -->
+                <!-- Accept -->
                 <Button Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="25"
-                    Cursor="Hand" BorderBrush="DarkGray" BorderThickness="1.5" Content="Accept" FontSize="14" Command="{Binding CreateTourClickCommand}">
+                    Cursor="Hand" BorderBrush="DarkGray" BorderThickness="1.5" Content="Accept" FontSize="14" Command="{Binding AcceptTourClickCommand}">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="IsEnabled" Value="False"></Setter>

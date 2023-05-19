@@ -32,6 +32,14 @@ namespace SOSTeam.TravelAgency.Application.Services
 
             var busyDateRanges = GetBusyDateRanges(appointmentsInDateRange);        //ovi ce svakako biti zabranjeni
 
+
+            //Slobodan je sve vreme
+            if(busyDateRanges.Count == 0)
+            {
+                availableDates.Add(requiredDateRange);
+                return availableDates;
+            }
+
             var availableDateRanges = GetAvailableDateRanges(busyDateRanges, requiredDateRange);
 
             var finalAvailableDateRange = GetAvailableDateRanges(busyDateRanges, requiredDateRange);

@@ -160,6 +160,7 @@
     <None Remove="Resources\Images\Owner\pula_pola.jpg" />
     <None Remove="Resources\Images\Owner\pula_pola2.jpg" />
     <None Remove="Resources\Images\Tours\budapest.jpg" />
+    <None Remove="Resources\Images\Tours\manchester.jpg" />
     <None Remove="Resources\Images\Tours\novi_sad.jpg" />
     <None Remove="Resources\Images\Tours\rio.jpg" />
     <None Remove="Resources\Images\Tours\rio_1.jpg" />
@@ -440,6 +441,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\right_arrow.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Tours\manchester.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Icons\Guest1\guests.png" />
