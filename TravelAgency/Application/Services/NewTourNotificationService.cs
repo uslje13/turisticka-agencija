@@ -54,7 +54,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _newTourNotificationRepository.GetAllByGuestId(guestId);
         }
 
-        public void CreateNotificationForAllUsers(int appointmentId, NotificationType type)
+        public void CreateNotificationForAllUsers(int appointmentId)
         {
             List<NewTourNotification> notifications = new List<NewTourNotification>();
             foreach (var user in _userService.GetAll().FindAll(u => u.Role == Roles.GUEST2))
@@ -64,11 +64,23 @@ namespace SOSTeam.TravelAgency.Application.Services
                     AppointmentId = appointmentId,
                     GuestId = user.Id,
                     IsRead = false,
-                    Type = type
+                    Type = NotificationType.STATS_MADE
                 };
                 notifications.Add(notification);
             }
             SaveAll(notifications);
+        }
+
+        public void CreateNotificationForUser(int appointmentId, int userId)
+        {
+            NewTourNotification notification = new NewTourNotification
+            {
+                AppointmentId = appointmentId,
+                GuestId = userId,
+                IsRead = false,
+                Type = NotificationType.REQUESTED
+            };
+            Save(notification);
         }
 
     }

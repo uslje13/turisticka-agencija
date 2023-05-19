@@ -210,7 +210,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly LocationService _locationService;
         private readonly NewTourNotificationService _newTourNotificationService;
 
-
         public AcceptTourRequestViewModel(int tourRequestId)
         {
             _tourService = new TourService();
@@ -219,6 +218,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _checkpointService = new CheckpointService();
             _locationService = new LocationService();
             _newTourNotificationService = new NewTourNotificationService();
+            _appointmentScheduleService = new AppointmentScheduleService(tourRequestId);
+            _tourRequestService = new TourRequestService();
 
             Cities = new ObservableCollection<string>();
             Countries = new ObservableCollection<string>();
@@ -230,8 +231,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
             _blackoutDates = new ObservableCollection<DateTime>();
 
-            _appointmentScheduleService = new AppointmentScheduleService(tourRequestId);
-            _tourRequestService = new TourRequestService();
+            
             var tourRequest = _tourRequestService.GetById(tourRequestId);
             _selectedTourRequest = tourRequest;
 
@@ -365,6 +365,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 SetImagesTourId(tourId);
                 _imageService.SaveAll(Images);
 
+                _selectedTourRequest.Status = StatusType.ACCEPTED;
+                _tourRequestService.Update(_selectedTourRequest);
                 _newTourNotificationService.CreateNotificationForUser(appointmentId, _selectedTourRequest.UserId);
 
                 App.TourGuideNavigationService.AddPreviousPage();
