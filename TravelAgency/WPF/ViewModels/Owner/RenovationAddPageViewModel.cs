@@ -11,12 +11,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public User LoggedInUser { get; private set; }
 
         public ObservableCollection<Accommodation> Accommodations { get; private set; }
-
+        public ObservableCollection<DatesRangeViewModel> PossibleDateRanges { get; set; }
+        public DatesRangeViewModel SelectedDateRange { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
 
         public RelayCommand Cancel { get; private set; }
         public RelayCommand SearchDates { get; private set; }
         public RelayCommand ResetCalendar { get; private set; }
+        public RelayCommand AddRenovation { get; private set; }
 
         public string StartDateString
         {
@@ -27,6 +29,31 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 {
                     _startDateString = value;
                     OnPropertyChanged(nameof(StartDateString));
+                }
+            }
+        }
+
+        public System.Windows.Visibility ChooseDateVisibility
+        {
+            get { return _chooseDateVisibility; }
+            set
+            {
+                if (_chooseDateVisibility != value)
+                {
+                    _chooseDateVisibility = value;
+                    OnPropertyChanged(nameof(ChooseDateVisibility));
+                }
+            }
+        }
+        public System.Windows.Visibility PickDateVisibility
+        {
+            get { return _pickDateVisibility; }
+            set
+            {
+                if (_pickDateVisibility != value)
+                {
+                    _pickDateVisibility = value;
+                    OnPropertyChanged(nameof(PickDateVisibility));
                 }
             }
         }
@@ -43,7 +70,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 }
             }
         }
-        
+
         public int RenovationDuration
         {
             get { return _renovationDuration; }
@@ -120,6 +147,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private bool _isCalendarEnabled;
         private int _datePickCounter;
         private int _renovationDuration;
+        private System.Windows.Visibility _chooseDateVisibility;
+        private System.Windows.Visibility _pickDateVisibility;
+
 
         private MainWindowViewModel _mainwindowVM;
 
@@ -138,12 +168,28 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _accommodationService = new();
             _accommodationRenovationService = new();
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetAllByUserId(user.Id));
+            PossibleDateRanges = new();
+            ChooseDateVisibility = System.Windows.Visibility.Visible;
+            PickDateVisibility = System.Windows.Visibility.Collapsed;
+            RenovationDuration = 1;
             RefreshCalendar();
 
             Cancel = new RelayCommand(Execute_Cancel, CanExecuteCancel);
             SearchDates = new RelayCommand(Execute_SearchDates, CanExecuteSearchDates);
             ResetCalendar = new RelayCommand(Execute_SetupCalendar, CanExecuteSetupCalendar);
+            AddRenovation = new RelayCommand(Execute_AddRenovation, CanExecuteAddRenovation);
 
+        }
+
+        private void Execute_AddRenovation(object obj)
+        {
+            _accommodationRenovationService.Save(new AccommodationRenovation(SelectedAccommodation.Id, SelectedDateRange.StartDate, SelectedDateRange.EndDate));
+            _mainwindowVM.Execute_NavigationButtonCommand("Renovation");
+        }
+
+        private bool CanExecuteAddRenovation(object obj)
+        {
+            return SelectedDateRange != null && SelectedAccommodation != null;
         }
 
         private bool CanExecuteSearchDates(object obj)
@@ -151,7 +197,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             return _datePickCounter >= 2 && SelectedAccommodation != null;
         }
 
-        public void RefreshCalendar() 
+        public void RefreshCalendar()
         {
             Execute_SetupCalendar(null);
         }
@@ -196,7 +242,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_SearchDates(object obj)
         {
+            ChooseDateVisibility = System.Windows.Visibility.Collapsed;
+            PickDateVisibility = System.Windows.Visibility.Visible;
 
+            DateTime end = EndDate.AddDays(-(RenovationDuration-1));
+            DateTime temp = StartDate;
+            while (temp.CompareTo(end) < 0)
+            {
+                PossibleDateRanges.Add(new DatesRangeViewModel(temp, temp.AddDays(RenovationDuration - 1)));
+                temp = temp.AddDays(1);
+            }
         }
 
         private bool CanExecuteSetupCalendar(object obj)
@@ -204,6 +259,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             return true;
         }
 
+    }
+
+    public class DatesRangeViewModel
+    {
+        public DateTime StartDate { get; set; }
+        public string StartDateString { get; set; }
+        public DateTime EndDate { get; set; }
+        public string EndDateString { get; set; }
+        public DatesRangeViewModel(DateTime startDate, DateTime endDate)
+        {
+            StartDate = startDate;
+            StartDateString = StartDate.ToString("dd/MM/yyyy");
+            EndDate = endDate;
+            EndDateString = EndDate.ToString("dd/MM/yyyy");
+        }
     }
 
 }

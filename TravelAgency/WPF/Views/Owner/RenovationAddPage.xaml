@@ -20,6 +20,11 @@
             <Setter Property="Width" Value="180" />
             <Setter Property="Height" Value="30" />
         </Style>
+        <Style x:Key="CenterTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
         <Style TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="Background" Value="#63aaed" />
@@ -59,7 +64,7 @@
             <RowDefinition Height="5*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="20">
+        <Grid Grid.Row="0" Margin="20" Visibility="{Binding ChooseDateVisibility}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="500*"/>
                 <ColumnDefinition Width="333*"/>
@@ -69,7 +74,7 @@
 
                 <WrapPanel Margin="0,25,0,10">
                     <Label  Content ="Trajanje renoviranja:" Width="250"></Label>
-                    <tk:IntegerUpDown Height="30" Width="100" HorizontalContentAlignment="Left" Minimum="0" DefaultValue="0" AllowSpin="True" Value="{Binding RenovationDuration}"></tk:IntegerUpDown>
+                    <tk:IntegerUpDown Height="30" Width="100" HorizontalContentAlignment="Left" Minimum="1" DefaultValue="1" AllowSpin="True" Value="{Binding RenovationDuration}"></tk:IntegerUpDown>
                 </WrapPanel>
                 <WrapPanel Margin="0,25,0,10">
 
@@ -116,10 +121,34 @@
                 </Grid>
             </StackPanel>
         </Grid>
+        <Grid Grid.Row="0" Margin="20" Visibility="{Binding PickDateVisibility}">
+            <StackPanel >
+                <Label Content="Mogući termini: " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,10,20" />
+                <DataGrid Width="720" Height="410" RowHeight="80" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding PossibleDateRanges}" SelectedItem="{Binding Path=SelectedDateRange, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Početni datum" Binding="{Binding StartDateString}" Width="*"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                        <DataGridTextColumn Header="Krajnji datum" Binding="{Binding EndDateString}" Width="*"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+
+
+
+
+
+
+
+            </StackPanel>
+        </Grid>
         <Grid Grid.Row="1">
             <Border BorderBrush="Black" BorderThickness="1"/>
             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Content="Pretraži termine" FontSize="25" Margin="20" Command="{Binding SearchDates}">
+                <Button Content="Zakaži renoviranje" FontSize="25" Margin="20" Command="{Binding AddRenovation}" Visibility="{Binding PickDateVisibility}">
+
+                </Button>
+                <Button Content="Pretraži termine" FontSize="25" Margin="20" Command="{Binding SearchDates}" Visibility="{Binding ChooseDateVisibility}">
 
                 </Button>
                 <Button Content="Odustani" FontSize="25" Margin="20" Command="{Binding Cancel}">
