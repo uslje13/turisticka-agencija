@@ -176,27 +176,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 if(user.Role == Roles.GUEST1)
                 {
                     int resNumber = reservationService.FindLastYearReservationsNumber(user);
-                    int points = InitializeBonusPoints(resNumber);
-                    bool isSuper = IntializeSuperStatus(resNumber);
-                    points = reservationService.CalculateUnusedBonusPoints(user, points);
+                    int points = superGuestService.InitializeBonusPoints(resNumber);
+                    bool isSuper = superGuestService.IntializeSuperStatus(resNumber);
+                    points = superGuestService.CalculateUnusedBonusPoints(user, points);
                     SuperGuest superGuest = new SuperGuest(user.Id, user.Username, points, resNumber, isSuper);
                     superGuestService.Save(superGuest);
                 }
             }
-        }
-
-        private int InitializeBonusPoints(int resNumber)
-        {
-            int points = 0;
-            if (resNumber >= 10) points = 5;
-            return points;
-        }
-
-        private bool IntializeSuperStatus(int resNumber)
-        {
-            bool isSuper = false;
-            if (resNumber >= 10) isSuper = true;
-            return isSuper;
         }
 
         private void IsFirstLogging()

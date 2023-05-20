@@ -12,6 +12,7 @@ namespace SOSTeam.TravelAgency.Application.Services
     public class SuperGuestService
     {
         private readonly ISuperGuestRepository superGuestRepository = Injector.CreateInstance<ISuperGuestRepository>();
+        private readonly AccommodationReservationService reservationService = new AccommodationReservationService();
 
         public SuperGuestService() { }
 
@@ -50,6 +51,32 @@ namespace SOSTeam.TravelAgency.Application.Services
                     superGuestRepository.Delete(guest.Id);
                 }
             }
+        }
+
+        public int CalculateUnusedBonusPoints(User user, int points)
+        {
+            foreach (var reservation in reservationService.GetAll())
+            {
+                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year && points > 0)
+                {
+                    points--;
+                }
+            }
+            return points;
+        }
+
+        public int InitializeBonusPoints(int resNumber)
+        {
+            int points = 0;
+            if (resNumber >= 10) points = 5;
+            return points;
+        }
+
+        public bool IntializeSuperStatus(int resNumber)
+        {
+            bool isSuper = false;
+            if (resNumber >= 10) isSuper = true;
+            return isSuper;
         }
     }
 }
