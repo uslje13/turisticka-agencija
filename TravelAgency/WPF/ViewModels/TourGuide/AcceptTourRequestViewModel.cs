@@ -404,10 +404,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 return -1;
             }
-            else
-            {
-                return location.Id;
-            }
+            
+            return location.Id;
+            
         }
 
         private void SetImagesTourId(int tourId)

@@ -273,16 +273,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 var location = new Location();
                 location.City = request.City;
                 location.Country = request.Country;
-                locations.Add(location);
+                if (!IsLocationAlreadyExists(locations, location))
+                {
+                    locations.Add(location);
+                }
+                
             }
-
-            var locationsDistinct = new List<Location>(locations.Distinct());
 
             int locationId = 0;
 
             var locationEntities = new List<Location>();
 
-            foreach (var location in locationsDistinct)
+            foreach (var location in locations)
             {
                 location.Id = locationId;
                 locationId++;
@@ -290,7 +292,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
 
             return locationEntities;
+        }
 
+        private bool IsLocationAlreadyExists(List<Location> locations, Location location)
+        {
+            return locations.Any(l => l.City == location.City && l.Country == location.Country);
         }
 
         private void SearchTourRequests()
