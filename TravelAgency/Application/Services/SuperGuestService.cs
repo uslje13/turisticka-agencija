@@ -39,5 +39,17 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             superGuestRepository.Update(superGuest);
         }
+
+        public void ClearSuperGuestCSV()
+        {
+            List<SuperGuest> _superGuests = superGuestRepository.GetAll();
+            if (_superGuests.Count > 0)
+            {
+                foreach (var guest in _superGuests)
+                {
+                    superGuestRepository.Delete(guest.Id);
+                }
+            }
+        }
     }
 }

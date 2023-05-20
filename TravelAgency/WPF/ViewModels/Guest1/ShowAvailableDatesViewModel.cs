@@ -74,7 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if(IsEnterOfChange)
             {
-                foreach (var item in reservationService.LoadFromOtherCSV())
+                foreach (var item in reservationService.GetProcessedReservations())
                 {
                     if (!item.DefinitlyChanged && item.UserId != LoggedInUser.Id)
                         reservations.Add(item);
@@ -82,7 +82,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
             else
             {
-                foreach (var item in reservationService.LoadFromOtherCSV())
+                foreach (var item in reservationService.GetProcessedReservations())
                 {
                     if (!item.DefinitlyChanged)
                         reservations.Add(item);

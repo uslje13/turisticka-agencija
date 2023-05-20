@@ -74,7 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void GetOldCSVLists()
         {
-            List<AccommodationReservation> shortDeletedList = accResService.LoadFromOtherCSV();
+            List<AccommodationReservation> shortDeletedList = accResService.GetProcessedReservations();
             foreach (var item in shortDeletedList)
             {
                 if (item.Id == SelectedReservation.reservationId && !item.DefinitlyChanged)

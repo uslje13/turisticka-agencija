@@ -95,9 +95,9 @@ namespace SOSTeam.TravelAgency.Application.Services
             _accReservationRepository.DeleteFromOtherCSV(reservation);
         }
 
-        public List<AccommodationReservation> LoadFromOtherCSV()
+        public List<AccommodationReservation> GetProcessedReservations()
         {
-            return _accReservationRepository.LoadFromOtherCSV();
+            return _accReservationRepository.GetProcessedReservations();
         }
 
         public void Save(AccommodationReservation accommodationReservation)
@@ -194,7 +194,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         private void SaveAcceptedNotificationToGuest(AccommodationReservation reservation, int ownerId)
         {
             Accommodation accommodation = _accommodationRepository.GetById(reservation.AccommodationId);
-            NotificationFromOwner newNotification = new NotificationFromOwner(accommodation, ownerId, reservation.UserId);
+            NotificationFromOwner newNotification = new NotificationFromOwner(reservation.Id, accommodation, ownerId, reservation.UserId);
             newNotification.Answer = "Odobreno";
             _notificationFromOwnerRepository.Save(newNotification);
         }
@@ -219,7 +219,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void DefinitlyForgetReservation(ChangedReservationRequest oldReservation)
         {
-            List<AccommodationReservation> local = _accReservationRepository.LoadFromOtherCSV();
+            List<AccommodationReservation> local = _accReservationRepository.GetProcessedReservations();
             foreach(var item in local)
             {
                 if(item.Id == oldReservation.reservationId)
@@ -241,7 +241,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private AccommodationReservation DeleteFromShortTimeDeletedCSV(ChangedReservationRequest oldReservation)
         {
-            List<AccommodationReservation> helpList = _accReservationRepository.LoadFromOtherCSV();
+            List<AccommodationReservation> helpList = _accReservationRepository.GetProcessedReservations();
             AccommodationReservation reservation = new AccommodationReservation();
             foreach (var item in helpList)
             {
@@ -285,7 +285,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         private void SaveDeclinedNotificationToGuest(AccommodationReservation reservation, int ownerId)
         {
             Accommodation accommodation = _accommodationRepository.GetById(reservation.AccommodationId);
-            NotificationFromOwner newNotification = new NotificationFromOwner(accommodation, ownerId, reservation.UserId);
+            NotificationFromOwner newNotification = new NotificationFromOwner(reservation.Id, accommodation, ownerId, reservation.UserId);
             newNotification.Answer = "Odbijeno";
             _notificationFromOwnerRepository.Save(newNotification);
         }
@@ -333,6 +333,46 @@ namespace SOSTeam.TravelAgency.Application.Services
             AccommodationReservation accommodationReservation = _accReservationRepository.GetById(selectedReservation.ReservationId);
             _accReservationRepository.Delete(selectedReservation.ReservationId);
             _accReservationRepository.SaveCanceledReservation(accommodationReservation);
+        }
+
+        public int FindLastYearReservationsNumber(User user)
+        {
+            int resNumber = 0;
+            foreach (var reservation in _accReservationRepository.GetAll())
+            {
+                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year - 1)
+                {
+                    resNumber++;
+                }
+            }
+            resNumber += InvestigateProcessedReservations(user);
+            return resNumber;
+        }
+
+        private int InvestigateProcessedReservations(User user)
+        {
+            List<AccommodationReservation> _processedReservations = _accReservationRepository.GetProcessedReservations();
+            int resNumber = 0;
+            foreach (var reservation in _processedReservations)
+            {
+                if (user.Id == reservation.UserId && reservation.FirstDay.Year == DateTime.Today.Year - 1 && !reservation.DefinitlyChanged)
+                {
+                    resNumber++;
+                }
+            }
+            return resNumber;
+        }
+
+        public int CalculateUnusedBonusPoints(User user, int points)
+        {
+            foreach (var reservation in _accReservationRepository.GetAll())
+            {
+                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year && points > 0)
+                {
+                    points--;
+                }
+            }
+            return points;
         }
     }
 }
