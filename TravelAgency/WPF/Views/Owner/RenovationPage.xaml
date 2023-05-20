@@ -56,7 +56,7 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="30,0">
+        <Grid Grid.Row="0" Margin="20,0">
             <WrapPanel  VerticalAlignment="Center">
                 <Label Content="Renoviranja" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center" />
             </WrapPanel>
@@ -66,10 +66,10 @@
                 <Border Background="#a3daed" CornerRadius="20">
                     <Grid Height="60">
                         <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center" Height="Auto" >
-                            <Button Margin="10,0,10,0" >
+                            <Button Margin="10,0,10,0" Command="{Binding AddRenovation}" >
                                 <Image Source="/Resources/Icons/plusicon.png" Width="40" Height="40" ></Image>
                             </Button>
-                            <Button Margin="10,0,10,0">
+                            <Button Margin="10,0,10,0" Command="{Binding DeleteRenovation}">
                                 <Image Source="/Resources/Icons/Trash.png" Width="40" Height="40" ></Image>
                             </Button>
                         </WrapPanel>
@@ -83,7 +83,7 @@
         </Grid>
         <Grid Grid.Row="1" >
             <StackPanel VerticalAlignment="Top">
-                <DataGrid Width="730" Height="470" RowHeight="80" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Renovations}" SelectedItem="{Binding Path=SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid Width="730" Height="470" RowHeight="120" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Renovations}" SelectedItem="{Binding Path=SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
                     
 
 
@@ -92,14 +92,14 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate >
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
-                                        <Image Source="{Binding PictureUrl}" VerticalAlignment="Center" Width="100" Height="60" Stretch="UniformToFill" Margin="5,0,0,0"/>
+                                        <Image Source="{Binding PictureUrl}" VerticalAlignment="Center" Width="150" Height="100" Stretch="UniformToFill" Margin="5,0,0,0"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Naziv smeštaja" Binding="{Binding Name}" Width="*"
+                        <DataGridTextColumn Header="Naziv smeštaja" Binding="{Binding Name}" Width="140"
                             ElementStyle="{StaticResource CenterTextBlockStyle}"/>
-                        <DataGridTextColumn Header="Period" Binding="{Binding RenovationPeriod}" Width="140"
+                        <DataGridTextColumn Header="Period" Binding="{Binding RenovationPeriod}" Width="*"
                             ElementStyle="{StaticResource CenterTextBlockStyle}"/>
                     </DataGrid.Columns>
 
