@@ -40,7 +40,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             superGuestRepository.Update(superGuest);
         }
 
-        public void ClearSuperGuestCSV()
+        private void ClearSuperGuestCSV()
         {
             List<SuperGuest> _superGuests = superGuestRepository.GetAll();
             if (_superGuests.Count > 0)
@@ -52,7 +52,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
         }
 
-        public int CalculateUnusedBonusPoints(User user, int points)
+        private int CalculateUnusedBonusPoints(User user, int points)
         {
             AccommodationReservationService reservationService = new AccommodationReservationService();
             foreach (var reservation in reservationService.GetAll())
@@ -65,18 +65,39 @@ namespace SOSTeam.TravelAgency.Application.Services
             return points;
         }
 
-        public int InitializeBonusPoints(int resNumber)
+        private int InitializeBonusPoints(int resNumber)
         {
             int points = 0;
             if (resNumber >= 10) points = 5;
             return points;
         }
 
-        public bool IntializeSuperStatus(int resNumber)
+        private bool IntializeSuperStatus(int resNumber)
         {
             bool isSuper = false;
             if (resNumber >= 10) isSuper = true;
             return isSuper;
+        }
+
+        public void CreateSuperGuestAccounts()
+        {
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            UserService userService = new UserService();
+            ClearSuperGuestCSV();
+            List<User> _users = userService.GetAll();
+
+            foreach (User user in _users)
+            {
+                if (user.Role == Roles.GUEST1)
+                {
+                    int resNumber = reservationService.FindLastYearReservationsNumber(user);
+                    int points = InitializeBonusPoints(resNumber);
+                    bool isSuper = IntializeSuperStatus(resNumber);
+                    points = CalculateUnusedBonusPoints(user, points);
+                    SuperGuest superGuest = new SuperGuest(user.Id, user.Username, points, resNumber, isSuper);
+                    Save(superGuest);
+                }
+            }
         }
     }
 }

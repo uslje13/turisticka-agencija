@@ -98,7 +98,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AddFinishedReservations();
             FillCounterTextBlock();
             IsFirstLogging();
-            CreateSuperGuestAccounts();
+
+            SuperGuestService superGuestService = new SuperGuestService();
+            superGuestService.CreateSuperGuestAccounts();
             FindSuperGuestInformations();
 
             ShowMenuCommand = new RelayCommand(Execute_ShowMenu);
@@ -161,28 +163,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             SuperGuestReservations = "Broj rezervacija u prošloj godini : " + superGuest.LastYearReservationsNumber.ToString();
             if (superGuest.LastYearReservationsNumber < 10) SuperGuestConclusion = "U prošloj godini niste ispunili potrebnu normu.";
             else SuperGuestConclusion = "U prošloj godini ste ostvarili status super-gosta.";
-        }
-
-        private void CreateSuperGuestAccounts()
-        {
-            AccommodationReservationService reservationService = new AccommodationReservationService();
-            SuperGuestService superGuestService = new SuperGuestService();
-            UserService userService = new UserService();
-            superGuestService.ClearSuperGuestCSV();
-            List<User> _users = userService.GetAll();
-
-            foreach (User user in _users)
-            {
-                if(user.Role == Roles.GUEST1)
-                {
-                    int resNumber = reservationService.FindLastYearReservationsNumber(user);
-                    int points = superGuestService.InitializeBonusPoints(resNumber);
-                    bool isSuper = superGuestService.IntializeSuperStatus(resNumber);
-                    points = superGuestService.CalculateUnusedBonusPoints(user, points);
-                    SuperGuest superGuest = new SuperGuest(user.Id, user.Username, points, resNumber, isSuper);
-                    superGuestService.Save(superGuest);
-                }
-            }
         }
 
         private void IsFirstLogging()
