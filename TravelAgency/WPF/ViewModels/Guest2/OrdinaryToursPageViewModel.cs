@@ -80,7 +80,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             foreach(var request in _tourRequestService.GetAll())
             {
-                if(DateOnly.FromDateTime(DateTime.Today) >= request.MaintenanceEndDate.AddDays(-2) && request.Status == StatusType.ON_HOLD)
+                if(DateOnly.FromDateTime(DateTime.Today) >= request.MaintenanceStartDate.AddDays(-2) && request.Status == StatusType.ON_HOLD)
                 {
                     request.Status = StatusType.INVALID;
                     _tourRequestService.Update(request);

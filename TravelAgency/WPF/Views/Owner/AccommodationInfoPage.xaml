@@ -142,6 +142,27 @@
                             </lvc:CartesianChart.AxisY>
                         </lvc:CartesianChart>
                 </Grid>
+                <Grid x:Name="SlidingGrid">
+                    <WrapPanel Margin="0,5,0,0" HorizontalAlignment="Center" Height="{Binding SlidingGridHeight}" >
+                        <Button Width="25" Height="25" Margin="0,0,5,0" Command="{Binding NavigateYears}" CommandParameter="Left">
+                            <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" ></Image>
+                        </Button>
+                        <Label FontSize="20" Content="{Binding SlidingGridYear}" HorizontalAlignment="Center" />
+                        <Button Width="25" Height="25" Margin="5,0,0,0" Command="{Binding NavigateYears}" CommandParameter="Right">
+                            <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" >
+                                <Image.RenderTransformOrigin>
+                                    <Point X="0.45" Y="0.5" />
+                                </Image.RenderTransformOrigin>
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="180" />
+                                </Image.RenderTransform>
+                            </Image>
+                        </Button>
+                    </WrapPanel>
+                    
+                </Grid>
+                
+
             </StackPanel>
         </Grid>
 

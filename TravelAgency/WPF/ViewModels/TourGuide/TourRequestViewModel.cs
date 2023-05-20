@@ -26,6 +26,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 {
                     _city = value;
                     OnPropertyChanged("City");
+                    SearchTourRequests();
                 }
             }
         }
@@ -41,6 +42,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 {
                     _country = value;
                     OnPropertyChanged("Country");
+                    SearchTourRequests();
                 }
             }
         }
@@ -56,6 +58,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 {
                     _numOfGuests = value;
                     OnPropertyChanged("NumOfGuests");
+                    SearchTourRequests();
                 }
             }
         }
@@ -71,6 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 {
                     _language = value;
                     OnPropertyChanged("Language");
+                    SearchTourRequests();
                 }
             }
         }
@@ -86,6 +90,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 {
                     _minDate = value;
                     OnPropertyChanged("MinDate");
+                    SearchTourRequests();
                 }
             }
         }
@@ -101,6 +106,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 {
                     _maxDate = value;
                     OnPropertyChanged("MaxDate");
+                    SearchTourRequests();
                 }
             }
         }
@@ -120,42 +126,65 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
-        
-
         public ObservableCollection<string> Languages { get; set; }
 
         public ObservableCollection<string> Countries { get; set; }
 
-        public ObservableCollection<string> Cities { get; set; }
 
-        private List<Location> _locations;
+        private ObservableCollection<string> _cities;
+
+        public ObservableCollection<string> Cities
+        {
+            get => _cities;
+            set
+            {
+                if (_cities != value)
+                {
+                    _cities = value;
+                    OnPropertyChanged("Cities");
+                }
+            }
+        }
+
+        private readonly List<Location> _locations;
 
         private readonly TourRequestService _tourRequestService;
 
+        private readonly TourRequestSearchViewModel _tourRequestSearch;
+
+        public TourRequestCardViewModel SelectedTourRequestCard { get; set; }
 
         public RelayCommand CitySelectionChangedCommand { get; set; }
         public RelayCommand CountrySelectionChangedCommand { get; set; }
+        public RelayCommand ResetFormCommand { get; set; }
+        public RelayCommand ShowAcceptTourRequestFormCommand { get; set; }
+
+
 
         public TourRequestViewModel()
         {
             _tourRequestService = new TourRequestService();
+            _tourRequestSearch = new TourRequestSearchViewModel();
             var tourRequestCardCreator = new TourRequestCardCreatorViewModel();
             _tourRequestCards = tourRequestCardCreator.CreateTourRequestCards();
 
             Languages = GetLanguages();
             Countries = GetCountries();
-            Cities = GetCities();
+            _cities = GetCities();
             _locations = GetLocations();
             
             _city = string.Empty;
             _country = string.Empty;
             _language = string.Empty;
-            _maxDate = null;
-            _maxDate = null;
             _numOfGuests = null;
+            _maxDate = null;
+            _maxDate = null;
+            
 
             CountrySelectionChangedCommand = new RelayCommand(ExecuteCountrySelectionChanged, CanExecuteMethod);
             CitySelectionChangedCommand = new RelayCommand(ExecuteCitySelectionChanged, CanExecuteMethod);
+            ResetFormCommand = new RelayCommand(ResetForm, CanExecuteMethod);
+            ShowAcceptTourRequestFormCommand = new RelayCommand(ShowAcceptTourRequestForm, CanExecuteMethod);
         }
 
         private bool CanExecuteMethod(object parameter)
@@ -266,7 +295,28 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void SearchTourRequests()
         {
+            TourRequestCards = _tourRequestSearch.SearchTourRequests(City, Country, NumOfGuests, Language, MinDate, MaxDate);
+        }
 
+        private void ResetForm(object sender)
+        {
+            City = string.Empty;
+            Country = string.Empty;
+            Language = string.Empty;
+            NumOfGuests = null;
+            MinDate = null;
+            MaxDate = null;
+            Cities = GetCities();
+
+            var tourRequestCardCreator = new TourRequestCardCreatorViewModel();
+            TourRequestCards = tourRequestCardCreator.CreateTourRequestCards();
+        }
+
+        private void ShowAcceptTourRequestForm(object sender)
+        {
+            SelectedTourRequestCard = sender as TourRequestCardViewModel;
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("AcceptTourRequestForm", App.LoggedUser);
         }
 
     }

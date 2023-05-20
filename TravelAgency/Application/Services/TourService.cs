@@ -9,11 +9,12 @@ namespace SOSTeam.TravelAgency.Application.Services
     {
 
         private readonly ITourRepository _tourRepository;
-        private readonly ILocationRepository _locationRepository = Injector.CreateInstance<ILocationRepository>();
+        private readonly LocationService _locationService;
 
         public TourService()
         {
             _tourRepository = Injector.CreateInstance<ITourRepository>();
+            _locationService = new LocationService();
         }
         public void Delete(int id)
         {
@@ -68,7 +69,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         }
         public string GetTourCity(Tour tour)
         {
-            foreach(Location location in _locationRepository.GetAll())
+            foreach(Location location in _locationService.GetAll())
             {
                 if(tour.LocationId == location.Id)
                 {
@@ -79,7 +80,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         }
         public string GetTourCountry(Tour tour)
         {
-            foreach (Location location in _locationRepository.GetAll())
+            foreach (Location location in _locationService.GetAll())
             {
                 if (tour.LocationId == location.Id)
                 {
