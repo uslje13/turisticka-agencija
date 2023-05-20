@@ -196,7 +196,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             if(guestReviews.Count > 0)
             {
-                foreach(var item in  guestReviews)
+                foreach(var item in guestReviews)
                 {
                     AccommodationReservation reservation = reservationService.GetById(item.ReservationId);
                     if (item.GuestId == LoggedInUser.Id && reservation.ReadMarkNotification)

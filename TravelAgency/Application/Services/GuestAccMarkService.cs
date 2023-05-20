@@ -16,12 +16,6 @@ namespace SOSTeam.TravelAgency.Application.Services
     public class GuestAccMarkService
     {
         private readonly IGuestAccommodationMarkRepository _guestAccommodationMarkRepository = Injector.CreateInstance<IGuestAccommodationMarkRepository>();
-        private readonly IAccReservationRepository _accReservationRepository = Injector.CreateInstance<IAccReservationRepository>();
-        private readonly IImageRepository _imageRepository = Injector.CreateInstance<IImageRepository>();
-        private readonly IAccommodationRepository _accommodationRepository = Injector.CreateInstance<IAccommodationRepository>();
-        private readonly INotificationRepository _notificationRepository = Injector.CreateInstance<INotificationRepository>();
-        private readonly IUserRepository _userRepository = Injector.CreateInstance<IUserRepository>();
-        private readonly IRenovationRecommendationRepository _renovationRecommendationRepository = Injector.CreateInstance<IRenovationRecommendationRepository>();
 
         public GuestAccMarkService() { }
 
@@ -35,9 +29,13 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void CreateNotificationToOwner(CancelAndMarkResViewModel acc, string renovationMark, string suggest,int renovationNumber)
         {
-            Accommodation accommodation = _accommodationRepository.GetById(acc.AccommodationId);
-            AccommodationReservation reservation = _accReservationRepository.GetById(acc.ReservationId);
-            User user = _userRepository.GetById(reservation.UserId);
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            AccommodationService accommodationService = new AccommodationService();
+            NotificationService notificationService = new NotificationService();
+            UserService userService = new UserService();
+            Accommodation accommodation = accommodationService.GetById(acc.AccommodationId);
+            AccommodationReservation reservation = reservationService.GetById(acc.ReservationId);
+            User user = userService.GetById(reservation.UserId);
             string Text = "";
             if (suggest != null && !renovationMark.Equals(""))
                 Text = "Gost " + user.Username + " je dao predlog za renoviranje smještaja: " + suggest + " " +
@@ -52,20 +50,21 @@ namespace SOSTeam.TravelAgency.Application.Services
             if(!Text.Equals(""))
             {
                 Notification notification = new Notification(accommodation.OwnerId, Text, Notification.NotificationType.NOTYPE, false);
-                _notificationRepository.Save(notification);
+                notificationService.Save(notification);
             }
         }
 
         private void SaveChangesToCSVs(CancelAndMarkResViewModel acc)
         {
-            List<AccommodationReservation> finishedReservations = _accReservationRepository.LoadFinishedReservations();
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            List<AccommodationReservation> finishedReservations = reservationService.LoadFinishedReservations();
             foreach (var item in finishedReservations)
             {
                 if (item.Id == acc.ReservationId)
                 {
                     item.ReadMarkNotification = true;
-                    _accReservationRepository.UpdateFinishedReservationsCSV(item);
-                    _accReservationRepository.Update(item);
+                    reservationService.UpdateFinishedReservationsCSV(item);
+                    reservationService.Update(item);
                 }
             }
         }
@@ -80,7 +79,8 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void SaveImages(string urls, int resId)
         {
-            if(!urls.Equals(""))
+            ImageService imageService = new ImageService();
+            if (!urls.Equals(""))
             {
                 string[] urlArray = urls.Split(',');
                 foreach(string url in urlArray) 
@@ -88,7 +88,7 @@ namespace SOSTeam.TravelAgency.Application.Services
                     if (!url.Equals(""))
                     {
                         Domain.Models.Image image = new Domain.Models.Image(url, false, resId, ImageType.RESERVATION);
-                        _imageRepository.Save(image);
+                        imageService.Save(image);
                     }
                 }
             }

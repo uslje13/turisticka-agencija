@@ -13,8 +13,6 @@ namespace SOSTeam.TravelAgency.Application.Services
     public class NotificationFromOwnerService
     {
         private readonly INotificationFromOwnerRepository notificationFromOwnerRepository = Injector.CreateInstance<INotificationFromOwnerRepository>();
-        private readonly IAccReservationRepository accReservationRepository = Injector.CreateInstance<IAccReservationRepository>();
-        private readonly IGuestReviewRepository guestReviewRepository = Injector.CreateInstance<IGuestReviewRepository>();
 
         public NotificationFromOwnerService() { }
 
@@ -53,7 +51,8 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private int TestMarkNotifications(int loggedInUserId)
         {
-            List<AccommodationReservation> allRes = accReservationRepository.GetAll();
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            List<AccommodationReservation> allRes = reservationService.GetAll();
             int counter = 0;
             foreach (var res in allRes)
             {
@@ -83,11 +82,13 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private int TestRatingsForGuests(int loggedInUserId)
         {
-            List<GuestReview> guestReviews = guestReviewRepository.GetAll();
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            GuestReviewService guestReviewService = new GuestReviewService();
+            List<GuestReview> guestReviews = guestReviewService.GetAll();
             int counter = 0;
             foreach(var item in  guestReviews)
             {
-                AccommodationReservation reservation = accReservationRepository.GetById(item.ReservationId);
+                AccommodationReservation reservation = reservationService.GetById(item.ReservationId);
                 if (item.GuestId == loggedInUserId && reservation.ReadMarkNotification)
                 {
                     counter++;

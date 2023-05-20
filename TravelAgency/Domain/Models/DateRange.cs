@@ -12,7 +12,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public DateTime? Start;
         public DateTime? End;
 
-        public DateRange(DateTime start, DateTime end)
+        public DateRange(DateTime? start, DateTime? end)
         {
             if (start <= end)
             {
@@ -28,11 +28,11 @@ namespace SOSTeam.TravelAgency.Domain.Models
 
         public bool IsOutOfRange(DateRange other)
         {
-            if (Start == null || End == null)
+            if ((other.Start < Start && other.End < Start) || (other.Start > End && other.End > End))
             {
                 return true;
             }
-            if ((other.Start < Start && other.End < Start) || (other.Start > End && other.End > End))
+            if(!other.Start.HasValue || !other.End.HasValue)
             {
                 return true;
             }

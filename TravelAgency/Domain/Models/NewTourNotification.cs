@@ -8,12 +8,14 @@ using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Domain.Models
 {
+    public enum NotificationType { UNKNOWN = 0, REQUESTED = 1, STATS_MADE = 2 }
     public class NewTourNotification : ISerializable
     {
         public int Id { get; set; }
         public int AppointmentId { get; set; }
         public bool IsRead { get; set; }
         public int GuestId { get; set; }
+        public NotificationType Type { get; set; }
 
         public NewTourNotification()
         {
@@ -21,6 +23,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             AppointmentId = -1;
             IsRead = false;
             GuestId = -1;
+            Type = NotificationType.UNKNOWN;
         }
 
         public void FromCSV(string[] values)
@@ -29,6 +32,12 @@ namespace SOSTeam.TravelAgency.Domain.Models
             AppointmentId = int.Parse(values[1]);
             IsRead = bool.Parse(values[2]);
             GuestId = int.Parse(values[3]);
+            Type = values[4] switch
+            {
+                "REQUESTED" => NotificationType.REQUESTED,
+                "STATS_MADE" => NotificationType.STATS_MADE,
+                _ => NotificationType.UNKNOWN,
+            };
         }
 
         public string[] ToCSV()
@@ -38,7 +47,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 Id.ToString(),
                 AppointmentId.ToString(),
                 IsRead.ToString(),
-                GuestId.ToString()
+                GuestId.ToString(),
+                Type.ToString()
             };
 
             return csvValues;

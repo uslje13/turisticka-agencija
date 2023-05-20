@@ -130,6 +130,14 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                     liveTourViewModel.SelectedCheckpointActivityCard, liveTourViewModel.TourName,
                     liveTourViewModel.Date);
             }
+            else if(frameName == "AcceptTourRequestForm")
+            {
+                _mainWindowViewModel.Title = "Accept tour";
+                MainWindow.DataContext = _mainWindowViewModel;
+                var tourRequestsPage = MainWindow.MainFrame.Content as TourRequestPage;
+                var tourRequestsViewModel = (TourRequestViewModel)tourRequestsPage.DataContext;
+                _mainWindow.MainFrame.Content = new AcceptTourRequestPage(tourRequestsViewModel.SelectedTourRequestCard.Id);
+            }
 
         }
 
@@ -242,6 +250,13 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                             _mainWindowViewModel.Title = "Guest attendances";
                             _mainWindow.DataContext = _mainWindowViewModel;
                         }
+
+                        if (previousPage is TourRequestPage)
+                        {
+                            _mainWindowViewModel.Title = "Tour requests";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
                     }
 
                     break;

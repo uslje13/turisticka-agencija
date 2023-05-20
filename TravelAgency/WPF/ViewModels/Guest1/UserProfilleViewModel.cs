@@ -98,7 +98,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AddFinishedReservations();
             FillCounterTextBlock();
             IsFirstLogging();
-            CreateSuperGuestAccounts();
+
+            SuperGuestService superGuestService = new SuperGuestService();
+            superGuestService.CreateSuperGuestAccounts();
             FindSuperGuestInformations();
 
             ShowMenuCommand = new RelayCommand(Execute_ShowMenu);
@@ -147,116 +149,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 if(superGuest.UserId == LoggedInUser.Id)
                 {
-                    SuperGuestBonusPoints = "Super gost : " + superGuest.BonusPoints.ToString();
-                    if(superGuest.BonusPoints == 1) SuperGuestBonusPoints += " bonus poen";
-                    else SuperGuestBonusPoints += " bonus poena";
-                    SuperGuestReservations = "Broj rezervacija u prošloj godini : " + superGuest.LastYearReservationsNumber.ToString();
-                    Conclude(superGuest.LastYearReservationsNumber);
+                    DisplaySuperGuestStatus(superGuest);
                     break;
                 }
             }
         }
 
-        private void Conclude(int reservationsNumber)
+        private void DisplaySuperGuestStatus(SuperGuest superGuest)
         {
-            if (reservationsNumber < 10) SuperGuestConclusion = "U prošloj godini niste ispunili potrebnu normu.";
+            SuperGuestBonusPoints = "Super gost : " + superGuest.BonusPoints.ToString();
+            if (superGuest.BonusPoints == 1) SuperGuestBonusPoints += " bonus poen";
+            else SuperGuestBonusPoints += " bonus poena";
+            SuperGuestReservations = "Broj rezervacija u prošloj godini : " + superGuest.LastYearReservationsNumber.ToString();
+            if (superGuest.LastYearReservationsNumber < 10) SuperGuestConclusion = "U prošloj godini niste ispunili potrebnu normu.";
             else SuperGuestConclusion = "U prošloj godini ste ostvarili status super-gosta.";
-        }
-
-        private void ClearSuperGuestCSV()
-        {
-            SuperGuestService superGuestService = new SuperGuestService();
-            List<SuperGuest> _superGuests = superGuestService.GetAll();
-            if (_superGuests.Count > 0)
-            {
-                foreach (var guest in _superGuests)
-                {
-                    superGuestService.Delete(guest.Id);
-                }
-            }
-        }
-
-        private int FindLastYearReservationsNumber(User user)
-        {
-            int resNumber = 0;
-            foreach (var reservation in _accommodationReservations)
-            {
-                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year - 1)
-                {
-                    resNumber++;
-                }
-            }
-            return resNumber;
-        }
-
-        private int InvestigateShortTimeCSV(User user)
-        {
-            AccommodationReservationService reservationService = new AccommodationReservationService();
-            List<AccommodationReservation> _processedReservations = reservationService.LoadFromOtherCSV();
-            int resNumber = 0;
-            foreach(var reservation in _processedReservations)
-            {
-                if(user.Id == reservation.UserId && reservation.FirstDay.Year == DateTime.Today.Year - 1 && !reservation.DefinitlyChanged)
-                {
-                    resNumber++;
-                }
-            }
-            return resNumber;
-        }
-        /*
-        private int InvestigateCanceledReservations(User user)
-        {
-            AccommodationReservationService reservationService = new AccommodationReservationService();
-            List<AccommodationReservation> _canceledReservations = reservationService.LoadCanceledReservations();
-            int points = 0;
-            foreach (var reservation in _canceledReservations)
-            {
-                if (user.Id == reservation.UserId && reservation.FirstDay.Year == DateTime.Today.Year)
-                {
-                    points++;
-                }
-            }
-            return points;
-        }
-        */
-        private int ApplyToBonusCounter(User user, int points)
-        {
-            foreach (var reservation in _accommodationReservations)
-            {
-                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year && points > 0)
-                {
-                    points--;
-                }
-            }
-            //points += InvestigateCanceledReservations(user);
-            return points;
-        }
-
-        private void CreateSuperGuestAccounts()
-        {
-            SuperGuestService superGuestService = new SuperGuestService();
-            UserService userService = new UserService();
-            List<User> _users = userService.GetAll();
-            ClearSuperGuestCSV();
-
-            foreach (User user in _users)
-            {
-                if(user.Role == Roles.GUEST1)
-                {
-                    int resNumber = FindLastYearReservationsNumber(user);
-                    resNumber += InvestigateShortTimeCSV(user);
-                    int points = 0;
-                    bool isSuper = false;
-                    if (resNumber >= 10)
-                    {
-                        points = 5;
-                        isSuper = true;
-                    }
-                    points = ApplyToBonusCounter(user, points);
-                    SuperGuest superGuest = new SuperGuest(user.Id, user.Username, points, resNumber, isSuper);
-                    superGuestService.Save(superGuest);
-                }
-            }
         }
 
         private void IsFirstLogging()

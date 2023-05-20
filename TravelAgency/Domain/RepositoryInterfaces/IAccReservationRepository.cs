@@ -17,7 +17,7 @@ namespace SOSTeam.TravelAgency.Domain.RepositoryInterfaces
         void SaveFinishedReservation(AccommodationReservation reservation);
         List<AccommodationReservation> LoadFinishedReservations();
         List<AccommodationReservation> LoadCanceledReservations();
-        List<AccommodationReservation> LoadFromOtherCSV();
+        List<AccommodationReservation> GetProcessedReservations();
         void SaveChangeAcceptedReservation(AccommodationReservation reservation);
         void UpdateFinishedReservationsCSV(AccommodationReservation accommodationReservation);
         void UpdateToDefinitlyForget(AccommodationReservation accommodationReservation);
