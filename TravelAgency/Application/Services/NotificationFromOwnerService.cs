@@ -13,8 +13,6 @@ namespace SOSTeam.TravelAgency.Application.Services
     public class NotificationFromOwnerService
     {
         private readonly INotificationFromOwnerRepository notificationFromOwnerRepository = Injector.CreateInstance<INotificationFromOwnerRepository>();
-        private readonly AccommodationReservationService reservationService = new AccommodationReservationService();
-        private readonly GuestReviewService guestReviewService = new GuestReviewService();
 
         public NotificationFromOwnerService() { }
 
@@ -53,6 +51,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private int TestMarkNotifications(int loggedInUserId)
         {
+            AccommodationReservationService reservationService = new AccommodationReservationService();
             List<AccommodationReservation> allRes = reservationService.GetAll();
             int counter = 0;
             foreach (var res in allRes)
@@ -83,6 +82,8 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private int TestRatingsForGuests(int loggedInUserId)
         {
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            GuestReviewService guestReviewService = new GuestReviewService();
             List<GuestReview> guestReviews = guestReviewService.GetAll();
             int counter = 0;
             foreach(var item in  guestReviews)

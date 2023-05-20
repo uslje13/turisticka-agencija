@@ -20,11 +20,6 @@ namespace SOSTeam.TravelAgency.Application.Services
     public class AccommodationReservationService
     {
         private readonly IAccReservationRepository _accReservationRepository = Injector.CreateInstance<IAccReservationRepository>();
-        private readonly AccommodationService accommodationService = new AccommodationService();
-        private readonly ChangedReservationRequestService changedReservationRequestService = new ChangedReservationRequestService();
-        private readonly WantedNewDateService wantedNewDateService = new WantedNewDateService();
-        private readonly NotificationFromOwnerService notificationFromOwnerService = new NotificationFromOwnerService();
-        private readonly NotificationService notificationService = new NotificationService();
 
         public AccommodationReservationService() { }
 
@@ -143,6 +138,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             selectedReservation.status = ChangedReservationRequest.Status.ON_HOLD;
             selectedReservation.StatusString = "NA ČEKANjU";
             selectedReservation.ownerComment = "Komentar nije dostupan";
+            ChangedReservationRequestService changedReservationRequestService = new ChangedReservationRequestService();
             changedReservationRequestService.Save(selectedReservation);
         }  
 
@@ -153,12 +149,15 @@ namespace SOSTeam.TravelAgency.Application.Services
                                                       forwardedItem.ReservationLastDay, forwardedItem.ReservationDuration,
                                                       forwardedItem.AccommodationMaxGuests, forwardedItem.CurrentGuestNumber,
                                                       LoggedInUser.Id, selectedReservation.reservationId);
-
+            WantedNewDateService wantedNewDateService = new WantedNewDateService();
             wantedNewDateService.Save(wanted);
         }
 
         public ReservationsInformations SendRequestToOwner(int ownerId)
         {
+            AccommodationService accommodationService = new AccommodationService();
+            ChangedReservationRequestService changedReservationRequestService = new ChangedReservationRequestService();
+            WantedNewDateService wantedNewDateService = new WantedNewDateService();
             List<ChangedReservationRequest> processedReservations = changedReservationRequestService.GetAll();
             List<WantedNewDate> wantedDates = wantedNewDateService.GetAll();
 
@@ -193,6 +192,8 @@ namespace SOSTeam.TravelAgency.Application.Services
         
         private void SaveAcceptedNotificationToGuest(AccommodationReservation reservation, int ownerId)
         {
+            AccommodationService accommodationService = new AccommodationService();
+            NotificationFromOwnerService notificationFromOwnerService = new NotificationFromOwnerService();
             Accommodation accommodation = accommodationService.GetById(reservation.AccommodationId);
             NotificationFromOwner newNotification = new NotificationFromOwner(reservation.Id, accommodation, ownerId, reservation.UserId);
             newNotification.Answer = "Odobreno";
@@ -201,6 +202,8 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void CreateAcceptedReportItem(WantedNewDate newReservation, ChangedReservationRequest oldReservation)
         {
+            ChangedReservationRequestService changedReservationRequestService = new ChangedReservationRequestService();
+            WantedNewDateService wantedNewDateService = new WantedNewDateService();
             changedReservationRequestService.Delete(oldReservation.Id);
             ChangedReservationRequest processedReservation = new ChangedReservationRequest(oldReservation.reservationId, oldReservation.AccommodationId,
                                                                                             oldReservation.AccommodationName, oldReservation.City, oldReservation.Country,
@@ -260,6 +263,8 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void CreateDeclinedReportItem(string ownerComment, WantedNewDate newReservation, ChangedReservationRequest oldReservation)
         {
+            ChangedReservationRequestService changedReservationRequestService = new ChangedReservationRequestService();
+            WantedNewDateService wantedNewDateService = new WantedNewDateService();
             changedReservationRequestService.Delete(oldReservation.Id);
             ChangedReservationRequest processedReservation = new ChangedReservationRequest(oldReservation.reservationId, oldReservation.AccommodationId,
                                                                                             oldReservation.AccommodationName, oldReservation.City, oldReservation.Country,
@@ -284,6 +289,8 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void SaveDeclinedNotificationToGuest(AccommodationReservation reservation, int ownerId)
         {
+            AccommodationService accommodationService = new AccommodationService();
+            NotificationFromOwnerService notificationFromOwnerService = new NotificationFromOwnerService();
             Accommodation accommodation = accommodationService.GetById(reservation.AccommodationId);
             NotificationFromOwner newNotification = new NotificationFromOwner(reservation.Id, accommodation, ownerId, reservation.UserId);
             newNotification.Answer = "Odbijeno";
@@ -321,6 +328,8 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void CreateNotificationToOwner(CancelAndMarkResViewModel selectedReservation)
         {
+            AccommodationService accommodationService = new AccommodationService();
+            NotificationService notificationService = new NotificationService();
             Accommodation accommodation = accommodationService.GetById(selectedReservation.AccommodationId);
             string Text = "Otkazana je rezervacija u periodu od " + selectedReservation.FirstDay.ToString() + " do " +
                           selectedReservation.LastDay.ToString() + " u smještaju " + selectedReservation.AccommodationName + ".";

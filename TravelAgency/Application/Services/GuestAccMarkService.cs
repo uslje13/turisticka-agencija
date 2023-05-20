@@ -16,12 +16,6 @@ namespace SOSTeam.TravelAgency.Application.Services
     public class GuestAccMarkService
     {
         private readonly IGuestAccommodationMarkRepository _guestAccommodationMarkRepository = Injector.CreateInstance<IGuestAccommodationMarkRepository>();
-        private readonly AccommodationReservationService reservationService = new AccommodationReservationService();
-        private readonly ImageService imageService = new ImageService();
-        private readonly AccommodationService accommodationService = new AccommodationService();
-        private readonly NotificationService notificationService = new NotificationService();
-        private readonly UserService userService = new UserService();   
-        private readonly RenovationRecommendationService renovationRecommendationService = new RenovationRecommendationService();
 
         public GuestAccMarkService() { }
 
@@ -35,6 +29,10 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void CreateNotificationToOwner(CancelAndMarkResViewModel acc, string renovationMark, string suggest,int renovationNumber)
         {
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            AccommodationService accommodationService = new AccommodationService();
+            NotificationService notificationService = new NotificationService();
+            UserService userService = new UserService();
             Accommodation accommodation = accommodationService.GetById(acc.AccommodationId);
             AccommodationReservation reservation = reservationService.GetById(acc.ReservationId);
             User user = userService.GetById(reservation.UserId);
@@ -58,6 +56,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void SaveChangesToCSVs(CancelAndMarkResViewModel acc)
         {
+            AccommodationReservationService reservationService = new AccommodationReservationService();
             List<AccommodationReservation> finishedReservations = reservationService.LoadFinishedReservations();
             foreach (var item in finishedReservations)
             {
@@ -80,7 +79,8 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void SaveImages(string urls, int resId)
         {
-            if(!urls.Equals(""))
+            ImageService imageService = new ImageService();
+            if (!urls.Equals(""))
             {
                 string[] urlArray = urls.Split(',');
                 foreach(string url in urlArray) 

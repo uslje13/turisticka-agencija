@@ -12,7 +12,6 @@ namespace SOSTeam.TravelAgency.Application.Services
     public class SuperGuestService
     {
         private readonly ISuperGuestRepository superGuestRepository = Injector.CreateInstance<ISuperGuestRepository>();
-        private readonly AccommodationReservationService reservationService = new AccommodationReservationService();
 
         public SuperGuestService() { }
 
@@ -55,6 +54,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         public int CalculateUnusedBonusPoints(User user, int points)
         {
+            AccommodationReservationService reservationService = new AccommodationReservationService();
             foreach (var reservation in reservationService.GetAll())
             {
                 if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year && points > 0)
