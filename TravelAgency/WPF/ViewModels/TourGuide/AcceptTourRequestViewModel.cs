@@ -194,7 +194,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly TourRequest _selectedTourRequest;
 
         public ObservableCollection<CheckpointCardViewModel> CheckpointCards { get; set; }
-        public ObservableCollection<AppointmentCardViewModel> AppointmentCards { get; set; }
+       
         public List<Image> Images { get; set; }
 
 
@@ -208,7 +208,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly ImageService _imageService;
         private readonly CheckpointService _checkpointService;
         private readonly LocationService _locationService;
-
+        private readonly NewTourNotificationService _newTourNotificationService;
 
         public AcceptTourRequestViewModel(int tourRequestId)
         {
@@ -217,17 +217,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _imageService = new ImageService();
             _checkpointService = new CheckpointService();
             _locationService = new LocationService();
+            _newTourNotificationService = new NewTourNotificationService();
+            _appointmentScheduleService = new AppointmentScheduleService(tourRequestId);
+            _tourRequestService = new TourRequestService();
 
             Cities = new ObservableCollection<string>();
             Countries = new ObservableCollection<string>();
             Languages = new ObservableCollection<string>();
+            CheckpointCards = new ObservableCollection<CheckpointCardViewModel>();
+            Images = new List<Image>();
             _canCancelAppointment = false;
             _tourRequestId = tourRequestId;
 
             _blackoutDates = new ObservableCollection<DateTime>();
 
-            _appointmentScheduleService = new AppointmentScheduleService(tourRequestId);
-            _tourRequestService = new TourRequestService();
+            
             var tourRequest = _tourRequestService.GetById(tourRequestId);
             _selectedTourRequest = tourRequest;
 
@@ -323,34 +327,47 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private void AcceptTour(object sender)
         {
 
-            if (CheckpointsValidation() || AppointmentsValidation() || ImagesValidation())
+            if (!IsCheckpointsValid() || !IsImagesValid())
             {
-                if (CheckpointsValidation())
+                if (IsCheckpointsValid())
                 {
                     App.TourGuideNavigationService.CreateOkMessageBox("You must have at least one START and one END checkpoint.");
                 }
 
-                if (AppointmentsValidation())
-                {
-                    App.TourGuideNavigationService.CreateOkMessageBox("You must have at least one appointment.");
-                }
 
-                if (ImagesValidation())
+                if (IsImagesValid())
                 {
                     App.TourGuideNavigationService.CreateOkMessageBox("You must have at least one image.");
                 }
             }
             else
             {
+                
                 var tourId = _tourService.NextId();
+
+                Appointment appointment = new Appointment
+                {
+                    Start = (DateTime)AppointmentStart,
+                    Started = false,
+                    Finished = false,
+                    Occupancy = _selectedTourRequest.MaxNumOfGuests,
+                    TourId = tourId,
+                    UserId = App.LoggedUser.Id
+                };
+
                 var tour = new Tour(tourId, Name, FindLocationId(), Description, Language, MaxNumOfGuests, (int)Duration);
 
                 _tourService.Save(tour);
                 _checkpointService.SaveAll(TourEntitiesCreator.CreateCheckpoints(CheckpointCards, tourId));
-                _appointmentService.SaveAll(TourEntitiesCreator.CreateAppointments(AppointmentCards, tourId, App.LoggedUser.Id));
+                _appointmentService.Save(appointment);
+                var appointments = _appointmentService.GetAllByUserId(App.LoggedUser.Id);
+                int appointmentId = appointments[appointments.Count - 1].Id;
                 SetImagesTourId(tourId);
                 _imageService.SaveAll(Images);
 
+                _selectedTourRequest.Status = StatusType.ACCEPTED;
+                _tourRequestService.Update(_selectedTourRequest);
+                _newTourNotificationService.CreateNotificationForUser(appointmentId, _selectedTourRequest.UserId);
 
                 App.TourGuideNavigationService.AddPreviousPage();
                 App.TourGuideNavigationService.SetMainFrame("HomePage", App.LoggedUser);
@@ -387,10 +404,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 return -1;
             }
-            else
-            {
-                return location.Id;
-            }
+            
+            return location.Id;
+            
         }
 
         private void SetImagesTourId(int tourId)
@@ -408,23 +424,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             Images = TourEntitiesCreator.CreateImages(imagePaths);
         }
 
-        private bool CheckpointsValidation()
+        private bool IsCheckpointsValid()
         {
             var containsStart = CheckpointCards.Any(c => c.Type == CheckpointType.START);
             var containsEnd = CheckpointCards.Any(c => c.Type == CheckpointType.END);
 
-            return (!containsStart || !containsEnd);
+            return !(!containsStart || !containsEnd);
         }
 
-        private bool AppointmentsValidation()
+        private bool IsImagesValid()
         {
-            return AppointmentCards.Count == 0;
-        }
-
-        private bool ImagesValidation()
-        {
-            return Images.Count == 0;
-
+            return !(Images.Count == 0);
         }
 
     }

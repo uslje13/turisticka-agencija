@@ -59,5 +59,23 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             return _tourRequestRepository.GetAll().FindAll(r => r.Status == StatusType.INVALID);
         }
+
+        public List<TourRequest> GetAllByLanguage(string language)
+        {
+            return _tourRequestRepository.GetAll().FindAll(r => r.Language == language);
+        }
+
+        public List<TourRequest> GetAllByLocation(string city, string country)
+        {
+            return _tourRequestRepository.GetAll().FindAll(r => r.City == city && r.Country == country);
+        }
+
+        public List<TourRequest> GetAllInLastYear()
+        {
+            DateTime now = DateTime.Now;
+            DateTime yearAgo = DateTime.Now.AddYears(-1);
+            return _tourRequestRepository.GetAll().FindAll(r => r.CreationTime <= now && r.CreationTime >= yearAgo);
+        }
+
     }
 }
