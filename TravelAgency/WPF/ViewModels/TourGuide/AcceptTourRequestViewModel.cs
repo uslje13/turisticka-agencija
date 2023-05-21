@@ -327,15 +327,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private void AcceptTour(object sender)
         {
 
-            if (CheckpointsValidation() || ImagesValidation())
+            if (!IsCheckpointsValid() || !IsImagesValid())
             {
-                if (CheckpointsValidation())
+                if (IsCheckpointsValid())
                 {
                     App.TourGuideNavigationService.CreateOkMessageBox("You must have at least one START and one END checkpoint.");
                 }
 
 
-                if (ImagesValidation())
+                if (IsImagesValid())
                 {
                     App.TourGuideNavigationService.CreateOkMessageBox("You must have at least one image.");
                 }
@@ -424,18 +424,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             Images = TourEntitiesCreator.CreateImages(imagePaths);
         }
 
-        private bool CheckpointsValidation()
+        private bool IsCheckpointsValid()
         {
             var containsStart = CheckpointCards.Any(c => c.Type == CheckpointType.START);
             var containsEnd = CheckpointCards.Any(c => c.Type == CheckpointType.END);
 
-            return (!containsStart || !containsEnd);
+            return !(!containsStart || !containsEnd);
         }
 
-        private bool ImagesValidation()
+        private bool IsImagesValid()
         {
-            return Images.Count == 0;
-
+            return !(Images.Count == 0);
         }
 
     }

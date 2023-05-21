@@ -21,7 +21,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             _tourService = new TourService();
         }
 
-        public List<DateRange> CreateTourGuideSchedule(int tourRequestId, int durationInHours, int userId)
+        public List<DateRange> CreateTourGuideSchedule(int tourRequestId, int tourDurationInHours, int userId)
         {
             var availableDates = new List<DateRange>();
 
@@ -47,7 +47,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             foreach (var availableDateRange in availableDateRanges)
             {
                 var freeTime = availableDateRange.End - availableDateRange.Start;
-                if (TimeSpan.FromHours(durationInHours) > freeTime)
+                if (TimeSpan.FromHours(tourDurationInHours) > freeTime)
                 {
                     var rangeForRemove = finalAvailableDateRange.Find(r => r.Start == availableDateRange.Start && r.End == availableDateRange.End);
                     finalAvailableDateRange.Remove(rangeForRemove);

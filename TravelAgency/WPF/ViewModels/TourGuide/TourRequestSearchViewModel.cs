@@ -24,8 +24,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                                                                                  int? numOfGuests, string language,
                                                                                  DateTime? minDate, DateTime? maxDate)
         {
-            var tourRequestCards = new ObservableCollection<TourRequestCardViewModel>();
-
             var searchDateRange = new DateRange(minDate, maxDate);
 
             var filteredRequests = _tourRequestService.GetAllOnHold().Where(request =>
@@ -35,6 +33,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 (string.IsNullOrEmpty(language) || request.Language == language) &&
                 ((!minDate.HasValue && !maxDate.HasValue) || !FindRequestDateRange(request).IsOutOfRange(searchDateRange))).ToList();
 
+
+            return CreateTourRequestCards(filteredRequests);
+
+
+        }
+
+
+        private ObservableCollection<TourRequestCardViewModel> CreateTourRequestCards(
+            List<TourRequest> filteredRequests)
+        {
+            var tourRequestCards = new ObservableCollection<TourRequestCardViewModel>();
             foreach (var request in filteredRequests)
             {
                 var tourRequestCard = new TourRequestCardViewModel
@@ -48,10 +57,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 };
                 tourRequestCards.Add(tourRequestCard);
             }
-
             return tourRequestCards;
         }
-
 
         private DateRange FindRequestDateRange(TourRequest tourRequest)
         {
