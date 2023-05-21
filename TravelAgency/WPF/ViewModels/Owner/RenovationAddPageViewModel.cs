@@ -298,13 +298,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
             DateTime end = EndDate.AddDays(-(RenovationDuration-1));
             DateTime temp = StartDate;
-            var list = new List<DatesRangeViewModel>();
+            var dateRanges = new List<DatesRangeViewModel>();
             while (temp.CompareTo(end) <= 0)
             {
-                list.Add(new DatesRangeViewModel(temp, temp.AddDays(RenovationDuration - 1)));
+                dateRanges.Add(new DatesRangeViewModel(temp, temp.AddDays(RenovationDuration - 1)));
                 temp = temp.AddDays(1);
             }
-            var blackoutRanges = list.Where(d => !(BlackoutDates.Any(b => b <= d.EndDate && b >= d.StartDate)));
+            var blackoutRanges = dateRanges.Where(d => !(BlackoutDates.Any(b => b <= d.EndDate && b >= d.StartDate)));
             PossibleDateRanges.AddRange(
                 blackoutRanges.Where(d => !(BlackoutDates.Any(b => CompareDayMonthYear(b, d.EndDate) && CompareDayMonthYear(b, d.StartDate))))
                 );

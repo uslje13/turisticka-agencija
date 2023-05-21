@@ -21,17 +21,35 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public ObservableCollection<LocAccommodationViewModel> _accommDTOsCollection { get; set; }
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public RelayCommand ReserveCommand { get; set; }
+
+        private AccommodationRenovationService _accommodationRenovationService ;
         
-        public AccommodationBidViewModel(User user, Frame frame)
+
+         public AccommodationBidViewModel(User user, Frame frame)
         {
             LoggedInUser = user;
             ThisFrame = frame;
 
             AccommodationService accommodationService = new AccommodationService();
             _accommDTOsCollection = accommodationService.CreateAllDTOForms();
+            _accommodationRenovationService = new();
+            CheckLastRenovations();
 
             ReserveCommand = new RelayCommand(Execute_ReserveAccommodation);
         }
+
+        private void CheckLastRenovations()
+        {
+            foreach (var dto in _accommDTOsCollection)
+            {
+                var renovations = _accommodationRenovationService.GetAll();
+                if (renovations.Any(r => r.AccommodationId == dto.AccommodationId && r.LastDay > DateTime.Today.AddYears(-1) && r.LastDay < DateTime.Today ) )
+                {
+                    dto.IsRenovatedInLastYear = true;
+                }
+            }
+        }
+
         public void Execute_ReserveAccommodation(object sender)
         {
             if (SelectedAccommodationDTO != null)

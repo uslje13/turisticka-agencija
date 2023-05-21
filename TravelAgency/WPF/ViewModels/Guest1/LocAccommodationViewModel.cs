@@ -35,6 +35,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public string CurrentGuests { get; set; }
         public string MinDaysString { get; set; }
         public string TypeString { get; set; }
+        public bool IsRenovatedInLastYear { get; set; }
 
         public LocAccommodationViewModel(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber, bool isSuperOwned)
 
@@ -61,6 +62,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 Cover = new Image();
                 Cover.Path = "/Resources/Images/UnknownPhoto.png";
             }
+            IsRenovatedInLastYear = false;
         }
 
         public LocAccommodationViewModel(string name, string city, string country, AccommType type, int guestNumber, int days, bool isSuperOwned)
@@ -72,6 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationMinDaysStay = days;
             GuestNumber = guestNumber;
             IsSuperOwned = isSuperOwned;
+            IsRenovatedInLastYear= false;
         }
     }
 }
