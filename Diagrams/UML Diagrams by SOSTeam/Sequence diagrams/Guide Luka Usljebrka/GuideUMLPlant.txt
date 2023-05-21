@@ -1,0 +1,102 @@
+@startuml
+actor User
+participant TourRequestsViewModel as TRVM
+participant TourRequestSearchViewModel as STR
+participant AcceptTourRequestViewModel as ATRVM
+
+participant Tour as T
+participant AppointemntList as AL
+participant CheckpointList as CL
+participant ImagesList as IL
+
+participant AppointmentScheduleService as ASS
+participant TourService as TS
+participant AppointmentService as AS
+participant CheckpointService as CS
+participant ImageService as IS
+participant TourRequestService as TRS
+participant NewTourNotificationService as NTNS
+participant NewTourNotification as NTN
+participant NewTourNotificatinRespository as NTNR
+
+
+
+activate TRVM
+TRVM -> STR: SearchTourRequests()
+activate STR
+
+
+STR -> TRS: GetAllOnHold()
+
+activate TRS
+TRS --> STR: allRequestsOnHold
+deactivate TRS
+
+STR --> STR: filteredRequestsOnHold
+loop foreach request in filteredRequest
+  STR -> STR: CreateTourRequestCards(filteredRequestsOnHold)
+end
+
+STR --> TRVM: filteredRequestCards
+
+deactivate STR
+
+User -> TRVM: ClickCreateRequest
+TRVM -> ATRVM: ShowAcceptTourPageCommand()
+deactivate TRVM
+
+activate ATRVM
+
+ATRVM -> ASS: CreateTourGuideSchedule(int tourRequestId, int durationInHours, int userId)
+activate ASS
+
+loop foreach range in availableDateRanges
+  opt durationInHours < freeTime
+   ASS -> ASS ++: GetAvailableDateRanges(List<DateRange> busyDateRanges, DateRange requiredDateRange)
+   ASS --> ASS --: availableDateRanges
+  end
+end
+
+ASS --> ATRVM: tourGuideSchedule
+
+deactivate ASS
+
+
+User -> ATRVM: AcceptTourClick()
+alt !IsCheckpointsValid() || !IsImagesValid()
+ alt IsChecpointsValid() || IsImagesValid()
+ ATRVM --> User: ValidationMessageBox
+ else 
+ ATRVM -> T**: <<create>>
+ ATRVM -> AL**: <<create>>
+ ATRVM -> CL**: <<create>>
+ ATRVM -> IL**: <<create>>
+ 
+
+ ATRVM -> TS: Save()
+ activate TS
+ deactivate TS
+
+ ATRVM -> AS: SaveAll()
+ activate AS
+ deactivate AS
+
+ ATRVM -> CS: SaveAll()
+ activate CS
+ deactivate CS
+
+ ATRVM -> IS: SaveAll()
+ activate IS
+ deactivate IS
+
+ ATRVM -> NTNS: CreateNotificationForUser(appointmentId, _selectedTourRequest.UserId);
+ activate NTNS
+ NTNS -> NTN**: <<create>>
+ NTNS -> NTNR : Save(NewTourNotification newTourNotification)
+ deactivate NTNS
+
+end
+
+
+
+@enduml

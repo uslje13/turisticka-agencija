@@ -1,0 +1,80 @@
+@startuml
+actor       User       as U
+participant RenovationAddPageViewModel as RVM
+participant AccommodationService as AS
+participant AccommodationRenovationService as ARNS
+participant AccommodationReservationService as ARSS
+ 
+RVM-> AS **: <<create>>
+RVM-> ARNS **: <<create>>
+RVM-> ARSS **: <<create>>
+
+RVM-> AS ++: GetAllByUserId(user.Id)
+AS --> RVM --: Accommodations
+
+RVM -> RVM++: RefreshCalendar()
+RVM --> RVM--
+
+note over U
+Korisnik razmislja
+i bira smestaj
+za renoviranje na UI
+end note
+
+U -> RVM++: set SelectedAccommodation
+RVM -> RVM++: SetBlackoutDates()
+
+RVM -> ARSS ++: GetAll()
+ARSS --> RVM --:
+loop reservation in reservatons
+        opt SelectedAccommodation.Id == reservation.AccommodationId && reservation.FirstDay >= DateTime.Today
+        RVM -> RVM:Add to reservations
+    end
+end
+
+loop reservation in reservatons
+    RVM -> RVM ++: GetDatesBetween(reservation.FirstDay, reservation.LastDay
+    RVM -> RVM --:dates
+    RVM -> RVM:BlackoutDates.AddRange(dates)
+end
+
+RVM --> RVM --:
+RVM --> U --:available Dates for searching
+
+note over U
+Korisnik razmislja
+i bira period za pretragu
+raspona datuma na UI
+end note
+
+U -> RVM++:Execute_SearchDates()
+
+loop temp.CompareTo(end) <= 0
+    RVM -> RVM : dateRanges.Add(dateRange)
+end
+
+
+
+loop dateRange in dateRanges
+        opt !(BlackoutDates.Any(b => b <= dateRange.EndDate && b >= dateRange.StartDate))
+            opt !(BlackoutDates.Any(b => CompareDayMonthYear(b, d.EndDate) && CompareDayMonthYear(b, d.StartDate)))
+                RVM -> RVM:Add to PossibleDateRanges
+        end
+    end
+end
+
+RVM --> U --:available date ranges for renovation
+
+note over U
+Korisnik razmislja
+i bira raspon datuma
+za renoviranje na UI
+end note
+
+U -> RVM++: Execute_AddRenovation()
+RVM-> AccommodationRenovation **:<<create>>
+RVM-> ARNS++:Save(accommodationRenovation)
+ARNS-> RVM--:
+RVM --> U --:action done
+
+@enduml
