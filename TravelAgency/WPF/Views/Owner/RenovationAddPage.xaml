@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:converter="clr-namespace:SOSTeam.TravelAgency.WPF.ViewModels.Owner"
+      xmlns:hack="clr-namespace:SOSTeam.TravelAgency.WPF.Behaviors"
       xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit.NET5"
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Owner"
       mc:Ignorable="d" 
@@ -56,7 +56,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
+        <hack:CalendarAttachedProperties x:Key="CalendarAttachedProperties" />
     </Page.Resources>
 
     <Grid Background="Transparent">
@@ -114,7 +114,10 @@
                             </Button>
                         </WrapPanel>
                         <Viewbox Stretch="Fill" StretchDirection="Both">
-                            <Calendar SelectionMode="SingleDate" DisplayMode="Month" IsTodayHighlighted="False" SelectedDate="{Binding SelectedDate}" DisplayDateStart="{Binding StartDate,Mode=TwoWay}" DisplayDateEnd="{Binding EndDate,Mode=TwoWay}" IsHitTestVisible="{Binding IsCalendarEnabled}" Background="#dceefa" >
+                            <Calendar SelectionMode="SingleDate" DisplayMode="Month" IsTodayHighlighted="False"
+                                      SelectedDate="{Binding SelectedDate}" DisplayDateStart="{Binding StartDate,Mode=TwoWay}" DisplayDateEnd="{Binding EndDate,Mode=TwoWay}"
+                                      IsHitTestVisible="{Binding IsCalendarEnabled}" Background="#dceefa" 
+                                      hack:CalendarAttachedProperties.RegisterBlackoutDates="{Binding BlackoutDates}">
                             </Calendar>
                         </Viewbox>
                     </StackPanel>
@@ -124,7 +127,7 @@
         <Grid Grid.Row="0" Margin="20" Visibility="{Binding PickDateVisibility}">
             <StackPanel >
                 <Label Content="Mogući termini: " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,10,20" />
-                <DataGrid Width="720" Height="410" RowHeight="80" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding PossibleDateRanges}" SelectedItem="{Binding Path=SelectedDateRange, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+                <DataGrid Width="720" Height="260" RowHeight="80" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding PossibleDateRanges}" SelectedItem="{Binding Path=SelectedDateRange, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Početni datum" Binding="{Binding StartDateString}" Width="*"
                             ElementStyle="{StaticResource CenterTextBlockStyle}"/>
@@ -132,7 +135,13 @@
                             ElementStyle="{StaticResource CenterTextBlockStyle}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                
+                <Label Content="Opis (opciono):" FontSize="16" Margin="10,5,0,0" />
+                <Border BorderThickness="1" BorderBrush="Black" Background="#dceefa" Margin="15,0,10,10">
+
+                    <TextBox Text="{Binding Comment,Mode=TwoWay}" Height="95" Width="Auto" FontSize="16" TextWrapping="Wrap">
+
+                    </TextBox>
+                </Border>
 
 
 

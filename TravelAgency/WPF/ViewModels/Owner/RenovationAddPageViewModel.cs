@@ -2,7 +2,10 @@
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
@@ -12,13 +15,30 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         public ObservableCollection<Accommodation> Accommodations { get; private set; }
         public ObservableCollection<DatesRangeViewModel> PossibleDateRanges { get; set; }
+        public ObservableCollection<DateTime> BlackoutDates { get; set; }
+
         public DatesRangeViewModel SelectedDateRange { get; set; }
-        public Accommodation SelectedAccommodation { get; set; }
 
         public RelayCommand Cancel { get; private set; }
         public RelayCommand SearchDates { get; private set; }
         public RelayCommand ResetCalendar { get; private set; }
         public RelayCommand AddRenovation { get; private set; }
+        public string Comment { get; set; }
+
+        public Accommodation SelectedAccommodation
+        {
+            get { return _selectedAccommodation; }
+            set
+            {
+                if (_selectedAccommodation != value)
+                {
+                    _selectedAccommodation = value;
+                    if(SelectedAccommodation == null) IsCalendarEnabled = false;
+                    SetBlackoutDates();
+                    OnPropertyChanged(nameof(SelectedAccommodation));
+                }
+            }
+        } 
 
         public string StartDateString
         {
@@ -149,12 +169,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private int _renovationDuration;
         private System.Windows.Visibility _chooseDateVisibility;
         private System.Windows.Visibility _pickDateVisibility;
+        private Accommodation _selectedAccommodation;
 
 
         private MainWindowViewModel _mainwindowVM;
 
         private AccommodationService _accommodationService;
         private AccommodationRenovationService _accommodationRenovationService;
+        private AccommodationReservationService _accommodationReservationService;
 
 
 
@@ -167,8 +189,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _mainwindowVM = mainWindowVM;
             _accommodationService = new();
             _accommodationRenovationService = new();
+            _accommodationReservationService = new();
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetAllByUserId(user.Id));
+            SelectedAccommodation = Accommodations.First();
             PossibleDateRanges = new();
+            BlackoutDates = new();
             ChooseDateVisibility = System.Windows.Visibility.Visible;
             PickDateVisibility = System.Windows.Visibility.Collapsed;
             RenovationDuration = 1;
@@ -183,7 +208,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_AddRenovation(object obj)
         {
-            _accommodationRenovationService.Save(new AccommodationRenovation(SelectedAccommodation.Id, SelectedDateRange.StartDate, SelectedDateRange.EndDate));
+            if (Comment == null) Comment = "";
+            _accommodationRenovationService.Save(new AccommodationRenovation(SelectedAccommodation.Id, SelectedDateRange.StartDate, SelectedDateRange.EndDate,Comment));
             _mainwindowVM.Execute_NavigationButtonCommand("Renovation");
         }
 
@@ -218,9 +244,34 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             SelectedDate = DateTime.Now;
             EndDate = DateTime.Now.AddYears(5);
             _datePickCounter = 0;
+
             IsCalendarEnabled = true;
             StartDateString = "";
             EndDateString = "";
+        }
+
+        private void SetBlackoutDates()
+        {
+            if (BlackoutDates == null) return;
+            BlackoutDates.Clear();
+            var reservations = _accommodationReservationService.GetAll().Where(r => SelectedAccommodation.Id == r.AccommodationId);
+            reservations = reservations.Where(r => r.FirstDay >= DateTime.Today);
+            foreach (var reservation in reservations)
+            {
+                BlackoutDates.AddRange(GetDatesBetween(reservation.FirstDay, reservation.LastDay));
+            }
+            OnPropertyChanged(nameof(BlackoutDates));
+        }
+
+        private List<DateTime> GetDatesBetween(DateTime start,DateTime end) 
+        {
+            List <DateTime> dates = new();
+            while(start.CompareTo(end) <= 0) 
+            {
+                dates.Add(start);
+                start = start.AddDays(1);
+            }
+            return dates;
         }
 
         private void SelectedDateChange(DateTime selectedDate)
@@ -247,11 +298,23 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
             DateTime end = EndDate.AddDays(-(RenovationDuration-1));
             DateTime temp = StartDate;
-            while (temp.CompareTo(end) < 0)
+            var list = new List<DatesRangeViewModel>();
+            while (temp.CompareTo(end) <= 0)
             {
-                PossibleDateRanges.Add(new DatesRangeViewModel(temp, temp.AddDays(RenovationDuration - 1)));
+                list.Add(new DatesRangeViewModel(temp, temp.AddDays(RenovationDuration - 1)));
                 temp = temp.AddDays(1);
             }
+            var blackoutRanges = list.Where(d => !(BlackoutDates.Any(b => b <= d.EndDate && b >= d.StartDate)));
+            PossibleDateRanges.AddRange(
+                blackoutRanges.Where(d => !(BlackoutDates.Any(b => CompareDayMonthYear(b, d.EndDate) && CompareDayMonthYear(b, d.StartDate))))
+                );
+        }
+
+        private bool CompareDayMonthYear(DateTime one,DateTime two) 
+        {
+            return one.Day == two.Day && one.Month == two.Month && one.Year == two.Year;
+
+
         }
 
         private bool CanExecuteSetupCalendar(object obj)
@@ -259,6 +322,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             return true;
         }
 
+        
     }
 
     public class DatesRangeViewModel

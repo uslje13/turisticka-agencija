@@ -71,7 +71,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private bool CanExecuteDeleteRenovation(object obj)
         {
-            return SelectedRenovation != null;
+            return SelectedRenovation != null && SelectedRenovation.FirstDay >= DateTime.Now.AddDays(5);
         }
 
         private void Execute_DeleteRenovation(object obj)
@@ -89,7 +89,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                     renovation.Id,
                     accommodations.Find(a => a.Id == renovation.AccommodationId).Name,
                     _imageService.GetAccommodationCover(renovation.AccommodationId).Path,
-                    renovation.FirstDay.ToString("dd/MM/yyyy") + " - " + renovation.LastDay.ToString("dd/MM/yyyy")
+                    renovation.FirstDay.ToString("dd/MM/yyyy") + " - " + renovation.LastDay.ToString("dd/MM/yyyy"),
+                    renovation.Comment,
+                    renovation.FirstDay
                     ));
             }
         }
@@ -101,13 +103,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public string Name { get; set; }
         public string PictureUrl { get; set; }
         public string RenovationPeriod { get; set; }
+        public string Comment { get; set; }
+        public DateTime FirstDay { get; set; }
 
-        public RenovationViewModel(int id, string name, string pictureUrl, string renovationPeriod)
+        public RenovationViewModel(int id, string name, string pictureUrl, string renovationPeriod,string comment, DateTime firstDat)
         {
             Id = id;
             Name = name;
             PictureUrl = pictureUrl;
             RenovationPeriod = renovationPeriod;
+            Comment = comment;
+            FirstDay = firstDat;
         }
     }
 }

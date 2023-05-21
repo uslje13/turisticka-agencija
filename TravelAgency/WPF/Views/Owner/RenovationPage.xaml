@@ -17,6 +17,7 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Padding" Value="5"/>
 
         </Style>
         
@@ -100,6 +101,8 @@
                         <DataGridTextColumn Header="Naziv smeštaja" Binding="{Binding Name}" Width="140"
                             ElementStyle="{StaticResource CenterTextBlockStyle}"/>
                         <DataGridTextColumn Header="Period" Binding="{Binding RenovationPeriod}" Width="*"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                        <DataGridTextColumn Header="Opis" Binding="{Binding Comment}" Width="*"
                             ElementStyle="{StaticResource CenterTextBlockStyle}"/>
                     </DataGrid.Columns>
 

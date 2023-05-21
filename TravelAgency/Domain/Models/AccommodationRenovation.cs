@@ -14,8 +14,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public int AccommodationId { get; set; }
         public DateTime FirstDay { get; set; }
         public DateTime LastDay { get; set; }
+        public string Comment { get; set; }
 
-        public bool IsFinished { get; set; }
 
 
         public AccommodationRenovation()
@@ -24,16 +24,16 @@ namespace SOSTeam.TravelAgency.Domain.Models
             AccommodationId = -1;
             FirstDay = DateTime.MinValue;
             LastDay = DateTime.MinValue;
-            IsFinished = false;
+            Comment = "";
         }
 
-        public AccommodationRenovation(int accommodationId, DateTime firstDay, DateTime lastDay)
+        public AccommodationRenovation(int accommodationId, DateTime firstDay, DateTime lastDay, string comment)
         {
             Id = -1;
             AccommodationId = accommodationId;
             FirstDay = firstDay;
             LastDay = lastDay;
-            IsFinished = false;
+            Comment = comment;
         }
 
         public string[] ToCSV()
@@ -43,7 +43,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             AccommodationId.ToString(),
             FirstDay.ToString("dd-MM-yyyy"),
             LastDay.ToString("dd-MM-yyyy"),
-            IsFinished == true ? "1" : "0"
+            Comment
         };
             return csvValues;
         }
@@ -55,7 +55,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             AccommodationId = Convert.ToInt32(values[i++]);
             FirstDay = DateTime.ParseExact(values[i++], "dd-MM-yyyy", CultureInfo.InvariantCulture);
             LastDay = DateTime.ParseExact(values[i++], "dd-MM-yyyy", CultureInfo.InvariantCulture);
-            IsFinished = values[i++].Equals("1");
+            Comment = values[i++];
         }
     }
 }
