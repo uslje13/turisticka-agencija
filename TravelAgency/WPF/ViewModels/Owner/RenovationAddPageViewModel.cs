@@ -306,7 +306,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
             var blackoutRanges = dateRanges.Where(d => !(BlackoutDates.Any(b => b <= d.EndDate && b >= d.StartDate)));
             PossibleDateRanges.AddRange(
-                blackoutRanges.Where(d => !(BlackoutDates.Any(b => CompareDayMonthYear(b, d.EndDate) && CompareDayMonthYear(b, d.StartDate))))
+                blackoutRanges.Where(d => !(BlackoutDates.Any(b => CompareDayMonthYear(b, d.EndDate) || CompareDayMonthYear(b, d.StartDate))))
                 );
         }
 
