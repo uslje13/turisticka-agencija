@@ -10,6 +10,15 @@
       Title="HomePage">
 
     <Grid Background="Transparent">
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="3*"/>
@@ -32,7 +41,7 @@
                         <Image Source="{Binding AccommodationURI}"></Image>
                         <Label Content="{Binding PopularAccommodation.Name}" HorizontalAlignment="Center"/>
                     </StackPanel>
-                    
+
                 </Grid>
                 <Grid Margin="20" Width="Auto">
                     <StackPanel VerticalAlignment="Center">

@@ -9,6 +9,15 @@
       Title="UserPage">
 
     <Grid Background="Transparent">
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel  Height="220">
                 <Image Source="/Resources/Icons/user_ikonica2.png" Width="130" Height="130" Margin="0,15,0,0"></Image>
