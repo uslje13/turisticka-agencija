@@ -52,6 +52,13 @@ namespace SOSTeam.TravelAgency.WPF.Behaviors
                     calendar.BlackoutDates.Add(new CalendarDateRange(date));
                 }
             }
+
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                
+                calendar.BlackoutDates.Clear();
+                
+            }
         }
 
         private static void DatePickerBindings_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

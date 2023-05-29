@@ -12,6 +12,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
     public class AccommodationInfoPageViewModel : ViewModel
     {
+        public double SlideOffSet { get; set; } = 30;
         public User LoggedInUser { get; private set; }
         public Accommodation Accommodation { get; private set; }
         public string Location { get; private set; }
@@ -43,14 +44,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand NavigateYears { get; private set; }
         public RelayCommand ToggleChart { get; private set; }
 
-        private int _slidingGridHeight;
-        public int SlidingGridHeight
+        private bool _isSlidingGridShowing;
+        public bool IsSlidingGridShowing
         {
-            get { return _slidingGridHeight; }
+            get { return _isSlidingGridShowing; }
             set
             {
-                _slidingGridHeight = value;
-                OnPropertyChanged("SlidingGridHeight");
+                _isSlidingGridShowing = value;
+                OnPropertyChanged("IsSlidingGridShowing");
             }
         }
 
@@ -89,7 +90,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             GetReservations(accommodation);
             GetImages(accommodation);
             SetupYearReservationChart();
-            SlidingGridHeight = 0;
+            IsSlidingGridShowing = false;
             StatsLabel = "Statistika po godinama";
             SlidingGridYear = DateTime.Now.Year;
             NavigatePhotos = new RelayCommand(Execute_NavigatePhotos, CanExecuteNavigatePhotos);
@@ -112,13 +113,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             {
                 SetupYearReservationChart();
                 StatsLabel = "Statistika po godinama";
-                SlidingGridHeight = 0;
+                IsSlidingGridShowing = false;
             }
             else
             {
                 SetupMonthReservationChart();
                 StatsLabel = "Statistika po mesecima";
-                SlidingGridHeight = 100;
+                IsSlidingGridShowing = true;
             }
             OnPropertyChanged("StatsLabel");
 

@@ -105,6 +105,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Country = string.Empty;
             City = string.Empty;
             MinDaysForCancelation = 1;
+            MinDaysStay = 1;
+            MaxGuests = 1;
         }
 
         private void Execute_SetCover(object obj)
@@ -227,21 +229,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             if (MinDaysForCancelation < 0 || MinDaysStay < 0 || MaxGuests < 0) return false;
             if (AName.Length < 1 || City.Length < 1 || Country.Length < 1 || SelectedImages.Count < 1) return false;
             return true;
-        }
-    }
-
-    public class PositiveIntegerValidationRule : ValidationRule
-    {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-        {
-            if (int.TryParse(value as string, out int result) && result >= 0)
-            {
-                return ValidationResult.ValidResult;
-            }
-            else
-            {
-                return new ValidationResult(false, "Morate uneti validan broj gostiju.");
-            }
         }
     }
 
