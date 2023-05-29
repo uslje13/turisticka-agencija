@@ -81,7 +81,27 @@
                     <Button Width="25" Height="25" Margin="0,0,5,0" Command="{Binding NavigatePhotos}" CommandParameter="Left">
                         <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" ></Image>
                     </Button>
-                    <Image Source="{Binding Image.Path}" Width="300" Height="200" Stretch="UniformToFill"></Image>
+                    <Image Source="{Binding Image.Path}" Width="300" Height="200" Stretch="UniformToFill">
+                        <Image.RenderTransform>
+                            <TranslateTransform Y="0" />
+                        </Image.RenderTransform>
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPhotoChanged}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                 To="-30" Duration="0:0:0.2" AutoReverse="True" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
                     <Button Width="25" Height="25" Margin="5,0,0,0" Command="{Binding NavigatePhotos}" CommandParameter="Right">
                         <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" >
                             <Image.RenderTransformOrigin>
@@ -163,7 +183,7 @@
                 </StackPanel.RenderTransform>
 
                 <Grid x:Name="SlidingGrid" Margin="110,200,0,0" >
-                    <WrapPanel Margin="0,5,0,0" HorizontalAlignment="Center" Height="{Binding SlidingGridHeight}" >
+                    <WrapPanel Margin="0,5,0,0" HorizontalAlignment="Center" >
                         <Button Width="25" Height="25" Margin="0,0,5,0" Command="{Binding NavigateYears}" CommandParameter="Left">
                             <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" ></Image>
                         </Button>
@@ -190,7 +210,28 @@
             HorizontalAlignment="Right" VerticalAlignment="Top"
             >
                 <WrapPanel Margin="0,0,0,5" HorizontalAlignment="Center">
-                    <Label FontSize="20" Content="{Binding StatsLabel}" HorizontalAlignment="Center" />
+                    <Label FontSize="20" Content="{Binding StatsLabel}" HorizontalAlignment="Center">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Opacity" Value="1" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsStatsLabelChanged}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="1"
+                                            To="0"
+                                            Duration="0:0:0.3" AutoReverse="True"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
                     <Button Height="25" Width="25" Command="{Binding ToggleChart}" >
                         <Image Source="/Resources/Icons/arrowchange.png" Width="20" Height="20" Stretch="UniformToFill" />
                     </Button>

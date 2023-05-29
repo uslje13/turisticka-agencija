@@ -21,6 +21,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public ObservableCollection<ReviewViewModel> Reviews { get; set; }
         public ReviewViewModel SelectedReview { get; set; }
 
+        private bool _isContentVisible;
+        public bool IsContentVisible
+        {
+            get { return _isContentVisible; }
+            set
+            {
+                _isContentVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         public OwnerReviewPageViewModel(User user, MainWindowViewModel mainWindowVM)
         {
             _guestAccMarkService = new();
@@ -32,6 +43,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Reviews = new();
             FillObservableCollection();
             AveridgeGrade = GetAveridgeGrade();
+            IsContentVisible = true;
 
         }
 

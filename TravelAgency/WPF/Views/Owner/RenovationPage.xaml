@@ -84,10 +84,28 @@
         </Grid>
         <Grid Grid.Row="1" >
             <StackPanel VerticalAlignment="Top">
-                <DataGrid Width="730" Height="470" RowHeight="120" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Renovations}" SelectedItem="{Binding Path=SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
-                    
+                <DataGrid Width="730" Height="470" RowHeight="120" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Renovations}" SelectedItem="{Binding Path=SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
 
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleY="0.8" />
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                         From="0" To="1" Duration="0:0:0.4" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="200" Header="Smeštaj">
                             <DataGridTemplateColumn.CellTemplate>

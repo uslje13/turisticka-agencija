@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
@@ -26,6 +27,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             {
                 _reservations = value;
                 OnPropertyChanged("Reservations");
+            }
+        }
+
+        private bool _isPhotoChanged;
+        public bool IsPhotoChanged
+        {
+            get { return _isPhotoChanged; }
+            set
+            {
+                _isPhotoChanged = value;
+                OnPropertyChanged(nameof(IsPhotoChanged));
             }
         }
 
@@ -52,6 +64,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             {
                 _isSlidingGridShowing = value;
                 OnPropertyChanged("IsSlidingGridShowing");
+            }
+        }
+        
+        private bool _isStatsLabelChanged;
+        public bool IsStatsLabelChanged
+        {
+            get { return _isStatsLabelChanged; }
+            set
+            {
+                _isStatsLabelChanged = value;
+                OnPropertyChanged("IsStatsLabelChanged");
             }
         }
 
@@ -91,6 +114,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             GetImages(accommodation);
             SetupYearReservationChart();
             IsSlidingGridShowing = false;
+            IsPhotoChanged = false; 
+            IsStatsLabelChanged = false;
             StatsLabel = "Statistika po godinama";
             SlidingGridYear = DateTime.Now.Year;
             NavigatePhotos = new RelayCommand(Execute_NavigatePhotos, CanExecuteNavigatePhotos);
@@ -112,14 +137,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             if (TimeLabels.Length == 12)
             {
                 SetupYearReservationChart();
-                StatsLabel = "Statistika po godinama";
                 IsSlidingGridShowing = false;
+                SetOffLabelAnimation();
+                Task.Delay(600);
+                StatsLabel = "Statistika po godinama";
             }
             else
             {
                 SetupMonthReservationChart();
-                StatsLabel = "Statistika po mesecima";
                 IsSlidingGridShowing = true;
+                SetOffLabelAnimation();
+                Task.Delay(600);
+                StatsLabel = "Statistika po mesecima";
             }
             OnPropertyChanged("StatsLabel");
 
@@ -167,6 +196,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private void Execute_NavigatePhotos(object obj)
         {
             string direction = obj.ToString();
+            SetOffPhotoAnimation();
+            Task.Delay(100);
             if (direction.Equals("Left"))
             {
                 _imageIndex = _imageIndex == 0 ? _images.Count - 1 : _imageIndex - 1;
@@ -178,6 +209,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 Image = _images[_imageIndex];
             }
             OnPropertyChanged("Image");
+        }
+
+        private void SetOffPhotoAnimation()
+        {
+            IsPhotoChanged = true;
+            IsPhotoChanged = false;
+        }
+        private void SetOffLabelAnimation()
+        {
+            IsStatsLabelChanged = true;
+            IsStatsLabelChanged = false;
         }
 
         private void SetupYearReservationChart()

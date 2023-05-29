@@ -65,7 +65,25 @@
             <StackPanel>
                 <Label Content="Zahtevi za pomeranje rezervacije " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,10,30" />
                 <DataGrid Width="730" Height="400" Background="#dceefa" RowBackground="#d2e2ff" AlternatingRowBackground="#dceefa" RowHeight="50" ItemsSource="{Binding Requests}" SelectedItem="{Binding Path=SelectedRequest, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
-
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleY="0.8" />
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                         From="0" To="1" Duration="0:0:0.4" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="Auto" Header="Gost">
                             <DataGridTemplateColumn.CellTemplate>
