@@ -63,7 +63,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 if (i.Type.Equals(ImageType.TOUR) && i.EntityId == t.Id && i.Cover)
                 {
-                    TourViewModel tourDTO = new TourViewModel(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, city, country, LoggedInUser, _window, i.Path);
+                    TourViewModel tourDTO = new TourViewModel(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, city, country, LoggedInUser,/* _window,*/ i.Path);
                     AlternativeTours.Add(tourDTO);
                     break;
                 }

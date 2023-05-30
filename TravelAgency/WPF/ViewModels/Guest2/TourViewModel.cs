@@ -13,7 +13,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class TourViewModel
     {
-        private ToursOverviewWindow _window;
         public User LoggedInUser { get; set; }
 
         public int TourId;
@@ -40,9 +39,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public TourViewModel(int id,string name,string language,int duration,int maxNumOfGuests,string city,string country,User loggedInUser,ToursOverviewWindow window,string path) 
+        public TourViewModel(int id,string name,string language,int duration,int maxNumOfGuests,string city,string country,User loggedInUser,string path) 
         {
-            _window = window;
             TourId = id;
             Name = name;
             Language = language;
@@ -61,17 +59,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_OpenBookTourWindow(object obj)
         {
             Tour tour = _tourService.FindTourById(TourId);
+            var currentApp = System.Windows.Application.Current;
 
-            if (!_appoitmentService.CheckAvailableAppointments(tour))
+            foreach (Window window in currentApp.Windows)
             {
-                MessageBox.Show("Nema slobodnih mesta za odabranu turu, pogledajte druge ture na istoj lokaciji.");
-                var navigationService = _window.AlternativeFrame.NavigationService;
-                navigationService.Navigate(new AlternativeToursPage(tour,LoggedInUser,_window));
-            }
-            else
-            {
-                BookTourWindow window = new BookTourWindow(TourId, LoggedInUser);
-                window.ShowDialog();
+                if (window is ToursOverviewWindow)
+                {
+                    if (!_appoitmentService.CheckAvailableAppointments(tour))
+                    {
+                        MessageBox.Show("Nema slobodnih mesta za odabranu turu, pogledajte druge ture na istoj lokaciji.");
+                        var navigationService = ((ToursOverviewWindow)window).AlternativeFrame.NavigationService;
+                        navigationService.Navigate(new AlternativeToursPage(tour, LoggedInUser, ((ToursOverviewWindow)window)));
+                    }
+                    else
+                    {
+                        BookTourWindow bookWindow = new BookTourWindow(TourId, LoggedInUser);
+                        bookWindow.ShowDialog();
+                    }
+                }
             }
         }
 

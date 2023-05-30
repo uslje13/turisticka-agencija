@@ -16,7 +16,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class BookTourViewModel : ViewModel
     {
-        private Window _window;
+        public event EventHandler CloseRequested;
         public User LoggedInUser { get; set; }
         public Tour Tour { get; set; }
         private int _availableSlots;
@@ -161,7 +161,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 IsTouristNumValid = _touristNumRegex.IsMatch(TouristNum);
             }
         }
-        public BookTourViewModel(int id, User loggedInUser,Window window)
+        public BookTourViewModel(int id, User loggedInUser)
         {
             LoggedInUser = loggedInUser;
             _appointmentService = new AppointmentService();
@@ -172,7 +172,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             AppoitmentOverviewViewModels = new ObservableCollection<AppoitmentOverviewViewModel>();
             Vouchers = new ObservableCollection<VouchersViewModel>();
             Tour = _tourService.FindTourById(id);
-            _window = window;
             BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
             HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
             ReserveCommand = new RelayCommand(Execute_ReserveCommand, CanExecuteMethod);
@@ -182,20 +181,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_HelpCommand(object obj)
         {
-            _window.Close();
-
-            var currentApp = System.Windows.Application.Current;
-
-            foreach (Window window in currentApp.Windows)
-            {
-                if (window is ToursOverviewWindow)
-                {
-                    PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
-                    var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
-                    navigationService.Navigate(new HelpPage(LoggedInUser,Tour.Id));
-                    break;
-                }
-            }
+            HelpWindow window = new HelpWindow();
+            window.Show();
         }
         private bool CanExecuteMethod(object parameter)
         {
@@ -204,7 +191,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_CancelCommand(object sender)
         {
-            _window.Close();
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
         private void Execute_ReserveCommand(object sender)
         {
@@ -254,7 +241,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     _reservationService.CreateReservation(_selected, LoggedInUser, int.Parse(_touristNum), float.Parse(_averageAge, CultureInfo.InvariantCulture));
                 }
-                _window.Close();
+                CloseRequested?.Invoke(this, EventArgs.Empty);
             }
         }
 

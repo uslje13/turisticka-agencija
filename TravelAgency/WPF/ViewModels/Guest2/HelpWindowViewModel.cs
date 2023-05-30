@@ -7,14 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
-    public class RequestsPageViewModel : ViewModel
+    public class HelpWindowViewModel : ViewModel
     {
-        private RequestsPage _page;
+        public event EventHandler CloseRequested;
+
         private RelayCommand _backCommand;
-        public static User LoggedInUser { get; set; }
         public RelayCommand BackCommand
         {
             get { return _backCommand; }
@@ -34,56 +35,37 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        private RelayCommand _helpCommand;
+        public NavigationService NavigationService { get; set; }
 
-        public RelayCommand HelpCommand
-        {
-            get { return _helpCommand; }
-            set
-            {
-                _helpCommand = value;
-            }
-        }
-        public RequestsPageViewModel(User loggedInUser, RequestsPage page)
+        public HelpWindowViewModel(NavigationService navigationService)
         {
             BackCommand = new RelayCommand(Execute_BackCommand, CanExecuteMethod);
             NavigationCommand = new RelayCommand(Execute_NavigationCommand, CanExecuteMethod);
-            HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
-            LoggedInUser = loggedInUser;
-            _page = page;
-        }
-
-        private void Execute_HelpCommand(object obj)
-        {
-            HelpWindow helpWindow = new HelpWindow();
-            helpWindow.Show();
+            NavigationService = navigationService;
         }
 
         public void SetStartupPage()
         {
-            Execute_NavigationCommand("OrdinaryRequests");
+            Execute_NavigationCommand("HelpPage");
         }
         private void Execute_NavigationCommand(object obj)
         {
             string nextPage = obj.ToString();
-            var navigationService = _page.MainFrame.NavigationService;
 
             switch (nextPage)
             {
-                case "OrdinaryRequests":
-                    navigationService.Navigate(new OrdinaryToursRequestsPage(LoggedInUser));
+                case "HelpPage":
+                    NavigationService.Navigate(new GeneralHelpPage());
                     break;
-                case "Reservations":
-                    navigationService.Navigate(new MyReservationsPage(LoggedInUser));
+                case "TutorialPage":
+                    NavigationService.Navigate(new TutorialPage());
                     break;
             }
         }
 
         private void Execute_BackCommand(object obj)
         {
-            ToursOverviewWindow window = new ToursOverviewWindow(LoggedInUser);
-            window.Show();
-            Window.GetWindow(_page).Close();
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private bool CanExecuteMethod(object parameter)

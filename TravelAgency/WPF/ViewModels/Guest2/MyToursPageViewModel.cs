@@ -57,9 +57,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_HelpCommand(object obj)
         {
-            PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
-            var navigationService = _page.HelpFrame.NavigationService;
-            navigationService.Navigate(new HelpPage(LoggedInUser));
+            HelpWindow helpWindow = new HelpWindow();
+            helpWindow.Show();
         }
 
         public void SetStartupPage()

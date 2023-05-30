@@ -1,6 +1,4 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.ViewModels;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
+﻿using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +16,16 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for BookTourWindow.xaml
+    /// Interaction logic for HelpWindow.xaml
     /// </summary>
-    public partial class BookTourWindow : Window
+    public partial class HelpWindow : Window
     {
-        public BookTourWindow(int id,User loggedInUser)
+        public HelpWindow()
         {
             InitializeComponent();
-            BookTourViewModel viewModel = new BookTourViewModel(id, loggedInUser);
-            this.DataContext = viewModel;
+            HelpWindowViewModel viewModel = new HelpWindowViewModel(this.MainFrame.NavigationService);
+            DataContext = viewModel;
+            viewModel.SetStartupPage();
             viewModel.CloseRequested += ViewModel_CloseRequested;
         }
 

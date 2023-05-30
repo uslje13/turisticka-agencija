@@ -154,20 +154,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         }
         private void Execute_HelpCommand(object obj)
         {
-            Window.GetWindow(_page).Close();
-
-            var currentApp = System.Windows.Application.Current;
-
-            foreach (Window window in currentApp.Windows)
-            {
-                if (window is ToursOverviewWindow)
-                {
-                    PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
-                    var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
-                    navigationService.Navigate(new HelpPage(LoggedInUser));
-                    break;
-                }
-            }
+            HelpWindow window = new HelpWindow();
+            window.Show();
         }
         private void Execute_DeleteImageCommand(object obj)
         {
