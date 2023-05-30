@@ -8,7 +8,13 @@
       mc:Ignorable="d" 
       d:DesignHeight="662" d:DesignWidth="804"
       Title="HomePage">
-
+    <Page.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+    </Page.Resources>
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -29,8 +35,22 @@
                 <Grid Margin="20" Width="200">
                     <StackPanel VerticalAlignment="Center">
                         <Label Content="Vaš najpopularniji smeštaj " HorizontalAlignment="Center"/>
-                        <Image Source="{Binding AccommodationURI}"></Image>
-                        <Label Content="{Binding PopularAccommodation.Name}" HorizontalAlignment="Center"/>
+                        <Grid>
+                            <Grid.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.8" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Grid.Triggers>
+                            <StackPanel VerticalAlignment="Center">
+                                
+                                <Image Source="{Binding AccommodationURI}"></Image>
+                                <Label Content="{Binding PopularAccommodation.Name}" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                     
                 </Grid>
