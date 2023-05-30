@@ -37,30 +37,41 @@
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="2" />
 
-
-
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid Background="{TemplateBinding Background}">
                             <ContentPresenter x:Name="MyContentPresenter" 
-                                          Content="{TemplateBinding Content}"
-                                          HorizontalAlignment="Center" 
-                                          VerticalAlignment="Center" />
+                                      Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center" />
                         </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="LightBlue"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.2" Duration="0:0:0.2" />
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.2" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2" />
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-
-            <Style.Triggers>
-
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="LightBlue"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Cursor" Value="Hand"/>
-                </Trigger>
-            </Style.Triggers>
         </Style>
     </Page.Resources>
 
@@ -78,8 +89,11 @@
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Label FontSize="25" Content="{Binding Accommodation.Name}" HorizontalAlignment="Center" Margin="0,15,0,25"/>
                 <WrapPanel>
-                    <Button Width="25" Height="25" Margin="0,0,5,0" Command="{Binding NavigatePhotos}" CommandParameter="Left">
+                    <Button Width="25" Height="25" Margin="0,0,5,0" Command="{Binding NavigatePhotos}" CommandParameter="Left" RenderTransformOrigin="0.5,0.5">
                         <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" ></Image>
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Button.RenderTransform>
                     </Button>
                     <Image Source="{Binding Image.Path}" Width="300" Height="200" Stretch="UniformToFill">
                         <Image.RenderTransform>
@@ -102,7 +116,10 @@
                             </Style>
                         </Image.Style>
                     </Image>
-                    <Button Width="25" Height="25" Margin="5,0,0,0" Command="{Binding NavigatePhotos}" CommandParameter="Right">
+                    <Button Width="25" Height="25" Margin="5,0,0,0" Command="{Binding NavigatePhotos}" CommandParameter="Right" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Button.RenderTransform>
                         <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" >
                             <Image.RenderTransformOrigin>
                                 <Point X="0.45" Y="0.5" />
@@ -184,11 +201,17 @@
 
                 <Grid x:Name="SlidingGrid" Margin="110,200,0,0" >
                     <WrapPanel Margin="0,5,0,0" HorizontalAlignment="Center" >
-                        <Button Width="25" Height="25" Margin="0,0,5,0" Command="{Binding NavigateYears}" CommandParameter="Left">
+                        <Button Width="25" Height="25" Margin="0,0,5,0" Command="{Binding NavigateYears}" CommandParameter="Left" RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Button.RenderTransform>
                             <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" ></Image>
                         </Button>
                         <Label FontSize="20" Content="{Binding SlidingGridYear}" HorizontalAlignment="Center" />
-                        <Button Width="25" Height="25" Margin="5,0,0,0" Command="{Binding NavigateYears}" CommandParameter="Right">
+                        <Button Width="25" Height="25" Margin="5,0,0,0" Command="{Binding NavigateYears}" CommandParameter="Right" RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Button.RenderTransform>
                             <Image Source="/Resources/Icons/left_arrow_owner.png" Width="20" Height="20" Stretch="UniformToFill" >
                                 <Image.RenderTransformOrigin>
                                     <Point X="0.45" Y="0.5" />
@@ -232,7 +255,10 @@
                             </Style>
                         </Label.Style>
                     </Label>
-                    <Button Height="25" Width="25" Command="{Binding ToggleChart}" >
+                    <Button Height="25" Width="25" Command="{Binding ToggleChart}" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Button.RenderTransform>
                         <Image Source="/Resources/Icons/arrowchange.png" Width="20" Height="20" Stretch="UniformToFill" />
                     </Button>
                     

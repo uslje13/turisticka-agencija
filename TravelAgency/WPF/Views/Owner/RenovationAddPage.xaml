@@ -25,37 +25,7 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
-        <Style TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Background" Value="#63aaed" />
-            <Setter Property="BorderBrush" Value="Black" />
-            <Setter Property="BorderThickness" Value="2" />
-
-
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid Background="{TemplateBinding Background}">
-                            <ContentPresenter x:Name="MyContentPresenter" 
-                                          Content="{TemplateBinding Content}"
-                                          HorizontalAlignment="Center" 
-                                          VerticalAlignment="Center" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="LightBlue"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Cursor" Value="Hand"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+       
         <hack:CalendarAttachedProperties x:Key="CalendarAttachedProperties" />
     </Page.Resources>
 
@@ -109,7 +79,10 @@
                     <StackPanel>
                         <WrapPanel>
                             <TextBlock Text="Izaberite datume za pretragu:" VerticalAlignment="Center" FontSize="18" Margin="5,0"/>
-                            <Button Height="25" Width="25" Command="{Binding ResetCalendar}" Margin="25,3,0,0" VerticalAlignment="Center">
+                            <Button Height="25" Width="25" Command="{Binding ResetCalendar}" Margin="25,3,0,0" VerticalAlignment="Center" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </Button.RenderTransform>
                                 <Image Source="/Resources/Icons/refresh.png" Width="20" Height="20" Stretch="UniformToFill" />
                             </Button>
                         </WrapPanel>
@@ -154,13 +127,22 @@
         <Grid Grid.Row="1">
             <Border BorderBrush="Black" BorderThickness="1"/>
             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Content="Zakaži renoviranje" FontSize="25" Margin="20" Command="{Binding AddRenovation}" Visibility="{Binding PickDateVisibility}">
+                <Button Content="Zakaži renoviranje" FontSize="25" Margin="20" Command="{Binding AddRenovation}" Visibility="{Binding PickDateVisibility}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
 
                 </Button>
-                <Button Content="Pretraži termine" FontSize="25" Margin="20" Command="{Binding SearchDates}" Visibility="{Binding ChooseDateVisibility}">
+                <Button Content="Pretraži termine" FontSize="25" Margin="20" Command="{Binding SearchDates}" Visibility="{Binding ChooseDateVisibility}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
 
                 </Button>
-                <Button Content="Odustani" FontSize="25" Margin="20" Command="{Binding Cancel}">
+                <Button Content="Odustani" FontSize="25" Margin="20" Command="{Binding Cancel}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
 
                 </Button>
             </WrapPanel>

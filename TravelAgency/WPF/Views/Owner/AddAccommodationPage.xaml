@@ -31,37 +31,6 @@
             <Setter Property="Width" Value="180" />
             <Setter Property="Height" Value="32" />
         </Style>
-        <Style TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Background" Value="#63aaed" />
-            <Setter Property="BorderBrush" Value="Black" />
-            <Setter Property="BorderThickness" Value="2" />
-
-
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid Background="{TemplateBinding Background}">
-                            <ContentPresenter x:Name="MyContentPresenter" 
-                                          Content="{TemplateBinding Content}"
-                                          HorizontalAlignment="Center" 
-                                          VerticalAlignment="Center" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="LightBlue"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Cursor" Value="Hand"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
 
         <converter:EnumToBoolConverter x:Key="EnumToBoolConverter" />
     </Page.Resources>
@@ -133,10 +102,16 @@
                             <Label Content="Slike:"/>
                         </WrapPanel>
                         <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <Button Margin="10,0,10,0" Command="{Binding AddPicture}" VerticalAlignment="Bottom" >
+                            <Button Margin="10,0,10,0" Command="{Binding AddPicture}" VerticalAlignment="Bottom"  Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </Button.RenderTransform>
                                 <Image Source="/Resources/Icons/plusicon.png" Width="40" Height="40" ></Image>
                             </Button>
-                            <Button Margin="10,0,10,0" Command="{Binding RemovePicture}" >
+                            <Button Margin="10,0,10,0" Command="{Binding RemovePicture}"  Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </Button.RenderTransform>
                                 <Image Source="/Resources/Icons/Trash.png" Width="40" Height="40" ></Image>
                             </Button>
                         </WrapPanel>
@@ -157,7 +132,12 @@
                     <Grid Grid.Row="2">
                         <Border BorderThickness="1" BorderBrush="Black"/>
                         <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <Button Margin="10,0,10,0" Command="{Binding SetCover}" Content="Obeleži kao naslovnu" FontSize="20"/>
+                            <Button Margin="10,0,10,0" Command="{Binding SetCover}" Content="Obeleži kao naslovnu" FontSize="20" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </Button.RenderTransform>
+
+                            </Button>
 
                         </WrapPanel>
                     </Grid>
@@ -168,10 +148,15 @@
         <Grid Grid.Row="1">
             <Border BorderBrush="Black" BorderThickness="1"/>
             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Content="Dodaj smeštaj" FontSize="25" Margin="20" Command="{Binding AddAccommodation}">
-
+                <Button Content="Dodaj smeštaj" FontSize="25" Margin="20" Command="{Binding AddAccommodation}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
                 </Button>
-                <Button Content="Odustani" FontSize="25" Margin="20" Command="{Binding Cancel}">
+                <Button Content="Odustani" FontSize="25" Margin="20" Command="{Binding Cancel}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
 
                 </Button>
             </WrapPanel>

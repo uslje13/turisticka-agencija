@@ -145,7 +145,11 @@
 
                                         </TextBox>
                                         </Border>
-                                    <Button Content="Potvrdi" Command="{Binding Deny}" Width="80" Height="25" FontSize="16" Margin="0"></Button>
+                                    <Button Content="Potvrdi" Command="{Binding Deny}" Width="80" Height="25" FontSize="16" Margin="0" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                                        <Button.RenderTransform>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        </Button.RenderTransform>
+                                    </Button>
                                 </StackPanel>
                                 
                             </Grid>
@@ -156,10 +160,16 @@
 
             </Popup>
             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Content="Prihvati" FontSize="25" Margin="20" Width="120" Command="{Binding Accept}">
+                <Button Content="Prihvati" FontSize="25" Margin="20" Width="120" Command="{Binding Accept}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
 
                 </Button>
-                <Button Content="Odbi"  x:Name="DenialButton" FontSize="25" Margin="20" Width="120" Command="{Binding ShowDenialPopup}">
+                <Button Content="Odbi"  x:Name="DenialButton" FontSize="25" Margin="20" Width="120" Command="{Binding ShowDenialPopup}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
 
                 </Button>
                 

@@ -7,15 +7,19 @@
       mc:Ignorable="d" 
        d:DesignHeight="662" d:DesignWidth="804"
       Title="UserPage">
-
+    <Page.Resources>
+            
+    </Page.Resources>
     <Grid Background="Transparent">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel  Height="220">
                 <Image Source="/Resources/Icons/user_ikonica2.png" Width="130" Height="130" Margin="0,15,0,0"></Image>
                 <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
             </StackPanel>
-            <Button Content="Izloguj se" Background="#93caed" FontSize="24" Width="180" Margin="20" Command="{Binding LogOut}">
-                
+            <Button Content="Izloguj se" Background="#93caed" FontSize="24" Width="180" Margin="20" Command="{Binding LogOut}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                </Button.RenderTransform>
             </Button>
             <Label Content="Napravi svaki dom posebnim mestom, a tvoji klijenti će to prepoznati" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
 
