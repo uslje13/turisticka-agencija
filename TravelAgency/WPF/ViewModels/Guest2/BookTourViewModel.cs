@@ -11,6 +11,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
@@ -236,10 +239,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 {
                     _voucherService.UsedUpdate(_selectedVoucher.VoucherId);
                     _reservationService.CreateReservation(_selected, LoggedInUser, int.Parse(_touristNum), float.Parse(_averageAge), _selectedVoucher.VoucherId);
+                    GeneratePDFReport();
+                    MessageBox.Show("Rezervacija je uspesno kreirana, izvestaj o rezervaciji mozete pogledati klikom na dugme 'pogledaj izvestaj' u prozoru gde se nalaze vase rezervacije", "Izvestaj", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
                     _reservationService.CreateReservation(_selected, LoggedInUser, int.Parse(_touristNum), float.Parse(_averageAge, CultureInfo.InvariantCulture));
+                    GeneratePDFReport();
+                    MessageBox.Show("Rezervacija je uspesno kreirana, izvestaj o rezervaciji mozete pogledati klikom na dugme 'pogledaj izvestaj' u prozoru gde se nalaze vase rezervacije", "Izvestaj", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 CloseRequested?.Invoke(this, EventArgs.Empty);
             }
@@ -279,6 +286,40 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     Vouchers.Add(new VouchersViewModel(voucher.Id, voucher.ExpiryDate));
                 }
             }
+        }
+
+        private void GeneratePDFReport()
+        {
+            // Create a new PDF document
+            Document document = new Document();
+
+            // Set up a file stream or a memory stream to write the PDF to
+            FileStream fileStream = new FileStream("D:\\Desktop1\\Drugi deo projekta\\turisticka-agencija\\TravelAgency\\report.pdf", FileMode.Create);
+            // Or use a MemoryStream instead:
+            // MemoryStream memoryStream = new MemoryStream();
+
+            // Create a PDF writer that writes to the chosen stream
+            PdfWriter writer = PdfWriter.GetInstance(document, fileStream);
+            // Or use a PdfWriter with MemoryStream:
+            // PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+
+            // Open the PDF document
+            document.Open();
+
+            // Add content to the PDF document
+            // ...
+            Paragraph paragraph = new Paragraph("Hello, World!");
+
+            // Add the paragraph to the document
+            document.Add(paragraph);
+
+            // Close the PDF document
+            document.Close();
+
+            // Close the file stream or the memory stream
+            fileStream.Close();
+            // Or if using MemoryStream:
+            // memoryStream.Close();
         }
     }
 }

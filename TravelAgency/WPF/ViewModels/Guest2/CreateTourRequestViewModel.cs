@@ -9,14 +9,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class CreateTourRequestViewModel : ViewModel
     {
+        public NavigationService NavigationService { get; set; }
         public OrdinaryToursPageViewModel OrdinaryToursPageViewModel { get; set; }
 
-        private CreateTourRequestWindow _window;
+        public event EventHandler CloseRequested;
         public User LoggedInUser { get; set; }
         public ObservableCollection<RequestViewModel> TourRequests { get; set; }
         public RequestViewModel TourRequest { get; set; }
@@ -42,10 +44,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public CreateTourRequestViewModel(User loggedInUser,CreateTourRequestWindow window,OrdinaryToursPageViewModel ordinaryToursPageViewModel) 
+        public CreateTourRequestViewModel(User loggedInUser,NavigationService navigationService,OrdinaryToursPageViewModel ordinaryToursPageViewModel) 
         {
+            NavigationService = navigationService;
             OrdinaryToursPageViewModel = ordinaryToursPageViewModel;
-            _window= window;
             LoggedInUser= loggedInUser;
             TourRequest= new RequestViewModel();
             TourRequests = new ObservableCollection<RequestViewModel>();
@@ -55,15 +57,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_CloseCommand(object obj)
         {
-            var currentApp = System.Windows.Application.Current;
-
-            foreach (Window window in currentApp.Windows)
-            {
-                if (window is CreateTourRequestWindow)
-                {
-                    window.Close();
-                }
-            }
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void Execute_ReviewCommand(object obj)
@@ -73,8 +67,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             if (IsDataCorrect())
             {
                 TourRequests.Add(TourRequest);
-                var navigationService = _window.TourReviewFrame.NavigationService;
-                navigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests, OrdinaryToursPageViewModel));
+                NavigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests, OrdinaryToursPageViewModel));
             }          
         }
 
