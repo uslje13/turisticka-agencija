@@ -41,7 +41,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         
         private void Execute_ProcessReport(object sender)
         {
-            if (LastDate.DayOfYear < FirstDate.DayOfYear)
+            if (LastDate < FirstDate)
             {
                 MessageBox.Show("Datumi opsega nisu izabrani validno!");
             }
@@ -86,11 +86,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if(type == 0)
             {
-                return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && DateTime.Today.DayOfYear < res.FirstDay.DayOfYear && res.FirstDay.DayOfYear >= FirstDate.DayOfYear && res.LastDay.DayOfYear <= LastDate.DayOfYear;
+                return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && DateTime.Today < res.FirstDay && res.FirstDay >= FirstDate && res.LastDay <= LastDate;
             }
             else
             {
-                return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && res.FirstDay.DayOfYear >= FirstDate.DayOfYear && res.LastDay.DayOfYear <= LastDate.DayOfYear;
+                return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && res.FirstDay >= FirstDate && res.LastDay <= LastDate;
             }
         }
 
