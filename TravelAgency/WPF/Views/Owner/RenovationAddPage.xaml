@@ -11,16 +11,19 @@
       Title="RenovationPage">
     <Page.Resources>
         <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Margin" Value="10" />
         </Style>
         <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Width" Value="180" />
             <Setter Property="Height" Value="30" />
         </Style>
         <Style x:Key="CenterTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -44,7 +47,7 @@
 
                 <WrapPanel Margin="0,25,0,10">
                     <Label  Content ="Trajanje renoviranja:" Width="250"></Label>
-                    <tk:IntegerUpDown Height="30" Width="100" HorizontalContentAlignment="Left" Minimum="1" DefaultValue="1" AllowSpin="True" Value="{Binding RenovationDuration}"></tk:IntegerUpDown>
+                    <tk:IntegerUpDown Height="30" Width="100" HorizontalContentAlignment="Left" FontSize="19" Minimum="1" DefaultValue="1" AllowSpin="True" Value="{Binding RenovationDuration}"></tk:IntegerUpDown>
                 </WrapPanel>
                 <WrapPanel Margin="0,25,0,10">
 
@@ -75,10 +78,10 @@
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <Grid VerticalAlignment="Center" Margin="0,130,0,100" Height="300">
-                    <Border BorderThickness="1" BorderBrush="Black"/>
+                    <Border BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" Background="{StaticResource Owner30ColorBrush}"/>
                     <StackPanel>
                         <WrapPanel>
-                            <TextBlock Text="Izaberite datume za pretragu:" VerticalAlignment="Center" FontSize="18" Margin="5,0"/>
+                            <TextBlock Text="Izaberite datume za pretragu:" VerticalAlignment="Center" FontSize="18" Margin="5,0" FontFamily="{StaticResource OwnerFont}"/>
                             <Button Height="25" Width="25" Command="{Binding ResetCalendar}" Margin="25,3,0,0" VerticalAlignment="Center" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
                                 <Button.RenderTransform>
                                     <ScaleTransform ScaleX="1" ScaleY="1" />
@@ -86,7 +89,7 @@
                                 <Image Source="/Resources/Icons/refresh.png" Width="20" Height="20" Stretch="UniformToFill" />
                             </Button>
                         </WrapPanel>
-                        <Viewbox Stretch="Fill" StretchDirection="Both">
+                        <Viewbox Stretch="Fill" StretchDirection="Both" Margin="5,0,5,10">
                             <Calendar SelectionMode="SingleDate" DisplayMode="Month" IsTodayHighlighted="False"
                                       SelectedDate="{Binding SelectedDate}" DisplayDateStart="{Binding StartDate,Mode=TwoWay}" DisplayDateEnd="{Binding EndDate,Mode=TwoWay}"
                                       IsHitTestVisible="{Binding IsCalendarEnabled}" Background="#dceefa" 
@@ -102,14 +105,14 @@
                 <Label Content="Mogući termini: " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,10,20" />
                 <DataGrid Width="720" Height="260" RowHeight="80" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding PossibleDateRanges}" SelectedItem="{Binding Path=SelectedDateRange, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Početni datum" Binding="{Binding StartDateString}" Width="*"
+                        <DataGridTextColumn Header="Početni datum" Binding="{Binding StartDateString}" Width="*" FontSize="18"
                             ElementStyle="{StaticResource CenterTextBlockStyle}"/>
-                        <DataGridTextColumn Header="Krajnji datum" Binding="{Binding EndDateString}" Width="*"
+                        <DataGridTextColumn Header="Krajnji datum" Binding="{Binding EndDateString}" Width="*" FontSize="18"
                             ElementStyle="{StaticResource CenterTextBlockStyle}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Label Content="Opis (opciono):" FontSize="16" Margin="10,5,0,0" />
-                <Border BorderThickness="1" BorderBrush="Black" Background="#dceefa" Margin="15,0,10,10">
+                <Border BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" Background="#dceefa" Margin="15,0,10,10">
 
                     <TextBox Text="{Binding Comment,Mode=TwoWay}" Height="95" Width="Auto" FontSize="16" TextWrapping="Wrap">
 
@@ -125,7 +128,7 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
-            <Border BorderBrush="Black" BorderThickness="1"/>
+            <Border BorderBrush="{StaticResource OwnerBorderColor}" BorderThickness="1"/>
             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button Content="Zakaži renoviranje" FontSize="25" Margin="20" Command="{Binding AddRenovation}" Visibility="{Binding PickDateVisibility}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>

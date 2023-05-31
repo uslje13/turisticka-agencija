@@ -20,6 +20,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public User LoggedInUser { get; private set; }
         private AccommodationService _accommodationService;
         private ImageService _imageService;
+        private LocationService _locationService;
         private MainWindowViewModel _mainwindowVM;
         public ObservableCollection<PictureViewModel> Accommodations { get; set; }
         public PictureViewModel SelectedAccommodation { get; set; }
@@ -34,6 +35,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _mainwindowVM = mainWindowVM;
             _accommodationService = new();
             _imageService = new();
+            _locationService = new();
             Accommodations = new();
 
             AddAccommodation = new RelayCommand(Execute_AddAccommodation, CanExecuteAddAccommodation);
@@ -96,8 +98,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             {
                 string path = "/Resources/Images/UnknownPhoto.png";
                 var img = _imageService.GetAccommodationCover(accommodation.Id);
+                var location = _locationService.GetFullName(_locationService.GetById(accommodation.LocationId)) ?? "";
                 if (img != null) path = img.Path;
-                Accommodations.Add(new PictureViewModel(accommodation.Name, path,accommodation.Id));
+                Accommodations.Add(new PictureViewModel(accommodation.Name, path,accommodation.Id,location));
             }
 
         }
@@ -110,16 +113,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
     public class PictureViewModel
     {
         public string Name { get; set; }
+        public string Location { get; set; }
         public string ImagePath { get; set; }
         public int AccommodationId { get; private set; }
 
-        public PictureViewModel(string name,string imagePath, int accommodationId) 
+        public PictureViewModel(string name,string imagePath, int accommodationId, string location)
         {
             Name = name;
             ImagePath = imagePath;
             AccommodationId = accommodationId;
+            Location = location;
         }
-        
+
     }
 
 }

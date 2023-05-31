@@ -24,7 +24,12 @@
                               From="{StaticResource SlideOffSet}" To="0" 
                               Duration="0:0:0.2" />
         </Storyboard>
-
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
+        </Style>
         <Style x:Key="CenterTextBlockStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -138,7 +143,7 @@
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Label FontSize="20" Content="Skorašnje rezervacije:" HorizontalAlignment="Center" Margin="0,10,0,5"/>
                 <Grid Height="230" Width="324">
-                    <Border BorderThickness="1" BorderBrush="Black"/>
+                    <Border BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}"/>
                     <DataGrid Background="#dceefa" RowHeight="30" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Reservations}" AutoGenerateColumns="False" IsReadOnly="True" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Početak rezervacije" Binding="{Binding FirstDay}" Width="*" ElementStyle="{StaticResource CenterTextBlockStyle}"/>
@@ -233,7 +238,7 @@
             HorizontalAlignment="Right" VerticalAlignment="Top"
             >
                 <WrapPanel Margin="0,0,0,5" HorizontalAlignment="Center">
-                    <Label FontSize="20" Content="{Binding StatsLabel}" HorizontalAlignment="Center">
+                    <Label FontSize="20" Content="{Binding StatsLabel}" HorizontalAlignment="Center" FontFamily="{StaticResource OwnerFont}">
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Setter Property="Opacity" Value="1" />
@@ -264,7 +269,7 @@
                     
                 </WrapPanel>
                 <Grid Height="200" Width="324" >
-                    <Border BorderThickness="1" BorderBrush="Black" Background="#dceefa"/>
+                    <Border BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" Background="#dceefa"/>
                     <lvc:CartesianChart Series="{Binding ReservationSeries}" Width="320" Height="190" >
                         <lvc:CartesianChart.AxisX>
                             <lvc:Axis Title="Vreme" Labels="{Binding TimeLabels}"></lvc:Axis>

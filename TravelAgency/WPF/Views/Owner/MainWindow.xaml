@@ -8,6 +8,12 @@
         Title="Travel Agency" Height="768" Width="1024"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
+        </Style>
         <Style TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
         </Style>
@@ -33,7 +39,7 @@
 
         <Grid Grid.Row="0" DockPanel.Dock="Top" VerticalAlignment="Top">
 
-            <Border BorderThickness="2" BorderBrush="Black" ></Border>
+            <Border BorderThickness="2" BorderBrush="{StaticResource OwnerBorderColor}" ></Border>
              
             <WrapPanel  >
                 <Label Margin="0,8" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="Travel Agency" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="48" FontWeight="Normal" FontFamily="Segoe UI Black"/>
@@ -87,7 +93,7 @@
                                     </Path>
                                 </Grid>
                                 <Grid Grid.Row="1" Background="Transparent">
-                            <Border BorderThickness="2" BorderBrush="Black" CornerRadius="20" Background="#dceefa"></Border>
+                            <Border BorderThickness="2" BorderBrush="{StaticResource OwnerBorderColor}" CornerRadius="20" Background="#dceefa"></Border>
 
                             <StackPanel Margin="2,20" Width="300">
                                 <Grid HorizontalAlignment="Center">
@@ -154,8 +160,8 @@
                 <ColumnDefinition Width="220"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" BorderThickness="1" BorderBrush="Black" ></Border>
-            <Border Grid.Column="1" BorderThickness="1" BorderBrush="Black" ></Border>
+            <Border Grid.Column="0" BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" ></Border>
+            <Border Grid.Column="1" BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" ></Border>
             
 
 
@@ -165,7 +171,7 @@
                     <RowDefinition Height="200"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" BorderThickness="1" BorderBrush="Black" ></Border>
+                <Border Grid.Row="0" BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" ></Border>
                 
                 <Grid Grid.Row="0">
                     <Button Command="{Binding NavigationButtonCommand}" Margin="2" CommandParameter="User" Background="Transparent" BorderThickness="0">
@@ -179,45 +185,45 @@
 
                 <Grid Grid.Row="1">
                     <UniformGrid Rows="7" >
-                        
-                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Home" VerticalAlignment="Stretch" >
+
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Home" VerticalAlignment="Stretch" >
                             <WrapPanel HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/home_owner.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Početna stranica" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"></Label>
                             </WrapPanel>
                         </Button>
 
-                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Accommodation"   VerticalAlignment="Stretch" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Accommodation"   VerticalAlignment="Stretch" >
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/building.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Smeštaji" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Width="180"></Label>
                             </StackPanel>
                         </Button>
-                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Review"   VerticalAlignment="Stretch" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Review"   VerticalAlignment="Stretch" >
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/rewies.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Recenzije" VerticalAlignment="Center" FontSize="20"></Label>
                             </StackPanel>
                         </Button>
-                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Renovation"   VerticalAlignment="Stretch" HorizontalContentAlignment="Left" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Renovation"   VerticalAlignment="Stretch" HorizontalContentAlignment="Left" >
                             <WrapPanel HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/renovations.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Renoviranja" VerticalAlignment="Center" FontSize="20"></Label>
                             </WrapPanel>
                         </Button>
-                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Request"   VerticalAlignment="Stretch" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Request"   VerticalAlignment="Stretch" >
                             <WrapPanel HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/requests.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Zahtevi" VerticalAlignment="Center" FontSize="20"></Label>
                             </WrapPanel>
                         </Button>
-                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Suggestion"   VerticalAlignment="Stretch" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Suggestion"   VerticalAlignment="Stretch" >
                             <WrapPanel HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/suggestions.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Predlozi" VerticalAlignment="Center" FontSize="20"></Label>
                             </WrapPanel>
                         </Button>
-                        <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Forum"   VerticalAlignment="Stretch" HorizontalContentAlignment="Left" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Forum"   VerticalAlignment="Stretch" HorizontalContentAlignment="Left" >
                             <WrapPanel HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/forums.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Forumi" VerticalAlignment="Center" FontSize="20"></Label>

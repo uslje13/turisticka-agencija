@@ -11,11 +11,13 @@
     <Page.Resources>
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="19" />
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Margin" Value="0" />
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="19" />
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Margin" Value="0" />
         </Style>

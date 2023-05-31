@@ -10,11 +10,13 @@
       Title="AddAccommodationPage">
     <Page.Resources>
         <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Margin" Value="10" />
         </Style>
         <Style x:Key="CenterTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -90,7 +92,7 @@
                                 <DataTemplate >
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Background="Transparent">
                                         <Image Source="/Resources/Icons/user_ikonica2.png" VerticalAlignment="Center" Width="40" Height="40" Margin="5,0,0,0"/>
-                                        <TextBlock Text="{Binding GuestUsername}" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="75" Margin="5,0,10,0"/>
+                                        <TextBlock Text="{Binding GuestUsername}" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" MaxWidth="75" Margin="5,0,10,0"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

@@ -9,11 +9,13 @@
       Title="AddAccommodationPage">
     <Page.Resources>
         <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Margin" Value="10" />
         </Style>
         <Style x:Key="CenterTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
@@ -108,7 +110,7 @@
 
         </Grid>
         <Grid Grid.Row="1">
-            <Border BorderBrush="Black" BorderThickness="1"/>
+            <Border BorderBrush="{StaticResource OwnerBorderColor}" BorderThickness="1"/>
             <Popup x:Name="MyPopup" StaysOpen="False" AllowsTransparency="True"
                    PlacementTarget="{Binding ElementName=DenialButton}"
                    Placement="Top"
@@ -133,13 +135,13 @@
                         <Path Fill="White" Stretch="Fill" Data="M0,0 L30,30 L60,0 Z" Stroke="Black" StrokeThickness="1" Margin="0,0,20,0"/>
                     </Grid>
                     <Grid Grid.Row="0" Background="Transparent">
-                        <Border BorderThickness="2" BorderBrush="Black" CornerRadius="20"  Background="#dceefa"></Border>
+                        <Border BorderThickness="2" BorderBrush="{StaticResource OwnerBorderColor}" CornerRadius="20"  Background="#dceefa"></Border>
                         <Grid Margin="2,20">
 
                             <Grid>
                                 <StackPanel>
                                     <Label Content="Objašnjenje (opciono):" FontSize="16" Margin="5,-5,0,0" />
-                                    <Border BorderThickness="1" BorderBrush="Black" Background="#dceefa" Margin="10,0,10,10">
+                                    <Border BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" Background="#dceefa" Margin="10,0,10,10">
                                         
                                         <TextBox Text="{Binding Comment,Mode=TwoWay}" Height="165" FontSize="16" TextWrapping="Wrap">
 

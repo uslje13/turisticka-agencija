@@ -255,7 +255,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             if (BlackoutDates == null) return;
             BlackoutDates.Clear();
             var reservations = _accommodationReservationService.GetAll().Where(r => SelectedAccommodation.Id == r.AccommodationId);
-            reservations = reservations.Where(r => r.FirstDay >= DateTime.Today);
+            reservations = reservations.Where(r => r.LastDay >= DateTime.Today);
             foreach (var reservation in reservations)
             {
                 BlackoutDates.AddRange(GetDatesBetween(reservation.FirstDay, reservation.LastDay));
@@ -266,6 +266,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private List<DateTime> GetDatesBetween(DateTime start,DateTime end) 
         {
             List <DateTime> dates = new();
+            if (start <= DateTime.Today) start = DateTime.Today.AddDays(1);
             while(start.CompareTo(end) <= 0) 
             {
                 dates.Add(start);

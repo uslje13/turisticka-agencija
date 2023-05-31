@@ -28,6 +28,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
             _homePageViewModel = new HomePageViewModel(user);
             DataContext = _homePageViewModel;
             InitializeComponent();
+
         }
     }
 }
