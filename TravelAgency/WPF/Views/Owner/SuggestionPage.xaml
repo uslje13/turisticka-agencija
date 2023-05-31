@@ -57,7 +57,7 @@
         </Grid>
         <Grid Grid.Row="1" >
             <StackPanel VerticalAlignment="Top">
-                <DataGrid Width="730" Height="470" RowHeight="120" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding RenovationRecommendations}" SelectedItem="{Binding Path=SelectedRecommendation, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <DataGrid Width="730" Height="470" RowHeight="80" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding RenovationRecommendations}" SelectedItem="{Binding Path=SelectedRecommendation, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
 
                     <DataGrid.RowStyle>
@@ -95,7 +95,7 @@
                         <DataGridTemplateColumn Header="Hitnost renoviranja" Width="140">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <lvc:Gauge Margin="10" Value="{Binding RenovationRank}" From="1" To="5" Foreground="#19297C">
+                                    <lvc:Gauge Margin="0,10" Width="80" Value="{Binding RenovationRank}" From="1" To="5" Foreground="#19297C">
                                     </lvc:Gauge>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

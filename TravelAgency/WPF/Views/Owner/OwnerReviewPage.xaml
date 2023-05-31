@@ -17,6 +17,7 @@
         </Style>
         <Style x:Key="CenterTextBlockStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
+            <Setter Property="FontSize" Value="16" />
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -92,7 +93,7 @@
                                 <DataTemplate >
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Background="Transparent">
                                         <Image Source="/Resources/Icons/user_ikonica2.png" VerticalAlignment="Center" Width="40" Height="40" Margin="5,0,0,0"/>
-                                        <TextBlock Text="{Binding GuestUsername}" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" MaxWidth="75" Margin="5,0,10,0"/>
+                                        <TextBlock Text="{Binding GuestUsername}" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="18" MaxWidth="75" Margin="5,0,10,0"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
