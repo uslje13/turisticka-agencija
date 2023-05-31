@@ -19,7 +19,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private AccommodationService _accommodationService;
         private LocationService _locationService;
         private ImageService _imageService;
-        private MainWindowViewModel _mainwindowVM;
 
         public User LoggedInUser { get; private set; }
         public string AName { get; set; }
@@ -78,13 +77,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand AddPicture { get; private set; }
         public RelayCommand RemovePicture { get; private set; }
         public RelayCommand SetCover { get; private set; }
-        public AddAccommodationPageViewModel(User user, MainWindowViewModel mainWindowVM)
+        public AddAccommodationPageViewModel()
         {
-            LoggedInUser = user;
+            LoggedInUser = App.LoggedUser;
             _accommodationService = new AccommodationService();
             _locationService = new();
             _imageService = new();
-            _mainwindowVM = mainWindowVM;
 
 
             AddAccommodation = new RelayCommand(Execute_AddAccommodation, CanExecuteAddAccommodation);
@@ -98,7 +96,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Countries = new ReadOnlyObservableCollection<string>(GetCountries());
             Cities = new ObservableCollection<string>();
             SelectedType = Accommodation.AccommodationType.HUT;
-            LoggedInUser = user;
             CountryBoxEnabled = true;
 
             AName = string.Empty;
@@ -160,7 +157,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Accommodation accommodation = new Accommodation(AName, SelectedType, locationId, MaxGuests, MinDaysStay, LoggedInUser.Id, MinDaysForCancelation);
             var id = _accommodationService.SaveAndReturn(accommodation).Id;
             SaveImages(id);
-            _mainwindowVM.Execute_NavigationButtonCommand("Accommodation");
+            App.OwnerNavigationService.NavigateMainWindow("Accommodation");
             return;
         }
 
@@ -177,7 +174,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_Cancel(object obj)
         {
-            _mainwindowVM.Execute_NavigationButtonCommand("Accommodation");
+            App.OwnerNavigationService.NavigateMainWindow("Accommodation");
             return;
         }
 

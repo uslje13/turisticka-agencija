@@ -14,7 +14,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
     {
         private AccommodationReservationService _accommodationReservationService;
         private UserService _userService;
-        private MainWindowViewModel _mainwindowVM;
 
         public User LoggedInUser { get; private set; }
         public RelayCommand Accept { get; private set; }
@@ -38,12 +37,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public ObservableCollection<RequestViewModel> Requests { get; set; }
         public RequestViewModel SelectedRequest { get; set; }
 
-        public RequestPageViewModel(User user, MainWindowViewModel mainWindowVM)
+        public RequestPageViewModel()
         {
             _accommodationReservationService = new();
             _userService = new();
-            _mainwindowVM = mainWindowVM;
-            LoggedInUser = user;
+            LoggedInUser = App.LoggedUser;
             Requests = new();
             IsCommentDropOpen = false;
             FillObservableCollection();

@@ -14,7 +14,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private GuestReviewService _guestReviewService;
         private AccommodationService _accommodationService;
         private UserService _userService;
-        private MainWindowViewModel _mainwindowVM;
 
         public User LoggedInUser { get; private set; }
         public double AveridgeGrade { get; set; }
@@ -32,14 +31,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
         }
 
-        public OwnerReviewPageViewModel(User user, MainWindowViewModel mainWindowVM)
+        public OwnerReviewPageViewModel()
         {
             _guestAccMarkService = new();
             _guestReviewService = new();
             _accommodationService = new();
             _userService = new();
-            _mainwindowVM = mainWindowVM;
-            LoggedInUser = user;
+            LoggedInUser = App.LoggedUser;
             Reviews = new();
             FillObservableCollection();
             AveridgeGrade = GetAveridgeGrade();

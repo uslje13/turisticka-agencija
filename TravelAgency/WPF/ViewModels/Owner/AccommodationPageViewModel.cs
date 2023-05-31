@@ -21,7 +21,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private AccommodationService _accommodationService;
         private ImageService _imageService;
         private LocationService _locationService;
-        private MainWindowViewModel _mainwindowVM;
         public ObservableCollection<PictureViewModel> Accommodations { get; set; }
         public PictureViewModel SelectedAccommodation { get; set; }
         public RelayCommand OpenAccommodationDetails { get; private set; }
@@ -29,10 +28,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand EditAccommodation { get; private set; }
         public RelayCommand DeleteAccommodation { get; private set; }
 
-        public AccommodationPageViewModel(User user,MainWindowViewModel mainWindowVM)
+        public AccommodationPageViewModel()
         {
-            LoggedInUser = user;
-            _mainwindowVM = mainWindowVM;
+            LoggedInUser = App.LoggedUser;
             _accommodationService = new();
             _imageService = new();
             _locationService = new();
@@ -70,7 +68,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_OpenAccommodationDetails(object obj)
         {
-            _mainwindowVM.SetPage(new AccommodationInfoPage(LoggedInUser,_accommodationService.GetById(SelectedAccommodation.AccommodationId)));
+            App.OwnerNavigationService.SetPage(new AccommodationInfoPage(LoggedInUser,_accommodationService.GetById(SelectedAccommodation.AccommodationId)));
         }
 
 
@@ -87,7 +85,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_AddAccommodation(object obj)
         {
-            _mainwindowVM.Execute_NavigationButtonCommand("AccommodationAdd");
+            App.OwnerNavigationService.NavigateMainWindow("AccommodationAdd");
             return;
         }
 

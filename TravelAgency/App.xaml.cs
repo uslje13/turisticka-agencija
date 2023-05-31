@@ -17,6 +17,7 @@ namespace SOSTeam.TravelAgency
     public partial class App : System.Windows.Application
     {
         public static TourGuideNavigationService TourGuideNavigationService { get; set; }
+        public static OwnerNavigationService OwnerNavigationService { get; set; }
         public static User LoggedUser { get; set; }
     }
 }

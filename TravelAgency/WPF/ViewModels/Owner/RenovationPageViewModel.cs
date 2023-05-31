@@ -31,7 +31,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand AddRenovation { get; private set; }
 
 
-        private MainWindowViewModel _mainwindowVM;
 
 
         private ImageService _imageService;
@@ -43,15 +42,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
 
 
-        public RenovationPageViewModel(User user, MainWindowViewModel mainWindowVM)
+        public RenovationPageViewModel()
         {
-            LoggedInUser = user;
+            LoggedInUser = App.LoggedUser;
             _accommodationService = new();
             _imageService = new();
-            _mainwindowVM = mainWindowVM;
             _accommodationRenovationService = new();
 
-            var accommodations = _accommodationService.GetAllByUserId(user.Id);
+            var accommodations = _accommodationService.GetAllByUserId(LoggedInUser.Id);
             var renovations = _accommodationRenovationService.GetAll().Where(r => accommodations.Any(a => a.Id == r.AccommodationId));
             SetRenovationsCollection(accommodations, renovations);
             DeleteRenovation = new RelayCommand(Execute_DeleteRenovation, CanExecuteDeleteRenovation);
@@ -61,7 +59,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_AddRenovation(object obj)
         {
-            _mainwindowVM.Execute_NavigationButtonCommand("RenovationAdd");
+            App.OwnerNavigationService.NavigateMainWindow("RenovationAdd");
         }
 
         private bool CanExecuteAddRenovation(object obj)

@@ -77,13 +77,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _guestReviewService.Update(Review);
 
 
-            _mainwindowVM.Execute_NavigationButtonCommand("Home");
+            App.OwnerNavigationService.NavigateMainWindow("Home");
             return;
         }
 
         private void Execute_Cancel(object obj)
         {
-            _mainwindowVM.Execute_NavigationButtonCommand("Home");
+            App.OwnerNavigationService.NavigateMainWindow("Home");
             return;
         }
 

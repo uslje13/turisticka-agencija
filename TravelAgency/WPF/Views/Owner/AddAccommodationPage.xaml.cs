@@ -22,9 +22,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
     /// </summary>
     public partial class AddAccommodationPage : Page
     {
-        public AddAccommodationPage(User user, MainWindowViewModel mainWindowVM)
+        public AddAccommodationPage()
         {
-            DataContext = new AddAccommodationPageViewModel(user, mainWindowVM);
+            DataContext = new AddAccommodationPageViewModel();
             InitializeComponent();
         }
     }

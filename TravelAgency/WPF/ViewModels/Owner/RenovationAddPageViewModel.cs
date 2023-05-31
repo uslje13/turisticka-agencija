@@ -172,7 +172,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private Accommodation _selectedAccommodation;
 
 
-        private MainWindowViewModel _mainwindowVM;
 
         private AccommodationService _accommodationService;
         private AccommodationRenovationService _accommodationRenovationService;
@@ -183,14 +182,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
 
 
-        public RenovationAddPageViewModel(User user, MainWindowViewModel mainWindowVM)
+        public RenovationAddPageViewModel()
         {
-            LoggedInUser = user;
-            _mainwindowVM = mainWindowVM;
+            LoggedInUser = App.LoggedUser;
             _accommodationService = new();
             _accommodationRenovationService = new();
             _accommodationReservationService = new();
-            Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetAllByUserId(user.Id));
+            Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetAllByUserId(LoggedInUser.Id));
             SelectedAccommodation = Accommodations.First();
             PossibleDateRanges = new();
             BlackoutDates = new();
@@ -210,7 +208,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             if (Comment == null) Comment = "";
             _accommodationRenovationService.Save(new AccommodationRenovation(SelectedAccommodation.Id, SelectedDateRange.StartDate, SelectedDateRange.EndDate,Comment));
-            _mainwindowVM.Execute_NavigationButtonCommand("Renovation");
+            App.OwnerNavigationService.NavigateMainWindow("Renovation");
         }
 
         private bool CanExecuteAddRenovation(object obj)
@@ -230,7 +228,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_Cancel(object obj)
         {
-            _mainwindowVM.Execute_NavigationButtonCommand("Renovation");
+            App.OwnerNavigationService.NavigateMainWindow("Renovation");
         }
 
         private bool CanExecuteCancel(object obj)

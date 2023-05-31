@@ -14,13 +14,52 @@
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
         </Style>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="Transparent" />
-        </Style>
         <Style TargetType="Grid">
             <Setter Property="Background" Value="Transparent" />
         </Style>
-        
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="BorderBrush" Value="{StaticResource OwnerBorderColor}" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                      Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="LightBlue"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2" />
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2" />
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -45,7 +84,10 @@
                 <Label Margin="0,8" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="Travel Agency" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="48" FontWeight="Normal" FontFamily="Segoe UI Black"/>
             </WrapPanel>
             <WrapPanel HorizontalAlignment="Right"   >
-                <Button Margin="0,15" Height="42" Background="Transparent" Command="{Binding ToggleShowNotifications}" IsEnabled="{Binding IsDropdownClosed}">
+                <Button Margin="0,15" Height="42" Background="Transparent" Command="{Binding ToggleShowNotifications}" IsEnabled="{Binding IsDropdownClosed}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
                     <Image x:Name="MyButton" Source="/Resources/Icons/notif_bell.png" Width="40" Height="40"></Image>
                     <Button.Style>
                         <Style TargetType="Button">
@@ -97,7 +139,11 @@
 
                             <StackPanel Margin="2,20" Width="300">
                                 <Grid HorizontalAlignment="Center">
-                                    <Button Visibility="Collapsed" x:Name="doubleClickButton" Command="{Binding NotificationDoubleClick}"></Button>
+                                    <Button Visibility="Collapsed" x:Name="doubleClickButton" Command="{Binding NotificationDoubleClick}" RenderTransformOrigin="0.5,0.5">
+                                        <Button.RenderTransform>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        </Button.RenderTransform>
+                                    </Button>
 
                                     <ScrollViewer Width="295" Height="280" Background="Transparent" >
                                         <ListView Grid.Row="1" ItemsSource="{Binding Notifications}" Background="Transparent" SelectedItem="{Binding SelectedNotification}" MouseDoubleClick="ListView_MouseDoubleClick" >
@@ -132,8 +178,16 @@
                                 </Grid>
                                 <Grid >
                                     <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Right">
-                                        <Button Content="Označi kao pročitano" Height="28" FontSize="18" Margin="2,2" Command="{Binding MarkAsReadNotification}"/>
-                                        <Button Content="Izbriši" Height="28" FontSize="18" Margin="0,2,20,2" Command="{Binding DeleteNotification}"/>
+                                        <Button Content="Označi kao pročitano" Height="28" FontSize="18" Margin="2,2" Command="{Binding MarkAsReadNotification}" RenderTransformOrigin="0.5,0.5">
+                                            <Button.RenderTransform>
+                                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            </Button.RenderTransform>
+                                        </Button>
+                                        <Button Content="Izbriši" Height="28" FontSize="18" Margin="0,2,20,2" Command="{Binding DeleteNotification}" RenderTransformOrigin="0.5,0.5">
+                                            <Button.RenderTransform>
+                                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            </Button.RenderTransform>
+                                        </Button>
                                     </WrapPanel>
                                     
                                 </Grid>
@@ -145,7 +199,10 @@
                         
                 </Popup>
 
-                <Button Command="{Binding NavigationButtonCommand}" CommandParameter="User" Margin="2" Background="Transparent" BorderThickness="0">
+                <Button Command="{Binding NavigationButtonCommand}" CommandParameter="User" Margin="2" Background="Transparent" BorderThickness="0" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
                     <WrapPanel >
                         <Image  Source="/Resources/Icons/user_ikonica2.png" Width="45" Height="45" Margin="15,15,0,15"></Image>
                         <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Margin="15" Height="80" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="24" VerticalContentAlignment="Center"></Label>
@@ -174,7 +231,10 @@
                 <Border Grid.Row="0" BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" ></Border>
                 
                 <Grid Grid.Row="0">
-                    <Button Command="{Binding NavigationButtonCommand}" Margin="2" CommandParameter="User" Background="Transparent" BorderThickness="0">
+                    <Button Command="{Binding NavigationButtonCommand}" Margin="2" CommandParameter="User" Background="Transparent" BorderThickness="0" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Button.RenderTransform>
                         <StackPanel >
                             <Image Source="/Resources/Icons/user_ikonica2.png" Width="130" Height="130" Margin="0,15,0,0"></Image>
                             <Label Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" Margin="3" Height="Auto" FontSize="24" HorizontalAlignment="Center" />
@@ -186,44 +246,65 @@
                 <Grid Grid.Row="1">
                     <UniformGrid Rows="7" >
 
-                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Home" VerticalAlignment="Stretch" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Home" VerticalAlignment="Stretch"  RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Button.RenderTransform>
                             <WrapPanel HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/home_owner.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Početna stranica" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"></Label>
                             </WrapPanel>
                         </Button>
 
-                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Accommodation"   VerticalAlignment="Stretch" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Accommodation"   VerticalAlignment="Stretch"  RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Button.RenderTransform>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/building.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Smeštaji" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Width="180"></Label>
                             </StackPanel>
                         </Button>
-                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Review"   VerticalAlignment="Stretch" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Review"   VerticalAlignment="Stretch"  RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Button.RenderTransform>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/rewies.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Recenzije" VerticalAlignment="Center" FontSize="20"></Label>
                             </StackPanel>
                         </Button>
-                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Renovation"   VerticalAlignment="Stretch" HorizontalContentAlignment="Left" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Renovation"   VerticalAlignment="Stretch" HorizontalContentAlignment="Left"  RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Button.RenderTransform>
                             <WrapPanel HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/renovations.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Renoviranja" VerticalAlignment="Center" FontSize="20"></Label>
                             </WrapPanel>
                         </Button>
-                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Request"   VerticalAlignment="Stretch" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Request"   VerticalAlignment="Stretch"  RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Button.RenderTransform>
                             <WrapPanel HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/requests.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Zahtevi" VerticalAlignment="Center" FontSize="20"></Label>
                             </WrapPanel>
                         </Button>
-                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Suggestion"   VerticalAlignment="Stretch" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Suggestion"   VerticalAlignment="Stretch"  RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Button.RenderTransform>
                             <WrapPanel HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/suggestions.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Predlozi" VerticalAlignment="Center" FontSize="20"></Label>
                             </WrapPanel>
                         </Button>
-                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Forum"   VerticalAlignment="Stretch" HorizontalContentAlignment="Left" >
+                        <Button BorderBrush="{StaticResource OwnerBorderColor}" Command="{Binding NavigationButtonCommand}" CommandParameter="Forum"   VerticalAlignment="Stretch" HorizontalContentAlignment="Left"  RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Button.RenderTransform>
                             <WrapPanel HorizontalAlignment="Left" Width="220">
                                 <Image Source="/Resources/Icons/forums.png"  Margin="0,8,5,8"></Image>
                                 <Label Content="Forumi" VerticalAlignment="Center" FontSize="20"></Label>

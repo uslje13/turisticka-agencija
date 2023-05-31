@@ -53,11 +53,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public User LoggedInUser { get; private set; }
         private AccommodationStatsService _accommodationStatsService;
         private ImageService _imageService;
-        public HomePageViewModel(User user)
+        public HomePageViewModel()
         {
-            LoggedInUser = user;
-            Username = user.Username;
-            _accommodationStatsService = new(user.Id);
+            LoggedInUser = App.LoggedUser;
+            Username = LoggedInUser.Username;
+            _accommodationStatsService = new(LoggedInUser.Id);
             _imageService = new();
             var occupationData = _accommodationStatsService.GetCurrentOccupation();
             EmptyAccommodations = occupationData.Item1;

@@ -12,6 +12,7 @@ using SOSTeam.TravelAgency.WPF.Views.Owner;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using SOSTeam.TravelAgency.Repositories;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
@@ -66,13 +67,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
         }
         public bool IsDropdownClosed { get; set; }
-        public MainWindowViewModel(User user,MainWindow mainWindow)
+        public MainWindowViewModel()
         {
-            _mainWindow = mainWindow;
             _userService = new();
             _guestReviewService = new();
-            Username = user.Username;
-            LoggedInUser = user;
+            LoggedInUser = App.LoggedUser;
+            Username = LoggedInUser.Username;
             IsDropdownOpen = false;
             IsDropdownClosed = !IsDropdownOpen;
             DeleteNotification = new RelayCommand(Execute_DeleteNotification, CanExecuteDeleteNotification);
@@ -151,56 +151,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         public void Execute_NavigationButtonCommand(object parameter)
         {
-            string nextPage = parameter.ToString();
-            var navigationService = _mainWindow.MainFrame.NavigationService;
-
-            switch (nextPage) 
-            {
-                case "Home":
-                    navigationService.Navigate(new HomePage(LoggedInUser));
-                    break;
-                case "Accommodation":
-                    navigationService.Navigate(new AccommodationsPage(LoggedInUser,this));
-                    break;
-                case "AccommodationAdd":
-                    navigationService.Navigate(new AddAccommodationPage(LoggedInUser,this));
-                    break;
-                case "Request":
-                    navigationService.Navigate(new RequestPage(LoggedInUser, this));
-                    break;
-                case "Review":
-                    navigationService.Navigate(new OwnerReviewPage(LoggedInUser, this));
-                    break;
-                case "User":
-                    navigationService.Navigate(new UserPage(LoggedInUser, this));
-                    break;
-                case "Renovation":
-                    navigationService.Navigate(new RenovationPage(LoggedInUser, this));
-                    break;
-                case "RenovationAdd":
-                    navigationService.Navigate(new RenovationAddPage(LoggedInUser, this));
-                    break;
-                /*
-                
-                case "Suggestion":
-                    navigationService.Navigate(new HomePage());
-                    break;
-                case "Forum":
-                    navigationService.Navigate(new HomePage());
-                    break;
-                */
-
-                default:
-                    break;
-            }
-            return;
-
-            
+            App.OwnerNavigationService.NavigateMainWindow(parameter);
         }
 
         public void CloseWindow() 
         {
-            _mainWindow.Close();
+            App.OwnerNavigationService.CloseWindow();
         }
 
         private bool CanExecuteMethod(object parameter)

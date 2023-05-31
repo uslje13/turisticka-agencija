@@ -22,11 +22,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
     /// </summary>
     public partial class HomePage : Page
     {
-        private HomePageViewModel _homePageViewModel;
-        public HomePage(User user)
+        public HomePage()
         {
-            _homePageViewModel = new HomePageViewModel(user);
-            DataContext = _homePageViewModel;
+            DataContext = new HomePageViewModel();
             InitializeComponent();
 
         }
