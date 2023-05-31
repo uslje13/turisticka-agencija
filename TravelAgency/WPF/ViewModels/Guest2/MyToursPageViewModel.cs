@@ -9,12 +9,13 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class MyToursPageViewModel : ViewModel
     {
-        private MyToursPage _page;
+        public NavigationService NavigationService { get; set; }
         private RelayCommand _backCommand;
         public static User LoggedInUser { get; set; }
         public RelayCommand BackCommand
@@ -46,13 +47,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 _helpCommand = value;
             }
         }
-        public MyToursPageViewModel(User loggedInUser, MyToursPage page) 
+        public MyToursPageViewModel(User loggedInUser, NavigationService navigationService) 
         {
             BackCommand = new RelayCommand(Execute_BackCommand,CanExecuteMethod);
             NavigationCommand = new RelayCommand(Execute_NavigationCommand, CanExecuteMethod);
             HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
             LoggedInUser = loggedInUser;
-            _page = page;
+            NavigationService= navigationService;
         }
 
         private void Execute_HelpCommand(object obj)
@@ -68,24 +69,31 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_NavigationCommand(object obj)
         {
             string nextPage = obj.ToString();
-            var navigationService = _page.MainFrame.NavigationService;
 
             switch(nextPage)
             {
                 case "ActiveTour":
-                    navigationService.Navigate(new ActiveTourPage(LoggedInUser));
+                    NavigationService.Navigate(new ActiveTourPage(LoggedInUser));
                     break;
                 case "Reservations":
-                    navigationService.Navigate(new MyReservationsPage(LoggedInUser));
+                    NavigationService.Navigate(new MyReservationsPage(LoggedInUser));
                     break;
             }
         }
 
         private void Execute_BackCommand(object obj)
         {
-            ToursOverviewWindow window = new ToursOverviewWindow(LoggedInUser);
-            window.Show();
-            Window.GetWindow(_page).Close();
+            var currentApp = System.Windows.Application.Current;
+
+            foreach (Window window in currentApp.Windows)
+            {
+                if (window is ToursOverviewWindow)
+                {
+                    ToursOverviewWindow mainWindow = new ToursOverviewWindow(LoggedInUser);
+                    mainWindow.Show();
+                    window.Close();
+                }
+            }
         }
 
         private bool CanExecuteMethod(object parameter)
