@@ -1,5 +1,4 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.ViewModels.Owner;
+﻿using SOSTeam.TravelAgency.WPF.ViewModels.Owner;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +17,13 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.Owner
 {
     /// <summary>
-    /// Interaction logic for AddAccommodationPage.xaml
+    /// Interaction logic for SuggestionPage.xaml
     /// </summary>
-    public partial class AddAccommodationPage : Page
+    public partial class SuggestionPage : Page
     {
-        public AddAccommodationPage()
+        public SuggestionPage()
         {
-            DataContext = new AccommodationAddPageViewModel();
+            DataContext = new SuggestionPageViewModel();
             InitializeComponent();
         }
     }

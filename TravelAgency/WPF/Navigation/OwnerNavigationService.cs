@@ -49,13 +49,13 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                 case "RenovationAdd":
                     _navigationService.Navigate(new RenovationAddPage());
                     break;
+                case "Suggestion":
+                    _navigationService.Navigate(new SuggestionPage());
+                    break;
                 /*
                 
-                case "Suggestion":
-                    navigationService.Navigate(new HomePage());
-                    break;
                 case "Forum":
-                    navigationService.Navigate(new HomePage());
+                    _navigationService.Navigate(new HomePage());
                     break;
                 */
 

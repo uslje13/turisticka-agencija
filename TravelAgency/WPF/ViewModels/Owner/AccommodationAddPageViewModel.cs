@@ -13,7 +13,7 @@ using System.Windows.Data;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
-    internal class AddAccommodationPageViewModel : ViewModel
+    internal class AccommodationAddPageViewModel : ViewModel
     {
         
         private AccommodationService _accommodationService;
@@ -77,7 +77,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand AddPicture { get; private set; }
         public RelayCommand RemovePicture { get; private set; }
         public RelayCommand SetCover { get; private set; }
-        public AddAccommodationPageViewModel()
+        public AccommodationAddPageViewModel()
         {
             LoggedInUser = App.LoggedUser;
             _accommodationService = new AccommodationService();
