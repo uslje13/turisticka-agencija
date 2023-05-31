@@ -10,7 +10,7 @@
         Background="AliceBlue"
         ResizeMode="CanResizeWithGrip"
         >
-    <Window.InputBindings>
+    <!--Window.InputBindings>
         <KeyBinding Key="M" Modifiers="Control" Command="{Binding MyToursCommand}" />
         <KeyBinding Key="Z" Modifiers="Control" Command="{Binding RequestsCommand}" />
         <KeyBinding Key="V" Modifiers="Control" Command="{Binding VouchersCommand}" />
@@ -18,7 +18,7 @@
         <KeyBinding Key="O" Modifiers="Control" Command="{Binding NotificationsCommand}" />
         <KeyBinding Key="H" Modifiers="Control" Command="{Binding HelpCommand}" />
         <KeyBinding Key="L" Modifiers="Control" Command="{Binding LogOutCommand}" />
-    </Window.InputBindings>
+    </Window.InputBindings-->
 
     <Window.Resources>
         <ResourceDictionary>

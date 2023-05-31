@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         public ReviewPage(User loggedInUser,int appointmentId,int reservationId)
         {
             InitializeComponent();
-            ReviewPageViewModel viewModel = new ReviewPageViewModel(this,loggedInUser,appointmentId,reservationId);
+            ReviewPageViewModel viewModel = new ReviewPageViewModel(loggedInUser,appointmentId,reservationId);
             DataContext= viewModel;
         }
     }
