@@ -11,13 +11,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
     public class SuggestionPageViewModel : ViewModel
     {
-        private RenovationRecommendationService _renovationRecommendationService;
-        private UserService _userService;
         private AccommodationService _accommodationService;
 
         private ObservableCollection<RenovationRecommendationViewModel> _renovationRecommendations;
 
         public RenovationRecommendationViewModel SelectedRecommendation { get; set; }
+        public Accommodation PopularAccommodation { get; set; }
+        public Accommodation UnpopularAccommodation { get; set; }
+        public string PopularAccommodationURI { get; set; }
+        public string UnpopularAccommodationURI { get; set; }
+        public string UnpopularLocation { get; set; }
+        public string PopularLocation { get; set; }
+
+
 
         public ObservableCollection<RenovationRecommendationViewModel> RenovationRecommendations
         {
@@ -28,16 +34,30 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 OnPropertyChanged("RenovationRecommendations");
             }
         }
+        private RenovationRecommendationService _renovationRecommendationService;
+        private UserService _userService;
+        private AccommodationStatsService _accommodationStatsService;
+        private ImageService _imageService;
+        private LocationService _locationService;
 
         public SuggestionPageViewModel()
         {
-             _renovationRecommendationService = new RenovationRecommendationService();
+            _renovationRecommendationService = new RenovationRecommendationService();
             RenovationRecommendations = new();
             _userService = new();
             _accommodationService = new();
+            _accommodationStatsService = new(App.LoggedUser.Id);
+            _imageService = new();
+            _locationService = new();
+            FillObservableCollection();
+            GetMostPopularAndUnpopularAccommodation();
 
+        }
+
+        private void FillObservableCollection()
+        {
             var a = _renovationRecommendationService.GetAllForUser(App.LoggedUser.Id);
-            foreach(var recommendation in a) 
+            foreach (var recommendation in a)
             {
                 RenovationRecommendations.Add(new RenovationRecommendationViewModel(
                                               recommendation.Id,
@@ -47,8 +67,23 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                                               _accommodationService.GetById(recommendation.AccommodationId).Name
                     ));
             }
+        }
 
+        private void GetMostPopularAndUnpopularAccommodation()
+        {
+
+            PopularAccommodation = _accommodationStatsService.GetMostPopularAccommodation();
+            var photo = _imageService.GetAccommodationCover(PopularAccommodation.Id);
+            PopularAccommodationURI = "/Resources/Images/UnknownPhoto.png";
+            if (photo != null) PopularAccommodationURI = photo.Path;
+            PopularLocation = _locationService.GetFullName(_locationService.GetById(PopularAccommodation.LocationId));
             
+            UnpopularAccommodation = _accommodationStatsService.GetMostUnpopularAccommodation();
+            photo = _imageService.GetAccommodationCover(UnpopularAccommodation.Id);
+            UnpopularAccommodationURI = "/Resources/Images/UnknownPhoto.png";
+            if (photo != null) UnpopularAccommodationURI = photo.Path;
+            UnpopularLocation = _locationService.GetFullName(_locationService.GetById(UnpopularAccommodation.LocationId));
+
         }
 
 

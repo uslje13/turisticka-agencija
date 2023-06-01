@@ -316,7 +316,7 @@
                                 </Button.RenderTransform>
                                 <WrapPanel HorizontalAlignment="Left" Width="220">
                                     <Image Source="/Resources/Icons/suggestions.png"  Margin="0,8,5,8"></Image>
-                                    <Label Content="Predlozi" VerticalAlignment="Center" FontSize="20"></Label>
+                                    <Label Content="Preporuke" VerticalAlignment="Center" FontSize="20"></Label>
                                 </WrapPanel>
                             </Button>
                         </Border>

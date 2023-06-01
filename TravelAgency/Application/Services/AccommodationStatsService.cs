@@ -171,5 +171,12 @@ namespace SOSTeam.TravelAgency.Application.Services
             var reservations = _accommodationReservationService.LoadFinishedReservations().Where(r => accommodations.Any(a => r.AccommodationId == a.Id));
             return accommodations.OrderByDescending(a => reservations.Count(r => r.AccommodationId == a.Id)).First();
         }
+        
+        public Accommodation GetMostUnpopularAccommodation() 
+        {
+            var accommodations = _accommodationService.GetAllByUserId(_userId);
+            var reservations = _accommodationReservationService.LoadFinishedReservations().Where(r => accommodations.Any(a => r.AccommodationId == a.Id));
+            return accommodations.OrderBy(a => reservations.Count(r => r.AccommodationId == a.Id)).First();
+        }
     }
 }
