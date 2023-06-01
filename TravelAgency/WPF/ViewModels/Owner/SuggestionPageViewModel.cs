@@ -1,4 +1,5 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public string UnpopularAccommodationURI { get; set; }
         public string UnpopularLocation { get; set; }
         public string PopularLocation { get; set; }
+        public RelayCommand DeleteRecommendation { get; private set; }
 
 
 
@@ -49,6 +51,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _accommodationStatsService = new(App.LoggedUser.Id);
             _imageService = new();
             _locationService = new();
+            DeleteRecommendation = new RelayCommand(Execute_DeleteRecommendation, CanExecuteDeleteRecommendation);
             FillObservableCollection();
             GetMostPopularAndUnpopularAccommodation();
 
@@ -67,6 +70,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                                               _accommodationService.GetById(recommendation.AccommodationId).Name
                     ));
             }
+        }
+
+        private bool CanExecuteDeleteRecommendation(object obj)
+        {
+            return SelectedRecommendation != null;
+        }
+
+        private void Execute_DeleteRecommendation(object obj)
+        {
+            _renovationRecommendationService.Delete(SelectedRecommendation.Id);
+            RenovationRecommendations.Remove(SelectedRecommendation);
         }
 
         private void GetMostPopularAndUnpopularAccommodation()
