@@ -52,11 +52,11 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                 case "Suggestion":
                     _navigationService.Navigate(new SuggestionPage());
                     break;
+                case "Forum":
+                    _navigationService.Navigate(new ForumPage());
+                    break;
                 /*
                 
-                case "Forum":
-                    _navigationService.Navigate(new HomePage());
-                    break;
                 */
 
                 default:

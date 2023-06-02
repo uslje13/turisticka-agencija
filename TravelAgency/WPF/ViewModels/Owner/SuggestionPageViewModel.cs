@@ -14,7 +14,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
     {
         private AccommodationService _accommodationService;
 
-        private ObservableCollection<RenovationRecommendationViewModel> _renovationRecommendations;
 
         public RenovationRecommendationViewModel SelectedRecommendation { get; set; }
         public Accommodation PopularAccommodation { get; set; }
@@ -27,6 +26,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
 
 
+        private ObservableCollection<RenovationRecommendationViewModel> _renovationRecommendations;
         public ObservableCollection<RenovationRecommendationViewModel> RenovationRecommendations
         {
             get { return _renovationRecommendations; }

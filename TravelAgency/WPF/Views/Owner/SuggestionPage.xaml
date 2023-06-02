@@ -100,7 +100,7 @@
                         <DataGridTemplateColumn Header="Hitnost renoviranja" Width="140">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <lvc:Gauge Margin="0" Height="60" Width="90" Value="{Binding RenovationRank}" From="1" To="5" DisableAnimations="True"  LabelsVisibility="Collapsed" TextElement.FontSize="20"  Foreground="#19297C">
+                                    <lvc:Gauge Margin="10"  Value="{Binding RenovationRank}" From="1" To="5" DisableAnimations="False"  LabelsVisibility="Collapsed" TextElement.FontSize="20"  Foreground="#19297C">
                                         
                                     </lvc:Gauge>
                                 </DataTemplate>
