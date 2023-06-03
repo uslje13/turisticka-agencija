@@ -31,29 +31,43 @@
             <RowDefinition Height="2*"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="40,0">
+        <Grid Grid.Row="0" Margin="30,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="190"/>
+                <ColumnDefinition Width="200"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Background="#a3daed" CornerRadius="20" Height="120" Width="150" Margin="0,0,10,0">
+            <Border Grid.Column="0" Background="#a3daed" CornerRadius="20" Height="120" Margin="0,0,10,0">
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="15,5,15,0">
-                                <Image Source="/Resources/Icons/user_ikonica2.png" VerticalAlignment="Center" Width="40" Height="40" Margin="5,0,0,0"/>
-                                <TextBlock Text="{Binding OpenerUsername}" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="18" MaxWidth="75" Margin="5,0,10,0"/>
-                    </StackPanel>
-                    <TextBlock Grid.Row="1" Margin="5,0,5,5" Text="{Binding Location}" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="18" MaxWidth="75"/>
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0">
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="15,5,15,0">
+                                    <Image Source="/Resources/Icons/user_ikonica2.png" VerticalAlignment="Center" Width="40" Height="40" Margin="0,0,0,0"/>
+                                    <TextBlock Text="{Binding OpenerUsername}" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="18" MaxWidth="105" Margin="5,0,5,0"/>
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock Grid.Row="1" Margin="5,0,5,5" Text="{Binding Location}" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="18"/>
                     
-                    </Grid>
-                </Border>
+                </Grid>
+            </Border>
             <Border Grid.Column="1" Background="#a3daed" CornerRadius="20" Height="120">
-                    <Grid >
-                        
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
+                    </Grid.RowDefinitions>
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0">
+                        <TextBlock Text="{Binding ForumInfo.Title}" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="18"  FontWeight="Heavy" Margin="5,0,5,0"/>
+
                     </Grid>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+                        <TextBlock Grid.Row="1" Text="{Binding ForumInfo.Description}" VerticalAlignment="Top" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="18" Margin="5,0,5,0"/>
+                    </ScrollViewer>
+
+                </Grid>
+                
             </Border>
             
 
@@ -64,8 +78,12 @@
 
         </Grid>
         <Grid Grid.Row="1" >
-            <StackPanel VerticalAlignment="Top">
-                <DataGrid Width="730" Height="320" RowHeight="120" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Renovations}" SelectedItem="{Binding Path=SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" VerticalAlignment="Top">
+                <DataGrid Width="730" Height="320" MinRowHeight="80" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Comments}" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
 
                     <DataGrid.RowStyle>
@@ -88,11 +106,44 @@
                         </Style>
                     </DataGrid.RowStyle>
                     <DataGrid.Columns>
-                            
+                        <DataGridTemplateColumn Width="Auto" MinWidth="120" MaxWidth="180" Header="Korisnik" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Background="Transparent">
+                                        <Image Source="/Resources/Icons/user_ikonica2.png" VerticalAlignment="Center" Width="40" Height="40" Margin="5,0,0,0"/>
+                                        <TextBlock Text="{Binding Username}" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="18" MaxWidth="75" Margin="5,0,10,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Naslov" Binding="{Binding Comment.Comment}" Width="*" MinWidth="100"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                        <DataGridTextColumn Header="Prijava" Binding="{Binding Username}" Width="80" MinWidth="60"
+                            ElementStyle="{StaticResource CenterTextBlockStyle}"/>
                     </DataGrid.Columns>
 
                 </DataGrid>
             </StackPanel>
+            <Grid Grid.Row="1">
+                <Border BorderThickness="0.5" BorderBrush="{StaticResource OwnerBorderColor}" Background="{StaticResource Owner30ColorBrush}" Margin="30,20,30,30">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding NewComment,UpdateSourceTrigger=PropertyChanged}"  Background="#dceefa" FontSize="18" FontFamily="{StaticResource OwnerFont}" TextWrapping="Wrap">
+
+                        </TextBox>
+                        <Button Grid.Column="1" Command="{Binding AddComment}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Button.RenderTransform>
+                            <Image Source="/Resources/Icons/plusicon.png" Width="50" Height="50" ></Image>
+                        </Button>
+                    </Grid>
+
+                </Border>
+            </Grid>
 
 
         </Grid>

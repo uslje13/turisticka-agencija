@@ -86,7 +86,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_OpenForum(object obj)
         {
-            App.OwnerNavigationService.SetPage(new ForumInfoPage(new Forum(SelectedForum.Id,SelectedForum.Id, SelectedForum.Id, SelectedForum.Title,"Deskripcija jebiga",true)));
+            var opis = "Seo sam u kola, krenuo na Mars Poneo sam sendvice i jedan paradajz (Javi se Nigrutine, dal si u orbiti, ponesi sa Zemlje LUBENICE) Poneo sam vise nego prosli put Vi spremite hentor i 2 grama zljut Jer klantor je jak za moj organizam Na benziskoj pumpi sipam kerozina Svi misle da su marsovci zeleni Ustvari su metalik, roze i debeli";
+            App.OwnerNavigationService.SetPage(new ForumInfoPage(new Forum(SelectedForum.Id,SelectedForum.Id, SelectedForum.Id, SelectedForum.Title,opis,true)));
         }
 
         private bool CanExecuteOpenForum(object obj)
