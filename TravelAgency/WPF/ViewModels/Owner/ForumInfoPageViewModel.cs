@@ -44,10 +44,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private UserService _userService;
         private LocationService _locationService;
+        private ForumCommentReportService _forumCommentReportService;
         public ForumInfoPageViewModel(Forum forum)
         {
             _userService = new();
             _locationService = new();
+            _forumCommentReportService = new();
 
             ForumInfo = forum;
             OpenerUsername = _userService.GetById(forum.UserId).Username;
@@ -104,7 +106,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private void AddTestComments()
         {
             ForumComment comment1 = new ForumComment(1, 1, 1, "Brat moj dobri posteni najposteniji.", true, Roles.OWNER);
-            ForumComment comment2 = new ForumComment(2, 2, 1, "Nisam bio tu al je SROONJE xD.", false, Roles.GUEST1);
+            ForumComment comment2 = new ForumComment(2, 2, 1, "Nisam bio tu al je Loooooseeeeeeeeeee xD.", false, Roles.GUEST1);
             ForumComment comment3 = new ForumComment(3, 3, 1, "IDE GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS IDE GASSSSSSSSSSS IDE GAAAAAAAAAAAAAAAAAAAAAAS IDE GAAAAAAAAAAAAAAAAAS.", true, Roles.GUEST2);
             ForumComment comment4 = new ForumComment(4, 4, 2, "And here's one more comment.", false, Roles.TOURISTGUIDE);
 
