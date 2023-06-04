@@ -30,6 +30,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public List<ForumComment> TestComments { get; set; }
         public Forum ForumInfo { get; set; }
         public RelayCommand AddComment { get; private set; }
+        public RelayCommand FlagComment { get; private set; }
 
         private ObservableCollection<ForumCommentViewModel> _comments;
         public ObservableCollection<ForumCommentViewModel> Comments
@@ -61,6 +62,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             AddTestComments();
             FillObservableCollection();
             AddComment = new RelayCommand(Execute_AddComment, CanExecuteAddComment);
+            FlagComment = new RelayCommand(Execute_FlagComment, CanExecuteFlagComment);
+        }
+
+        private void Execute_FlagComment(object obj)
+        {
+            if (obj is ForumCommentViewModel commentViewModel)
+            {
+                commentViewModel.IsReported = !commentViewModel.IsReported;
+            }
+        }
+
+        private bool CanExecuteFlagComment(object obj)
+        {
+            return true;
         }
 
         private void Execute_AddComment(object obj)
@@ -98,7 +113,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                     _userService.GetById(comment.Id).Username,
                     comment,
                     0,
-                    false
+                    true
                     ));
             }
         }
