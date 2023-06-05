@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon.Primitives;
+using System.Windows.Navigation;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
@@ -20,7 +21,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     public class AllStatusesViewModel
     {
         public User LoggedInUser { get; set; }
-        public Frame ThisFrame { get; set; }
+        public NavigationService NavigationService { get; set; }    
         public ChangedReservationRequest SelectedChangedReservation { get; set; }
         public CancelAndMarkResViewModel SelectedCanceledReservation { get; set; }
         public ObservableCollection<CancelAndMarkResViewModel> _reservationCancelOptions { get; set; }
@@ -29,10 +30,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand FindNewDateCommand { get; set; }
         public RelayCommand CancelReservationCommand { get; set; }
 
-        public AllStatusesViewModel(User user, Frame frame) 
+        public AllStatusesViewModel(User user, NavigationService service) 
         { 
             LoggedInUser = user;
-            ThisFrame = frame;
+            NavigationService = service;
 
             _reservationCancelOptions = new ObservableCollection<CancelAndMarkResViewModel>();
             _changedReservationRequests = new ObservableCollection<ChangedReservationRequest>();
@@ -173,8 +174,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     PrepareReservationCSV();
                     LocAccommodationViewModel model = FindModel(SelectedChangedReservation);
-                    var navigationService = ThisFrame.NavigationService;
-                    navigationService.Navigate(new EnterReservationPage(model, LoggedInUser, true, SelectedChangedReservation, ThisFrame));
+                    NavigationService.Navigate(new EnterReservationPage(model, LoggedInUser, true, SelectedChangedReservation, NavigationService));
                 }
                 else
                 {

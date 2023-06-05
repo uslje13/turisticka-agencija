@@ -78,9 +78,9 @@ namespace SOSTeam.TravelAgency.WPF.Views
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST1)
                 {
                     NotificationFromOwnerService service = new NotificationFromOwnerService();
-                    UserProfilleWindow userProfilleWindow = new UserProfilleWindow(user, service.TestInboxCharge(user.Id));
+                    Guest1MainWindow mainWindow = new Guest1MainWindow(user, service.TestInboxCharge(user.Id));
                     Close();
-                    userProfilleWindow.ShowDialog();
+                    mainWindow.Show();
                 }
                 else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST2)
                 {

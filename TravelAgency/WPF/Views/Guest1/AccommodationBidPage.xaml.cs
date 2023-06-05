@@ -22,10 +22,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class AccommodationBidPage : Page
     {
-        public AccommodationBidPage(User user, Frame frame)
+        public AccommodationBidPage(User user, NavigationService navigationService)
         {
             InitializeComponent();
-            AccommodationBidViewModel viewModel = new AccommodationBidViewModel(user, frame);
+            AccommodationBidViewModel viewModel = new AccommodationBidViewModel(user, navigationService);
             DataContext = viewModel;
         }
     }

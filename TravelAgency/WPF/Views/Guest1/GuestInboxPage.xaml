@@ -1,22 +1,21 @@
-﻿<Window x:Class="SOSTeam.TravelAgency.WPF.Views.Guest1.GuestInboxWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
-        mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
-        Background="LightGoldenrodYellow"
-        Title="GuestInboxWindow" Height="768" Width="1024">
-    <Window.Resources>
+﻿<Page x:Class="SOSTeam.TravelAgency.WPF.Views.Guest1.GuestInboxPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
+      mc:Ignorable="d" 
+      Background="LightGoldenrodYellow"
+      d:DesignHeight="752.04" d:DesignWidth="1024"
+      Title="GuestInboxPage">
+    <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ButtonStyle.xaml" />
                 <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ImageButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Window.Resources>
+    </Page.Resources>
     <Grid>
         <TabControl Margin="10,10,10,168" BorderBrush="DarkGoldenrod" Cursor="Hand">
             <TabItem BorderBrush="DarkGoldenrod" Height="35" FontWeight="Bold" Foreground="DarkGoldenrod" Width="328.43" Header="Podsjetnici za ocjenjivanje">
@@ -83,7 +82,7 @@
                 </ListBox>
             </TabItem>
         </TabControl>
-        
+
         <Button Command="{Binding ShowMenuCommand}" Width="110" Height="43" FontSize="17" Content="Glavni meni" 
                 Style="{StaticResource ButtonStyle}" Margin="838,620,53,57">
         </Button>
@@ -91,4 +90,4 @@
                 Style="{StaticResource ButtonStyle}" Margin="53,620,842,57">
         </Button>
     </Grid>
-</Window>
+</Page>

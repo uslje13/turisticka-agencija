@@ -19,6 +19,7 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -26,7 +27,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public User LoggedInUser { get; set; }
-        public Window ThisWindow { get; set; }
+        public NavigationService NavigationService { get; set; }
         public string AccNameTextBlock { get; set; }
         public string AllUrls { get; set; }
         public List<string> AllUrlsList { get; set; }
@@ -74,7 +75,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand DeleteSharedImageCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
 
-        public MarkAccommodationViewModel(List<RadioButton> cleans, List<RadioButton> owners, List<RadioButton> renovations, User user, CancelAndMarkResViewModel acc, Window window, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark, ObservableCollection<CancelAndMarkResViewModel> ratingsFromOwner) 
+        public MarkAccommodationViewModel(List<RadioButton> cleans, List<RadioButton> owners, List<RadioButton> renovations, User user, CancelAndMarkResViewModel acc, NavigationService service, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark, ObservableCollection<CancelAndMarkResViewModel> ratingsFromOwner) 
         {
             AccNameTextBlock = acc.AccommodationName;
             CleanMarks = cleans;
@@ -83,7 +84,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             RatingsFromOwner = ratingsFromOwner;
             LoggedInUser = user;
             Accommodation = acc;
-            ThisWindow = window;
+            NavigationService = service;
             AllUrls = String.Empty;
             ReservationsForMark = reservationsForMark;
 
@@ -126,7 +127,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_GoBack(object sender)
         {
-            ThisWindow.Close();
+            NavigationService.GoBack();
         }
 
         private void Execute_AddImages(object sender)
@@ -261,7 +262,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             MessageBox.Show("Uspješno ocjenjen smještaj!");
             ReservationsForMark.Remove(Accommodation);
             ShowGuestRatings();
-            ThisWindow.Close();
+            NavigationService.Navigate(new GuestInboxPage(LoggedInUser, NavigationService));
         }
 
         private void ShowGuestRatings()

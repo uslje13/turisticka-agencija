@@ -2,7 +2,6 @@
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,15 +18,17 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.Guest1
 {
     /// <summary>
-    /// Interaction logic for ShowAvailableDatesPage.xaml
+    /// Interaction logic for SearchAccommodationPage.xaml
     /// </summary>
-    public partial class ShowAvailableDatesPage : Page
+    public partial class SearchAccommodationPage : Page
     {
-        public ShowAvailableDatesPage(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, bool enter, ChangedReservationRequest request, NavigationService service)
+        public SearchAccommodationPage(User user, NavigationService profille, int notifications)
         {
             InitializeComponent();
-            ShowAvailableDatesViewModel viewModel = new ShowAvailableDatesViewModel(dto, firstDay, lastDay, days, user, Calendar, enter, request, service);
+            var service = MainMenuFrame.NavigationService;
+            SearchAccommodationViewModel viewModel = new SearchAccommodationViewModel(user, service, profille, notifications);
             DataContext = viewModel;
+            viewModel.SetStartupPage();
         }
     }
 }

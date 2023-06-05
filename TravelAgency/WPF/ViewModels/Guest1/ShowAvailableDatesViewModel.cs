@@ -12,6 +12,7 @@ using System.Windows;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -34,9 +35,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand GoBackCommand { get; set; }
         public bool IsEnterOfChange { get; set; }
         public ChangedReservationRequest ChangedReservationRequest { get; set; }
-        public Frame ThisFrame { get; set; }
+        public NavigationService NavigationService { get; set; }
 
-        public ShowAvailableDatesViewModel(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, Calendar calendar, bool enter, ChangedReservationRequest request, Frame thisFrame)
+        public ShowAvailableDatesViewModel(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, Calendar calendar, bool enter, ChangedReservationRequest request, NavigationService service)
         {
             reservationDTOList = new ObservableCollection<AccReservationViewModel>();
             accommodationService = new AccommodationService();
@@ -53,7 +54,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             Calendar = calendar;
             IsEnterOfChange = enter;
             ChangedReservationRequest = request;
-            ThisFrame = thisFrame;
+            NavigationService = service;
 
             accommodations = accommodationService.GetAll();
             reservations = reservationService.GetAll();
@@ -66,8 +67,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         public void Execute_GoBack(object sender)
         {
-            var navigationService = ThisFrame.NavigationService;
-            navigationService.GoBack();
+            NavigationService.GoBack();
         }
 
         private void AnalyzeUnknownStatusReservations()
@@ -318,8 +318,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         public void ExecutePickItem(object sender)
         {
-            var navigationService = ThisFrame.NavigationService;
-            navigationService.Navigate(new SelectReservationDatesPage(dtoReservation, LoggedInUser, IsEnterOfChange, ChangedReservationRequest, ThisFrame));
+            NavigationService.Navigate(new SelectReservationDatesPage(dtoReservation, LoggedInUser, IsEnterOfChange, ChangedReservationRequest, NavigationService));
         }
     }
 }

@@ -23,10 +23,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class SelectReservationDatesPage : Page
     {
-        public SelectReservationDatesPage(List<AccReservationViewModel> list, User user, bool enter, ChangedReservationRequest request, Frame frame)
+        public SelectReservationDatesPage(List<AccReservationViewModel> list, User user, bool enter, ChangedReservationRequest request, NavigationService service)
         {
             InitializeComponent();
-            SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user, enter, request, frame);
+            SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user, enter, request, service);
             DataContext = viewModel;
         }
     }

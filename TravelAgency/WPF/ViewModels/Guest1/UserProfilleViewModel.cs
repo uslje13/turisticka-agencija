@@ -19,6 +19,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Intrinsics.X86;
 using System.Windows.Documents;
 using System.Windows.Shapes;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -26,7 +27,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public User LoggedInUser { get; set; }
-        public Window ThisWindow { get; set; }
+        public NavigationService NavigationService { get; set; }
         public int ThisYearCounter { get; set; }
         public int Notifications { get; set; }
         public string UsernameTextBlock { get; set; }
@@ -70,12 +71,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand SuperGuestInfoCommand { get; set; }
 
 
-        public UserProfilleViewModel(User user, int notifications, Window window) 
+        public UserProfilleViewModel(User user, int notifications, NavigationService service) 
         {
             LoggedInUser = user;
             UsernameTextBlock = user.Username;
             ThisYearCounter = 0;
-            ThisWindow = window;
+            NavigationService = service;
             Notifications = notifications;
             FirstLogging = false;
             IsPopupOpen = false;
@@ -176,9 +177,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_ShowCanceledReservations(object sender)
         {
-            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications, true);
-            ThisWindow.Close();
-            newWindow.ShowDialog();
+            NavigationService.Navigate(new RequestsStatusPage(LoggedInUser, Notifications, true, NavigationService));
         }
 
         private void FillCounterTextBlock()
@@ -260,36 +259,31 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_ShowInbox(object sender)
         {
-            GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser, ThisWindow, Notifications);
             if (Notifications == 0)
             {
                 MessageBox.Show("     Vaš inboks je prazan!\nNemate nepročitanih poruka.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                newWindow.ShowDialog();
+                NavigationService.Navigate(new GuestInboxPage(LoggedInUser, NavigationService));
             }
         }
 
         private void Execute_ShowStatuses(object sender)
         {
-            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications, false);
-            ThisWindow.Close();
-            newWindow.ShowDialog();
+            NavigationService.Navigate(new RequestsStatusPage(LoggedInUser, Notifications, false, NavigationService));
         }
 
         private void Execute_ShowMenu(object sender)
         {
-            Window helpWindow = new Window();   
-            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, helpWindow, ThisWindow, Notifications);
-            ThisWindow.Close();
-            newWindow.ShowDialog();
+            NotificationFromOwnerService service = new NotificationFromOwnerService();
+            NavigationService.Navigate(new SearchAccommodationPage(LoggedInUser, NavigationService, service.TestInboxCharge(LoggedInUser.Id)));
         }
 
         private void Execute_SignOut(object sender)
         {
             SignInForm form = new SignInForm();
-            ThisWindow.Close();
+            Guest1MainWindow.Instance.Close();
             form.ShowDialog();
         }
     }

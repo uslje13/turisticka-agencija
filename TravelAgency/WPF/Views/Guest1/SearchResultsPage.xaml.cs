@@ -22,10 +22,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class SearchResultsPage : Page
     {
-        public SearchResultsPage(List<LocAccommodationViewModel> Results, User user, Frame frame)
+        public SearchResultsPage(List<LocAccommodationViewModel> Results, User user, NavigationService service)
         {
             InitializeComponent();
-            SearchResultsViewModel viewModel = new SearchResultsViewModel(Results, user, frame);
+            SearchResultsViewModel viewModel = new SearchResultsViewModel(Results, user, service);
             DataContext = viewModel;
         }
     }

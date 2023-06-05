@@ -21,10 +21,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class ReportResultsPage : Page
     {
-        public ReportResultsPage(List<CancelAndMarkResViewModel> list, Frame frame, int type, DateTime fDate, DateTime lDate)
+        public ReportResultsPage(List<CancelAndMarkResViewModel> list, NavigationService service, int type, DateTime fDate, DateTime lDate)
         {
             InitializeComponent();
-            ReportResultsViewModel viewModel = new ReportResultsViewModel(list, frame, type, fDate, lDate);
+            ReportResultsViewModel viewModel = new ReportResultsViewModel(list, service, type, fDate, lDate);
             DataContext = viewModel;    
         }
     }

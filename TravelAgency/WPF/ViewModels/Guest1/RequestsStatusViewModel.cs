@@ -12,28 +12,27 @@ using System.Windows.Data;
 using System.Windows;
 using System.Reflection.Metadata;
 using SOSTeam.TravelAgency.Application.Services;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class RequestsStatusViewModel
     {
         public User LoggedInUser { get; set; }
-        public Window ThisWindow { get; set; }
-        public Window UserProfilleWindow { get; set; }
-        public Frame ThisFrame { get; set; }
+        public NavigationService NavigationService { get; set; }
+        public NavigationService ProfilleService { get; set; }
         public string UsernameTextBlock { get; set; }
         public int Notifications { get; set; }
         public bool Report { get; set; }
         public string WindowNameTextBlock { get; set; }
         public RelayCommand NavigationButtonCommand { get; set; }
 
-        public RequestsStatusViewModel(User user, Window window, Frame frame, Window profille, int notifications, bool report)
+        public RequestsStatusViewModel(User user, NavigationService service, int notifications, bool report, NavigationService profilleService)
         {
             LoggedInUser = user;
-            ThisWindow = window;
-            ThisFrame = frame;
+            NavigationService = service;
+            ProfilleService = profilleService;
             UsernameTextBlock = user.Username;
-            UserProfilleWindow = profille;
             Notifications = notifications;
             Report = report;
 
@@ -50,29 +49,25 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         
         public void SetStartupPage()
         {
-            var navigationService = ThisFrame.NavigationService;
             if (!Report)
             {
-                navigationService.Navigate(new AllStatusesPage(LoggedInUser, ThisFrame));
+                NavigationService.Navigate(new AllStatusesPage(LoggedInUser, NavigationService));
             }
             else
             {
-                navigationService.Navigate(new ReportFiltersPage(LoggedInUser, ThisFrame));
+                NavigationService.Navigate(new ReportFiltersPage(LoggedInUser, NavigationService));
             }
         }
         
         public void Execute_NavigationButtonCommand(object parameter)
         {
             string nextPage = parameter.ToString();
-            var navigationService = ThisFrame.NavigationService;
 
             switch (nextPage)
             {
                 case "Profille":
                     NotificationFromOwnerService service = new NotificationFromOwnerService();
-                    UserProfilleWindow newWindow = new UserProfilleWindow(LoggedInUser, service.TestInboxCharge(LoggedInUser.Id));
-                    ThisWindow.Close();
-                    newWindow.ShowDialog();
+                    ProfilleService.Navigate(new UserProfillePage(LoggedInUser, service.TestInboxCharge(LoggedInUser.Id), ProfilleService));
                     break;
                 case "Search":
                     break;
@@ -82,8 +77,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     break;
                 case "LogOut":
                     SignInForm form = new SignInForm();
-                    ThisWindow.Close();
-                    UserProfilleWindow.Close();
+                    Guest1MainWindow.Instance.Close();
                     form.ShowDialog();
                     break;
                 default:

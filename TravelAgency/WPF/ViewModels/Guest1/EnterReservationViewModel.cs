@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -27,9 +28,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public TextBox Days { get; set; }
         public DatePicker FirstDay { get; set; }
         public DatePicker LastDay { get; set; }
-        public Frame ThisFrame { get; set; }
+        public NavigationService NavigationService { get; set; }
 
-        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, Frame frame, ChangedReservationRequest request = null)
+        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, NavigationService service, ChangedReservationRequest request = null)
         {
             DTO = dto;
             FirstDate = DateTime.Now;
@@ -40,7 +41,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             IsEnterOfGhange = enter;
             Days = tb;
             SelectedReservation = request;
-            ThisFrame = frame;
+            NavigationService = service;
 
             FirstDay.BlackoutDates.AddDatesInPast();
             LastDay.BlackoutDates.AddDatesInPast();
@@ -62,13 +63,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             if(IsEnterOfGhange)
             {
                 GetOldCSVLists();
-                var navigationService = ThisFrame.NavigationService;
-                navigationService.GoBack();
+                NavigationService.GoBack();
             } 
             else
             {
-                var navigationService = ThisFrame.NavigationService;
-                navigationService.GoBack();
+                NavigationService.GoBack();
             }
         }
 
@@ -92,8 +91,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             bool validDays = accResService.CheckDays(dto, days);
             if (validDates && validDays)
             {
-                var navigationService = ThisFrame.NavigationService;
-                navigationService.Navigate(new ShowAvailableDatesPage(dto, fDay, lDay, days, user, isEnteredOfChange, request, ThisFrame));
+                NavigationService.Navigate(new ShowAvailableDatesPage(dto, fDay, lDay, days, user, isEnteredOfChange, request, NavigationService));
             }
             else if (!validDates)
             {

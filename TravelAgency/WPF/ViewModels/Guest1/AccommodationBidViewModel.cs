@@ -11,21 +11,22 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class AccommodationBidViewModel
     {
         public User LoggedInUser { get; set; }
-        public Frame ThisFrame { get; set; }
+        public NavigationService NavigationService { get; set; }
         public ObservableCollection<LocAccommodationViewModel> _accommDTOsCollection { get; set; }
         public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
         public RelayCommand ReserveCommand { get; set; }
         
-        public AccommodationBidViewModel(User user, Frame frame)
+        public AccommodationBidViewModel(User user, NavigationService service)
         {
             LoggedInUser = user;
-            ThisFrame = frame;
+            NavigationService = service;
 
             AccommodationService accommodationService = new AccommodationService();
             _accommDTOsCollection = accommodationService.CreateAllDTOForms();
@@ -36,8 +37,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (SelectedAccommodationDTO != null)
             {
-                var navigationService = ThisFrame.NavigationService;
-                navigationService.Navigate(new EnterReservationPage(SelectedAccommodationDTO, LoggedInUser, false, ThisFrame));
+                NavigationService.Navigate(new EnterReservationPage(SelectedAccommodationDTO, LoggedInUser, false, NavigationService));
             }
             else
             {

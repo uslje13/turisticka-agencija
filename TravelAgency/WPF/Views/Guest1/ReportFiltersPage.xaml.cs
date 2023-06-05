@@ -22,10 +22,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class ReportFiltersPage : Page
     {
-        public ReportFiltersPage(User user, Frame frame)
+        public ReportFiltersPage(User user, NavigationService service)
         {
             InitializeComponent();
-            ReportFiltersViewModel viewModel = new ReportFiltersViewModel(user, frame);
+            ReportFiltersViewModel viewModel = new ReportFiltersViewModel(user, service);
             DataContext = viewModel;    
         }
     }

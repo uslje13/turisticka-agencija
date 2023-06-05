@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Xml.Linq;
 using System.Windows;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -23,15 +24,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public ComboBox CBTypes { get; set; }
         public List<ComboBoxItem> comboBoxItems { get; set; }
         public RelayCommand searchCommand { get; set; }
-        public Frame ThisFrame { get; set; }
+        public NavigationService NavigationService { get; set; }
 
-        public SearchViewModel(User user, List<TextBox> list1, List<ComboBoxItem> list2, ComboBox comboBox, Frame frame)
+        public SearchViewModel(User user, List<TextBox> list1, List<ComboBoxItem> list2, ComboBox comboBox, NavigationService service)
         {
             LoggedInUser = user;
             CBTypes = comboBox;
             textBoxes = list1;
             comboBoxItems = list2;
-            ThisFrame = frame;
+            NavigationService = service;
             
             searchCommand = new RelayCommand(ExecuteAccommodationSearch);
         }
@@ -63,8 +64,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (results.Count > 0)
             {
-                var navigationService = ThisFrame.NavigationService;
-                navigationService.Navigate(new SearchResultsPage(results, LoggedInUser, ThisFrame));
+                NavigationService.Navigate(new SearchResultsPage(results, LoggedInUser, NavigationService));
             }
             else
             {
