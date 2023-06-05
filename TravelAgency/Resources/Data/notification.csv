@@ -1,14 +1,14 @@
-66|1|Otkazana je rezervacija u periodu od 10.5.2023. 00:00:00 do 13.5.2023. 00:00:00 u smještaju Casa la Bambino Negro.|1|0|-1
-69|1|Otkazana je rezervacija u periodu od 15.6.2023. 17:18:26 do 20.6.2023. 17:18:26 u smještaju Grandiozo La Hala.|1|0|-1
-70|1|Otkazana je rezervacija u periodu od 14.5.2023. 00:00:00 do 19.5.2023. 00:00:00 u smještaju Casa la Bambino Negro.|1|0|-1
+66|1|Otkazana je rezervacija u periodu od 10.5.2023. 00:00:00 do 13.5.2023. 00:00:00 u smještaju Casa la Bambino Negro.|1|1|-1
+69|1|Otkazana je rezervacija u periodu od 15.6.2023. 17:18:26 do 20.6.2023. 17:18:26 u smještaju Grandiozo La Hala.|1|1|-1
+70|1|Otkazana je rezervacija u periodu od 14.5.2023. 00:00:00 do 19.5.2023. 00:00:00 u smještaju Casa la Bambino Negro.|1|1|-1
 71|6|Otkazana je rezervacija u periodu od 9.5.2023. 21:06:46 do 12.5.2023. 21:06:46 u smještaju Lux Malone.|1|1|-1
 72|6|Otkazana je rezervacija u periodu od 16.5.2023. 15:52:18 do 21.5.2023. 15:52:18 u smještaju Pula-Pula.|1|1|-1
 73|6|Otkazana je rezervacija u periodu od 21.5.2023. 14:08:49 do 26.5.2023. 14:08:49 u smještaju Babura.|1|1|-1
-74|1|Otkazana je rezervacija u periodu od 16.5.2023. 13:59:49 do 20.5.2023. 13:59:49 u smještaju Casa la Bambino Negro.|1|0|-1
-77|1|Otkazana je rezervacija u periodu od 24.5.2023. 13:41:43 do 29.5.2023. 13:41:43 u smještaju Grandiozo La Hala.|1|0|-1
+74|1|Otkazana je rezervacija u periodu od 16.5.2023. 13:59:49 do 20.5.2023. 13:59:49 u smještaju Casa la Bambino Negro.|1|1|-1
+77|1|Otkazana je rezervacija u periodu od 24.5.2023. 13:41:43 do 29.5.2023. 13:41:43 u smještaju Grandiozo La Hala.|1|1|-1
 78|6|Otkazana je rezervacija u periodu od 18.5.2023. 12:16:05 do 22.5.2023. 12:16:05 u smještaju Lux Malone.|1|1|-1
 79|6|Otkazana je rezervacija u periodu od 23.5.2023. 15:30:45 do 28.5.2023. 15:30:45 u smještaju Babura.|1|1|-1
-80|1|Gost Stefan je dao predlog za renoviranje smještaja: Nista toliko hitno, stvarno smo zadovoljni.	Hitnost renoviranja je ocijenio sa: Nivo 2 - male zamjerke na smještaj koje kada bi se uklonile bi ga učinile savršenim.|1|0|-1
+80|1|Gost Stefan je dao predlog za renoviranje smještaja: Nista toliko hitno, stvarno smo zadovoljni.	Hitnost renoviranja je ocijenio sa: Nivo 2 - male zamjerke na smještaj koje kada bi se uklonile bi ga učinile savršenim.|1|1|-1
 83|1|Gost Stefan je dao predlog za renoviranje smještaja:  Hitnost renoviranja je ocijenio sa: Nivo 1 - bilo bi dobro renovirati neke sitnice, ali sve funkcioniše kako treba i bez toga.|1|0|-1
 84|1|Otkazana je rezervacija u periodu od 23.5.2023. 09:09:58 do 30.5.2023. 09:09:58 u smještaju Curacao la Bamba.|1|0|-1
 87|1|Ocenite korisnika|0|1|1
@@ -27,8 +27,8 @@
 100|1|Otkazana je rezervacija u periodu od 27.5.2023. 10:54:18 do 30.5.2023. 10:54:18 u smještaju Casa la Bambino Negro.|1|0|-1
 101|1|Otkazana je rezervacija u periodu od 21.5.2023. 10:54:54 do 25.5.2023. 10:54:54 u smještaju Casa la Bambino Negro.|1|0|-1
 102|1|Otkazana je rezervacija u periodu od 1.6.2023. 10:53:45 do 4.6.2023. 10:53:45 u smještaju Mastro Lindo.|1|0|-1
-103|1|Ocenite korisnika|0|0|4
-104|1|Ocenite korisnika|0|0|5
-105|6|Otkazana je rezervacija u periodu od 20.6.2023. 17:27:17 do 24.6.2023. 17:27:17 u smještaju Lux Malone.|1|0|-1
-106|1|Gost Stefan je ocijenio hitnost renoviranja smještaja: Nivo 2 - male zamjerke na smještaj koje kada bi se uklonile bi ga učinile savršenim. Nije ostavljao preporuku za renoviranje.|1|0|-1
-107|1|Gost Stefan je ocijenio hitnost renoviranja smještaja: Nivo 3 - nekoliko stvari koje su baš zasmetale bi trebalo renovirati. Nije ostavljao preporuku za renoviranje.|1|0|-1
+103|6|Ocenite korisnika|0|0|4
+104|6|Ocenite korisnika|0|1|5
+105|6|Gost Stefan je dao predlog za renoviranje smještaja: Ugodno. Hitnost renoviranja je ocijenio sa: Nivo 2 - male zamjerke na smještaj koje kada bi se uklonile bi ga učinile savršenim.|1|0|-1
+106|1|Ocenite korisnika|0|1|6
+107|1|Ocenite korisnika|0|0|7

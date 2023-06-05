@@ -8,7 +8,20 @@
       mc:Ignorable="d" 
       d:DesignHeight="662" d:DesignWidth="804"
       Title="HomePage">
-
+    <Page.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+    </Page.Resources>
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -25,19 +38,33 @@
             </WrapPanel>
         </Grid>
         <Grid Grid.Row="2">
-            <WrapPanel  Margin="15,0" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal"  Margin="15,0" VerticalAlignment="Center">
                 <Grid Margin="20" Width="200">
                     <StackPanel VerticalAlignment="Center">
-                        <Label Content="Vaš najpopularniji smeštaj " HorizontalAlignment="Center"/>
-                        <Image Source="{Binding AccommodationURI}"></Image>
-                        <Label Content="{Binding PopularAccommodation.Name}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Vaš najpopularniji smeštaj " TextWrapping="Wrap" TextAlignment="Center" Margin="0,10" HorizontalAlignment="Center"/>
+                        <Grid>
+                            <Grid.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.8" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Grid.Triggers>
+                            <StackPanel VerticalAlignment="Center">
+                                
+                                <Image Source="{Binding AccommodationURI}"></Image>
+                                <TextBlock Text="{Binding PopularAccommodation.Name}" TextWrapping="Wrap" TextAlignment="Center" Margin="0,10" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                     
                 </Grid>
                 <Grid Margin="20" Width="Auto">
                     <StackPanel VerticalAlignment="Center">
                         <Label Content="Zauzetost ovog meseca" HorizontalAlignment="Center"/>
-                        <lvc:CartesianChart Series="{Binding MonthOccupancySeries}" Height="190" Width="280">
+                        <lvc:CartesianChart Series="{Binding MonthOccupancySeries}" Height="205" Width="280">
                             <lvc:CartesianChart.AxisX>
                                 <lvc:Axis Title="Vreme" Labels="{Binding TimeLabels}"/>
                             </lvc:CartesianChart.AxisX>
@@ -48,7 +75,7 @@
                 </Grid>
                 <Grid Margin="20">
                     <StackPanel VerticalAlignment="Center">
-                        <Label Content="Trenutna popunjenost" HorizontalAlignment="Center"/>
+                        <Label Content="Popunjenost" HorizontalAlignment="Center"/>
                         <lvc:PieChart Series="{Binding TodayOccupancySeries}" Height="170" Width="150" LegendLocation="Bottom" Margin="0">
                             <lvc:PieChart.DataTooltip>
                                 <lvc:DefaultTooltip/>
@@ -58,7 +85,7 @@
                     </StackPanel>
 
                 </Grid>
-            </WrapPanel>
+            </StackPanel>
         </Grid>
 
 

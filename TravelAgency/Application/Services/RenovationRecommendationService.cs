@@ -12,7 +12,7 @@ namespace SOSTeam.TravelAgency.Application.Services
     public class RenovationRecommendationService
     {
         private readonly IRenovationRecommendationRepository _renovationRecommendationRepository = Injector.CreateInstance<IRenovationRecommendationRepository>();
-
+        private AccommodationService _accommodationService = new();
         public RenovationRecommendationService() { }
 
         public void Delete(int id)
@@ -28,6 +28,12 @@ namespace SOSTeam.TravelAgency.Application.Services
         public RenovationRecommendation GetById(int id)
         {
             return _renovationRecommendationRepository.GetById(id);
+        }
+
+        public List<RenovationRecommendation> GetAllForUser(int userId)
+        {
+            var accommodations = _accommodationService.GetAllByUserId(userId);
+            return _renovationRecommendationRepository.GetAll().Where(r => accommodations.Any(a => a.Id == r.AccommodationId)).ToList();
         }
 
         public void Save(RenovationRecommendation renovationRecommendation)

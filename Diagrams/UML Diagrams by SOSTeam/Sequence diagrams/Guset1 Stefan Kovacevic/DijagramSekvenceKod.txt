@@ -1,0 +1,40 @@
+participant UserProfilleViewModel as UPVM 
+participant SuperGuestService as SGS 
+participant UserService as US 
+participant AccommodationReservationService as ARS 
+participant SuperGuest as SG 
+
+SGS -> SGS ++: ClearSuperGuestCSV()
+SGS --> SGS --
+SGS -> US ++: GetAll()
+US --> SGS --: allUsers
+
+loop foreach user in allUsers
+  opt user.Role == GUEST1
+    SGS -> ARS ++: FindLastYearReservationsNumber(user)
+    ARS --> SGS --: reservationsNumber 
+    SGS -> SGS ++: InitializeBonusPoints(reservationsNumber)
+    SGS --> SGS --: bonusPoints 
+    SGS -> SGS ++: InitializeSuperStatus(reservationsNumber)
+    SGS --> SGS --: isSuperGuest
+    SGS -> SGS ++: CalculateUnusedBonusPoints(user, bonusPoints)
+    SGS --> SGS --: unusedPoints
+    SGS -> SG **: <<create>>
+    note left
+      user.Id, user.Username, unusedPoints, 
+      reservationsNumber, isSuperGuest
+    end note
+  end
+end
+
+UPVM -> SGS ++: GetAll()
+SGS --> UPVM --: allSuperGuestAccounts
+
+loop foreach account in allSuperGuestAccounts
+  opt account.UserId == LoggedInUser.Id
+    UPVM -> UPVM ++: DisplaySuperGuestStatus(account)
+    UPVM --> UPVM --
+    break
+    end
+  end
+end

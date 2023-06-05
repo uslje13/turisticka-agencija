@@ -43,5 +43,58 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _month = month;
             _numOfRequestsPerMonth = numOfRequests;
         }
+
+        public string MonthConverter()
+        {
+            if (Month == "January")
+            {
+                return "1";
+            }
+            else if(Month == "February")
+            {
+                return "2";
+            }
+            else if(Month == "Mart")
+            {
+                return "3";
+            }
+            else if(Month == "April")
+            {
+                return "4";
+            }
+            else if(Month == "May")
+            {
+                return "5";
+            }
+            else if(Month == "Jun")
+            {
+                return "6";
+            }
+            else if(Month == "July")
+            {
+                return "7";
+            }
+            else if(Month == "August")
+            {
+                return "8";
+            }
+            else if(Month == "September")
+            {
+                return "9";
+            }
+            else if(Month == "October")
+            {
+                return "10";
+            }
+            else if(Month == "November")
+            {
+                return "11";
+            }
+            else
+            {
+                return "12";
+            }
+            
+        }
     }
 }

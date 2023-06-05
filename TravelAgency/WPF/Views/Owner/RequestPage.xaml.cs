@@ -22,9 +22,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
     /// </summary>
     public partial class RequestPage : Page
     {
-        public RequestPage(User user, MainWindowViewModel mainWindowVM)
+        public RequestPage()
         {
-            DataContext = new RequestPageViewModel(user,mainWindowVM);
+            DataContext = new RequestPageViewModel();
             InitializeComponent();
         }
     }

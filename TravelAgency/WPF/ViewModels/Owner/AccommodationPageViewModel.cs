@@ -18,10 +18,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
     internal class AccommodationPageViewModel : ViewModel
     {
         public User LoggedInUser { get; private set; }
-        private AccommodationsPage _accommodationsPage;
         private AccommodationService _accommodationService;
         private ImageService _imageService;
-        private MainWindowViewModel _mainwindowVM;
+        private LocationService _locationService;
         public ObservableCollection<PictureViewModel> Accommodations { get; set; }
         public PictureViewModel SelectedAccommodation { get; set; }
         public RelayCommand OpenAccommodationDetails { get; private set; }
@@ -29,13 +28,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand EditAccommodation { get; private set; }
         public RelayCommand DeleteAccommodation { get; private set; }
 
-        public AccommodationPageViewModel(User user,MainWindowViewModel mainWindowVM,AccommodationsPage accommodationPage)
+        public AccommodationPageViewModel()
         {
-            LoggedInUser = user;
-            _accommodationsPage = accommodationPage;
-            _mainwindowVM = mainWindowVM;
+            LoggedInUser = App.LoggedUser;
             _accommodationService = new();
             _imageService = new();
+            _locationService = new();
             Accommodations = new();
 
             AddAccommodation = new RelayCommand(Execute_AddAccommodation, CanExecuteAddAccommodation);
@@ -70,7 +68,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_OpenAccommodationDetails(object obj)
         {
-            _mainwindowVM.SetPage(new AccommodationInfoPage(LoggedInUser,_accommodationService.GetById(SelectedAccommodation.AccommodationId)));
+            App.OwnerNavigationService.SetPage(new AccommodationInfoPage(LoggedInUser,_accommodationService.GetById(SelectedAccommodation.AccommodationId)));
         }
 
 
@@ -87,7 +85,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_AddAccommodation(object obj)
         {
-            _mainwindowVM.Execute_NavigationButtonCommand("AccommodationAdd");
+            App.OwnerNavigationService.NavigateMainWindow("AccommodationAdd");
             return;
         }
 
@@ -98,8 +96,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             {
                 string path = "/Resources/Images/UnknownPhoto.png";
                 var img = _imageService.GetAccommodationCover(accommodation.Id);
+                var location = _locationService.GetFullName(_locationService.GetById(accommodation.LocationId)) ?? "";
                 if (img != null) path = img.Path;
-                Accommodations.Add(new PictureViewModel(accommodation.Name, path,accommodation.Id));
+                Accommodations.Add(new PictureViewModel(accommodation.Name, path,accommodation.Id,location));
             }
 
         }
@@ -112,16 +111,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
     public class PictureViewModel
     {
         public string Name { get; set; }
+        public string Location { get; set; }
         public string ImagePath { get; set; }
         public int AccommodationId { get; private set; }
 
-        public PictureViewModel(string name,string imagePath, int accommodationId) 
+        public PictureViewModel(string name,string imagePath, int accommodationId, string location)
         {
             Name = name;
             ImagePath = imagePath;
             AccommodationId = accommodationId;
+            Location = location;
         }
-        
+
     }
 
 }

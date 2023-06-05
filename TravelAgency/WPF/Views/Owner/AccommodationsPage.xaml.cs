@@ -25,9 +25,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
         private AccommodationPageViewModel _accommodationPageViewModel;
 
 
-        public AccommodationsPage(User user,MainWindowViewModel mainWindowVM)
+        public AccommodationsPage()
         {
-            _accommodationPageViewModel = new AccommodationPageViewModel(user, mainWindowVM, this);
+            _accommodationPageViewModel = new AccommodationPageViewModel();
             DataContext = _accommodationPageViewModel;
             InitializeComponent();
             _accommodationPageViewModel.FillAccommodationsPanel();

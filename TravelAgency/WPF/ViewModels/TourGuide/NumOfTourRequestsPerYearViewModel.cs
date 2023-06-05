@@ -60,19 +60,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _numOfRequestsPerYear = numOfRequests;
             _numOfRequestsPerMonths = new ObservableCollection<NumOfTourRequestsPerMonthViewModel>
             {
-                new NumOfTourRequestsPerMonthViewModel("January", 1),
-                new NumOfTourRequestsPerMonthViewModel("February", 2),
-                new NumOfTourRequestsPerMonthViewModel("Mart", 3),
-                new NumOfTourRequestsPerMonthViewModel("April", 4),
-                new NumOfTourRequestsPerMonthViewModel("May", 5),
-                new NumOfTourRequestsPerMonthViewModel("Jun", 6),
-                new NumOfTourRequestsPerMonthViewModel("July", 7),
-                new NumOfTourRequestsPerMonthViewModel("August", 8),
-                new NumOfTourRequestsPerMonthViewModel("September", 9),
-                new NumOfTourRequestsPerMonthViewModel("October", 10),
-                new NumOfTourRequestsPerMonthViewModel("November", 11),
-                new NumOfTourRequestsPerMonthViewModel("December", 12)
+                new NumOfTourRequestsPerMonthViewModel("January", 0),
+                new NumOfTourRequestsPerMonthViewModel("February", 0),
+                new NumOfTourRequestsPerMonthViewModel("Mart", 0),
+                new NumOfTourRequestsPerMonthViewModel("April", 0),
+                new NumOfTourRequestsPerMonthViewModel("May", 0),
+                new NumOfTourRequestsPerMonthViewModel("Jun", 0),
+                new NumOfTourRequestsPerMonthViewModel("July", 0),
+                new NumOfTourRequestsPerMonthViewModel("August", 0),
+                new NumOfTourRequestsPerMonthViewModel("September", 0),
+                new NumOfTourRequestsPerMonthViewModel("October", 0),
+                new NumOfTourRequestsPerMonthViewModel("November", 0),
+                new NumOfTourRequestsPerMonthViewModel("December", 0)
             };
         }
+
     }
 }

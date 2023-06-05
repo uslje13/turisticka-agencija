@@ -7,11 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
     public class AccommodationInfoPageViewModel : ViewModel
     {
+        public double SlideOffSet { get; set; } = 30;
         public User LoggedInUser { get; private set; }
         public Accommodation Accommodation { get; private set; }
         public string Location { get; private set; }
@@ -25,6 +27,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             {
                 _reservations = value;
                 OnPropertyChanged("Reservations");
+            }
+        }
+
+        private bool _isPhotoChanged;
+        public bool IsPhotoChanged
+        {
+            get { return _isPhotoChanged; }
+            set
+            {
+                _isPhotoChanged = value;
+                OnPropertyChanged(nameof(IsPhotoChanged));
             }
         }
 
@@ -43,14 +56,25 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand NavigateYears { get; private set; }
         public RelayCommand ToggleChart { get; private set; }
 
-        private int _slidingGridHeight;
-        public int SlidingGridHeight
+        private bool _isSlidingGridShowing;
+        public bool IsSlidingGridShowing
         {
-            get { return _slidingGridHeight; }
+            get { return _isSlidingGridShowing; }
             set
             {
-                _slidingGridHeight = value;
-                OnPropertyChanged("SlidingGridHeight");
+                _isSlidingGridShowing = value;
+                OnPropertyChanged("IsSlidingGridShowing");
+            }
+        }
+        
+        private bool _isStatsLabelChanged;
+        public bool IsStatsLabelChanged
+        {
+            get { return _isStatsLabelChanged; }
+            set
+            {
+                _isStatsLabelChanged = value;
+                OnPropertyChanged("IsStatsLabelChanged");
             }
         }
 
@@ -89,7 +113,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             GetReservations(accommodation);
             GetImages(accommodation);
             SetupYearReservationChart();
-            SlidingGridHeight = 0;
+            IsSlidingGridShowing = false;
+            IsPhotoChanged = false; 
+            IsStatsLabelChanged = false;
             StatsLabel = "Statistika po godinama";
             SlidingGridYear = DateTime.Now.Year;
             NavigatePhotos = new RelayCommand(Execute_NavigatePhotos, CanExecuteNavigatePhotos);
@@ -111,16 +137,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             if (TimeLabels.Length == 12)
             {
                 SetupYearReservationChart();
+                IsSlidingGridShowing = false;
+                SetOffLabelAnimation();
+                Task.Delay(600);
                 StatsLabel = "Statistika po godinama";
-                SlidingGridHeight = 0;
             }
             else
             {
                 SetupMonthReservationChart();
+                IsSlidingGridShowing = true;
+                SetOffLabelAnimation();
+                Task.Delay(600);
                 StatsLabel = "Statistika po mesecima";
-                SlidingGridHeight = 100;
             }
-            OnPropertyChanged("ReservationSeries");
             OnPropertyChanged("StatsLabel");
 
 
@@ -167,6 +196,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private void Execute_NavigatePhotos(object obj)
         {
             string direction = obj.ToString();
+            SetOffPhotoAnimation();
+            Task.Delay(100);
             if (direction.Equals("Left"))
             {
                 _imageIndex = _imageIndex == 0 ? _images.Count - 1 : _imageIndex - 1;
@@ -178,6 +209,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 Image = _images[_imageIndex];
             }
             OnPropertyChanged("Image");
+        }
+
+        private void SetOffPhotoAnimation()
+        {
+            IsPhotoChanged = true;
+            IsPhotoChanged = false;
+        }
+        private void SetOffLabelAnimation()
+        {
+            IsStatsLabelChanged = true;
+            IsStatsLabelChanged = false;
         }
 
         private void SetupYearReservationChart()

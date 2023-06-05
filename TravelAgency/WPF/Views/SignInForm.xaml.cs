@@ -63,9 +63,10 @@ namespace SOSTeam.TravelAgency.WPF.Views
             User user = _repository.GetByUsername(Username);
             if (user != null)
             {
+                App.LoggedUser = user;
                 if (user.Password == txtPassword.Password && user.Role == Roles.OWNER)
                 {
-                    Views.Owner.MainWindow mainPage = new Views.Owner.MainWindow(user);
+                    Views.Owner.MainWindow mainPage = new Views.Owner.MainWindow();
                     mainPage.Show();
                     Close();
                 }

@@ -21,6 +21,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public ObservableCollection<AccReservationViewModel> reservationDTOList { get; set; }
         public AccommodationService accommodationService { get; set; }
         public AccommodationReservationService reservationService { get; set; }
+        public AccommodationRenovationService renovationService { get; set; }
         public List<Accommodation> accommodations { get; set; }
         public List<AccommodationReservation> reservations { get; set; }
         public LocAccommodationViewModel accommodationDTO { get; set; }
@@ -42,6 +43,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             reservationDTOList = new ObservableCollection<AccReservationViewModel>();
             accommodationService = new AccommodationService();
             reservationService = new AccommodationReservationService();
+            renovationService = new();
             dtoReservation = new List<AccReservationViewModel>();
 
             datesArray = new DateTime[100];
@@ -129,6 +131,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         private void MarkCalendars()
         {
             List<AccReservationViewModel> reservationsDTO = CreateAllDTOreservations();
+            var renovations = renovationService.GetAll().Where(r => r.AccommodationId == accommodationDTO.AccommodationId);
             Calendar.BlackoutDates.AddDatesInPast();
             foreach (var item in reservationsDTO)
             {
@@ -136,6 +139,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     MarkCalendar(item);
                 }
+            }
+
+            foreach (var item in renovations)
+            {
+                
+                 MarkCalendar(item);
+                
             }
 
             CheckRequestedDates();
@@ -148,6 +158,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             DateTime item2 = new DateTime(ints[3], ints[4], ints[5]);
             Calendar.BlackoutDates.Add(new CalendarDateRange(item1, item2));
         }
+        
+        private void MarkCalendar(AccommodationRenovation renovation)
+        {
+            DateTime item1 = new DateTime(renovation.FirstDay.Year, renovation.FirstDay.Month, renovation.FirstDay.Day);
+            DateTime item2 = new DateTime(renovation.LastDay.Year, renovation.LastDay.Month, renovation.LastDay.Day);
+            Calendar.BlackoutDates.Add(new CalendarDateRange(item1, item2));
+        }
+
 
         private int[] GetDateData(AccReservationViewModel res)
         {
