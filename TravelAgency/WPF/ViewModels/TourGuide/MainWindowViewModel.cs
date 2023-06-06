@@ -64,6 +64,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand ShowStatsMenuCommand { get; set; }
         public RelayCommand ShowRequestsMenuCommand { get; set; }
         public RelayCommand NavigationButtonCommand { get; set; }
+        public RelayCommand ShowUserAccountCommand { get; set; }
 
         #endregion
 
@@ -88,6 +89,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             ShowTourReviewCommand = new RelayCommand(ShowTourReviews, CanExecuteMethod);
             ShowStatsMenuCommand = new RelayCommand(ShowStatsMenu, CanExecuteMethod);
             ShowRequestsMenuCommand = new RelayCommand(ShowRequestsMenu, CanExecuteMethod);
+            ShowUserAccountCommand = new RelayCommand(ShowUserAccount, CanExecuteMethod);
         }
 
         private void UpdateAppointments(object sender, EventArgs e)
@@ -140,6 +142,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var button = parameter as string;
             App.TourGuideNavigationService.GoBack(button);
+        }
+
+        private void ShowUserAccount(object sender)
+        {
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("UserAccount", _loggedUser);
         }
 
     }
