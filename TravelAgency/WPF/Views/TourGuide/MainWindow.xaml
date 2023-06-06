@@ -45,7 +45,7 @@
         </Grid>
 
 
-            <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden"></Frame>
+        <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden"></Frame>
 
         <!-- Burger menu -->
         <Grid x:Name="BurgerMenuGrid" Grid.Row="0" Grid.RowSpan="3" Width="430" Height="636" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Transparent" Visibility="Collapsed">
