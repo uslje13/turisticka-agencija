@@ -77,5 +77,18 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _tourRequestRepository.GetAll().FindAll(r => r.CreationTime <= now && r.CreationTime >= yearAgo);
         }
 
+        public List<TourRequest> GetComplexRequestParts(int complexRequestId)
+        {
+            List<TourRequest> complexRequestParts= new List<TourRequest>();
+            foreach(var request in _tourRequestRepository.GetAll())
+            {
+                if(request.ComplexTourRequestId == complexRequestId)
+                {
+                    complexRequestParts.Add(request);
+                }
+            }
+            return complexRequestParts;
+        }
+
     }
 }

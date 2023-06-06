@@ -74,8 +74,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 case "OrdinaryRequests":
                     NavigationService.Navigate(new OrdinaryToursRequestsPage(LoggedInUser));
                     break;
-                case "Reservations":
-                    NavigationService.Navigate(new MyReservationsPage(LoggedInUser));
+                case "ComplexRequests":
+                    NavigationService.Navigate(new ComplexTourRequestsPage(LoggedInUser));
                     break;
             }
         }

@@ -14,20 +14,24 @@ namespace SOSTeam.TravelAgency.Domain.Models
     {
         public int Id { get; set; }
         public StatusType Status { get; set; }
+        public int UserId { get; set; }
 
         public ComplexTourRequest() {
             Status = StatusType.ON_HOLD;
+            UserId = -1;
         }
 
-        public ComplexTourRequest(StatusType status)
+        public ComplexTourRequest(int userId, StatusType status = StatusType.ON_HOLD)
         {
             Status= status;
+            UserId= userId;
         }
 
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            Status = values[1] switch
+            UserId= int.Parse(values[1]);
+            Status = values[2] switch
             {
                 "ON_HOLD" => StatusType.ON_HOLD,
                 "INVALID" => StatusType.INVALID,
@@ -41,6 +45,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             string[] csvValues =
             {
                 Id.ToString(),
+                UserId.ToString(),
                 Status.ToString(),
             };
             return csvValues;

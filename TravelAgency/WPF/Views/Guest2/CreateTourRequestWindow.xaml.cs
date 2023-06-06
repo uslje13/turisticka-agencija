@@ -29,6 +29,14 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
             viewModel.CloseRequested += ViewModel_CloseRequested;
         }
 
+        public CreateTourRequestWindow(User loggedInUser, ComplexToursPageViewModel complexToursViewModel)
+        {
+            InitializeComponent();
+            CreateTourRequestViewModel viewModel = new CreateTourRequestViewModel(loggedInUser, this.TourReviewFrame.NavigationService, complexToursViewModel);
+            DataContext = viewModel;
+            viewModel.CloseRequested += ViewModel_CloseRequested;
+        }
+
         private void ViewModel_CloseRequested(object sender, EventArgs e)
         {
             Close();
