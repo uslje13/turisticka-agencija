@@ -1,0 +1,59 @@
+﻿using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.Models.DTO;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Navigation;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using SOSTeam.TravelAgency.Domain.Models;
+
+namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
+{
+    public class WhateverCatalogViewModel
+    {
+        public int Guests { get; set; }
+        public int Days { get; set; }
+        public WhateverSearchResultsDTO ForwardedDTO { get; set; }
+        public string AccNameTextBlock { get; set; }
+        public AccReservationViewModel SelectedCatalogItem { get; set; }
+        public List<AccReservationViewModel> _appointmentCatalog { get; set; }
+        public NavigationService NavigationService { get; set; }
+        public RelayCommand GoBackCommand { get; set; }
+        public RelayCommand ReserveCommand { get; set; }
+
+        public WhateverCatalogViewModel(WhateverSearchResultsDTO selectedAccommodation, NavigationService service, DateTime fDate, DateTime lDate, int guests, int days)
+        {
+            Guests = guests;
+            Days = days;
+            ForwardedDTO = selectedAccommodation;
+            _appointmentCatalog = selectedAccommodation.AppointmentCatalog;
+            NavigationService = service;
+            AccNameTextBlock = "Prikazani su pronađeni termini u smještaju " + selectedAccommodation.AccommodationName + " u periodu od " + 
+                                fDate.ToShortDateString() + " do " + lDate.ToShortDateString();
+
+            GoBackCommand = new RelayCommand(Execute_GoBack);
+            ReserveCommand = new RelayCommand(Execute_Reserve);
+        }
+
+        private void Execute_Reserve(object sender)
+        {
+            UserService userService = new UserService();
+            User LoggedInUser = userService.GetById(ForwardedDTO.GuestId);
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+            reservationService.AddReservation(SelectedCatalogItem.ReservationFirstDay, SelectedCatalogItem.ReservationLastDay, Guests,
+                                    Days, SelectedCatalogItem.AccommodationId, LoggedInUser);
+            MessageBox.Show("Uspješno rezervisano.");
+            NavigationService.Navigate(new AccommodationBidPage(LoggedInUser, NavigationService));
+        }
+
+        private void Execute_GoBack(object sender)
+        {
+            NavigationService.GoBack();
+        }
+    }
+}
