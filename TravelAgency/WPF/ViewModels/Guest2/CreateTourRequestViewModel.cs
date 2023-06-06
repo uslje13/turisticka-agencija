@@ -21,7 +21,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public event EventHandler CloseRequested;
         public User LoggedInUser { get; set; }
         public ObservableCollection<RequestViewModel> TourRequests { get; set; }
-        public RequestViewModel TourRequest { get; set; }
+
+        private RequestViewModel _tourRequest;
+        public RequestViewModel TourRequest
+        {
+            get { return _tourRequest; }
+            set
+            {
+                if (_tourRequest != value)
+                {
+                    _tourRequest = value;
+                    OnPropertyChanged(); 
+                }
+            }
+        }
 
         private RelayCommand _reviewCommand;
         public RelayCommand ReviewCommand
@@ -44,6 +57,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
+        private RelayCommand _addMoreToursCommand;
+
+        public RelayCommand AddMoreToursCommand
+        {
+            get { return _addMoreToursCommand; }
+            set
+            {
+                _addMoreToursCommand = value;
+            }
+        }
+
         public CreateTourRequestViewModel(User loggedInUser,NavigationService navigationService,OrdinaryToursPageViewModel ordinaryToursPageViewModel) 
         {
             NavigationService = navigationService;
@@ -53,6 +77,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             TourRequests = new ObservableCollection<RequestViewModel>();
             ReviewCommand = new RelayCommand(Execute_ReviewCommand, CanExecuteMethod);
             CloseCommand = new RelayCommand(Execute_CloseCommand,CanExecuteMethod);
+            AddMoreToursCommand = new RelayCommand(Execute_AddMoreToursCommand, CanExecuteMethod);
+        }
+
+        private void Execute_AddMoreToursCommand(object obj)
+        {
+            SetDateFormat();
+            if (IsDataCorrect())
+            {
+                TourRequests.Add(TourRequest);
+                TourRequest = new RequestViewModel();
+            }
         }
 
         private void Execute_CloseCommand(object obj)
@@ -62,13 +97,22 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_ReviewCommand(object obj)
         {
-            TourRequest.StartEndDateRange = TourRequest.MaintenanceStartDate.ToString() + " - " + TourRequest.MaintenanceEndDate.ToString();
-            TourRequest.LocationFullName = TourRequest.City + ", " + TourRequest.Country;
-            if (IsDataCorrect())
+            if(TourRequests.Count()!=0)
             {
+                NavigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests, OrdinaryToursPageViewModel));
+            }
+            else if (IsDataCorrect())
+            {
+                SetDateFormat();
                 TourRequests.Add(TourRequest);
                 NavigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests, OrdinaryToursPageViewModel));
-            }          
+            }
+        }
+
+        private void SetDateFormat()
+        {
+            TourRequest.StartEndDateRange = TourRequest.MaintenanceStartDate.ToString() + " - " + TourRequest.MaintenanceEndDate.ToString();
+            TourRequest.LocationFullName = TourRequest.City + ", " + TourRequest.Country;
         }
 
         private bool IsDataCorrect()

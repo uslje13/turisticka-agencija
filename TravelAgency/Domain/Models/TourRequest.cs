@@ -25,6 +25,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public DateOnly MaintenanceStartDate { get; set; }
         public DateOnly MaintenanceEndDate { get; set; }
         public StatusType Status { get; set; }
+        public int ComplexTourRequestId { get; set; }
         public TourRequest()
         {
             Id = -1;
@@ -37,9 +38,10 @@ namespace SOSTeam.TravelAgency.Domain.Models
             MaintenanceStartDate = DateOnly.MinValue;
             MaintenanceEndDate = DateOnly.MaxValue;
             Status = StatusType.ON_HOLD;
+            ComplexTourRequestId = -1;
         }
 
-        public TourRequest(string city, string country, string description, string language, int maxNumOfGuests,DateTime creationTime ,DateOnly maintenanceStartDate, DateOnly maintenanceEndDate, StatusType statusType, int userId, bool isNotificationViewed = false)
+        public TourRequest(string city, string country, string description, string language, int maxNumOfGuests,DateTime creationTime ,DateOnly maintenanceStartDate, DateOnly maintenanceEndDate, StatusType statusType, int userId, bool isNotificationViewed = false, int complexTourRequestId = -1)
         {
             City = city;
             Country = country;
@@ -52,6 +54,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Status = statusType;
             UserId = userId;
             IsNotificationViewed = isNotificationViewed;
+            ComplexTourRequestId= complexTourRequestId;
         }
 
         public void FromCSV(string[] values)
@@ -73,6 +76,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             };
             UserId = int.Parse(values[10]);
             IsNotificationViewed = bool.Parse(values[11]);
+            ComplexTourRequestId = int.Parse(values[12]);
         }
 
         public string[] ToCSV()
@@ -91,6 +95,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 Status.ToString(),
                 UserId.ToString(),
                 IsNotificationViewed.ToString(),
+                ComplexTourRequestId.ToString(),
             };
             return csvValues;
         }
