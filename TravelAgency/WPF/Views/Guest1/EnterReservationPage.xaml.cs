@@ -23,17 +23,17 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class EnterReservationPage : Page
     {
-        public EnterReservationPage(LocAccommodationViewModel dto, User user, bool enter, Frame frame)
+        public EnterReservationPage(LocAccommodationViewModel dto, User user, bool enter, NavigationService service)
         {
             InitializeComponent();
-            EnterReservationViewModel viewModel = new EnterReservationViewModel(dto, user, enter, Days, FirstDay, LastDay, frame);
+            EnterReservationViewModel viewModel = new EnterReservationViewModel(dto, user, enter, Days, FirstDay, LastDay, service);
             DataContext = viewModel;
         }
 
-        public EnterReservationPage(LocAccommodationViewModel dto, User user, bool enter, ChangedReservationRequest request, Frame frame)
+        public EnterReservationPage(LocAccommodationViewModel dto, User user, bool enter, ChangedReservationRequest request, NavigationService service)
         {
             InitializeComponent();
-            EnterReservationViewModel viewModel = new EnterReservationViewModel(dto, user, enter, Days, FirstDay, LastDay, frame, request);
+            EnterReservationViewModel viewModel = new EnterReservationViewModel(dto, user, enter, Days, FirstDay, LastDay, service, request);
             DataContext = viewModel;
         }
 

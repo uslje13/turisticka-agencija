@@ -22,10 +22,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class AllStatusesPage : Page
     {
-        public AllStatusesPage(User user, Frame frame)
+        public AllStatusesPage(User user, NavigationService service)
         {
             InitializeComponent();
-            AllStatusesViewModel viewModel = new AllStatusesViewModel(user, frame);
+            AllStatusesViewModel viewModel = new AllStatusesViewModel(user, service);
             DataContext = viewModel;
         }
 

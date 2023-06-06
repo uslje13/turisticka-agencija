@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.Application.Services;
-using SOSTeam.TravelAgency.WPF.Views;
-using System.Windows;
+﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views.Owner;
-using System.Windows.Controls;
 using System.Collections.ObjectModel;
-using SOSTeam.TravelAgency.Repositories;
+using System.Linq;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
@@ -33,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand ToggleShowNotifications { get; private set; }
         public RelayCommand NotificationDoubleClick { get; private set; }
 
-        
+
 
         private bool _isUnread;
         public bool IsUnread
@@ -61,18 +53,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                     _isDropdownOpen = value;
                     IsDropdownClosed = !IsDropdownOpen;
                     OnPropertyChanged(nameof(IsDropdownOpen));
-                    
+
                 }
             }
         }
         public bool IsDropdownClosed { get; set; }
-        public MainWindowViewModel(User user,MainWindow mainWindow)
+        public MainWindowViewModel()
         {
-            _mainWindow = mainWindow;
             _userService = new();
             _guestReviewService = new();
-            Username = user.Username;
-            LoggedInUser = user;
+            LoggedInUser = App.LoggedUser;
+            Username = LoggedInUser.Username;
             IsDropdownOpen = false;
             IsDropdownClosed = !IsDropdownOpen;
             DeleteNotification = new RelayCommand(Execute_DeleteNotification, CanExecuteDeleteNotification);
@@ -120,17 +111,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
         }
 
-        public void SetStartupPage() 
+        public void SetStartupPage()
         {
             Execute_NavigationButtonCommand("Home");
         }
 
-        internal void SetPage(object root) 
+        internal void SetPage(object root)
         {
-            _mainWindow.MainFrame.NavigationService.Navigate(root);
+            App.OwnerNavigationService.SetPage(root);
         }
 
-        public void Execute_ToggleShowNotifications(object parameter) 
+        public void Execute_ToggleShowNotifications(object parameter)
         {
             IsDropdownOpen = !IsDropdownOpen;
         }
@@ -142,65 +133,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             SelectedNotification.Read = true;
             _notificationService.Update(SelectedNotification);
 
-            if (SelectedNotification.Type == Notification.NotificationType.GUESTREVIEW && !_guestReviewService.IsReviewed( SelectedNotification.EntityId)) 
+            if (SelectedNotification.Type == Notification.NotificationType.GUESTREVIEW && !_guestReviewService.IsReviewed(SelectedNotification.EntityId))
             {
-                SetPage(new GuestReviewPage(LoggedInUser,this,SelectedNotification.EntityId));
+                SetPage(new GuestReviewPage(SelectedNotification.EntityId));
             }
             UpdateNotifications();
         }
 
         public void Execute_NavigationButtonCommand(object parameter)
         {
-            string nextPage = parameter.ToString();
-            var navigationService = _mainWindow.MainFrame.NavigationService;
-
-            switch (nextPage) 
-            {
-                case "Home":
-                    navigationService.Navigate(new HomePage(LoggedInUser));
-                    break;
-                case "Accommodation":
-                    navigationService.Navigate(new AccommodationsPage(LoggedInUser,this));
-                    break;
-                case "AccommodationAdd":
-                    navigationService.Navigate(new AddAccommodationPage(LoggedInUser,this));
-                    break;
-                case "Request":
-                    navigationService.Navigate(new RequestPage(LoggedInUser, this));
-                    break;
-                case "Review":
-                    navigationService.Navigate(new OwnerReviewPage(LoggedInUser, this));
-                    break;
-                case "User":
-                    navigationService.Navigate(new UserPage(LoggedInUser, this));
-                    break;
-                /*
-                case "Review":
-                    navigationService.Navigate(new HomePage());
-                    break;
-                case "Renovation":
-                    navigationService.Navigate(new HomePage());
-                    break;
-                
-                case "Suggestion":
-                    navigationService.Navigate(new HomePage());
-                    break;
-                case "Forum":
-                    navigationService.Navigate(new HomePage());
-                    break;
-                */
-
-                default:
-                    break;
-            }
-            return;
-
-            
+            App.OwnerNavigationService.NavigateMainWindow(parameter);
         }
 
-        public void CloseWindow() 
+        public void CloseWindow()
         {
-            _mainWindow.Close();
+            App.OwnerNavigationService.CloseWindow();
         }
 
         private bool CanExecuteMethod(object parameter)
@@ -219,7 +166,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
         }
 
-        private void UpdateNotifications() 
+        private void UpdateNotifications()
         {
             Notifications.Clear();
             FillObservableCollection();

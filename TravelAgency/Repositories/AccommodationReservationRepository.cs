@@ -135,7 +135,7 @@ namespace SOSTeam.TravelAgency.Repositories
             return _serializer.FromCSV(FilePath);
         }
 
-        public List<AccommodationReservation> LoadFromOtherCSV()
+        public List<AccommodationReservation> GetProcessedReservations()
         {
             const string filePath = "../../../Resources/Data/shortTimeDeletedReservations.csv";
             return _serializer.FromCSV(filePath);

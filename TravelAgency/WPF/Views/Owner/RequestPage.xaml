@@ -9,11 +9,14 @@
       Title="AddAccommodationPage">
     <Page.Resources>
         <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Margin" Value="10" />
         </Style>
         <Style x:Key="CenterTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
+            <Setter Property="FontSize" Value="16" />
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
@@ -65,14 +68,32 @@
             <StackPanel>
                 <Label Content="Zahtevi za pomeranje rezervacije " FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,10,30" />
                 <DataGrid Width="730" Height="400" Background="#dceefa" RowBackground="#d2e2ff" AlternatingRowBackground="#dceefa" RowHeight="50" ItemsSource="{Binding Requests}" SelectedItem="{Binding Path=SelectedRequest, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
-
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleY="0.8" />
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                         From="0" To="1" Duration="0:0:0.4" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="Auto" Header="Gost">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <Image Source="/Resources/Icons/user_ikonica2.png" VerticalAlignment="Center" Width="40" Height="40" Margin="5,0,0,0"/>
-                                        <TextBlock Text="{Binding Username}" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <TextBlock Text="{Binding Username}" VerticalAlignment="Center" FontFamily="{StaticResource OwnerFont}" FontSize="18" Margin="5,0,10,0"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -90,7 +111,7 @@
 
         </Grid>
         <Grid Grid.Row="1">
-            <Border BorderBrush="Black" BorderThickness="1"/>
+            <Border BorderBrush="{StaticResource OwnerBorderColor}" BorderThickness="1"/>
             <Popup x:Name="MyPopup" StaysOpen="False" AllowsTransparency="True"
                    PlacementTarget="{Binding ElementName=DenialButton}"
                    Placement="Top"
@@ -115,19 +136,23 @@
                         <Path Fill="White" Stretch="Fill" Data="M0,0 L30,30 L60,0 Z" Stroke="Black" StrokeThickness="1" Margin="0,0,20,0"/>
                     </Grid>
                     <Grid Grid.Row="0" Background="Transparent">
-                        <Border BorderThickness="2" BorderBrush="Black" CornerRadius="20"  Background="#dceefa"></Border>
+                        <Border BorderThickness="2" BorderBrush="{StaticResource OwnerBorderColor}" CornerRadius="20"  Background="#dceefa"></Border>
                         <Grid Margin="2,20">
 
                             <Grid>
                                 <StackPanel>
                                     <Label Content="Objašnjenje (opciono):" FontSize="16" Margin="5,-5,0,0" />
-                                    <Border BorderThickness="1" BorderBrush="Black" Background="#dceefa" Margin="10,0,10,10">
+                                    <Border BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" Background="#dceefa" Margin="10,0,10,10">
                                         
                                         <TextBox Text="{Binding Comment,Mode=TwoWay}" Height="165" FontSize="16" TextWrapping="Wrap">
 
                                         </TextBox>
                                         </Border>
-                                    <Button Content="Potvrdi" Command="{Binding Deny}" Width="80" Height="25" FontSize="16" Margin="0"></Button>
+                                    <Button Content="Potvrdi" Command="{Binding Deny}" Width="80" Height="25" FontSize="16" Margin="0" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                                        <Button.RenderTransform>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        </Button.RenderTransform>
+                                    </Button>
                                 </StackPanel>
                                 
                             </Grid>
@@ -138,10 +163,16 @@
 
             </Popup>
             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Content="Prihvati" FontSize="25" Margin="20" Width="120" Command="{Binding Accept}">
+                <Button Content="Prihvati" FontSize="25" Margin="20" Width="120" Command="{Binding Accept}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
 
                 </Button>
-                <Button Content="Odbi"  x:Name="DenialButton" FontSize="25" Margin="20" Width="120" Command="{Binding ShowDenialPopup}">
+                <Button Content="Odbi"  x:Name="DenialButton" FontSize="25" Margin="20" Width="120" Command="{Binding ShowDenialPopup}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
 
                 </Button>
                 

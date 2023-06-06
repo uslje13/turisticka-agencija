@@ -1,4 +1,5 @@
-﻿using SOSTeam.TravelAgency.Application.Services;
+﻿using LiveCharts;
+using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using System.Windows.Navigation;
 using System.Xml.Linq;
 using Xceed.Wpf.AvalonDock.Controls;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
@@ -23,9 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     public class GuestInboxViewModel
     {
         public User LoggedInUser { get; set; }
-        public int Notifications { get; set; }
-        public Window ThisWindow { get; set; }
-        public Window UserProfilleWindow { get; set; }
+        public NavigationService ProfilleNavigationService { get; set; }
         public ObservableCollection<CancelAndMarkResViewModel> _reservationsForMark { get; set; }
         public List<CancelAndMarkResViewModel> _changedReservations { get; set; }
         public ObservableCollection<CancelAndMarkResViewModel> _ratingsFromOwner { get; set; }
@@ -33,12 +33,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand GoBackCommand { get; set; }
         public RelayCommand MarkAccommodationCommand { get; set; }
 
-        public GuestInboxViewModel(User user, Window window, ListBox list, ListBox newList, ListBox ratings, Window userProfille, int notifications)
+        public GuestInboxViewModel(User user, ListBox list, ListBox newList, ListBox ratings, NavigationService userProfille)
         {
             LoggedInUser = user;
-            ThisWindow = window;
-            UserProfilleWindow = userProfille;
-            Notifications = notifications;
+            ProfilleNavigationService = userProfille;
 
             _reservationsForMark = new ObservableCollection<CancelAndMarkResViewModel>();
             _changedReservations = new List<CancelAndMarkResViewModel>();
@@ -60,15 +58,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_GoBack(object sender)
         {
-            ThisWindow.Close();
+            NotificationFromOwnerService service = new NotificationFromOwnerService();
+            ProfilleNavigationService.Navigate(new UserProfillePage(LoggedInUser, service.TestInboxCharge(LoggedInUser.Id), ProfilleNavigationService));
         }
 
         private void Execute_ShowMenu(object sender)
         {
-            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, ThisWindow, UserProfilleWindow, Notifications);
-            ThisWindow.Close();
-            UserProfilleWindow.Close();
-            newWindow.Show();
+            NotificationFromOwnerService service = new NotificationFromOwnerService();
+            ProfilleNavigationService.Navigate(new SearchAccommodationPage(LoggedInUser, ProfilleNavigationService, service.TestInboxCharge(LoggedInUser.Id)));
         }
 
         private void PrepareMarkReservationList()
@@ -102,8 +99,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         private void Execute_MarkAccommodation(object sender)
         {
             CancelAndMarkResViewModel? selected = sender as CancelAndMarkResViewModel;
-            MarkAccommodationWindow newWindow = new MarkAccommodationWindow(LoggedInUser, selected, _reservationsForMark, _ratingsFromOwner);
-            newWindow.ShowDialog();
+            ProfilleNavigationService.Navigate(new MarkAccommodationPage(LoggedInUser, selected, _reservationsForMark, _ratingsFromOwner, ProfilleNavigationService));
         }
 
         private void ShowMarkingNotifications()
@@ -196,7 +192,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             if(guestReviews.Count > 0)
             {
-                foreach(var item in  guestReviews)
+                foreach(var item in guestReviews)
                 {
                     AccommodationReservation reservation = reservationService.GetById(item.ReservationId);
                     if (item.GuestId == LoggedInUser.Id && reservation.ReadMarkNotification)

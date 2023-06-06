@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class SelectResDatesViewModel
     {
         public User LoggedInUser { get; set; }
-        public Frame ThisFrame { get; set; }
+        public NavigationService NavigationService { get; set; }
         public bool IsEnterOfChange { get; set; }
         public string AccNameTextBlock { get; set; }
         public AccReservationViewModel selectedCatalogItem { get; set; }
@@ -25,13 +26,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand ContinueReserveCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
 
-        public SelectResDatesViewModel(List<AccReservationViewModel> list, User user, bool isEnterOfChange, ChangedReservationRequest request, Frame frame)
+        public SelectResDatesViewModel(List<AccReservationViewModel> list, User user, bool isEnterOfChange, ChangedReservationRequest request, NavigationService service)
         {
             suggestCatalog = list;
             LoggedInUser = user;
             IsEnterOfChange = isEnterOfChange;
             ChangedReservationRequest = request;
-            ThisFrame = frame;
+            NavigationService = service;
 
             FillTextBlock(list);
 
@@ -41,8 +42,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_GoBack(object sender)
         {
-            var navigationService = ThisFrame.NavigationService;
-            navigationService.GoBack();
+            NavigationService.GoBack();
         }
 
         private void FillTextBlock(List<AccReservationViewModel> list)
@@ -62,8 +62,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
             else
             {
-                var navigationService = ThisFrame.NavigationService;
-                navigationService.Navigate(new EnterGuestNumberPage(selectedCatalogItem, LoggedInUser, IsEnterOfChange, ChangedReservationRequest, ThisFrame));
+                NavigationService.Navigate(new EnterGuestNumberPage(selectedCatalogItem, LoggedInUser, IsEnterOfChange, ChangedReservationRequest, NavigationService));
             }
         }
     }

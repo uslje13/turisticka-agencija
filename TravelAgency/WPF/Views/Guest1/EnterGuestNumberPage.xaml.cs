@@ -24,10 +24,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class EnterGuestNumberPage : Page
     {
-        public EnterGuestNumberPage(AccReservationViewModel item, User user, bool enterOfChange, ChangedReservationRequest request, Frame frame)
+        public EnterGuestNumberPage(AccReservationViewModel item, User user, bool enterOfChange, ChangedReservationRequest request, NavigationService service)
         {
             InitializeComponent();
-            EnterGuestNumberViewModel viewModel = new EnterGuestNumberViewModel(item, user, enterOfChange, request, frame);
+            EnterGuestNumberViewModel viewModel = new EnterGuestNumberViewModel(item, user, enterOfChange, request, service);
             DataContext = viewModel;
         }
 

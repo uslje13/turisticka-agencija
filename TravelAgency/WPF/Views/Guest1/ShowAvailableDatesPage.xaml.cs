@@ -23,10 +23,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class ShowAvailableDatesPage : Page
     {
-        public ShowAvailableDatesPage(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, bool enter, ChangedReservationRequest request, Frame frame)
+        public ShowAvailableDatesPage(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, bool enter, ChangedReservationRequest request, NavigationService service)
         {
             InitializeComponent();
-            ShowAvailableDatesViewModel viewModel = new ShowAvailableDatesViewModel(dto, firstDay, lastDay, days, user, Calendar, enter, request, frame);
+            ShowAvailableDatesViewModel viewModel = new ShowAvailableDatesViewModel(dto, firstDay, lastDay, days, user, Calendar, enter, request, service);
             DataContext = viewModel;
         }
     }

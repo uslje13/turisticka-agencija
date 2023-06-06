@@ -20,11 +20,6 @@ namespace SOSTeam.TravelAgency.Application.Services
     public class AccommodationReservationService
     {
         private readonly IAccReservationRepository _accReservationRepository = Injector.CreateInstance<IAccReservationRepository>();
-        private readonly IAccommodationRepository _accommodationRepository = Injector.CreateInstance<IAccommodationRepository>();
-        private readonly IChangedResRequestRepositroy _changedResRequestRepositroy = Injector.CreateInstance<IChangedResRequestRepositroy>();
-        private readonly IWantedNewDateRepository _wantedNewDateRepository = Injector.CreateInstance<IWantedNewDateRepository>();
-        private readonly INotificationFromOwnerRepository _notificationFromOwnerRepository = Injector.CreateInstance<INotificationFromOwnerRepository>();
-        private readonly INotificationRepository _notificationRepository = Injector.CreateInstance<INotificationRepository>();
 
         public AccommodationReservationService() { }
 
@@ -95,9 +90,9 @@ namespace SOSTeam.TravelAgency.Application.Services
             _accReservationRepository.DeleteFromOtherCSV(reservation);
         }
 
-        public List<AccommodationReservation> LoadFromOtherCSV()
+        public List<AccommodationReservation> GetProcessedReservations()
         {
-            return _accReservationRepository.LoadFromOtherCSV();
+            return _accReservationRepository.GetProcessedReservations();
         }
 
         public void Save(AccommodationReservation accommodationReservation)
@@ -143,7 +138,8 @@ namespace SOSTeam.TravelAgency.Application.Services
             selectedReservation.status = ChangedReservationRequest.Status.ON_HOLD;
             selectedReservation.StatusString = "NA ČEKANjU";
             selectedReservation.ownerComment = "Komentar nije dostupan";
-            _changedResRequestRepositroy.Save(selectedReservation);
+            ChangedReservationRequestService changedReservationRequestService = new ChangedReservationRequestService();
+            changedReservationRequestService.Save(selectedReservation);
         }  
 
         private void SaveWantedDates(AccReservationViewModel forwardedItem, User LoggedInUser, ChangedReservationRequest selectedReservation)
@@ -153,19 +149,22 @@ namespace SOSTeam.TravelAgency.Application.Services
                                                       forwardedItem.ReservationLastDay, forwardedItem.ReservationDuration,
                                                       forwardedItem.AccommodationMaxGuests, forwardedItem.CurrentGuestNumber,
                                                       LoggedInUser.Id, selectedReservation.reservationId);
-
-            _wantedNewDateRepository.Save(wanted);
+            WantedNewDateService wantedNewDateService = new WantedNewDateService();
+            wantedNewDateService.Save(wanted);
         }
 
         public ReservationsInformations SendRequestToOwner(int ownerId)
         {
-            List<ChangedReservationRequest> processedReservations = _changedResRequestRepositroy.GetAll();
-            List<WantedNewDate> wantedDates = _wantedNewDateRepository.GetAll();
+            AccommodationService accommodationService = new AccommodationService();
+            ChangedReservationRequestService changedReservationRequestService = new ChangedReservationRequestService();
+            WantedNewDateService wantedNewDateService = new WantedNewDateService();
+            List<ChangedReservationRequest> processedReservations = changedReservationRequestService.GetAll();
+            List<WantedNewDate> wantedDates = wantedNewDateService.GetAll();
 
             ReservationsInformations reservationsInformations = new ReservationsInformations();
             foreach(var item in processedReservations)
             {
-                Accommodation accommodation = _accommodationRepository.GetById(item.AccommodationId);
+                Accommodation accommodation = accommodationService.GetById(item.AccommodationId);
                 foreach(var item2 in wantedDates)
                 {
                     if(IsValidToBeRequest(ownerId, accommodation, item, item2))
@@ -193,15 +192,19 @@ namespace SOSTeam.TravelAgency.Application.Services
         
         private void SaveAcceptedNotificationToGuest(AccommodationReservation reservation, int ownerId)
         {
-            Accommodation accommodation = _accommodationRepository.GetById(reservation.AccommodationId);
-            NotificationFromOwner newNotification = new NotificationFromOwner(accommodation, ownerId, reservation.UserId);
+            AccommodationService accommodationService = new AccommodationService();
+            NotificationFromOwnerService notificationFromOwnerService = new NotificationFromOwnerService();
+            Accommodation accommodation = accommodationService.GetById(reservation.AccommodationId);
+            NotificationFromOwner newNotification = new NotificationFromOwner(reservation.Id, accommodation, ownerId, reservation.UserId);
             newNotification.Answer = "Odobreno";
-            _notificationFromOwnerRepository.Save(newNotification);
+            notificationFromOwnerService.Save(newNotification);
         }
 
         private void CreateAcceptedReportItem(WantedNewDate newReservation, ChangedReservationRequest oldReservation)
         {
-            _changedResRequestRepositroy.Delete(oldReservation.Id);
+            ChangedReservationRequestService changedReservationRequestService = new ChangedReservationRequestService();
+            WantedNewDateService wantedNewDateService = new WantedNewDateService();
+            changedReservationRequestService.Delete(oldReservation.Id);
             ChangedReservationRequest processedReservation = new ChangedReservationRequest(oldReservation.reservationId, oldReservation.AccommodationId,
                                                                                             oldReservation.AccommodationName, oldReservation.City, oldReservation.Country,
                                                                                             oldReservation.OldFirstDay, oldReservation.OldLastDay,
@@ -211,15 +214,15 @@ namespace SOSTeam.TravelAgency.Application.Services
             processedReservation.status = ChangedReservationRequest.Status.ACCEPTED;
             processedReservation.StatusString = "PRIHVAĆENO";
             processedReservation.ownerComment = "Uspješno pomjereno.";
-            _changedResRequestRepositroy.Save(processedReservation);
+            changedReservationRequestService.Save(processedReservation);
 
-            _wantedNewDateRepository.Delete(newReservation.Id);
+            wantedNewDateService.Delete(newReservation.Id);
             DefinitlyForgetReservation(oldReservation);
         }
 
         private void DefinitlyForgetReservation(ChangedReservationRequest oldReservation)
         {
-            List<AccommodationReservation> local = _accReservationRepository.LoadFromOtherCSV();
+            List<AccommodationReservation> local = _accReservationRepository.GetProcessedReservations();
             foreach(var item in local)
             {
                 if(item.Id == oldReservation.reservationId)
@@ -241,7 +244,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private AccommodationReservation DeleteFromShortTimeDeletedCSV(ChangedReservationRequest oldReservation)
         {
-            List<AccommodationReservation> helpList = _accReservationRepository.LoadFromOtherCSV();
+            List<AccommodationReservation> helpList = _accReservationRepository.GetProcessedReservations();
             AccommodationReservation reservation = new AccommodationReservation();
             foreach (var item in helpList)
             {
@@ -260,7 +263,9 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void CreateDeclinedReportItem(string ownerComment, WantedNewDate newReservation, ChangedReservationRequest oldReservation)
         {
-            _changedResRequestRepositroy.Delete(oldReservation.Id);
+            ChangedReservationRequestService changedReservationRequestService = new ChangedReservationRequestService();
+            WantedNewDateService wantedNewDateService = new WantedNewDateService();
+            changedReservationRequestService.Delete(oldReservation.Id);
             ChangedReservationRequest processedReservation = new ChangedReservationRequest(oldReservation.reservationId, oldReservation.AccommodationId,
                                                                                             oldReservation.AccommodationName, oldReservation.City, oldReservation.Country,
                                                                                             oldReservation.OldFirstDay, oldReservation.OldLastDay,
@@ -270,9 +275,9 @@ namespace SOSTeam.TravelAgency.Application.Services
             processedReservation.status = ChangedReservationRequest.Status.REFUSED;
             processedReservation.StatusString = "ODBIJENO";
             processedReservation.ownerComment = ownerComment;
-            _changedResRequestRepositroy.Save(processedReservation);
+            changedReservationRequestService.Save(processedReservation);
 
-            _wantedNewDateRepository.Delete(newReservation.Id);
+            wantedNewDateService.Delete(newReservation.Id);
         }
 
         public void DeclineReservationChanges(string ownerComment, WantedNewDate newReservation, ChangedReservationRequest oldReservation, int ownerId)
@@ -284,10 +289,12 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void SaveDeclinedNotificationToGuest(AccommodationReservation reservation, int ownerId)
         {
-            Accommodation accommodation = _accommodationRepository.GetById(reservation.AccommodationId);
-            NotificationFromOwner newNotification = new NotificationFromOwner(accommodation, ownerId, reservation.UserId);
+            AccommodationService accommodationService = new AccommodationService();
+            NotificationFromOwnerService notificationFromOwnerService = new NotificationFromOwnerService();
+            Accommodation accommodation = accommodationService.GetById(reservation.AccommodationId);
+            NotificationFromOwner newNotification = new NotificationFromOwner(reservation.Id, accommodation, ownerId, reservation.UserId);
             newNotification.Answer = "Odbijeno";
-            _notificationFromOwnerRepository.Save(newNotification);
+            notificationFromOwnerService.Save(newNotification);
         }
 
         public bool CheckDays(LocAccommodationViewModel DTO, int DaysDuration)
@@ -321,11 +328,13 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private void CreateNotificationToOwner(CancelAndMarkResViewModel selectedReservation)
         {
-            Accommodation accommodation = _accommodationRepository.GetById(selectedReservation.AccommodationId);
+            AccommodationService accommodationService = new AccommodationService();
+            NotificationService notificationService = new NotificationService();
+            Accommodation accommodation = accommodationService.GetById(selectedReservation.AccommodationId);
             string Text = "Otkazana je rezervacija u periodu od " + selectedReservation.FirstDay.ToString() + " do " +
                           selectedReservation.LastDay.ToString() + " u smještaju " + selectedReservation.AccommodationName + ".";
             Notification notification = new Notification(accommodation.OwnerId, Text, Notification.NotificationType.NOTYPE, false);
-            _notificationRepository.Save(notification);
+            notificationService.Save(notification);
         }
 
         private void SaveCanceledReservation(CancelAndMarkResViewModel selectedReservation)
@@ -333,6 +342,46 @@ namespace SOSTeam.TravelAgency.Application.Services
             AccommodationReservation accommodationReservation = _accReservationRepository.GetById(selectedReservation.ReservationId);
             _accReservationRepository.Delete(selectedReservation.ReservationId);
             _accReservationRepository.SaveCanceledReservation(accommodationReservation);
+        }
+
+        public int FindLastYearReservationsNumber(User user)
+        {
+            int resNumber = 0;
+            foreach (var reservation in _accReservationRepository.GetAll())
+            {
+                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year - 1)
+                {
+                    resNumber++;
+                }
+            }
+            resNumber += InvestigateProcessedReservations(user);
+            return resNumber;
+        }
+
+        private int InvestigateProcessedReservations(User user)
+        {
+            List<AccommodationReservation> _processedReservations = _accReservationRepository.GetProcessedReservations();
+            int resNumber = 0;
+            foreach (var reservation in _processedReservations)
+            {
+                if (user.Id == reservation.UserId && reservation.FirstDay.Year == DateTime.Today.Year - 1 && !reservation.DefinitlyChanged)
+                {
+                    resNumber++;
+                }
+            }
+            return resNumber;
+        }
+
+        public int CalculateUnusedBonusPoints(User user, int points)
+        {
+            foreach (var reservation in _accReservationRepository.GetAll())
+            {
+                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year && points > 0)
+                {
+                    points--;
+                }
+            }
+            return points;
         }
     }
 }

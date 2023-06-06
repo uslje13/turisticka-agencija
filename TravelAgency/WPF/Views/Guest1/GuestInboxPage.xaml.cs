@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,22 +12,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SOSTeam.TravelAgency.WPF.ViewModels;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
-using SOSTeam.TravelAgency.Domain.Models;
 
 namespace SOSTeam.TravelAgency.WPF.Views.Guest1
 {
     /// <summary>
-    /// Interaction logic for GuestInboxWindow.xaml
+    /// Interaction logic for GuestInboxPage.xaml
     /// </summary>
-    public partial class GuestInboxWindow : Window
+    public partial class GuestInboxPage : Page
     {
-        public GuestInboxWindow(User user, Window userProfille, int notifications)
+        public GuestInboxPage(User user, NavigationService profille)
         {
             InitializeComponent();
-            GuestInboxViewModel viewModel = new GuestInboxViewModel(user, this, MarkNotifications, ChangeNotifications, RatingsNotifications, userProfille, notifications);
+            GuestInboxViewModel viewModel = new GuestInboxViewModel(user, MarkNotifications, ChangeNotifications, RatingsNotifications, profille);
             DataContext = viewModel;
         }
     }

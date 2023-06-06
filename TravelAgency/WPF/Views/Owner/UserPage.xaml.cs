@@ -23,9 +23,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
     public partial class UserPage : Page
     {
 
-        public UserPage(User user, MainWindowViewModel mainWindowVM)
+        public UserPage()
         {
-            DataContext = new UserPageViewModel(user, mainWindowVM);
+            DataContext = new UserPageViewModel();
             InitializeComponent();
         }
     }

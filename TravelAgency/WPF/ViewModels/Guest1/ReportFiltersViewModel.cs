@@ -10,13 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class ReportFiltersViewModel
     {
         public User LoggedInUser { get; set; }
-        public Frame ThisFrame { get; set; }
+        public NavigationService NavigationService { get; set; }
         public string SelectedOption { get; set; }
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; }
@@ -24,10 +25,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public List<CancelAndMarkResViewModel> _presentedReservations { get; set; }
         public RelayCommand ProcessReportCommand { get; set; }
 
-        public ReportFiltersViewModel(User user, Frame frame)
+        public ReportFiltersViewModel(User user, NavigationService service)
         {
             LoggedInUser = user;
-            ThisFrame = frame;
+            NavigationService = service;
             
             _comboBoxOptions = new ObservableCollection<string> { "Zakazane", "Otkazane" };
             SelectedOption = _comboBoxOptions[1];
@@ -41,7 +42,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         
         private void Execute_ProcessReport(object sender)
         {
-            if (LastDate.DayOfYear < FirstDate.DayOfYear)
+            if (LastDate < FirstDate)
             {
                 MessageBox.Show("Datumi opsega nisu izabrani validno!");
             }
@@ -50,8 +51,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 int k = FindSelectedType();
                 if (k == 0) LoadFuturedReservations();
                 else LoadCanceledReservations();
-                var navigationService = ThisFrame.NavigationService;
-                navigationService.Navigate(new ReportResultsPage(_presentedReservations, ThisFrame, k, FirstDate, LastDate));
+                NavigationService.Navigate(new ReportResultsPage(_presentedReservations, NavigationService, k, FirstDate, LastDate));
             }
         }
         
@@ -86,11 +86,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if(type == 0)
             {
-                return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && DateTime.Today.DayOfYear < res.FirstDay.DayOfYear && res.FirstDay.DayOfYear >= FirstDate.DayOfYear && res.LastDay.DayOfYear <= LastDate.DayOfYear;
+                return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && DateTime.Today < res.FirstDay && res.FirstDay >= FirstDate && res.LastDay <= LastDate;
             }
             else
             {
-                return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && res.FirstDay.DayOfYear >= FirstDate.DayOfYear && res.LastDay.DayOfYear <= LastDate.DayOfYear;
+                return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && res.FirstDay >= FirstDate && res.LastDay <= LastDate;
             }
         }
 

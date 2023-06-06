@@ -23,12 +23,12 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class SearchPage : Page
     {
-        public SearchPage(User user, Frame frame)
+        public SearchPage(User user, NavigationService service)
         {
             InitializeComponent();
             List<TextBox> textBoxes = new List<TextBox> { name, city, country, guestsNumber, daysNumber };
             List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem> { CBItemApart, CBItemHouse, CBItemHut, CBItemNoType };
-            SearchViewModel viewModel = new SearchViewModel(user, textBoxes, comboBoxItems, CBTypes, frame);
+            SearchViewModel viewModel = new SearchViewModel(user, textBoxes, comboBoxItems, CBTypes, service);
             DataContext = viewModel;
         }
 

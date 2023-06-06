@@ -13,7 +13,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private GuestReviewService _guestReviewService;
         private AccommodationService _accommodationService;
         private UserService _userService;
-        private MainWindowViewModel _mainwindowVM;
 
         public User LoggedInUser { get; private set; }
         public User GuestUser { get; private set; }
@@ -26,16 +25,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand AddReview { get; private set; }
         public RelayCommand RateCleanliness { get; private set; }
         public RelayCommand RateRules { get; private set; }
-        public GuestReviewPageViewModel(User user, MainWindowViewModel mainWindowVM, int reviewId)
+        public GuestReviewPageViewModel(int reviewId)
         {
-            LoggedInUser = user;
+            LoggedInUser = App.LoggedUser;
             _guestReviewService = new();
             _userService = new();
             _accommodationService = new();
             Review = _guestReviewService.GetById(reviewId);
             GuestUser = _userService.GetById(Review.GuestId);
             Accommodation = _accommodationService.GetById(Review.AccommodationId);
-            _mainwindowVM = mainWindowVM;
             CleanlinessRating = 5;
             RulesRating = 5;
             AddReview = new RelayCommand(Execute_AddReview, CanExecuteAddReview);
@@ -77,13 +75,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _guestReviewService.Update(Review);
 
 
-            _mainwindowVM.Execute_NavigationButtonCommand("Home");
+            App.OwnerNavigationService.NavigateMainWindow("Home");
             return;
         }
 
         private void Execute_Cancel(object obj)
         {
-            _mainwindowVM.Execute_NavigationButtonCommand("Home");
+            App.OwnerNavigationService.NavigateMainWindow("Home");
             return;
         }
 

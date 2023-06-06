@@ -11,35 +11,11 @@
       Title="AccommodationsPage">
 
     <Page.Resources>
-        <Style TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Background" Value="#63aaed" />
-            <Setter Property="Foreground" Value="MediumBlue" />
-
-            
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid Background="{TemplateBinding Background}">
-                            <ContentPresenter x:Name="MyContentPresenter" 
-                                          Content="{TemplateBinding Content}"
-                                          HorizontalAlignment="Center" 
-                                          VerticalAlignment="Center" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-                
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="LightBlue"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Cursor" Value="Hand"/>
-                </Trigger>
-            </Style.Triggers>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}" />
         </Style>
     </Page.Resources>
     <Grid Background="Transparent">
@@ -57,14 +33,23 @@
                 <Border Background="#a3daed" CornerRadius="20">
                         <Grid Height="60">
                             <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center" Height="Auto" >
-                                <Button Margin="10,0,10,0" Command="{Binding AddAccommodation}">
-                                    <Image Source="/Resources/Icons/plusicon.png" Width="40" Height="40" ></Image>
+                            <Button Margin="10,0,10,0" Command="{Binding AddAccommodation}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </Button.RenderTransform>
+                                <Image Source="/Resources/Icons/plusicon.png" Width="40" Height="40" ></Image>
                                 </Button>
-                                <Button Margin="10,0,10,0" Command="{Binding OpenAccommodationDetails}" >
-                                    <Image Source="/Resources/Icons/info-icon.png" Width="40" Height="40" ></Image>
+                            <Button Margin="10,0,10,0" Command="{Binding OpenAccommodationDetails}"  Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </Button.RenderTransform>
+                                <Image Source="/Resources/Icons/info-icon.png" Width="40" Height="40" ></Image>
                             </Button>
-                                <Button Margin="10,0,10,0" Command="{Binding DeleteAccommodation}">
-                                    <Image Source="/Resources/Icons/Trash.png" Width="40" Height="40" ></Image>
+                            <Button Margin="10,0,10,0" Command="{Binding DeleteAccommodation}" Style="{StaticResource OwnerButtons}" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </Button.RenderTransform>
+                                <Image Source="/Resources/Icons/Trash.png" Width="40" Height="40" ></Image>
                             </Button>
                             </WrapPanel>
                         </Grid>
@@ -77,12 +62,33 @@
         </Grid>
         <Grid Grid.Row="1" Margin="30,0,30,50">
             <ListBox x:Name="AccommodationsList" ItemsSource="{Binding Accommodations}" SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#dceefa">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleY="0.8"  />
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                         From="0.6" To="1" Duration="0:0:0.4" />
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.4" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="20">
+                        <Border BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" Margin="20">
                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Image Source="{Binding ImagePath}" Width="300" Height="200" HorizontalAlignment="Center" Stretch="UniformToFill"/>
-                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Center" FontSize="22" />
+                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Center" FontSize="22" FontFamily="{StaticResource OwnerFont}" />
+                                <TextBlock Text="{Binding Location}" TextWrapping="Wrap" HorizontalAlignment="Center" FontSize="16" FontFamily="{StaticResource OwnerFont}" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -102,6 +108,6 @@
                 </i:Interaction.Triggers>
             </ListBox>
         </Grid>
-        <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black" Margin="30,0,30,50"/>
+        <Border Grid.Row="1" BorderThickness="1" BorderBrush="{StaticResource OwnerBorderColor}" Margin="30,0,30,50"/>
     </Grid>
 </Page>

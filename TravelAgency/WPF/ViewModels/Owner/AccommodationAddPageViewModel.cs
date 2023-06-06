@@ -13,13 +13,12 @@ using System.Windows.Data;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
-    internal class AddAccommodationPageViewModel : ViewModel
+    internal class AccommodationAddPageViewModel : ViewModel
     {
         
         private AccommodationService _accommodationService;
         private LocationService _locationService;
         private ImageService _imageService;
-        private MainWindowViewModel _mainwindowVM;
 
         public User LoggedInUser { get; private set; }
         public string AName { get; set; }
@@ -78,13 +77,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand AddPicture { get; private set; }
         public RelayCommand RemovePicture { get; private set; }
         public RelayCommand SetCover { get; private set; }
-        public AddAccommodationPageViewModel(User user, MainWindowViewModel mainWindowVM)
+        public AccommodationAddPageViewModel()
         {
-            LoggedInUser = user;
+            LoggedInUser = App.LoggedUser;
             _accommodationService = new AccommodationService();
             _locationService = new();
             _imageService = new();
-            _mainwindowVM = mainWindowVM;
 
 
             AddAccommodation = new RelayCommand(Execute_AddAccommodation, CanExecuteAddAccommodation);
@@ -98,13 +96,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Countries = new ReadOnlyObservableCollection<string>(GetCountries());
             Cities = new ObservableCollection<string>();
             SelectedType = Accommodation.AccommodationType.HUT;
-            LoggedInUser = user;
             CountryBoxEnabled = true;
 
             AName = string.Empty;
             Country = string.Empty;
             City = string.Empty;
             MinDaysForCancelation = 1;
+            MinDaysStay = 1;
+            MaxGuests = 1;
         }
 
         private void Execute_SetCover(object obj)
@@ -158,7 +157,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Accommodation accommodation = new Accommodation(AName, SelectedType, locationId, MaxGuests, MinDaysStay, LoggedInUser.Id, MinDaysForCancelation);
             var id = _accommodationService.SaveAndReturn(accommodation).Id;
             SaveImages(id);
-            _mainwindowVM.Execute_NavigationButtonCommand("Accommodation");
+            App.OwnerNavigationService.NavigateMainWindow("Accommodation");
             return;
         }
 
@@ -175,7 +174,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_Cancel(object obj)
         {
-            _mainwindowVM.Execute_NavigationButtonCommand("Accommodation");
+            App.OwnerNavigationService.NavigateMainWindow("Accommodation");
             return;
         }
 
@@ -227,21 +226,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             if (MinDaysForCancelation < 0 || MinDaysStay < 0 || MaxGuests < 0) return false;
             if (AName.Length < 1 || City.Length < 1 || Country.Length < 1 || SelectedImages.Count < 1) return false;
             return true;
-        }
-    }
-
-    public class PositiveIntegerValidationRule : ValidationRule
-    {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-        {
-            if (int.TryParse(value as string, out int result) && result >= 0)
-            {
-                return ValidationResult.ValidResult;
-            }
-            else
-            {
-                return new ValidationResult(false, "Morate uneti validan broj gostiju.");
-            }
         }
     }
 

@@ -23,19 +23,18 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
     public partial class MainWindow : Window
     {
         private MainWindowViewModel _mainWindowViewModel;
-        public MainWindow(User user)
+        public MainWindow()
         {
-            _mainWindowViewModel = new MainWindowViewModel(user,this);
+            _mainWindowViewModel = new MainWindowViewModel();
             DataContext = _mainWindowViewModel;
 
+
             InitializeComponent();
+            App.OwnerNavigationService = new Navigation.OwnerNavigationService(this.MainFrame.NavigationService,this);
+
             _mainWindowViewModel.SetStartupPage();
         }
 
-        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            doubleClickButton.Command.Execute(null);
-        }
 
     }
 }

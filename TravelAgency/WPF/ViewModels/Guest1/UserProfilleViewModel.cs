@@ -19,6 +19,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Intrinsics.X86;
 using System.Windows.Documents;
 using System.Windows.Shapes;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -26,7 +27,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public User LoggedInUser { get; set; }
-        public Window ThisWindow { get; set; }
+        public NavigationService NavigationService { get; set; }
         public int ThisYearCounter { get; set; }
         public int Notifications { get; set; }
         public string UsernameTextBlock { get; set; }
@@ -70,12 +71,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand SuperGuestInfoCommand { get; set; }
 
 
-        public UserProfilleViewModel(User user, int notifications, Window window) 
+        public UserProfilleViewModel(User user, int notifications, NavigationService service) 
         {
             LoggedInUser = user;
             UsernameTextBlock = user.Username;
             ThisYearCounter = 0;
-            ThisWindow = window;
+            NavigationService = service;
             Notifications = notifications;
             FirstLogging = false;
             IsPopupOpen = false;
@@ -98,7 +99,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AddFinishedReservations();
             FillCounterTextBlock();
             IsFirstLogging();
-            CreateSuperGuestAccounts();
+
+            SuperGuestService superGuestService = new SuperGuestService();
+            superGuestService.CreateSuperGuestAccounts();
             FindSuperGuestInformations();
 
             ShowMenuCommand = new RelayCommand(Execute_ShowMenu);
@@ -147,116 +150,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 if(superGuest.UserId == LoggedInUser.Id)
                 {
-                    SuperGuestBonusPoints = "Super gost : " + superGuest.BonusPoints.ToString();
-                    if(superGuest.BonusPoints == 1) SuperGuestBonusPoints += " bonus poen";
-                    else SuperGuestBonusPoints += " bonus poena";
-                    SuperGuestReservations = "Broj rezervacija u prošloj godini : " + superGuest.LastYearReservationsNumber.ToString();
-                    Conclude(superGuest.LastYearReservationsNumber);
+                    DisplaySuperGuestStatus(superGuest);
                     break;
                 }
             }
         }
 
-        private void Conclude(int reservationsNumber)
+        private void DisplaySuperGuestStatus(SuperGuest superGuest)
         {
-            if (reservationsNumber < 10) SuperGuestConclusion = "U prošloj godini niste ispunili potrebnu normu.";
+            SuperGuestBonusPoints = "Super gost : " + superGuest.BonusPoints.ToString();
+            if (superGuest.BonusPoints == 1) SuperGuestBonusPoints += " bonus poen";
+            else SuperGuestBonusPoints += " bonus poena";
+            SuperGuestReservations = "Broj rezervacija u prošloj godini : " + superGuest.LastYearReservationsNumber.ToString();
+            if (superGuest.LastYearReservationsNumber < 10) SuperGuestConclusion = "U prošloj godini niste ispunili potrebnu normu.";
             else SuperGuestConclusion = "U prošloj godini ste ostvarili status super-gosta.";
-        }
-
-        private void ClearSuperGuestCSV()
-        {
-            SuperGuestService superGuestService = new SuperGuestService();
-            List<SuperGuest> _superGuests = superGuestService.GetAll();
-            if (_superGuests.Count > 0)
-            {
-                foreach (var guest in _superGuests)
-                {
-                    superGuestService.Delete(guest.Id);
-                }
-            }
-        }
-
-        private int FindLastYearReservationsNumber(User user)
-        {
-            int resNumber = 0;
-            foreach (var reservation in _accommodationReservations)
-            {
-                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year - 1)
-                {
-                    resNumber++;
-                }
-            }
-            return resNumber;
-        }
-
-        private int InvestigateShortTimeCSV(User user)
-        {
-            AccommodationReservationService reservationService = new AccommodationReservationService();
-            List<AccommodationReservation> _processedReservations = reservationService.LoadFromOtherCSV();
-            int resNumber = 0;
-            foreach(var reservation in _processedReservations)
-            {
-                if(user.Id == reservation.UserId && reservation.FirstDay.Year == DateTime.Today.Year - 1 && !reservation.DefinitlyChanged)
-                {
-                    resNumber++;
-                }
-            }
-            return resNumber;
-        }
-        /*
-        private int InvestigateCanceledReservations(User user)
-        {
-            AccommodationReservationService reservationService = new AccommodationReservationService();
-            List<AccommodationReservation> _canceledReservations = reservationService.LoadCanceledReservations();
-            int points = 0;
-            foreach (var reservation in _canceledReservations)
-            {
-                if (user.Id == reservation.UserId && reservation.FirstDay.Year == DateTime.Today.Year)
-                {
-                    points++;
-                }
-            }
-            return points;
-        }
-        */
-        private int ApplyToBonusCounter(User user, int points)
-        {
-            foreach (var reservation in _accommodationReservations)
-            {
-                if (reservation.UserId == user.Id && reservation.FirstDay.Year == DateTime.Today.Year && points > 0)
-                {
-                    points--;
-                }
-            }
-            //points += InvestigateCanceledReservations(user);
-            return points;
-        }
-
-        private void CreateSuperGuestAccounts()
-        {
-            SuperGuestService superGuestService = new SuperGuestService();
-            UserService userService = new UserService();
-            List<User> _users = userService.GetAll();
-            ClearSuperGuestCSV();
-
-            foreach (User user in _users)
-            {
-                if(user.Role == Roles.GUEST1)
-                {
-                    int resNumber = FindLastYearReservationsNumber(user);
-                    resNumber += InvestigateShortTimeCSV(user);
-                    int points = 0;
-                    bool isSuper = false;
-                    if (resNumber >= 10)
-                    {
-                        points = 5;
-                        isSuper = true;
-                    }
-                    points = ApplyToBonusCounter(user, points);
-                    SuperGuest superGuest = new SuperGuest(user.Id, user.Username, points, resNumber, isSuper);
-                    superGuestService.Save(superGuest);
-                }
-            }
         }
 
         private void IsFirstLogging()
@@ -270,9 +177,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_ShowCanceledReservations(object sender)
         {
-            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications, true);
-            ThisWindow.Close();
-            newWindow.ShowDialog();
+            NavigationService.Navigate(new RequestsStatusPage(LoggedInUser, Notifications, true, NavigationService));
         }
 
         private void FillCounterTextBlock()
@@ -354,36 +259,31 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_ShowInbox(object sender)
         {
-            GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser, ThisWindow, Notifications);
             if (Notifications == 0)
             {
                 MessageBox.Show("     Vaš inboks je prazan!\nNemate nepročitanih poruka.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                newWindow.ShowDialog();
+                NavigationService.Navigate(new GuestInboxPage(LoggedInUser, NavigationService));
             }
         }
 
         private void Execute_ShowStatuses(object sender)
         {
-            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications, false);
-            ThisWindow.Close();
-            newWindow.ShowDialog();
+            NavigationService.Navigate(new RequestsStatusPage(LoggedInUser, Notifications, false, NavigationService));
         }
 
         private void Execute_ShowMenu(object sender)
         {
-            Window helpWindow = new Window();   
-            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, helpWindow, ThisWindow, Notifications);
-            ThisWindow.Close();
-            newWindow.ShowDialog();
+            NotificationFromOwnerService service = new NotificationFromOwnerService();
+            NavigationService.Navigate(new SearchAccommodationPage(LoggedInUser, NavigationService, service.TestInboxCharge(LoggedInUser.Id)));
         }
 
         private void Execute_SignOut(object sender)
         {
             SignInForm form = new SignInForm();
-            ThisWindow.Close();
+            Guest1MainWindow.Instance.Close();
             form.ShowDialog();
         }
     }

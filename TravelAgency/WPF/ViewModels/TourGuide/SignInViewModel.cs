@@ -70,6 +70,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                     mainWindow.Show();
                     OnRequestClose(this, new EventArgs());
                     App.TourGuideNavigationService = new TourGuideNavigationService();
+                    App.LoggedUser = user;
                 }
                 else
                 {
