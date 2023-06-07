@@ -90,7 +90,7 @@
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Grid.Row="0" Source="/Resources/Icons/account.png" Height="45" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50"/>
                     <TextBlock Grid.Column="1" Text="Account" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Foreground="White" Margin="5 0 0 0"/>
-                    <Button Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" BorderBrush="Transparent" Cursor="Hand">
+                    <Button Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" BorderBrush="Transparent" Cursor="Hand" Command="{Binding ShowUserAccountCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Opacity" Value="1"/>

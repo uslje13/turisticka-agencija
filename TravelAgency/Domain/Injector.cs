@@ -39,6 +39,7 @@ namespace SOSTeam.TravelAgency.Domain
             { typeof(IAccommodationRenovationRepository), new AccommodationRenovationRepository() },
             { typeof(IForumCommentReportRepository), new ForumCommentReportRepository() },
             { typeof(IComplexTourRequestRepository), new ComplexTourRequestRepository() },
+            { typeof(ISuperGuideRepository), new SuperGuideRepository() },
 
             //{ typeof(IUserService), new UserService() },
 

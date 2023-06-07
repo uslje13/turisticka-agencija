@@ -88,7 +88,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
             foreach (User user in _users)
             {
-                if (user.Role == Roles.GUEST1)
+                if (user.Role == Roles.GOST1)
                 {
                     int resNumber = reservationService.FindLastYearReservationsNumber(user);
                     int points = InitializeBonusPoints(resNumber);
