@@ -43,5 +43,10 @@ namespace SOSTeam.TravelAgency.Application.Services
             _superGuideRepository.Update(superGuide);
         }
 
+        public List<SuperGuide> GetAllByUserId(int id)
+        {
+            return _superGuideRepository.GetAll().FindAll(sg => sg.UserId == id);
+        }
+
     }
 }

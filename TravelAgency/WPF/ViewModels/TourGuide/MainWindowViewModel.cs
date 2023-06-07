@@ -51,6 +51,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         #region Services
 
         private readonly AppointmentService _appointmentService;
+        private readonly CreateSuperGuideService _createSuperGuideService;
 
         #endregion
 
@@ -72,6 +73,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             _loggedUser = loggedUser;
             _appointmentService = new AppointmentService();
+            _createSuperGuideService = new CreateSuperGuideService();
             _title = "Home";
             _username = loggedUser.Username;
 
@@ -146,6 +148,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void ShowUserAccount(object sender)
         {
+            _createSuperGuideService.CreateSuperTourGuide();
             App.TourGuideNavigationService.AddPreviousPage();
             App.TourGuideNavigationService.SetMainFrame("UserAccount", _loggedUser);
         }

@@ -5,14 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide"
       mc:Ignorable="d" 
-      d:DesignHeight="636" d:DesignWidth="430"
+      d:DesignHeight="Auto" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="UserAccountPage">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="160"></RowDefinition>
-            <RowDefinition Height="190"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -34,9 +34,9 @@
         </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="65"></RowDefinition>
+                <RowDefinition Height="65"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" BorderBrush="DarkGray" BorderThickness="0 0.5" Margin="20 0"/>
@@ -47,7 +47,7 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="Username" FontSize="20" FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Center"
                        Margin="25 0 0 0"/>
-                <TextBlock Grid.Row="1" Text="{Binding Username}" FontSize="18" Margin="33 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="{Binding Username}" FontSize="18" Margin="30 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             </Grid>
 
             <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0.5" Margin="20 0"/>
@@ -58,9 +58,34 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="Title" FontSize="20" FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Center"
                        Margin="25 0 0 0"/>
-                <TextBlock Grid.Row="1" Text="Super tour guide" FontSize="18" Margin="33 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="{Binding Title}" FontSize="18" Margin="30 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             </Grid>
+            <StackPanel Grid.Row="2" Grid.Column="0" Height="Auto" Margin="0 5 0 5">
+                <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding Languages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!-- Card -->
+                            <Grid Grid.Row="2" Width="380" Height="35" Margin="6 2 2 2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="/Resources/Icons/language.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Margin="2 0 0 0" />
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding }" FontSize="20" Margin="5 0 0 3"/>
+
+                                <Border Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="DarkGray" BorderThickness="0 0 0 0.5"></Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </StackPanel>
         </Grid>
-        <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Height="25" Width="360" Content="Quit job" FontSize="16"></Button>
+        <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Height="25" Width="360" Content="Quit job" FontSize="16" 
+                Command="{Binding QuitJobCommand}"/>
     </Grid>
 </Page>

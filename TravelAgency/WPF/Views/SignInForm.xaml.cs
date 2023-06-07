@@ -64,26 +64,26 @@ namespace SOSTeam.TravelAgency.WPF.Views
             if (user != null)
             {
                 App.LoggedUser = user;
-                if (user.Password == txtPassword.Password && user.Role == Roles.OWNER)
+                if (user.Password == txtPassword.Password && user.Role == Roles.VLASNIK)
                 {
                     Views.Owner.MainWindow mainPage = new Views.Owner.MainWindow();
                     mainPage.Show();
                     Close();
                 }
-                else if (user.Password == txtPassword.Password && user.Role == Roles.TOURISTGUIDE)
+                else if (user.Password == txtPassword.Password && user.Role == Roles.VODIC)
                 {
                     //ShowToursWindow showToursWindow = new ShowToursWindow(user);
                     //showToursWindow.Show();
                     //Close();
                 }
-                else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST1)
+                else if (user.Password == txtPassword.Password && user.Role == Roles.GOST1)
                 {
                     NotificationFromOwnerService service = new NotificationFromOwnerService();
                     Guest1MainWindow mainWindow = new Guest1MainWindow(user, service.TestInboxCharge(user.Id));
                     Close();
                     mainWindow.Show();
                 }
-                else if (user.Password == txtPassword.Password && user.Role == Roles.GUEST2)
+                else if (user.Password == txtPassword.Password && user.Role == Roles.GOST2)
                 {
                     // ToursOverviewWindow overview = new ToursOverviewWindow(user);
                     // overview.Show();  

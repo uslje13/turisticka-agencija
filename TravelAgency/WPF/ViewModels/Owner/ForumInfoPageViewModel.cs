@@ -72,7 +72,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 ForumInfo.Id,
                 NewComment,
                 false,
-                Roles.OWNER
+                Roles.VLASNIK
                 );
             TestComments.Add(forumComment);
             Comments.Add(new ForumCommentViewModel(
@@ -105,10 +105,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void AddTestComments()
         {
-            ForumComment comment1 = new ForumComment(1, 1, 1, "Brat moj dobri posteni najposteniji.", true, Roles.OWNER);
-            ForumComment comment2 = new ForumComment(2, 2, 1, "Nisam bio tu al je Loooooseeeeeeeeeee xD.", false, Roles.GUEST1);
-            ForumComment comment3 = new ForumComment(3, 3, 1, "IDE GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS IDE GASSSSSSSSSSS IDE GAAAAAAAAAAAAAAAAAAAAAAS IDE GAAAAAAAAAAAAAAAAAS.", true, Roles.GUEST2);
-            ForumComment comment4 = new ForumComment(4, 4, 2, "And here's one more comment.", false, Roles.TOURISTGUIDE);
+            ForumComment comment1 = new ForumComment(1, 1, 1, "Brat moj dobri posteni najposteniji.", true, Roles.VLASNIK);
+            ForumComment comment2 = new ForumComment(2, 2, 1, "Nisam bio tu al je Loooooseeeeeeeeeee xD.", false, Roles.GOST1);
+            ForumComment comment3 = new ForumComment(3, 3, 1, "IDE GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS IDE GASSSSSSSSSSS IDE GAAAAAAAAAAAAAAAAAAAAAAS IDE GAAAAAAAAAAAAAAAAAS.", true, Roles.GOST2);
+            ForumComment comment4 = new ForumComment(4, 4, 2, "And here's one more comment.", false, Roles.VODIC);
 
             TestComments.Add(comment1);
             TestComments.Add(comment2);

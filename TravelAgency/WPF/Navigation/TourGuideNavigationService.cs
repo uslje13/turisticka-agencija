@@ -46,6 +46,15 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
             return mainWindow;
         }
 
+        public void LogOut()
+        {
+            var currentWindow = System.Windows.Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            currentWindow.Close();
+
+            var signInWindow = new WPF.Views.TourGuide.SignInWindow();
+            signInWindow.Show();
+        }
+
         public void SetMainFrame(string frameName, User loggedUser)
         {
             if (frameName == "CreateTourPage")

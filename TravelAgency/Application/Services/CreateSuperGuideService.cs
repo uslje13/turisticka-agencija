@@ -25,30 +25,38 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         public void CreateSuperTourGuide()
         {
-            //Sacuvati super vodica
-        }
+            var superGuideLanguages = FilterAbgGradePerLanguage();
 
-        private class AvgStruct
-        {
-            public double AvgGrade { get; set; }
-            public int NumOfAppointments { get; set; }
+            
 
-            public AvgStruct()
+            foreach (var language in superGuideLanguages.Keys)
             {
-                this.AvgGrade = 0;
-                this.NumOfAppointments = 0;
+                //Ako vec ima titulu za ovaj jezik ne cuvaj ga
+                if (IsSuperGuideAlreadyExists(language))
+                {
+                    return;
+                }
+                
+                var superTourGuide = new SuperGuide();
+                superTourGuide.UserId = App.LoggedUser.Id;
+                superTourGuide.Language = language;
+                superTourGuide.Year = DateTime.Now.Year;
+                _superGuideService.Save(superTourGuide);
             }
+
         }
 
-        private DateRange CreateLastYearDateRange()
+
+        private bool IsSuperGuideAlreadyExists(string language)
         {
-            var now = DateTime.Now;
+            foreach (var superGuide in _superGuideService.GetAllByUserId(App.LoggedUser.Id))
+            {
+                if(superGuide.Language == language) return true;
+            }
 
-            var lastYearStart = new DateTime(now.AddYears(-1).Year, 1, 1);
-            var lastYearEnd = new DateTime(now.AddYears(-1).Year, 12, 31);
-
-            return new DateRange(lastYearStart, lastYearEnd);
+            return false;
         }
+
 
 
         private List<string> FindAllLanguagesInLastYear()
@@ -69,105 +77,87 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         private List<Appointment> GetAllAppointmentsInLastYear()
         {
-            var lastYear = CreateLastYearDateRange();
 
             var appointmentsInLastYear = _appointmentService.GetAllFinishedByUserId(App.LoggedUser.Id).FindAll(a =>
-                a.Start >= lastYear.Start &&
-                a.Start <= lastYear.End);
+                a.Start.Year == DateTime.Now.AddYears(-1).Year);
 
             return appointmentsInLastYear;
         }
 
-        private Dictionary<string, int> GetNumOfAppointmentsPerLanguage()
+        private Dictionary<string, double> FilterAbgGradePerLanguage()
         {
-            var numOfAppointmentsPerLanguage = new Dictionary<string, int>();
+            var avgGradePerLanguage = GetAvgGradePerLanguage();
+            return avgGradePerLanguage.Where(kv => kv.Value >= 4.0).ToDictionary(kv => kv.Key, kv => kv.Value);
+        }
+
+
+        private Dictionary<string, double> GetAvgGradePerLanguage()
+        {
+
             var languagesInLastYear = FindAllLanguagesInLastYear();
+
+            var avgGradesPerLanguage = new Dictionary<string, double>();
 
             foreach (var language in languagesInLastYear)
             {
-                int numOfAppointments = 0;
-                foreach (var appointment in GetAllAppointmentsInLastYear())
-                {
-                    if (language == _tourService.GetById(appointment.TourId).Language)
-                    {
-                        numOfAppointments++;
-                    }
-                }
-
-                numOfAppointmentsPerLanguage.Add(language, numOfAppointments);
+                 var avgPerLanguage = GetAvgGradeForLanguage(language);
+                 avgGradesPerLanguage.Add(language, avgPerLanguage);
             }
 
-            return numOfAppointmentsPerLanguage;
-        }
-
-        private Dictionary<string, int> FilterNumOfAppointmentsPerLanguage()
-        {
-            var numOfAppointmentsPerLanguage = GetNumOfAppointmentsPerLanguage();
-            var filteredNumOfAppointmentsPerLanguage = numOfAppointmentsPerLanguage.Where(kv => kv.Value >= 20).ToDictionary(kv => kv.Key, kv => kv.Value);
-
-            return filteredNumOfAppointmentsPerLanguage;
-        }
-
-        private List<string> GetSuperGuideLanguages()
-        {
-            
-            var filteredAppointmentsPerLanguage = FilterNumOfAppointmentsPerLanguage();
-
-            var potentialLanguage = filteredAppointmentsPerLanguage.Keys;
-
-            var appointmentsInLastYear = GetAllAppointmentsInLastYear();
-
-            var avgGradesPerLanguage = new Dictionary<string, AvgStruct>();
-
-            //Lista jezika i njihova prosecna ocena
-            foreach (var language in potentialLanguage)
-            {
-                avgGradesPerLanguage.Add(language, new AvgStruct());
-            }
-
-            foreach (var language in avgGradesPerLanguage.Keys)
-            {
-                foreach (var appointment in appointmentsInLastYear)
-                {
-                    if (language == _tourService.GetById(appointment.TourId).Language)
-                    {
-                        // Prosek ocene za jedan termin za termin
-                        double avgGrade = GetAppointmentAvgGrade(appointment);
-                        var tempAvgGradePerLanguage = avgGradesPerLanguage[language];
-                        tempAvgGradePerLanguage.AvgGrade += avgGrade;
-                        tempAvgGradePerLanguage.NumOfAppointments++;
-                    }
-                }
-            }
-
-            var avgGradePerLanguage = GetAvgGradePerLanguage(avgGradesPerLanguage);
-
-            var filteredAvgGradePerLanguage = avgGradePerLanguage.Where(kv => kv.Value >= 9.0)
-                .ToDictionary(kv => kv.Key, kv => kv.Value);
-
-            var superGuideLanguages = filteredAvgGradePerLanguage.Keys.ToList();
-
-            return superGuideLanguages;
-        }
-
-        private Dictionary<string, double> GetAvgGradePerLanguage(Dictionary<string, AvgStruct> gradesPerLanguage)
-        {
-            var avgGradesPerLanguage = new Dictionary<string, double>();
-
-            foreach (var language in gradesPerLanguage.Keys)
-            {
-                double sumOfGrades = gradesPerLanguage[language].AvgGrade;
-                int numOfAppointments = gradesPerLanguage[language].NumOfAppointments;
-                avgGradesPerLanguage.Add(language, sumOfGrades/numOfAppointments);
-            }
 
             return avgGradesPerLanguage;
+        }
 
+        private double GetAvgGradeForLanguage(string language)
+        {
+            var appointmentsInLastYearByLanguage = GetAllAppointmentsByLanguage(language);
+            double sumOfAvgGradesByAppointments = 0;
+
+            int numOfAppointmentsInLastYearByLanguage = appointmentsInLastYearByLanguage.Count;
+
+            //Ako nije bilo minimalno 5(20) appointmenta na ovom jeziku on i nije konkurent
+            if (numOfAppointmentsInLastYearByLanguage < 5)
+            {
+                return -1;
+            }
+
+            foreach (var appointment in appointmentsInLastYearByLanguage)
+            {
+                if (language == _tourService.GetById(appointment.TourId).Language)
+                {
+                    // Prosek ocene za jedan termin
+                    double avgGrade = GetAppointmentAvgGrade(appointment);
+                    sumOfAvgGradesByAppointments += avgGrade;
+                }
+            }
+
+            return sumOfAvgGradesByAppointments / numOfAppointmentsInLastYearByLanguage;
+
+        }
+
+        private List<Appointment> GetAllAppointmentsByLanguage(string language)
+        {
+            var appointments = new List<Appointment>();
+            var appointmentsInLastYear = GetAllAppointmentsInLastYear();
+
+            foreach (var appointment in appointmentsInLastYear)
+            {
+                var tour = _tourService.GetById(appointment.TourId);
+
+                if (tour.Language == language)
+                {
+                    appointments.Add(appointment);
+                }
+            }
+
+            return appointments;
         }
 
         private double GetAppointmentAvgGrade(Appointment appointment)
         {
             double appointmentGradeAvg = 0;
+            
+            int appointmentCnt = 0;
             foreach (var review in _tourReviewService.GetAllByAppointmentId(appointment.Id))
             {
                 int sumOfGrades = 0;
@@ -175,11 +165,11 @@ namespace SOSTeam.TravelAgency.Application.Services
                 sumOfGrades += review.GuideKnowledge;
                 sumOfGrades += review.InterestRating;
 
-                appointmentGradeAvg = sumOfGrades / 3.0;
-
-                
+                appointmentGradeAvg += sumOfGrades / 3.0;
+                appointmentCnt++;
             }
-            return appointmentGradeAvg;
+
+            return appointmentGradeAvg/appointmentCnt;
         }
 
     }

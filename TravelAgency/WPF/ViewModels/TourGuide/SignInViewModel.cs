@@ -63,7 +63,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             User user = _userService.GetByUsername(Username);
             if (user != null)
             {
-                if (user.Password == Password && user.Role == Roles.TOURISTGUIDE)
+                if (user.Password == Password && user.Role == Roles.VODIC && user.IsJobQuit != true)
                 {
                     MainWindow mainWindow = new MainWindow(user);
                     //System.Windows.Application.Current.MainWindow = mainWindow;

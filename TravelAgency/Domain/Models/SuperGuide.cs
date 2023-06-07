@@ -13,18 +13,22 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public int UserId { get; set; }
         public string Language { get; set; }
 
+        public int Year { get; set; }
+
         public SuperGuide()
         {
             Id = -1;
             UserId = -1;
             Language = string.Empty;
+            Year = -1;
         }
 
-        public SuperGuide(int id, int userId, string language)
+        public SuperGuide(int id, int userId, string language, int year)
         {
             Id = id;
             UserId = userId;
             Language = language;
+            Year = year;
         }
 
         public void FromCSV(string[] values)
@@ -32,6 +36,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Id = int.Parse(values[0]);
             UserId = int.Parse(values[1]);
             Language = values[2];
+            Year = int.Parse(values[3]);
         }
 
         public string[] ToCSV()
@@ -40,7 +45,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
             {
                 Id.ToString(),
                 UserId.ToString(),
-                Language
+                Language,
+                Year.ToString()
             };
 
             return csvValues;
