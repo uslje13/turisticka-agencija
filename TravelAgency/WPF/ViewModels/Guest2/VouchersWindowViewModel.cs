@@ -15,7 +15,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
     public class VouchersWindowViewModel : ViewModel
     {
         public User LoggedInUser { get; set; }
-        private VouchersWindow _window;
+        public event EventHandler CloseRequested;
         private RelayCommand _backCommand;
         private VoucherService _voucherService;
         public static ObservableCollection<VouchersViewModel> Vouchers { get; set; }
@@ -40,9 +40,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public VouchersWindowViewModel(VouchersWindow window, User loggedInUser)
+        public VouchersWindowViewModel(User loggedInUser)
         {
-            _window = window;
             BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
             HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
             Vouchers = new ObservableCollection<VouchersViewModel>();
@@ -52,20 +51,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         }
         private void Execute_HelpCommand(object obj)
         {
-            _window.Close();
-
-            var currentApp = System.Windows.Application.Current;
-
-            foreach (Window window in currentApp.Windows)
-            {
-                if (window is ToursOverviewWindow)
-                {
-                    PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
-                    var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
-                    navigationService.Navigate(new HelpPage(LoggedInUser));
-                    break;
-                }
-            }
+            HelpWindow window = new HelpWindow();
+            window.Show();
         }
 
         private void FillVouchersForShowingList()
@@ -86,7 +73,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_CancelCommand(object sender)
         {
-            _window.Close();
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

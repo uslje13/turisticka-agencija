@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         public RequestsPage(User loggedInUser)
         {
             InitializeComponent();
-            RequestsPageViewModel viewModel = new RequestsPageViewModel(loggedInUser, this);
+            RequestsPageViewModel viewModel = new RequestsPageViewModel(loggedInUser, this.MainFrame.NavigationService);
             DataContext= viewModel;
             viewModel.SetStartupPage();
         }

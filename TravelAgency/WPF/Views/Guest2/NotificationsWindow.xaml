@@ -17,7 +17,7 @@
             <StackPanel Margin="0,0,0,-14" Orientation="Horizontal">
                 <Button Content="Nove ture" Width="225" Height="41" FontSize="22" Margin="180,0,0,0" BorderThickness="1,1,2,2" BorderBrush="Black" Command="{Binding NavigationCommand}"  CommandParameter="NewTour"></Button>
                 <Button Width="225" Height="41" FontSize="22" Content="Zavrsene ture"  BorderThickness="1,1,2,2" BorderBrush="Black" Command="{Binding NavigationCommand}"  CommandParameter="FinishedTour"></Button>
-                <Button Width="225" Height="41" BorderThickness="1,1,2,2" BorderBrush="Black">
+                <Button Width="225" Height="41" BorderThickness="1,1,2,2" BorderBrush="Black" Command="{Binding HelpCommand}">
                     <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/help--v1.png" Height="33" Width="38"></Image>
                             <TextBlock  Text=" Pomoc (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>

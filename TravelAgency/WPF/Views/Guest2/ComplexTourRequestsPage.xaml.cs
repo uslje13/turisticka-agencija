@@ -2,7 +2,6 @@
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +18,14 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for TourRequestReview.xaml
+    /// Interaction logic for ComplexTourRequestsPage.xaml
     /// </summary>
-    public partial class TourRequestReviewPage : Page
+    public partial class ComplexTourRequestsPage : Page
     {
-        public TourRequestReviewPage(User loggedInUser,ObservableCollection<RequestViewModel> tourRequests, OrdinaryToursPageViewModel ordinaryToursPageViewModel, ComplexToursPageViewModel complexToursPageViewModel)
+        public ComplexTourRequestsPage(User loggedInUser)
         {
             InitializeComponent();
-            TourRequestReviewPageViewModel viewModel = new TourRequestReviewPageViewModel(loggedInUser,tourRequests, ordinaryToursPageViewModel, complexToursPageViewModel);
+            ComplexToursPageViewModel viewModel = new ComplexToursPageViewModel(loggedInUser);
             DataContext = viewModel;
         }
     }

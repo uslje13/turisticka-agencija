@@ -16,7 +16,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class ReviewPageViewModel : ViewModel
     {
-        private ReviewPage _page;
         public int AppointmentId { get; set; }
         public int ReservationId { get; set; }
         public User LoggedInUser { get; set; }
@@ -136,9 +135,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         }
 
 
-        public ReviewPageViewModel(ReviewPage page, User loggedInUser,int appointmnetId,int reservationId)
+        public ReviewPageViewModel(User loggedInUser,int appointmnetId,int reservationId)
         {
-            _page = page;
             AppointmentId= appointmnetId;
             LoggedInUser = loggedInUser;
             ReservationId= reservationId;
@@ -154,20 +152,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         }
         private void Execute_HelpCommand(object obj)
         {
-            Window.GetWindow(_page).Close();
-
-            var currentApp = System.Windows.Application.Current;
-
-            foreach (Window window in currentApp.Windows)
-            {
-                if (window is ToursOverviewWindow)
-                {
-                    PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
-                    var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
-                    navigationService.Navigate(new HelpPage(LoggedInUser));
-                    break;
-                }
-            }
+            HelpWindow window = new HelpWindow();
+            window.Show();
         }
         private void Execute_DeleteImageCommand(object obj)
         {
@@ -235,7 +221,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
             _tourReviewService.CreateTourReview(LoggedInUser.Id, AppointmentId, GuideKnowledge, GuideLanguage, InterestRating, Comment, false);
             _reservationService.Reviewed(ReservationId);
-            Window.GetWindow(_page).Close();
+            var currentApp = System.Windows.Application.Current;
+
+            foreach (Window window in currentApp.Windows)
+            {
+                if (window is NotificationsWindow)
+                {
+                    window.Close();
+                }
+            }
+
             UpdateNotifications();
         }
 
@@ -265,9 +260,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         }
         private void Execute_BackCommand(object obj)
         {
-            NotificationsWindow window = new NotificationsWindow(LoggedInUser);
-            window.Show();
-            Window.GetWindow(_page).Close();
+            var currentApp = System.Windows.Application.Current;
+
+            foreach (Window window in currentApp.Windows)
+            {
+                if (window is NotificationsWindow)
+                {
+                    NotificationsWindow notificationWindow = new NotificationsWindow(LoggedInUser);
+                    notificationWindow.Show();
+                    window.Close();
+                }
+            }
         }
 
         private bool CanExecuteMethod(object parameter)

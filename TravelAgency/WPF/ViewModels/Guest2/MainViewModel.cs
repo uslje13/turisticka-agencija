@@ -10,12 +10,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class MainViewModel : ViewModel
     {
-        private static ToursOverviewWindow _window;
+        public NavigationService NavigationService { get; set; }
+
+        public event EventHandler CloseRequested;
         public static User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
         public static ObservableCollection<Location> Locations { get; set; }
@@ -48,47 +51,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private ImageService _imageService;
         private TourRequestService _tourRequestService;
 
-        private RelayCommand _searchCommand;
-
-        public RelayCommand SearchCommand
+        private RelayCommand _navigationCommand;
+        public RelayCommand NavigationCommand
         {
-            get { return _searchCommand; }
+            get { return _navigationCommand; }
             set
             {
-                _searchCommand = value;
-            }
-        }
-
-        private RelayCommand _helpCommand;
-
-        public RelayCommand HelpCommand
-        {
-            get { return _helpCommand; }
-            set
-            {
-                _helpCommand = value;
-            }
-        }
-
-        private RelayCommand _requestsCommand;
-
-        public RelayCommand RequestsCommand
-        {
-            get { return _requestsCommand; }
-            set
-            {
-                _requestsCommand = value;
-            }
-        }
-
-        private RelayCommand _myToursCommand;
-
-        public RelayCommand MyToursCommand
-        {
-            get { return _myToursCommand; }
-            set
-            {
-                _myToursCommand = value;
+                _navigationCommand = value;
             }
         }
 
@@ -114,6 +83,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
+        private RelayCommand _helpCommand;
+
+        public RelayCommand HelpCommand
+        {
+            get { return _helpCommand; }
+            set
+            {
+                _helpCommand = value;
+            }
+        }
+
         private RelayCommand _logOutCommand;
 
         public RelayCommand LogOutCommand
@@ -124,9 +104,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 _logOutCommand = value;
             }
         }
-        public MainViewModel(User loggedInUser, ToursOverviewWindow window)
+        public MainViewModel(User loggedInUser, NavigationService navigationService)
         {
-            _window = window;
+            NavigationService = navigationService;
             InitializeServices();
             GetUsableLists();
             LoggedInUser = loggedInUser;
@@ -176,7 +156,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 if(i.Type.Equals(ImageType.TOUR) && i.EntityId == t.Id && i.Cover)
                 {
-                    TourViewModel tourDTO = new TourViewModel(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, l.City, l.Country, LoggedInUser, _window,i.Path);
+                    TourViewModel tourDTO = new TourViewModel(t.Id, t.Name, t.Language, t.Duration, t.MaxNumOfGuests, l.City, l.Country, LoggedInUser,i.Path);
                     tourViewModels.Add(tourDTO);
                     break;
                 }
@@ -227,13 +207,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void CreateCommands()
         {
-            SearchCommand = new RelayCommand(Execute_SearchPageCommand, CanExecuteMethod);
-            HelpCommand = new RelayCommand(Execute_HelpPageCommand, CanExecuteMethod);
-            RequestsCommand = new RelayCommand(Execute_RequestsPageCommand, CanExecuteMethod);
-            MyToursCommand = new RelayCommand(Execute_MyToursPageCommand, CanExecuteMethod);
+            NavigationCommand = new RelayCommand(Execute_NavigationCommand, CanExecuteMethod);
             VouchersCommand = new RelayCommand(Execute_VouchersWindowCommand, CanExecuteMethod);
             NotificationsCommand = new RelayCommand(Execute_NotificationsWindowCommand, CanExecuteMethod);
             LogOutCommand = new RelayCommand(Execute_LogOutCommand, CanExecuteMethod);
+            HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
         }
 
         private MessageBoxResult ConfirmLogOut()
@@ -255,7 +233,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 SignInForm signInForm = new SignInForm();
                 signInForm.Show();
-                _window.Close();              
+                CloseRequested?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -271,29 +249,28 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             window.ShowDialog();
         }
 
-        private void Execute_MyToursPageCommand(object obj)
+        private void Execute_NavigationCommand(object obj)
         {
-            var navigationService = _window.MyToursFrame.NavigationService;
-            navigationService.Navigate(new MyToursPage(LoggedInUser));
+            string nextPage = obj.ToString();
+
+            switch (nextPage)
+            {
+                case "MyTours":
+                    NavigationService.Navigate(new MyToursPage(LoggedInUser));
+                    break;
+                case "Requests":
+                    NavigationService.Navigate(new RequestsPage(LoggedInUser));
+                    break;
+                case "Search":
+                    NavigationService.Navigate(new SearchPage(LoggedInUser,TourViewModels, SerbiaTourViewModels, SummerTourViewModels));
+                    break;
+            }
         }
 
-        private void Execute_RequestsPageCommand(object obj)
+        private void Execute_HelpCommand(object obj)
         {
-            var navigationService = _window.RequestsFrame.NavigationService;
-            navigationService.Navigate(new RequestsPage(LoggedInUser));
-        }
-
-        private void Execute_SearchPageCommand(object obj)
-        {
-            var navigationService = _window.SearchFrame.NavigationService;
-            navigationService.Navigate(new SearchPage(LoggedInUser,TourViewModels,SerbiaTourViewModels,SummerTourViewModels));
-        }
-
-        private void Execute_HelpPageCommand(object obj)
-        {
-            PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
-            var navigationService = _window.HelpFrame.NavigationService;
-            navigationService.Navigate(new HelpPage(LoggedInUser));
+            HelpWindow window = new HelpWindow();
+            window.Show();
         }
 
         private bool CanExecuteMethod(object parameter)

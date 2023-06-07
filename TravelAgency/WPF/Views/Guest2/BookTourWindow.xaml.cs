@@ -1,4 +1,5 @@
 ﻿using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,14 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         public BookTourWindow(int id,User loggedInUser)
         {
             InitializeComponent();
-            this.DataContext = new BookTourViewModel(id, loggedInUser,this);
+            BookTourViewModel viewModel = new BookTourViewModel(id, loggedInUser);
+            this.DataContext = viewModel;
+            viewModel.CloseRequested += ViewModel_CloseRequested;
+        }
+
+        private void ViewModel_CloseRequested(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

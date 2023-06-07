@@ -9,17 +9,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class CreateTourRequestViewModel : ViewModel
     {
+        public NavigationService NavigationService { get; set; }
         public OrdinaryToursPageViewModel OrdinaryToursPageViewModel { get; set; }
+        public ComplexToursPageViewModel ComplexToursPageViewModel { get; set; }
 
-        private CreateTourRequestWindow _window;
+        public event EventHandler CloseRequested;
         public User LoggedInUser { get; set; }
         public ObservableCollection<RequestViewModel> TourRequests { get; set; }
-        public RequestViewModel TourRequest { get; set; }
+
+        private RequestViewModel _tourRequest;
+        public RequestViewModel TourRequest
+        {
+            get { return _tourRequest; }
+            set
+            {
+                if (_tourRequest != value)
+                {
+                    _tourRequest = value;
+                    OnPropertyChanged(); 
+                }
+            }
+        }
 
         private RelayCommand _reviewCommand;
         public RelayCommand ReviewCommand
@@ -42,40 +58,76 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public CreateTourRequestViewModel(User loggedInUser,CreateTourRequestWindow window,OrdinaryToursPageViewModel ordinaryToursPageViewModel) 
+        private RelayCommand _addMoreToursCommand;
+
+        public RelayCommand AddMoreToursCommand
         {
-            OrdinaryToursPageViewModel = ordinaryToursPageViewModel;
-            _window= window;
+            get { return _addMoreToursCommand; }
+            set
+            {
+                _addMoreToursCommand = value;
+            }
+        }
+
+        public CreateTourRequestViewModel(User loggedInUser,NavigationService navigationService,ComplexToursPageViewModel complexToursPageViewModel) 
+        {
+            NavigationService = navigationService;
+            ComplexToursPageViewModel = complexToursPageViewModel;
+            OrdinaryToursPageViewModel = new OrdinaryToursPageViewModel(loggedInUser, NavigationService);
             LoggedInUser= loggedInUser;
             TourRequest= new RequestViewModel();
             TourRequests = new ObservableCollection<RequestViewModel>();
             ReviewCommand = new RelayCommand(Execute_ReviewCommand, CanExecuteMethod);
             CloseCommand = new RelayCommand(Execute_CloseCommand,CanExecuteMethod);
+            AddMoreToursCommand = new RelayCommand(Execute_AddMoreToursCommand, CanExecuteMethod);
+        }
+
+        public CreateTourRequestViewModel(User loggedInUser, NavigationService navigationService, OrdinaryToursPageViewModel ordinaryToursPageViewModel)
+        {
+            NavigationService = navigationService;
+            OrdinaryToursPageViewModel = ordinaryToursPageViewModel;
+            ComplexToursPageViewModel = new ComplexToursPageViewModel(loggedInUser);
+            LoggedInUser = loggedInUser;
+            TourRequest = new RequestViewModel();
+            TourRequests = new ObservableCollection<RequestViewModel>();
+            ReviewCommand = new RelayCommand(Execute_ReviewCommand, CanExecuteMethod);
+            CloseCommand = new RelayCommand(Execute_CloseCommand, CanExecuteMethod);
+            AddMoreToursCommand = new RelayCommand(Execute_AddMoreToursCommand, CanExecuteMethod);
+        }
+
+        private void Execute_AddMoreToursCommand(object obj)
+        {
+            SetDateFormat();
+            if (IsDataCorrect())
+            {
+                TourRequests.Add(TourRequest);
+                TourRequest = new RequestViewModel();
+            }
         }
 
         private void Execute_CloseCommand(object obj)
         {
-            var currentApp = System.Windows.Application.Current;
-
-            foreach (Window window in currentApp.Windows)
-            {
-                if (window is CreateTourRequestWindow)
-                {
-                    window.Close();
-                }
-            }
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void Execute_ReviewCommand(object obj)
         {
+            if(TourRequests.Count()!=0)
+            {
+                NavigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests, OrdinaryToursPageViewModel, ComplexToursPageViewModel));
+            }
+            else if (IsDataCorrect())
+            {
+                SetDateFormat();
+                TourRequests.Add(TourRequest);
+                NavigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests, OrdinaryToursPageViewModel, ComplexToursPageViewModel));
+            }
+        }
+
+        private void SetDateFormat()
+        {
             TourRequest.StartEndDateRange = TourRequest.MaintenanceStartDate.ToString() + " - " + TourRequest.MaintenanceEndDate.ToString();
             TourRequest.LocationFullName = TourRequest.City + ", " + TourRequest.Country;
-            if (IsDataCorrect())
-            {
-                TourRequests.Add(TourRequest);
-                var navigationService = _window.TourReviewFrame.NavigationService;
-                navigationService.Navigate(new TourRequestReviewPage(LoggedInUser, TourRequests, OrdinaryToursPageViewModel));
-            }          
         }
 
         private bool IsDataCorrect()

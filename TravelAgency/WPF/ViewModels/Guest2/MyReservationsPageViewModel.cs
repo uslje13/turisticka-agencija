@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using Image = SOSTeam.TravelAgency.Domain.Models.Image;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using SOSTeam.TravelAgency.Commands;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
@@ -22,12 +25,28 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private ReservationService _reservationService;
         private AppointmentService _appointmentService;
         private ImageService _imageService;
+
+        private RelayCommand _showReportCommand;
+        public RelayCommand ShowReportCommand
+        {
+            get { return _showReportCommand; }
+            set
+            {
+                _showReportCommand = value;
+            }
+        }
         public MyReservationsPageViewModel(User loggedInUser)
         {
             LoggedInUser = loggedInUser;
+            ShowReportCommand = new RelayCommand(Execute_ShowCommand, CanExecuteMethod);
             InitializeServices();
             Reservations = new ObservableCollection<MyReservationViewModel>();
             FillReservationsList();
+        }
+
+        private void Execute_ShowCommand(object obj)
+        {
+            throw new NotImplementedException();
         }
 
         private void FillReservationsList()
@@ -67,6 +86,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _reservationService = new ReservationService();
             _appointmentService = new AppointmentService();
             _imageService = new ImageService();
+        }
+
+        private bool CanExecuteMethod(object parameter)
+        {
+            return true;
         }
     }
 }

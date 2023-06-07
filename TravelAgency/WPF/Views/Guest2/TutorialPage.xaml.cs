@@ -1,6 +1,4 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,16 +16,13 @@ using System.Windows.Shapes;
 namespace SOSTeam.TravelAgency.WPF.Views.Guest2
 {
     /// <summary>
-    /// Interaction logic for MyToursPage.xaml
+    /// Interaction logic for TutorialPage.xaml
     /// </summary>
-    public partial class MyToursPage : Page
+    public partial class TutorialPage : Page
     {
-        public MyToursPage(User loggedInUser)
+        public TutorialPage()
         {
             InitializeComponent();
-            MyToursPageViewModel viewModel = new MyToursPageViewModel(loggedInUser, this.MainFrame.NavigationService);
-            DataContext = viewModel;
-            viewModel.SetStartupPage();
         }
     }
 }

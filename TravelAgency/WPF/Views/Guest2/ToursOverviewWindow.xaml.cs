@@ -25,11 +25,15 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         public ToursOverviewWindow(User loggedInUser)
         {
             InitializeComponent();
-            MainViewModel viewModel = new MainViewModel(loggedInUser,this);
+            MainViewModel viewModel = new MainViewModel(loggedInUser,this.MainFrame.NavigationService);
             _viewModel = viewModel; 
             this.DataContext = viewModel;
+            viewModel.CloseRequested += ViewModel_CloseRequested;
         }
-
+        private void ViewModel_CloseRequested(object sender, EventArgs e)
+        {
+            Close();
+        }
         public void GetAttendanceMessages()
         {
             _viewModel.GetAttendanceMessage();
