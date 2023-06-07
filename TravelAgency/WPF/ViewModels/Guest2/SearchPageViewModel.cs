@@ -230,7 +230,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
             else
             {
-                MessageBox.Show("Nepostojeća kombinacija podataka. Pokušajte ponovo.");
+                MessageBox.Show("Nije pronadjena ni jedna tura spram unetih podataka. Pokusajte opet", "Pretraga", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 

@@ -52,24 +52,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         }
         private void ShowPDFReport(string filePath)
         {
-            //try
-           // {
-                // Check if the file exists at the specified path
+            try
+            {
                 if (File.Exists(filePath))
                 {
-                // Open the PDF file using the default PDF viewer
                 Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
                 }
                 else
                 {
                     MessageBox.Show("PDF file not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-           // }
-           // catch (Exception ex)
-            //{
-                // Handle any exceptions that occur during the process
-                //MessageBox.Show($"Error opening PDF report: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-           // }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening PDF report: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private bool CanExecuteMethod(object parameter)
         {

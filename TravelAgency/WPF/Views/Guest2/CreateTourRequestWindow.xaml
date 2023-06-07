@@ -7,17 +7,23 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Kreiranje novog zahteva" FontSize="24" Height="800" Width="880"  Background="AliceBlue" FontFamily="Microsoft Sans Serif" WindowStartupLocation="CenterScreen">
+    
+    <Window.InputBindings>
+        <KeyBinding Key="B" Modifiers="Control" Command="{Binding CloseCommand}" />
+        <KeyBinding Key="H" Modifiers="Control" Command="{Binding HelpCommand}" />
+    </Window.InputBindings>
+    
     <Grid>
         <Border Margin="0,689,0,0">
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <Button Height="74" Width="290" BorderThickness="1,1,2,2" Content="Dodaj jos tura" FontSize="24" Command="{Binding AddMoreToursCommand}"></Button>
                 <Button Height="74" Width="300" BorderThickness="1,1,2,2" Content="Pregled zahteva" FontSize="24" Command="{Binding ReviewCommand}"></Button>
-                <Button Height="74" Width="290" BorderThickness="1,1,2,2" Content="Zatvori (Ctrl+b)" FontSize="24" Command="{Binding CloseCommand}"></Button>
+                <Button Height="74" Width="290" BorderThickness="1,1,2,2" Content="Nazad (Ctrl+b)" FontSize="24" Command="{Binding CloseCommand}"></Button>
             </StackPanel>
         </Border>
         <Border Margin="0,0,0,695">
             <StackPanel Margin="0,0,0,-14">
-                <Button Width="195" Height="36" Margin="600,26,27,100" BorderThickness="1,1,2,2" Command="">
+                <Button Width="195" Height="36" Margin="600,26,27,100" Command="{Binding HelpCommand}" BorderThickness="1,1,2,2">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Icons/help--v1.png" Height="33" Width="38"></Image>
                         <TextBlock  Text=" Pomoc (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
@@ -25,7 +31,7 @@
                 </Button>
             </StackPanel>
         </Border>
-        <Border Margin="28,89,28,95" BorderBrush="Black" BorderThickness="1 1 1 1">
+        <Border Margin="28,77,28,95" BorderBrush="Black" BorderThickness="1 1 1 1">
             <StackPanel>
                 <Border Height="100">
                     <StackPanel Orientation="Horizontal">
@@ -56,8 +62,20 @@
                 <Border Height="100">
                     <StackPanel Orientation="Horizontal" Margin="0,32,0,0">
                         <TextBlock Text="Opseg datuma u kom bi se tura organizovala:" TextWrapping="Wrap" FontSize="28" Width="324" Height="70" Margin="30,0,0,0"/>
-                        <DatePicker DisplayDateStart="{x:Static sys:DateTime.Today}" Width="206" Margin="0,0,20,0"  Height="38" FontSize="28" Text="{Binding TourRequest.MaintenanceStartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
-                        <DatePicker DisplayDateStart="{x:Static sys:DateTime.Today}" Width="199" Height="38" FontSize="28" Text="{Binding TourRequest.MaintenanceEndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+                        <DatePicker DisplayDateStart="{x:Static sys:DateTime.Today}" Width="206" Margin="0,0,20,0"  Height="38" FontSize="25" Text="{Binding TourRequest.MaintenanceStartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="Text" Value="Odaberi datum" />
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+                        <DatePicker DisplayDateStart="{x:Static sys:DateTime.Today}" Width="199" Height="38" FontSize="25" Text="{Binding TourRequest.MaintenanceEndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="Text" Value="Odaberi datum" />
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
                     </StackPanel>
                 </Border>
             </StackPanel>

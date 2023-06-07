@@ -6,13 +6,18 @@
         xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest2"
         mc:Ignorable="d"
         Title="Pomoc" Height="800" Width="880" Background="AliceBlue" FontFamily="Microsoft Sans Serif" WindowStartupLocation="CenterScreen">
+
+    <Window.InputBindings>
+        <KeyBinding Key="B" Modifiers="Control" Command="{Binding BackCommand}" />
+    </Window.InputBindings>
+    
     <Grid>
         <Border Margin="0,0,0,675">
             <StackPanel Margin="379,0,0,0" Orientation="Horizontal">
                 <Button Width="225" Height="41" BorderThickness="1,1,2,2" BorderBrush="Black" Command="{Binding NavigationCommand}"  CommandParameter="HelpPage">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Icons/help--v1.png" Height="33" Width="38"></Image>
-                        <TextBlock  Text=" Pomoc (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
+                        <TextBlock  Text=" Pomoc " FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
                     </StackPanel>
                 </Button>
                 <Button Width="225" Height="41" BorderThickness="1,1,2,2" BorderBrush="Black" Command="{Binding NavigationCommand}"  CommandParameter="TutorialPage">
