@@ -42,13 +42,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_Reserve(object sender)
         {
-            UserService userService = new UserService();
-            User LoggedInUser = userService.GetById(ForwardedDTO.GuestId);
-            AccommodationReservationService reservationService = new AccommodationReservationService();
-            reservationService.AddReservation(SelectedCatalogItem.ReservationFirstDay, SelectedCatalogItem.ReservationLastDay, Guests,
-                                    Days, SelectedCatalogItem.AccommodationId, LoggedInUser);
-            MessageBox.Show("Uspješno rezervisano.");
-            NavigationService.Navigate(new AccommodationBidPage(LoggedInUser, NavigationService));
+            if(SelectedCatalogItem != null)
+            {
+                UserService userService = new UserService();
+                User LoggedInUser = userService.GetById(ForwardedDTO.GuestId);
+                AccommodationReservationService reservationService = new AccommodationReservationService();
+                reservationService.AddReservation(SelectedCatalogItem.ReservationFirstDay, SelectedCatalogItem.ReservationLastDay, Guests,
+                                        Days, SelectedCatalogItem.AccommodationId, LoggedInUser);
+                MessageBox.Show("Uspješno rezervisano.");
+                NavigationService.Navigate(new AccommodationBidPage(LoggedInUser, NavigationService));
+            }
+            else
+            {
+                MessageBox.Show("Niste odabrali termin za rezervaciju!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Execute_GoBack(object sender)

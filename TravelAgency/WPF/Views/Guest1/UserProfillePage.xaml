@@ -226,30 +226,9 @@
                     </Button>
                 </StackPanel>
             </Popup>
-            <Label Foreground="Black" FontSize="25" FontWeight="Bold" Margin="10,60,750,120">Forumi :</Label>
-            <DataGrid x:Name="Forums" ItemsSource="{Binding _forums}" CanUserResizeRows="False"
-                  AutoGenerateColumns="False" SelectionMode="Single" Style="{StaticResource DataGridStyle}"
-                  IsReadOnly="True" Margin="15,100,805,57">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="1*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button x:Name="GoToForumButton" 
-                                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, 
-                                Path=DataContext.MarkAccommodationCommand}" CommandParameter="{Binding}"
-                                Content="{Binding LocationName}"></Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <!--Button Command="{Binding CloseForumCommand}" Width="110" Height="43" IsEnabled="{Binding Path=CommandsEnabled}"
-                    Style="{StaticResource ButtonStyle}" FontSize="16.5" Content="Zatvori forum"
-                    Margin="454,128,429,57">
-            </Button-->
-            <Button Command="{Binding OpenForumCommand}" Width="110" Height="43" IsEnabled="{Binding Path=CommandsEnabled}"
-                    Style="{StaticResource ButtonStyle}" FontSize="16.5" Content="Otvori forum"
-                    Margin="262,128,617,57">
+            <Button Command="{Binding ShowForumsCommand}" Width="110" Height="43" IsEnabled="{Binding Path=CommandsEnabled}"
+                    Style="{StaticResource ButtonStyle}" FontSize="17" Content="Forumi"
+                    Margin="367,128,367,57">
             </Button>
             <Button Command="{Binding ShowMenuCommand}" Width="110" Height="43" IsEnabled="{Binding Path=CommandsEnabled}"
                     Style="{StaticResource ButtonStyle}" FontSize="17" Content="Glavni meni"
@@ -257,7 +236,7 @@
             </Button>
             <Button Command="{Binding SignOutCommand}" Width="110" Height="43" IsEnabled="{Binding Path=CommandsEnabled}"
                     Style="{StaticResource ButtonStyle}" FontSize="17" Content="Odjavi se" 
-                    Margin="646,128,241,57">
+                    Margin="53,128,842,57">
             </Button>
         </Grid>
     </Grid>

@@ -58,6 +58,7 @@
     <None Remove="Resources\Icons\Guest1\info-icon.png" />
     <None Remove="Resources\Icons\Guest1\list-square-icon.png" />
     <None Remove="Resources\Icons\Guest1\log_out.png" />
+    <None Remove="Resources\Icons\Guest1\plusnotext.png" />
     <None Remove="Resources\Icons\Guest1\search.png" />
     <None Remove="Resources\Icons\Guest1\statuses.png" />
     <None Remove="Resources\Icons\Guest1\superGuest.png" />
@@ -520,6 +521,7 @@
     <Resource Include="Resources\Icons\Guest1\info-icon.png" />
     <Resource Include="Resources\Icons\Guest1\list-square-icon.png" />
     <Resource Include="Resources\Icons\Guest1\log_out.png" />
+    <Resource Include="Resources\Icons\Guest1\plusnotext.png" />
     <Resource Include="Resources\Icons\Guest1\search.png" />
     <Resource Include="Resources\Icons\Guest1\statuses.png" />
     <Resource Include="Resources\Icons\Guest1\superGuest.png" />

@@ -108,11 +108,14 @@
         <Button x:Name="MarkButton" Command="{Binding MarkAccCommand}" Content="Ocijeni"
                 Style="{StaticResource ButtonStyle}" Margin="367,620,367,57">
         </Button>
-        <Button Command="{Binding AddImagesCommand}" Width="110" Height="43" FontSize="17" Content="Dodaj slike" 
-                Style="{StaticResource ButtonStyle}" Margin="838,620,53,57">
-        </Button>
         <Button Command="{Binding GoBackCommand}" Width="110" Height="43" FontSize="17" Content="Nazad" 
                 Style="{StaticResource ButtonStyle}" Margin="53,620,842,57">
+        </Button>
+        <Button Style="{StaticResource ImageButtonStyle}" 
+                Command="{Binding AddImagesCommand}" Margin="626,199,330,464">
+            <StackPanel Height="89.04" Width="68" Orientation="Horizontal">
+                <Image Source="/Resources/Icons/Guest1/plusnotext.png" Height="35" Width="40"/>
+            </StackPanel>
         </Button>
     </Grid>
 </Page>
