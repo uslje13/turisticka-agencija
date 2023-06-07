@@ -1,4 +1,5 @@
 ﻿using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
@@ -20,13 +21,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public NavigationService NavigationService { get; set; }
         public bool IsEnterOfChange { get; set; }
         public string AccNameTextBlock { get; set; }
-        public AccReservationViewModel selectedCatalogItem { get; set; }
+        public AccReservationDTO selectedCatalogItem { get; set; }
         public ChangedReservationRequest ChangedReservationRequest { get; set; }
-        public List<AccReservationViewModel> suggestCatalog { get; set; }
+        public List<AccReservationDTO> suggestCatalog { get; set; }
         public RelayCommand ContinueReserveCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
 
-        public SelectResDatesViewModel(List<AccReservationViewModel> list, User user, bool isEnterOfChange, ChangedReservationRequest request, NavigationService service)
+        public SelectResDatesViewModel(List<AccReservationDTO> list, User user, bool isEnterOfChange, ChangedReservationRequest request, NavigationService service)
         {
             suggestCatalog = list;
             LoggedInUser = user;
@@ -45,7 +46,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             NavigationService.GoBack();
         }
 
-        private void FillTextBlock(List<AccReservationViewModel> list)
+        private void FillTextBlock(List<AccReservationDTO> list)
         {
             foreach (var item in list)
             {

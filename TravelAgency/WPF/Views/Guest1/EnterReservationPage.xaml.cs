@@ -1,4 +1,5 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
+﻿using SOSTeam.TravelAgency.Domain.DTO;
+using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using System;
 using System.Collections.Generic;
@@ -23,14 +24,14 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class EnterReservationPage : Page
     {
-        public EnterReservationPage(LocAccommodationViewModel dto, User user, bool enter, NavigationService service)
+        public EnterReservationPage(LocAccommodationDTO dto, User user, bool enter, NavigationService service)
         {
             InitializeComponent();
             EnterReservationViewModel viewModel = new EnterReservationViewModel(dto, user, enter, Days, FirstDay, LastDay, service);
             DataContext = viewModel;
         }
 
-        public EnterReservationPage(LocAccommodationViewModel dto, User user, bool enter, ChangedReservationRequest request, NavigationService service)
+        public EnterReservationPage(LocAccommodationDTO dto, User user, bool enter, ChangedReservationRequest request, NavigationService service)
         {
             InitializeComponent();
             EnterReservationViewModel viewModel = new EnterReservationViewModel(dto, user, enter, Days, FirstDay, LastDay, service, request);

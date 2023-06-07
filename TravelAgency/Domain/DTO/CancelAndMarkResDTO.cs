@@ -1,15 +1,14 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
-using static SOSTeam.TravelAgency.WPF.ViewModels.Guest1.LocAccommodationViewModel;
+using static SOSTeam.TravelAgency.Domain.DTO.LocAccommodationDTO;
 
-namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
+namespace SOSTeam.TravelAgency.Domain.DTO
 {
-    public class CancelAndMarkResViewModel
+    public class CancelAndMarkResDTO
     {
         public string AccommodationName { get; set; }
         public string AccommodationCity { get; set; }
@@ -21,15 +20,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int ReservationId { get; set; }
         public int AccommodationId { get; set; }
         public string DaysForMarking { get; set; }
-        public LocAccommodationViewModel.AccommType AccommodationType { get; set; }
+        public AccommType AccommodationType { get; set; }
         public int DaysDuration { get; set; }
         public string NotificationShape { get; set; }
         public bool IsSuperOwned { get; set; }
         public string TypeString { get; set; }
 
-        public CancelAndMarkResViewModel() { }
+        public CancelAndMarkResDTO() { }
 
-        public CancelAndMarkResViewModel(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId, string daysForMarking = "", int daysDuration = -1, LocAccommodationViewModel.AccommType type = LocAccommodationViewModel.AccommType.NOTYPE)
+        public CancelAndMarkResDTO(string accommodationName, string accommodationCity, string accommodationCountry, DateTime firstDay, DateTime lastDay, int reservationId, int accommodationId, string daysForMarking = "", int daysDuration = -1, AccommType type = AccommType.NOTYPE)
         {
             AccommodationName = accommodationName;
             AccommodationCity = accommodationCity;

@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System.Windows.Navigation;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -19,8 +20,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     {
         public User LoggedInUser { get; set; }
         public NavigationService NavigationService { get; set; }
-        public ObservableCollection<LocAccommodationViewModel> _accommDTOsCollection { get; set; }
-        public LocAccommodationViewModel SelectedAccommodationDTO { get; set; }
+        public ObservableCollection<LocAccommodationDTO> _accommDTOsCollection { get; set; }
+        public LocAccommodationDTO SelectedAccommodationDTO { get; set; }
         public RelayCommand ReserveCommand { get; set; }
 
         private AccommodationRenovationService _accommodationRenovationService ;

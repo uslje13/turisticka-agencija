@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Navigation;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -51,14 +52,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 OnPropertyChaged("EnteredGuestSuggest");
             }
         }
-        public CancelAndMarkResViewModel Accommodation { get; set; }
+        public CancelAndMarkResDTO Accommodation { get; set; }
          
         public List<RadioButton> CleanMarks { get; set; }
         public List<RadioButton> OwnerMarks { get; set; }
         public List<RadioButton> RenovationMarks { get; set; }
 
-        public ObservableCollection<CancelAndMarkResViewModel> ReservationsForMark { get; set; }
-        public ObservableCollection<CancelAndMarkResViewModel> RatingsFromOwner { get; set; }
+        public ObservableCollection<CancelAndMarkResDTO> ReservationsForMark { get; set; }
+        public ObservableCollection<CancelAndMarkResDTO> RatingsFromOwner { get; set; }
 
         private ObservableCollection<System.Windows.Controls.Image> selectedImages;
         public ObservableCollection<System.Windows.Controls.Image> SelectedImages
@@ -75,7 +76,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand DeleteSharedImageCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
 
-        public MarkAccommodationViewModel(List<RadioButton> cleans, List<RadioButton> owners, List<RadioButton> renovations, User user, CancelAndMarkResViewModel acc, NavigationService service, ObservableCollection<CancelAndMarkResViewModel> reservationsForMark, ObservableCollection<CancelAndMarkResViewModel> ratingsFromOwner) 
+        public MarkAccommodationViewModel(List<RadioButton> cleans, List<RadioButton> owners, List<RadioButton> renovations, User user, CancelAndMarkResDTO acc, NavigationService service, ObservableCollection<CancelAndMarkResDTO> reservationsForMark, ObservableCollection<CancelAndMarkResDTO> ratingsFromOwner) 
         {
             AccNameTextBlock = acc.AccommodationName;
             CleanMarks = cleans;
@@ -287,7 +288,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                                        " ocjenom " + item.CleanlinessGrade + ", a poštovanje pravila sa " + item.RespectGrade + ". ";
                         if (item.Comment.Equals("")) shape += "Nije ostavljao dodatni komentar.";
                         else shape += "Ostavio je i dodatni komentar: " + item.Comment;
-                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel();
+                        CancelAndMarkResDTO model = new CancelAndMarkResDTO();
                         model.NotificationShape = shape;
                         RatingsFromOwner.Add(model);
                         break;

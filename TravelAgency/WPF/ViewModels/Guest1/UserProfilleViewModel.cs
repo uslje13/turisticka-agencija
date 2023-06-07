@@ -20,6 +20,7 @@ using System.Runtime.Intrinsics.X86;
 using System.Windows.Documents;
 using System.Windows.Shapes;
 using System.Windows.Navigation;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -98,10 +99,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 OnPropertyChaged("CommandsEnabled");
             }
         }
-        public List<CancelAndMarkResViewModel> _futuredReservations { get; set; }
-        public List<CancelAndMarkResViewModel> _finishedReservations { get; set; }
+        public List<CancelAndMarkResDTO> _futuredReservations { get; set; }
+        public List<CancelAndMarkResDTO> _finishedReservations { get; set; }
         public List<AccommodationReservation> _accommodationReservations { get; set; }
-        public ObservableCollection<LocAccommodationViewModel> _locAccommodationViewModels { get; set; }
+        public ObservableCollection<LocAccommodationDTO> _locAccommodationViewModels { get; set; }
         public RelayCommand ShowMenuCommand { get; set; }
         public RelayCommand ShowRequestsCommand { get; set; }
         public RelayCommand ShowInboxCommand { get; set; }
@@ -120,14 +121,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             Notifications = notifications;
             FirstLogging = false;
             IsPopupOpen = false;
-            InfoButtons = false;
+            InfoButtons = true;
             DataGridPopups = false;
             CommandsEnabled = true;
             StatusReportButtons = false;
             WizardCounter = 0;
 
-            _futuredReservations = new List<CancelAndMarkResViewModel>();
-            _finishedReservations = new List<CancelAndMarkResViewModel>();
+            _futuredReservations = new List<CancelAndMarkResDTO>();
+            _finishedReservations = new List<CancelAndMarkResDTO>();
 
             AccommodationReservationService accResService = new AccommodationReservationService();
             _accommodationReservations = accResService.GetAll();
@@ -267,7 +268,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if(lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && DateTime.Today < res.FirstDay)
                     {
-                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
+                        CancelAndMarkResDTO model = new CancelAndMarkResDTO(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
                         _futuredReservations.Add(model);
                     } 
                 }
@@ -324,7 +325,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if(lavm.AccommodationId == fres.AccommodationId && fres.UserId == LoggedInUser.Id)
                     {
-                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, fres.FirstDay, fres.LastDay, fres.Id, lavm.AccommodationId, "", fres.ReservationDuration, lavm.AccommodationType);
+                        CancelAndMarkResDTO model = new CancelAndMarkResDTO(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, fres.FirstDay, fres.LastDay, fres.Id, lavm.AccommodationId, "", fres.ReservationDuration, lavm.AccommodationType);
                         _finishedReservations.Add(model);
                     }
                 }

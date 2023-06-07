@@ -1,4 +1,4 @@
-﻿using SOSTeam.TravelAgency.Domain.Models.DTO;
+﻿using SOSTeam.TravelAgency.Domain.DTO;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using System;
 using System.Collections.Generic;
