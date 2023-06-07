@@ -56,9 +56,9 @@ namespace SOSTeam.TravelAgency.Application.Services
             return _reservationRepository.GetAllByAppointmentId(id);
         }
 
-        public void CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge, int voucherId = -1)
+        public Reservation CreateReservation(AppoitmentOverviewViewModel selected, User loggedInUser, int touristNum, float averageAge, int voucherId = -1)
         {
-
+            Reservation newReservation;
            foreach (Appointment a in _appointmentRepository.GetAll())
            {
                if (selected.TourId == a.TourId && selected.StartDateTime == a.Start)
@@ -66,10 +66,12 @@ namespace SOSTeam.TravelAgency.Application.Services
                    a.Occupancy += touristNum;
                   // selected.Ocupancy += touristNum;
                    _appointmentRepository.Update(a);
-                   Reservation newReservation = new Reservation(touristNum,averageAge, loggedInUser.Id, a.Id,voucherId);
+                   newReservation = new Reservation(touristNum,averageAge, loggedInUser.Id, a.Id,voucherId);
                    _reservationRepository.Save(newReservation);
-               }
+                   return newReservation;
+                }
            }
+            return null;
         }
 
         public Reservation FindReservationWhereUserIsPresent(User loggedInUser)
