@@ -52,14 +52,14 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 WasOnLocation = false;
             else
                 WasOnLocation = true;
-            if (values[i++].Equals("OWNER"))
-                UserType = Roles.OWNER;
-            else if (values[i++].Equals("TOURISTGUIDE"))
-                UserType = Roles.TOURISTGUIDE;
-            else if (values[i++].Equals("GUEST1"))
-                UserType = Roles.GUEST1;
-            else if (values[i++].Equals("GUEST2"))
-                UserType = Roles.GUEST2;
+            if (values[i++].Equals("VLASNIK"))
+                UserType = Roles.VLASNIK;
+            else if (values[i++].Equals("VODIC"))
+                UserType = Roles.VODIC;
+            else if (values[i++].Equals("GOST1"))
+                UserType = Roles.GOST1;
+            else if (values[i++].Equals("GOST2"))
+                UserType = Roles.GOST2;
         }
     }
 }
