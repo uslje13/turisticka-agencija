@@ -60,6 +60,7 @@
     <None Remove="Resources\Icons\Guest1\log_out.png" />
     <None Remove="Resources\Icons\Guest1\plusnotext.png" />
     <None Remove="Resources\Icons\Guest1\search.png" />
+    <None Remove="Resources\Icons\Guest1\send.png" />
     <None Remove="Resources\Icons\Guest1\statuses.png" />
     <None Remove="Resources\Icons\Guest1\superGuest.png" />
     <None Remove="Resources\Icons\Guest1\tour_icon.png" />
@@ -527,6 +528,7 @@
     <Resource Include="Resources\Icons\Guest1\log_out.png" />
     <Resource Include="Resources\Icons\Guest1\plusnotext.png" />
     <Resource Include="Resources\Icons\Guest1\search.png" />
+    <Resource Include="Resources\Icons\Guest1\send.png" />
     <Resource Include="Resources\Icons\Guest1\statuses.png" />
     <Resource Include="Resources\Icons\Guest1\superGuest.png" />
     <Resource Include="Resources\Icons\Guest1\tour_icon.png" />

@@ -1,6 +1,8 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -102,7 +104,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_GoToForum(object sender)
         {
-
+            Forum? selected = sender as Forum;
+            NavigationService.Navigate(new OneForumPage(LoggedInUser, NavigationService, selected));
         }
 
         private void Execute_OpenForum(object sender)
