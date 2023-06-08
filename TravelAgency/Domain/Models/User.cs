@@ -7,7 +7,7 @@ using SOSTeam.TravelAgency.Repositories.Serializer;
 
 namespace SOSTeam.TravelAgency.Domain.Models
 {
-    public enum Roles { OWNER, TOURISTGUIDE, GUEST1, GUEST2 }
+    public enum Roles { VLASNIK, VODIC, GOST1, GOST2 }
     public class User : ISerializable
     {
         public int Id { get; set; }
@@ -15,18 +15,21 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public string Password { get; set; }
         public Roles Role { get; set; }
 
+        public bool IsJobQuit { get; set; }
+
         public User() { }
 
-        public User(string username, string password, Roles role)
+        public User(string username, string password, Roles role, bool isJobQuit)
         {
             Username = username;
             Password = password;
             Role = role;
+            IsJobQuit = isJobQuit;
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Username, Password, Role.ToString() };
+            string[] csvValues = { Id.ToString(), Username, Password, Role.ToString(), IsJobQuit.ToString() };
             return csvValues;
         }
 
@@ -38,18 +41,19 @@ namespace SOSTeam.TravelAgency.Domain.Models
             switch (values[3])
             {
                 case "VLASNIK":
-                    Role = Roles.OWNER;
+                    Role = Roles.VLASNIK;
                     break;
                 case "VODIC":
-                    Role = Roles.TOURISTGUIDE;
+                    Role = Roles.VODIC;
                     break;
                 case "GOST1":
-                    Role = Roles.GUEST1;
+                    Role = Roles.GOST1;
                     break;
                 case "GOST2":
-                    Role = Roles.GUEST2;
+                    Role = Roles.GOST2;
                     break;
             }
+            IsJobQuit = bool.Parse(values[4]);
         }
     }
 }

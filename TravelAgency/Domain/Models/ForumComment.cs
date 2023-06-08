@@ -23,7 +23,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
             ForumId = -1;
             Comment = "";
             WasOnLocation = false;
-            UserType = Roles.GUEST1;
+            UserType = Roles.GOST1;
         }
         public ForumComment(int id, int userId, int forumId, string comment, bool wasOnLocation, Roles userType)
         {

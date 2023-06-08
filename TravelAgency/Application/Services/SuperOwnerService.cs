@@ -26,7 +26,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
             foreach (var user in _userRepository.GetAll()) 
             {
-                if (user.Role == Roles.OWNER && IsSuperOwner(user.Id)) 
+                if (user.Role == Roles.VLASNIK && IsSuperOwner(user.Id)) 
                 {
                     var marks = GetOwnerMarks(user.Id);
                     superOwners.Add(new SuperOwner(user.Id,user.Username, GetAveridgeGrade(user.Id)) );

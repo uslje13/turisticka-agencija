@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:tourguide="clr-namespace:SOSTeam.TravelAgency.WPF.ViewModels.TourGuide" d:DataContext="{d:DesignInstance Type=tourguide:HomePageViewModel}"
       mc:Ignorable="d" 
-      d:DesignHeight="750" d:DesignWidth="430"
+      d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="HomePage">
 

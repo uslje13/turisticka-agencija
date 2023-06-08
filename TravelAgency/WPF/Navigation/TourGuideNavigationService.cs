@@ -46,6 +46,15 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
             return mainWindow;
         }
 
+        public void LogOut()
+        {
+            var currentWindow = System.Windows.Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            currentWindow.Close();
+
+            var signInWindow = new WPF.Views.TourGuide.SignInWindow();
+            signInWindow.Show();
+        }
+
         public void SetMainFrame(string frameName, User loggedUser)
         {
             if (frameName == "CreateTourPage")
@@ -203,6 +212,12 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                 _mainWindow.MainFrame.Content = new CreateSuggestedTourPage(tourRequestStatViewModel.City, tourRequestStatViewModel.Country,
                                                                                  tourRequestStatViewModel.Language, tourRequestStatViewModel.Type);
             }
+            else if(frameName == "UserAccount")
+            {
+                _mainWindowViewModel.Title = "Account";
+                MainWindow.DataContext = _mainWindowViewModel;
+                _mainWindow.MainFrame.Content = new UserAccountPage();
+            }
 
         }
 
@@ -325,6 +340,12 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                         if (previousPage is CreateSuggestedTourPage)
                         {
                             _mainWindowViewModel.Title = "Create suggested tour";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is UserAccountPage)
+                        {
+                            _mainWindowViewModel.Title = "Account";
                             _mainWindow.DataContext = _mainWindowViewModel;
                         }
 
