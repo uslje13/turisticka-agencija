@@ -181,6 +181,7 @@
 
   <ItemGroup>
     <Folder Include="Application\UseCases\" />
+    <Folder Include="Resources\PDFReports\TourGuide\" />
     <Folder Include="WPF\Creators\TourGuide\" />
     <None Remove="Resources\Icons\NotificationAlertNoColor.png" />
     <None Remove="Resources\Images\SOSlogo.png" />
@@ -558,6 +559,7 @@
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="MicrosoftExpressionInteractions" Version="3.0.40218" />
+    <PackageReference Include="Syncfusion.PdfViewer.WPF" Version="21.2.9" />
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
   </ItemGroup>
 
