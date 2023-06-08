@@ -45,7 +45,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             }
             else if (!Regex.IsMatch(Days.Text, @"^[0-9]+$"))
             {
-                MessageBox.Show("Broj gostiju se mora sastojati od cifara!", " ", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Broj dana se mora sastojati od cifara!", " ", MessageBoxButton.OK, MessageBoxImage.Error);
                 Days.Focus();
                 return;
             }

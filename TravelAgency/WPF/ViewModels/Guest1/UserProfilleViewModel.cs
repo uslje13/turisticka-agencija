@@ -30,6 +30,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public NavigationService NavigationService { get; set; }
         public int ThisYearCounter { get; set; }
         public int Notifications { get; set; }
+        public int WizardCounter { get; set; }
+        public string StatusesInfo { get; set; }
+        public string ReportInfo { get; set; }
+        public string FinishedReservationsInfo { get; set; }
+        public string FuturedReservationsInfo { get; set; }
         public string UsernameTextBlock { get; set; }
         public string MessageNumberTextBlock { get; set; }
         public string CounterTextBlock { get; set; }
@@ -49,6 +54,40 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 OnPropertyChaged("IsPopupOpen");
             }
         }
+
+        private bool dataGridPopups;
+        public bool DataGridPopups
+        {
+            get { return dataGridPopups; }
+            set
+            {
+                dataGridPopups = value;
+                OnPropertyChaged("DataGridPopups");
+            }
+        }
+
+        private bool infoButtons;
+        public bool InfoButtons
+        {
+            get { return infoButtons; }
+            set
+            {
+                infoButtons = value;
+                OnPropertyChaged("InfoButtons");
+            }
+        }
+
+        private bool statusReportButtons;
+        public bool StatusReportButtons
+        {
+            get { return statusReportButtons; }
+            set
+            {
+                statusReportButtons = value;
+                OnPropertyChaged("StatusReportButtons");
+            }
+        }
+
         private bool commandsEnabled;
         public bool CommandsEnabled
         {
@@ -69,6 +108,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand SignOutCommand { get; set; }
         public RelayCommand CanceledQueryCommand { get; set; }
         public RelayCommand SuperGuestInfoCommand { get; set; }
+        public RelayCommand OkCommand { get; set; }
 
 
         public UserProfilleViewModel(User user, int notifications, NavigationService service) 
@@ -80,7 +120,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             Notifications = notifications;
             FirstLogging = false;
             IsPopupOpen = false;
+            InfoButtons = false;
+            DataGridPopups = false;
             CommandsEnabled = true;
+            StatusReportButtons = false;
+            WizardCounter = 0;
 
             _futuredReservations = new List<CancelAndMarkResViewModel>();
             _finishedReservations = new List<CancelAndMarkResViewModel>();
@@ -91,7 +135,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationService AccommodationService = new AccommodationService();
             _locAccommodationViewModels = AccommodationService.CreateAllDTOForms();
 
-            FillSuperGuestInfoPopup();
+            FillPopups();
             ApplyToThisYearCounter(_accommodationReservations);
             ControlInboxButton(Notifications);
             AddFuturedReservations();
@@ -110,9 +154,27 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             SignOutCommand = new RelayCommand(Execute_SignOut);
             CanceledQueryCommand = new RelayCommand(Execute_ShowCanceledReservations);
             SuperGuestInfoCommand = new RelayCommand(Execute_OpenPopup);
+            OkCommand = new RelayCommand(Execute_OK);
         }
 
-        private void FillSuperGuestInfoPopup()
+        private void Execute_OK(object sender)
+        {
+            if (WizardCounter == 1)
+            {
+                DataGridPopups = false;
+                StatusReportButtons = true;
+                WizardCounter++;
+            }
+            else if (WizardCounter == 2)
+            {
+                StatusReportButtons = false;
+                //za kraj vizarda
+                CommandsEnabled = true;
+                InfoButtons = true;
+            }
+        }
+
+        private void FillPopups()
         {
             SuperGuestInformation = "Gost može postati super-gost ako u prethodnoj godini ima bar 10 rezervacija.\n"
                                   + "Super-gost titula traje godinu dana i prestaje da važi ako gost\n"
@@ -121,6 +183,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                                   + "nakon čega se bodovi resetuju na 0 (ne mogu se akumulirati).\n"
                                   + "Prilikom svake naredne rezervacije se troši jedan bonus poen što donosi popuste,\n"
                                   + "što znači da će super-gost imati 5 rezervacija sa popustom.";
+
+            FinishedReservationsInfo = "U tabeli \"Vaše dosadašnje rezervacije\" će biti prikazane sve Vaše realizovane rezervacije.";
+            FuturedReservationsInfo = "U tabeli \"Vaše predstojeće rezervacije\" će biti prikazane sve Vaše zakazane rezervacije.";
+            StatusesInfo = "U odjeljku \"Status Vaših zahtjeva\" ćete imati uvid u statuse Vaših rezervacija\nkoje želite pomjeriti, "
+                         + "kao i mogućnost otkazivanja zakaznih rezervacija.";
+            ReportInfo = "Klikom na link \"izvještaj\" se otvara stranica za unošenje filtera, na osnovu\n"
+                       + "kojih će Vaš izvještaj o svim zakazanim ili otkazanim rezervacijama (zavisno šta\n"
+                       + "prethodno izaberete) biti formiran. Takođe ćete imati mogućnost preuzimanja istog u formi PDF fajla.";
         }
 
         private void Execute_OpenPopup(object sender)
@@ -171,7 +241,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             if(Notifications == 0 && _futuredReservations.Count == 0 && _finishedReservations.Count == 0)
             {
                 FirstLogging = true;
-                //MessageBox.Show("Dobrodosli u aplikaciju.");
+                MessageBox.Show("Sada ćemo Vas upoznati sa osnovnim funkcionalnostima ove aplikacije.", "Dobro došli u SOS-Booking!", MessageBoxButton.OK, MessageBoxImage.Information);
+                CommandsEnabled = false;
+                InfoButtons = false;
+                DataGridPopups = true;
+                WizardCounter++;
             }
         }
 

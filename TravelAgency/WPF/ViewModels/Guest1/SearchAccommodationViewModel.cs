@@ -64,7 +64,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     MenuNavigationService.Navigate(new AccommodationBidPage(LoggedInUser, MenuNavigationService));
                     break;
                 case "Whatever":
-                    
+                    MenuNavigationService.Navigate(new WhateverPage(LoggedInUser, MenuNavigationService));
                     break;
                 case "LogOut":
                     SignInForm form = new SignInForm();

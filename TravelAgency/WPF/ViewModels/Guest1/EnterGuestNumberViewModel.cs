@@ -28,7 +28,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             set
             {
                 enteredGuestNumber = value;
-                OnPropertyChaged("EnteredGuestComment");
+                OnPropertyChaged("EnteredGuestNumber");
             }
         }
         public AccReservationViewModel forwardedItem { get; set; }
