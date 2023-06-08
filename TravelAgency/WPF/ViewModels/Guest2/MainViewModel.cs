@@ -120,11 +120,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             FillTourViewModelList();
             FillSerbiaTourViewModelList();
             FillSummerTourViewModelList();
-            GiveVoucherToFrequentUser();
             ArrowCommands = new ArrowCommandsViewModel(TourViewModels,SerbiaTourViewModels,SummerTourViewModels);
         }
 
-        private void GiveVoucherToFrequentUser()
+        public void GiveVoucherToFrequentUser()
         {
             List<Reservation> usersReservations = _reservationService.GetFulfilledReservations(LoggedInUser);
             int count = CountThisYearUserReservations(usersReservations);
@@ -138,15 +137,28 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
             else
             {
-                foreach (var frequentUserVoucher in _frequentUserVoucherService.GetAll())
+                bool voucherExists = CheckIfVoucherAlreadyExists();
+                if (!voucherExists && count >= 5)
                 {
-                    if ((frequentUserVoucher.UserId != LoggedInUser.Id) && frequentUserVoucher.Year != DateTime.Now.Year.ToString() && count >= 5)
-                    {
-                        CreateNewVoucher();
-                    }
+                    CreateNewVoucher();
                 }
             }
-            
+
+        }
+
+        private bool CheckIfVoucherAlreadyExists()
+        {
+            bool voucherExists = false;
+            foreach (var frequentUserVoucher in _frequentUserVoucherService.GetAll())
+            {
+                if (frequentUserVoucher.UserId == LoggedInUser.Id && frequentUserVoucher.Year == DateTime.Now.Year.ToString())
+                {
+                    voucherExists = true;
+                    break;
+                }
+            }
+
+            return voucherExists;
         }
 
         private void CreateNewVoucher()

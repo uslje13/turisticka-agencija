@@ -137,5 +137,17 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
             return notificationAppointments;
         }
+
+        public int GetTourGuideId(int tourId)
+        {
+            foreach(var appointment in _appointmentRepository.GetAll())
+            {
+                if(appointment.TourId == tourId)
+                {
+                    return appointment.UserId;
+                }
+            }
+            return -1;
+        }
     }
 }

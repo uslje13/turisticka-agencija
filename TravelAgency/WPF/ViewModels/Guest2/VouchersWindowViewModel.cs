@@ -42,6 +42,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         public VouchersWindowViewModel(User loggedInUser)
         {
+            LoggedInUser = loggedInUser;
             BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
             HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
             Vouchers = new ObservableCollection<VouchersViewModel>();
@@ -59,7 +60,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             foreach(Voucher voucher in _voucherService.GetAll())
             {
-                if(voucher.ExpiryDate > DateOnly.FromDateTime(DateTime.Today) && voucher.Used == false)
+                if(voucher.ExpiryDate > DateOnly.FromDateTime(DateTime.Today) && voucher.Used == false && voucher.UserId == LoggedInUser.Id)
                 {
                     Vouchers.Add(new VouchersViewModel(voucher.Id,voucher.ExpiryDate));
                 }

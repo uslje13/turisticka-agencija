@@ -285,7 +285,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             foreach (Voucher voucher in _voucherService.GetAll())
             {
-                if (voucher.ExpiryDate > DateOnly.FromDateTime(DateTime.Today) && voucher.Used == false)
+                if (voucher.ExpiryDate > DateOnly.FromDateTime(DateTime.Today) && voucher.Used == false && voucher.UserId == LoggedInUser.Id && voucher.GuideId == -1)
+                {
+                    Vouchers.Add(new VouchersViewModel(voucher.Id, voucher.ExpiryDate));
+                }
+                else if(voucher.ExpiryDate > DateOnly.FromDateTime(DateTime.Today) && voucher.Used == false && voucher.UserId == LoggedInUser.Id && voucher.GuideId == _appointmentService.GetTourGuideId(Tour.Id))
                 {
                     Vouchers.Add(new VouchersViewModel(voucher.Id, voucher.ExpiryDate));
                 }

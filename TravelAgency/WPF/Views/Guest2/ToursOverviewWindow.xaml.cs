@@ -43,5 +43,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         {
             _viewModel.GetAcceptedRequestMessage();
         }
+
+        public void GiveFrequentUserVoucher()
+        {
+            _viewModel.GiveVoucherToFrequentUser();
+        }
     }
 }
