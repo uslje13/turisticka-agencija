@@ -46,7 +46,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_ReportCommand(object obj)
         {
-            string filePath = $@"D:\Desktop1\Drugi deo projekta\turisticka-agencija\TravelAgency\Report\report_{ReservationId}.pdf";
+            string filePath = $@"D:\Desktop1\Drugi deo projekta\turisticka-agencija\TravelAgency\Report\Guest2-reports\report_{ReservationId}.pdf";
 
             ShowPDFReport(filePath);
         }

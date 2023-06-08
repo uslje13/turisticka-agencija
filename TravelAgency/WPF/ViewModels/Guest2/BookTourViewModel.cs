@@ -298,7 +298,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             Document document = new Document();
 
             string fileName = $"report_{reservationForReport.Id}.pdf";
-            FileStream fileStream = new FileStream($@"D:\Desktop1\Drugi deo projekta\turisticka-agencija\TravelAgency\Report\{fileName}", FileMode.Create);
+            FileStream fileStream = new FileStream($@"D:\Desktop1\Drugi deo projekta\turisticka-agencija\TravelAgency\Report\Guest2-reports\{fileName}", FileMode.Create);
 
             PdfWriter writer = PdfWriter.GetInstance(document, fileStream);
 
