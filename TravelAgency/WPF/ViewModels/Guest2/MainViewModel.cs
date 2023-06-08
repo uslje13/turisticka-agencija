@@ -50,6 +50,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private AppointmentService _appointmentService;
         private ImageService _imageService;
         private TourRequestService _tourRequestService;
+        private VoucherService _voucherService;
+        private FrequentUserVoucherService _frequentUserVoucherService;
 
         private RelayCommand _navigationCommand;
         public RelayCommand NavigationCommand
@@ -118,7 +120,57 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             FillTourViewModelList();
             FillSerbiaTourViewModelList();
             FillSummerTourViewModelList();
+            GiveVoucherToFrequentUser();
             ArrowCommands = new ArrowCommandsViewModel(TourViewModels,SerbiaTourViewModels,SummerTourViewModels);
+        }
+
+        private void GiveVoucherToFrequentUser()
+        {
+            List<Reservation> usersReservations = _reservationService.GetFulfilledReservations(LoggedInUser);
+            int count = CountThisYearUserReservations(usersReservations);
+
+            if(_frequentUserVoucherService.GetAll().Count() == 0)
+            {
+                if(count >= 5)
+                {
+                    CreateNewVoucher();
+                }
+            }
+            else
+            {
+                foreach (var frequentUserVoucher in _frequentUserVoucherService.GetAll())
+                {
+                    if ((frequentUserVoucher.UserId != LoggedInUser.Id) && frequentUserVoucher.Year != DateTime.Now.Year.ToString() && count >= 5)
+                    {
+                        CreateNewVoucher();
+                    }
+                }
+            }
+            
+        }
+
+        private void CreateNewVoucher()
+        {
+            DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
+            DateTime expiryDateTime = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day).AddMonths(6);
+            DateOnly expiryDate = DateOnly.FromDateTime(expiryDateTime);
+            Voucher newVoucher = new Voucher(false, expiryDate, LoggedInUser.Id, -1);
+            _voucherService.Save(newVoucher);
+            FrequentUserVoucher newFrequentUserVoucher = new FrequentUserVoucher(newVoucher.Id, LoggedInUser.Id, DateTime.Now.Year.ToString());
+            _frequentUserVoucherService.Save(newFrequentUserVoucher);
+            MessageBox.Show("Osvojili ste vaucer! U toku godine ste posetili najmanje 5 tura. Vaucer mozete pogledati u prozoru sa Vasim vaucerima.", "Novi vaucer", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private int CountThisYearUserReservations(List<Reservation> usersReservations)
+        {
+            int count = 0;
+
+            foreach (var reservation in usersReservations)
+            {
+                if (_appointmentService.GetById(reservation.AppointmentId).Start.Year == DateTime.Now.Year) count++;
+            }
+
+            return count;
         }
 
         public void CheckNotifications()
@@ -293,6 +345,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _appointmentService= new AppointmentService();
             _imageService = new ImageService();
             _tourRequestService= new TourRequestService();
+            _voucherService = new VoucherService();
+            _frequentUserVoucherService = new FrequentUserVoucherService();
         }
 
         public void GetAcceptedRequestMessage()

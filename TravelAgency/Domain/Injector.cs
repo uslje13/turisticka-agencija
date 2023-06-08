@@ -40,6 +40,7 @@ namespace SOSTeam.TravelAgency.Domain
             { typeof(IForumCommentReportRepository), new ForumCommentReportRepository() },
             { typeof(IComplexTourRequestRepository), new ComplexTourRequestRepository() },
             { typeof(ISuperGuideRepository), new SuperGuideRepository() },
+            { typeof(IFrequentUserVoucherRepository), new FrequentUserVoucherRepository() },
 
             //{ typeof(IUserService), new UserService() },
 

@@ -85,5 +85,18 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
             return null;
         }
+
+        public List<Reservation> GetFulfilledReservations(User loggedInUser)
+        {
+            List<Reservation> reservations = new List<Reservation>();
+            foreach(var reservation in _reservationRepository.GetAll())
+            {
+                if(reservation.UserId == loggedInUser.Id && reservation.Presence)
+                {
+                    reservations.Add(reservation);
+                }
+            }
+            return reservations;
+        }
     }
 }
