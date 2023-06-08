@@ -110,6 +110,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand CanceledQueryCommand { get; set; }
         public RelayCommand SuperGuestInfoCommand { get; set; }
         public RelayCommand OkCommand { get; set; }
+        public RelayCommand ShowForumsCommand { get; set; }
 
 
         public UserProfilleViewModel(User user, int notifications, NavigationService service) 
@@ -156,6 +157,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             CanceledQueryCommand = new RelayCommand(Execute_ShowCanceledReservations);
             SuperGuestInfoCommand = new RelayCommand(Execute_OpenPopup);
             OkCommand = new RelayCommand(Execute_OK);
+            ShowForumsCommand = new RelayCommand(Execute_ShowForums);
+        }
+
+        private void Execute_ShowForums(object sender)
+        {
+            NavigationService.Navigate(new AllForumsPage(LoggedInUser, NavigationService));
         }
 
         private void Execute_OK(object sender)

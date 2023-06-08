@@ -18,16 +18,24 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public bool IsOpen { get; set; }
+        public string Useful { get; set; }
 
 
         public Forum()
         {
-            Id = -1;
-            UserId = -1;
-            LocationId = -1;
-            Title = "";
-            Description = "";
-            IsOpen = false;
+
+        }
+
+        public Forum(int userId, int locationId, string title, string description, bool isOpen)
+        {
+            UserId = userId;
+            LocationId = locationId;
+            LocationService locationService = new LocationService();
+            LocationName = locationService.GetById(locationId).City + ", " + locationService.GetById(locationId).Country;
+            Title = title;
+            Description = description;
+            IsOpen = isOpen;
+            Useful = "";
         }
         public Forum(int id, int userId, int locationId, string title, string description, bool isOpen)
         {
@@ -39,11 +47,12 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Title = title;
             Description = description;
             IsOpen = isOpen;
+            Useful = "";
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), UserId.ToString(), LocationId.ToString(), Title, Description, IsOpen.ToString() };
+            string[] csvValues = { Id.ToString(), UserId.ToString(), LocationId.ToString(), Title, Description, IsOpen.ToString(), Useful };
             return csvValues;
         }
 
@@ -53,12 +62,15 @@ namespace SOSTeam.TravelAgency.Domain.Models
             Id = Convert.ToInt32(values[i++]);
             UserId = Convert.ToInt32(values[i++]);
             LocationId = Convert.ToInt32(values[i++]);
+            LocationService locationService = new LocationService();
+            LocationName = locationService.GetById(LocationId).City + ", " + locationService.GetById(LocationId).Country;
             Title = values[i++];
             Description = values[i++];
             if (values[i++].Equals("False"))
                 IsOpen = false;
             else 
                 IsOpen = true;
+            Useful = values[i++];
         }
     }
 }
