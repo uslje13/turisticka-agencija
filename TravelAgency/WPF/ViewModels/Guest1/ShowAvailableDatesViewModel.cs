@@ -12,38 +12,40 @@ using System.Windows;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using System.Windows.Navigation;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class ShowAvailableDatesViewModel
     {
-        public ObservableCollection<AccReservationViewModel> reservationDTOList { get; set; }
+        public ObservableCollection<AccReservationDTO> reservationDTOList { get; set; }
         public AccommodationService accommodationService { get; set; }
         public AccommodationReservationService reservationService { get; set; }
         public AccommodationRenovationService renovationService { get; set; }
         public List<Accommodation> accommodations { get; set; }
         public List<AccommodationReservation> reservations { get; set; }
-        public LocAccommodationViewModel accommodationDTO { get; set; }
+        public LocAccommodationDTO accommodationDTO { get; set; }
         public DateTime EnteredFirstDay { get; set; }
         public DateTime EnteredLastDay { get; set; }
         public DateTime[] datesArray { get; set; }
         public int DaysDuration { get; set; }
-        public List<AccReservationViewModel> dtoReservation { get; set; }
+        public List<AccReservationDTO> dtoReservation { get; set; }
         public User LoggedInUser { get; set; }
         public Calendar Calendar { get; set; }
         public RelayCommand pickCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
         public bool IsEnterOfChange { get; set; }
         public ChangedReservationRequest ChangedReservationRequest { get; set; }
-        public Frame ThisFrame { get; set; }
+        public NavigationService NavigationService { get; set; }
 
-        public ShowAvailableDatesViewModel(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, Calendar calendar, bool enter, ChangedReservationRequest request, Frame thisFrame)
+        public ShowAvailableDatesViewModel(LocAccommodationDTO dto, DateTime firstDay, DateTime lastDay, int days, User user, Calendar calendar, bool enter, ChangedReservationRequest request, NavigationService service)
         {
-            reservationDTOList = new ObservableCollection<AccReservationViewModel>();
+            reservationDTOList = new ObservableCollection<AccReservationDTO>();
             accommodationService = new AccommodationService();
             reservationService = new AccommodationReservationService();
             renovationService = new();
-            dtoReservation = new List<AccReservationViewModel>();
+            dtoReservation = new List<AccReservationDTO>();
 
             datesArray = new DateTime[100];
 
@@ -55,7 +57,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             Calendar = calendar;
             IsEnterOfChange = enter;
             ChangedReservationRequest = request;
-            ThisFrame = thisFrame;
+            NavigationService = service;
 
             accommodations = accommodationService.GetAll();
             reservations = reservationService.GetAll();
@@ -68,8 +70,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         public void Execute_GoBack(object sender)
         {
-            var navigationService = ThisFrame.NavigationService;
-            navigationService.GoBack();
+            NavigationService.GoBack();
         }
 
         private void AnalyzeUnknownStatusReservations()
@@ -92,7 +93,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private List<AccReservationViewModel> CreateAllDTOreservations()
+        private List<AccReservationDTO> CreateAllDTOreservations()
         {
             foreach (var accommodation in accommodations)
             {
@@ -100,7 +101,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if (accommodation.Id == reservation.AccommodationId)
                     {
-                        AccReservationViewModel Dto = CreateOneDTOreservation(accommodation, reservation);
+                        AccReservationDTO Dto = CreateOneDTOreservation(accommodation, reservation);
                         reservationDTOList.Add(Dto);
                     }
                 }
@@ -108,7 +109,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             return reservationDTOList.ToList();
         }
 
-        private AccReservationViewModel CreateOneDTOreservation(Accommodation acc, AccommodationReservation res)
+        private AccReservationDTO CreateOneDTOreservation(Accommodation acc, AccommodationReservation res)
         {
             int currentGuestNumber = 0;
             foreach (var item in reservations)
@@ -124,13 +125,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     }
                 }
             }
-            AccReservationViewModel dto = new AccReservationViewModel(acc.Id, acc.Name, acc.MinDaysStay, res.FirstDay, res.LastDay, res.ReservationDuration, acc.MaxGuests, currentGuestNumber);
+            AccReservationDTO dto = new AccReservationDTO(acc.Id, acc.Name, acc.MinDaysStay, res.FirstDay, res.LastDay, res.ReservationDuration, acc.MaxGuests, currentGuestNumber);
             return dto;
         }
 
         private void MarkCalendars()
         {
-            List<AccReservationViewModel> reservationsDTO = CreateAllDTOreservations();
+            List<AccReservationDTO> reservationsDTO = CreateAllDTOreservations();
             var renovations = renovationService.GetAll().Where(r => r.AccommodationId == accommodationDTO.AccommodationId);
             Calendar.BlackoutDates.AddDatesInPast();
             foreach (var item in reservationsDTO)
@@ -151,7 +152,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             CheckRequestedDates();
         }
 
-        private void MarkCalendar(AccReservationViewModel reservationDTO)
+        private void MarkCalendar(AccReservationDTO reservationDTO)
         {
             int[] ints = GetDateData(reservationDTO);
             DateTime item1 = new DateTime(ints[0], ints[1], ints[2]);
@@ -167,7 +168,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         }
 
 
-        private int[] GetDateData(AccReservationViewModel res)
+        private int[] GetDateData(AccReservationDTO res)
         {
             int[] data = new int[6];
             data[0] = res.ReservationFirstDay.Year;
@@ -272,7 +273,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             DateTime firstComponent = fDay.AddDays(daysSum);
             DateTime secondComponent = firstComponent.AddDays(DaysDuration);
-            AccReservationViewModel dto = new AccReservationViewModel(accommodationDTO.AccommodationId, accommodationDTO.AccommodationName,
+            AccReservationDTO dto = new AccReservationDTO(accommodationDTO.AccommodationId, accommodationDTO.AccommodationName,
                                                           accommodationDTO.AccommodationMinDaysStay, firstComponent, secondComponent,
                                                           DaysDuration, accommodationDTO.AccommodationMaxGuests, accommodationDTO.GuestNumber);
             dtoReservation.Add(dto);
@@ -336,8 +337,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         public void ExecutePickItem(object sender)
         {
-            var navigationService = ThisFrame.NavigationService;
-            navigationService.Navigate(new SelectReservationDatesPage(dtoReservation, LoggedInUser, IsEnterOfChange, ChangedReservationRequest, ThisFrame));
+            NavigationService.Navigate(new SelectReservationDatesPage(dtoReservation, LoggedInUser, IsEnterOfChange, ChangedReservationRequest, NavigationService));
         }
     }
 }

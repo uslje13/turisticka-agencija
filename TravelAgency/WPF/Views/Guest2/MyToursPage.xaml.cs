@@ -25,7 +25,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         public MyToursPage(User loggedInUser)
         {
             InitializeComponent();
-            MyToursPageViewModel viewModel = new MyToursPageViewModel(loggedInUser, this);
+            MyToursPageViewModel viewModel = new MyToursPageViewModel(loggedInUser, this.MainFrame.NavigationService);
             DataContext = viewModel;
             viewModel.SetStartupPage();
         }

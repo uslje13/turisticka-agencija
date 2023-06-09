@@ -19,6 +19,8 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Intrinsics.X86;
 using System.Windows.Documents;
 using System.Windows.Shapes;
+using System.Windows.Navigation;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -26,9 +28,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public User LoggedInUser { get; set; }
-        public Window ThisWindow { get; set; }
+        public NavigationService NavigationService { get; set; }
         public int ThisYearCounter { get; set; }
         public int Notifications { get; set; }
+        public int WizardCounter { get; set; }
+        public string StatusesInfo { get; set; }
+        public string ReportInfo { get; set; }
+        public string FinishedReservationsInfo { get; set; }
+        public string FuturedReservationsInfo { get; set; }
         public string UsernameTextBlock { get; set; }
         public string MessageNumberTextBlock { get; set; }
         public string CounterTextBlock { get; set; }
@@ -48,6 +55,40 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 OnPropertyChaged("IsPopupOpen");
             }
         }
+
+        private bool dataGridPopups;
+        public bool DataGridPopups
+        {
+            get { return dataGridPopups; }
+            set
+            {
+                dataGridPopups = value;
+                OnPropertyChaged("DataGridPopups");
+            }
+        }
+
+        private bool infoButtons;
+        public bool InfoButtons
+        {
+            get { return infoButtons; }
+            set
+            {
+                infoButtons = value;
+                OnPropertyChaged("InfoButtons");
+            }
+        }
+
+        private bool statusReportButtons;
+        public bool StatusReportButtons
+        {
+            get { return statusReportButtons; }
+            set
+            {
+                statusReportButtons = value;
+                OnPropertyChaged("StatusReportButtons");
+            }
+        }
+
         private bool commandsEnabled;
         public bool CommandsEnabled
         {
@@ -58,31 +99,37 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 OnPropertyChaged("CommandsEnabled");
             }
         }
-        public List<CancelAndMarkResViewModel> _futuredReservations { get; set; }
-        public List<CancelAndMarkResViewModel> _finishedReservations { get; set; }
+        public List<CancelAndMarkResDTO> _futuredReservations { get; set; }
+        public List<CancelAndMarkResDTO> _finishedReservations { get; set; }
         public List<AccommodationReservation> _accommodationReservations { get; set; }
-        public ObservableCollection<LocAccommodationViewModel> _locAccommodationViewModels { get; set; }
+        public ObservableCollection<LocAccommodationDTO> _locAccommodationViewModels { get; set; }
         public RelayCommand ShowMenuCommand { get; set; }
         public RelayCommand ShowRequestsCommand { get; set; }
         public RelayCommand ShowInboxCommand { get; set; }
         public RelayCommand SignOutCommand { get; set; }
         public RelayCommand CanceledQueryCommand { get; set; }
         public RelayCommand SuperGuestInfoCommand { get; set; }
+        public RelayCommand OkCommand { get; set; }
+        public RelayCommand ShowForumsCommand { get; set; }
 
 
-        public UserProfilleViewModel(User user, int notifications, Window window) 
+        public UserProfilleViewModel(User user, int notifications, NavigationService service) 
         {
             LoggedInUser = user;
             UsernameTextBlock = user.Username;
             ThisYearCounter = 0;
-            ThisWindow = window;
+            NavigationService = service;
             Notifications = notifications;
             FirstLogging = false;
             IsPopupOpen = false;
+            InfoButtons = true;
+            DataGridPopups = false;
             CommandsEnabled = true;
+            StatusReportButtons = false;
+            WizardCounter = 0;
 
-            _futuredReservations = new List<CancelAndMarkResViewModel>();
-            _finishedReservations = new List<CancelAndMarkResViewModel>();
+            _futuredReservations = new List<CancelAndMarkResDTO>();
+            _finishedReservations = new List<CancelAndMarkResDTO>();
 
             AccommodationReservationService accResService = new AccommodationReservationService();
             _accommodationReservations = accResService.GetAll();
@@ -90,7 +137,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationService AccommodationService = new AccommodationService();
             _locAccommodationViewModels = AccommodationService.CreateAllDTOForms();
 
-            FillSuperGuestInfoPopup();
+            FillPopups();
             ApplyToThisYearCounter(_accommodationReservations);
             ControlInboxButton(Notifications);
             AddFuturedReservations();
@@ -109,9 +156,33 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             SignOutCommand = new RelayCommand(Execute_SignOut);
             CanceledQueryCommand = new RelayCommand(Execute_ShowCanceledReservations);
             SuperGuestInfoCommand = new RelayCommand(Execute_OpenPopup);
+            OkCommand = new RelayCommand(Execute_OK);
+            ShowForumsCommand = new RelayCommand(Execute_ShowForums);
         }
 
-        private void FillSuperGuestInfoPopup()
+        private void Execute_ShowForums(object sender)
+        {
+            NavigationService.Navigate(new AllForumsPage(LoggedInUser, NavigationService));
+        }
+
+        private void Execute_OK(object sender)
+        {
+            if (WizardCounter == 1)
+            {
+                DataGridPopups = false;
+                StatusReportButtons = true;
+                WizardCounter++;
+            }
+            else if (WizardCounter == 2)
+            {
+                StatusReportButtons = false;
+                //za kraj vizarda
+                CommandsEnabled = true;
+                InfoButtons = true;
+            }
+        }
+
+        private void FillPopups()
         {
             SuperGuestInformation = "Gost može postati super-gost ako u prethodnoj godini ima bar 10 rezervacija.\n"
                                   + "Super-gost titula traje godinu dana i prestaje da važi ako gost\n"
@@ -120,6 +191,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                                   + "nakon čega se bodovi resetuju na 0 (ne mogu se akumulirati).\n"
                                   + "Prilikom svake naredne rezervacije se troši jedan bonus poen što donosi popuste,\n"
                                   + "što znači da će super-gost imati 5 rezervacija sa popustom.";
+
+            FinishedReservationsInfo = "U tabeli \"Vaše dosadašnje rezervacije\" će biti prikazane sve Vaše realizovane rezervacije.";
+            FuturedReservationsInfo = "U tabeli \"Vaše predstojeće rezervacije\" će biti prikazane sve Vaše zakazane rezervacije.";
+            StatusesInfo = "U odjeljku \"Status Vaših zahtjeva\" ćete imati uvid u statuse Vaših rezervacija\nkoje želite pomjeriti, "
+                         + "kao i mogućnost otkazivanja zakaznih rezervacija.";
+            ReportInfo = "Klikom na link \"izvještaj\" se otvara stranica za unošenje filtera, na osnovu\n"
+                       + "kojih će Vaš izvještaj o svim zakazanim ili otkazanim rezervacijama (zavisno šta\n"
+                       + "prethodno izaberete) biti formiran. Takođe ćete imati mogućnost preuzimanja istog u formi PDF fajla.";
         }
 
         private void Execute_OpenPopup(object sender)
@@ -170,15 +249,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             if(Notifications == 0 && _futuredReservations.Count == 0 && _finishedReservations.Count == 0)
             {
                 FirstLogging = true;
-                //MessageBox.Show("Dobrodosli u aplikaciju.");
+                MessageBox.Show("Sada ćemo Vas upoznati sa osnovnim funkcionalnostima ove aplikacije.", "Dobro došli u SOS-Booking!", MessageBoxButton.OK, MessageBoxImage.Information);
+                CommandsEnabled = false;
+                InfoButtons = false;
+                DataGridPopups = true;
+                WizardCounter++;
             }
         }
 
         private void Execute_ShowCanceledReservations(object sender)
         {
-            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications, true);
-            ThisWindow.Close();
-            newWindow.ShowDialog();
+            NavigationService.Navigate(new RequestsStatusPage(LoggedInUser, Notifications, true, NavigationService));
         }
 
         private void FillCounterTextBlock()
@@ -194,7 +275,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if(lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && DateTime.Today < res.FirstDay)
                     {
-                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
+                        CancelAndMarkResDTO model = new CancelAndMarkResDTO(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
                         _futuredReservations.Add(model);
                     } 
                 }
@@ -251,7 +332,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if(lavm.AccommodationId == fres.AccommodationId && fres.UserId == LoggedInUser.Id)
                     {
-                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, fres.FirstDay, fres.LastDay, fres.Id, lavm.AccommodationId, "", fres.ReservationDuration, lavm.AccommodationType);
+                        CancelAndMarkResDTO model = new CancelAndMarkResDTO(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, fres.FirstDay, fres.LastDay, fres.Id, lavm.AccommodationId, "", fres.ReservationDuration, lavm.AccommodationType);
                         _finishedReservations.Add(model);
                     }
                 }
@@ -260,36 +341,31 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_ShowInbox(object sender)
         {
-            GuestInboxWindow newWindow = new GuestInboxWindow(LoggedInUser, ThisWindow, Notifications);
             if (Notifications == 0)
             {
                 MessageBox.Show("     Vaš inboks je prazan!\nNemate nepročitanih poruka.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                newWindow.ShowDialog();
+                NavigationService.Navigate(new GuestInboxPage(LoggedInUser, NavigationService));
             }
         }
 
         private void Execute_ShowStatuses(object sender)
         {
-            RequestsStatusWindow newWindow = new RequestsStatusWindow(LoggedInUser, ThisWindow, Notifications, false);
-            ThisWindow.Close();
-            newWindow.ShowDialog();
+            NavigationService.Navigate(new RequestsStatusPage(LoggedInUser, Notifications, false, NavigationService));
         }
 
         private void Execute_ShowMenu(object sender)
         {
-            Window helpWindow = new Window();   
-            SearchAccommodationWindow newWindow = new SearchAccommodationWindow(LoggedInUser, helpWindow, ThisWindow, Notifications);
-            ThisWindow.Close();
-            newWindow.ShowDialog();
+            NotificationFromOwnerService service = new NotificationFromOwnerService();
+            NavigationService.Navigate(new SearchAccommodationPage(LoggedInUser, NavigationService, service.TestInboxCharge(LoggedInUser.Id)));
         }
 
         private void Execute_SignOut(object sender)
         {
             SignInForm form = new SignInForm();
-            ThisWindow.Close();
+            Guest1MainWindow.Instance.Close();
             form.ShowDialog();
         }
     }

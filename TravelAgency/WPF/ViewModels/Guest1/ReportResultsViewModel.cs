@@ -1,24 +1,26 @@
 ﻿using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class ReportResultsViewModel
     {
         public string TextBlockText { get; set; }
-        public Frame ThisFrame { get; set; }
-        public List<CancelAndMarkResViewModel> _presentedReservations { get; set; }
+        public NavigationService NavigationService { get; set; }
+        public List<CancelAndMarkResDTO> _presentedReservations { get; set; }
         public RelayCommand GoBackCommand { get; set; }
 
-        public ReportResultsViewModel(List<CancelAndMarkResViewModel> list, Frame frame, int type, DateTime fDate, DateTime lDate)
+        public ReportResultsViewModel(List<CancelAndMarkResDTO> list, NavigationService service, int type, DateTime fDate, DateTime lDate)
         {
             _presentedReservations = list;
-            ThisFrame = frame;
+            NavigationService = service;
             TextBlockText = "";
 
             FillTextBlock(type, fDate, lDate);
@@ -40,8 +42,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         public void Execute_GoBack(object sender)
         {
-            var navigationService = ThisFrame.NavigationService;
-            navigationService.GoBack();
+            NavigationService.GoBack();
         }
     }
 }

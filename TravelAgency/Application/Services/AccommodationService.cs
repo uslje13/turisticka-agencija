@@ -11,10 +11,10 @@ using System.Xml.Linq;
 using SOSTeam.TravelAgency.Domain;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using SOSTeam.TravelAgency.WPF.Views;
 using SOSTeam.TravelAgency.Repositories;
 using System.Collections.ObjectModel;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.Application.Services
 {
@@ -63,19 +63,19 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         
 
-        public List<LocAccommodationViewModel> ExecuteAccommodationSearch(string name, string city, string country, LocAccommodationViewModel.AccommType type, int guestNumber, int daysNumber)
+        public List<LocAccommodationDTO> ExecuteAccommodationSearch(string name, string city, string country, LocAccommodationDTO.AccommType type, int guestNumber, int daysNumber)
         {
-            ObservableCollection<LocAccommodationViewModel> AccommDTOsCollection = CreateAllDTOForms();
-            LocAccommodationViewModel dtoRequest = CreateDTORequest(name, city, country, type, guestNumber, daysNumber);
+            ObservableCollection<LocAccommodationDTO> AccommDTOsCollection = CreateAllDTOForms();
+            LocAccommodationDTO dtoRequest = CreateDTORequest(name, city, country, type, guestNumber, daysNumber);
             return Search(dtoRequest, AccommDTOsCollection);
         }
 
-        public ObservableCollection<LocAccommodationViewModel> CreateAllDTOForms()
+        public ObservableCollection<LocAccommodationDTO> CreateAllDTOForms()
         {
             List<Accommodation> accommodations = _accommodationRepository.GetAll();
             List<Location> locations = _locationRepository.GetAll();
-            ObservableCollection<LocAccommodationViewModel>  AccommDTOsCollection = new ObservableCollection<LocAccommodationViewModel>();
-            List<LocAccommodationViewModel> locAccommodationViewModels = new List<LocAccommodationViewModel>();
+            ObservableCollection<LocAccommodationDTO>  AccommDTOsCollection = new ObservableCollection<LocAccommodationDTO>();
+            List<LocAccommodationDTO> locAccommodationViewModels = new List<LocAccommodationDTO>();
 
             foreach (var accommodation in accommodations)
             {
@@ -83,7 +83,7 @@ namespace SOSTeam.TravelAgency.Application.Services
                 {
                     if (accommodation.LocationId == location.Id)
                     {
-                        LocAccommodationViewModel dto = CreateDTOForm(accommodation, location);
+                        LocAccommodationDTO dto = CreateDTOForm(accommodation, location);
                         locAccommodationViewModels.Add(dto);
                     }
                 }
@@ -95,7 +95,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             return AccommDTOsCollection;
         }
 
-        private LocAccommodationViewModel CreateDTOForm(Accommodation acc, Location loc)
+        private LocAccommodationDTO CreateDTOForm(Accommodation acc, Location loc)
         {
             SuperOwnerService superOwnerService = new SuperOwnerService();
             List<AccommodationReservation> accommodationReservations = _accReservationRepository.GetAll();
@@ -112,32 +112,32 @@ namespace SOSTeam.TravelAgency.Application.Services
                     }
                 }
             }
-            LocAccommodationViewModel dto = new LocAccommodationViewModel(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc), acc.MaxGuests, acc.MinDaysStay, currentGuestNumber, superOwnerService.IsSuperOwnerAccommodation(acc.Id));
+            LocAccommodationDTO dto = new LocAccommodationDTO(acc.Id, acc.Name, loc.City, loc.Country, FindAccommodationType(acc), acc.MaxGuests, acc.MinDaysStay, currentGuestNumber, superOwnerService.IsSuperOwnerAccommodation(acc.Id));
             return dto;
         }
 
-        private LocAccommodationViewModel.AccommType FindAccommodationType(Accommodation acc)
+        private LocAccommodationDTO.AccommType FindAccommodationType(Accommodation acc)
         {
             if (acc.Type == Accommodation.AccommodationType.APARTMENT)
-                return LocAccommodationViewModel.AccommType.APARTMENT;
+                return LocAccommodationDTO.AccommType.APARTMENT;
             else if (acc.Type == Accommodation.AccommodationType.HOUSE)
-                return LocAccommodationViewModel.AccommType.HOUSE;
+                return LocAccommodationDTO.AccommType.HOUSE;
             else if (acc.Type == Accommodation.AccommodationType.HUT)
-                return LocAccommodationViewModel.AccommType.HUT;
+                return LocAccommodationDTO.AccommType.HUT;
             else
-                return LocAccommodationViewModel.AccommType.NOTYPE;
+                return LocAccommodationDTO.AccommType.NOTYPE;
         }
 
-        private LocAccommodationViewModel CreateDTORequest(string searchedAccName, string searchedAccCity, string searchedAccCountry, LocAccommodationViewModel.AccommType searchedAccType, int searchedAccGuestsNumber, int searchedAccDaysNumber)
+        private LocAccommodationDTO CreateDTORequest(string searchedAccName, string searchedAccCity, string searchedAccCountry, LocAccommodationDTO.AccommType searchedAccType, int searchedAccGuestsNumber, int searchedAccDaysNumber)
         {
-            LocAccommodationViewModel acDTO = new LocAccommodationViewModel(searchedAccName, searchedAccCity, searchedAccCountry, searchedAccType,
+            LocAccommodationDTO acDTO = new LocAccommodationDTO(searchedAccName, searchedAccCity, searchedAccCountry, searchedAccType,
                                                             searchedAccGuestsNumber, searchedAccDaysNumber,false);
             return acDTO;
         }
 
-        private List<LocAccommodationViewModel> Search(LocAccommodationViewModel request, ObservableCollection<LocAccommodationViewModel> AccommDTOsCollection)
+        private List<LocAccommodationDTO> Search(LocAccommodationDTO request, ObservableCollection<LocAccommodationDTO> AccommDTOsCollection)
         {
-            List<LocAccommodationViewModel> SearchResult = new List<LocAccommodationViewModel>();
+            List<LocAccommodationDTO> SearchResult = new List<LocAccommodationDTO>();
             foreach (var item in AccommDTOsCollection)
             {
                 bool isCorrect = IsAppropriate(item, request);
@@ -149,12 +149,12 @@ namespace SOSTeam.TravelAgency.Application.Services
             return SearchResult;
         }
 
-        private bool IsAppropriate(LocAccommodationViewModel item, LocAccommodationViewModel request)
+        private bool IsAppropriate(LocAccommodationDTO item, LocAccommodationDTO request)
         {
             bool checkName = item.AccommodationName.ToLower().Contains(request.AccommodationName.ToLower()) || request.AccommodationName.Equals(string.Empty);
             bool checkCity = item.LocationCity.ToLower().Contains(request.LocationCity.ToLower()) || request.LocationCity.Equals(string.Empty);
             bool checkCountry = item.LocationCountry.ToLower().Contains(request.LocationCountry.ToLower()) || request.LocationCountry.Equals(string.Empty);
-            bool checkType = item.AccommodationType == request.AccommodationType || request.AccommodationType == LocAccommodationViewModel.AccommType.NOTYPE;
+            bool checkType = item.AccommodationType == request.AccommodationType || request.AccommodationType == LocAccommodationDTO.AccommType.NOTYPE;
             bool checkMaxGuests = request.GuestNumber <= item.AccommodationMaxGuests;
             bool checkDaysStay = request.AccommodationMinDaysStay >= item.AccommodationMinDaysStay;
 

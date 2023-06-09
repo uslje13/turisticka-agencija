@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using SOSTeam.TravelAgency.Domain.Models;
 using static System.Net.Mime.MediaTypeNames;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.Application.Services
 {
@@ -19,7 +19,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
         public GuestAccMarkService() { }
 
-        public void MarkAccommodation(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc, string renovationMark, string suggest,int renovationNumber)
+        public void MarkAccommodation(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResDTO acc, string renovationMark, string suggest,int renovationNumber)
         {
             MakeAndSaveMark(cleanMark, ownerMark, comment, urls, user, acc, renovationMark, suggest);
             SaveChangesToCSVs(acc);
@@ -27,7 +27,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             CreateNotificationToOwner(acc, renovationMark, suggest, renovationNumber);
         }
 
-        private void CreateNotificationToOwner(CancelAndMarkResViewModel acc, string renovationMark, string suggest,int renovationNumber)
+        private void CreateNotificationToOwner(CancelAndMarkResDTO acc, string renovationMark, string suggest,int renovationNumber)
         {
             AccommodationReservationService reservationService = new AccommodationReservationService();
             AccommodationService accommodationService = new AccommodationService();
@@ -54,7 +54,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
         }
 
-        private void SaveChangesToCSVs(CancelAndMarkResViewModel acc)
+        private void SaveChangesToCSVs(CancelAndMarkResDTO acc)
         {
             AccommodationReservationService reservationService = new AccommodationReservationService();
             List<AccommodationReservation> finishedReservations = reservationService.LoadFinishedReservations();
@@ -69,7 +69,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
         }
 
-        private void MakeAndSaveMark(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResViewModel acc, string renovationMark, string suggest)
+        private void MakeAndSaveMark(int cleanMark, int ownerMark, string comment, string urls, User user, CancelAndMarkResDTO acc, string renovationMark, string suggest)
         {
             GuestAccommodationMark accommodationMarks = new GuestAccommodationMark(cleanMark, ownerMark, comment, urls, user.Id, acc.AccommodationId, renovationMark, suggest);
             if (accommodationMarks.UrlGuestImage.Equals(""))

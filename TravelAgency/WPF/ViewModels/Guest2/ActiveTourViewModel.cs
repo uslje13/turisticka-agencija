@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
     {
         public string TourName { get; set; }
         public string CheckpointMessage { get; set; }
-
-        public ActiveTourViewModel(string tourName,string checkpointName) 
+        public string TourImagePath { get; set; }
+        public ActiveTourViewModel(string tourName,string checkpointName,String tourImage) 
         {
             TourName = "Tura " + tourName;
             CheckpointMessage = "Kljucna tacka do koje je tura stigla: " + checkpointName;
+            TourImagePath = tourImage;
         }
     }
 }

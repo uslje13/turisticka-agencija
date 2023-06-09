@@ -24,8 +24,14 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         public VouchersWindow(User loggedInUser)
         {
             InitializeComponent();
-            VouchersWindowViewModel viewModel = new VouchersWindowViewModel(this, loggedInUser);
+            VouchersWindowViewModel viewModel = new VouchersWindowViewModel(loggedInUser);
             DataContext= viewModel;
+            viewModel.CloseRequested += ViewModel_CloseRequested;
+        }
+
+        private void ViewModel_CloseRequested(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

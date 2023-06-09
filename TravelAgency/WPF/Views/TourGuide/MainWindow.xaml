@@ -45,7 +45,7 @@
         </Grid>
 
 
-            <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden"></Frame>
+        <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden"></Frame>
 
         <!-- Burger menu -->
         <Grid x:Name="BurgerMenuGrid" Grid.Row="0" Grid.RowSpan="3" Width="430" Height="636" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Transparent" Visibility="Collapsed">
@@ -90,7 +90,7 @@
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Grid.Row="0" Source="/Resources/Icons/account.png" Height="45" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50"/>
                     <TextBlock Grid.Column="1" Text="Account" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Foreground="White" Margin="5 0 0 0"/>
-                    <Button Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" BorderBrush="Transparent" Cursor="Hand">
+                    <Button Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" BorderBrush="Transparent" Cursor="Hand" Command="{Binding ShowUserAccountCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Opacity" Value="1"/>
@@ -222,7 +222,7 @@
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Grid.Row="0" Source="/Resources/Icons/pdf_report.png" Height="45" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50"/>
                     <TextBlock Grid.Column="1" Text="Tour report" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Foreground="White" Margin="5 0 0 0"/>
-                    <Button Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" BorderBrush="Transparent" Cursor="Hand">
+                    <Button Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" BorderBrush="Transparent" Cursor="Hand" Command="{Binding ShowGeneratePDFReportCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Opacity" Value="1"/>

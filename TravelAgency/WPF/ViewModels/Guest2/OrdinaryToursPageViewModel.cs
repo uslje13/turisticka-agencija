@@ -8,12 +8,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class OrdinaryToursPageViewModel : ViewModel
     {
-        private OrdinaryToursRequestsPage _page;
+        public NavigationService NavigationService { get; set; }
         public static User LoggedInUser { get; set; }
         private ObservableCollection<RequestViewModel> _tourRequests;
         public ObservableCollection<RequestViewModel> TourRequests
@@ -53,7 +54,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        public OrdinaryToursPageViewModel(User loggedInUser, OrdinaryToursRequestsPage page)
+        public OrdinaryToursPageViewModel(User loggedInUser, NavigationService navigationService)
         {
             LoggedInUser = loggedInUser;
             _tourRequestService = new TourRequestService();
@@ -62,7 +63,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             TourRequests = new ObservableCollection<RequestViewModel>();
             UpdateTourRequests();
             FillTourRequests();
-            _page = page;
+            NavigationService = navigationService;
         }
 
         public void FillTourRequests()
@@ -89,8 +90,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         }
         private void Execute_StatisticsCommand(object obj)
         {
-            var navigationService = _page.StatsFrame.NavigationService;
-            navigationService.Navigate(new StatisticsPage(LoggedInUser,this));
+            NavigationService.Navigate(new StatisticsPage(LoggedInUser,this));
         }
 
         private void Execute_CreateCommand(object obj)

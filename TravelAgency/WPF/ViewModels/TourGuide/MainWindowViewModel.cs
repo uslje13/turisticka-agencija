@@ -51,6 +51,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         #region Services
 
         private readonly AppointmentService _appointmentService;
+        private readonly CreateSuperGuideService _createSuperGuideService;
 
         #endregion
 
@@ -64,6 +65,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand ShowStatsMenuCommand { get; set; }
         public RelayCommand ShowRequestsMenuCommand { get; set; }
         public RelayCommand NavigationButtonCommand { get; set; }
+        public RelayCommand ShowUserAccountCommand { get; set; }
+        public RelayCommand ShowGeneratePDFReportCommand { get; set; }
 
         #endregion
 
@@ -71,6 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             _loggedUser = loggedUser;
             _appointmentService = new AppointmentService();
+            _createSuperGuideService = new CreateSuperGuideService();
             _title = "Home";
             _username = loggedUser.Username;
 
@@ -88,6 +92,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             ShowTourReviewCommand = new RelayCommand(ShowTourReviews, CanExecuteMethod);
             ShowStatsMenuCommand = new RelayCommand(ShowStatsMenu, CanExecuteMethod);
             ShowRequestsMenuCommand = new RelayCommand(ShowRequestsMenu, CanExecuteMethod);
+            ShowUserAccountCommand = new RelayCommand(ShowUserAccount, CanExecuteMethod);
+            ShowGeneratePDFReportCommand = new RelayCommand(ShowGeneratePDFReport, CanExecuteMethod);
         }
 
         private void UpdateAppointments(object sender, EventArgs e)
@@ -140,6 +146,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var button = parameter as string;
             App.TourGuideNavigationService.GoBack(button);
+        }
+
+        private void ShowUserAccount(object sender)
+        {
+            _createSuperGuideService.CreateSuperTourGuide();
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("UserAccount", _loggedUser);
+        }
+
+        private void ShowGeneratePDFReport(object sender)
+        {
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("GeneratePDFReport", _loggedUser);
         }
 
     }

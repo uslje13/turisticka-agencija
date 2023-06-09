@@ -9,13 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class NotificationsWindowViewModel : ViewModel
     {
+        public event EventHandler CloseRequested;
         public static User LoggedInUser { get; set; }
-        private NotificationsWindow _window;
+        public NavigationService NotificationNavigationService { get; set; }
         private RelayCommand _backCommand;
 
         public RelayCommand BackCommand
@@ -47,9 +49,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 _navigationCommand = value;
             }
         }
-        public NotificationsWindowViewModel(User loggedInUser, NotificationsWindow window) 
+        public NotificationsWindowViewModel(User loggedInUser,NavigationService notificationNavigationService) 
         {
-            _window = window;
+            NotificationNavigationService = notificationNavigationService;
             LoggedInUser = loggedInUser;
             BackCommand = new RelayCommand(Execute_CancelCommand, CanExecuteMethod);
             HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
@@ -63,35 +65,22 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private void Execute_NavigationCommand(object obj)
         {
             string nextPage = obj.ToString();
-            var navigationService = _window.MainFrame.NavigationService;
 
             switch (nextPage)
             {
                 case "FinishedTour":
-                    navigationService.Navigate(new FinishedToursNotificationPage(LoggedInUser));
+                    NotificationNavigationService.Navigate(new FinishedToursNotificationPage(LoggedInUser));
                     break;
                 case "NewTour":
-                    navigationService.Navigate(new NewToursNotificationPage(LoggedInUser));
+                    NotificationNavigationService.Navigate(new NewToursNotificationPage(LoggedInUser));
                     break;
             }
         }    
 
         private void Execute_HelpCommand(object obj)
         {
-            _window.Close();
-
-            var currentApp = System.Windows.Application.Current;
-
-            foreach (Window window in currentApp.Windows)
-            {
-                if (window is ToursOverviewWindow)
-                {
-                    PreviousWindowOrPageName.SetPreviousWindowOrPageName(this.GetType().Name);
-                    var navigationService = ((ToursOverviewWindow)window).HelpFrame.NavigationService;
-                    navigationService.Navigate(new HelpPage(LoggedInUser));
-                    break;
-                }
-            }
+            HelpWindow window = new HelpWindow();
+            window.Show();
         }
 
         private bool CanExecuteMethod(object parameter)
@@ -101,7 +90,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_CancelCommand(object sender)
         {
-            _window.Close();
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

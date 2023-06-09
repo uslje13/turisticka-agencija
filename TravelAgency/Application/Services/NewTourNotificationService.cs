@@ -57,7 +57,7 @@ namespace SOSTeam.TravelAgency.Application.Services
         public void CreateNotificationForAllUsers(int appointmentId)
         {
             List<NewTourNotification> notifications = new List<NewTourNotification>();
-            foreach (var user in _userService.GetAll().FindAll(u => u.Role == Roles.GUEST2))
+            foreach (var user in _userService.GetAll().FindAll(u => u.Role == Roles.GOST2))
             {
                 NewTourNotification notification = new NewTourNotification
                 {

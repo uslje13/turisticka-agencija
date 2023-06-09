@@ -14,11 +14,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public User LoggedInUser { get; set; }
         public ActiveTourViewModel ActiveTour { get; set; }
 
-        private ReservationService _reservationService;
-        private AppointmentService _appointmentService;
-        private CheckpointActivityService _checkpointActivityService;
-        private CheckpointService _checkpointService;
-        private TourService _tourService;
+        private readonly ReservationService _reservationService;
+        private readonly AppointmentService _appointmentService;
+        private readonly CheckpointActivityService _checkpointActivityService;
+        private readonly CheckpointService _checkpointService;
+        private readonly TourService _tourService;
+        private readonly ImageService _imageService;
         public ActiveTourPageViewModel(User loggedInUser)
         {
             LoggedInUser = loggedInUser;
@@ -27,6 +28,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _checkpointActivityService = new CheckpointActivityService();
             _checkpointService = new CheckpointService();
             _tourService = new TourService();
+            _imageService = new ImageService();
             FindActiveTour();
         }
 
@@ -42,9 +44,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     CheckpointActivity activeCheckpoint =_checkpointActivityService.FindActiveCheckpoint(appointment.Id);
                     if(activeCheckpoint != null)
                     {
+                        Tour activeTour = _tourService.FindTourById(appointment.TourId);
                         string checkpoinName = GetCheckpointName(activeCheckpoint.CheckpointId);
                         string tourName = GetTourName(activeCheckpoint.CheckpointId);
-                        ActiveTour = new ActiveTourViewModel(tourName, checkpoinName);
+                        ActiveTour = new ActiveTourViewModel(tourName, checkpoinName, _imageService.GetTourCover(activeTour.Id).Path);
                     }
                 }
             }

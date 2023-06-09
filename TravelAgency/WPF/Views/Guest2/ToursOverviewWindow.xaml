@@ -10,7 +10,7 @@
         Background="AliceBlue"
         ResizeMode="CanResizeWithGrip"
         >
-    <Window.InputBindings>
+    <!--Window.InputBindings>
         <KeyBinding Key="M" Modifiers="Control" Command="{Binding MyToursCommand}" />
         <KeyBinding Key="Z" Modifiers="Control" Command="{Binding RequestsCommand}" />
         <KeyBinding Key="V" Modifiers="Control" Command="{Binding VouchersCommand}" />
@@ -18,7 +18,7 @@
         <KeyBinding Key="O" Modifiers="Control" Command="{Binding NotificationsCommand}" />
         <KeyBinding Key="H" Modifiers="Control" Command="{Binding HelpCommand}" />
         <KeyBinding Key="L" Modifiers="Control" Command="{Binding LogOutCommand}" />
-    </Window.InputBindings>
+    </Window.InputBindings-->
 
     <Window.Resources>
         <ResourceDictionary>
@@ -56,14 +56,14 @@
                         <Label Content="{Binding LoggedInUser.Username}" FontSize="18" FontFamily="Microsoft Sans Serif" Height="32" Width="154" HorizontalContentAlignment="Center"/>
                     </StackPanel>
 
-                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding MyToursCommand}">
+                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding NavigationCommand}" CommandParameter="MyTours">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/tour_icon2.png" Height="40" Width="38"/>
                             <TextBlock Text="  Moje ture (Ctrl + m)" Height="24" Width="186"/>
                         </StackPanel>
                     </Button>
 
-                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding RequestsCommand}">
+                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding NavigationCommand}" CommandParameter="Requests">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/list-square-icon.png" Height="40" Width="38"/>
                             <TextBlock Text="  Zahtevi (Ctrl + z)" Height="24" Width="188"/>
@@ -77,7 +77,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding SearchCommand}">
+                    <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding NavigationCommand}" CommandParameter="Search">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/search.png" Height="40" Width="38"/>
                             <TextBlock Text="  Pretrazi (Ctrl + p)" Height="24" Width="190"/>
@@ -324,10 +324,7 @@
             </Border>
 
         </Grid>
+        <Frame x:Name="MainFrame" NavigationUIVisibility ="Hidden" />
         <Frame x:Name="AlternativeFrame" NavigationUIVisibility ="Hidden" />
-        <Frame x:Name="HelpFrame" NavigationUIVisibility ="Hidden" />
-        <Frame x:Name="RequestsFrame" NavigationUIVisibility ="Hidden" />
-        <Frame x:Name="MyToursFrame" NavigationUIVisibility ="Hidden" />
-        <Frame x:Name="SearchFrame" NavigationUIVisibility ="Hidden" />
     </Grid>
 </Window>

@@ -15,10 +15,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
     public class TourRequestReviewPageViewModel : ViewModel
     {
         public OrdinaryToursPageViewModel OrdinaryToursPageViewModel { get; set; }
+        public ComplexToursPageViewModel ComplexToursPageViewModel { get; set; }
         public ObservableCollection<RequestViewModel> TourRequests { get; set; }
         public User LoggedInUser { get; set; }
 
         private readonly TourRequestService _tourRequestService;
+        private readonly ComplexTourRequestService _complexTourRequestService;
 
         private RelayCommand _createReviewCommand;
         public RelayCommand CreateReviewCommand
@@ -40,12 +42,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 _closeCommand = value;
             }
         }
-        public TourRequestReviewPageViewModel(User loggedInUser, ObservableCollection<RequestViewModel> tourRequests, OrdinaryToursPageViewModel ordinaryToursPageViewModel)
+        public TourRequestReviewPageViewModel(User loggedInUser, ObservableCollection<RequestViewModel> tourRequests, OrdinaryToursPageViewModel ordinaryToursPageViewModel, ComplexToursPageViewModel complexToursPageViewModel)
         {
             OrdinaryToursPageViewModel = ordinaryToursPageViewModel;
+            ComplexToursPageViewModel = complexToursPageViewModel;
             TourRequests = tourRequests;
             LoggedInUser = loggedInUser;
             _tourRequestService= new TourRequestService();
+            _complexTourRequestService = new ComplexTourRequestService();
             CreateReviewCommand = new RelayCommand(Execute_CreateReviewCommand, CanExecuteMethod);
             CloseCommand = new RelayCommand(Execute_CloseCommand,CanExecuteMethod);
         }
@@ -80,8 +84,26 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     OrdinaryToursPageViewModel.FillTourRequests();
                     CloseWindow();
                 }
+                else if(TourRequests.Count != 0)
+                {
+                    ComplexTourRequest complexTourRequest = new ComplexTourRequest(LoggedInUser.Id);
+                    _complexTourRequestService.Save(complexTourRequest);
+                    AddRequests(complexTourRequest);
+                    ComplexToursPageViewModel.FillComplexRequests();
+                    CloseWindow();
+                }
             }
         }
+
+        private void AddRequests(ComplexTourRequest complexTourRequest)
+        {
+            foreach (var request in TourRequests)
+            {
+                TourRequest tourRequest = new TourRequest(request.City, request.Country, request.Description, request.Language, request.MaxNumOfGuests, DateTime.Now, DateOnly.Parse(request.MaintenanceStartDate), DateOnly.Parse(request.MaintenanceEndDate), StatusType.ON_HOLD, LoggedInUser.Id,false,complexTourRequest.Id);
+                _tourRequestService.Save(tourRequest);
+            }
+        }
+
         private MessageBoxResult ConfirmRequestCreation()
         {
             string sMessageBoxText = $"Da li ste sigurni da želite da kreirate zahtev";

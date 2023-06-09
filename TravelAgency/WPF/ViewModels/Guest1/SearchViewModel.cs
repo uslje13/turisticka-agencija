@@ -13,6 +13,8 @@ using System.Windows.Controls;
 using System.Xml.Linq;
 using System.Windows;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using System.Windows.Navigation;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -23,15 +25,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public ComboBox CBTypes { get; set; }
         public List<ComboBoxItem> comboBoxItems { get; set; }
         public RelayCommand searchCommand { get; set; }
-        public Frame ThisFrame { get; set; }
+        public NavigationService NavigationService { get; set; }
 
-        public SearchViewModel(User user, List<TextBox> list1, List<ComboBoxItem> list2, ComboBox comboBox, Frame frame)
+        public SearchViewModel(User user, List<TextBox> list1, List<ComboBoxItem> list2, ComboBox comboBox, NavigationService service)
         {
             LoggedInUser = user;
             CBTypes = comboBox;
             textBoxes = list1;
             comboBoxItems = list2;
-            ThisFrame = frame;
+            NavigationService = service;
             
             searchCommand = new RelayCommand(ExecuteAccommodationSearch);
         }
@@ -40,10 +42,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             AccommodationService accommodationService = new AccommodationService();
             SuperOwnerService superOwnerService = new();
-            List<LocAccommodationViewModel> searchResult = accommodationService.ExecuteAccommodationSearch(textBoxes[0].Text, textBoxes[1].Text, textBoxes[2].Text, 
+            List<LocAccommodationDTO> searchResult = accommodationService.ExecuteAccommodationSearch(textBoxes[0].Text, textBoxes[1].Text, textBoxes[2].Text, 
                                                                                                             GetSelectedItem(CBTypes), int.Parse(textBoxes[3].Text), 
                                                                                                             int.Parse(textBoxes[4].Text));
-            foreach (LocAccommodationViewModel item in searchResult) 
+            foreach (LocAccommodationDTO item in searchResult) 
             {
                 item.IsSuperOwned = superOwnerService.IsSuperOwnerAccommodation(item.AccommodationId);
             }
@@ -51,20 +53,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ShowResults(searchResult.OrderByDescending(a => a.IsSuperOwned).ToList());
         }
 
-        private LocAccommodationViewModel.AccommType GetSelectedItem(ComboBox cb)
+        private LocAccommodationDTO.AccommType GetSelectedItem(ComboBox cb)
         {
-            if (cb.SelectedItem == comboBoxItems[0]) return LocAccommodationViewModel.AccommType.APARTMENT;
-            else if (cb.SelectedItem == comboBoxItems[1]) return LocAccommodationViewModel.AccommType.HOUSE;
-            else if (cb.SelectedItem == comboBoxItems[2]) return LocAccommodationViewModel.AccommType.HUT;
-            else return LocAccommodationViewModel.AccommType.NOTYPE;
+            if (cb.SelectedItem == comboBoxItems[0]) return LocAccommodationDTO.AccommType.APARTMENT;
+            else if (cb.SelectedItem == comboBoxItems[1]) return LocAccommodationDTO.AccommType.HOUSE;
+            else if (cb.SelectedItem == comboBoxItems[2]) return LocAccommodationDTO.AccommType.HUT;
+            else return LocAccommodationDTO.AccommType.NOTYPE;
         }
 
-        private void ShowResults(List<LocAccommodationViewModel> results)
+        private void ShowResults(List<LocAccommodationDTO> results)
         {
             if (results.Count > 0)
             {
-                var navigationService = ThisFrame.NavigationService;
-                navigationService.Navigate(new SearchResultsPage(results, LoggedInUser, ThisFrame));
+                NavigationService.Navigate(new SearchResultsPage(results, LoggedInUser, NavigationService));
             }
             else
             {

@@ -24,9 +24,15 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         public NotificationsWindow(User loggedInUser)
         {
             InitializeComponent();
-            NotificationsWindowViewModel viewModel = new NotificationsWindowViewModel(loggedInUser, this);
+            NotificationsWindowViewModel viewModel = new NotificationsWindowViewModel(loggedInUser,this.MainFrame.NavigationService);
             DataContext = viewModel;
+            viewModel.CloseRequested += ViewModel_CloseRequested;
             viewModel.SetStartupPage();
+        }
+
+        private void ViewModel_CloseRequested(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

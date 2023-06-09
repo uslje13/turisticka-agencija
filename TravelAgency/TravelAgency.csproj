@@ -59,6 +59,7 @@
     <None Remove="Resources\Icons\Guest1\info-icon.png" />
     <None Remove="Resources\Icons\Guest1\list-square-icon.png" />
     <None Remove="Resources\Icons\Guest1\log_out.png" />
+    <None Remove="Resources\Icons\Guest1\plusnotext.png" />
     <None Remove="Resources\Icons\Guest1\search.png" />
     <None Remove="Resources\Icons\Guest1\statuses.png" />
     <None Remove="Resources\Icons\Guest1\superGuest.png" />
@@ -86,6 +87,7 @@
     <None Remove="Resources\Icons\list-square-icon.png" />
     <None Remove="Resources\Icons\livetour.png" />
     <None Remove="Resources\Icons\logged_user.png" />
+    <None Remove="Resources\Icons\logged_user_black.png" />
     <None Remove="Resources\Icons\log_out.png" />
     <None Remove="Resources\Icons\log_out_burger_menu.png" />
     <None Remove="Resources\Icons\medal.png" />
@@ -182,6 +184,7 @@
 
   <ItemGroup>
     <Folder Include="Application\UseCases\" />
+    <Folder Include="Resources\PDFReports\TourGuide\" />
     <Folder Include="WPF\Creators\TourGuide\" />
     <None Remove="Resources\Icons\NotificationAlertNoColor.png" />
     <None Remove="Resources\Images\SOSlogo.png" />
@@ -297,6 +300,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\logged_user.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\logged_user_black.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\log_out.png">
@@ -528,6 +534,7 @@
     <Resource Include="Resources\Icons\Guest1\info-icon.png" />
     <Resource Include="Resources\Icons\Guest1\list-square-icon.png" />
     <Resource Include="Resources\Icons\Guest1\log_out.png" />
+    <Resource Include="Resources\Icons\Guest1\plusnotext.png" />
     <Resource Include="Resources\Icons\Guest1\search.png" />
     <Resource Include="Resources\Icons\Guest1\statuses.png" />
     <Resource Include="Resources\Icons\Guest1\superGuest.png" />
@@ -558,9 +565,11 @@
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="MicrosoftExpressionInteractions" Version="3.0.40218" />
+    <PackageReference Include="Syncfusion.PdfViewer.WPF" Version="21.2.9" />
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
   </ItemGroup>
 
