@@ -21,6 +21,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public event EventHandler CloseRequested;
         public static User LoggedInUser { get; set; }
         public static ObservableCollection<Tour> Tours { get; set; }
+        public static ObservableCollection<Tour> SuperGuideTours { get; set; }
         public static ObservableCollection<Location> Locations { get; set; }
         public List<GuestAttendance> UserAttendances { get; set; }
 
@@ -52,6 +53,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         private TourRequestService _tourRequestService;
         private VoucherService _voucherService;
         private FrequentUserVoucherService _frequentUserVoucherService;
+        private SuperGuideService _superGuideService;
 
         private RelayCommand _navigationCommand;
         public RelayCommand NavigationCommand
@@ -111,6 +113,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             NavigationService = navigationService;
             InitializeServices();
             GetUsableLists();
+            SuperGuideTours = new ObservableCollection<Tour>();
+            AddSuperGuidesTours();
             LoggedInUser = loggedInUser;
             TourViewModels = new ObservableCollection<TourViewModel>();
             SummerTourViewModels = new ObservableCollection<TourViewModel>();
@@ -226,18 +230,55 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                 }
             }
         }
+
+        private void AddSuperGuidesTours()
+        {
+            foreach(var superGuide in _superGuideService.GetAll())
+            {
+                foreach(var appointment in _appointmentService.GetAll())
+                {
+                    if(superGuide.UserId == appointment.UserId)
+                    {
+                        SuperGuideTours.Add(_tourService.GetById(appointment.TourId));
+                    }
+                }
+            }
+
+            SuperGuideTours = new ObservableCollection<Tour>(SuperGuideTours.DistinctBy(t => t.Id));
+        }
+
         private void FillSummerTourViewModelList()
         {
             DateTime summerStart = new DateTime(DateTime.Now.Year, 6, 21);
             DateTime summerEnd = new DateTime(DateTime.Now.Year, 9, 23);
 
-            foreach (Tour t in Tours)
+            foreach (Tour t in SuperGuideTours)
             {
                 foreach (Location l in Locations)
                 {
                     if (l.Id == t.LocationId)
                     {
                         FillList(summerStart, summerEnd, t, l);
+                    }
+                }
+            }
+
+            List<int> superGuideToursIds = new List<int>();
+            foreach (var t in SuperGuideTours)
+            {
+                superGuideToursIds.Add(t.Id);
+            }
+
+            foreach (Tour t in Tours)
+            {
+                if (!superGuideToursIds.Contains(t.Id))
+                {
+                    foreach (Location l in Locations)
+                    {
+                        if (l.Id == t.LocationId)
+                        {
+                            FillList(summerStart, summerEnd, t, l);
+                        }
                     }
                 }
             }
@@ -257,13 +298,33 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void FillSerbiaTourViewModelList()
         {
-            foreach (Tour t in Tours)
+            foreach (Tour t in SuperGuideTours)
             {
                 foreach (Location l in Locations)
                 {
                     if (l.Id == t.LocationId && l.Country == "Srbija")
                     {
                         FindImage(t, l,SerbiaTourViewModels);
+                    }
+                }
+            }
+
+            List<int> superGuideToursIds = new List<int>();
+            foreach (var t in SuperGuideTours)
+            {
+                superGuideToursIds.Add(t.Id);
+            }
+
+            foreach (Tour t in Tours)
+            {
+                if (!superGuideToursIds.Contains(t.Id))
+                {
+                    foreach (Location l in Locations)
+                    {
+                        if (l.Id == t.LocationId && l.Country == "Srbija")
+                        {
+                            FindImage(t, l, SerbiaTourViewModels);
+                        }
                     }
                 }
             }
@@ -359,6 +420,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _tourRequestService= new TourRequestService();
             _voucherService = new VoucherService();
             _frequentUserVoucherService = new FrequentUserVoucherService();
+            _superGuideService = new SuperGuideService();
         }
 
         public void GetAcceptedRequestMessage()
@@ -403,13 +465,33 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void FillTourViewModelList()
         {
-            foreach (Tour t in Tours)
+            foreach (Tour t in SuperGuideTours)
             {
                 foreach (Location l in Locations)
                 {
                     if (l.Id == t.LocationId)
                     {
                         FindImage(t, l,TourViewModels);
+                    }
+                }
+            }
+
+            List<int> superGuideToursIds = new List<int>();
+            foreach(var t in SuperGuideTours)
+            {
+                superGuideToursIds.Add(t.Id);
+            }
+
+            foreach(Tour t in Tours)
+            {
+                if (!superGuideToursIds.Contains(t.Id))
+                {
+                    foreach (Location l in Locations)
+                    {
+                        if (l.Id == t.LocationId)
+                        {
+                            FindImage(t, l, TourViewModels);
+                        }
                     }
                 }
             }
