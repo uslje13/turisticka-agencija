@@ -91,15 +91,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             AllComments = new ObservableCollection<ForumComment>();
             SignificantComments = new ObservableCollection<ForumComment>();
-            SignificantUsers = new List<User>();
 
             LocationService locationService = new LocationService();
             ForumLocation = locationService.GetById(forum.LocationId);
+            UserService userService = new UserService();
+            SignificantUsers = userService.GetAllSignificantUsers(ForumLocation);
 
             FillPopup();
-            DefineCloseOption(forum.UserId, forum.IsOpen);
-            FindAllSignificantOwners();
-            FindAllSignificantGuests();
+            DefineCloseOption();
             GetAllForumComments();
             GetSignificantComments();
 
@@ -138,60 +137,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private void FindAllSignificantGuests()
-        {
-            AnalyzeAccommodationReservations();
-            AnalyzeTourReservations();
-        }
-
-        private void AnalyzeAccommodationReservations()
-        {
-            AccommodationReservationService reservationService = new AccommodationReservationService();
-            AccommodationService accommodationService = new AccommodationService();
-            UserService userService = new UserService();
-            foreach(var reservation in reservationService.GetAll())
-            {
-                Accommodation accommodation = accommodationService.GetById(reservation.AccommodationId);
-                if(accommodation.LocationId == ForumLocation.Id)
-                {
-                    User user = userService.GetById(reservation.UserId);
-                    SignificantUsers.Add(user);
-                }
-            }
-        }
-
-        private void AnalyzeTourReservations()
-        {
-            TourService tourService = new TourService();
-            AppointmentService appointmentService = new AppointmentService();
-            ReservationService reservationService = new ReservationService();
-            UserService userService = new UserService();
-            foreach(var reservation in reservationService.GetAll())
-            {
-                Appointment appointment = appointmentService.GetById(reservation.AppointmentId);
-                Tour tour = tourService.GetById(appointment.TourId);
-                if(tour.LocationId == ForumLocation.Id && reservation.Presence)
-                {
-                    User user = userService.GetById(reservation.UserId);
-                    SignificantUsers.Add(user);
-                }
-            }
-        }
-
-        private void FindAllSignificantOwners()
-        {
-            AccommodationService accommodationService = new AccommodationService();
-            UserService userService = new UserService();
-            foreach(var accommodation in accommodationService.GetAll())
-            {
-                if(accommodation.LocationId == ForumLocation.Id)
-                {
-                    User owner = userService.GetById(accommodation.OwnerId);
-                    SignificantUsers.Add(owner);
-                }
-            }
-        }
-
         private void FillPopup()
         {
             UsebilityInformation = "Bilo koji gost može ostavljati komentare na otvoren forum, ali ako je gost nekada\n"
@@ -206,9 +151,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             NavigationService.GoBack();
         }
 
-        private void DefineCloseOption(int userId, bool isOpen)
+        private void DefineCloseOption()
         {
-            if(LoggedInUser.Id != userId || !isOpen)
+            if(LoggedInUser.Id != SelectedForum.UserId || !SelectedForum.IsOpen)
             {
                 CloseButtonVisibility = false;
             }
@@ -251,14 +196,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                         }
                     }
 
-                    if (!flag)
-                    {
-                        SaveComment();
-                    }
-                    else
-                    {
-                        SaveSignificantComment();
-                    }
+                    if (!flag) SaveComment();
+                    else SaveSignificantComment();
+
                 }
                 else
                 {

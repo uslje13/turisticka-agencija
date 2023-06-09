@@ -38,6 +38,8 @@
                 <DataGridTextColumn Header="Drugi dan" Binding="{Binding LastDayStr}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Button x:Name="PdfButton" Command="{Binding GetPDFCommand}" Content="Preuzmi PDF" 
+                Style="{StaticResource ButtonStyle}" Margin="135,295,133,14"/>
         <Button x:Name="GoBackButton" Margin="-190,338,505,57" Content="Nazad" 
                 Style="{StaticResource ButtonStyle}" Command="{Binding GoBackCommand}"/>
     </Grid>
