@@ -1,6 +1,7 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.WPF.Views.Guest2;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -56,7 +57,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 if (File.Exists(filePath))
                 {
-                Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+                    //Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+                    PDFReportWindow window = new PDFReportWindow(filePath);
+                    window.ShowDialog();
                 }
                 else
                 {
