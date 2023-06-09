@@ -1,5 +1,6 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System;
@@ -22,7 +23,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; }
         public ObservableCollection<string> _comboBoxOptions { get; set; }
-        public List<CancelAndMarkResViewModel> _presentedReservations { get; set; }
+        public List<CancelAndMarkResDTO> _presentedReservations { get; set; }
         public RelayCommand ProcessReportCommand { get; set; }
 
         public ReportFiltersViewModel(User user, NavigationService service)
@@ -35,7 +36,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             FirstDate = DateTime.Now;
             LastDate = DateTime.Now;
             
-            _presentedReservations = new List<CancelAndMarkResViewModel>();
+            _presentedReservations = new List<CancelAndMarkResDTO>();
 
             ProcessReportCommand = new RelayCommand(Execute_ProcessReport);
         }
@@ -65,7 +66,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             AccommodationService accommodationService = new AccommodationService();
             AccommodationReservationService reservationService = new AccommodationReservationService();
-            ObservableCollection<LocAccommodationViewModel> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
+            ObservableCollection<LocAccommodationDTO> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
             List<AccommodationReservation> _accommodationReservations = reservationService.GetAll();
 
             _presentedReservations.Clear();
@@ -75,14 +76,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if (IsValidForList(0, lavm, res))
                     { 
-                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
+                        CancelAndMarkResDTO model = new CancelAndMarkResDTO(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
                         _presentedReservations.Add(model);
                     }
                 }
             }
         }
 
-        private bool IsValidForList(int type, LocAccommodationViewModel lavm, AccommodationReservation res)
+        private bool IsValidForList(int type, LocAccommodationDTO lavm, AccommodationReservation res)
         {
             if(type == 0)
             {
@@ -98,7 +99,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             AccommodationService accommodationService = new AccommodationService();
             AccommodationReservationService reservationService = new AccommodationReservationService();
-            ObservableCollection<LocAccommodationViewModel> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
+            ObservableCollection<LocAccommodationDTO> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
             List<AccommodationReservation> _canceledReservations = reservationService.LoadCanceledReservations();
 
             _presentedReservations.Clear();
@@ -108,7 +109,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 {
                     if (IsValidForList(1, lavm, res))
                     {
-                        CancelAndMarkResViewModel model = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
+                        CancelAndMarkResDTO model = new CancelAndMarkResDTO(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
                         _presentedReservations.Add(model);
                     }
                 }

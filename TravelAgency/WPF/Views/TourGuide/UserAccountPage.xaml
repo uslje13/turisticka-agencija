@@ -86,6 +86,6 @@
             </StackPanel>
         </Grid>
         <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Height="25" Width="360" Content="Quit job" FontSize="16" 
-                Command="{Binding QuitJobCommand}"/>
+                BorderThickness="1.5" Command="{Binding QuitJobCommand}" BorderBrush="DarkGray"/>
     </Grid>
 </Page>

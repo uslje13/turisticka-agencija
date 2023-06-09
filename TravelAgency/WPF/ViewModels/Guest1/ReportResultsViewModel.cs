@@ -1,4 +1,5 @@
 ﻿using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     {
         public string TextBlockText { get; set; }
         public NavigationService NavigationService { get; set; }
-        public List<CancelAndMarkResViewModel> _presentedReservations { get; set; }
+        public List<CancelAndMarkResDTO> _presentedReservations { get; set; }
         public RelayCommand GoBackCommand { get; set; }
 
-        public ReportResultsViewModel(List<CancelAndMarkResViewModel> list, NavigationService service, int type, DateTime fDate, DateTime lDate)
+        public ReportResultsViewModel(List<CancelAndMarkResDTO> list, NavigationService service, int type, DateTime fDate, DateTime lDate)
         {
             _presentedReservations = list;
             NavigationService = service;

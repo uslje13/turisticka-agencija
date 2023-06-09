@@ -10,6 +10,7 @@ using System.Windows.Controls.Ribbon.Primitives;
 using System.Windows.Navigation;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Domain.RepositoryInterfaces;
 using SOSTeam.TravelAgency.WPF.Views;
@@ -23,8 +24,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public User LoggedInUser { get; set; }
         public NavigationService NavigationService { get; set; }    
         public ChangedReservationRequest SelectedChangedReservation { get; set; }
-        public CancelAndMarkResViewModel SelectedCanceledReservation { get; set; }
-        public ObservableCollection<CancelAndMarkResViewModel> _reservationCancelOptions { get; set; }
+        public CancelAndMarkResDTO SelectedCanceledReservation { get; set; }
+        public ObservableCollection<CancelAndMarkResDTO> _reservationCancelOptions { get; set; }
         public ObservableCollection<ChangedReservationRequest> _changedReservationRequests { get; set; }
         public List<AccommodationReservation> _accommodationReservations { get; set; }
         public RelayCommand FindNewDateCommand { get; set; }
@@ -35,7 +36,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             LoggedInUser = user;
             NavigationService = service;
 
-            _reservationCancelOptions = new ObservableCollection<CancelAndMarkResViewModel>();
+            _reservationCancelOptions = new ObservableCollection<CancelAndMarkResDTO>();
             _changedReservationRequests = new ObservableCollection<ChangedReservationRequest>();
 
             AccommodationReservationService reservationService = new AccommodationReservationService();
@@ -79,7 +80,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        public void CancelReservation(CancelAndMarkResViewModel selectedReservation)
+        public void CancelReservation(CancelAndMarkResDTO selectedReservation)
         {
             AccommodationService accommodationService = new AccommodationService();
             Accommodation accommodation = accommodationService.GetById(selectedReservation.AccommodationId);
@@ -108,7 +109,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private ChangedReservationRequest FindRequest(CancelAndMarkResViewModel model)
+        private ChangedReservationRequest FindRequest(CancelAndMarkResDTO model)
         {
             foreach(var request in _changedReservationRequests)
             {
@@ -124,7 +125,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         private void PrepareCancelReservationList()
         {
             AccommodationService accommodationService = new AccommodationService();
-            ObservableCollection<LocAccommodationViewModel> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
+            ObservableCollection<LocAccommodationDTO> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
 
             foreach (var reserv in _accommodationReservations)
             {
@@ -133,7 +134,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     bool isInFuture = reserv.AccommodationId == lavm.AccommodationId && reserv.FirstDay > DateTime.Today && reserv.UserId == LoggedInUser.Id;
                     if (isInFuture)
                     {
-                        CancelAndMarkResViewModel crModel = new CancelAndMarkResViewModel(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, reserv.FirstDay, reserv.LastDay, reserv.Id, lavm.AccommodationId);
+                        CancelAndMarkResDTO crModel = new CancelAndMarkResDTO(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, reserv.FirstDay, reserv.LastDay, reserv.Id, lavm.AccommodationId);
                         _reservationCancelOptions.Add(crModel);
                     }
                 }
@@ -173,7 +174,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 if (SelectedChangedReservation.status == ChangedReservationRequest.Status.NOT_REQUIRED)
                 {
                     PrepareReservationCSV();
-                    LocAccommodationViewModel model = FindModel(SelectedChangedReservation);
+                    LocAccommodationDTO model = FindModel(SelectedChangedReservation);
                     NavigationService.Navigate(new EnterReservationPage(model, LoggedInUser, true, SelectedChangedReservation, NavigationService));
                 }
                 else
@@ -202,10 +203,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
         
-        private LocAccommodationViewModel FindModel(ChangedReservationRequest model)
+        private LocAccommodationDTO FindModel(ChangedReservationRequest model)
         {
             AccommodationService accommodationService = new AccommodationService();
-            ObservableCollection<LocAccommodationViewModel> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
+            ObservableCollection<LocAccommodationDTO> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
 
             foreach(var dto in _locAccommodationViewModels)
             {
@@ -220,7 +221,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         private void PrepareReservationsForChangeRequest()
         {
             AccommodationService accommodationService = new AccommodationService();
-            ObservableCollection<LocAccommodationViewModel> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
+            ObservableCollection<LocAccommodationDTO> _locAccommodationViewModels = accommodationService.CreateAllDTOForms();
 
             foreach (var res in _accommodationReservations)
             {
@@ -235,7 +236,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private bool IsValid(AccommodationReservation res, LocAccommodationViewModel model)
+        private bool IsValid(AccommodationReservation res, LocAccommodationDTO model)
         {
             foreach(var request in _changedReservationRequests)
             {

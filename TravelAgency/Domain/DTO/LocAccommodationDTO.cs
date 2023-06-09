@@ -12,9 +12,9 @@ using SOSTeam.TravelAgency.Repositories;
 using SOSTeam.TravelAgency.Repositories.Serializer;
 using SOSTeam.TravelAgency.Domain.Models;
 
-namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
+namespace SOSTeam.TravelAgency.Domain.DTO
 {
-    public class LocAccommodationViewModel
+    public class LocAccommodationDTO
     {
         public enum AccommType
         {
@@ -31,13 +31,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int GuestNumber { get; set; }
         public bool IsSuperOwned { get; set; }
         public Image Cover { get; set; }
-        public string FullLocation { get; set; } 
+        public string FullLocation { get; set; }
         public string CurrentGuests { get; set; }
         public string MinDaysString { get; set; }
         public string TypeString { get; set; }
         public bool IsRenovatedInLastYear { get; set; }
 
-        public LocAccommodationViewModel(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber, bool isSuperOwned)
+        public LocAccommodationDTO(int id, string name, string city, string country, AccommType type, int guests, int days, int guestNumber, bool isSuperOwned)
 
         {
             AccommodationId = id;
@@ -65,7 +65,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             IsRenovatedInLastYear = false;
         }
 
-        public LocAccommodationViewModel(string name, string city, string country, AccommType type, int guestNumber, int days, bool isSuperOwned)
+        public LocAccommodationDTO(string name, string city, string country, AccommType type, int guestNumber, int days, bool isSuperOwned)
         {
             AccommodationName = name;
             LocationCity = city;
@@ -74,7 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             AccommodationMinDaysStay = days;
             GuestNumber = guestNumber;
             IsSuperOwned = isSuperOwned;
-            IsRenovatedInLastYear= false;
+            IsRenovatedInLastYear = false;
         }
     }
 }

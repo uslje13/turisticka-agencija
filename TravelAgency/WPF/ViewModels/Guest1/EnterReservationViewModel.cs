@@ -1,5 +1,6 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
@@ -18,7 +19,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
     {
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; }
-        public LocAccommodationViewModel DTO { get; set; }
+        public LocAccommodationDTO DTO { get; set; }
         public User LoggedInUser { get; set; }
         public RelayCommand searchDatesCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
@@ -30,7 +31,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public DatePicker LastDay { get; set; }
         public NavigationService NavigationService { get; set; }
 
-        public EnterReservationViewModel(LocAccommodationViewModel dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, NavigationService service, ChangedReservationRequest request = null)
+        public EnterReservationViewModel(LocAccommodationDTO dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, NavigationService service, ChangedReservationRequest request = null)
         {
             DTO = dto;
             FirstDate = DateTime.Now;
@@ -85,7 +86,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        public void ExecuteSearchingDates(LocAccommodationViewModel dto, User user, DateTime fDay, DateTime lDay, int days, bool isEnteredOfChange, ChangedReservationRequest request)
+        public void ExecuteSearchingDates(LocAccommodationDTO dto, User user, DateTime fDay, DateTime lDay, int days, bool isEnteredOfChange, ChangedReservationRequest request)
         {
             bool validDates = accResService.CheckDates(fDay, lDay);
             bool validDays = accResService.CheckDays(dto, days);

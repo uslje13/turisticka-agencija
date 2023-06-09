@@ -11,8 +11,8 @@ using System.Windows.Navigation;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.Application.Services;
-using SOSTeam.TravelAgency.Domain.Models.DTO;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -159,7 +159,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     AccommodationReservation potentialReservation = new AccommodationReservation(day, lastDay, int.Parse(EnteredDaysNumber), int.Parse(EnteredGuestNumber), acc.Id, LoggedInUser.Id);
                     if(CheckExistingReservations(potentialReservation, acc))
                     {
-                        AccReservationViewModel littleDto = new AccReservationViewModel(acc.Id, acc.Name, acc.MinDaysStay, day, lastDay, int.Parse(EnteredDaysNumber), int.Parse(EnteredGuestNumber), -1);
+                        AccReservationDTO littleDto = new AccReservationDTO(acc.Id, acc.Name, acc.MinDaysStay, day, lastDay, int.Parse(EnteredDaysNumber), int.Parse(EnteredGuestNumber), -1);
                         dto.AppointmentCatalog.Add(littleDto);
                     }
                 }

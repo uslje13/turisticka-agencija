@@ -1,4 +1,5 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
+﻿using SOSTeam.TravelAgency.Domain.DTO;
+using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class ShowAvailableDatesPage : Page
     {
-        public ShowAvailableDatesPage(LocAccommodationViewModel dto, DateTime firstDay, DateTime lastDay, int days, User user, bool enter, ChangedReservationRequest request, NavigationService service)
+        public ShowAvailableDatesPage(LocAccommodationDTO dto, DateTime firstDay, DateTime lastDay, int days, User user, bool enter, ChangedReservationRequest request, NavigationService service)
         {
             InitializeComponent();
             ShowAvailableDatesViewModel viewModel = new ShowAvailableDatesViewModel(dto, firstDay, lastDay, days, user, Calendar, enter, request, service);

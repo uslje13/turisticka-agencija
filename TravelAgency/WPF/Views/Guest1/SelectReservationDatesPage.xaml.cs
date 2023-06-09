@@ -1,4 +1,5 @@
-﻿using SOSTeam.TravelAgency.Domain.Models;
+﻿using SOSTeam.TravelAgency.Domain.DTO;
+using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
     /// </summary>
     public partial class SelectReservationDatesPage : Page
     {
-        public SelectReservationDatesPage(List<AccReservationViewModel> list, User user, bool enter, ChangedReservationRequest request, NavigationService service)
+        public SelectReservationDatesPage(List<AccReservationDTO> list, User user, bool enter, ChangedReservationRequest request, NavigationService service)
         {
             InitializeComponent();
             SelectResDatesViewModel viewModel = new SelectResDatesViewModel(list, user, enter, request, service);

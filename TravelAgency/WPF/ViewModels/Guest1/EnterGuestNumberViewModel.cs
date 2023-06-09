@@ -1,5 +1,6 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System;
@@ -31,12 +32,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 OnPropertyChaged("EnteredGuestNumber");
             }
         }
-        public AccReservationViewModel forwardedItem { get; set; }
+        public AccReservationDTO forwardedItem { get; set; }
         public ChangedReservationRequest ChangedReservationRequest { get; set; }
         public RelayCommand finishReserveCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
         
-        public EnterGuestNumberViewModel(AccReservationViewModel item, User user, bool enterOfChange, ChangedReservationRequest request, NavigationService service)
+        public EnterGuestNumberViewModel(AccReservationDTO item, User user, bool enterOfChange, ChangedReservationRequest request, NavigationService service)
         {
             forwardedItem = item;
             LoggedInUser = user;
@@ -67,7 +68,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ExecuteSendRequestForChange(forwardedItem, guestNumber);
         }
 
-        private void ExecuteSendRequestForChange(AccReservationViewModel item, int forwadedGuestNumber)
+        private void ExecuteSendRequestForChange(AccReservationDTO item, int forwadedGuestNumber)
         {
             AccommodationReservationService accResService = new AccommodationReservationService();
             if (forwadedGuestNumber > 0)
@@ -95,7 +96,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ExecuteReserveAccommodation(forwardedItem, guestNumber);
         }
 
-        private void ExecuteReserveAccommodation(AccReservationViewModel item, int forwadedGuestNumber)
+        private void ExecuteReserveAccommodation(AccReservationDTO item, int forwadedGuestNumber)
         {
             AccommodationReservationService accResService = new AccommodationReservationService();
             if (forwadedGuestNumber > 0)

@@ -1,6 +1,5 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
-using SOSTeam.TravelAgency.Domain.Models.DTO;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,7 @@ using System.Windows;
 using System.Windows.Navigation;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
@@ -20,8 +20,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public int Days { get; set; }
         public WhateverSearchResultsDTO ForwardedDTO { get; set; }
         public string AccNameTextBlock { get; set; }
-        public AccReservationViewModel SelectedCatalogItem { get; set; }
-        public List<AccReservationViewModel> _appointmentCatalog { get; set; }
+        public AccReservationDTO SelectedCatalogItem { get; set; }
+        public List<AccReservationDTO> _appointmentCatalog { get; set; }
         public NavigationService NavigationService { get; set; }
         public RelayCommand GoBackCommand { get; set; }
         public RelayCommand ReserveCommand { get; set; }
@@ -42,13 +42,20 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_Reserve(object sender)
         {
-            UserService userService = new UserService();
-            User LoggedInUser = userService.GetById(ForwardedDTO.GuestId);
-            AccommodationReservationService reservationService = new AccommodationReservationService();
-            reservationService.AddReservation(SelectedCatalogItem.ReservationFirstDay, SelectedCatalogItem.ReservationLastDay, Guests,
-                                    Days, SelectedCatalogItem.AccommodationId, LoggedInUser);
-            MessageBox.Show("Uspješno rezervisano.");
-            NavigationService.Navigate(new AccommodationBidPage(LoggedInUser, NavigationService));
+            if(SelectedCatalogItem != null)
+            {
+                UserService userService = new UserService();
+                User LoggedInUser = userService.GetById(ForwardedDTO.GuestId);
+                AccommodationReservationService reservationService = new AccommodationReservationService();
+                reservationService.AddReservation(SelectedCatalogItem.ReservationFirstDay, SelectedCatalogItem.ReservationLastDay, Guests,
+                                        Days, SelectedCatalogItem.AccommodationId, LoggedInUser);
+                MessageBox.Show("Uspješno rezervisano.");
+                NavigationService.Navigate(new AccommodationBidPage(LoggedInUser, NavigationService));
+            }
+            else
+            {
+                MessageBox.Show("Niste odabrali termin za rezervaciju!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Execute_GoBack(object sender)

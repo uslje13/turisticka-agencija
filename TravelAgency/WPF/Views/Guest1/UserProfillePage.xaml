@@ -226,13 +226,17 @@
                     </Button>
                 </StackPanel>
             </Popup>
+            <Button Command="{Binding ShowForumsCommand}" Width="110" Height="43" IsEnabled="{Binding Path=CommandsEnabled}"
+                    Style="{StaticResource ButtonStyle}" FontSize="17" Content="Forumi"
+                    Margin="367,128,367,57">
+            </Button>
             <Button Command="{Binding ShowMenuCommand}" Width="110" Height="43" IsEnabled="{Binding Path=CommandsEnabled}"
                     Style="{StaticResource ButtonStyle}" FontSize="17" Content="Glavni meni"
                     Margin="838,128,53,57">
             </Button>
             <Button Command="{Binding SignOutCommand}" Width="110" Height="43" IsEnabled="{Binding Path=CommandsEnabled}"
                     Style="{StaticResource ButtonStyle}" FontSize="17" Content="Odjavi se" 
-                    Margin="646,128,241,57">
+                    Margin="53,128,842,57">
             </Button>
         </Grid>
     </Grid>

@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using SOSTeam.TravelAgency.Repositories;
 using System.Windows;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using SOSTeam.TravelAgency.WPF.Views;
 using System.Windows.Controls;
 using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System.Runtime.InteropServices;
+using SOSTeam.TravelAgency.Domain.DTO;
 
 namespace SOSTeam.TravelAgency.Application.Services
 {
@@ -121,13 +121,13 @@ namespace SOSTeam.TravelAgency.Application.Services
             _accReservationRepository.Save(reservation);
         }
 
-        public void ProcessReservation(AccReservationViewModel forwardedItem, User LoggedInUser, ChangedReservationRequest selectedReservation)
+        public void ProcessReservation(AccReservationDTO forwardedItem, User LoggedInUser, ChangedReservationRequest selectedReservation)
         {
             SaveWantedDates(forwardedItem, LoggedInUser, selectedReservation);
             SaveAdaptedChangedRequest(forwardedItem, selectedReservation);
         }
 
-        private void SaveAdaptedChangedRequest(AccReservationViewModel forwardedItem, ChangedReservationRequest selectedReservation)
+        private void SaveAdaptedChangedRequest(AccReservationDTO forwardedItem, ChangedReservationRequest selectedReservation)
         {
             selectedReservation.NewFirstDay = forwardedItem.ReservationFirstDay;
             selectedReservation.NewLastDay = forwardedItem.ReservationLastDay;
@@ -142,7 +142,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             changedReservationRequestService.Save(selectedReservation);
         }  
 
-        private void SaveWantedDates(AccReservationViewModel forwardedItem, User LoggedInUser, ChangedReservationRequest selectedReservation)
+        private void SaveWantedDates(AccReservationDTO forwardedItem, User LoggedInUser, ChangedReservationRequest selectedReservation)
         {
             WantedNewDate wanted = new WantedNewDate(forwardedItem.AccommodationId, forwardedItem.AccommodationName,
                                                       forwardedItem.AccommodationMinDaysStay, forwardedItem.ReservationFirstDay,
@@ -297,7 +297,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             notificationFromOwnerService.Save(newNotification);
         }
 
-        public bool CheckDays(LocAccommodationViewModel DTO, int DaysDuration)
+        public bool CheckDays(LocAccommodationDTO DTO, int DaysDuration)
         {
             int check = DTO.AccommodationMinDaysStay;
             if (DaysDuration >= check) return true;
@@ -320,13 +320,13 @@ namespace SOSTeam.TravelAgency.Application.Services
             else return false;
         }
 
-        public void CancelReservation(CancelAndMarkResViewModel selectedReservation)
+        public void CancelReservation(CancelAndMarkResDTO selectedReservation)
         {
             SaveCanceledReservation(selectedReservation);
             CreateNotificationToOwner(selectedReservation);
         }
 
-        private void CreateNotificationToOwner(CancelAndMarkResViewModel selectedReservation)
+        private void CreateNotificationToOwner(CancelAndMarkResDTO selectedReservation)
         {
             AccommodationService accommodationService = new AccommodationService();
             NotificationService notificationService = new NotificationService();
@@ -337,7 +337,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             notificationService.Save(notification);
         }
 
-        private void SaveCanceledReservation(CancelAndMarkResViewModel selectedReservation)
+        private void SaveCanceledReservation(CancelAndMarkResDTO selectedReservation)
         {
             AccommodationReservation accommodationReservation = _accReservationRepository.GetById(selectedReservation.ReservationId);
             _accReservationRepository.Delete(selectedReservation.ReservationId);

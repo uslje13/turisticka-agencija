@@ -1,5 +1,5 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
-using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
+using SOSTeam.TravelAgency.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -7,9 +7,9 @@ using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static SOSTeam.TravelAgency.WPF.ViewModels.Guest1.LocAccommodationViewModel;
+using static SOSTeam.TravelAgency.Domain.DTO.LocAccommodationDTO;
 
-namespace SOSTeam.TravelAgency.Domain.Models.DTO
+namespace SOSTeam.TravelAgency.Domain.DTO
 {
     public class WhateverSearchResultsDTO
     {
@@ -18,7 +18,7 @@ namespace SOSTeam.TravelAgency.Domain.Models.DTO
         public int AccommodationMinDaysStay { get; set; }
         public int AccommodationMaxGuests { get; set; }
         public int GuestId { get; set; }
-        public List<AccReservationViewModel> AppointmentCatalog { get; set; }
+        public List<AccReservationDTO> AppointmentCatalog { get; set; }
         public Image Cover { get; set; }
         public string AccommodationType { get; set; }
         public string FullLocation { get; set; }
@@ -33,7 +33,7 @@ namespace SOSTeam.TravelAgency.Domain.Models.DTO
             AccommodationMinDaysStay = accommodationMinDaysStay;
             AccommodationMaxGuests = accommodationMaxGuests;
             GuestId = guestId;
-            AppointmentCatalog = new List<AccReservationViewModel>();
+            AppointmentCatalog = new List<AccReservationDTO>();
             ImageService imageService = new ImageService();
             Cover = imageService.GetAccommodationCover(accommodationId);
             if (Cover == null)
