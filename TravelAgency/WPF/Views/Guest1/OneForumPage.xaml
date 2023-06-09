@@ -4,6 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.Guest1"
+      xmlns:local1="clr-namespace:SOSTeam.TravelAgency.Converter"
+
       mc:Ignorable="d" 
       Background="LightGoldenrodYellow"
       d:DesignHeight="752.04" d:DesignWidth="1024"
@@ -19,16 +21,15 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
-        <TextBlock FontSize="38" FontWeight="Black" Margin="27,10,350,646" FontStyle="Italic"
+        <TextBlock FontSize="38" FontWeight="Black" Margin="27,10,400,646" FontStyle="Italic"
                    Text="{Binding Path=LocationName}"
                    TextAlignment="Left"></TextBlock>
         <TextBlock FontSize="23" FontWeight="Black" Margin="27,58,350,627" FontStyle="Italic"
                    Foreground="DarkGoldenrod"
                    Text="{Binding Path=Description}"
                    TextAlignment="Left"></TextBlock>
-        <Button Height="16" Width="16" Margin="748,50,260,675" Command="{Binding UsebilityInfoCommand}"
-                    IsEnabled="{Binding Path=InfoButton}"
-                    Style="{StaticResource ImageButtonStyle}">
+        <Button Height="16" Width="16" Margin="650,25,339,630" Command="{Binding UsebilityInfoCommand}"
+                Style="{StaticResource ImageButtonStyle}">
             <StackPanel>
                 <Image x:Name="InfoIcon" Source="/Resources/Icons/Guest1/info-icon.png"/>
             </StackPanel>
@@ -40,13 +41,85 @@
                        BorderBrush="DarkGoldenrod" BorderThickness="2"
                        Content="{Binding Path=UsebilityInformation}"/>
         </Popup>
-        <TextBlock Text="{Binding Path=Usebility}" FontStyle="Italic" FontWeight="Black" 
+        <TextBlock Text="{Binding Path=Usebility}" FontStyle="Italic" FontWeight="Black"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Margin="780,10,27,646" FontSize="20" Foreground="DarkGoldenrod" TextAlignment="Right"/>
-        <Border Margin="0,99.04,0,651" Height="651" BorderBrush="DarkGoldenrod" BorderThickness="0,2,0,2"/>
-        <ListBox Margin="0,103.04,0,253">
 
-        </ListBox>
-        <Border Margin="0,498.04,0,251" BorderBrush="DarkGoldenrod" BorderThickness="2"/>
+        <TabControl Margin="0,103.04,0,253" BorderBrush="DarkGoldenrod" Cursor="Hand" BorderThickness="1,1,1,3" >
+            <TabItem BorderBrush="DarkGoldenrod" Height="35" FontWeight="Bold" Foreground="DarkGoldenrod" 
+                     Width="502.5" Header="Svi komentari">
+                <ListBox Name="AllComments" HorizontalContentAlignment="Center" BorderBrush="DarkGoldenrod"
+                         ItemsSource="{Binding AllComments}" Background="White" Margin="10,10,10,10">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="DarkGoldenrod" BorderThickness="2" Margin="10">
+                                <Grid>
+                                    <Rectangle Height="30" Fill="Transparent" HorizontalAlignment="Center"
+                                               RadiusX="5" RadiusY="5"
+                                               Width="910"/>
+                                    <TextBlock Foreground="Black" Padding="4" FontStyle="Italic" 
+                                               TextWrapping="Wrap" Background="Transparent" FontSize="15" 
+                                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                                               Text="{Binding CommentShape}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ContentPresenter/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </TabItem>
+            <TabItem BorderBrush="DarkGoldenrod" Height="35" FontWeight="Bold" Foreground="DarkGoldenrod" 
+                     Width="502.5" Header="Značajni komentari">
+                <ListBox Name="SignificantComments" HorizontalContentAlignment="Center" BorderBrush="DarkGoldenrod"
+                         ItemsSource="{Binding SignificantComments}" Background="White" Margin="10,10,10,10">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="DarkGoldenrod" BorderThickness="2" Margin="10">
+                                <Grid>
+                                    <Rectangle Height="30" Fill="Transparent" HorizontalAlignment="Center"
+                                               RadiusX="5" RadiusY="5"
+                                               Width="910"/>
+                                    <TextBlock Foreground="Black" Padding="4" FontStyle="Italic" 
+                                               TextWrapping="Wrap" Background="Transparent" FontSize="15" 
+                                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                                               Text="{Binding CommentShape}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ContentPresenter/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </TabItem>
+        </TabControl>
+
         <TextBox Margin="27,496,127,193" Width="840" Height="30" BorderBrush="Black" BorderThickness="2"
                  Text="{Binding NewComment}">
             <TextBox.Resources>
@@ -61,24 +134,26 @@
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <Button Height="22" Width="110" Margin="910,496,10,198" Command="{Binding SuperGuestInfoCommand}"
-                    IsEnabled="{Binding Path=InfoButtons}" Cursor="Hand"
-                    Style="{StaticResource ImageButtonStyle}">
+        <Button Height="22" Width="110" Margin="910,496,10,198" Command="{Binding SendCommentCommand}"
+                IsEnabled="{Binding OtherCommandsEnabled}"
+                Cursor="Hand" Style="{StaticResource ImageButtonStyle}">
             <StackPanel Height="22" Width="110">
                 <Image HorizontalAlignment="Left" Height="22" Width="22" Source="/Resources/Icons/Guest1/send.png"/>
                 <Label FontSize="15" Height="28" Width="70" Margin="-5,-54,-20,-29" FontWeight="Bold">Pošalji</Label>
             </StackPanel>
         </Button>
 
-        <Border BorderBrush="DarkGoldenrod" BorderThickness="0,0,0,3" Height="385" 
+        <Border BorderBrush="DarkGoldenrod" BorderThickness="0,0,0,3" Height="388" 
                 Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=FrameworkElement}}"/>
 
 
         <Button Command="{Binding CloseForumCommand}" Width="110" Height="43" FontSize="17" Content="Zatvori" 
-                IsEnabled="{Binding Path=CanCloseForum}"
+                Visibility="{Binding CloseButtonVisibility, Converter={local1:ButtonVisibilityConverter}}" 
+                IsEnabled="{Binding OtherCommandsEnabled}"
                 Style="{StaticResource ButtonStyle}" Margin="367,620,367,57">
         </Button>
         <Button Command="{Binding GoBackCommand}" Width="110" Height="43" FontSize="17" Content="Nazad" 
+                IsEnabled="{Binding OtherCommandsEnabled}"
                 Style="{StaticResource ButtonStyle}" Margin="53,620,842,57">
         </Button>
     </Grid>
