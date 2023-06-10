@@ -85,7 +85,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         public HelpWindowViewModel(MediaElement mediaElement)
         {
             _mediaElement = mediaElement;
-            //VideoPath = "D:\\Desktop1\\Drugi deo projekta\\turisticka-agencija\\TravelAgency\\Resources\\Tutorial\\guest2_tutorial.mkv";
             VideoPath = "D:\\HCI_tutorijal\\guest2_tutorial.mkv";
             BackCommand = new RelayCommand(Execute_BackCommand, CanExecuteMethod);
             PlayCommand = new RelayCommand(Execute_PlayCommand, CanExecuteMethod);
