@@ -49,7 +49,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 AccommodationReservationService reservationService = new AccommodationReservationService();
                 reservationService.AddReservation(SelectedCatalogItem.ReservationFirstDay, SelectedCatalogItem.ReservationLastDay, Guests,
                                         Days, SelectedCatalogItem.AccommodationId, LoggedInUser);
-                MessageBox.Show("Uspješno rezervisano.");
+                MessageBox.Show("Uspješno rezervisano.", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
                 NavigationService.Navigate(new AccommodationBidPage(LoggedInUser, NavigationService));
             }
             else

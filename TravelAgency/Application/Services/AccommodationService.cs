@@ -155,8 +155,12 @@ namespace SOSTeam.TravelAgency.Application.Services
             bool checkCity = item.LocationCity.ToLower().Contains(request.LocationCity.ToLower()) || request.LocationCity.Equals(string.Empty);
             bool checkCountry = item.LocationCountry.ToLower().Contains(request.LocationCountry.ToLower()) || request.LocationCountry.Equals(string.Empty);
             bool checkType = item.AccommodationType == request.AccommodationType || request.AccommodationType == LocAccommodationDTO.AccommType.NOTYPE;
-            bool checkMaxGuests = request.GuestNumber <= item.AccommodationMaxGuests;
-            bool checkDaysStay = request.AccommodationMinDaysStay >= item.AccommodationMinDaysStay;
+            bool checkMaxGuests;
+            bool checkDaysStay;
+            if (request.GuestNumber == 0) checkMaxGuests = true;
+            else checkMaxGuests = request.GuestNumber <= item.AccommodationMaxGuests;
+            if (request.AccommodationMinDaysStay == 0) checkDaysStay = true;
+            else checkDaysStay = request.AccommodationMinDaysStay >= item.AccommodationMinDaysStay;
 
             return checkName && checkCity && checkCountry && checkType && checkMaxGuests && checkDaysStay;
         }

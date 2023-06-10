@@ -110,7 +110,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             if(FirstDate == DateTime.Today && LastDate == DateTime.Today)
             {
                 GoToProcess(false);
-                MessageBox.Show("Obzirom da niste podesili opseg datuma, prikazaćemo rezultate za naredna 3 mjeseca.", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Obzirom da niste podesili opseg datuma, prikazaćemo rezultate za naredna 3 mjeseca.", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
             } 
             else
             {

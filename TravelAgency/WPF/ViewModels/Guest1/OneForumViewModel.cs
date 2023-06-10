@@ -176,7 +176,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 SelectedForum.IsOpen = false;
                 ForumService forumService = new ForumService();
                 forumService.Update(SelectedForum);
-                MessageBox.Show("Uspješno ste zatvorili forum. Trebate imati u vidu da ovim isti niste izbrisali, i da će forum ostati vidljiv zauvijek.", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Uspješno ste zatvorili forum. Trebate imati u vidu da ovim isti niste izbrisali, i da će forum ostati vidljiv zauvijek.", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

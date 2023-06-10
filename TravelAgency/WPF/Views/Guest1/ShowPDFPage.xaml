@@ -23,7 +23,9 @@
         <Label HorizontalContentAlignment="Center" FontSize="24.5" FontWeight="Black" 
                Content="Prikaz izgenerisanog PDF izvještaja" Margin="0,32,0,350" Width="615"/>
         <Grid Margin="0,93,15,205">
-            <pdfViewer:PdfViewerControl x:Name="PdfViewer" Zoom="20"></pdfViewer:PdfViewerControl>
+            <pdfViewer:PdfViewerControl Background="LightGoldenrodYellow" BorderBrush="DarkGoldenrod"
+                                        BorderThickness="2" Cursor="Hand"
+                                        x:Name="PdfViewer" Zoom="50"></pdfViewer:PdfViewerControl>
         </Grid>
         <Button x:Name="GoBackButton" Margin="-190,338,505,57" Content="Nazad" 
                 Style="{StaticResource ButtonStyle}" Command="{Binding GoBackCommand}"/>

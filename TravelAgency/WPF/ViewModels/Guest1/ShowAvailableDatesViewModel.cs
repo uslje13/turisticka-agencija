@@ -200,7 +200,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             if (notOkeyCounter == appropiatedIndexes.Length)
             {
-                MessageBox.Show("U zadatom periodu nema slobodnih termina. Prikazaćemo Vam opcije u sledeća dva meseca.");
+                MessageBox.Show("U zadatom periodu nema slobodnih termina. Prikazaćemo Vam opcije u sledeća dva meseca.", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
                 AnalyzeNextFiftyDays();
             }
             else
@@ -228,7 +228,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
             if (notOkeyCounter == appropiatedIndexes.Length)
             {
-                MessageBox.Show("Nažalost, svi dani u traženom opsegu i dva meseca nakon njega su popunjeni.");
+                MessageBox.Show("Nažalost, svi dani u traženom opsegu i dva meseca nakon njega su popunjeni.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {

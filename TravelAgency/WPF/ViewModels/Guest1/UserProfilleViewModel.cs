@@ -43,6 +43,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public string SuperGuestReservations { get; set; }
         public string SuperGuestConclusion { get; set; }
         public string SuperGuestInformation { get; set; }
+        public string ForumInfo { get; set; }
+        public string InboxInfo { get; set; }
+        public string MenuInfo { get; set; }
         public bool FirstLogging { get; set; }
         
         private bool isPopupOpen;
@@ -56,14 +59,24 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private bool dataGridPopups;
-        public bool DataGridPopups
+        private bool futuredDataGridPopup;
+        public bool FuturedDataGridPopup
         {
-            get { return dataGridPopups; }
+            get { return futuredDataGridPopup; }
             set
             {
-                dataGridPopups = value;
-                OnPropertyChaged("DataGridPopups");
+                futuredDataGridPopup = value;
+                OnPropertyChaged("FuturedDataGridPopup");
+            }
+        }
+        private bool finishedDataGridPopup;
+        public bool FinishedDataGridPopup
+        {
+            get { return finishedDataGridPopup; }
+            set
+            {
+                finishedDataGridPopup = value;
+                OnPropertyChaged("FinishedDataGridPopup");
             }
         }
 
@@ -78,14 +91,55 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private bool statusReportButtons;
-        public bool StatusReportButtons
+        private bool statusPopup;
+        public bool StatusPopup
         {
-            get { return statusReportButtons; }
+            get { return statusPopup; }
             set
             {
-                statusReportButtons = value;
-                OnPropertyChaged("StatusReportButtons");
+                statusPopup = value;
+                OnPropertyChaged("StatusPopup");
+            }
+        }
+        private bool reportPopup;
+        public bool ReportPopup
+        {
+            get { return reportPopup; }
+            set
+            {
+                reportPopup = value;
+                OnPropertyChaged("ReportPopup");
+            }
+        }
+
+        private bool forumPopup;
+        public bool ForumPopup
+        {
+            get { return forumPopup; }
+            set
+            {
+                forumPopup = value;
+                OnPropertyChaged("ForumPopup");
+            }
+        }
+        private bool menuPopup;
+        public bool MenuPopup
+        {
+            get { return menuPopup; }
+            set
+            {
+                menuPopup = value;
+                OnPropertyChaged("MenuPopup");
+            }
+        }
+        private bool inboxPopup;
+        public bool InboxPopup
+        {
+            get { return inboxPopup; }
+            set
+            {
+                inboxPopup = value;
+                OnPropertyChaged("InboxPopup");
             }
         }
 
@@ -120,12 +174,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ThisYearCounter = 0;
             NavigationService = service;
             Notifications = notifications;
-            FirstLogging = false;
-            IsPopupOpen = false;
-            InfoButtons = true;
-            DataGridPopups = false;
-            CommandsEnabled = true;
-            StatusReportButtons = false;
+            InitializeBooleans();
             WizardCounter = 0;
 
             _futuredReservations = new List<CancelAndMarkResDTO>();
@@ -160,6 +209,21 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ShowForumsCommand = new RelayCommand(Execute_ShowForums);
         }
 
+        private void InitializeBooleans()
+        {
+            FirstLogging = false;
+            IsPopupOpen = false;
+            InfoButtons = true;
+            FuturedDataGridPopup = false;
+            FinishedDataGridPopup = false;
+            CommandsEnabled = true;
+            StatusPopup = false;
+            ReportPopup = false;
+            ForumPopup = false;
+            InboxPopup = false;
+            MenuPopup = false;
+        }
+
         private void Execute_ShowForums(object sender)
         {
             NavigationService.Navigate(new AllForumsPage(LoggedInUser, NavigationService));
@@ -169,16 +233,47 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (WizardCounter == 1)
             {
-                DataGridPopups = false;
-                StatusReportButtons = true;
+                FuturedDataGridPopup = false;
+                FinishedDataGridPopup = true;
                 WizardCounter++;
             }
             else if (WizardCounter == 2)
             {
-                StatusReportButtons = false;
-                //za kraj vizarda
+                FinishedDataGridPopup = false;
+                StatusPopup = true;
+                WizardCounter++;
+            }
+            else if (WizardCounter == 3)
+            {
+                StatusPopup = false;
+                ReportPopup = true;
+                WizardCounter++;
+            }
+            else if (WizardCounter == 4)
+            {
+                ReportPopup = false;
+                ForumPopup = true;
+                WizardCounter++;
+            }
+            else if (WizardCounter == 5)
+            {
+                ForumPopup = false;
+                InboxPopup = true;
+                WizardCounter++;
+            }
+            else if (WizardCounter == 6)
+            {
+                InboxPopup = false;
+                MenuPopup = true;
+                WizardCounter++;
+            }
+            else if (WizardCounter == 7)
+            {
+                MenuPopup = false;
+                MessageBox.Show("                   Uživajte u našoj aplikaciji.\nŽelimo Vam puno dobrih i nezaboravnih iskustava!", "Možete započeti korišćenje", MessageBoxButton.OK, MessageBoxImage.Information);
                 CommandsEnabled = true;
                 InfoButtons = true;
+                WizardCounter = 0;
             }
         }
 
@@ -191,7 +286,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                                   + "nakon čega se bodovi resetuju na 0 (ne mogu se akumulirati).\n"
                                   + "Prilikom svake naredne rezervacije se troši jedan bonus poen što donosi popuste,\n"
                                   + "što znači da će super-gost imati 5 rezervacija sa popustom.";
-
             FinishedReservationsInfo = "U tabeli \"Vaše dosadašnje rezervacije\" će biti prikazane sve Vaše realizovane rezervacije.";
             FuturedReservationsInfo = "U tabeli \"Vaše predstojeće rezervacije\" će biti prikazane sve Vaše zakazane rezervacije.";
             StatusesInfo = "U odjeljku \"Status Vaših zahtjeva\" ćete imati uvid u statuse Vaših rezervacija\nkoje želite pomjeriti, "
@@ -199,6 +293,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             ReportInfo = "Klikom na link \"izvještaj\" se otvara stranica za unošenje filtera, na osnovu\n"
                        + "kojih će Vaš izvještaj o svim zakazanim ili otkazanim rezervacijama (zavisno šta\n"
                        + "prethodno izaberete) biti formiran. Takođe ćete imati mogućnost preuzimanja istog u formi PDF fajla.";
+            ForumInfo = "Iza dugmeta \"Forumi\" se nalazi lista svih foruma, među kojima su posebno naglašeni\n"
+                      + "forumi koje ste Vi otvorili. Takođe, ispod pomenutih listi se nalazi forma za otvaranje novog foruma";
+            InboxInfo = "U Vašem inboksu se nalaze sva obavještenja koja su upućena Vama:\n"
+                      + "podsjetnici za ocjenjivanje smještaja u kom ste odsjeli, obavještenja o\n"
+                      + "vlasnikovim odgovorima na Vaše zahtjeve za pomjeranje rezervacija,\nkao i recenzije koje Vam je vlasnik uputio.";
+            MenuInfo = "Klikom na dugme \"Glavni meni\" otvoriće se stranica preko koje možete\n"
+                     + "pristupiti pretrazi, prikazu i rezervaciji smještaja.";
         }
 
         private void Execute_OpenPopup(object sender)
@@ -252,7 +353,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 MessageBox.Show("Sada ćemo Vas upoznati sa osnovnim funkcionalnostima ove aplikacije.", "Dobro došli u SOS-Booking!", MessageBoxButton.OK, MessageBoxImage.Information);
                 CommandsEnabled = false;
                 InfoButtons = false;
-                DataGridPopups = true;
+                FuturedDataGridPopup = true;
                 WizardCounter++;
             }
         }
@@ -343,7 +444,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (Notifications == 0)
             {
-                MessageBox.Show("     Vaš inboks je prazan!\nNemate nepročitanih poruka.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("     Vaš inboks je prazan!\nNemate nepročitanih poruka.", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {

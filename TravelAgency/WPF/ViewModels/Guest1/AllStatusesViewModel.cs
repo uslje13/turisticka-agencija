@@ -76,7 +76,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
             else
             {
-                MessageBox.Show("Odaberite rezervaciju koju želite otkazati.");
+                MessageBox.Show("Odaberite rezervaciju koju želite otkazati.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -95,17 +95,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                     _reservationCancelOptions.Remove(selectedReservation); 
                     ChangedReservationRequest request = FindRequest(selectedReservation);
                     _changedReservationRequests.Remove(request);
-                    MessageBox.Show("Uspješno otkazano!");
+                    MessageBox.Show("Uspješno otkazano!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
                     MessageBox.Show("Odabrana rezervacija se ne može otkazati zbog postavljenog vlasnikovog ograničenja za otkazivanje od " +
-                                    accommodation.MinDaysForCancelation.ToString() + " dana do početka rezervacije.");
+                                    accommodation.MinDaysForCancelation.ToString() + " dana do početka rezervacije.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Odabrana rezervacija se ne može otkazati jer počinje sutra.");
+                MessageBox.Show("Odabrana rezervacija se ne može otkazati jer počinje sutra.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -179,12 +179,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 }
                 else
                 {
-                    MessageBox.Show("Odabrana rezervacija je već procesuirana!");
+                    MessageBox.Show("Odabrana rezervacija je već procesuirana!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Odaberite rezervaciju za procesuiranje.");
+                MessageBox.Show("Odaberite rezervaciju za procesuiranje.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         

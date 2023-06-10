@@ -25,9 +25,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         public ShowPDFPage(string pdfPath, NavigationService service)
         {
             InitializeComponent();
-            ShowPDFViewModel viewModel = new ShowPDFViewModel(service);
-            DataContext = viewModel;
             FileStream stream = new FileStream(pdfPath, FileMode.Open);
+            ShowPDFViewModel viewModel = new ShowPDFViewModel(stream, service);
+            DataContext = viewModel;
             PdfViewer.Load(stream);
         }
     }

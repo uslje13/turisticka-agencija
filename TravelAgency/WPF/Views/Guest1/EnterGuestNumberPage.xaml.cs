@@ -31,19 +31,5 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             EnterGuestNumberViewModel viewModel = new EnterGuestNumberViewModel(item, user, enterOfChange, request, service);
             DataContext = viewModel;
         }
-
-        private void TestEnteredText(object sender, RoutedEventArgs e)
-        {
-            if (GuestNumber.Text.Equals(""))
-            {
-                MessageBox.Show("Unesite broj gostiju.", " ", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else if (!Regex.IsMatch(GuestNumber.Text, @"^[0-9]+$"))
-            {
-                MessageBox.Show("Broj gostiju se mora sastojati od cifara!", " ", MessageBoxButton.OK, MessageBoxImage.Error);
-                GuestNumber.Focus();
-                return;
-            }
-        }
     }
 }

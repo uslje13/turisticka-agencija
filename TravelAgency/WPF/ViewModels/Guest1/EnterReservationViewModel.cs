@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -96,11 +97,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
             else if (!validDates)
             {
-                MessageBox.Show("Nevalidan odabir datuma. Pokušajte ponovo.");
+                MessageBox.Show("Nevalidan odabir datuma. Pokušajte ponovo.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else if (!validDays)
             {
-                MessageBox.Show("Unešeni broj dana boravka je manji od minimalnog za izabrani smeštaj.");
+                MessageBox.Show("Unešeni broj dana boravka je manji od minimalnog za izabrani smeštaj.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

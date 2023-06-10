@@ -49,7 +49,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if(SelectedAccommodation == null)
             {
-                MessageBox.Show("Niste odabrali smještaj čiju ponudu želite da vidite.", "Podsjetnik", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Niste odabrali smještaj čiju ponudu želite da vidite.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {

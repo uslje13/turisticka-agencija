@@ -36,22 +36,22 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
         {
             if (guestsNumber.Text.Equals(""))
             {
-                guestsNumber.Text = "0";
+                return;
             }
             else if (!Regex.IsMatch(guestsNumber.Text, @"^[0-9]+$"))
             {
-                MessageBox.Show("Broj gostiju se mora sastojati od cifara!", " ", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Broj gostiju se mora sastojati od cifara!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 guestsNumber.Focus();
                 return;
             }
 
             if (daysNumber.Text.Equals(""))
             {
-                daysNumber.Text = "100";
+                return;
             }
             else if (!Regex.IsMatch(daysNumber.Text, @"^[0-9]+$"))
             {
-                MessageBox.Show("Broj dana se mora sastojati od cifara!", " ", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Broj dana se mora sastojati od cifara!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 daysNumber.Focus();
                 return;
             }
