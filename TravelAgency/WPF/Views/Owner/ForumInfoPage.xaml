@@ -115,8 +115,10 @@
                         <DataGridTemplateColumn Header="Prijava" Width="50">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Command="{Binding DataContext.FlagComment, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                            CommandParameter="{Binding}" Style="{StaticResource OwnerButtons}" BorderThickness="0"  RenderTransformOrigin="0.5,0.5">
+                                    <Button Command="{Binding DataContext.FlagComment,
+                                          RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                    CommandParameter="{Binding}" Style="{StaticResource OwnerButtons}"
+                                    BorderThickness="0" RenderTransformOrigin="0.5,0.5">
                                         <Button.RenderTransform>
                                             <ScaleTransform ScaleX="1" ScaleY="1" />
                                         </Button.RenderTransform>
@@ -128,6 +130,9 @@
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsReported}" Value="True">
                                                                 <Setter Property="Source" Value="/Resources/Icons/redflag.png" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsReported}" Value="False">
+                                                                <Setter Property="Source" Value="/Resources/Icons/flag.png" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
