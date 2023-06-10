@@ -562,8 +562,10 @@
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="MicrosoftExpressionInteractions" Version="3.0.40218" />
+    <PackageReference Include="PdfiumViewer" Version="2.13.0" />
     <PackageReference Include="PdfSharp" Version="1.50.5147" />
     <PackageReference Include="Syncfusion.Pdf.Net.Core" Version="21.2.9" />
+    <PackageReference Include="Syncfusion.PdfViewer.WPF" Version="21.2.9" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
   </ItemGroup>

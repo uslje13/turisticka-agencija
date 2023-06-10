@@ -20,7 +20,6 @@
         <TextBlock TextAlignment="Center" FontSize="24.5" FontWeight="Black" Text="{Binding Path=TextBlockText}" TextWrapping="Wrap"
                Margin="0,32,0,350" Width="615"/>
         <DataGrid ItemsSource="{Binding _presentedReservations}" SelectionMode="Single"
-                  
                   Style="{StaticResource DataGridStyle}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="0,93,15,205">
             <DataGrid.Columns>
@@ -32,15 +31,17 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Grad" Binding="{Binding AccommodationCity}" Width="1*"/>
-                <DataGridTextColumn Header="Drzava" Binding="{Binding AccommodationCountry}" Width="1*"/>
+                <DataGridTextColumn Header="Država" Binding="{Binding AccommodationCountry}" Width="1*"/>
                 <DataGridTextColumn Header="Tip" Binding="{Binding TypeString}" Width="1*"/>
                 <DataGridTextColumn Header="Prvi dan" Binding="{Binding FirstDayStr}" Width="1*"/>
-                <DataGridTextColumn Header="Drugi dan" Binding="{Binding LastDayStr}" Width="1*"/>
+                <DataGridTextColumn Header="Poslednji dan" Binding="{Binding LastDayStr}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="PdfButton" Command="{Binding GetPDFCommand}" Content="Preuzmi PDF" 
+        <Button x:Name="PdfButton" Command="{Binding GetPDFCommand}" Content="Preuzmi PDF" IsEnabled="{Binding CanGeneratePdf}"
                 Style="{StaticResource ButtonStyle}" Margin="135,295,133,14"/>
         <Button x:Name="GoBackButton" Margin="-190,338,505,57" Content="Nazad" 
                 Style="{StaticResource ButtonStyle}" Command="{Binding GoBackCommand}"/>
+        <Button x:Name="ShowPdf" Command="{Binding ShowPdfCommand}" Style="{StaticResource ButtonStyle}"
+                Content="Prikaži PDF" Margin="475,338,-190,57" IsEnabled="{Binding CanShowPdf}"/>
     </Grid>
 </Page>
