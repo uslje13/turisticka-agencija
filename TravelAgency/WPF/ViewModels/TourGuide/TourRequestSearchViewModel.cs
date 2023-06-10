@@ -26,7 +26,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var searchDateRange = new DateRange(minDate, maxDate);
 
-            var filteredRequests = _tourRequestService.GetAllOnHold().Where(request =>
+            var filteredRequests = _tourRequestService.GetAllRegularOnHold().Where(request =>
                 (string.IsNullOrEmpty(city) || request.City == city) &&
                 (string.IsNullOrEmpty(country) || request.Country == country) &&
                 (!numOfGuests.HasValue || request.MaxNumOfGuests == numOfGuests) &&

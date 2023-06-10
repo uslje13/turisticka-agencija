@@ -50,9 +50,14 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
         }
 
-        public List<TourRequest> GetAllOnHold()
+        public List<TourRequest> GetAllRegularOnHold()
         {
-            return _tourRequestRepository.GetAll().FindAll(r => r.Status == StatusType.ON_HOLD);
+            return _tourRequestRepository.GetAll().FindAll(r => r.Status == StatusType.ON_HOLD && r.ComplexTourRequestId == -1);
+        }
+
+        public List<TourRequest> GetAllComplexRequestsOnHold(int complexTourId)
+        {
+            return _tourRequestRepository.GetAll().FindAll(r => r.Status == StatusType.ON_HOLD && r.ComplexTourRequestId == complexTourId);
         }
 
         public List<TourRequest> GetAllInvalid()

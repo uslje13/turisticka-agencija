@@ -62,6 +62,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public User LoggedUser { get; set; }
 
+        public TourCardViewModel SelectedTourCard { get; set; }
+
         private readonly TourCardCreatorViewModel _tourCardCreator;
 
         public RelayCommand YearSelectionChangedCommand { get; set; }
@@ -106,8 +108,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private void ShowTourStats(object sender)
         {
             var selectedTourCard = sender as TourCardViewModel;
-            StatByTourPage statByTourPage = new StatByTourPage(selectedTourCard);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = statByTourPage;
+            SelectedTourCard = selectedTourCard;
+
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("StatByTour", App.LoggedUser);
+
+            //StatByTourPage statByTourPage = new StatByTourPage(selectedTourCard);
+            //System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = statByTourPage;
         }
 
     }

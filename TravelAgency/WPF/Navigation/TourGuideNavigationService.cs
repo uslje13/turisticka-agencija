@@ -49,9 +49,10 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
         public void LogOut()
         {
             var currentWindow = System.Windows.Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            var signInWindow = new WPF.Views.TourGuide.SignInWindow();
             currentWindow.Close();
 
-            var signInWindow = new WPF.Views.TourGuide.SignInWindow();
+            
             signInWindow.Show();
         }
 
@@ -86,6 +87,35 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                 _mainWindowViewModel.Title = "Stats";
                 MainWindow.DataContext = _mainWindowViewModel;
                 _mainWindow.MainFrame.Content = new StatsMenuPage(loggedUser);
+            }
+            else if (frameName == "StatsOverview")
+            {
+                _mainWindowViewModel.Title = "Tour stats";
+                MainWindow.DataContext = _mainWindowViewModel;
+                _mainWindow.MainFrame.Content = new StatsOverviewPage(App.LoggedUser);
+            }
+            else if (frameName == "StatsByTourOverviewTourOverview")
+            {
+                _mainWindowViewModel.Title = "Tour stats";
+                MainWindow.DataContext = _mainWindowViewModel;
+                _mainWindow.MainFrame.Content = new StatsByTourOverviewPage(App.LoggedUser);
+            }
+            else if (frameName == "TourRequestStats")
+            {
+                _mainWindowViewModel.Title = "Tour stats";
+                MainWindow.DataContext = _mainWindowViewModel;
+                _mainWindow.MainFrame.Content = new TourRequestStatsPage();
+            }
+            else if (frameName == "StatByTour")
+            {
+                _mainWindowViewModel.Title = "Tour stats";
+                MainWindow.DataContext = _mainWindowViewModel;
+                var statsByTourOverviewTourOverviewPage = MainWindow.MainFrame.Content as StatsByTourOverviewPage;
+                var statsByTourOverviewTourOverviewViewModel =
+                    (StatsPerTourOverviewViewModel)statsByTourOverviewTourOverviewPage.DataContext;
+                _mainWindow.MainFrame.Content =
+                    new StatByTourPage(statsByTourOverviewTourOverviewViewModel.SelectedTourCard);
+
             }
             else if(frameName == "Requests")
             {
@@ -133,6 +163,16 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                     _mainWindow.MainFrame.Content = new AddCheckpointsPage(createSuggestedViewModel.CheckpointCards);
 
                 }
+                else if (previousPage is AcceptPartOfComplexTourRequestPage)
+                {
+                    _mainWindowViewModel.Title = "Accept tour part";
+                    MainWindow.DataContext = _mainWindowViewModel;
+                    var acceptPartOfComplexTourPage =
+                        MainWindow.MainFrame.Content as AcceptPartOfComplexTourRequestPage;
+                    var acceptPartOfComplexViewModel =
+                        (AcceptPartOfComplexTourRequestViewModel)acceptPartOfComplexTourPage.DataContext;
+                    _mainWindow.MainFrame.Content = new AddCheckpointsPage(acceptPartOfComplexViewModel.CheckpointCards);
+                }
                 PreviousPages.Push(previousPage);
             }
             else if (frameName == "AddAppointments")
@@ -155,6 +195,7 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                     var createSuggestedViewModel = (CreateSuggestedTourViewModel)createSuggestedTourPage.DataContext;
                     _mainWindow.MainFrame.Content = new AddAppointmentsPage(createSuggestedViewModel.AppointmentCards);
                 }
+                
             }
             else if (frameName == "TourGallery")
             {
@@ -182,6 +223,16 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                     var createSuggestedTourPage = MainWindow.MainFrame.Content as CreateSuggestedTourPage;
                     var createSuggestedViewModel = (CreateSuggestedTourViewModel)createSuggestedTourPage.DataContext;
                     _mainWindow.MainFrame.Content = new TourGalleryPage(createSuggestedViewModel.Images);
+                }
+                else if (previousPage is AcceptPartOfComplexTourRequestPage)
+                {
+                    _mainWindowViewModel.Title = "Accept tour part";
+                    MainWindow.DataContext = _mainWindowViewModel;
+                    var acceptPartOfComplexTourPage =
+                        MainWindow.MainFrame.Content as AcceptPartOfComplexTourRequestPage;
+                    var acceptPartOfComplexViewModel =
+                        (AcceptPartOfComplexTourRequestViewModel)acceptPartOfComplexTourPage.DataContext;
+                    _mainWindow.MainFrame.Content = new TourGalleryPage(acceptPartOfComplexViewModel.Images);
                 }
                 PreviousPages.Push(previousPage);
             }
@@ -231,6 +282,30 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                 var generatePDFReportPage = MainWindow.MainFrame.Content as PDFReportTourGuidePage;
                 var generatePDFReportViewModel = (PDFReportTourGuideViewModel)generatePDFReportPage.DataContext;
                 _mainWindow.MainFrame.Content = new ViewPDFReportPage(generatePDFReportViewModel.PDFPath);
+            }
+            else if (frameName == "ComplexTourRequestsOverview")
+            {
+                _mainWindowViewModel.Title = "Requests";
+                MainWindow.DataContext = _mainWindowViewModel;
+                _mainWindow.MainFrame.Content = new ComplexTourRequestsOverviewPage();
+            }
+            else if (frameName == "ComplexTourRequest")
+            {
+                _mainWindowViewModel.Title = "Requests";
+                MainWindow.DataContext = _mainWindowViewModel;
+                var complexTourRequestsOverviewPage = MainWindow.MainFrame.Content as ComplexTourRequestsOverviewPage;
+                var complexTourRequestsOverviewViewModel =
+                    (ComplexTourRequestsOverviewViewModel)complexTourRequestsOverviewPage.DataContext;
+                _mainWindow.MainFrame.Content =
+                    new ComplexTourRequestPage(complexTourRequestsOverviewViewModel.SelectedComplexTourRequest);
+            }
+            else if (frameName == "AcceptPartOfComplexTour")
+            {
+                _mainWindowViewModel.Title = "Accept tour part";
+                MainWindow.DataContext = _mainWindowViewModel;
+                var complexTourRequestPage = MainWindow.MainFrame.Content as ComplexTourRequestPage;
+                var complexTourRequestViewModel = (ComplexTourRequestViewModel)complexTourRequestPage.DataContext;
+                _mainWindow.MainFrame.Content = new AcceptPartOfComplexTourRequestPage(complexTourRequestViewModel.SelectedTourRequestCard.Id);
             }
 
         }
@@ -372,6 +447,48 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                         if (previousPage is ViewPDFReportPage)
                         {
                             _mainWindowViewModel.Title = "PDF Report";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is ComplexTourRequestsOverviewPage)
+                        {
+                            _mainWindowViewModel.Title = "Requests";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is ComplexTourRequestPage)
+                        {
+                            _mainWindowViewModel.Title = "Requests";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is AcceptPartOfComplexTourRequestPage)
+                        {
+                            _mainWindowViewModel.Title = "Accept tour part";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is StatsOverviewPage)
+                        {
+                            _mainWindowViewModel.Title = "Tour stats";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is StatsByTourOverviewPage)
+                        {
+                            _mainWindowViewModel.Title = "Tour stats";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is TourRequestStatsPage)
+                        {
+                            _mainWindowViewModel.Title = "Tour stats";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is StatByTourPage)
+                        {
+                            _mainWindowViewModel.Title = "Tour stats";
                             _mainWindow.DataContext = _mainWindowViewModel;
                         }
                     }
