@@ -11,8 +11,7 @@ using iTextSharp.text.pdf.draw;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System.Reflection;
-
-
+using System.Globalization;
 
 namespace SOSTeam.TravelAgency.Application.Services
 {
@@ -109,6 +108,7 @@ namespace SOSTeam.TravelAgency.Application.Services
             var renovation = _accommodationStatsService.GetReservationMovesInMonths(year, accommodation.Id);
 
             var temp = new List<string>();
+            CultureInfo serbianCulture = new CultureInfo("sr-RS");
             for (int i = 0; i < 12; i++)
             {
                 temp.Add(year.AddMonths(i).ToString("MMMM"));

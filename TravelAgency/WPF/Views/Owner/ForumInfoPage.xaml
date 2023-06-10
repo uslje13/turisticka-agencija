@@ -55,16 +55,9 @@
             </Border>
             <Border Grid.Column="1" Background="#a3daed" CornerRadius="20" Height="120">
                 <Grid >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="3*"/>
-                    </Grid.RowDefinitions>
-                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0">
-                        <TextBlock Text="{Binding ForumInfo.Title}" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="18"  FontWeight="Heavy" Margin="5,0,5,0"/>
-
-                    </Grid>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-                        <TextBlock Grid.Row="1" Text="{Binding ForumInfo.Description}" VerticalAlignment="Top" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="18" Margin="5,0,5,0"/>
+                    
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Grid.Row="1" Text="{Binding ForumInfo.Description}" VerticalAlignment="Top" TextWrapping="Wrap" FontFamily="{StaticResource OwnerFont}" FontSize="23" FontWeight="Heavy" Margin="5,0,5,0"/>
                     </ScrollViewer>
 
                 </Grid>

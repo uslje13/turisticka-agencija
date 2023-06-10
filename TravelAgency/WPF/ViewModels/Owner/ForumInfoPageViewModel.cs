@@ -27,7 +27,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 }
             }
         }
-        public List<ForumComment> TestComments { get; set; }
         public Forum ForumInfo { get; set; }
         public RelayCommand AddComment { get; private set; }
         public RelayCommand FlagComment { get; private set; }
@@ -45,12 +44,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private UserService _userService;
         private LocationService _locationService;
+        private ForumCommentService _forumCommentService;
         private ForumCommentReportService _forumCommentReportService;
         public ForumInfoPageViewModel(Forum forum)
         {
             _userService = new();
             _locationService = new();
             _forumCommentReportService = new();
+            _forumCommentService = new();
 
             ForumInfo = forum;
             OpenerUsername = _userService.GetById(forum.UserId).Username;
@@ -58,8 +59,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Location = _locationService.GetFullName(location);
             NewComment = "";
 
-            TestComments = new List<ForumComment>();
-            AddTestComments();
+
             FillObservableCollection();
             AddComment = new RelayCommand(Execute_AddComment, CanExecuteAddComment);
             FlagComment = new RelayCommand(Execute_FlagComment, CanExecuteFlagComment);
@@ -89,7 +89,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 false,
                 Roles.VLASNIK
                 );
-            TestComments.Add(forumComment);
+            _forumCommentService.Save(forumComment);
             Comments.Add(new ForumCommentViewModel(
                     _userService.GetById(forumComment.UserId).Username,
                     forumComment,
@@ -107,7 +107,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private void FillObservableCollection()
         {
             Comments = new();
-            foreach(var comment in TestComments) 
+            foreach(var comment in _forumCommentService.GetAllForForum(ForumInfo.Id)) 
             {
                 Comments.Add(new ForumCommentViewModel(
                     _userService.GetById(comment.Id).Username,
@@ -118,18 +118,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
         }
 
-        private void AddTestComments()
-        {
-            ForumComment comment1 = new ForumComment(1, 1, 1, "Brat moj dobri posteni najposteniji.", true, Roles.VLASNIK);
-            ForumComment comment2 = new ForumComment(2, 2, 1, "Nisam bio tu al je Loooooseeeeeeeeeee xD.", false, Roles.GOST1);
-            ForumComment comment3 = new ForumComment(3, 3, 1, "IDE GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS IDE GASSSSSSSSSSS IDE GAAAAAAAAAAAAAAAAAAAAAAS IDE GAAAAAAAAAAAAAAAAAS.", true, Roles.GOST2);
-            ForumComment comment4 = new ForumComment(4, 4, 2, "And here's one more comment.", false, Roles.VODIC);
-
-            TestComments.Add(comment1);
-            TestComments.Add(comment2);
-            TestComments.Add(comment3);
-            TestComments.Add(comment4);
-        }
     }
 
     public class ForumCommentViewModel 

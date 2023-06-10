@@ -24,6 +24,11 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             return forumCommentRepository.GetAll();
         }
+        
+        public List<ForumComment> GetAllForForum(int forumId)
+        {
+            return forumCommentRepository.GetAll().Where(f => f.ForumId == forumId).ToList();
+        }
 
         public ForumComment GetById(int id)
         {

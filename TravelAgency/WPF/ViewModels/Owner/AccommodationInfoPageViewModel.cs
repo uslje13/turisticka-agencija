@@ -132,64 +132,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Location = _locationService.GetFullName(_locationService.GetById(Accommodation.LocationId));
         }
 
-        private void GeneratePDFReport()
-        {
-
-            Document document = new Document();
-
-            string directoryPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            string fileName = $"AccommodationReport_{DateTime.Now.ToString("dd.MM.yyyy mm:hh").Replace(" ", string.Empty).Replace(":", string.Empty).Replace(".", string.Empty)}.pdf";
-
-            string filePath = Path.Combine(directoryPath, fileName);
-
-            // Open the FileStream using the specified file path
-            FileStream fileStream = new FileStream(filePath, FileMode.Create);
-
-            PdfWriter writer = PdfWriter.GetInstance(document, fileStream);
-
-            document.Open();
-
-            Paragraph dateParagraph = new Paragraph(DateTime.Now.ToString("dd.MM.yyyy."));
-            dateParagraph.Alignment = Element.ALIGN_LEFT;
-            document.Add(dateParagraph);
-
-            Paragraph title = new Paragraph("Report on scheduled tours in the period\nfrom " + DateTime.Now.ToString("dd.MM.yyyy")
-                                              + " until " + DateTime.Now.ToString("dd.MM.yyyy."));
-            title.Alignment = Element.ALIGN_CENTER;
-            title.Font.Size = 20;
-            document.Add(title);
-
-            document.Add(new Paragraph(" "));
-
-            Paragraph userInfoHeader = new Paragraph("");
-            userInfoHeader.Font.SetStyle(Font.BOLD);
-            document.Add(userInfoHeader);
-            document.Add(new Paragraph(" "));
-            document.Add(new Paragraph($"Username: {App.LoggedUser.Username}"));
-            document.Add(new Paragraph(" "));
-
-            LineSeparator line = new LineSeparator();
-            document.Add(line);
-            document.Add(new Paragraph(" "));
-
-
-            string logoPath = "../../../Resources/Images/SOSlogo.png";
-            iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(logoPath);
-            logo.Alignment = Element.ALIGN_RIGHT;
-            logo.ScaleAbsolute(100, 100);
-
-            float logoX = document.PageSize.Width - document.RightMargin - logo.ScaledWidth;
-            float logoY = document.PageSize.Height - document.TopMargin - logo.ScaledHeight - 65;
-
-            logo.SetAbsolutePosition(logoX, logoY);
-            writer.DirectContent.AddImage(logo);
-
-            document.Close();
-
-            fileStream.Close();
-        }
-
+        
         private void Execute_NavigateYears(object obj)
         {
             string direction = obj.ToString();
@@ -217,8 +160,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
                 StatsLabel = "Statistika po mesecima";
             }
             OnPropertyChanged("StatsLabel");
-            //GeneratePDFReport();
-            _pDFReportOwnerService.GeneratePDFReport(Accommodation);
 
 
         }
