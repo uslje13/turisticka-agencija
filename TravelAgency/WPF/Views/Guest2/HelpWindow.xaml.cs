@@ -23,9 +23,9 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest2
         public HelpWindow()
         {
             InitializeComponent();
-            HelpWindowViewModel viewModel = new HelpWindowViewModel(this.MainFrame.NavigationService);
+            HelpWindowViewModel viewModel = new HelpWindowViewModel(mediaElement);
             DataContext = viewModel;
-            viewModel.SetStartupPage();
+            mediaElement.Play();
             viewModel.CloseRequested += ViewModel_CloseRequested;
         }
 

@@ -90,6 +90,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     ComplexTourRequest complexTourRequest = new ComplexTourRequest(LoggedInUser.Id);
                     _complexTourRequestService.Save(complexTourRequest);
                     AddRequests(complexTourRequest);
+                    ComplexToursPageViewModel.ComplexTourRequests.Clear();
                     ComplexToursPageViewModel.FillComplexRequests();
                     MessageBox.Show("Uspesno ste kreirali zahtev", "Kreiranje zahteva", MessageBoxButton.OK, MessageBoxImage.Information);
                     CloseWindow();

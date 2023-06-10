@@ -23,11 +23,11 @@
     
     <Grid>
         <Border Margin="0,0,0,566">
-            <StackPanel Margin="0,0,-7,-14">
-                <Button Width="187" Height="36" Margin="657,26,27,100" Command="{Binding HelpCommand}" BorderThickness="1,1,2,2">
+            <StackPanel Margin="0,0,-14,-14">
+                <Button Width="194" Height="36" Margin="650,26,33,100" Command="{Binding HelpCommand}" BorderThickness="1,1,2,2">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/Icons/help--v1.png" Height="33" Width="38"></Image>
-                        <TextBlock  Text=" Pomoc (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
+                        <TextBlock  Text=" Tutorijal (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
                     </StackPanel>
                 </Button>
             </StackPanel>

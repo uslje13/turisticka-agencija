@@ -70,7 +70,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             foreach(var request in _tourRequestService.GetAll())
             {
-                if(request.UserId == LoggedInUser.Id)
+                if(request.UserId == LoggedInUser.Id && request.ComplexTourRequestId == -1)
                 {
                     TourRequests.Add(new RequestViewModel(LoggedInUser.Id, request.City, request.Country, request.Description, request.Language, request.MaxNumOfGuests, request.MaintenanceStartDate, request.MaintenanceEndDate, request.Status));
                 }
