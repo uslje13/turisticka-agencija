@@ -65,12 +65,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private List<ForumViewModel> _forumList;
         private UserService _userService;
         private LocationService _locationService;
-        //private ForumService _forumService;
+        private ForumService _forumService;
+        private AccommodationService _accommodationService;
         public ForumPageViewModel()
         {
             _userService = new();
             _locationService = new();
-            //_forumService = new();
+            _forumService = new();
+            _accommodationService = new();
 
             Locations = new List<Location>(_locationService.GetAll());
             Countries = new ReadOnlyObservableCollection<string>(GetCountries());
@@ -86,8 +88,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_OpenForum(object obj)
         {
-            var opis = "Seo sam u kola, krenuo na Mars Poneo sam sendvice i jedan paradajz (Javi se Nigrutine, dal si u orbiti, ponesi sa Zemlje LUBENICE) Poneo sam vise nego prosli put Vi spremite hentor i 2 grama zljut Jer klantor je jak za moj organizam Na benziskoj pumpi sipam kerozina Svi misle da su marsovci zeleni Ustvari su metalik, roze i debeli";
-            App.OwnerNavigationService.SetPage(new ForumInfoPage(new Forum(SelectedForum.Id,SelectedForum.Id, SelectedForum.Id, SelectedForum.Title,opis,true)));
+            App.OwnerNavigationService.SetPage(new ForumInfoPage(_forumService.GetById(SelectedForum.Id)));
         }
 
         private bool CanExecuteOpenForum(object obj)
@@ -115,14 +116,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private void GetForums()
         {
             // PROMENI NA KRAJU
-            for (int i = 1; i <= 5; i++)
+            var accommodations = _accommodationService.GetAllByUserId(App.LoggedUser.Id);
+            var forums = _forumService.GetAll().Where(f => accommodations.Any(a => a.LocationId == f.LocationId));
+            foreach (var forum in forums)
             {
-                string guestUsername = _userService.GetById(i).Username;
-                string title = $"Forum {i}";
-                var location = _locationService.GetById(i);
+                string guestUsername = _userService.GetById(forum.UserId).Username;
+                string title = forum.Title;
+                var location = _locationService.GetById(forum.LocationId);
                 string locationName = _locationService.GetFullName(location);
 
-                _forumList.Add(new ForumViewModel(i, guestUsername, title, locationName, location.Country, location.City));
+                _forumList.Add(new ForumViewModel(forum.Id, guestUsername, title, locationName, location.Country, location.City));
             }
             Forums.AddRange(_forumList);
         }

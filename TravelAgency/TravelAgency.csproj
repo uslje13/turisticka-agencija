@@ -48,6 +48,7 @@
     <None Remove="Resources\Icons\earth_light.png" />
     <None Remove="Resources\Icons\exclamation_star.png" />
     <None Remove="Resources\Icons\firework.png" />
+    <None Remove="Resources\Icons\flag.png" />
     <None Remove="Resources\Icons\forums.jpg" />
     <None Remove="Resources\Icons\forums.png" />
     <None Remove="Resources\Icons\free-user-icon-3296-thumb.png" />
@@ -107,6 +108,7 @@
     <None Remove="Resources\Icons\plus.png" />
     <None Remove="Resources\Icons\plusicon.png" />
     <None Remove="Resources\Icons\question.png" />
+    <None Remove="Resources\Icons\redflag.png" />
     <None Remove="Resources\Icons\refresh.png" />
     <None Remove="Resources\Icons\renovations.jpg" />
     <None Remove="Resources\Icons\renovations.png" />
@@ -255,6 +257,9 @@
     <Content Include="Resources\Icons\firework.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\flag.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\forums.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -331,6 +336,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\plus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\redflag.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\refresh.png">
@@ -562,6 +570,7 @@
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="iTextSharp" Version="5.5.13.3" />
+    <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="MicrosoftExpressionInteractions" Version="3.0.40218" />
