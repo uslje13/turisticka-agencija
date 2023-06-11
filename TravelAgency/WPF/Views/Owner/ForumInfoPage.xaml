@@ -123,21 +123,24 @@
                                             <ScaleTransform ScaleX="1" ScaleY="1" />
                                         </Button.RenderTransform>
                                         <Button.Content>
-                                            <Image Width="40" Height="40">
-                                                <Image.Style>
-                                                    <Style TargetType="Image">
-                                                        <Setter Property="Source" Value="/Resources/Icons/flag.png" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsReported}" Value="True">
-                                                                <Setter Property="Source" Value="/Resources/Icons/redflag.png" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding IsReported}" Value="False">
-                                                                <Setter Property="Source" Value="/Resources/Icons/flag.png" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Image.Style>
-                                            </Image>
+                                            <StackPanel>
+                                                <Image Width="40" Height="40">
+                                                    <Image.Style>
+                                                        <Style TargetType="Image">
+                                                            <Setter Property="Source" Value="/Resources/Icons/flag.png" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsReported}" Value="True">
+                                                                    <Setter Property="Source" Value="/Resources/Icons/redflag.png" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsReported}" Value="False">
+                                                                    <Setter Property="Source" Value="/Resources/Icons/flag.png" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+                                                <Label Content="{Binding ReportNum}" Margin="-10" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                                            </StackPanel>
                                         </Button.Content>
                                     </Button>
                                 </DataTemplate>

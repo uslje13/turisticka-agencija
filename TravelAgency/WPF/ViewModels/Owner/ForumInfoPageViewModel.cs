@@ -69,7 +69,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             if (obj is ForumCommentViewModel commentViewModel)
             {
-                commentViewModel.IsReported = !commentViewModel.IsReported;
+                if (commentViewModel.IsReported) 
+                {
+                    commentViewModel.IsReported = !commentViewModel.IsReported;
+                    commentViewModel.ReportNum--;
+                    _forumCommentReportService.Delete(App.LoggedUser.Id, commentViewModel.Comment.Id);
+                }
+                else 
+                {
+                    commentViewModel.IsReported = !commentViewModel.IsReported;
+                    commentViewModel.ReportNum++;
+                    _forumCommentReportService.Save(new ForumCommentReport(0, App.LoggedUser.Id, commentViewModel.Comment.Id));
+                }
+                
             }
         }
 
@@ -114,10 +126,10 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             foreach(var comment in _forumCommentService.GetAllForForum(ForumInfo.Id)) 
             {
                 Comments.Add(new ForumCommentViewModel(
-                    _userService.GetById(comment.Id).Username,
+                    _userService.GetById(comment.UserId).Username,
                     comment,
-                    0,
-                    true
+                    _forumCommentReportService.GetReportsNumber(comment.Id),
+                    _forumCommentReportService.IsReported(App.LoggedUser.Id,comment.Id)
                     ));
             }
         }

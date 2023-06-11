@@ -12,7 +12,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         private UserService _userService;
         public string Username { get; private set; }
         public User LoggedInUser { get; private set; }
-        private MainWindow _mainWindow;
         private NotificationService _notificationService;
         private GuestReviewService _guestReviewService;
 
