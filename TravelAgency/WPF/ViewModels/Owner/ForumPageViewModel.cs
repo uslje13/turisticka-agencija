@@ -121,7 +121,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             foreach (var forum in forums)
             {
                 string guestUsername = _userService.GetById(forum.UserId).Username;
-                string title = forum.Title;
+                string title = forum.Description;
                 var location = _locationService.GetById(forum.LocationId);
                 string locationName = _locationService.GetFullName(location);
 

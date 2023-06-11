@@ -228,7 +228,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 
         private void Execute_Cancel(object obj)
         {
-            App.OwnerNavigationService.NavigateMainWindow("Renovation");
+            if (PickDateVisibility == System.Windows.Visibility.Visible) 
+            {
+                ChooseDateVisibility = System.Windows.Visibility.Visible;
+                PickDateVisibility = System.Windows.Visibility.Collapsed;
+            }
+            else 
+            {
+                App.OwnerNavigationService.NavigateMainWindow("Renovation");
+            }
         }
 
         private bool CanExecuteCancel(object obj)
