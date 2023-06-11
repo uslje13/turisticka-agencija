@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,16 +14,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SOSTeam.TravelAgency.WPF.Views.Guest2
+namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
     /// <summary>
-    /// Interaction logic for GeneralHelpPage.xaml
+    /// Interaction logic for ViewPDFReportPage.xaml
     /// </summary>
-    public partial class GeneralHelpPage : Page
+    public partial class ViewPDFReportPage : Page
     {
-        public GeneralHelpPage()
+        public ViewPDFReportPage(string pdfPath)
         {
             InitializeComponent();
+            DataContext = this;
+
+            FileStream stream = new FileStream(@"../../../Resources/PDFReports/TourGuide/" + pdfPath, FileMode.Open);
+            PdfViewer.Load(stream);
         }
     }
 }

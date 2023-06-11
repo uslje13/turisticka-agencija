@@ -1,4 +1,6 @@
-﻿using LiveCharts;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using LiveCharts;
 using LiveCharts.Wpf;
 using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
@@ -6,8 +8,12 @@ using SOSTeam.TravelAgency.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Reflection;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using iTextSharp.text.pdf.draw;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
@@ -18,7 +24,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public Accommodation Accommodation { get; private set; }
         public string Location { get; private set; }
         public string StatsLabel { get; private set; }
-        public Image Image { get; private set; }
+        public Domain.Models.Image Image { get; private set; }
         private ObservableCollection<ReservationViewModel> _reservations;
         public ObservableCollection<ReservationViewModel> Reservations
         {
@@ -89,11 +95,12 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             }
         }
 
-        private List<Image> _images;
+        private List<Domain.Models.Image> _images;
         private LocationService _locationService;
         private ImageService _imageService;
         private AccommodationStatsService _accommodationStatsService;
         private AccommodationReservationService _accommodationReservationService;
+        private PDFReportOwnerService _pDFReportOwnerService;
 
         private int _imageIndex;
 
@@ -109,6 +116,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _accommodationStatsService = new(user.Id);
             _imageService = new();
             _accommodationReservationService = new();
+            _pDFReportOwnerService = new();
 
             GetReservations(accommodation);
             GetImages(accommodation);
@@ -124,6 +132,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             Location = _locationService.GetFullName(_locationService.GetById(Accommodation.LocationId));
         }
 
+        
         private void Execute_NavigateYears(object obj)
         {
             string direction = obj.ToString();
@@ -153,8 +162,6 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             OnPropertyChanged("StatsLabel");
 
 
-
-
         }
 
         private bool CanExecuteToggleChart(object obj)
@@ -177,7 +184,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             _images = _imageService.GetAllForAccommodations().Where(t => t.EntityId == accommodation.Id).ToList();
             if (_images == null)
             {
-                Image = new Image();
+                Image = new Domain.Models.Image();
                 Image.Path = "/Resources/Images/UnknownPhoto.png";
             }
             else

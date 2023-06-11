@@ -94,7 +94,7 @@
                     <Button BorderThickness="1,1,2,2" Style="{StaticResource MenuButtons}" Command="{Binding HelpCommand}" >
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/help--v1.png" Height="40" Width="38"/>
-                            <TextBlock Text="  Pomoc (Ctrl + h)" Height="24" Width="190"/>
+                            <TextBlock Text="  Tutorijal (Ctrl + h)" Height="24" Width="190"/>
                         </StackPanel>
                     </Button>
 

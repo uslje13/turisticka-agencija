@@ -1,4 +1,5 @@
-﻿using SOSTeam.TravelAgency.Application.Services;
+﻿using Microsoft.Win32;
+using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views.Guest2;
@@ -57,8 +58,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 
         private void Execute_HelpCommand(object obj)
         {
-            HelpWindow helpWindow = new HelpWindow();
-            helpWindow.Show();
+            HelpWindow window = new HelpWindow();
+            window.Show();
         }
 
         public void SetStartupPage()

@@ -12,17 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SOSTeam.TravelAgency.WPF.ViewModels.TourGuide;
 
-namespace SOSTeam.TravelAgency.WPF.Views.Guest2
+namespace SOSTeam.TravelAgency.WPF.Views.TourGuide
 {
     /// <summary>
-    /// Interaction logic for TutorialPage.xaml
+    /// Interaction logic for PDFReportTourGuidePage.xaml
     /// </summary>
-    public partial class TutorialPage : Page
+    public partial class PDFReportTourGuidePage : Page
     {
-        public TutorialPage()
+        public PDFReportTourGuidePage()
         {
             InitializeComponent();
+            DataContext = new PDFReportTourGuideViewModel();
         }
     }
 }

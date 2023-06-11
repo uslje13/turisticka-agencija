@@ -223,6 +223,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             _reservationService.Reviewed(ReservationId);
             var currentApp = System.Windows.Application.Current;
 
+            MessageBox.Show("Uspesno ste izvrsili ocenjivanje ture i vodica", "Ocenjivanje", MessageBoxButton.OK, MessageBoxImage.Information);
+
             foreach (Window window in currentApp.Windows)
             {
                 if (window is NotificationsWindow)
