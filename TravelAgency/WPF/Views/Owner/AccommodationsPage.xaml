@@ -64,6 +64,7 @@
             <ListBox x:Name="AccommodationsList" ItemsSource="{Binding Accommodations}" SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#dceefa">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Cursor" Value="Hand" />
                         <Setter Property="RenderTransform">
                             <Setter.Value>
                                 <ScaleTransform ScaleY="0.8"  />

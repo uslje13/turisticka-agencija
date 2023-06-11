@@ -14,6 +14,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public User LoggedInUser { get; private set; }
         private NotificationService _notificationService;
         private GuestReviewService _guestReviewService;
+        private ForumService _forumService;
 
         public ObservableCollection<Notification> Notifications { get; set; }
         public Notification SelectedNotification { get; set; }
@@ -61,6 +62,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             _userService = new();
             _guestReviewService = new();
+            _forumService = new();
             LoggedInUser = App.LoggedUser;
             Username = LoggedInUser.Username;
             IsDropdownOpen = false;
@@ -135,6 +137,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             if (SelectedNotification.Type == Notification.NotificationType.GUESTREVIEW && !_guestReviewService.IsReviewed(SelectedNotification.EntityId))
             {
                 SetPage(new GuestReviewPage(SelectedNotification.EntityId));
+                Execute_ToggleShowNotifications(null);
+            }
+            if (SelectedNotification.Type == Notification.NotificationType.FORUM)
+            {
+                SetPage(new ForumInfoPage(_forumService.GetById(SelectedNotification.EntityId)));
+                Execute_ToggleShowNotifications(null);
+            }
+            if (SelectedNotification.Type == Notification.NotificationType.SUGGESTION)
+            {
+                SetPage(new SuggestionPage());
+                Execute_ToggleShowNotifications(null);
             }
             UpdateNotifications();
         }

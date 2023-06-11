@@ -79,7 +79,6 @@
             <StackPanel Grid.Row="0" VerticalAlignment="Top">
                 <DataGrid Width="730" Height="320" MinRowHeight="80" Background="#dceefa" RowBackground="#dceefa" AlternatingRowBackground="#d2e2ff" ItemsSource="{Binding Comments}"  AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-
                     <DataGrid.RowStyle>
                         <Style TargetType="{x:Type DataGridRow}">
                             <Setter Property="RenderTransform">
@@ -100,6 +99,7 @@
                         </Style>
                     </DataGrid.RowStyle>
                     <DataGrid.Columns>
+                        
                         <DataGridTemplateColumn Width="Auto" MinWidth="120" MaxWidth="180" Header="Korisnik" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate >

@@ -48,11 +48,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand GoBackCommand { get; set; }
         public RelayCommand GoToForum { get; set; }
         public RelayCommand OpenForumCommand { get; set; }
+        private NotificationService _notificationService;
 
         public AllForumsViewModel(User user, NavigationService service)
         {
             LoggedInUser = user;
             NavigationService = service;
+            _notificationService = new();
             ForumService forumService = new ForumService();
             MyForums = new ObservableCollection<Forum>();
             AllForums = new ObservableCollection<Forum>(forumService.GetAll());
@@ -130,6 +132,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 Forum forum = new Forum(LoggedInUser.Id, FindLocation(), SelectedLocation, StartQuestion, true);
                 ForumService forumService = new ForumService();
                 forumService.Save(forum);
+                _notificationService.AddForumNotifications(forum);
                 MessageBox.Show("Uspješno ste kreirali novi forum.", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
                 MyForums.Add(forum);
                 AllForums.Add(forum);

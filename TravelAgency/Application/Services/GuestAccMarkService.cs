@@ -49,7 +49,7 @@ namespace SOSTeam.TravelAgency.Application.Services
 
             if(!Text.Equals(""))
             {
-                Notification notification = new Notification(accommodation.OwnerId, Text, Notification.NotificationType.NOTYPE, false);
+                Notification notification = new Notification(accommodation.OwnerId, Text, Notification.NotificationType.SUGGESTION, false);
                 notificationService.Save(notification);
             }
         }
