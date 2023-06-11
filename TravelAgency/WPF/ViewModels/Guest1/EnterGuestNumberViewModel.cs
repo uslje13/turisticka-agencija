@@ -23,6 +23,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public User LoggedInUser { get; set; }
         public NavigationService NavigationService { get; set; }
         public int guestNumber { get; set; }
+        public string MaximalGuestsNumber { get; set; }
         private string enteredGuestNumber { get; set; }
         public string EnteredGuestNumber
         {
@@ -41,6 +42,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public EnterGuestNumberViewModel(AccReservationDTO item, User user, bool enterOfChange, ChangedReservationRequest request, NavigationService service)
         {
             forwardedItem = item;
+            MaximalGuestsNumber = "*Maksimalan broj gostiju je " + forwardedItem.AccommodationMaxGuests;
             LoggedInUser = user;
             ChangedReservationRequest = request;
             NavigationService = service;

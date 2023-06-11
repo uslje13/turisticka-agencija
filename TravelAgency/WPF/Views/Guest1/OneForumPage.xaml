@@ -42,8 +42,8 @@
                        Content="{Binding Path=UsebilityInformation}"/>
         </Popup>
         <TextBlock Text="{Binding Path=Usebility}" FontStyle="Italic" FontWeight="Black"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Margin="780,10,27,646" FontSize="20" Foreground="DarkGoldenrod" TextAlignment="Right"/>
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="690,47,0,0" FontSize="20" Foreground="DarkGoldenrod" TextAlignment="Right" Width="175"/>
 
         <TabControl Margin="0,103.04,0,253" BorderBrush="DarkGoldenrod" Cursor="Hand" BorderThickness="1,1,1,3" >
             <TabItem BorderBrush="DarkGoldenrod" Height="35" FontWeight="Bold" Foreground="DarkGoldenrod" 

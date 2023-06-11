@@ -18,6 +18,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class EnterReservationViewModel
     {
+        public string MinimalDaysNumber { get; set; }
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; }
         public LocAccommodationDTO DTO { get; set; }
@@ -35,6 +36,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public EnterReservationViewModel(LocAccommodationDTO dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, NavigationService service, ChangedReservationRequest request = null)
         {
             DTO = dto;
+            MinimalDaysNumber = "*Minimalan broj dana je " + DTO.AccommodationMinDaysStay.ToString();
             FirstDate = DateTime.Now;
             LastDate = DateTime.Now;
             FirstDay = fDay;
