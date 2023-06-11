@@ -30,5 +30,10 @@ namespace SOSTeam.TravelAgency.WPF.Views.Owner
             FileStream stream = new FileStream(pdfPath, FileMode.Open);
             PdfViewer.Load(stream);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            App.OwnerNavigationService.NavigateMainWindow("Accommodation");
+        }
     }
 }
