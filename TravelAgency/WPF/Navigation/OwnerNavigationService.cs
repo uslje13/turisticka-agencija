@@ -71,6 +71,11 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
         {
             NavigateMainWindow("Home");
         }
+        
+        public void SetPDFPage(string path)
+        {
+            SetPage(new PDFReportPage(path));
+        }
 
         internal void SetPage(object root)
         {

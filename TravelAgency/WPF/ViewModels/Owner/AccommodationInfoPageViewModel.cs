@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using iTextSharp.text.pdf.draw;
+using SOSTeam.TravelAgency.WPF.Views.Owner;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
 {
@@ -61,6 +62,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         public RelayCommand NavigatePhotos { get; private set; }
         public RelayCommand NavigateYears { get; private set; }
         public RelayCommand ToggleChart { get; private set; }
+        public RelayCommand NavigatePDF { get; private set; }
 
         private bool _isSlidingGridShowing;
         public bool IsSlidingGridShowing
@@ -129,10 +131,16 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             NavigatePhotos = new RelayCommand(Execute_NavigatePhotos, CanExecuteNavigatePhotos);
             NavigateYears = new RelayCommand(Execute_NavigateYears, CanExecuteToggleChart);
             ToggleChart = new RelayCommand(Execute_ToggleChart, CanExecuteToggleChart);
+            NavigatePDF = new RelayCommand(Execute_NavigatePDF, CanExecuteToggleChart);
             Location = _locationService.GetFullName(_locationService.GetById(Accommodation.LocationId));
         }
 
-        
+        private void Execute_NavigatePDF(object obj)
+        {
+            var path = _pDFReportOwnerService.GeneratePDFReport(Accommodation);
+            App.OwnerNavigationService.SetPDFPage(path);
+        }
+
         private void Execute_NavigateYears(object obj)
         {
             string direction = obj.ToString();

@@ -178,7 +178,14 @@
                     <Label FontSize="20" Content="{Binding Accommodation.MinDaysForCancelation}" />
                 </WrapPanel>
                 
+
             </StackPanel>
+            <Button Width="230" Height="35" Margin="0,230,5,0" Command="{Binding NavigatePDF}" RenderTransformOrigin="0.5,0.5">
+                <Label FontFamily="{StaticResource OwnerFont}" FontSize="18">Preuzmi statistiku (PDF)</Label>
+                <Button.RenderTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                </Button.RenderTransform>
+            </Button>
         </Grid>
         
 
