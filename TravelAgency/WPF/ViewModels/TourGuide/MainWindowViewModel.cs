@@ -8,6 +8,7 @@ using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
 using SOSTeam.TravelAgency.Domain.Models;
 using SOSTeam.TravelAgency.WPF.Views.TourGuide;
+using SOSTeam.TravelAgency.WPF.Views.TourGuide.DemoPages;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
@@ -67,6 +68,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         public RelayCommand NavigationButtonCommand { get; set; }
         public RelayCommand ShowUserAccountCommand { get; set; }
         public RelayCommand ShowGeneratePDFReportCommand { get; set; }
+        public RelayCommand LogOutCommand { get; set; }
+        public RelayCommand ShowDemoCommand { get; set; }
 
         #endregion
 
@@ -94,6 +97,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             ShowRequestsMenuCommand = new RelayCommand(ShowRequestsMenu, CanExecuteMethod);
             ShowUserAccountCommand = new RelayCommand(ShowUserAccount, CanExecuteMethod);
             ShowGeneratePDFReportCommand = new RelayCommand(ShowGeneratePDFReport, CanExecuteMethod);
+            LogOutCommand = new RelayCommand(LogOut, CanExecuteMethod);
+            ShowDemoCommand = new RelayCommand(ShowDemo, CanExecuteMethod);
         }
 
         private void UpdateAppointments(object sender, EventArgs e)
@@ -159,6 +164,23 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             App.TourGuideNavigationService.AddPreviousPage();
             App.TourGuideNavigationService.SetMainFrame("GeneratePDFReport", _loggedUser);
+        }
+
+        private void LogOut(object sender)
+        {
+            App.TourGuideNavigationService.LogOut();
+        }
+
+        private void ShowDemo(object sender)
+        {
+            App.TourGuideNavigationService.SetMainFrame("CreateTourDemo", _loggedUser);
+            
+            //var currentWindow = System.Windows.Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            //var mainWindow = (MainWindow)currentWindow;
+
+            //mainWindow.MainFrame.Content = new CreateTourDemoPage();
+            //mainWindow.MainFrame.Content = new AddCheckpointsDemoPage();
+            //mainWindow.MainFrame.Content = new AddAppointmentsDemoPage();
         }
 
     }

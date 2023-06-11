@@ -21,8 +21,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public event PropertyChangedEventHandler? PropertyChanged;
         public User LoggedInUser { get; set; }
         public NavigationService NavigationService { get; set; }
+        public string WhateverInfo { get; set; }
         public List<Accommodation> _potentialAccommodations {  get; set; }
         public List<WhateverSearchResultsDTO> _whateverCatalog { get; set; }
+        private bool isPopupOpen;
+        public bool IsPopupOpen
+        {
+            get { return isPopupOpen; }
+            set
+            {
+                isPopupOpen = value;
+                OnPropertyChaged("IsPopupOpen");
+            }
+        }
         private string enteredGuestNumber { get; set; }
         public string EnteredGuestNumber
         {
@@ -63,7 +74,18 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 OnPropertyChaged("LastDate");
             }
         }
+        private bool commandsEnabled;
+        public bool CommandsEnabled
+        {
+            get { return commandsEnabled; }
+            set
+            {
+                commandsEnabled = value;
+                OnPropertyChaged("CommandsEnabled");
+            }
+        }
         public RelayCommand ProcessEnteredDataCommand { get; set; }
+        public RelayCommand WhateverInfoCommand { get; set; }
 
         public WhateverViewModel(User user, NavigationService service)
         {
@@ -71,10 +93,33 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             NavigationService = service;
             FirstDate = DateTime.Today;
             LastDate = DateTime.Today;
+            IsPopupOpen = false;
+            CommandsEnabled = true;
             _potentialAccommodations = new List<Accommodation>();
             _whateverCatalog = new List<WhateverSearchResultsDTO>();
+            WhateverInfo = "Unesite broj ljudi, opseg datuma kada želite da putujete\ni na koliko dana. " 
+                         + "Sistem pronalazi slobodne smještaje u zadatom opsegu datuma na bilo kojoj\nlokaciji " 
+                         + "koji imaju prostora za taj broj ljudi i za onoliko dana koliko je naznačeno.\n" 
+                         + "Ako ne unesete opseg datuma, onda se traže smještaji koji su slobodni bilo kada\n"
+                         + "za zadati broj ljudi i broj dana. Kada pronađe slobodne smještaje, sistem Vam ih prikazuje\n" 
+                         + "i nudi pronađene slobodne termine koje možete odabrati i time izvršiti rezervaciju.";
 
             ProcessEnteredDataCommand = new RelayCommand(Execute_ProcessData);
+            WhateverInfoCommand = new RelayCommand(Execute_OpenPopup);
+        }
+
+        private void Execute_OpenPopup(object sender)
+        {
+            if (!IsPopupOpen)
+            {
+                IsPopupOpen = true;
+                CommandsEnabled = false;
+            }
+            else
+            {
+                IsPopupOpen = false;
+                CommandsEnabled = true;
+            }
         }
 
         protected void OnPropertyChaged(string propertyName)
@@ -110,7 +155,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             if(FirstDate == DateTime.Today && LastDate == DateTime.Today)
             {
                 GoToProcess(false);
-                MessageBox.Show("Obzirom da niste podesili opseg datuma, prikazaćemo rezultate za naredna 3 mjeseca.", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Obzirom da niste podesili opseg datuma, prikazaćemo rezultate za naredna 3 mjeseca.", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
             } 
             else
             {
@@ -229,7 +274,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (EnteredGuestNumber == null)
             {
-                MessageBox.Show("Unesite broj gostiju.", "Greška", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Unesite broj gostiju.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             else if (!Regex.IsMatch(EnteredGuestNumber, @"^[0-9]+$"))
@@ -245,7 +290,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (EnteredDaysNumber == null)
             {
-                MessageBox.Show("Unesite broj dana.", "Greška", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Unesite broj dana.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             else if (!Regex.IsMatch(EnteredDaysNumber, @"^[0-9]+$"))

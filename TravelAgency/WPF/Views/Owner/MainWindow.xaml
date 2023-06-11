@@ -28,7 +28,52 @@
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="BorderBrush" Value="{StaticResource OwnerBorderColor}" />
             <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="FontFamily" Value="{StaticResource OwnerFont}"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                      Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="LightBlue"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.05" Duration="0:0:0.2" />
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2" />
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="DropdownButton">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="#63aaed" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="FontFamily" Value="{StaticResource OwnerFont}"/>
+            <Setter Property="Cursor" Value="Hand" />
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -97,11 +142,33 @@
                     <Image x:Name="MyButton" Source="/Resources/Icons/notif_bell.png" Width="40" Height="40"></Image>
                     <Button.Style>
                         <Style TargetType="Button">
+                            <Setter Property="Cursor" Value="Hand" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsUnread}" Value="True">
                                     <Setter Property="BorderBrush" Value="Red"/>
                                     <Setter Property="BorderThickness" Value="4"/>
                                 </DataTrigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="LightBlue"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.2" Duration="0:0:0.2" />
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.2" Duration="0:0:0.2" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2" />
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
@@ -111,7 +178,7 @@
                    PlacementTarget="{Binding ElementName=MyButton}"
                    Placement="Bottom"
                        VerticalOffset="-15"
-                       HorizontalOffset="130"
+                       HorizontalOffset="105"
                        IsOpen="{Binding IsDropdownOpen}">
                             <Grid Height="400" Width="300" Background="Transparent">
                                 <Grid.RowDefinitions>
@@ -156,6 +223,7 @@
                                             </i:Interaction.Triggers>
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="{x:Type ListViewItem}">
+                                                    <Setter Property="Cursor" Value="Hand" />
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Read}" Value="False">
                                                             <Setter Property="Background" Value="#93caed"/>
@@ -185,12 +253,12 @@
                                 </Grid>
                                 <Grid >
                                     <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Right">
-                                        <Button Content="Označi kao pročitano" Height="28" FontSize="18" Margin="2,2" Command="{Binding MarkAsReadNotification}" RenderTransformOrigin="0.5,0.5">
+                                        <Button Content="Označi kao pročitano" Height="28" FontSize="18" Margin="2,2" Command="{Binding MarkAsReadNotification}" Style="{StaticResource DropdownButton}" RenderTransformOrigin="0.5,0.5">
                                             <Button.RenderTransform>
                                                 <ScaleTransform ScaleX="1" ScaleY="1" />
                                             </Button.RenderTransform>
                                         </Button>
-                                        <Button Content="Izbriši" Height="28" FontSize="18" Margin="0,2,20,2" Command="{Binding DeleteNotification}" RenderTransformOrigin="0.5,0.5">
+                                        <Button Content="Izbriši" Height="28" FontSize="18" Margin="4,2,25,2" Command="{Binding DeleteNotification}" Style="{StaticResource DropdownButton}" RenderTransformOrigin="0.5,0.5">
                                             <Button.RenderTransform>
                                                 <ScaleTransform ScaleX="1" ScaleY="1" />
                                             </Button.RenderTransform>

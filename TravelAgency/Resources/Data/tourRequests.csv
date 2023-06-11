@@ -14,7 +14,7 @@
 14|Sofija|Bugarska|Bilo sta|bugarski|120|18.05.2023. 12:08|22.05.2023.|25.05.2023.|INVALID|3|False|-1
 15|Nis|Srbija|Deo ture, Nis|srpski|100|06.06.2023. 13:11|15.06.2023.|16.06.2023.|ACCEPTED|3|True|1
 16|Skoplje|Makedonija|Deo ture, Skoplje|srpski|100|06.06.2023. 13:11|16.06.2023.|18.06.2023.|ACCEPTED|3|True|1
-17|Solun|Grcka|Deo ture, Skoplje|grcki|100|06.06.2023. 13:11|20.06.2023.|21.06.2023.|ACCEPTED|3|True|1
+17|Solun|Grcka|Deo ture, Skoplje|grcki|100|06.06.2023. 13:11|16.06.2023.|21.06.2023.|ON_HOLD|3|True|1
 18|Pariz|Francuska|Ajfelov toranj|francuski|100|06.06.2023. 14:52|07.06.2023.|27.06.2023.|INVALID|3|False|2
 19|London|Engleska|Londonski derbi|engleski|100|06.06.2023. 14:52|08.06.2023.|29.06.2023.|INVALID|3|False|2
 20|Bec|Austrija|Wijen bec|ciganski|30|06.06.2023. 21:25|15.06.2023.|17.06.2023.|ON_HOLD|7|False|-1

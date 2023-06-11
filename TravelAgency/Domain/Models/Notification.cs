@@ -11,7 +11,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
     {
         public enum NotificationType
         {
-            GUESTREVIEW, NOTYPE
+            GUESTREVIEW, NOTYPE, FORUM, SUGGESTION
         }
         public int Id { get; set; }
         public int UserId { get; set; }

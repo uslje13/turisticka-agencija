@@ -197,6 +197,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
        
         public List<Image> Images { get; set; }
 
+        public int TourRequestId { get; set; }
+
 
         public RelayCommand ShowAddCheckpointsPageCommand { get; set; }
         public RelayCommand ShowAddImagesCommand { get; set; }
@@ -212,6 +214,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public AcceptTourRequestViewModel(int tourRequestId)
         {
+            TourRequestId = tourRequestId;
             _tourService = new TourService();
             _appointmentService = new AppointmentService();
             _imageService = new ImageService();
@@ -367,7 +370,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
                 _selectedTourRequest.Status = StatusType.ACCEPTED;
                 _tourRequestService.Update(_selectedTourRequest);
-                _newTourNotificationService.CreateNotificationForUser(appointmentId, _selectedTourRequest.UserId);
+                _newTourNotificationService.CreateNotificationForUser(appointmentId, _selectedTourRequest.UserId, TourRequestId);
 
                 App.TourGuideNavigationService.AddPreviousPage();
                 App.TourGuideNavigationService.SetMainFrame("HomePage", App.LoggedUser);

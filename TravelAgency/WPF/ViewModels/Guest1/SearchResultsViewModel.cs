@@ -41,7 +41,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
             else
             {
-                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.");
+                MessageBox.Show("Morate da odaberete smeštaj za rezervaciju.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

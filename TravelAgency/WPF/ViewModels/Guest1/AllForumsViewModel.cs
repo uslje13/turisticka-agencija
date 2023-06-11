@@ -1,6 +1,8 @@
 ﻿using SOSTeam.TravelAgency.Application.Services;
 using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.DTO;
 using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -46,11 +48,13 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public RelayCommand GoBackCommand { get; set; }
         public RelayCommand GoToForum { get; set; }
         public RelayCommand OpenForumCommand { get; set; }
+        private NotificationService _notificationService;
 
         public AllForumsViewModel(User user, NavigationService service)
         {
             LoggedInUser = user;
             NavigationService = service;
+            _notificationService = new();
             ForumService forumService = new ForumService();
             MyForums = new ObservableCollection<Forum>();
             AllForums = new ObservableCollection<Forum>(forumService.GetAll());
@@ -82,12 +86,27 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             LocationService locationService = new LocationService();
             foreach(var location in locationService.GetAll())
             {
-                string fullName = location.City + ", " + location.Country;
-                _locations.Add(fullName);
-                Locations.Add(location.Id, fullName);
+                if(!IsExists(location))
+                {
+                    string fullName = location.City + ", " + location.Country;
+                    _locations.Add(fullName);
+                    Locations.Add(location.Id, fullName);
+                }
             }
             _locations.Add("");
             Locations.Add(-1, "");
+        }
+
+        private bool IsExists(Location location)
+        {
+            ForumService forumService = new ForumService();
+            foreach(var item in forumService.GetAll())
+            {
+                if (item.LocationId == location.Id)
+                    return true;
+            }
+
+            return false;
         }
 
         protected void OnPropertyChaged(string propertyName)
@@ -102,7 +121,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void Execute_GoToForum(object sender)
         {
-
+            Forum? selected = sender as Forum;
+            NavigationService.Navigate(new OneForumPage(LoggedInUser, NavigationService, selected));
         }
 
         private void Execute_OpenForum(object sender)
@@ -112,7 +132,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
                 Forum forum = new Forum(LoggedInUser.Id, FindLocation(), SelectedLocation, StartQuestion, true);
                 ForumService forumService = new ForumService();
                 forumService.Save(forum);
-                MessageBox.Show("Uspješno ste kreirali novi forum.");
+                _notificationService.AddForumNotifications(forum);
+                MessageBox.Show("Uspješno ste kreirali novi forum.", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
                 MyForums.Add(forum);
                 AllForums.Add(forum);
                 SelectedLocation = _locations[_locations.Count-1];

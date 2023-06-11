@@ -32,6 +32,13 @@ namespace SOSTeam.TravelAgency.Application.Services
         {
             _forumCommentReportRepository.Delete(id);
         }
+        
+        public void Delete(int userId, int commentId)
+        {
+            var report = _forumCommentReportRepository.GetAll().Find(r => r.CommentId == commentId && r.UserId == userId);
+            if (report == null) return;
+            _forumCommentReportRepository.Delete(report.Id);
+        }
 
         public void Update(ForumCommentReport forumCommentReport)
         {
@@ -41,6 +48,14 @@ namespace SOSTeam.TravelAgency.Application.Services
         public ForumCommentReport GetById(int id)
         {
             return _forumCommentReportRepository.GetById(id);
+        }
+        public int GetReportsNumber(int commentId)
+        {
+            return _forumCommentReportRepository.GetAll().Where(r => r.CommentId == commentId).Count();
+        }
+        public bool IsReported(int userId, int commentId)
+        {
+            return _forumCommentReportRepository.GetAll().Exists(r => r.UserId == userId && r.CommentId == commentId);
         }
     }
 

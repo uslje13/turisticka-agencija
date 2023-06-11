@@ -1,9 +1,11 @@
-﻿using SOSTeam.TravelAgency.Repositories.Serializer;
+﻿using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Repositories.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SOSTeam.TravelAgency.Domain.Models
 {
@@ -15,6 +17,7 @@ namespace SOSTeam.TravelAgency.Domain.Models
         public string Comment { get; set; }
         public bool WasOnLocation { get; set; }
         public Roles UserType { get; set; }
+        public string CommentShape { get; set; }
 
         public ForumComment()
         {
@@ -35,6 +38,18 @@ namespace SOSTeam.TravelAgency.Domain.Models
             UserType = userType;
         }
 
+        public ForumComment(int userId, int forumId, string comment, bool wasOnLocation, Roles userType)
+        {
+            UserId = userId;
+            ForumId = forumId;
+            Comment = comment;
+            WasOnLocation = wasOnLocation;
+            UserType = userType;
+            UserService userService = new UserService();
+            User user = userService.GetById(userId);
+            CommentShape = user.Username + ": " + comment;
+        }
+
         public string[] ToCSV()
         {
             string[] csvValues = { Id.ToString(), UserId.ToString(), ForumId.ToString(), Comment, WasOnLocation.ToString(), UserType.ToString() };
@@ -52,14 +67,23 @@ namespace SOSTeam.TravelAgency.Domain.Models
                 WasOnLocation = false;
             else
                 WasOnLocation = true;
-            if (values[i++].Equals("VLASNIK"))
-                UserType = Roles.VLASNIK;
-            else if (values[i++].Equals("VODIC"))
-                UserType = Roles.VODIC;
-            else if (values[i++].Equals("GOST1"))
-                UserType = Roles.GOST1;
-            else if (values[i++].Equals("GOST2"))
-                UserType = Roles.GOST2;
+
+            UserType = FindUserType(values[i++]);
+            UserService userService = new UserService();
+            User user = userService.GetById(UserId);
+            CommentShape = user.Username + ": " + Comment;
+        }
+
+        private Roles FindUserType(string value)
+        {
+            if (value.Equals("VLASNIK"))
+                return Roles.VLASNIK;
+            else if (value.Equals("VODIC"))
+                return Roles.VODIC;
+            else if (value.Equals("GOST1"))
+                return Roles.GOST1;
+            else
+                return Roles.GOST2;
         }
     }
 }

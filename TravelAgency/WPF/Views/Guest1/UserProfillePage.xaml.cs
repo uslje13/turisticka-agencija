@@ -28,18 +28,5 @@ namespace SOSTeam.TravelAgency.WPF.Views.Guest1
             UserProfilleViewModel viewModel = new UserProfilleViewModel(user, notifications, service);
             DataContext = viewModel;
         }
-
-        private void TestOpeningInbox(object sender, RoutedEventArgs e)
-        {
-            Button? targetButton = (sender as Button);
-            if (targetButton != null)
-            {
-                //InboxButton.Content = "Inbox";
-                Binding binding = new Binding();
-                binding.Source = "   ";
-                Messages.SetBinding(TextBlock.TextProperty, binding);
-                InboxButton.Background = new SolidColorBrush(Colors.LightGoldenrodYellow);
-            }
-        }
     }
 }

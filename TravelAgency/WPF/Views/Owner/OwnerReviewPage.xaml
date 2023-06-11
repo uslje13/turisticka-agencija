@@ -70,6 +70,7 @@
 
                     <DataGrid.RowStyle>
                         <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="Cursor" Value="Hand" />
                             <Setter Property="RenderTransform">
                                 <Setter.Value>
                                     <ScaleTransform ScaleY="0.8" />

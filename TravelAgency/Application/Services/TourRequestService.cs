@@ -50,9 +50,14 @@ namespace SOSTeam.TravelAgency.Application.Services
             }
         }
 
-        public List<TourRequest> GetAllOnHold()
+        public List<TourRequest> GetAllRegularOnHold()
         {
-            return _tourRequestRepository.GetAll().FindAll(r => r.Status == StatusType.ON_HOLD);
+            return _tourRequestRepository.GetAll().FindAll(r => r.Status == StatusType.ON_HOLD && r.ComplexTourRequestId == -1);
+        }
+
+        public List<TourRequest> GetAllComplexRequestsOnHold(int complexTourId)
+        {
+            return _tourRequestRepository.GetAll().FindAll(r => r.Status == StatusType.ON_HOLD && r.ComplexTourRequestId == complexTourId);
         }
 
         public List<TourRequest> GetAllInvalid()
@@ -75,6 +80,11 @@ namespace SOSTeam.TravelAgency.Application.Services
             DateTime now = DateTime.Now;
             DateTime yearAgo = DateTime.Now.AddYears(-1);
             return _tourRequestRepository.GetAll().FindAll(r => r.CreationTime <= now && r.CreationTime >= yearAgo);
+        }
+
+        public List<TourRequest> GetAllByComplexRequestId(int complexRequestId)
+        {
+            return _tourRequestRepository.GetAll().FindAll(r => r.ComplexTourRequestId == complexRequestId);
         }
 
         public List<TourRequest> GetComplexRequestParts(int complexRequestId)

@@ -187,6 +187,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
-        
     </Grid>
 </Page>

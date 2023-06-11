@@ -62,6 +62,8 @@ namespace SOSTeam.TravelAgency.Application.Services
                 NewTourNotification notification = new NewTourNotification
                 {
                     AppointmentId = appointmentId,
+                    GuideId = App.LoggedUser.Id,
+                    RequestId = -1,
                     GuestId = user.Id,
                     IsRead = false,
                     Type = NotificationType.STATS_MADE
@@ -71,16 +73,23 @@ namespace SOSTeam.TravelAgency.Application.Services
             SaveAll(notifications);
         }
 
-        public void CreateNotificationForUser(int appointmentId, int userId)
+        public void CreateNotificationForUser(int appointmentId, int userId, int tourRequestId)
         {
             NewTourNotification notification = new NewTourNotification
             {
                 AppointmentId = appointmentId,
+                GuideId = App.LoggedUser.Id,
+                RequestId = tourRequestId,
                 GuestId = userId,
                 IsRead = false,
                 Type = NotificationType.REQUESTED
             };
             Save(notification);
+        }
+
+        public List<NewTourNotification> GetAllByGuideId(int guideId)
+        {
+            return _newTourNotificationRepository.GetAll().FindAll(nt => nt.GuideId == guideId);
         }
 
     }

@@ -50,6 +50,16 @@ namespace SOSTeam.TravelAgency.Application.Services
             _notificationRepository.Update(notification);
         }
 
+        public void AddForumNotifications(Forum forum)
+        {
+            var owners = _accommodationRepository.GetAll().Where(a => a.LocationId == forum.LocationId).DistinctBy(a => a.OwnerId);
+            foreach (var accommodation in owners) 
+            {
+                Save(new Notification(accommodation.OwnerId, "Otvoren je novi forum na lokaciji " + forum.LocationName, Notification.NotificationType.FORUM, false, forum.Id));
+                
+            }
+        }
+
         public void Refresh(int userId) 
         {
             foreach (var reservation in _accommodationReservationRepository.GetAll())

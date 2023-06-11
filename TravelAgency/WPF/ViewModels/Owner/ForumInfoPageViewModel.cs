@@ -69,13 +69,29 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
         {
             if (obj is ForumCommentViewModel commentViewModel)
             {
-                commentViewModel.IsReported = !commentViewModel.IsReported;
+                if (commentViewModel.IsReported) 
+                {
+                    commentViewModel.IsReported = !commentViewModel.IsReported;
+                    commentViewModel.ReportNum--;
+                    _forumCommentReportService.Delete(App.LoggedUser.Id, commentViewModel.Comment.Id);
+                }
+                else 
+                {
+                    commentViewModel.IsReported = !commentViewModel.IsReported;
+                    commentViewModel.ReportNum++;
+                    _forumCommentReportService.Save(new ForumCommentReport(0, App.LoggedUser.Id, commentViewModel.Comment.Id));
+                }
+                
             }
         }
 
         private bool CanExecuteFlagComment(object obj)
         {
-            return true;
+            if (obj is ForumCommentViewModel commentViewModel)
+            {
+                return (!commentViewModel.Comment.WasOnLocation) && commentViewModel.Comment.UserType != Roles.VLASNIK;
+            }
+            return false;
         }
 
         private void Execute_AddComment(object obj)
@@ -110,29 +126,82 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Owner
             foreach(var comment in _forumCommentService.GetAllForForum(ForumInfo.Id)) 
             {
                 Comments.Add(new ForumCommentViewModel(
-                    _userService.GetById(comment.Id).Username,
+                    _userService.GetById(comment.UserId).Username,
                     comment,
-                    0,
-                    true
+                    _forumCommentReportService.GetReportsNumber(comment.Id),
+                    _forumCommentReportService.IsReported(App.LoggedUser.Id,comment.Id)
                     ));
             }
         }
 
     }
 
-    public class ForumCommentViewModel 
+    public class ForumCommentViewModel : ViewModel
     {
-        public string Username { get; set; }
-        public ForumComment Comment { get; set; }
-        public int ReportNum { get; set; }
-        public bool IsReported { get; set; }
+        private string _username;
+        private ForumComment _comment;
+        private int _reportNum;
+        private bool _isReported;
+
+        public string Username
+        {
+            get { return _username; }
+            set
+            {
+                if (_username != value)
+                {
+                    _username = value;
+                    OnPropertyChanged(nameof(Username));
+                }
+            }
+        }
+
+        public ForumComment Comment
+        {
+            get { return _comment; }
+            set
+            {
+                if (_comment != value)
+                {
+                    _comment = value;
+                    OnPropertyChanged(nameof(Comment));
+                }
+            }
+        }
+
+        public int ReportNum
+        {
+            get { return _reportNum; }
+            set
+            {
+                if (_reportNum != value)
+                {
+                    _reportNum = value;
+                    OnPropertyChanged(nameof(ReportNum));
+                }
+            }
+        }
+
+        public bool IsReported
+        {
+            get { return _isReported; }
+            set
+            {
+                if (_isReported != value)
+                {
+                    _isReported = value;
+                    OnPropertyChanged(nameof(IsReported));
+                }
+            }
+        }
 
         public ForumCommentViewModel(string username, ForumComment comment, int reportNum, bool isReported)
         {
-            Username = username;
-            Comment = comment;
-            ReportNum = reportNum;
-            IsReported = isReported;
+            _username = username;
+            _comment = comment;
+            _reportNum = reportNum;
+            _isReported = isReported;
         }
     }
+
 }
