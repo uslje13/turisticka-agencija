@@ -428,7 +428,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
         {
             foreach(var request in _tourRequestService.GetAll())
             {
-                if(request.Status == StatusType.ACCEPTED && !request.IsNotificationViewed && request.UserId == LoggedInUser.Id)
+                if(request.Status == StatusType.ACCEPTED && !request.IsNotificationViewed && request.UserId == LoggedInUser.Id && request.ComplexTourRequestId == -1)
                 {
                     MessageBox.Show("Vas zahtev za turom je prihvacen. Novu turu mozete pronaci u prozoru sa svim turama (mozete pogledati i rezervisati odredjeni termin)","Obavestenje", MessageBoxButton.OK,MessageBoxImage.Information);
                     request.IsNotificationViewed = true;

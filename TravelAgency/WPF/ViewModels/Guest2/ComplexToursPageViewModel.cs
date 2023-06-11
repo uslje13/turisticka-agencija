@@ -63,7 +63,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             {
                 foreach (var request in _tourRequestService.GetComplexRequestParts(complexRequest.Id))
                 {
-                    if(request.Status == StatusType.ACCEPTED) counter++;
+                    if(request.Status == StatusType.ACCEPTED && request.UserId == LoggedInUser.Id) counter++;
                     if(counter == _tourRequestService.GetComplexRequestParts(complexRequest.Id).Count)
                     {
                         complexRequest.Status = StatusType.ACCEPTED;
