@@ -189,44 +189,41 @@
             <!-- Num. of requests -->
             <Label Grid.Row="3" Content="Number of requests" FontSize="18" Margin="15 0 0 0" VerticalAlignment="Top"/>
 
-            <ListBox Grid.Row="4">
-                <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding NumOfTourRequestsPerYears}">
-                    <ItemsControl.ItemTemplate>
+            <ListBox Grid.Row="4" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Center"
+                     VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding NumOfTourRequestsPerYears}">
+                <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <!-- Year card -->
-                            <Grid Grid.Row="4" Height="50" Width="360" Background="AliceBlue">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="50"></RowDefinition>
-                                    <RowDefinition Height="Auto"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0">
+                            <Grid Height="50" Width="360" Background="AliceBlue">
+
+                                <Grid Grid.Row="0" Grid.Column="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="90"></ColumnDefinition>
                                         <ColumnDefinition></ColumnDefinition>
                                         <ColumnDefinition Width="63"></ColumnDefinition>
-                                        <ColumnDefinition Width="40"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="DarkGray" BorderThickness="1"/>
+                                    <Border Grid.Column="0" Grid.ColumnSpan="3" BorderBrush="DarkGray" BorderThickness="1"/>
                                     <Image Grid.Column="0" Source="/Resources/Icons/calendar_year.png" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                     <TextBlock Grid.Column="0" Text="{Binding Year}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Margin="0 0 10 0" FontWeight="DemiBold"/>
                                     <Image Grid.Column="2" Source="/Resources/Icons/num_of_req.png" Width="35" HorizontalAlignment="Left"/>
-                                    <TextBlock Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding NumOfRequestsPerYear}" FontSize="16" Margin="0 0 5 0" FontWeight="DemiBold"/>
-                                    <Button Grid.Column="3" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand"
-                                            Command="{Binding DataContext.ShowNumOfRequestsPerMonthCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                                            CommandParameter="{Binding }">
-                                        <Image Source="/Resources/Icons/arrow_drop.png" Width="20"/>
-                                    </Button>
+                                    <TextBlock Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding NumOfRequestsPerYear}" FontSize="16" Margin="0 0 15 0" FontWeight="DemiBold"/>
                                 </Grid>
+
+                                <Button BorderBrush="Transparent" Background="Transparent" Cursor="Hand"
+                                        Command="{Binding DataContext.ShowNumOfRequestsPerMonthCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                        CommandParameter="{Binding }">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid>
+                                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                            </Button>
                             </Grid>
-                            
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Vertical"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
             </ListBox>
 
             <!-- System tour -->
@@ -261,7 +258,7 @@
 
                     <WrapPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3 0 0 0">
                         <TextBlock Text="{Binding Country}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"/>
-                        <TextBlock Text=" ," HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"/>
+                        <TextBlock Text=", " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"/>
                         <TextBlock Text="{Binding City}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"/>
                     </WrapPanel>
                     
@@ -301,7 +298,6 @@
                 </Grid>
 
             </Grid>
-
         </Grid>
     </ScrollViewer>
 </Page>

@@ -1,17 +1,17 @@
-﻿<Page x:Class="SOSTeam.TravelAgency.WPF.Views.TourGuide.AddAppointmentsPage"
+﻿<Page x:Class="SOSTeam.TravelAgency.WPF.Views.TourGuide.DemoPages.AddAppointmentsDemoPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit.NET5"
-       xmlns:tourguide="clr-namespace:SOSTeam.TravelAgency.WPF.ViewModels.TourGuide"
+      xmlns:local="clr-namespace:SOSTeam.TravelAgency.WPF.Views.TourGuide.DemoPages"
+      xmlns:sys="clr-namespace:System;assembly=System.Runtime"
       xmlns:tourGuide="clr-namespace:SOSTeam.TravelAgency.WPF.ValidationRules.TourGuide"
-      xmlns:sys="clr-namespace:System;assembly=mscorlib"
-      d:DataContext="{d:DesignInstance Type=tourguide:AddAppointmentsViewModel}"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d" 
       d:DesignHeight="636" d:DesignWidth="430"
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
-      Title="AddDatesAndTimePage">
+      Title="AddAppointmentsDemoPage">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>
@@ -34,29 +34,8 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Date:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Height="16"/>
             <DatePicker x:Name="DatePicker" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="266" Height="25" SelectedDateFormat="Short"
-                        BorderBrush="DarkGray" BorderThickness="1.5" DisplayDateStart="{x:Static sys:DateTime.Now}" Text="{Binding Start, StringFormat='dd.MM.yyyy. HH:mm'}">
-                <DatePicker.SelectedDate>
-                    <Binding Path="Start" StringFormat="dd.MM.yyyy. HH:mm" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
-                        <Binding.ValidationRules>
-                            <tourGuide:DateTimeValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"></tourGuide:DateTimeValidationRule>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </DatePicker.SelectedDate>
-                <Validation.ErrorTemplate>
-                    <ControlTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <AdornedElementPlaceholder Grid.Column="0" Grid.Row="0" x:Name="textBox"></AdornedElementPlaceholder>
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding [0].ErrorContent}" Foreground="Red"></TextBlock>
-                        </Grid>
-                    </ControlTemplate>
-                </Validation.ErrorTemplate>
+                        BorderBrush="DarkGray" BorderThickness="1.5" DisplayDateStart="{x:Static sys:DateTime.Now}" Text="{Binding Start, StringFormat='dd.MM.yyyy. HH:mm'}"
+                        SelectedDate="{Binding Start}">
             </DatePicker>
             <Image Grid.Column="1" Grid.Row="1" Source="/Resources/Icons/kalendar_datumi.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="26"></Image>
         </Grid>
@@ -72,55 +51,19 @@
                 <RowDefinition Height="1.6*"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Time:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Height="16"/>
-            <tk:TimePicker x:Name="TimePicker" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="266" Height="25"
-                           BorderBrush="DarkGray" BorderThickness="1.5" TextAlignment="Left" FormatString='HH:mm'>
-                <tk:TimePicker.Value>
-                    <Binding Path="Start " UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True" StringFormat="HH:mm">
-                        <Binding.ValidationRules>
-                            <tourGuide:DateTimeValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"></tourGuide:DateTimeValidationRule>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </tk:TimePicker.Value>
-                <Validation.ErrorTemplate>
-                    <ControlTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <AdornedElementPlaceholder Grid.Column="0" Grid.Row="0" x:Name="textBox"></AdornedElementPlaceholder>
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding [0].ErrorContent}" Foreground="Red"></TextBlock>
-                        </Grid>
-                    </ControlTemplate>
-                </Validation.ErrorTemplate>
-            </tk:TimePicker>
+            <xctk:TimePicker x:Name="TimePicker" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="266" Height="25"
+                           BorderBrush="DarkGray" BorderThickness="1.5" TextAlignment="Left" FormatString='HH:mm'
+                           Value="{Binding Start}">
+            </xctk:TimePicker>
             <Image Grid.Column="1" Grid.Row="1" Source="/Resources/Icons/clock.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="26"></Image>
         </Grid>
         <!-- Add button -->
-        <Button Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="296" Height="25" BorderBrush="DarkGray" BorderThickness="1.5"
+        <Button x:Name="AddButton"  Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="296" Height="25" BorderBrush="DarkGray" BorderThickness="1.5"
                 Cursor="Hand"
-                Content="{Binding ButtonContent}" FontSize="14"
-                Command="{Binding AddAppointmentCommand}">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Content" Value="{Binding ButtonContent}"/>
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding ElementName= DatePicker, Path=(Validation.HasError)}" Value="False"></Condition>
-                                <Condition Binding="{Binding ElementName= TimePicker, Path=(Validation.HasError)}" Value="False"></Condition>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="IsEnabled" Value="True"></Setter>
-                        </MultiDataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
+                Content="Add" FontSize="14"
+                Click="AddAppointment_OnClick">
         </Button>
-        
+
         <!-- Clear -->
         <Grid Grid.Row="3" Height="45" Width="430" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Grid.ColumnDefinitions>

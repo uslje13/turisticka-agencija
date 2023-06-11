@@ -13,6 +13,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
     {
         public int Id { get; set; }
         public int AppointmentId { get; set; }
+        public int RequestId { get; set; }
+        public int GuideId { get; set; }
         public bool IsRead { get; set; }
         public int GuestId { get; set; }
         public NotificationType Type { get; set; }
@@ -21,6 +23,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
         {
             Id = -1;
             AppointmentId = -1;
+            RequestId = -1;
+            GuideId = -1;
             IsRead = false;
             GuestId = -1;
             Type = NotificationType.UNKNOWN;
@@ -30,9 +34,11 @@ namespace SOSTeam.TravelAgency.Domain.Models
         {
             Id = int.Parse(values[0]);
             AppointmentId = int.Parse(values[1]);
-            IsRead = bool.Parse(values[2]);
-            GuestId = int.Parse(values[3]);
-            Type = values[4] switch
+            GuideId = int.Parse(values[2]);
+            RequestId = int.Parse(values[3]);
+            IsRead = bool.Parse(values[4]);
+            GuestId = int.Parse(values[5]);
+            Type = values[6] switch
             {
                 "REQUESTED" => NotificationType.REQUESTED,
                 "STATS_MADE" => NotificationType.STATS_MADE,
@@ -46,6 +52,8 @@ namespace SOSTeam.TravelAgency.Domain.Models
             {
                 Id.ToString(),
                 AppointmentId.ToString(),
+                GuideId.ToString(),
+                RequestId.ToString(),
                 IsRead.ToString(),
                 GuestId.ToString(),
                 Type.ToString()

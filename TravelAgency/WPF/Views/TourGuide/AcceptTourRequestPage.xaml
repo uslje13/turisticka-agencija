@@ -13,9 +13,7 @@
       Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
       Title="AcceptTourRequestPage">
 
-    <Page.Resources>
-        <behavior:DatePickerBehavior x:Key="DatePickerBehavior" />
-    </Page.Resources>
+   
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Hidden">

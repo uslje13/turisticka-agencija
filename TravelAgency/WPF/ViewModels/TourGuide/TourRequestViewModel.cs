@@ -166,7 +166,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _tourRequestService = new TourRequestService();
             _tourRequestSearch = new TourRequestSearchViewModel();
             var tourRequestCardCreator = new TourRequestCardCreatorViewModel();
-            _tourRequestCards = tourRequestCardCreator.CreateTourRequestCards();
+            _tourRequestCards = tourRequestCardCreator.CreateRegularTourRequestCards();
 
             Languages = GetLanguages();
             Countries = GetCountries();
@@ -229,7 +229,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         {
             var languages = new ObservableCollection<string>();
 
-            foreach (var request in _tourRequestService.GetAllOnHold())
+            foreach (var request in _tourRequestService.GetAllRegularOnHold())
             {
                 languages.Add(request.Language);
             }
@@ -242,7 +242,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private ObservableCollection<string> GetCities()
         {
             var cities = new ObservableCollection<string>();
-            foreach (var request in _tourRequestService.GetAllOnHold())
+            foreach (var request in _tourRequestService.GetAllRegularOnHold())
             {
                 cities.Add(request.City);
             }
@@ -255,7 +255,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private ObservableCollection<string> GetCountries()
         {
             var countries = new ObservableCollection<string>();
-            foreach (var request in _tourRequestService.GetAllOnHold())
+            foreach (var request in _tourRequestService.GetAllRegularOnHold())
             {
                 countries.Add(request.Country);
             }
@@ -268,7 +268,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private List<Location> GetLocations()
         {
             var locations = new List<Location>();
-            foreach (var request in _tourRequestService.GetAllOnHold())
+            foreach (var request in _tourRequestService.GetAllRegularOnHold())
             {
                 var location = new Location();
                 location.City = request.City;
@@ -315,7 +315,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             Cities = GetCities();
 
             var tourRequestCardCreator = new TourRequestCardCreatorViewModel();
-            TourRequestCards = tourRequestCardCreator.CreateTourRequestCards();
+            TourRequestCards = tourRequestCardCreator.CreateRegularTourRequestCards();
         }
 
         private void ShowAcceptTourRequestForm(object sender)

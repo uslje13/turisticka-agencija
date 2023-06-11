@@ -1,18 +1,18 @@
-﻿using System;
+﻿using SOSTeam.TravelAgency.Application.Services;
+using SOSTeam.TravelAgency.Commands;
+using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.Converters;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SOSTeam.TravelAgency.Application.Services;
-using SOSTeam.TravelAgency.Commands;
-using SOSTeam.TravelAgency.Domain.Models;
-using SOSTeam.TravelAgency.WPF.Converters;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 {
-    public class AcceptTourRequestViewModel : ViewModel
+    public class AcceptPartOfComplexTourRequestViewModel: ViewModel
     {
         private string _name;
         public string Name
@@ -125,8 +125,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private bool _canCancelAppointment;
 
-        public bool CanSelectAppointment 
-        { 
+        public bool CanSelectAppointment
+        {
             get => _canCancelAppointment;
             set
             {
@@ -166,7 +166,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 }
             }
         }
-        
+
         private DateTime _maxDisplayDate;
 
         public DateTime MaxDisplayDate
@@ -194,11 +194,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly TourRequest _selectedTourRequest;
 
         public ObservableCollection<CheckpointCardViewModel> CheckpointCards { get; set; }
-       
+
         public List<Image> Images { get; set; }
-
         public int TourRequestId { get; set; }
-
 
         public RelayCommand ShowAddCheckpointsPageCommand { get; set; }
         public RelayCommand ShowAddImagesCommand { get; set; }
@@ -211,8 +209,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly CheckpointService _checkpointService;
         private readonly LocationService _locationService;
         private readonly NewTourNotificationService _newTourNotificationService;
+        private readonly ComplexTourRequestService _complexTourRequestService;
 
-        public AcceptTourRequestViewModel(int tourRequestId)
+        public AcceptPartOfComplexTourRequestViewModel(int tourRequestId)
         {
             TourRequestId = tourRequestId;
             _tourService = new TourService();
@@ -223,6 +222,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _newTourNotificationService = new NewTourNotificationService();
             _appointmentScheduleService = new AppointmentScheduleService(tourRequestId);
             _tourRequestService = new TourRequestService();
+            _complexTourRequestService = new ComplexTourRequestService();
 
             Cities = new ObservableCollection<string>();
             Countries = new ObservableCollection<string>();
@@ -234,7 +234,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
             _blackoutDates = new ObservableCollection<DateTime>();
 
-            
+
             var tourRequest = _tourRequestService.GetById(tourRequestId);
             _selectedTourRequest = tourRequest;
 
@@ -312,6 +312,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                 }
             }
 
+            var request = _tourRequestService.GetById(TourRequestId);
+
+            var blackoutDateForComplexTour = _complexTourRequestService.GetBlackoutDates(request.ComplexTourRequestId);
+
+            foreach (var blackoutDate in blackoutDateForComplexTour)
+            {
+                blackoutDates.Add(blackoutDate);
+            }
+
             return blackoutDates;
         }
 
@@ -345,7 +354,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
             else
             {
-                
+
                 var tourId = _tourService.NextId();
 
                 Appointment appointment = new Appointment
@@ -407,9 +416,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             {
                 return -1;
             }
-            
+
             return location.Id;
-            
+
         }
 
         private void SetImagesTourId(int tourId)
