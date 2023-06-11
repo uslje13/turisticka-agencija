@@ -14,11 +14,15 @@ namespace SOSTeam.TravelAgency.Application.Services
         private readonly IComplexTourRequestRepository _complexTourRequestRepository = Injector.CreateInstance<IComplexTourRequestRepository>();
         private readonly NewTourNotificationService _newTourNotificationService;
         private readonly TourRequestService _tourRequestService;
+        private readonly AppointmentService _appointmentService;
+        private readonly TourService _tourService;
 
         public ComplexTourRequestService()
         {
             _newTourNotificationService = new NewTourNotificationService();
             _tourRequestService = new TourRequestService();
+            _appointmentService = new AppointmentService();
+            _tourService = new TourService();
         }
 
         public void Delete(int id)
@@ -86,5 +90,36 @@ namespace SOSTeam.TravelAgency.Application.Services
             //Ako se ne pronadje takvo obavestenje znaci da nikada nije prihvatio deo slozene ture
             return false;
         }
+
+        public List<DateTime> GetBlackoutDates(int complexTourId)
+        {
+            var blackoutDates = new List<DateTime>();
+
+            //Prodjem kroz sve zahteve koji pripadaju kompleksnom
+            foreach (var tourRequest in _tourRequestService.GetAllByComplexRequestId(complexTourId))
+            {
+                //Prodjem kroz notifikacije i vidim koji je manji zahtev prihvacen.
+                foreach (var tourNotification in _newTourNotificationService.GetAll())
+                {
+                    //Ako pronadjem zahtev u obavestenju znaci da je on prihvacen
+                    if (tourRequest.Id == tourNotification.RequestId)
+                    {
+                        var appointment = _appointmentService.GetById(tourNotification.AppointmentId);
+                        var tour = _tourService.GetById(appointment.TourId);
+
+                        var start = appointment.Start;
+                        var end = appointment.Start.AddHours(tour.Duration);
+
+                        blackoutDates.Add(start);
+                        blackoutDates.Add(end);
+                    }
+                }
+            }
+
+            var blackoutDatesDistinct = new List<DateTime>(blackoutDates.Distinct());
+
+            return blackoutDatesDistinct;
+        }
+
     }
 }

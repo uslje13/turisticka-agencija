@@ -40,6 +40,14 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </Button.Triggers>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
             </Button>
             <TextBlock Grid.Column="1" Foreground="White" Text="{Binding Title}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Margin="0 0 50 0"/>
         </Grid>
@@ -301,6 +309,14 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </Button.Triggers>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
             </Button>
 
             <!-- Create -->
@@ -319,6 +335,14 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </Button.Triggers>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
             </Button>
 
             <!-- Home -->
@@ -337,6 +361,14 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </Button.Triggers>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
             </Button>
 
             <!-- Live tour -->
@@ -355,10 +387,26 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </Button.Triggers>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
             </Button>
             <Button Name="DemoButton" Width="86" Background="Transparent" BorderBrush="Transparent"
-                    Cursor="Hand">
+                    Cursor="Hand" Command="{Binding ShowDemoCommand}">
                 <Image Source="/Resources/Icons/demo.png"></Image>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
             </Button>
         </StackPanel>
         

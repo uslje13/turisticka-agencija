@@ -209,6 +209,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private readonly CheckpointService _checkpointService;
         private readonly LocationService _locationService;
         private readonly NewTourNotificationService _newTourNotificationService;
+        private readonly ComplexTourRequestService _complexTourRequestService;
 
         public AcceptPartOfComplexTourRequestViewModel(int tourRequestId)
         {
@@ -221,6 +222,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             _newTourNotificationService = new NewTourNotificationService();
             _appointmentScheduleService = new AppointmentScheduleService(tourRequestId);
             _tourRequestService = new TourRequestService();
+            _complexTourRequestService = new ComplexTourRequestService();
 
             Cities = new ObservableCollection<string>();
             Countries = new ObservableCollection<string>();
@@ -308,6 +310,15 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
                         break;
                     }
                 }
+            }
+
+            var request = _tourRequestService.GetById(TourRequestId);
+
+            var blackoutDateForComplexTour = _complexTourRequestService.GetBlackoutDates(request.ComplexTourRequestId);
+
+            foreach (var blackoutDate in blackoutDateForComplexTour)
+            {
+                blackoutDates.Add(blackoutDate);
             }
 
             return blackoutDates;

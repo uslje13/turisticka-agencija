@@ -13,6 +13,7 @@ using SOSTeam.TravelAgency.Domain.Models;
 using System.Windows.Navigation;
 using System.Reflection.Metadata;
 using SOSTeam.TravelAgency.WPF.Views.TourGuide;
+using SOSTeam.TravelAgency.WPF.Views.TourGuide.DemoPages;
 
 namespace SOSTeam.TravelAgency.WPF.Navigation
 {
@@ -307,6 +308,17 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                 var complexTourRequestViewModel = (ComplexTourRequestViewModel)complexTourRequestPage.DataContext;
                 _mainWindow.MainFrame.Content = new AcceptPartOfComplexTourRequestPage(complexTourRequestViewModel.SelectedTourRequestCard.Id);
             }
+            else if (_mainWindow.MainFrame.Content is CreateTourPage || _mainWindow.MainFrame.Content is CreateSuggestedTourPage
+                     || _mainWindow.MainFrame.Content is AcceptTourRequestPage)
+            {
+                if (frameName == "CreateTourDemo")
+                {
+                    AddPreviousPage();
+                    _mainWindowViewModel.Title = "Demo";
+                    MainWindow.DataContext = _mainWindowViewModel;
+                    _mainWindow.MainFrame.Content = new CreateTourDemoPage();
+                }
+            }
 
         }
 
@@ -489,6 +501,12 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                         if (previousPage is StatByTourPage)
                         {
                             _mainWindowViewModel.Title = "Tour stats";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is AcceptTourRequestPage)
+                        {
+                            _mainWindowViewModel.Title = "Accept tour";
                             _mainWindow.DataContext = _mainWindowViewModel;
                         }
                     }
