@@ -59,7 +59,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
                     Tour reservedTour = _tourService.GetById(reservedTourAppointment.TourId);
                     Location reservedTourLocation = _locationService.GetById(reservedTour.LocationId);
                     Image reservedTourImage = GetReservedTourImage(reservedTour);
-                    MyReservationViewModel reservationView = new MyReservationViewModel(reservedTour.Name, _locationService.GetFullName(reservedTourLocation), reservedTour.Language, reservedTourAppointment.Start, reservation.TouristNum,reservedTourImage.Path);
+                    MyReservationViewModel reservationView = new MyReservationViewModel(reservation.Id,reservedTour.Name, _locationService.GetFullName(reservedTourLocation), reservedTour.Language, reservedTourAppointment.Start, reservation.TouristNum,reservedTourImage.Path);
                     Reservations.Add(reservationView);
                 }
             }

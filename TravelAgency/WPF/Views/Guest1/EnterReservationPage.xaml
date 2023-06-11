@@ -26,6 +26,8 @@
         <Label x:Name="Odjava" Content="Drugi datum opsega :" Margin="240,320,172,87" 
                FontWeight="Bold" FontSize="15"/>
         <TextBox x:Name="Days" Margin="335,-5,172,288" Width="108" Height="30" BorderBrush="Black" BorderThickness="2"/>
+        <TextBlock Text="{Binding MinimalDaysNumber}" FontSize="12" Foreground="DarkGoldenrod"
+                   FontStyle="Italic" FontWeight="DemiBold" Margin="413,156,94,260"/>
         <DatePicker x:Name="FirstDay" Margin="329,100,166,193" Width="120" Height="25" BorderBrush="Black" BorderThickness="2" Cursor="Hand"
                     SelectedDate="{Binding FirstDate, StringFormat='dd/MM/yyyy HH:mm:ss'}"/>
         <DatePicker x:Name="LastDay" Margin="329,240,166,132" Width="120" Height="25" BorderBrush="Black" BorderThickness="2" Cursor="Hand"
@@ -35,5 +37,13 @@
                 Style="{StaticResource ButtonStyle}" Margin="135,295,133,14"/>
         <Button x:Name="BackToSearchParametersButton" Margin="-190,338,505,57" Content="Nazad" 
                 Style="{StaticResource ButtonStyle}" Command="{Binding GoBackCommand}"/>
+        <Label Margin="57,476,348,-70" FontStyle="Italic" FontSize="15"
+               Foreground="DarkGoldenrod" FontWeight="Bold">Biranje opsega datuma -></Label>
+        <Label Margin="247,476,172,-70" FontStyle="Italic" FontSize="15"
+               Foreground="Black" FontWeight="Bold">Prikaz zazetosti dana -></Label>
+        <Label Margin="424,476,48,-70" FontStyle="Italic" FontSize="15"
+               Foreground="Black" FontWeight="Bold"> Biranje termina -></Label>
+        <Label Margin="560,476,-115,-70" FontStyle="Italic" FontSize="15"
+               Foreground="Black" FontWeight="Bold">Unošenje broja gostiju</Label>
     </Grid>
 </Page>

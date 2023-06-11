@@ -28,9 +28,12 @@
                             <Border BorderBrush="DarkGoldenrod" BorderThickness="2" Margin="10">
                                 <Grid>
                                     <Rectangle Height="60" Fill="White" HorizontalAlignment="Center"
+                                               RadiusX="5" RadiusY="5"
                                                Width="910"/>
-                                    <Button Command="{Binding GoToForum}" Foreground="DarkGoldenrod" Padding="7"
-                                            Margin="300,0,300,16"
+                                    <Button Command="{Binding DataContext.GoToForum,
+                                            RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                            CommandParameter="{Binding}" 
+                                            Foreground="DarkGoldenrod" Padding="7" Margin="300,0,300,16"
                                             Background="Transparent" BorderBrush="Transparent"
                                             FontSize="18" HorizontalAlignment="Center" 
                                             Content="{Binding LocationName}">
@@ -81,9 +84,12 @@
                             <Border BorderBrush="DarkGoldenrod" BorderThickness="2" Margin="10">
                                 <Grid>
                                     <Rectangle Height="60" Fill="White" HorizontalAlignment="Center"
+                                               RadiusX="5" RadiusY="5"
                                                Width="910"/>
-                                    <Button Command="{Binding GoToForum}" Foreground="DarkGoldenrod" Padding="7"
-                                            Margin="300,0,300,16"
+                                    <Button Command="{Binding DataContext.GoToForum,
+                                            RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                            CommandParameter="{Binding}"
+                                            Foreground="DarkGoldenrod" Padding="7" Margin="300,0,300,16"
                                             Background="Transparent" BorderBrush="Transparent"
                                             FontSize="18" HorizontalAlignment="Center" 
                                             Content="{Binding LocationName}">

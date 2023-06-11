@@ -92,6 +92,7 @@ namespace SOSTeam.TravelAgency.WPF.Views
                     overview.Show();
                     overview.GetAttendanceMessages();
                     overview.GetAcceptedRequestMessage();
+                    overview.GiveFrequentUserVoucher();
                     Close();
                 }
                 else

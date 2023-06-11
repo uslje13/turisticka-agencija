@@ -45,7 +45,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (LastDate < FirstDate)
             {
-                MessageBox.Show("Datumi opsega nisu izabrani validno!");
+                MessageBox.Show("Datumi opsega nisu izabrani validno!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
@@ -74,7 +74,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 foreach (var res in _accommodationReservations)
                 {
-                    if (IsValidForList(0, lavm, res))
+                    if (IsValidForList(lavm, res))
                     { 
                         CancelAndMarkResDTO model = new CancelAndMarkResDTO(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
                         _presentedReservations.Add(model);
@@ -83,16 +83,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
         }
 
-        private bool IsValidForList(int type, LocAccommodationDTO lavm, AccommodationReservation res)
+        private bool IsValidForList(LocAccommodationDTO lavm, AccommodationReservation res)
         {
-            if(type == 0)
-            {
-                return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && DateTime.Today < res.FirstDay && res.FirstDay >= FirstDate && res.LastDay <= LastDate;
-            }
-            else
-            {
-                return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && res.FirstDay >= FirstDate && res.LastDay <= LastDate;
-            }
+            return lavm.AccommodationId == res.AccommodationId && res.UserId == LoggedInUser.Id && res.FirstDay >= FirstDate && res.LastDay <= LastDate;
         }
 
         private void LoadCanceledReservations()
@@ -107,7 +100,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             {
                 foreach (var res in _canceledReservations)
                 {
-                    if (IsValidForList(1, lavm, res))
+                    if (IsValidForList(lavm, res))
                     {
                         CancelAndMarkResDTO model = new CancelAndMarkResDTO(lavm.AccommodationName, lavm.LocationCity, lavm.LocationCountry, res.FirstDay, res.LastDay, res.Id, lavm.AccommodationId, "", res.ReservationDuration, lavm.AccommodationType);
                         _presentedReservations.Add(model);

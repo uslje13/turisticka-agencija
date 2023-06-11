@@ -260,7 +260,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
             GuestAccMarkService service = new GuestAccMarkService();
             service.MarkAccommodation(cleanMark, ownerMark, EnteredGuestComment, AllUrls, LoggedInUser, Accommodation, renovationMark, EnteredGuestSuggest,renovationNumber);
-            MessageBox.Show("Uspješno ocjenjen smještaj!");
+            MessageBox.Show("Uspješno ocjenjen smještaj!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
             ReservationsForMark.Remove(Accommodation);
             ShowGuestRatings();
             NavigationService.Navigate(new GuestInboxPage(LoggedInUser, NavigationService));

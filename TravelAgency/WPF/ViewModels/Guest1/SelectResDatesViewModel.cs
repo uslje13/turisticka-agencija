@@ -59,7 +59,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         {
             if (selectedCatalogItem == null)
             {
-                MessageBox.Show("Odaberite smeštaj koji želite rezervisati.");
+                MessageBox.Show("Odaberite smeštaj koji želite rezervisati.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {

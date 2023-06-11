@@ -12,17 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SOSTeam.TravelAgency.Domain.Models;
+using SOSTeam.TravelAgency.WPF.ViewModels.Guest1;
 
-namespace SOSTeam.TravelAgency.WPF.Views.Guest2
+namespace SOSTeam.TravelAgency.WPF.Views.Guest1
 {
     /// <summary>
-    /// Interaction logic for GeneralHelpPage.xaml
+    /// Interaction logic for OneForumPage.xaml
     /// </summary>
-    public partial class GeneralHelpPage : Page
+    public partial class OneForumPage : Page
     {
-        public GeneralHelpPage()
+        public OneForumPage(User user, NavigationService service, Forum forum)
         {
             InitializeComponent();
+            OneForumViewModel viewModel = new OneForumViewModel(user, service, forum);
+            DataContext = viewModel;
         }
     }
 }

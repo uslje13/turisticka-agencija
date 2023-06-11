@@ -6,7 +6,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="White"
+                    <Border Background="White" Name="BORDER"
                             BorderThickness="0.5"
                             BorderBrush="DarkGoldenrod">
                         <ContentPresenter
@@ -15,6 +15,11 @@
                             Margin="{TemplateBinding Padding}">
                         </ContentPresenter>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="BORDER" Property="Background" Value="LightGoldenrodYellow"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -8,12 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
+using LibVLCSharp.Shared;
+using System.Windows.Controls;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
 {
     public class HelpWindowViewModel : ViewModel
     {
         public event EventHandler CloseRequested;
+
+        private MediaElement _mediaElement;
 
         private RelayCommand _backCommand;
         public RelayCommand BackCommand
@@ -25,42 +29,88 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
-        private RelayCommand _navigationCommand;
-        public RelayCommand NavigationCommand
+        private string _videoPath;
+        public string VideoPath
         {
-            get { return _navigationCommand; }
+            get { return _videoPath; }
             set
             {
-                _navigationCommand = value;
+                if (_videoPath != value)
+                {
+                    _videoPath = value;
+                    OnPropertyChanged(nameof(VideoPath));
+                }
             }
         }
 
-        public NavigationService NavigationService { get; set; }
-
-        public HelpWindowViewModel(NavigationService navigationService)
+        private RelayCommand _playCommand;
+        public RelayCommand PlayCommand
         {
-            BackCommand = new RelayCommand(Execute_BackCommand, CanExecuteMethod);
-            NavigationCommand = new RelayCommand(Execute_NavigationCommand, CanExecuteMethod);
-            NavigationService = navigationService;
-        }
-
-        public void SetStartupPage()
-        {
-            Execute_NavigationCommand("HelpPage");
-        }
-        private void Execute_NavigationCommand(object obj)
-        {
-            string nextPage = obj.ToString();
-
-            switch (nextPage)
+            get { return _playCommand; }
+            set
             {
-                case "HelpPage":
-                    NavigationService.Navigate(new GeneralHelpPage());
-                    break;
-                case "TutorialPage":
-                    NavigationService.Navigate(new TutorialPage());
-                    break;
+                _playCommand = value;
             }
+        }
+
+        private RelayCommand _pauseCommand;
+        public RelayCommand PauseCommand
+        {
+            get { return _pauseCommand; }
+            set
+            {
+                _pauseCommand = value;
+            }
+        }
+
+        private RelayCommand _restartCommand;
+        public RelayCommand RestartCommand
+        {
+            get { return _restartCommand; }
+            set
+            {
+                _restartCommand = value;
+            }
+        }
+
+        private RelayCommand _rewindCommand;
+        public RelayCommand RewindCommand
+        {
+            get { return _rewindCommand; }
+            set
+            {
+                _rewindCommand = value;
+            }
+        }
+        public HelpWindowViewModel(MediaElement mediaElement)
+        {
+            _mediaElement = mediaElement;
+            VideoPath = "D:\\HCI_tutorijal\\guest2_tutorial.mkv";
+            BackCommand = new RelayCommand(Execute_BackCommand, CanExecuteMethod);
+            PlayCommand = new RelayCommand(Execute_PlayCommand, CanExecuteMethod);
+            PauseCommand = new RelayCommand(Execute_PauseCommand, CanExecuteMethod);
+            RestartCommand = new RelayCommand(Execute_RestartCommand, CanExecuteMethod);
+            RewindCommand = new RelayCommand(Execute_RewindCommand, CanExecuteMethod);
+        }
+
+        private void Execute_RewindCommand(object obj)
+        {
+            _mediaElement.Position -= TimeSpan.FromSeconds(5);
+        }
+
+        private void Execute_RestartCommand(object obj)
+        {
+            _mediaElement.Position = TimeSpan.Zero;
+        }
+
+        private void Execute_PauseCommand(object obj)
+        {
+            _mediaElement.Pause();
+        }
+
+        private void Execute_PlayCommand(object obj)
+        {
+            _mediaElement.Play();
         }
 
         private void Execute_BackCommand(object obj)

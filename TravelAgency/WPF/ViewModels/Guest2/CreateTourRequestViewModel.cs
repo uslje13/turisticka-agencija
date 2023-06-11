@@ -37,6 +37,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             }
         }
 
+        private RelayCommand _helpCommand;
+
+        public RelayCommand HelpCommand
+        {
+            get { return _helpCommand; }
+            set
+            {
+                _helpCommand = value;
+            }
+        }
+
         private RelayCommand _reviewCommand;
         public RelayCommand ReviewCommand
         {
@@ -79,7 +90,14 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             TourRequests = new ObservableCollection<RequestViewModel>();
             ReviewCommand = new RelayCommand(Execute_ReviewCommand, CanExecuteMethod);
             CloseCommand = new RelayCommand(Execute_CloseCommand,CanExecuteMethod);
+            HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
             AddMoreToursCommand = new RelayCommand(Execute_AddMoreToursCommand, CanExecuteMethod);
+        }
+
+        private void Execute_HelpCommand(object obj)
+        {
+            HelpWindow window = new HelpWindow();
+            window.Show();
         }
 
         public CreateTourRequestViewModel(User loggedInUser, NavigationService navigationService, OrdinaryToursPageViewModel ordinaryToursPageViewModel)
@@ -92,6 +110,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest2
             TourRequests = new ObservableCollection<RequestViewModel>();
             ReviewCommand = new RelayCommand(Execute_ReviewCommand, CanExecuteMethod);
             CloseCommand = new RelayCommand(Execute_CloseCommand, CanExecuteMethod);
+            HelpCommand = new RelayCommand(Execute_HelpCommand, CanExecuteMethod);
             AddMoreToursCommand = new RelayCommand(Execute_AddMoreToursCommand, CanExecuteMethod);
         }
 

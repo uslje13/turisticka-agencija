@@ -13,10 +13,24 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ButtonStyle.xaml" />
+                <ResourceDictionary Source="/WPF/Views/Guest1/Styles/ImageButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
     <Grid Margin="205,162,0,0">
+        <Button Height="16" Width="16" Margin="620,10,-21,335" 
+                Command="{Binding WhateverInfoCommand}" Style="{StaticResource ImageButtonStyle}">
+            <StackPanel>
+                <Image x:Name="InfoIcon" Source="/Resources/Icons/Guest1/info-icon.png"/>
+            </StackPanel>
+        </Button>
+        <Popup PopupAnimation="Fade" Placement="Left" AllowsTransparency="True"
+                   PlacementTarget="{Binding ElementName=InfoIcon}"
+                   IsOpen="{Binding Path=IsPopupOpen}">
+            <Label Background="White" FontWeight="SemiBold" Padding="10"
+                       BorderBrush="DarkGoldenrod" BorderThickness="2"
+                       Content="{Binding Path=WhateverInfo}"/>
+        </Popup>
         <Label HorizontalContentAlignment="Center" FontSize="25" FontWeight="Black" 
                Margin="0,32,0,350" Width="615">Unesite podatke za "Bilo kada-bilo gdje" :</Label>
         <Label x:Name="Gosti" Content="Broj gostiju :" Margin="240,110,172,297"
@@ -38,6 +52,13 @@
         <DatePicker x:Name="LastDay" Margin="329,240,166,132" Width="120" Height="25" BorderBrush="Black" BorderThickness="2" Cursor="Hand"
                     SelectedDate="{Binding LastDate, StringFormat='dd/MM/yyyy HH:mm:ss'}"/>
         <Button x:Name="ReserveButton" Command="{Binding ProcessEnteredDataCommand}" Content="Obradi" 
+                IsEnabled="{Binding CommandsEnabled}"
                 Style="{StaticResource ButtonStyle}" Margin="135,295,133,14"/>
+        <Label Margin="57,476,273,-70" FontStyle="Italic" FontSize="15"
+               Foreground="DarkGoldenrod" FontWeight="Bold">Unos podataka -----------------></Label>
+        <Label Margin="290,476,-53,-70" FontStyle="Italic" FontSize="15"
+               Foreground="Black" FontWeight="Bold">Prikaz dostupnih smještaja -----------------></Label>
+        <Label Margin="605,476,-115,-70" FontStyle="Italic" FontSize="15"
+               Foreground="Black" FontWeight="Bold">Biranje termina</Label>
     </Grid>
 </Page>

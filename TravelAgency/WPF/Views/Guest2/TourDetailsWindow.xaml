@@ -8,7 +8,7 @@
         Title="Detalji" FontSize="24" Height="800" Width="880"  Background="AliceBlue" FontFamily="Microsoft Sans Serif" WindowStartupLocation="CenterScreen">
     <Grid>
         <Border Margin="0,689,0,0">
-            <Button Height="74" Content="Zatvori (Ctrl + b)" FontSize="24" BorderThickness="1,1,2,2" Command="{Binding CloseCommand}"></Button>
+            <Button Height="74" Content="Nazad (Ctrl + b)" FontSize="24" BorderThickness="1,1,2,2" Command="{Binding CloseCommand}"></Button>
         </Border>
         <Border Margin="0,0,0,100">
             <StackPanel>

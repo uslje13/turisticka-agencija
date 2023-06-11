@@ -20,7 +20,7 @@
                 <Button Width="225" Height="41" BorderThickness="1,1,2,2" BorderBrush="Black" Command="{Binding HelpCommand}">
                     <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/help--v1.png" Height="33" Width="38"></Image>
-                            <TextBlock  Text=" Pomoc (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
+                            <TextBlock  Text=" Tutorijal (Ctrl+h)" FontSize="20" FontFamily="Microsoft Sans Serif" Height="22"></TextBlock>
                     </StackPanel>
                 </Button>
             </StackPanel>

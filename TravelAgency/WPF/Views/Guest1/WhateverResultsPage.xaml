@@ -134,5 +134,11 @@
                 Command="{Binding ShowCatalogCommand}"/>
         <Button x:Name="BackToDaysPicking" Margin="-190,338,505,57" Content="Nazad"
                 Style="{StaticResource ButtonStyle}" Command="{Binding GoBackCommand}"/>
+        <Label Margin="57,476,273,-70" FontStyle="Italic" FontSize="15"
+               Foreground="DarkGoldenrod" FontWeight="Bold">Unos podataka -----------------></Label>
+        <Label Margin="290,476,-53,-70" FontStyle="Italic" FontSize="15"
+               Foreground="DarkGoldenrod" FontWeight="Bold">Prikaz dostupnih smještaja -----------------></Label>
+        <Label Margin="605,476,-115,-70" FontStyle="Italic" FontSize="15"
+               Foreground="Black" FontWeight="Bold">Biranje termina</Label>
     </Grid>
 </Page>

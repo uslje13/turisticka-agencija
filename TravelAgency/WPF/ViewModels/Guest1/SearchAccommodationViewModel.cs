@@ -17,6 +17,7 @@ using SOSTeam.TravelAgency.WPF.Views.Guest1;
 using SOSTeam.TravelAgency.WPF.Views.TourGuide;
 using System.Windows.Data;
 using System.Windows.Navigation;
+using System.Drawing;
 
 namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {

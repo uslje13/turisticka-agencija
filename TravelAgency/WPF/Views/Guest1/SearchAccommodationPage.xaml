@@ -41,7 +41,7 @@
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button  Command="{Binding NavigationButtonCommand}" CommandParameter="Bid" Style="{StaticResource MenuButtonStyle}" 
+            <Button x:Name="BidButton"  Command="{Binding NavigationButtonCommand}" CommandParameter="Bid" Style="{StaticResource MenuButtonStyle}" 
                      VerticalAlignment="Stretch">
                 <StackPanel Width="202" Height="73">
                     <Label Margin="45,21,27,22.5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Ponuda i rezervacija"/>

@@ -40,11 +40,17 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 
         private void ExecuteAccommodationSearch(object sender)
         {
+            int guests;
+            int days;
+            if (textBoxes[3].Text.Equals(string.Empty)) guests = 0;
+            else guests = int.Parse(textBoxes[3].Text);
+            if (textBoxes[4].Text.Equals(string.Empty)) days = 0;
+            else days = int.Parse(textBoxes[4].Text);
+
             AccommodationService accommodationService = new AccommodationService();
             SuperOwnerService superOwnerService = new();
             List<LocAccommodationDTO> searchResult = accommodationService.ExecuteAccommodationSearch(textBoxes[0].Text, textBoxes[1].Text, textBoxes[2].Text, 
-                                                                                                            GetSelectedItem(CBTypes), int.Parse(textBoxes[3].Text), 
-                                                                                                            int.Parse(textBoxes[4].Text));
+                                                                                                            GetSelectedItem(CBTypes), guests, days);
             foreach (LocAccommodationDTO item in searchResult) 
             {
                 item.IsSuperOwned = superOwnerService.IsSuperOwnerAccommodation(item.AccommodationId);
@@ -69,7 +75,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
             else
             {
-                MessageBox.Show("Nepostojeća kombinacija podataka. Pokušajte ponovo.");
+                MessageBox.Show("Nepostojeća kombinacija podataka. Pokušajte ponovo.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
 {
     public class EnterReservationViewModel
     {
+        public string MinimalDaysNumber { get; set; }
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; }
         public LocAccommodationDTO DTO { get; set; }
@@ -34,6 +36,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
         public EnterReservationViewModel(LocAccommodationDTO dto, User user, bool enter, TextBox tb, DatePicker fDay, DatePicker lDay, NavigationService service, ChangedReservationRequest request = null)
         {
             DTO = dto;
+            MinimalDaysNumber = "*Minimalan broj dana je " + DTO.AccommodationMinDaysStay.ToString();
             FirstDate = DateTime.Now;
             LastDate = DateTime.Now;
             FirstDay = fDay;
@@ -96,11 +99,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.Guest1
             }
             else if (!validDates)
             {
-                MessageBox.Show("Nevalidan odabir datuma. Pokušajte ponovo.");
+                MessageBox.Show("Nevalidan odabir datuma. Pokušajte ponovo.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else if (!validDays)
             {
-                MessageBox.Show("Unešeni broj dana boravka je manji od minimalnog za izabrani smeštaj.");
+                MessageBox.Show("Unešeni broj dana boravka je manji od minimalnog za izabrani smeštaj.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
