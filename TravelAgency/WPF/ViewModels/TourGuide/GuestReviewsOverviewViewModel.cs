@@ -28,6 +28,9 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         public string TourName { get; set; }
         public DateTime Date { get; set; }
+
+        public GuestReviewCardViewModel SelectedCardReview { get; set; }
+
         public RelayCommand ShowReviewDetailsCommand { get; set; }
 
         public GuestReviewsOverviewViewModel(TourCardViewModel selectedTour)
@@ -48,8 +51,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private void ShowGuestReviewDetails(object sender)
         {
             var selectedAppointment = sender as GuestReviewCardViewModel;
-            GuestReviewPage guestReviewPage = new GuestReviewPage(selectedAppointment);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = guestReviewPage;
+            SelectedCardReview = selectedAppointment;
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("UserReview", App.LoggedUser);
+            //GuestReviewPage guestReviewPage = new GuestReviewPage(selectedAppointment);
+            //System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = guestReviewPage;
         }
     }
 }

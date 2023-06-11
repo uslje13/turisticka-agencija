@@ -194,6 +194,7 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void ActivateCheckpoint(object sender)
         {
+            if(SelectedCheckpointCard == null) { return; }
             _checkpointActivityService.ActivateCheckpoint(SelectedCheckpointCard.ActivityId);
             CreateQueryForGuests(SelectedCheckpointCard);
             UpdateCard(false);
@@ -210,15 +211,19 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
 
         private void FinishCheckpoint(object sender)
         {
-            if (SelectedCheckpointCard.Type == CheckpointType.END)
+            if (SelectedCheckpointCard == null)
             {
-                FinishAppointment(null);
+                return;
             }
-
             _checkpointActivityService.FinishCheckpoint(SelectedCheckpointCard.ActivityId);
 
             UpdateCard(true);
             CanActivateOrFinish(null);
+
+            if (SelectedCheckpointCard.Type == CheckpointType.END)
+            {
+                FinishAppointment(null);
+            }
 
         }
 

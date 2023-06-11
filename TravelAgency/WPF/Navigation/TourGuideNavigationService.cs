@@ -83,6 +83,22 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                 MainWindow.DataContext = _mainWindowViewModel;
                 _mainWindow.MainFrame.Content = new GuestReviewsByTourPage(loggedUser);
             }
+            else if (frameName == "UserReviewOverview")
+            {
+                _mainWindowViewModel.Title = "Reviews";
+                MainWindow.DataContext = _mainWindowViewModel;
+                var guestReviewsByTourPage = MainWindow.MainFrame.Content as GuestReviewsByTourPage;
+                var guestReviewsByTourViewModel = (GuestReviewsByTourViewModel)guestReviewsByTourPage.DataContext;
+                _mainWindow.MainFrame.Content = new GuestReviewOverviewPage(guestReviewsByTourViewModel.SelectedTourCard);
+            }
+            else if (frameName == "UserReview")
+            {
+                _mainWindowViewModel.Title = "Reviews";
+                MainWindow.DataContext = _mainWindowViewModel;
+                var reviewOverviewPage = MainWindow.MainFrame.Content as GuestReviewOverviewPage;
+                var reviewOverviewViewModel = (GuestReviewsOverviewViewModel)reviewOverviewPage.DataContext;
+                _mainWindow.MainFrame.Content =  new GuestReviewPage(reviewOverviewViewModel.SelectedCardReview);
+            }
             else if (frameName == "Stats")
             {
                 _mainWindowViewModel.Title = "Stats";
@@ -507,6 +523,18 @@ namespace SOSTeam.TravelAgency.WPF.Navigation
                         if (previousPage is AcceptTourRequestPage)
                         {
                             _mainWindowViewModel.Title = "Accept tour";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is GuestReviewOverviewPage)
+                        {
+                            _mainWindowViewModel.Title = "Reviews";
+                            _mainWindow.DataContext = _mainWindowViewModel;
+                        }
+
+                        if (previousPage is GuestReviewOverviewPage)
+                        {
+                            _mainWindowViewModel.Title = "Reviews";
                             _mainWindow.DataContext = _mainWindowViewModel;
                         }
                     }

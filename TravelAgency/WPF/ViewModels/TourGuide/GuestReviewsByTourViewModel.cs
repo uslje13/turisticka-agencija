@@ -23,6 +23,8 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
             }
         }
 
+        public TourCardViewModel SelectedTourCard { get; set; }
+
         public RelayCommand ShowGuestReviewsCommand { get; set; }
 
         public GuestReviewsByTourViewModel(User loggedUser)
@@ -41,8 +43,11 @@ namespace SOSTeam.TravelAgency.WPF.ViewModels.TourGuide
         private void ShowGuestReviews(object sender)
         {
             var selectedTourCard = sender as TourCardViewModel;
-            var guestReviewOverviewPage = new GuestReviewOverviewPage(selectedTourCard);
-            System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = guestReviewOverviewPage;
+            SelectedTourCard = selectedTourCard;
+            App.TourGuideNavigationService.AddPreviousPage();
+            App.TourGuideNavigationService.SetMainFrame("UserReviewOverview", App.LoggedUser);
+            //var guestReviewOverviewPage = new GuestReviewOverviewPage(selectedTourCard);
+            //System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().MainFrame.Content = guestReviewOverviewPage;
         }
     }
 }

@@ -35,7 +35,8 @@
 
         <!-- ListBox -->
         <ListBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" x:Name="TourListOverview" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding CheckpointCards}">
+                 VerticalAlignment="Top" BorderBrush="Transparent" ItemsSource="{Binding CheckpointCards}"
+                 SelectedItem="{Binding SelectedCheckpointCard}">
             <b:Interaction.Triggers>
                 <b:EventTrigger EventName="SelectionChanged">
                     <b:InvokeCommandAction Command="{Binding SelectionChangedCardCommand}" />
